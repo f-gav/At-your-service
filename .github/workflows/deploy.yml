@@ -28,6 +28,20 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Check data models
         run: npm run test:models
+      - name: Validate Supabase browser configuration
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [[ ! "$VITE_SUPABASE_URL" =~ ^https://[a-z0-9-]+\.supabase\.co$ ]]; then
+            echo "::error::Set VITE_SUPABASE_URL to the new Supabase project's HTTPS URL."
+            exit 1
+          fi
+          if [[ "$VITE_SUPABASE_PUBLISHABLE_KEY" != sb_publishable_* ]]; then
+            echo "::error::Set VITE_SUPABASE_PUBLISHABLE_KEY to the project's publishable key (not a secret key)."
+            exit 1
+          fi
+          echo "Public Supabase configuration is present."
       - name: Build site
         run: npm run build
         env:
