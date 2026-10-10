@@ -65,7 +65,7 @@ assert.match(styles,/left:4\.35%;top:4\.45%;width:28\.95%;height:32\.90%/,
   'Portrait is inset within the printed PF2e frame');
 assert.match(homeSource,/className="character-portrait-placeholder"/,
   'Placeholder is styled independently of uploaded portraits');
-assert.match(siteCss,/\.character-portrait-action img\.character-portrait-placeholder/,
+assert.match(siteCss,/\.character-portrait img\.character-portrait-placeholder/,
   'Placeholder is enlarged and lowered within the home card');
 assert.match(adminSource,/Пример только для предпросмотра/);
 assert.match(adminSource,/пробные значения не переносятся в персонажей/);
