@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import type {CSSProperties,PointerEvent as PE} from 'react';
 import {supabase} from '../../lib/supabase';
 import {PDF_WIDTH,PDF_HEIGHT} from './layout';
-import {DEFAULT_FIELDS,validFields,cloneFields,withEquipmentTextFields,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
+import {DEFAULT_FIELDS,validFields,cloneFields,withEquipmentNumberFields,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
 import type {EditableField} from './editor-schema';
 import { DEFAULT_SELECT_OPTIONS, PF2E_SIZE_OPTIONS, parseOptions } from './field-options';
 import ToggleVisual from './ToggleVisual';
@@ -35,7 +35,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       if(error){setStatus('Ошибка загрузки: '+error.message);return;}
       const schema=draft.data?.fields||published.data?.fields||DEFAULT_FIELDS;
       if(!validFields(schema)){setStatus('Ошибка схемы: недопустимые поля');return;}
-      const upgraded=withEquipmentTextFields(cloneFields(schema));
+      const upgraded=withEquipmentNumberFields(cloneFields(schema));
       setFields(upgraded);
       if(upgraded.length!==schema.length) setDirty(true);
       setVersion(published.data?.version||0);
@@ -93,13 +93,13 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     const {data,error}=await supabase.rpc('publish_sheet_template',{p_template_key:TEMPLATE_KEY});
     setBusy(false);
     if(error){setStatus(error.message);return;}
-    setVersion(Number(data));setVersions(old=>[Number(data),...old]);setStatus('Опубликована версия '+data+'. Оформление применено; пробные значения не переносятся в персонажей.');
+    setVersion(Number(data));setVersions(old=>[Number(data),...old]);setStatus('Опубликована версия '+data+'. Оформление применено.');
   }
   async function loadVersion(){
     if(!supabase||!restore||!confirm('Загрузить выбранную версию в редактор?'))return;
     const {data,error}=await supabase.from('sheet_template_history').select('fields').eq('template_key',TEMPLATE_KEY).eq('version',Number(restore)).single();
     if(error||!validFields(data?.fields)){setStatus('Не удалось восстановить версию.');return;}
-    checkpoint();setFields(withEquipmentTextFields(cloneFields(data.fields)));setSelected('');setStatus('Версия загружена в черновик. Для публикации нажми «Опубликовать».');
+    checkpoint();setFields(withEquipmentNumberFields(cloneFields(data.fields)));setSelected('');setStatus('Версия загружена в черновик. Для публикации нажми «Опубликовать».');
   }
   const box=(f:EditableField):CSSProperties=>({
     left:(f.x/PDF_WIDTH*100)+'%',top:(f.y/PDF_HEIGHT*100)+'%',
@@ -118,6 +118,8 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       fontFamily:f.fontFamily||undefined,
       fontSize:f.fontSize? (100*f.fontSize/PDF_WIDTH)+'cqw':undefined,
       fontWeight:f.fontWeight||undefined,
+      fontStyle:f.fontStyle||undefined,
+      textDecoration:f.textUnderline ? 'underline' : undefined,
       textAlign:f.textAlign||undefined,
       color:f.color||undefined,
       padding:f.paddingX!==undefined||f.paddingY!==undefined
@@ -145,11 +147,14 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     </div>
     <p className="ta-status" role="status">{status}{dirty?' · Не сохранено':''}</p>
     <div className="ta-controls">
-      {PAGE_NAMES.map((title,i)=><button key={title} className={page===i+1?'active':''} onClick={()=>{setPage(i+1);setSelected('');}}>{i+1}. {title}</button>)}
       <button disabled={!undo.length} onClick={undoOnce}>↶ Отмена</button>
       <button disabled={!redo.length} onClick={redoOnce}>↷ Повтор</button>
       <button onClick={()=>setPreview(!preview)}>{preview?'Правка':'Предпросмотр'}</button>
-      <label>Масштаб<input type="range" min="600" max="1100" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/></label>
+      <label>Масштаб
+        <input type="range" min="600" max="2600" step="20" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/>
+        <input className="ta-zoom-value" type="number" min="600" max="2600" step="20" value={zoom}
+          aria-label="Масштаб в пикселях" onChange={e=>setZoom(Math.max(600,Math.min(2600,Number(e.target.value)||600)))}/>
+      </label>
       <label><input type="checkbox" checked={grid} onChange={e=>setGrid(e.target.checked)}/>Привязка 1pt</label>
     </div>
     <div className="ta-columns">
@@ -163,6 +168,11 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         </div>)}
       </div></div>
       <aside className="ta-side">
+        <nav className="ta-page-nav" aria-label="Страницы листа">
+          {PAGE_NAMES.map((title,i)=><button type="button" key={title}
+            className={page===i+1?'active':''} aria-current={page===i+1?'page':undefined}
+            onClick={()=>{setPage(i+1);setSelected('');}}>{i+1}. {title}</button>)}
+        </nav>
         <div className="ta-row"><strong>Поля: {fields.filter(f=>f.page===page).length}</strong><button onClick={add}>+ Добавить</button></div>
         <label>Выбрать поле<select value={selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
         {active?<div className="ta-form">
@@ -178,8 +188,6 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
                 {(active.options??[]).map(value=><option key={value} value={value}>{value}</option>)}
               </select></label>
             : <label>Пример только для предпросмотра<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}/></label>}
-          <p className="ta-sample-notice">Пробное значение <strong>не публикуется</strong>. В обычном листе останутся настоящие данные персонажа.</p>
-          <button type="button" className="ta-clear-sample" disabled={samples[active.id]===undefined} onClick={()=>setSamples(old=>{const next={...old};delete next[active.id];return next;})}>Очистить пробное значение</button>
           <label>Название<input value={active.label} maxLength={160} onChange={e=>prop('label',e.target.value)}/></label>
           <label>Тип<select value={active.kind} onChange={e=>{
             const kind=e.target.value;
@@ -229,6 +237,12 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
           <div className="ta-cols4">{(['x','y','w','h'] as const).map(k=><label key={k}>{k.toUpperCase()}<input type="number" step=".5" value={active[k]} onChange={e=>prop(k,Number(e.target.value))}/></label>)}</div>
           <label>Шрифт<select value={active.fontFamily||'Arial'} onChange={e=>prop('fontFamily',e.target.value)}>{['Arial','Georgia','Verdana','Times New Roman','Courier New'].map(font=><option key={font}>{font}</option>)}</select></label>
           <div className="ta-cols2"><label>Размер (pt)<input type="number" min="5" max="40" step=".5" value={active.fontSize??12} onChange={e=>prop('fontSize',Number(e.target.value))}/></label><label>Жирность<select value={active.fontWeight??500} onChange={e=>prop('fontWeight',Number(e.target.value))}>{[400,500,600,700,800].map(w=><option key={w} value={w}>{w}</option>)}</select></label></div>
+          {active.kind!=='toggle'&&<div className="ta-text-style" role="group" aria-label="Форматирование вводимого текста">
+            <label><input type="checkbox" checked={active.fontStyle==='italic'}
+              onChange={e=>update(active.id,{fontStyle:e.target.checked?'italic':'normal'})}/> <em>Курсив</em></label>
+            <label><input type="checkbox" checked={active.textUnderline===true}
+              onChange={e=>update(active.id,{textUnderline:e.target.checked})}/> <u>Подчёркнутый текст</u></label>
+          </div>}
           <div className="ta-cols2"><label>Выравнивание<select value={active.textAlign||'left'} onChange={e=>prop('textAlign',e.target.value)}><option value="left">Слева</option><option value="center">Центр</option><option value="right">Справа</option></select></label><label>Цвет<input type="color" value={active.color||'#303030'} onChange={e=>prop('color',e.target.value)}/></label></div>
           <div className="ta-cols2"><label>Отступ X<input type="number" min="0" max="20" value={active.paddingX??2} onChange={e=>prop('paddingX',Number(e.target.value))}/></label><label>Отступ Y<input type="number" min="0" max="20" value={active.paddingY??0} onChange={e=>prop('paddingY',Number(e.target.value))}/></label></div>
           {active.kind!=='toggle'&&<label className="ta-underline-setting"><input type="checkbox" checked={active.underline===true} onChange={e=>update(active.id,{underline:e.target.checked})}/> Показывать нижнюю линию, даже без текста</label>}
