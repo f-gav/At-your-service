@@ -20,8 +20,6 @@
 .pf-equipment-hotspot:focus-visible { outline: 2px solid #365f50; outline-offset: 2px; }
 .pf-armor-hotspot { left: 4.25%; top: 24.30%; width: 10.2%; height: 5.65%; }
 .pf-shield-hotspot { left: 15.35%; top: 24.45%; width: 4.65%; height: 5.25%; }
-/* In manual mode, the AC input in the armor drawing must remain editable. */
-.pf-field-manual-ac { z-index: 4; }
 
 .pf-equipment-popover {
   position: absolute;
