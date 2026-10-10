@@ -19,10 +19,19 @@ export type PathfinderField = {
   maxlen?: number;
   min?: number;
   max?: number;
+  adjusted?: boolean;
+  fontFamily?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  textAlign?: 'left' | 'center' | 'right';
+  color?: string;
+  paddingX?: number;
+  paddingY?: number;
 };
 
 /** Small alignment corrections without modifying the authoritative PDF coordinates. */
 export function fieldBox(field: PathfinderField): Pick<PathfinderField, 'x' | 'y' | 'w' | 'h'> {
+  if (field.adjusted) return { x:field.x, y:field.y, w:field.w, h:field.h };
   let { x, y, w, h } = field;
 
   // Page 2's feat labels are printed in the first line of each row.

@@ -29,6 +29,7 @@ import {
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
+import TemplateAdmin from './features/pathfinder/TemplateAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
 type Filter = GameSystem | 'all';
@@ -214,6 +215,8 @@ function CharacterEditor({
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
+  const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
+  const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
   const [authReady, setAuthReady] = useState(!isConfigured);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loadingCharacters, setLoadingCharacters] = useState(false);
@@ -229,6 +232,13 @@ export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   const user = session?.user;
+  useEffect(()=>{
+    if(!supabase||!user?.id){setIsTemplateAdmin(false);setShowTemplateAdmin(false);return;}
+    let active=true;
+    void supabase.from('sheet_admins').select('user_id').eq('user_id',user.id).maybeSingle()
+      .then(({data,error})=>{if(active)setIsTemplateAdmin(!error&&!!data);});
+    return()=>{active=false;};
+  },[user?.id]);
   const active = useMemo(() => characters.find(c => c.id === activeId) ?? null, [characters, activeId]);
   const filteredCharacters = useMemo(() => characters.filter(c => filter === 'all' || c.system === filter), [characters, filter]);
   const movingIndex = characters.findIndex(c => c.id === movingId);
@@ -470,6 +480,7 @@ export default function App() {
           </button>
           <div className="header-links">
             <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
+            {isTemplateAdmin && user && <button type="button" className="header-project-link" style={{background:'none',border:0,cursor:'pointer'}} onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
                 <span className="account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
@@ -487,10 +498,13 @@ export default function App() {
           </span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>
             : <button type="button" onClick={() => {setMobileMenu(false); void signIn();}}>Войти через Google</button>}
           <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer">WreckTrack ↗</a>
+          {isTemplateAdmin&&user&&<button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
         </div>}
       </header>
 
-      {active ? (
+      {showTemplateAdmin && user && isTemplateAdmin ? (
+        <TemplateAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
+      ) : active ? (
         active.system === 'pf2e' ? (
           <PathfinderSheet key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         ) : (

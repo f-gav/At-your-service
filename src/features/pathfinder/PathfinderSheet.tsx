@@ -4,6 +4,9 @@ import { ArrowLeft, Check, Cloud, Minus, Plus } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import rawFields from './fields.json';
+import { supabase } from '../../lib/supabase';
+import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
+import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
 import './PathfinderSheet.css';
@@ -15,8 +18,6 @@ const FIELDS: PathfinderField[] = rawFields as PathfinderField[];
 const PAGE_TITLES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
 const SHEET_KEY = 'pathfinderSheet';
 
-// Prepared once, not on every keystroke. Each page has its own overlays.
-const FIELDS_BY_PAGE = PAGE_TITLES.map((_, i) => FIELDS.filter(field => field.page === i + 1));
 
 function initialValues(character: Character): SheetValues {
   const saved = character.details[SHEET_KEY];
@@ -50,6 +51,15 @@ export default function PathfinderSheet({
   onClose: () => void;
 }) {
   const [values, setValues] = useState<SheetValues>(() => initialValues(character));
+  const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
+  useEffect(() => {
+    if(!supabase)return;
+    let active=true;
+    void supabase.from('sheet_templates').select('fields').eq('template_key','pf2e').maybeSingle().then(({data,error})=>{
+      if(active && !error && validFields(data?.fields)) setTemplateFields(cloneFields(data.fields));
+    });
+    return()=>{active=false;};
+  },[]);
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialValues(character)));
   const [focusedCounter, setFocusedCounter] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -86,7 +96,11 @@ export default function PathfinderSheet({
     setSaving(true);
     setError('');
     const snapshot = JSON.stringify(values);
-    const filled = Object.fromEntries(Object.entries(values).filter(([, value]) => value !== '' && value !== false));
+    const oldSheet=character.details[SHEET_KEY];
+    const oldValues=oldSheet && typeof oldSheet==='object' && !Array.isArray(oldSheet) ? oldSheet as Record<string,unknown> : {};
+    const filled = { ...oldValues,...Object.fromEntries(Object.entries(values).filter(([, value]) => value !== '' && value !== false)) };
+    // Removed fields remain in stored data, but explicit clearing of visible fields is respected.
+    for(const [id,value] of Object.entries(values)){if(value===''||value===false)delete filled[id];}
     const details: CharacterDetails = {
       ...character.details,
       [SHEET_KEY]: { ...filled, name: cleanName, schemaVersion: 1 },
@@ -113,13 +127,19 @@ export default function PathfinderSheet({
     onClose();
   }
 
-  function renderField(field: PathfinderField) {
+  function renderField(field: EditableField) {
     const box = fieldBox(field);
     const style: CSSProperties = {
       left: `${100 * box.x / PDF_WIDTH}%`,
       top: `${100 * box.y / PDF_HEIGHT}%`,
       width: `${100 * box.w / PDF_WIDTH}%`,
       height: `${100 * box.h / PDF_HEIGHT}%`,
+      fontFamily: field.fontFamily || undefined,
+      fontSize: field.fontSize ? (100*field.fontSize/PDF_WIDTH)+'cqw' : undefined,
+      fontWeight: field.fontWeight || undefined,
+      textAlign: field.textAlign || undefined,
+      color: field.color || undefined,
+      padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
     const value = values[field.id];
@@ -163,7 +183,7 @@ export default function PathfinderSheet({
   }
 
   function renderPage(page: number) {
-    const pageFields = FIELDS_BY_PAGE[page - 1];
+    const pageFields = templateFields.filter(field => field.page===page);
     const counter = pageFields.find(field => field.id === focusedCounter && field.kind === 'counter');
     const counterBox = counter ? fieldBox(counter) : null;
     const counterStyle: CSSProperties | undefined = counter && counterBox ? {
