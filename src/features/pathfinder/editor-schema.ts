@@ -16,10 +16,34 @@ export type EditableField = PathfinderField & {
 };
 export const TEMPLATE_KEY = 'pf2e';
 export const PAGE_NAMES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
-export const DEFAULT_FIELDS: EditableField[] = (baseFields as PathfinderField[]).map(f => ({
-  ...f, ...fieldBox(f), adjusted: true,
-  ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
-}));
+/** User-configurable text boxes on the printed armor and shield illustrations.
+ * Reuse previous note IDs so existing character text survives removing popovers.
+ * Kept separately from the 373 calibrated source-PDF fields.
+ */
+export const EQUIPMENT_TEXT_FIELDS: EditableField[] = [
+  {
+    id: 'combat_armor_name', label: 'Броня — текст на изображении', page: 1,
+    x: 28, y: 222, w: 56, h: 11, kind: 'text', maxlen: 200,
+    fontSize: 9, textAlign: 'center', adjusted: true,
+  },
+  {
+    id: 'combat_shield_notes', label: 'Щит — текст на изображении', page: 1,
+    x: 93, y: 212, w: 26, h: 15, kind: 'text', maxlen: 3000,
+    fontSize: 9, textAlign: 'center', adjusted: true,
+  },
+];
+
+export function withEquipmentTextFields(fields: EditableField[]): EditableField[] {
+  const found = new Set(fields.map(field => field.id));
+  return [...fields, ...EQUIPMENT_TEXT_FIELDS.filter(field => !found.has(field.id)).map(field => ({ ...field }))];
+}
+
+export const DEFAULT_FIELDS: EditableField[] = withEquipmentTextFields(
+  (baseFields as PathfinderField[]).map(f => ({
+    ...f, ...fieldBox(f), adjusted: true,
+    ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
+  })),
+);
 const types = ['text','long','number','counter','toggle','select'];
 const fonts = ['Arial','Georgia','Verdana','Times New Roman','Courier New'];
 
