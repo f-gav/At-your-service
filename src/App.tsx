@@ -28,6 +28,7 @@ import {
 } from './lib/models';
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
+import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 
 type Filter = GameSystem | 'all';
 type CreatePanel = GameSystem | null;
@@ -488,7 +489,11 @@ export default function App() {
       </header>
 
       {active ? (
-        <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+        active.system === 'pf2e' ? (
+          <PathfinderSheet key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+        ) : (
+          <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+        )
       ) : (
         <main className="page page-home">
           <section className="hero" aria-labelledby="main-title">
