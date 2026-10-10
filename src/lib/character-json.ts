@@ -1,12 +1,14 @@
 import type { Character, CharacterDetails, GameSystem } from './models';
 import { normalizeDetails, normalizedName } from './models';
+import { portraitToJson, parsePortraitTransfer } from '../features/portrait/portrait-json';
+import type { PortraitTransfer } from '../features/portrait/portrait-json';
 
 /** JSON is a transport format, never a source of authentication or ownership. */
 export type CharacterExport = {
   system: 'Pathfinder' | 'DnD' | 'VtM';
   format: 'at-your-service-character';
   version: 1;
-  character: { name: string; details: CharacterDetails };
+  character: { name: string; details: CharacterDetails; portrait?: PortraitTransfer };
 };
 const labels: Record<GameSystem, CharacterExport['system']> = {
   pf2e: 'Pathfinder', dnd5e: 'DnD', vtm5e: 'VtM',
@@ -21,8 +23,8 @@ export function exportCharacter(c: Character): CharacterExport {
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && !Array.isArray(value);
 }
-export function parseCharacterJson(source: string): {system: GameSystem; name: string; details: CharacterDetails} {
-  if (source.length > 1024*1024) throw new Error('JSON слишком большой (максимум 1 МБ).');
+export function parseCharacterJson(source: string): {system: GameSystem; name: string; details: CharacterDetails; portrait?: {card:Blob;sheet:Blob}} {
+  if (source.length > 2*1024*1024) throw new Error('JSON слишком большой (максимум 2 МБ).');
   let data: unknown;
   try { data = JSON.parse(source); } catch { throw new Error('Файл не является корректным JSON.'); }
   if (!isPlainObject(data) || data.format !== 'at-your-service-character' || data.version !== 1 ||
@@ -37,10 +39,14 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
   if (JSON.stringify(details).length > 50000) throw new Error('Данные листа превышают допустимый размер.');
   const sheet = details.pathfinderSheet;
   if (sheet !== undefined && !isPlainObject(sheet)) throw new Error('Некорректные поля Pathfinder.');
-  return { system, name, details };
+  const portrait = parsePortraitTransfer(data.character.portrait);
+  return { system, name, details, portrait };
 }
-export function downloadCharacter(c: Character): void {
-  const json = JSON.stringify(exportCharacter(c), null, 2);
+export async function downloadCharacter(c: Character): Promise<void> {
+  const exported = exportCharacter(c);
+  const portrait = await portraitToJson(c);
+  if (portrait) exported.character.portrait = portrait;
+  const json = JSON.stringify(exported, null, 2);
   const blob = new Blob([json], { type: 'application/json;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

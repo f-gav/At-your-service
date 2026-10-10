@@ -118,3 +118,13 @@
   .pf-settings-button { padding: 8px; }
   .pf-settings-popover { right: 0; }
 }
+
+/* Image placement matches the dedicated PORTRAIT block of the third PDF page.
+   Uses PDF coordinates (top-left), independent of administrative field values. */
+.pf-portrait-button {
+  position:absolute;z-index:3;left:3.83%;top:3.96%;width:29.95%;height:33.90%;
+  padding:0;margin:0;background:#fff;border:0;cursor:pointer;overflow:hidden;
+}
+.pf-portrait-button img {width:100%;height:100%;object-fit:cover;display:block;}
+.pf-portrait-button:hover {outline:2px solid #85998e;outline-offset:-2px;}
+.pf-portrait-button:focus-visible {outline:3px solid #4172b4;outline-offset:-3px;}

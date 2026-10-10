@@ -45,6 +45,8 @@ export type Character = {
   created_at: string;
   updated_at: string;
   sort_order: number;
+  portrait_card_path: string | null;
+  portrait_sheet_path: string | null;
 };
 
 export const defaultDetails = (): CharacterDetails => ({ concept: '', chronicle: '', notes: '' });

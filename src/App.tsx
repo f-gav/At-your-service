@@ -32,6 +32,8 @@ import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
+import PortraitEditor from './features/portrait/PortraitEditor';
+import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, signedPortraitUrl } from './features/portrait/portrait-storage';
 import TemplateAdmin from './features/pathfinder/TemplateAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
@@ -234,6 +236,8 @@ export default function App() {
   const [error, setError] = useState('');
   const [mobileMenu, setMobileMenu] = useState(false);
   const [importingJson, setImportingJson] = useState(false);
+  const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
+  const [portraitUrls,setPortraitUrls] = useState<Record<string,string>>({});
 
   const user = session?.user;
   useEffect(()=>{
@@ -244,6 +248,27 @@ export default function App() {
     return()=>{active=false;};
   },[user?.id]);
   const active = useMemo(() => characters.find(c => c.id === activeId) ?? null, [characters, activeId]);
+  const portraitCharacter = characters.find(c=>c.id===editingPortraitId) ?? null;
+  const signedPaths = useMemo(() => [...new Set(characters.flatMap(portraitPaths))], [characters]);
+  useEffect(()=>{
+    if(!supabase||!user?.id||!signedPaths.length){setPortraitUrls({});return;}
+    let mounted=true;
+    void Promise.all(signedPaths.map(async path=>{
+      try{return [path,await signedPortraitUrl(path)] as const;}
+      catch{return [path,''] as const;}
+    })).then(rows=>{if(mounted)setPortraitUrls(Object.fromEntries(rows));});
+    return()=>{mounted=false;};
+  },[user?.id,signedPaths]);
+  async function savePortraitChange(card:Blob,sheet:Blob) {
+    if(!portraitCharacter||!user)return;
+    const next=await savePortrait(portraitCharacter,user.id,card,sheet);
+    setCharacters(old=>old.map(c=>c.id===portraitCharacter.id?{...c,...next}:c));
+  }
+  async function removePortraitChange() {
+    if(!portraitCharacter||!user)return;
+    const next=await removePortrait(portraitCharacter,user.id);
+    setCharacters(old=>old.map(c=>c.id===portraitCharacter.id?{...c,...next}:c));
+  }
   const filteredCharacters = useMemo(() => characters.filter(c => filter === 'all' || c.system === filter), [characters, filter]);
   const movingIndex = characters.findIndex(c => c.id === movingId);
   const movingCharacter = movingIndex >= 0 ? characters[movingIndex] : null;
@@ -319,7 +344,7 @@ export default function App() {
     setCharacters([]);
     const client = supabase;
     void client.from('characters')
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at')
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path')
       .eq('user_id', userId)
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: true })
@@ -401,7 +426,7 @@ export default function App() {
     const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
     const { data, error: insertError } = await supabase.from('characters')
       .insert({ user_id: user.id, system: createPanel, name, details: defaultDetails(), sort_order: nextOrder })
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
@@ -417,7 +442,7 @@ export default function App() {
     const { data, error: saveError } = await supabase.from('characters')
       .update({ name, details })
       .eq('id', id).eq('user_id', user.id)
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
     if (saveError || !data) {
       setError(messageFromError(saveError));
       return false;
@@ -431,7 +456,7 @@ export default function App() {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file || !supabase || !user || busy || importingJson) return;
-    if (file.size > 1024 * 1024) { setError('JSON слишком большой (не более 1 МБ).'); return; }
+    if (file.size > 2 * 1024 * 1024) { setError('JSON слишком большой (не более 2 МБ).'); return; }
     setImportingJson(true); setError('');
     try {
       const parsed = parseCharacterJson(await file.text());
@@ -439,9 +464,14 @@ export default function App() {
       const { data, error: importError } = await supabase.from('characters')
         .insert({ user_id: user.id, system: parsed.system, name: parsed.name,
           details: parsed.details, sort_order: nextOrder })
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
+        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
       if (importError || !data) throw importError ?? new Error('Не удалось создать персонажа.');
-      setCharacters(current => [...current, { ...data, details: normalizeDetails(data.details) } as Character]);
+      let imported = { ...data, details: normalizeDetails(data.details) } as Character;
+      if(parsed.portrait) {
+        try { const paths=await savePortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet); imported={...imported,...paths}; }
+        catch(cause) { await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id); throw cause; }
+      }
+      setCharacters(current => [...current, imported]);
       setFilter('all'); setOpenMenuId(null);
     } catch (cause) { setError(messageFromError(cause)); }
     finally { setImportingJson(false); }
@@ -483,6 +513,8 @@ export default function App() {
     if (!window.confirm(`Удалить персонажа «${character.name}»? Это действие нельзя отменить.`)) return;
     setBusy(true);
     setError('');
+    try { await cleanupBeforeDelete(character); }
+    catch(cause) {setBusy(false);setError('Не удалось удалить файлы портрета: '+messageFromError(cause));return;}
     const { error: deleteError } = await supabase.from('characters').delete()
       .eq('id', character.id).eq('user_id', user.id);
     setBusy(false);
@@ -530,7 +562,8 @@ export default function App() {
         <TemplateAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
       ) : active ? (
         active.system === 'pf2e' ? (
-          <PathfinderSheet key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+          <PathfinderSheet key={active.id} character={active} portraitUrl={active.portrait_sheet_path?portraitUrls[active.portrait_sheet_path]:undefined} onEditPortrait={()=>setEditingPortraitId(active.id)}
+            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         )
@@ -591,6 +624,15 @@ export default function App() {
                       <span>{characterSubtitle(character)}</span>
                     </span>
                   </button>
+                  {!movingId && <button type="button" className="character-portrait-action"
+                    title="Сменить портрет" aria-label={`Сменить портрет: ${character.name}`}
+                    onClick={()=>{setEditingPortraitId(character.id);setOpenMenuId(null);}}>
+                    {character.portrait_card_path && portraitUrls[character.portrait_card_path]
+                      ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
+                      : character.system==='pf2e'
+                        ? <img src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
+                        : <span className="character-portrait-empty" aria-hidden="true">+</span>}
+                  </button>}
                   <span className="character-system" aria-label={GAME_SYSTEMS[character.system].title}>{badgeLabels[character.system]}</span>
                   {!movingId && <div className="character-menu-area">
                     <button type="button" className="character-menu-button" title={`Действия с персонажем ${character.name}`} aria-label={`Действия с персонажем ${character.name}`} aria-expanded={openMenuId === character.id} onClick={() => setOpenMenuId(current => current === character.id ? null : character.id)}>
@@ -598,7 +640,7 @@ export default function App() {
                     </button>
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
-                      <button type="button" onClick={() => {setOpenMenuId(null);downloadCharacter(character);}}><Download size={15} /> Экспорт JSON</button>
+                      <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
                     </div>}
                   </div>}
@@ -637,6 +679,9 @@ export default function App() {
         </main>
       )}
 
+      {portraitCharacter && <PortraitEditor key={portraitCharacter.id} name={portraitCharacter.name}
+        existing={portraitPaths(portraitCharacter).length>0} onClose={()=>setEditingPortraitId(null)}
+        onSave={savePortraitChange} onDelete={removePortraitChange}/>}
       <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ ВЕРСИЯ #1</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>
     </div>
   );

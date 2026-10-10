@@ -28,10 +28,14 @@ export default function PathfinderSheet({
   character,
   onSave,
   onClose,
+  portraitUrl,
+  onEditPortrait,
 }: {
   character: Character;
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
   onClose: () => void;
+  portraitUrl?: string;
+  onEditPortrait: () => void;
 }) {
   const [values, setValues] = useState<SheetValues>(() => initialSheetValues(character.details, character.name));
   const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
@@ -208,6 +212,12 @@ export default function PathfinderSheet({
         alt={`Бланк Pathfinder 2e, страница ${page}: ${PAGE_TITLES[page - 1]}`}
         draggable={false}
       />
+      {page===3 && <button type="button" className="pf-portrait-button"
+        title="Нажми, чтобы добавить или сменить портрет" aria-label="Загрузить или сменить портрет персонажа"
+        onClick={onEditPortrait}>
+          <img src={portraitUrl || `${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`}
+            alt="" draggable={false} />
+        </button>}
       {pageFields.map(renderField)}
       {counter && <div className="pf-counter-popup" style={counterStyle} role="group" aria-label={`Изменить: ${counter.label}`} onMouseDown={event => event.preventDefault()}>
         <button type="button" aria-label={`Уменьшить: ${counter.label}`} onClick={() => step(counter, -1)}><Minus size={16} /></button>
