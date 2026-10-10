@@ -274,10 +274,12 @@ export default function PathfinderSheet({
       <button type="button" className="text-button" onClick={() => void goBack()} disabled={saving}>
         <ArrowLeft size={17} /> К персонажам
       </button>
-      <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
-      <span className="pf-rules-label" title="Режим можно изменить в настройках листа">
-        {automatic ? 'Расчёты: авто' : 'Расчёты: вручную'}
-      </span>
+      <div className="pf-toolbar-heading">
+        <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
+        <span className="pf-rules-label" title="Режим можно изменить в настройках листа">
+          {automatic ? 'Расчёты: авто' : 'Расчёты: вручную'}
+        </span>
+      </div>
       <div className="pf-toolbar-right">
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
           {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
