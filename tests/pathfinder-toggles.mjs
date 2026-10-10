@@ -42,7 +42,7 @@ const visual=read('../src/features/pathfinder/ToggleVisual.tsx');
 // Both admin and sheet use this exact renderer; PDF hero ink is dark even
 // before selection, so an unchecked hero must mask that dark interior.
 assert.match(visual,/data-native-dark-hero=\{isHeroPointId\(field.id\)/);
-assert.match(admin,/ToggleVisual field=\{f\} checked=\{samples\[f.id\]==='true'\}/);
+assert.match(admin,/ToggleVisual field=\{f\} checked=\{displaySamples\[f.id\]==='true'\}/);
 assert.match(app,/ToggleVisual field=\{field\} checked=\{value === true\}/);
 const maskSelector=String.raw`.pf-toggle-visual[data-native-dark-hero="true"][data-mode="fill"][data-checked="false"] .pf-toggle-fill-shape`;
 assert.ok(styles.includes(maskSelector),'Unchecked PDF hero-point ink must be masked in both editor and sheet');
