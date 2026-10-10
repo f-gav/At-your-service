@@ -625,23 +625,21 @@ export default function App() {
                     if (movingId) { void moveCharacter(characters.findIndex(c => c.id === character.id)); return; }
                     setActiveId(character.id); setOpenMenuId(null); setError('');
                   }} aria-label={movingId ? movingId === character.id ? `Перемещаем персонажа ${character.name}` : `Переместить выбранного персонажа на позицию ${character.name}` : `Открыть лист персонажа ${character.name}`}>
-                    <span className="character-portrait" aria-hidden="true" />
+                    <span className="character-portrait" aria-hidden="true">
+                      {character.portrait_source_path && portraitUrls[character.portrait_source_path]
+                        ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
+                        : character.portrait_card_path && portraitUrls[character.portrait_card_path]
+                          ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
+                          : character.system==='pf2e'
+                            ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
+                            : null}
+                    </span>
                     <span className="character-data">
                       <strong>{character.name}</strong>
                       <span>{characterSubtitle(character)}</span>
                     </span>
                   </button>
-                  {!movingId && <button type="button" className="character-portrait-action"
-                    title="Сменить портрет" aria-label={`Сменить портрет: ${character.name}`}
-                    onClick={()=>{setEditingPortraitId(character.id);setOpenMenuId(null);}}>
-                    {character.portrait_source_path && portraitUrls[character.portrait_source_path]
-                      ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
-                      : character.portrait_card_path && portraitUrls[character.portrait_card_path]
-                        ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
-                      : character.system==='pf2e'
-                        ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
-                        : <span className="character-portrait-empty" aria-hidden="true">+</span>}
-                  </button>}
+
                   <span className="character-system" aria-label={GAME_SYSTEMS[character.system].title}>{badgeLabels[character.system]}</span>
                   {!movingId && <div className="character-menu-area">
                     <button type="button" className="character-menu-button" title={`Действия с персонажем ${character.name}`} aria-label={`Действия с персонажем ${character.name}`} aria-expanded={openMenuId === character.id} onClick={() => setOpenMenuId(current => current === character.id ? null : character.id)}>

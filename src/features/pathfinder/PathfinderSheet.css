@@ -32,12 +32,6 @@
 .pf-field-toggle input:checked + span svg { display: block; }
 .pf-field-toggle input:focus-visible + span { outline: 1px solid #6d7470; outline-offset: 1px; }
 
-/* Only the counter popup is interactive chrome; it remains neutral rather than green. */
-.pf-counter-popup { position: absolute; z-index: 20; transform: translate(-50%, 3px); display: flex; align-items: center; gap: 4px; border-radius: 8px; padding: 4px; border: 1px solid #c9cecb; box-shadow: 0 4px 14px #00000024; background: #fff; color: #292f2b; white-space: nowrap; font: 13px 'Segoe UI', Arial, sans-serif; }
-.pf-counter-popup button { background: #f2f3f1; border: 0; border-radius: 5px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #343b36; }
-.pf-counter-popup button:hover { background: #e4e7e3; }
-.pf-counter-popup span { min-width: 22px; text-align: center; font-weight: 700; }
-
 @media (max-width: 1040px) {
   .pf-sheet-stack { margin: 0; }
 }

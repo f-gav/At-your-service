@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Cloud, Minus, Plus, Settings2 } from 'lucide-react';
+import { ArrowLeft, Cloud, Settings2 } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
@@ -88,7 +88,6 @@ export default function PathfinderSheet({
     document.addEventListener('keydown',closeEsc);
     return()=>{document.removeEventListener('pointerdown',closeOutside);document.removeEventListener('keydown',closeEsc);};
   }, [settingsOpen]);
-  const [focusedCounter, setFocusedCounter] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const dirty = JSON.stringify(values) !== savedSnapshot;
@@ -104,13 +103,6 @@ export default function PathfinderSheet({
     setValues(previous => previous[id] === value ? previous : { ...previous, [id]: value });
   }
 
-  function step(field: PathfinderField, delta: number) {
-    const oldValue = Number(values[field.id]);
-    const current = Number.isFinite(oldValue) ? oldValue : 0;
-    const minimum = field.min ?? -999999;
-    const maximum = field.max ?? 999999;
-    change(field.id, String(Math.max(minimum, Math.min(maximum, current + delta))));
-  }
 
   async function save(): Promise<boolean> {
     if (saving) return false;
@@ -224,25 +216,11 @@ export default function PathfinderSheet({
       type="text"
       inputMode={numeric && !computedField ? 'numeric' : 'text'}
       aria-description={computedField ? 'Рассчитывается автоматически на основе характеристики, уровня и ранга владения' : undefined}
-      onFocus={field.kind === 'counter' && !computedField ? () => setFocusedCounter(field.id) : undefined}
-      onBlur={field.kind === 'counter' && !computedField ? () => setFocusedCounter(null) : undefined}
-      onKeyDown={field.kind === 'counter' && !computedField ? event => {
-        if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-          event.preventDefault();
-          step(field, event.key === 'ArrowUp' ? 1 : -1);
-        }
-      } : undefined}
     />;
   }
 
   function renderPage(page: number) {
     const pageFields = templateFields.filter(field => field.page===page);
-    const counter = pageFields.find(field => field.id === focusedCounter && field.kind === 'counter');
-    const counterBox = counter ? fieldBox(counter) : null;
-    const counterStyle: CSSProperties | undefined = counter && counterBox ? {
-      left: `${100 * (counterBox.x + counterBox.w / 2) / PDF_WIDTH}%`,
-      top: `${100 * (counterBox.y + counterBox.h) / PDF_HEIGHT}%`,
-    } : undefined;
 
     return <section key={page} className="pf-sheet-page" aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
       <img
@@ -261,11 +239,6 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
-      {counter && <div className="pf-counter-popup" style={counterStyle} role="group" aria-label={`Изменить: ${counter.label}`} onMouseDown={event => event.preventDefault()}>
-        <button type="button" aria-label={`Уменьшить: ${counter.label}`} onClick={() => step(counter, -1)}><Minus size={16} /></button>
-        <span>{String(values[counter.id] || '0')}</span>
-        <button type="button" aria-label={`Увеличить: ${counter.label}`} onClick={() => step(counter, 1)}><Plus size={16} /></button>
-      </div>}
     </section>;
   }
 
