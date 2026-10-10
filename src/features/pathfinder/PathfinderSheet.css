@@ -22,7 +22,7 @@
 .pf-field-narrow { font-size: clamp(9px, 1.18cqw, 17px); padding-left: 1px; padding-right: 1px; }
 .pf-field-tiny { font-size: clamp(8px, 1.02cqw, 15px); padding: 0; }
 .pf-field-text:hover { background: transparent; outline: none; }
-.pf-field-text:focus { background: transparent; outline: none; box-shadow: inset 0 -1px 0 #747b78; z-index: 5; }
+.pf-field-text:focus { background: transparent; outline: none; z-index: 5; }
 .pf-field-text:disabled { opacity: .8; }
 
 .pf-field-toggle { display: block; cursor: pointer; padding: 0 !important; margin: 0; border: 0; line-height: normal; }
@@ -131,7 +131,6 @@
   padding-right: 2px;
 }
 .pf-field-select:focus-visible {
-  box-shadow: inset 0 -1px 0 #747b78;
   outline: none;
   z-index: 10;
 }
@@ -188,9 +187,6 @@
    Values remain independent of this purely visual style. */
 .pf-field-text.pf-field-underline {
   box-shadow: inset 0 -1px 0 #7c8580;
-}
-.pf-field-text.pf-field-underline:focus-visible {
-  box-shadow: inset 0 -2px 0 #68776f;
 }
 
 /* PF2e rank boxes stay aligned to the published layout; the native select
