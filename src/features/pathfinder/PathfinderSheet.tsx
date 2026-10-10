@@ -65,7 +65,7 @@ export default function PathfinderSheet({
   const computed = useMemo(() => {
     const combat = calculateNativeCombat(values);
     return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
-      : { armor_class: combat.armor_class };
+      : (combat.armor_class === undefined ? {} : { armor_class: combat.armor_class });
   }, [automatic, values]);
   const displayValues = useMemo(() => ({ ...values, ...computed }), [values, computed]);
   function setAutomatic(enabled: boolean) {
