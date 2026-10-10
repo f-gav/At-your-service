@@ -5,6 +5,7 @@ import {PDF_WIDTH,PDF_HEIGHT} from './layout';
 import {DEFAULT_FIELDS,validFields,cloneFields,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
 import type {EditableField} from './editor-schema';
 import { DEFAULT_SELECT_OPTIONS, PF2E_SIZE_OPTIONS, parseOptions } from './field-options';
+import './PathfinderSheet.css';
 import './TemplateAdmin.css';
 type Change=Partial<EditableField>;
 type Drag={id:string;mode:'move'|'size';startX:number;startY:number;original:EditableField;width:number};
@@ -95,7 +96,40 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     if(error||!validFields(data?.fields)){setStatus('Не удалось восстановить версию.');return;}
     checkpoint();setFields(cloneFields(data.fields));setSelected('');setStatus('Версия загружена в черновик. Для публикации нажми «Опубликовать».');
   }
-  const box=(f:EditableField):CSSProperties=>({left:(f.x/PDF_WIDTH*100)+'%',top:(f.y/PDF_HEIGHT*100)+'%',width:(f.w/PDF_WIDTH*100)+'%',height:(f.h/PDF_HEIGHT*100)+'%',fontSize:((f.fontSize||12)*zoom/PDF_WIDTH)+'px',fontFamily:f.fontFamily||'Arial',fontWeight:f.fontWeight||500,textAlign:f.textAlign||'left',color:f.color||'#303030',padding:((f.paddingY||0)*zoom/PDF_WIDTH)+'px '+((f.paddingX??2)*zoom/PDF_WIDTH)+'px'});
+  const box=(f:EditableField):CSSProperties=>({
+    left:(f.x/PDF_WIDTH*100)+'%',top:(f.y/PDF_HEIGHT*100)+'%',
+    width:(f.w/PDF_WIDTH*100)+'%',height:(f.h/PDF_HEIGHT*100)+'%',
+  });
+  // The editable preview uses the same HTML control and classes as the live sheet.
+  // A generic span has different line-height, padding and vertical text alignment.
+  const previewText=(f:EditableField)=>{
+    const value=samples[f.id] ?? (f.kind==='select'?(f.options?.[0]??''):f.label);
+    const narrow=f.w<40?' pf-field-narrow':'',tiny=f.w<20?' pf-field-tiny':'';
+    const numeric=f.kind==='number'||f.kind==='counter';
+    const className='pf-field-text'+(numeric?' pf-field-number':'')+narrow+tiny+
+      (f.id==='name'?' pf-field-character-name':'')+
+      (f.underline?' pf-field-underline':'');
+    const style:CSSProperties={
+      fontFamily:f.fontFamily||undefined,
+      fontSize:f.fontSize? (100*f.fontSize/PDF_WIDTH)+'cqw':undefined,
+      fontWeight:f.fontWeight||undefined,
+      textAlign:f.textAlign||undefined,
+      color:f.color||undefined,
+      padding:f.paddingX!==undefined||f.paddingY!==undefined
+        ? (100*(f.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(f.paddingX??2)/PDF_WIDTH)+'cqw'
+        :undefined,
+    };
+    if(f.kind==='toggle')return <span className="ta-toggle-preview" aria-hidden="true">✓</span>;
+    if(f.kind==='long')return <textarea aria-label={f.label} readOnly tabIndex={-1}
+      className={'ta-preview-control '+className+' pf-field-long'} style={style} value={value}/>;
+    if(f.kind==='select')return <select aria-label={f.label} tabIndex={-1}
+      className={'ta-preview-control '+className+' pf-field-select'} style={style} value={value} onChange={()=>{}}>
+      {value&&!f.options?.includes(value)&&<option value={value}>{value}</option>}
+      {(f.options??[]).map(option=><option key={option} value={option}>{option}</option>)}
+    </select>;
+    return <input aria-label={f.label} tabIndex={-1} readOnly
+      className={'ta-preview-control '+className} style={style} value={value}/>;
+  };
   const prop=(key:keyof EditableField,value:string|number)=>active&&update(active.id,{[key]:value});
   return <main className="page ta-editor">
     <div className="ta-top">
@@ -119,7 +153,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
           className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>
-          <span>{f.kind==='toggle'?'✓':(samples[f.id]??(f.kind==='select'?(f.options?.[0]??f.label):f.label))}</span>
+          {previewText(f)}
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
         </div>)}
       </div></div>

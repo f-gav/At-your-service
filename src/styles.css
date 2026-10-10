@@ -429,6 +429,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* The PF2e default silhouette fills the icon and visually rises from its lower edge.
    Uploaded character portraits keep their user-selected crop unchanged. */
 .character-portrait-action img.character-portrait-placeholder {
-  transform: translateY(10%) scale(1.32);
+  transform: translateY(18%) scale(1.20);
   transform-origin: center bottom;
 }

@@ -47,6 +47,8 @@ export type Character = {
   sort_order: number;
   portrait_card_path: string | null;
   portrait_sheet_path: string | null;
+  portrait_source_path: string | null;
+  portrait_crops: import('../features/portrait/crop').PortraitCrops | null;
 };
 
 export const defaultDetails = (): CharacterDetails => ({ concept: '', chronicle: '', notes: '' });

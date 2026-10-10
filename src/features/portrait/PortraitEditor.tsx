@@ -1,7 +1,7 @@
 import { useEffect,useRef,useState } from 'react';
 import type { PointerEvent as PointerEvt,WheelEvent as WheelEvt } from 'react';
-import { cropGeometry,croppedWebp } from './crop';
-import type { CropPosition,CropSize } from './crop';
+import { cropGeometry,frameFromCrop,optimizedSourceWebp } from './crop';
+import type { CropPosition,CropSize,PortraitCrops } from './crop';
 import './PortraitEditor.css';
 
 const CARD_SIZE={width:384,height:384};
@@ -55,7 +55,7 @@ function CropPanel({title,image,imageSize,output,crop,onChange}:{title:string;im
 
 export default function PortraitEditor({name,existing,onClose,onSave,onDelete}:{
   name:string;existing:boolean;onClose:()=>void;
-  onSave:(card:Blob,sheet:Blob)=>Promise<void>;onDelete:()=>Promise<void>;
+  onSave:(source:Blob,crops:PortraitCrops)=>Promise<void>;onDelete:()=>Promise<void>;
 }){
   const [imageUrl,setImageUrl]=useState('');
   const [imageSize,setImageSize]=useState<CropSize>({width:1,height:1});
@@ -93,11 +93,13 @@ export default function PortraitEditor({name,existing,onClose,onSave,onDelete}:{
       const cardBounds=squarePanel.current.querySelector('.portrait-crop-viewport')?.getBoundingClientRect();
       const sheetBounds=verticalPanel.current.querySelector('.portrait-crop-viewport')?.getBoundingClientRect();
       if(!cardBounds||!sheetBounds)throw new Error('Область обрезки недоступна.');
-      const [card,sheet]=await Promise.all([
-        croppedWebp(img,{width:cardBounds.width,height:cardBounds.height},square,CARD_SIZE),
-        croppedWebp(img,{width:sheetBounds.width,height:sheetBounds.height},vertical,SHEET_SIZE),
-      ]);
-      await onSave(card,sheet);onClose();
+      const sourceSize={width:img.naturalWidth,height:img.naturalHeight};
+      const crops:PortraitCrops={
+        card:frameFromCrop(sourceSize,{width:cardBounds.width,height:cardBounds.height},square),
+        sheet:frameFromCrop(sourceSize,{width:sheetBounds.width,height:sheetBounds.height},vertical),
+      };
+      const source=await optimizedSourceWebp(img);
+      await onSave(source,crops);onClose();
     }catch(e){setError(e instanceof Error?e.message:'Не удалось сохранить портрет.');}
     finally{setBusy(false);}
   }
@@ -125,7 +127,7 @@ export default function PortraitEditor({name,existing,onClose,onSave,onDelete}:{
         <div className="portrait-actions"><button disabled={busy} onClick={()=>fileRef.current?.click()}>Другая картинка</button><button disabled={busy} onClick={()=>{dispose();imageRef.current=null;setImageUrl('');}}>Отмена</button><button className="portrait-save" disabled={busy} onClick={()=>void save()}>{busy?'Сохраняем…':'Сохранить'}</button></div>
       </>}
       {error&&<p className="portrait-error" role="alert">{error}</p>}
-      <p className="portrait-fineprint">Изображения обрезаются и сжимаются на твоём устройстве. В облако загружаются только готовые кадры.</p>
+      <p className="portrait-fineprint">В облако загружается один оптимизированный WebP. Положения двух кадров сохраняются отдельно.</p>
     </section>
   </div>;
 }

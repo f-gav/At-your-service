@@ -11,6 +11,8 @@ import { isHeroPointId } from './field-options';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
+import PortraitImage from '../portrait/PortraitImage';
+import type { CropFrame } from '../portrait/crop';
 import './PathfinderSheet.css';
 
 const PAGE_TITLES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
@@ -29,12 +31,14 @@ export default function PathfinderSheet({
   onSave,
   onClose,
   portraitUrl,
+  portraitFrame,
   onEditPortrait,
 }: {
   character: Character;
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
   onClose: () => void;
   portraitUrl?: string;
+  portraitFrame?: CropFrame;
   onEditPortrait: () => void;
 }) {
   const [values, setValues] = useState<SheetValues>(() => initialSheetValues(character.details, character.name));
@@ -215,8 +219,8 @@ export default function PathfinderSheet({
       {page===3 && <button type="button" className="pf-portrait-button"
         title="Нажми, чтобы добавить или сменить портрет" aria-label="Загрузить или сменить портрет персонажа"
         onClick={onEditPortrait}>
-          <img src={portraitUrl || `${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`}
-            alt="" draggable={false} />
+          <PortraitImage url={portraitUrl || `${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`}
+            frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
       {counter && <div className="pf-counter-popup" style={counterStyle} role="group" aria-label={`Изменить: ${counter.label}`} onMouseDown={event => event.preventDefault()}>

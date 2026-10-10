@@ -1,7 +1,7 @@
 import type { Character, CharacterDetails, GameSystem } from './models';
 import { normalizeDetails, normalizedName } from './models';
 import { portraitToJson, parsePortraitTransfer } from '../features/portrait/portrait-json';
-import type { PortraitTransfer } from '../features/portrait/portrait-json';
+import type { PortraitTransfer, ParsedPortrait } from '../features/portrait/portrait-json';
 
 /** JSON is a transport format, never a source of authentication or ownership. */
 export type CharacterExport = {
@@ -23,7 +23,7 @@ export function exportCharacter(c: Character): CharacterExport {
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && !Array.isArray(value);
 }
-export function parseCharacterJson(source: string): {system: GameSystem; name: string; details: CharacterDetails; portrait?: {card:Blob;sheet:Blob}} {
+export function parseCharacterJson(source: string): {system: GameSystem; name: string; details: CharacterDetails; portrait?: ParsedPortrait} {
   if (source.length > 2*1024*1024) throw new Error('JSON слишком большой (максимум 2 МБ).');
   let data: unknown;
   try { data = JSON.parse(source); } catch { throw new Error('Файл не является корректным JSON.'); }

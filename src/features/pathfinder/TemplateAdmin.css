@@ -68,3 +68,17 @@
 }
 .ta-side .ta-clear-sample{align-self:flex-start;padding:5px 9px;font-size:12px;}
 .ta-side .ta-clear-sample:disabled{cursor:default;opacity:.55;}
+
+/* Admin and live PF2e controls use identical text metrics, including vertical
+   centering and input padding. Outlines avoid changing the field's dimensions. */
+.ta-page {container-type:inline-size;}
+.ta-field {border:0;outline:1px solid #5e87ba99;padding:0!important;}
+.ta-field.selected {border:0;outline:2px solid #337fe0;}
+.ta-field.preview {border:0;outline:none;}
+.ta-field .ta-preview-control {
+  display:block;position:static;width:100%;height:100%;
+  box-sizing:border-box;pointer-events:none;
+}
+.ta-field .ta-preview-control.pf-field-text {margin:0;}
+.ta-field .ta-toggle-preview {display:flex;align-items:center;justify-content:center;height:100%;}
+.ta-field.ta-with-sample>.ta-preview-control {opacity:1;}

@@ -33,7 +33,9 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import PortraitEditor from './features/portrait/PortraitEditor';
-import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, signedPortraitUrl } from './features/portrait/portrait-storage';
+import PortraitImage from './features/portrait/PortraitImage';
+import type { PortraitCrops } from './features/portrait/crop';
+import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl } from './features/portrait/portrait-storage';
 import TemplateAdmin from './features/pathfinder/TemplateAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
@@ -259,9 +261,9 @@ export default function App() {
     })).then(rows=>{if(mounted)setPortraitUrls(Object.fromEntries(rows));});
     return()=>{mounted=false;};
   },[user?.id,signedPaths]);
-  async function savePortraitChange(card:Blob,sheet:Blob) {
+  async function savePortraitChange(source:Blob,crops:PortraitCrops) {
     if(!portraitCharacter||!user)return;
-    const next=await savePortrait(portraitCharacter,user.id,card,sheet);
+    const next=await savePortrait(portraitCharacter,user.id,source,crops);
     setCharacters(old=>old.map(c=>c.id===portraitCharacter.id?{...c,...next}:c));
   }
   async function removePortraitChange() {
@@ -344,7 +346,7 @@ export default function App() {
     setCharacters([]);
     const client = supabase;
     void client.from('characters')
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path')
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
       .eq('user_id', userId)
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: true })
@@ -426,7 +428,7 @@ export default function App() {
     const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
     const { data, error: insertError } = await supabase.from('characters')
       .insert({ user_id: user.id, system: createPanel, name, details: defaultDetails(), sort_order: nextOrder })
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
@@ -442,7 +444,7 @@ export default function App() {
     const { data, error: saveError } = await supabase.from('characters')
       .update({ name, details })
       .eq('id', id).eq('user_id', user.id)
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
     if (saveError || !data) {
       setError(messageFromError(saveError));
       return false;
@@ -464,11 +466,13 @@ export default function App() {
       const { data, error: importError } = await supabase.from('characters')
         .insert({ user_id: user.id, system: parsed.system, name: parsed.name,
           details: parsed.details, sort_order: nextOrder })
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path').single();
+        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
       if (importError || !data) throw importError ?? new Error('Не удалось создать персонажа.');
       let imported = { ...data, details: normalizeDetails(data.details) } as Character;
       if(parsed.portrait) {
-        try { const paths=await savePortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet); imported={...imported,...paths}; }
+        try { const paths=parsed.portrait.type==='source'
+          ? await savePortrait(imported,user.id,parsed.portrait.source,parsed.portrait.crops)
+          : await saveLegacyPortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet); imported={...imported,...paths}; }
         catch(cause) { await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id); throw cause; }
       }
       setCharacters(current => [...current, imported]);
@@ -562,7 +566,10 @@ export default function App() {
         <TemplateAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
       ) : active ? (
         active.system === 'pf2e' ? (
-          <PathfinderSheet key={active.id} character={active} portraitUrl={active.portrait_sheet_path?portraitUrls[active.portrait_sheet_path]:undefined} onEditPortrait={()=>setEditingPortraitId(active.id)}
+          <PathfinderSheet key={active.id} character={active}
+            portraitUrl={active.portrait_source_path?portraitUrls[active.portrait_source_path]:active.portrait_sheet_path?portraitUrls[active.portrait_sheet_path]:undefined}
+            portraitFrame={active.portrait_source_path?active.portrait_crops?.sheet:undefined}
+            onEditPortrait={()=>setEditingPortraitId(active.id)}
             onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
@@ -627,8 +634,10 @@ export default function App() {
                   {!movingId && <button type="button" className="character-portrait-action"
                     title="Сменить портрет" aria-label={`Сменить портрет: ${character.name}`}
                     onClick={()=>{setEditingPortraitId(character.id);setOpenMenuId(null);}}>
-                    {character.portrait_card_path && portraitUrls[character.portrait_card_path]
-                      ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
+                    {character.portrait_source_path && portraitUrls[character.portrait_source_path]
+                      ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
+                      : character.portrait_card_path && portraitUrls[character.portrait_card_path]
+                        ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
                       : character.system==='pf2e'
                         ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
                         : <span className="character-portrait-empty" aria-hidden="true">+</span>}
