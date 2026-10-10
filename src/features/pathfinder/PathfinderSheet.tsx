@@ -62,7 +62,7 @@ export default function PathfinderSheet({
   const automatic = isAutomatic(values, legacyHasValues);
   // AC is always the sum of the three editable PDF-strip cells, independent of
   // the optional auto-rules mode for skills, saves and other derived values.
-  const computed = useMemo(() => {
+  const computed = useMemo<Record<string,string>>(() => {
     const combat = calculateNativeCombat(values);
     return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
       : (combat.armor_class === undefined ? {} : { armor_class: combat.armor_class });
