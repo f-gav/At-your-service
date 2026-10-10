@@ -1,5 +1,5 @@
 import type { EditableField } from './editor-schema';
-import { WEAPON_IDS } from './rules-combat';
+import { WEAPON_IDS } from './rules-combat.ts';
 
 /** Page-one PDF coordinates (pt). Art stays immutable; boxes are editable in admin. */
 const ROWS = [395.16,445.15,494.10,556.83,605.78] as const;
