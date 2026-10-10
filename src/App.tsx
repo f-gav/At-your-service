@@ -4,19 +4,16 @@ import type { Session } from '@supabase/supabase-js';
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
   Check,
-  ChevronRight,
   Cloud,
   FilePenLine,
-  FolderOpen,
   LogIn,
   LogOut,
   Menu,
   Plus,
   ShieldCheck,
-  Sparkles,
   Trash2,
+  MoreHorizontal,
   X,
 } from 'lucide-react';
 import {
@@ -46,33 +43,36 @@ function messageFromError(error: unknown): string {
 
 function SiteLogo() {
   return (
-    <span className="brand-wrap" aria-label="At your service">
+    <span className="brand-wrap" aria-label="At your service!">
       <span className="brand-symbol" aria-hidden="true">a<span className="brand-symbol-mark">.</span></span>
-      <span className="brand-name">At your service</span>
+      <img className="brand-wordmark" src={`${import.meta.env.BASE_URL}wordmark.svg`} alt="At your service!" />
     </span>
   );
 }
 
-function SystemCard({
-  system,
-  onClick,
-  count,
-}: {
-  system: GameSystem;
-  onClick: (system: GameSystem) => void;
-  count: number | null;
-}) {
-  const entry = GAME_SYSTEMS[system];
+/** Decorative silhouette from the approved homepage mockup. */
+function HeroEmblem() {
   return (
-    <button type="button" className={`system-card system-${system}`} onClick={() => onClick(system)}>
-      <span className="system-card-top"><span className="card-index">{entry.code} / SYSTEM</span><ArrowRight size={19} /></span>
-      <span className="system-glyph" aria-hidden="true">{entry.short}</span>
-      <span className="system-card-bottom">
-        <span><span className="system-title">{entry.title}</span><span className="system-subtitle">{entry.subtitle}</span></span>
-        {count !== null && <span className="system-count">{count} {count === 1 ? 'лист' : 'листов'}</span>}
-      </span>
-    </button>
+    <svg className="hero-emblem" viewBox="0 0 324 118" aria-hidden="true" focusable="false">
+      <path d="M162 2 181 14H143Z" />
+      <path d="M105 18h114c16 0 29 13 29 29v47H76V47c0-16 13-29 29-29Z" />
+      <path d="M65 80h194c9 0 16 7 16 16v2H49v-2c0-9 7-16 16-16Z" />
+      <path d="M0 100h324l-28 17H28Z" />
+    </svg>
   );
+}
+
+const badgeLabels: Record<GameSystem, string> = {
+  dnd5e: 'DnD',
+  pf2e: 'PF2e',
+  vtm5e: 'VtM',
+};
+
+function characterSubtitle(character: Character): string {
+  const race = detailString(character.details, 'race').trim();
+  const className = detailString(character.details, 'class').trim();
+  if (race || className) return [race, className].filter(Boolean).join(' · ');
+  return detailString(character.details, 'concept').trim() || 'Раса · Класс';
 }
 
 function EmptySetup() {
@@ -212,6 +212,8 @@ export default function App() {
   const [loadingCharacters, setLoadingCharacters] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [createPanel, setCreatePanel] = useState<CreatePanel>(null);
+  const [showSystemPicker, setShowSystemPicker] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [busy, setBusy] = useState(false);
@@ -221,7 +223,36 @@ export default function App() {
   const user = session?.user;
   const active = useMemo(() => characters.find(c => c.id === activeId) ?? null, [characters, activeId]);
   const filteredCharacters = useMemo(() => characters.filter(c => filter === 'all' || c.system === filter), [characters, filter]);
-  const counts = useMemo(() => Object.fromEntries(systemKeys.map(k => [k, characters.filter(c => c.system === k).length])) as Record<GameSystem, number>, [characters]);
+
+  useEffect(() => {
+    if (!openMenuId) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!(event.target instanceof Element) || !event.target.closest('.character-menu-area')) {
+        setOpenMenuId(null);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpenMenuId(null);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [openMenuId]);
+
+  useEffect(() => {
+    if (!showSystemPicker && !createPanel) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !busy) {
+        setShowSystemPicker(false);
+        setCreatePanel(null);
+      }
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [showSystemPicker, createPanel, busy]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -288,8 +319,28 @@ export default function App() {
     else {
       setActiveId(null);
       setCreatePanel(null);
+      setShowSystemPicker(false);
       setCharacters([]);
     }
+  }
+
+  function openCreate() {
+    if (!user) {
+      void signIn();
+      return;
+    }
+    setActiveId(null);
+    setCreatePanel(null);
+    setShowSystemPicker(true);
+    setOpenMenuId(null);
+    setError('');
+  }
+
+  function closeCreate() {
+    if (busy) return;
+    setShowSystemPicker(false);
+    setCreatePanel(null);
+    setNewName('');
   }
 
   function beginCreate(system: GameSystem) {
@@ -297,11 +348,10 @@ export default function App() {
       void signIn();
       return;
     }
-    setActiveId(null);
+    setShowSystemPicker(false);
     setCreatePanel(system);
     setNewName('');
     setError('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async function createCharacter(event: FormEvent<HTMLFormElement>) {
@@ -320,6 +370,7 @@ export default function App() {
     const created = { ...data, details: normalizeDetails(data.details) } as Character;
     setCharacters(current => [created, ...current]);
     setCreatePanel(null);
+    setShowSystemPicker(false);
     setActiveId(created.id);
   }
 
@@ -359,11 +410,11 @@ export default function App() {
     <div className="site-shell">
       <header className="site-header">
         <div className="header-inner">
-          <button type="button" className="brand-button" onClick={() => { if (!activeId) { setCreatePanel(null); setFilter('all'); } }} aria-label="На главную">
+          <button type="button" className="brand-button" onClick={() => { if (!activeId) { closeCreate(); setFilter('all'); } }} aria-label="На главную">
             <SiteLogo />
           </button>
           <div className="header-links">
-            <a href="https://github.com/f-gav/WreckTrack" target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
+            <a href="https://f-gav.github.io/WreckTrack/" target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
                 <span className="account-identity">
@@ -379,73 +430,96 @@ export default function App() {
         {mobileMenu && <div className="mobile-menu-panel">
           {user ? <><span className="muted">{displayName}</span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>
             : <button type="button" onClick={() => {setMobileMenu(false); void signIn();}}>Войти через Google</button>}
-          <a href="https://github.com/f-gav/WreckTrack" target="_blank" rel="noreferrer">WreckTrack ↗</a>
+          <a href="https://f-gav.github.io/WreckTrack/" target="_blank" rel="noreferrer">WreckTrack ↗</a>
         </div>}
       </header>
 
       {active ? (
         <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
       ) : (
-        <main className="page">
+        <main className="page page-home">
           <section className="hero" aria-labelledby="main-title">
-            <div className="eyebrow"><span className="small-dot" /> ЦИФРОВЫЕ ЛИСТЫ ПЕРСОНАЖЕЙ</div>
-            <h1 id="main-title">At your<br />service</h1>
-            <div className="hero-footer"><p>У каждого героя — своя история.<br />Храни её там, где удобно.</p><span className="hero-aside">D&D <span>·</span> PATHFINDER <span>·</span> VAMPIRE</span></div>
+            <div className="hero-copy">
+              <h1 id="main-title"><img src={`${import.meta.env.BASE_URL}wordmark.svg`} alt="At your service!" /></h1>
+              <p>Храни свою историю, чтобы она не превратилась в Осколки!</p>
+            </div>
+            <HeroEmblem />
           </section>
 
           {!isConfigured && <EmptySetup />}
           {error && <div className="global-error" role="alert"><span>{error}</span><button aria-label="Закрыть ошибку" type="button" onClick={() => setError('')}><X size={16} /></button></div>}
 
-          {createPanel ? (
-            <section className="create-section">
-              <div className="section-top"><span className="overline">НОВЫЙ ПЕРСОНАЖ</span><button className="text-button" type="button" onClick={() => setCreatePanel(null)}><X size={16} /> Отмена</button></div>
-              <form className="create-form" onSubmit={event => void createCharacter(event)}>
-                <div><h2>{GAME_SYSTEMS[createPanel].title}</h2><p>Начни с имени. Остальные данные заполнишь в листе.</p></div>
-                <label className="form-label">Имя персонажа
-                  <input autoFocus required maxLength={100} placeholder="Как зовут твоего героя?" value={newName} onChange={e => setNewName(e.target.value)} />
-                </label>
-                <button disabled={busy || !normalizedName(newName)} type="submit" className="button button-primary"><Plus size={17} /> {busy ? 'Создаю…' : 'Создать лист'}</button>
-              </form>
-            </section>
-          ) : (
-            <section className="systems-section" aria-labelledby="systems-title">
-              <div className="section-top"><h2 className="section-label" id="systems-title">Выбери игровую систему</h2><span className="overline">01—03</span></div>
-              <div className="systems-grid">
-                {systemKeys.map(system => <SystemCard key={system} system={system} onClick={beginCreate} count={user ? counts[system] : null} />)}
-              </div>
-            </section>
-          )}
-
-          {user && !createPanel && <section className="library-section" aria-labelledby="library-title">
-            <div className="section-top"><div><span className="overline">ЛИЧНАЯ БИБЛИОТЕКА</span><h2 id="library-title">Твои персонажи<span className="punctuation">.</span></h2></div><span className="library-amount">{characters.length} всего</span></div>
-            <div className="filter-bar" role="group" aria-label="Фильтр листов">
-              {(['all', ...systemKeys] as Filter[]).map(item => <button key={item} className={filter === item ? 'filter active' : 'filter'} type="button" onClick={() => setFilter(item)}>{item === 'all' ? 'Все' : GAME_SYSTEMS[item].short}</button>)}
-            </div>
-            {loadingCharacters ? <div className="library-empty"><FolderOpen size={23} /><span>Загружаем персонажей…</span></div> : filteredCharacters.length ? (
-              <div className="character-list">
-                {filteredCharacters.map(character => (
-                  <div className="character-row" key={character.id}>
-                    <button type="button" className="character-row-main" onClick={() => {setActiveId(character.id); setError('');}}>
-                      <span className="character-monogram">{character.name.charAt(0).toUpperCase()}</span>
-                      <span className="character-data"><strong>{character.name}</strong><span>{GAME_SYSTEMS[character.system].title} · {detailString(character.details,'concept') || 'Без описания'}</span></span>
-                      <ChevronRight size={19} className="character-chevron" />
-                    </button>
-                    <button className="delete-button" type="button" disabled={busy} title={`Удалить ${character.name}`} aria-label={`Удалить ${character.name}`} onClick={() => void deleteCharacter(character)}><Trash2 size={17} /></button>
-                  </div>
+          <section className="library-section" aria-labelledby="library-title">
+            <div className="library-heading">
+              <h2 id="library-title">Мои персонажи: ({characters.length})</h2>
+              <div className="system-filters" role="group" aria-label="Фильтр персонажей по системе">
+                {systemKeys.map((system, index) => (
+                  <span className="filter-item" key={system}>
+                    {index > 0 && <span className="filter-separator" aria-hidden="true">·</span>}
+                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => setFilter(current => current === system ? 'all' : system)}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VAMPIRE'}</button>
+                  </span>
                 ))}
               </div>
-            ) : <div className="library-empty"><BookOpen size={23} /><span>{filter === 'all' ? 'Пока ни одного персонажа. Создай первый лист выше.' : 'В этой системе пока нет персонажей.'}</span></div>}
-          </section>}
+            </div>
 
-          {!user && <section className="benefits-section">
-            <div className="benefit"><Cloud size={19} /><span>Сохранение в облаке</span></div>
-            <div className="benefit"><ShieldCheck size={19} /><span>Личные листы и приватность</span></div>
-            <div className="benefit"><Sparkles size={19} /><span>Свобода заполнения</span></div>
-          </section>}
+            <div className="character-grid">
+              {loadingCharacters ? (
+                <div className="library-state" role="status">Загружаем персонажей…</div>
+              ) : filteredCharacters.map(character => (
+                <article className={`character-card character-${character.system}`} key={character.id} aria-label={`Персонаж ${character.name}`}>
+                  <button type="button" className="character-open" onClick={() => { setActiveId(character.id); setOpenMenuId(null); setError(''); }} aria-label={`Открыть лист персонажа ${character.name}`}>
+                    <span className="character-portrait" aria-hidden="true" />
+                    <span className="character-data">
+                      <strong>{character.name}</strong>
+                      <span>{characterSubtitle(character)}</span>
+                    </span>
+                  </button>
+                  <span className="character-system" aria-label={GAME_SYSTEMS[character.system].title}>{badgeLabels[character.system]}</span>
+                  <div className="character-menu-area">
+                    <button type="button" className="character-menu-button" title={`Действия с персонажем ${character.name}`} aria-label={`Действия с персонажем ${character.name}`} aria-expanded={openMenuId === character.id} onClick={() => setOpenMenuId(current => current === character.id ? null : character.id)}>
+                      <MoreHorizontal size={25} strokeWidth={3} />
+                    </button>
+                    {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
+                      <button type="button" onClick={() => { setActiveId(character.id); setOpenMenuId(null); setError(''); }}><FilePenLine size={15} /> Открыть лист</button>
+                      <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
+                    </div>}
+                  </div>
+                </article>
+              ))}
+              <button type="button" className="add-character" onClick={openCreate} disabled={loadingCharacters} aria-label="Создать персонажа"><Plus size={33} strokeWidth={2.2} /></button>
+              {!loadingCharacters && filteredCharacters.length === 0 && filter !== 'all' && <div className="library-state">В этой системе пока нет персонажей. <button type="button" onClick={() => setFilter('all')}>Показать всех</button></div>}
+            </div>
+            {!user && authReady && <p className="library-help">Войди через Google, чтобы создавать персонажей и хранить их в своём аккаунте.</p>}
+          </section>
+
+          {(showSystemPicker || createPanel) && <div className="modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) closeCreate(); }}>
+            <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="create-title">
+              <div className="modal-top"><span>НОВЫЙ ПЕРСОНАЖ</span><button type="button" className="modal-close" onClick={closeCreate} disabled={busy} aria-label="Закрыть"><X size={21} /></button></div>
+              {showSystemPicker ? <>
+                <h2 id="create-title">Выбери игровую систему</h2>
+                <p>Для какой истории создаём персонажа?</p>
+                <div className="create-system-list">
+                  {systemKeys.map(system => <button type="button" autoFocus={system === 'dnd5e'} key={system} onClick={() => beginCreate(system)}>
+                    <span><strong>{GAME_SYSTEMS[system].title}</strong><small>{GAME_SYSTEMS[system].subtitle}</small></span><ArrowRight size={18} />
+                  </button>)}
+                </div>
+              </> : createPanel && <>
+                <button type="button" className="text-button modal-back" onClick={() => { setCreatePanel(null); setShowSystemPicker(true); }} disabled={busy}><ArrowLeft size={16} /> К выбору системы</button>
+                <h2 id="create-title">{GAME_SYSTEMS[createPanel].title}</h2>
+                <p>Начни с имени. Остальное заполнишь в листе персонажа.</p>
+                <form className="create-form" onSubmit={event => void createCharacter(event)}>
+                  <label className="form-label">Имя персонажа
+                    <input autoFocus required maxLength={100} placeholder="Как зовут твоего героя?" value={newName} onChange={event => setNewName(event.target.value)} />
+                  </label>
+                  <button disabled={busy || !normalizedName(newName)} type="submit" className="button button-primary"><Plus size={17} /> {busy ? 'Создаю…' : 'Создать лист'}</button>
+                </form>
+              </>}
+            </section>
+          </div>}
         </main>
       )}
 
-      <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ EARLY ALPHA</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>
+      <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ ВЕРСИЯ #1</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>
     </div>
   );
 }
