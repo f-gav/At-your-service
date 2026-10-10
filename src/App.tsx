@@ -558,7 +558,7 @@ export default function App() {
                 {systemKeys.map((system, index) => (
                   <span className="filter-item" key={system}>
                     {index > 0 && <span className="filter-separator" aria-hidden="true">·</span>}
-                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => { setMovingId(null); setFilter(current => current === system ? 'all' : system); }}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VAMPIRE'}</button>
+                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => { setMovingId(null); setFilter(current => current === system ? 'all' : system); }}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VTM'}</button>
                   </span>
                 ))}
               </div>

@@ -1,6 +1,7 @@
 import baseFields from './fields.json';
 import { fieldBox } from './layout';
 import type { PathfinderField } from './layout';
+import { PF2E_SIZE_OPTIONS, validOptions } from './field-options';
 
 export type EditableField = PathfinderField & {
   adjusted?: boolean;
@@ -16,8 +17,9 @@ export const TEMPLATE_KEY = 'pf2e';
 export const PAGE_NAMES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
 export const DEFAULT_FIELDS: EditableField[] = (baseFields as PathfinderField[]).map(f => ({
   ...f, ...fieldBox(f), adjusted: true,
+  ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
 }));
-const types = ['text','long','number','counter','toggle'];
+const types = ['text','long','number','counter','toggle','select'];
 const fonts = ['Arial','Georgia','Verdana','Times New Roman','Courier New'];
 
 export function validFields(value: unknown): value is EditableField[] {
@@ -31,6 +33,8 @@ export function validFields(value: unknown): value is EditableField[] {
     return typeof a.label === 'string' && a.label.length <= 160 &&
       Number.isInteger(a.page) && a.page >= 1 && a.page <= 4 &&
       types.includes(a.kind) &&
+      (a.kind !== 'select' || validOptions(a.options)) &&
+      (a.options === undefined || validOptions(a.options)) &&
       [a.x,a.y,a.w,a.h].every(n => typeof n === 'number' && Number.isFinite(n)) &&
       a.w >= 3 && a.h >= 3 && a.x >= 0 && a.y >= 0 && a.x+a.w <= 601.1 && a.y+a.h <= 782.5 &&
       (a.fontSize === undefined || (a.fontSize >= 5 && a.fontSize <= 40)) &&

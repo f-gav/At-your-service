@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Check, Cloud, Minus, Plus } from 'lucide-react';
+import { ArrowLeft, Check, Cloud, Minus, Plus, Settings2 } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
+import { isHeroPointId } from './field-options';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
@@ -43,6 +44,25 @@ export default function PathfinderSheet({
     return()=>{active=false;};
   },[]);
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
+  const [settingsOpen,setSettingsOpen] = useState(false);
+  const [monochrome,setMonochrome] = useState<boolean>(() => {
+    try { return window.localStorage.getItem('ays-pf2e-monochrome') === '1'; }
+    catch { return false; }
+  });
+  useEffect(() => {
+    try { window.localStorage.setItem('ays-pf2e-monochrome', monochrome?'1':'0'); }
+    catch { /* storage can be blocked; use session preference */ }
+  }, [monochrome]);
+  useEffect(() => {
+    if(!settingsOpen)return;
+    const closeOutside=(event:PointerEvent)=>{
+      if(event.target instanceof Element && !event.target.closest('.pf-settings-area'))setSettingsOpen(false);
+    };
+    const closeEsc=(event:KeyboardEvent)=>{if(event.key==='Escape')setSettingsOpen(false);};
+    document.addEventListener('pointerdown',closeOutside);
+    document.addEventListener('keydown',closeEsc);
+    return()=>{document.removeEventListener('pointerdown',closeOutside);document.removeEventListener('keydown',closeEsc);};
+  }, [settingsOpen]);
   const [focusedCounter, setFocusedCounter] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -118,9 +138,10 @@ export default function PathfinderSheet({
     const id = `pf-${field.id}`;
     const value = values[field.id];
     if (field.kind === 'toggle') {
-      return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
+      const heroPoint = isHeroPointId(field.id);
+      return <label key={field.id} className={`pf-field pf-field-toggle${heroPoint?' pf-field-hero-toggle':''}`} style={style} title={field.label}>
         <input id={id} type="checkbox" checked={value === true} onChange={event => change(field.id, event.target.checked)} aria-label={field.label} disabled={saving} />
-        <span aria-hidden="true"><Check /></span>
+        <span aria-hidden="true">{!heroPoint && <Check />}</span>
       </label>;
     }
     const shared = {
@@ -132,6 +153,18 @@ export default function PathfinderSheet({
       onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => change(field.id, event.target.value),
       disabled: saving,
     };
+    if (field.kind === 'select') {
+      const options = field.options ?? [];
+      const current = String(value ?? '');
+      const legacy = Boolean(current) && !options.includes(current);
+      return <select key={field.id} id={id} aria-label={field.label} title={field.label}
+        className="pf-field pf-field-text pf-field-select" style={style} value={current}
+        disabled={saving} onChange={event => change(field.id,event.target.value)}>
+        <option value="">—</option>
+        {legacy && <option value={current}>{current}</option>}
+        {options.map(option=><option key={option} value={option}>{option}</option>)}
+      </select>;
+    }
     const narrow = field.w < 40 ? ' pf-field-narrow' : '';
     const tiny = field.w < 20 ? ' pf-field-tiny' : '';
     if (field.kind === 'long') {
@@ -194,6 +227,19 @@ export default function PathfinderSheet({
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
           {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
         </span>
+        <div className="pf-settings-area">
+          <button type="button" className="pf-settings-button" aria-expanded={settingsOpen}
+            aria-controls="pf-settings-options" aria-label="Настройки листа"
+            onClick={()=>setSettingsOpen(current=>!current)}>
+            <Settings2 size={17} /> <span>Настройки</span>
+          </button>
+          {settingsOpen && <div id="pf-settings-options" className="pf-settings-popover" role="group" aria-label="Настройки листа">
+            <label className="pf-settings-option">
+              <input type="checkbox" checked={monochrome} onChange={event=>setMonochrome(event.target.checked)}/>
+              Черно-белый лист
+            </label>
+          </div>}
+        </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
           <Cloud size={16} /> Сохранить
         </button>
@@ -201,7 +247,7 @@ export default function PathfinderSheet({
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
     <div className="pf-sheet-scroll" aria-label="Четыре страницы листа Pathfinder 2e">
-      <div className="pf-sheet-stack">
+      <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
         {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
       </div>
     </div>

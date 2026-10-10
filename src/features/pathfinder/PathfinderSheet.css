@@ -49,3 +49,72 @@
   .pf-sheet-stack { width: 720px; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .pf-editor * { scroll-behavior: auto !important; } }
+
+/* Checked hero points fill the hexagons printed in the PDF, without checkmarks.
+   Other toggle fields continue to render their usual tick. */
+.pf-field-hero-toggle span { position: relative; }
+.pf-field-hero-toggle input:checked + span::before {
+  content: "";
+  position: absolute;
+  inset: 16% 12%;
+  background: #283136;
+  clip-path: polygon(23% 0%,77% 0%,100% 50%,77% 100%,23% 100%,0% 50%);
+}
+.pf-field-hero-toggle input:focus-visible + span { outline: 1px solid #747b78; outline-offset: 1px; }
+
+/* Dropdowns use the same positioning rules as text fields.
+   Preserve the entire stored value, including legacy values outside the configured list. */
+.pf-field-select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: none;
+  text-overflow: ellipsis;
+  min-width: 0;
+  padding-right: 2px;
+}
+.pf-field-select:focus-visible {
+  box-shadow: inset 0 -1px 0 #747b78;
+  outline: none;
+  z-index: 10;
+}
+.pf-field-select option { background: #fff; color: #242a28; }
+
+/* Device-local display preference: it does not alter PDF artwork or character data. */
+.pf-monochrome .pf-sheet-page { filter: grayscale(1); }
+.pf-settings-area { position: relative; z-index: 35; }
+.pf-settings-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid #c9d2cc;
+  border-radius: 8px;
+  background: #fff;
+  color: #46544d;
+  white-space: nowrap;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+.pf-settings-button:hover, .pf-settings-button[aria-expanded="true"] { background: #f1f3f1; }
+.pf-settings-button:focus-visible { outline: 2px solid #68796f; outline-offset: 2px; }
+.pf-settings-popover {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  min-width: 210px;
+  padding: 14px;
+  border: 1px solid #d2d7d2;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px #00000020;
+  background: #fff;
+}
+.pf-settings-option { display:flex; align-items:center; gap: 9px; font-size: 13px; white-space: nowrap; cursor:pointer; }
+.pf-settings-option input { accent-color: #303834; width: 16px; height: 16px; }
+@media (max-width: 760px) {
+  .pf-settings-button span { display: none; }
+  .pf-settings-button { padding: 8px; }
+  .pf-settings-popover { right: 0; }
+}

@@ -5,7 +5,7 @@
 export const PDF_WIDTH = 600.945;
 export const PDF_HEIGHT = 782.362;
 
-export type FieldKind = 'text' | 'long' | 'number' | 'counter' | 'toggle';
+export type FieldKind = 'text' | 'long' | 'number' | 'counter' | 'toggle' | 'select';
 
 export type PathfinderField = {
   id: string;
@@ -17,6 +17,7 @@ export type PathfinderField = {
   h: number;
   kind: FieldKind;
   maxlen?: number;
+  options?: string[];
   min?: number;
   max?: number;
   adjusted?: boolean;
