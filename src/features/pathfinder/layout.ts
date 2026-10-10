@@ -30,6 +30,11 @@ export type PathfinderField = {
   paddingY?: number;
   /** Draw a permanent baseline even when the field is empty. Presentation only. */
   underline?: boolean;
+  /** Appearance of clickable checkbox/toggle overlays; omitted fields retain legacy behavior. */
+  toggleShape?: 'rectangle' | 'square' | 'circle' | 'diamond' | 'hexagon';
+  toggleMode?: 'check' | 'fill';
+  toggleInsetX?: number;
+  toggleInsetY?: number;
 };
 
 /** Small alignment corrections without modifying the authoritative PDF coordinates. */

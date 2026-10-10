@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Check, Cloud, Minus, Plus, Settings2 } from 'lucide-react';
+import { ArrowLeft, Cloud, Minus, Plus, Settings2 } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
-import { isHeroPointId } from './field-options';
+import ToggleVisual from './ToggleVisual';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
@@ -146,10 +146,11 @@ export default function PathfinderSheet({
     const id = `pf-${field.id}`;
     const value = values[field.id];
     if (field.kind === 'toggle') {
-      const heroPoint = isHeroPointId(field.id);
-      return <label key={field.id} className={`pf-field pf-field-toggle${heroPoint?' pf-field-hero-toggle':''}`} style={style} title={field.label}>
-        <input id={id} type="checkbox" checked={value === true} onChange={event => change(field.id, event.target.checked)} aria-label={field.label} disabled={saving} />
-        <span aria-hidden="true">{!heroPoint && <Check />}</span>
+      return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
+        <input id={id} type="checkbox" checked={value === true}
+          onChange={event => change(field.id, event.target.checked)}
+          aria-label={field.label} disabled={saving} />
+        <ToggleVisual field={field} checked={value === true}/>
       </label>;
     }
     const shared = {

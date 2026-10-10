@@ -2,6 +2,7 @@ import baseFields from './fields.json';
 import { fieldBox } from './layout';
 import type { PathfinderField } from './layout';
 import { PF2E_SIZE_OPTIONS, validOptions } from './field-options';
+import { TOGGLE_MODES, TOGGLE_SHAPES } from './toggle-shapes';
 
 export type EditableField = PathfinderField & {
   adjusted?: boolean;
@@ -44,7 +45,11 @@ export function validFields(value: unknown): value is EditableField[] {
       (a.color === undefined || /^#[0-9a-fA-F]{6}$/.test(a.color)) &&
       (a.paddingX === undefined || (a.paddingX >= 0 && a.paddingX <= 20)) &&
       (a.paddingY === undefined || (a.paddingY >= 0 && a.paddingY <= 20)) &&
-      (a.underline === undefined || typeof a.underline === 'boolean');
+      (a.underline === undefined || typeof a.underline === 'boolean') &&
+      (a.toggleShape === undefined || (a.kind === 'toggle' && TOGGLE_SHAPES.includes(a.toggleShape))) &&
+      (a.toggleMode === undefined || (a.kind === 'toggle' && TOGGLE_MODES.includes(a.toggleMode))) &&
+      (a.toggleInsetX === undefined || (a.kind === 'toggle' && Number.isFinite(a.toggleInsetX) && a.toggleInsetX >= 0 && a.toggleInsetX <= 40)) &&
+      (a.toggleInsetY === undefined || (a.kind === 'toggle' && Number.isFinite(a.toggleInsetY) && a.toggleInsetY >= 0 && a.toggleInsetY <= 40));
   });
 }
 export function cloneFields(fields: EditableField[]): EditableField[] {

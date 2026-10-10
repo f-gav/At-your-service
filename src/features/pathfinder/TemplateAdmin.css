@@ -82,3 +82,14 @@
 .ta-field .ta-preview-control.pf-field-text {margin:0;}
 .ta-field .ta-toggle-preview {display:flex;align-items:center;justify-content:center;height:100%;}
 .ta-field.ta-with-sample>.ta-preview-control {opacity:1;}
+
+/* Override an old generic span rule: the shape renderer must keep its flex box. */
+.ta-field > .pf-toggle-visual {
+  display:flex;
+  width:100%;
+  height:100%;
+  opacity:1;
+  overflow:visible;
+  align-items:center;
+  justify-content:center;
+}

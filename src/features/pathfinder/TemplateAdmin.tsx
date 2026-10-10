@@ -5,6 +5,8 @@ import {PDF_WIDTH,PDF_HEIGHT} from './layout';
 import {DEFAULT_FIELDS,validFields,cloneFields,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
 import type {EditableField} from './editor-schema';
 import { DEFAULT_SELECT_OPTIONS, PF2E_SIZE_OPTIONS, parseOptions } from './field-options';
+import ToggleVisual from './ToggleVisual';
+import { toggleAppearance } from './toggle-shapes';
 import './PathfinderSheet.css';
 import './TemplateAdmin.css';
 type Change=Partial<EditableField>;
@@ -119,7 +121,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         ? (100*(f.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(f.paddingX??2)/PDF_WIDTH)+'cqw'
         :undefined,
     };
-    if(f.kind==='toggle')return <span className="ta-toggle-preview" aria-hidden="true">✓</span>;
+    if(f.kind==='toggle')return <ToggleVisual field={f} checked={samples[f.id]==='true'} editorGuide={!preview}/>;
     if(f.kind==='long')return <textarea aria-label={f.label} readOnly tabIndex={-1}
       className={'ta-preview-control '+className+' pf-field-long'} style={style} value={value}/>;
     if(f.kind==='select')return <select aria-label={f.label} tabIndex={-1}
@@ -162,7 +164,12 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         <label>Выбрать поле<select value={selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
         {active?<div className="ta-form">
           <small>ID: {active.id}</small>
-          {active.kind==='select'
+          {active.kind==='toggle'
+            ? <label className="ta-toggle-setting"><input type="checkbox"
+                checked={samples[active.id]==='true'}
+                onChange={e=>setSamples(old=>({...old,[active.id]:e.target.checked?'true':'false'}))}/>
+                Пробное нажатие (не сохраняется)</label>
+            : active.kind==='select'
             ? <label>Пример только для предпросмотра<select value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}>
                 <option value="">— Выбери вариант —</option>
                 {(active.options??[]).map(value=><option key={value} value={value}>{value}</option>)}
@@ -180,6 +187,42 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
               value={(active.options??[]).join('\n')} onChange={e=>update(active.id,{options:parseOptions(e.target.value)})}/>
             <small>От 1 до 60 уникальных вариантов, до 100 символов каждый. Публикация не меняет уже сохранённые значения персонажей.</small>
           </label>}
+          {active.kind==='toggle' && <>
+            <label>Форма нажимной кнопки
+              <select value={toggleAppearance(active).shape}
+                onChange={e=>update(active.id,{toggleShape:e.target.value as EditableField['toggleShape']})}>
+                <option value="square">Квадрат</option>
+                <option value="rectangle">Прямоугольник</option>
+                <option value="circle">Круг</option>
+                <option value="diamond">Ромб</option>
+                <option value="hexagon">Шестиугольник</option>
+              </select>
+            </label>
+            <label>Вид нажатия
+              <select value={toggleAppearance(active).mode}
+                onChange={e=>update(active.id,{toggleMode:e.target.value as EditableField['toggleMode']})}>
+                <option value="fill">Закрасить фигуру</option>
+                <option value="check">Поставить галочку</option>
+              </select>
+            </label>
+            <div className="ta-cols2">
+              <label>Отступ внутри X, %<input type="number" min="0" max="40" step="1"
+                value={toggleAppearance(active).insetX}
+                onChange={e=>update(active.id,{toggleInsetX:Number(e.target.value)})}/></label>
+              <label>Отступ внутри Y, %<input type="number" min="0" max="40" step="1"
+                value={toggleAppearance(active).insetY}
+                onChange={e=>update(active.id,{toggleInsetY:Number(e.target.value)})}/></label>
+            </div>
+            <small>Перемещай кнопку по PDF мышью и меняй W/H за угол. В предпросмотре подсветка выключена; пример нажатия задаётся выше. Для круга и квадрата выбери одинаковые W и H.</small>
+            <div className="ta-toggle-sizes">
+              <span>Быстрый размер:</span>
+              {[7,10,15,20].map(n=><button key={n} type="button" onClick={()=>{
+                const x=Math.max(0,Math.min(PDF_WIDTH-n,active.x+(active.w-n)/2));
+                const y=Math.max(0,Math.min(PDF_HEIGHT-n,active.y+(active.h-n)/2));
+                update(active.id,{x:Math.round(x*10)/10,y:Math.round(y*10)/10,w:n,h:n});
+              }}>{n} × {n}</button>)}
+            </div>
+          </>}
           <div className="ta-cols4">{(['x','y','w','h'] as const).map(k=><label key={k}>{k.toUpperCase()}<input type="number" step=".5" value={active[k]} onChange={e=>prop(k,Number(e.target.value))}/></label>)}</div>
           <label>Шрифт<select value={active.fontFamily||'Arial'} onChange={e=>prop('fontFamily',e.target.value)}>{['Arial','Georgia','Verdana','Times New Roman','Courier New'].map(font=><option key={font}>{font}</option>)}</select></label>
           <div className="ta-cols2"><label>Размер (pt)<input type="number" min="5" max="40" step=".5" value={active.fontSize??12} onChange={e=>prop('fontSize',Number(e.target.value))}/></label><label>Жирность<select value={active.fontWeight??500} onChange={e=>prop('fontWeight',Number(e.target.value))}>{[400,500,600,700,800].map(w=><option key={w} value={w}>{w}</option>)}</select></label></div>
