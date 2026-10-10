@@ -15,6 +15,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   const [fields,setFields]=useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
   const [page,setPage]=useState(1),[selected,setSelected]=useState('');
   const [preview,setPreview]=useState(false),[zoom,setZoom]=useState(960),[grid,setGrid]=useState(false);
+  const [zoomInput,setZoomInput]=useState('960');
   const [samples,setSamples]=useState<Record<string,string>>({});
   const [dirty,setDirty]=useState(false),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[status,setStatus]=useState('');
   const [version,setVersion]=useState(0),[versions,setVersions]=useState<number[]>([]),[restore,setRestore]=useState('');
@@ -39,7 +40,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       setFields(upgraded);
       if(upgraded.length!==schema.length) setDirty(true);
       setVersion(published.data?.version||0);
-      setVersions((history.data||[]).map(item=>item.version));setStatus('Шаблон загружен. Новые текстовые поля брони и щита можно настроить и опубликовать.');
+      setVersions((history.data||[]).map(item=>item.version));setStatus('Шаблон загружен. Числовое поле щита и КД можно настроить и опубликовать.');
     });
     return()=>{mounted=false;};
   },[]);
@@ -138,6 +139,15 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       className={'ta-preview-control '+className} style={style} value={value}/>;
   };
   const prop=(key:keyof EditableField,value:string|number)=>active&&update(active.id,{[key]:value});
+  const changeZoom=(raw:string)=>{
+    setZoomInput(raw);
+    const n=Number(raw);
+    if(raw.trim() && Number.isFinite(n) && n>=600 && n<=2600)setZoom(n);
+  };
+  const finishZoom=()=>{
+    const n=Math.max(600,Math.min(2600,Number(zoomInput)||960));
+    setZoom(n);setZoomInput(String(n));
+  };
   return <main className="page ta-editor">
     <div className="ta-top">
       <button onClick={()=>{if(!dirty||confirm('Выйти без сохранения изменений?'))onClose();}}>← К персонажам</button>
@@ -151,9 +161,9 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <button disabled={!redo.length} onClick={redoOnce}>↷ Повтор</button>
       <button onClick={()=>setPreview(!preview)}>{preview?'Правка':'Предпросмотр'}</button>
       <label>Масштаб
-        <input type="range" min="600" max="2600" step="20" value={zoom} onChange={e=>setZoom(Number(e.target.value))}/>
-        <input className="ta-zoom-value" type="number" min="600" max="2600" step="20" value={zoom}
-          aria-label="Масштаб в пикселях" onChange={e=>setZoom(Math.max(600,Math.min(2600,Number(e.target.value)||600)))}/>
+        <input type="range" min="600" max="2600" step="20" value={zoom} onChange={e=>{setZoom(Number(e.target.value));setZoomInput(e.target.value);}}/>
+        <input className="ta-zoom-value" type="number" min="600" max="2600" step="20" value={zoomInput}
+          aria-label="Масштаб в пикселях" onChange={e=>changeZoom(e.target.value)} onBlur={finishZoom} onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}}/>
       </label>
       <label><input type="checkbox" checked={grid} onChange={e=>setGrid(e.target.checked)}/>Привязка 1pt</label>
     </div>
