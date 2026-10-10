@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { calculateCombat, isCombatComputedField, weaponResult, applyShieldBlock,
-  shieldIsBroken, shieldBrokenThreshold } from '../src/features/pathfinder/rules-combat.ts';
+  shieldIsBroken, shieldBrokenThreshold, calculateNativeCombat, isNativeCombatComputedField } from '../src/features/pathfinder/rules-combat.ts';
 import { persistSheetValues,initialSheetValues } from '../src/features/pathfinder/sheet-values.ts';
 
 const baseline = {
@@ -86,9 +86,14 @@ assert.equal(restored.hp_current,'11');
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const ui=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const panel=read('../src/features/pathfinder/CombatPanel.tsx');
-assert.match(ui,/calculateCombat\(values\)/);
-assert.match(ui,/isCombatComputedField\(values,key\)/);
-assert.match(ui,/onMultiple=\{replaceCombatValues\}/);
+assert.match(ui,/calculateNativeCombat\(values\)/);
+assert.match(ui,/isNativeCombatComputedField\(key\)/);
+assert.doesNotMatch(ui,/CombatPanel|pf-combat-panel|combatOpen/);
 assert.match(panel,/applyShieldBlock\(v,d\)/);
 assert.match(panel,/combat_weapon_/);
 console.log('PF2e combat patch: AC/dex cap/armor ranks/shield, HP and 5 weapons, block reaction, JSON v1.');
+
+assert.deepEqual(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'1',shield_max_hp:'19'}),{armor_class:'16',shield_broken:'9'});
+assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'3',armor_item:'1'}).armor_class,undefined);
+assert.equal(isNativeCombatComputedField('armor_class'),true);
+assert.equal(isNativeCombatComputedField('armor_dex'),false);
