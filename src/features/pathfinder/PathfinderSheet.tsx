@@ -7,10 +7,11 @@ import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields } from './editor-schema';
+import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
-import { calculateNativeCombat, isNativeCombatComputedField } from './rules-combat';
+import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
@@ -50,7 +51,7 @@ export default function PathfinderSheet({
     if(!supabase)return;
     let active=true;
     void supabase.from('sheet_templates').select('fields').eq('template_key','pf2e').maybeSingle().then(({data,error})=>{
-      if(active && !error && validFields(data?.fields)) setTemplateFields(withEquipmentNumberFields(cloneFields(data.fields)));
+      if(active && !error && validFields(data?.fields)) setTemplateFields(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields))));
     });
     return()=>{active=false;};
   },[]);
@@ -66,7 +67,8 @@ export default function PathfinderSheet({
   const computed = useMemo<Record<string,string>>(() => {
     const combat = calculateNativeCombat(values);
     return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
-      : (combat.armor_class === undefined ? {} : { armor_class: combat.armor_class });
+      : Object.fromEntries(Object.entries(combat).filter(([id]) =>
+          id === 'armor_class' || isNativeWeaponAttackField(id)));
   }, [automatic, values]);
   const displayValues = useMemo(() => ({ ...values, ...computed }), [values, computed]);
   function setAutomatic(enabled: boolean) {
@@ -106,6 +108,18 @@ export default function PathfinderSheet({
   }, [dirty]);
 
   function change(id: string, value: FieldValue) {
+    const mark=/^weapon_([1-5])_damage_(bludgeoning|piercing|slashing)$/.exec(id);
+    if (mark && value === true) {
+      // The printed D/K/R circles describe the selected damage type of this
+      // Strike. A versatile weapon can switch before the next Strike.
+      setValues(previous=>{
+        const next={...previous};
+        for (const type of ['bludgeoning','piercing','slashing'])
+          next['weapon_'+mark[1]+'_damage_'+type]=type===mark[2];
+        return next;
+      });
+      return;
+    }
     setValues(previous => previous[id] === value ? previous : { ...previous, [id]: value });
   }
 
@@ -125,7 +139,7 @@ export default function PathfinderSheet({
     // remain meaningful outside the live rule engine. Source fields are never overwritten.
     const toStore = { ...values };
     for (const key of Object.keys(toStore)) {
-      if ((key === 'armor_class' || (automatic && (isCoreComputedField(key) || isNativeCombatComputedField(key))))
+      if ((key === 'armor_class' || (automatic && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
         && !(key in computed)) toStore[key] = '';
     }
     Object.assign(toStore, computed);
@@ -176,7 +190,7 @@ export default function PathfinderSheet({
         rank={readRank(values[field.id]) ?? 0} style={style}
         disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
     }
-    const computedField = field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
+    const computedField = field.id === 'armor_class' || isNativeWeaponAttackField(field.id) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style}>
         <input id={id} type="checkbox" checked={value === true}
