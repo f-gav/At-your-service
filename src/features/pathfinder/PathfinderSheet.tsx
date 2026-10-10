@@ -11,6 +11,7 @@ import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import { calculateNativeCombat, isNativeCombatComputedField } from './rules-combat';
+import { formulaDisplayValue } from './formula-display';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import PortraitImage from '../portrait/PortraitImage';
@@ -92,6 +93,7 @@ export default function PathfinderSheet({
     document.addEventListener('keydown',closeEsc);
     return()=>{document.removeEventListener('pointerdown',closeOutside);document.removeEventListener('keydown',closeEsc);};
   }, [settingsOpen]);
+  const [focusedFormulaField,setFocusedFormulaField] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const dirty = JSON.stringify(values) !== savedSnapshot;
@@ -176,7 +178,7 @@ export default function PathfinderSheet({
     }
     const computedField = field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
-      return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
+      return <label key={field.id} className="pf-field pf-field-toggle" style={style}>
         <input id={id} type="checkbox" checked={value === true}
           onChange={event => change(field.id, event.target.checked)}
           aria-label={field.label} disabled={saving} />
@@ -186,7 +188,6 @@ export default function PathfinderSheet({
     const shared = {
       id,
       'aria-label': field.label,
-      title: field.label,
       value: String(value ?? ''),
       maxLength: field.maxlen,
       onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -199,7 +200,7 @@ export default function PathfinderSheet({
       const options = field.options ?? [];
       const current = String(value ?? '');
       const legacy = Boolean(current) && !options.includes(current);
-      return <select key={field.id} id={id} aria-label={field.label} title={field.label}
+      return <select key={field.id} id={id} aria-label={field.label}
         className={`pf-field pf-field-text pf-field-select${field.underline ? " pf-field-underline" : ""}`} style={style} value={current}
         disabled={saving} onChange={event => change(field.id,event.target.value)}>
         <option value="">—</option>
@@ -218,6 +219,9 @@ export default function PathfinderSheet({
       className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
+      value={formulaDisplayValue(field.id, String(value ?? ''), !computedField && focusedFormulaField === field.id)}
+      onFocus={() => setFocusedFormulaField(field.id)}
+      onBlur={() => setFocusedFormulaField(current => current === field.id ? null : current)}
       type="text"
       inputMode={numeric && !computedField && !/^weapon_[1-5]_damage$/.test(field.id) ? 'numeric' : 'text'}
       aria-description={computedField ? 'Автоматический расчёт — исходные параметры изменяются непосредственно в соседних полях листа' : undefined}
@@ -238,7 +242,7 @@ export default function PathfinderSheet({
         draggable={false}
       />
       {page===3 && <button type="button" className="pf-portrait-button"
-        title="Нажми, чтобы добавить или сменить портрет" aria-label="Загрузить или сменить портрет персонажа"
+        aria-label="Загрузить или сменить портрет персонажа"
         onClick={onEditPortrait}>
           <PortraitImage url={portraitUrl || `${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`}
             frame={portraitUrl?portraitFrame:undefined} />
@@ -254,9 +258,6 @@ export default function PathfinderSheet({
       </button>
       <div className="pf-toolbar-heading">
         <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
-        <span className="pf-rules-label" title="Режим можно изменить в настройках листа">
-          {automatic ? 'Расчёты: авто' : 'Расчёты: вручную'}
-        </span>
       </div>
       <div className="pf-toolbar-right">
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">

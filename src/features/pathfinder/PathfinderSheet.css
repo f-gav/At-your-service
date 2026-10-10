@@ -1,7 +1,7 @@
 /* Pathfinder is an isolated feature: artwork, field coordinates and rules remain independent. */
 .pf-editor { padding-top: 15px; padding-bottom: 50px; }
-.pf-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 16px; row-gap: 9px; margin-bottom: 18px; }
-.pf-toolbar-heading { grid-column: 2; display: flex; align-items: baseline; justify-content: center; gap: 12px; min-width: 0; white-space: nowrap; }
+.pf-toolbar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 16px; row-gap: 9px; margin-bottom: 18px; }
+.pf-toolbar-heading { grid-column: 2; display: flex; align-items: baseline; justify-content: flex-start; justify-self: start; min-width: 0; white-space: nowrap; }
 .pf-toolbar > .text-button { justify-self: start; }
 .pf-minimal-title { margin: 0; color: #303534; font-size: 15px; line-height: 1.4; font-weight: 600; white-space: nowrap; }
 .pf-toolbar-right { display: flex; align-items: center; justify-self: end; gap: 12px; min-width: 0; }
@@ -37,7 +37,7 @@
 }
 @media (max-width: 1120px) {
   .pf-toolbar { grid-template-columns: minmax(0, 1fr) auto; }
-  .pf-toolbar-heading { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
+  .pf-toolbar-heading { grid-column: 1 / -1; grid-row: 2; justify-self: start; }
   .pf-toolbar-right { grid-column: 2; grid-row: 1; }
 }
 @media (max-width: 760px) {
@@ -206,8 +206,6 @@
   min-width:2px;min-height:2px;background:#242d2b;border-radius:1px;
 }
 .pf-field-text[readonly] {cursor:default;}
-.pf-rules-label {font-size:11px;color:#7a8981;white-space:nowrap;}
-@media(max-width:640px){.pf-rules-label{font-size:10px;}}
 
 .pf-combat-open-button{background:#f3f6f3;border-color:#c3d0c5;}
 .pf-combat-open-button[aria-expanded="true"]{background:#e9f0e9;color:#315640;}
