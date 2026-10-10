@@ -3,6 +3,7 @@ import { fieldBox } from './layout';
 import type { PathfinderField } from './layout';
 import { PF2E_SIZE_OPTIONS, validOptions } from './field-options';
 import { TOGGLE_MODES, TOGGLE_SHAPES } from './toggle-shapes';
+import { withWeaponSheetFields } from './weapon-fields';
 
 export type EditableField = PathfinderField & {
   adjusted?: boolean;
@@ -45,12 +46,12 @@ export function withEquipmentNumberFields(fields: EditableField[]): EditableFiel
   return [...retained, ...EQUIPMENT_NUMBER_FIELDS.filter(f => !existing.has(f.id)).map(f => ({...f}))];
 }
 
-export const DEFAULT_FIELDS: EditableField[] = withEquipmentNumberFields(
+export const DEFAULT_FIELDS: EditableField[] = withWeaponSheetFields(withEquipmentNumberFields(
   (baseFields as PathfinderField[]).map(f => ({
     ...f, ...fieldBox(f), adjusted: true,
     ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
   })),
-);
+));
 const types = ['text','long','number','counter','toggle','select'];
 const fonts = ['Arial','Georgia','Verdana','Times New Roman','Courier New'];
 
