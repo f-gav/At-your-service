@@ -87,7 +87,7 @@ const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const ui=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const panel=read('../src/features/pathfinder/CombatPanel.tsx');
 assert.match(ui,/calculateNativeCombat\(values\)/);
-assert.match(ui,/isNativeCombatComputedField\(key\)/);
+assert.match(ui,/isNativeCombatComputedField\(key, values\)/);
 assert.doesNotMatch(ui,/CombatPanel|pf-combat-panel|combatOpen/);
 assert.match(panel,/applyShieldBlock\(v,d\)/);
 assert.match(panel,/combat_weapon_/);
@@ -97,3 +97,33 @@ assert.deepEqual(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:
 assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'3',armor_item:'1'}).armor_class,undefined);
 assert.equal(isNativeCombatComputedField('armor_class'),true);
 assert.equal(isNativeCombatComputedField('armor_dex'),false);
+
+const armorEditor = {
+  ...baseline, level:'4', ability_str:'2', ability_dex:'4',
+  combat_armor_enabled:'true', combat_armor_category:'2',
+  combat_armor_name:'Кольчуга', combat_armor_dex_cap:'1',
+  combat_armor_item_bonus:'4', combat_armor_other_ac:'1',
+  armor_rank_2:'2', combat_armor_skill_penalty_enabled:'true',
+  combat_armor_check_penalty:'2', combat_armor_strength_requirement:'3'
+};
+const equipped = calculateNativeCombat(armorEditor);
+assert.equal(equipped.armor_class,'24'); // 10+1 Dex+8 expert+4 armor+1 other
+assert.equal(equipped.armor_dex,'+1');
+assert.equal(equipped.armor_prof,'+8');
+assert.equal(equipped.armor_item,'+4');
+assert.equal(equipped.skill_acrobatics_armor,'-2');
+assert.equal(equipped.skill_athletics_armor,'-2');
+assert.equal(calculateNativeCombat({...armorEditor,ability_str:'3'}).skill_stealth_armor,'0');
+assert.equal(calculateNativeCombat({...armorEditor,combat_armor_category:'0',combat_armor_dex_cap:''}).armor_dex,'+4');
+assert.equal(calculateNativeCombat({...armorEditor,combat_armor_category:'2',combat_armor_dex_cap:''}).armor_class,undefined);
+assert.equal(isNativeCombatComputedField('armor_dex',armorEditor),true);
+assert.equal(isNativeCombatComputedField('skill_stealth_armor',armorEditor),true);
+assert.equal(isNativeCombatComputedField('skill_stealth_armor',{...armorEditor,combat_armor_skill_penalty_enabled:'false'}),false);
+assert.equal(isNativeCombatComputedField('armor_dex',{...armorEditor,combat_armor_enabled:'false'}),false);
+assert.equal(calculateNativeCombat({...baseline,armor_dex:'2',armor_prof:'3',armor_item:'1',combat_armor_enabled:'false'}).armor_class,'16');
+const equipmentUI=read('../src/features/pathfinder/EquipmentPopover.tsx');
+assert.match(equipmentUI,/combat_armor_dex_cap/);
+assert.match(equipmentUI,/combat_armor_strength_requirement/);
+assert.match(equipmentUI,/combat_shield_notes/);
+assert.match(ui,/pf-armor-trigger/);
+assert.match(ui,/pf-shield-trigger/);
