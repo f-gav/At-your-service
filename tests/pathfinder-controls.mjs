@@ -43,6 +43,12 @@ assert.match(sheetSource, /pf-monochrome/);
 assert.match(adminSource, /Выпадающее меню/);
 assert.match(adminSource, /parseOptions\(e.target.value\)/);
 assert.match(styles, /pf-toggle-visual\[data-mode="fill"\]\[data-checked="true"\]/);
+assert.match(styles, /\.pf-field-toggle > \.pf-toggle-visual/);
+assert.match(styles, /\.pf-field-toggle > \.pf-toggle-visual svg/);
+assert.doesNotMatch(styles, /\.pf-field-toggle span\s*\{/);
+assert.match(styles, /\.pf-toggle-visual \.pf-toggle-fill-shape/);
+assert.match(styles, /\.pf-field-toggle > input/);
+
 assert.match(homeSource, /: 'VTM'/);
 const layoutSource=read('../src/features/pathfinder/layout.ts');
 const adminCss=read('../src/features/pathfinder/TemplateAdmin.css');
