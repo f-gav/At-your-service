@@ -41,7 +41,8 @@ export function withWeaponSheetFields(fields:EditableField[]):EditableField[] {
     const y=ROWS[Number(match[1])-1];
     if(f.page===1 && f.x>=425 && f.x<=442 && Math.abs(f.y-y)<=3) {
       return {...f,x:397.0,y:y-1.3,w:23.5,h:15.7,
-        fontSize:f.fontSize??12,fontWeight:f.fontWeight??700,textAlign:'center' as const,
+        fontSize:!f.fontSize || f.fontSize<=8.5 ? 13 : f.fontSize,
+        fontWeight:f.fontWeight??700,textAlign:'center' as const,
         paddingX:0,paddingY:0};
     }
     return f;
