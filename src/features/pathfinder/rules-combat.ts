@@ -160,67 +160,31 @@ export function applyShieldBlock(v: SheetValues, damage: number): SheetValues {
 
 
 /**
- * Calculate the on-sheet armor values from the contextual armor editor when
- * the player has explicitly equipped an armor category. Never infer the
- * category, Dex cap or check penalty from a free-text item name.
+ * The printed PF2e AC strip is the only source of AC:
+ * 10 (printed) + manually entered Dexterity + Proficiency + Item.
+ * The old armor-menu settings remain in saved JSON for compatibility but
+ * cannot overwrite any of these three editable PDF cells.
  *
- * Without a configured suit, keep backward-compatible editing of the native
- * PDF's applied Dex, proficiency and item cells.
+ * Empty cells count as zero. A non-empty invalid number leaves the computed
+ * total blank rather than pretending it was zero.
  */
-export function nativeArmorIsEquipped(v: SheetValues): boolean {
-  const category = n(v,'combat_armor_category');
-  return flag(v,'combat_armor_enabled')
-    && integer(category) && category! >= 0 && category! < ARMOR_CATEGORIES.length;
-}
-
 export function calculateNativeCombat(v: SheetValues): Record<string,string> {
   const result: Record<string,string> = {};
-  if (nativeArmorIsEquipped(v)) {
-    const level=isLevel(v.level);
-    const dex=n(v,'ability_dex');
-    const category=n(v,'combat_armor_category')!;
-    const cap=n(v,'combat_armor_dex_cap');
-    if (level !== undefined && dex !== undefined && (category === 0 || cap !== undefined)) {
-      const usedDex=category === 0 || cap === undefined ? dex : Math.min(dex,cap);
-      const proficiency=proficiencyBonus(level,readRank(v['armor_rank_'+category]) ?? 0);
-      const item=n(v,'combat_armor_item_bonus') ?? 0;
-      const other=n(v,'combat_armor_other_ac') ?? 0;
-      add(result,'armor_dex',usedDex);
-      add(result,'armor_prof',proficiency);
-      add(result,'armor_item',item);
-      add(result,'armor_class',10+usedDex+proficiency+item+other,true);
-    }
-    if (flag(v,'combat_armor_skill_penalty_enabled')) {
-      const str=n(v,'ability_str');
-      const checkPenalty=n(v,'combat_armor_check_penalty');
-      const requirement=n(v,'combat_armor_strength_requirement');
-      // No armor or a zero penalty needs no separate Strength requirement.
-      if (category === 0 || checkPenalty === 0
-          || (str !== undefined && checkPenalty !== undefined && requirement !== undefined)) {
-        const amount=category === 0 || checkPenalty === 0 || str! >= requirement!
-          ? 0 : Math.abs(checkPenalty!);
-        for (const skill of ['acrobatics','athletics','stealth','thievery']) {
-          add(result,'skill_'+skill+'_armor',-amount);
-        }
-      }
-    }
-  } else {
-    const dex=n(v,'armor_dex');
-    const prof=n(v,'armor_prof');
-    const item=n(v,'armor_item');
-    if (dex !== undefined && prof !== undefined && item !== undefined) {
-      add(result,'armor_class',10+dex+prof+item,true);
-    }
+  const component=(id:string):number|undefined => {
+    const raw=String(v[id]??'').trim();
+    return raw==='' ? 0 : n(v,id);
+  };
+  const dex=component('armor_dex');
+  const prof=component('armor_prof');
+  const item=component('armor_item');
+  if (dex!==undefined && prof!==undefined && item!==undefined) {
+    add(result,'armor_class',10+dex+prof+item,true);
   }
   const threshold=shieldBrokenThreshold(n(v,'shield_max_hp'));
-  if (threshold !== undefined) add(result,'shield_broken',threshold,true);
+  if (threshold!==undefined) add(result,'shield_broken',threshold,true);
   return result;
 }
 
-export function isNativeCombatComputedField(id:string, v?:SheetValues): boolean {
-  if (id === 'armor_class' || id === 'shield_broken') return true;
-  if (!v || !nativeArmorIsEquipped(v)) return false;
-  if (['armor_dex','armor_prof','armor_item'].includes(id)) return true;
-  return flag(v,'combat_armor_skill_penalty_enabled')
-    && /^skill_(acrobatics|athletics|stealth|thievery)_armor$/.test(id);
+export function isNativeCombatComputedField(id:string): boolean {
+  return id==='armor_class' || id==='shield_broken';
 }
