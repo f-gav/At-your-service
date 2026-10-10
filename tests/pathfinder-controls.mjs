@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { PF2E_SIZE_OPTIONS, parseOptions, validOptions, isHeroPointId } from '../src/features/pathfinder/field-options.ts';
 import { initialSheetValues, persistSheetValues } from '../src/features/pathfinder/sheet-values.ts';
+import { formulaDisplayValue, isFormulaOperandField } from '../src/features/pathfinder/formula-display.ts';
 
 const read = name => fs.readFileSync(new URL(name, import.meta.url), 'utf8');
 assert.deepEqual([...PF2E_SIZE_OPTIONS], ['Крошечный','Маленький','Средний','Большой','Огромный','Исполинский']);
@@ -97,4 +98,30 @@ assert.match(schemaSource,/a.fontStyle === undefined/);
 assert.match(schemaSource,/a.textUnderline === undefined/);
 assert.match(adminCss,/\.ta-page-nav/);
 assert.match(adminCss,/\.ta-text-style/);
+
+for(const id of [
+  'save_fort_ability','save_reflex_prof','save_will_item',
+  'skill_athletics_ability','skill_stealth_armor','skill_performance_prof',
+  'perception_ability','perception_item','armor_dex','armor_prof','armor_item',
+  'spell_attack_key','spell_dc_item','class_dc_key'
+]) {
+  assert.ok(isFormulaOperandField(id),id+' must be a formula operand');
+  assert.equal(formulaDisplayValue(id,'+2'),'2',id+' omits printed plus twice');
+  assert.equal(formulaDisplayValue(id,'-2'),'2',id+' omits leading minus in view');
+  assert.equal(formulaDisplayValue(id,'-2',true),'-2',id+' keeps sign during edits');
+}
+for(const id of ['ability_dex','save_fort','skill_performance_total','armor_class','weapon_1_attack']) {
+  assert.equal(isFormulaOperandField(id),false,id+' is a standalone value');
+  assert.equal(formulaDisplayValue(id,'+3'),'+3',id+' is unchanged');
+}
+assert.equal(formulaDisplayValue('save_will_prof','0'),'0');
+assert.equal(formulaDisplayValue('save_will_prof','text'),'text');
+assert.doesNotMatch(sheetSource, /title=\{field.label\}|title: field.label|pf-rules-label/);
+assert.doesNotMatch(read('../src/features/pathfinder/RankSelect.tsx'),/title=\{/);
+assert.match(sheetSource,/formulaDisplayValue\(field.id/);
+assert.match(sheetSource,/focusedFormulaField === field.id/);
+assert.match(sheetSource,/h1 className="pf-minimal-title"/);
+assert.match(styles,/grid-template-columns:\s*auto minmax\(0, 1fr\) auto/);
+assert.match(styles,/pf-toolbar-heading\s*\{[^}]*justify-self:\s*start/s);
+
 console.log('PF2e controls: dropdowns, hero points, permanent underline, portrait framing and JSON compatibility.');
