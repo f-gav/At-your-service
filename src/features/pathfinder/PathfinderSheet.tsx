@@ -11,6 +11,7 @@ import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import { calculateNativeCombat, isNativeCombatComputedField } from './rules-combat';
+import EquipmentPopover from './EquipmentPopover';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import PortraitImage from '../portrait/PortraitImage';
@@ -63,7 +64,7 @@ export default function PathfinderSheet({
   const computed = useMemo(() => {
     if (!automatic) return {};
     const combat = calculateNativeCombat(values);
-    return { ...calculateCore(values), ...combat };
+    return { ...calculateCore({ ...values, ...combat }), ...combat };
   }, [automatic, values]);
   const displayValues = useMemo(() => automatic
     ? { ...values, ...computed }
@@ -72,6 +73,24 @@ export default function PathfinderSheet({
     if (enabled && !window.confirm('Включить автоматические расчёты PF2e? Они изменят итоги навыков, спасбросков, Восприятия, порог поломки щита и КД, если все его составляющие введены в поля листа. Ручные итоги заменятся формулами, а исходные значения сохранятся.')) return;
     setValues(prev => ({ ...prev, rulesMode: enabled ? 'auto' : 'manual' }));
   }
+  const [equipmentOpen, setEquipmentOpen] = useState<'armor'|'shield'|null>(null);
+  useEffect(() => {
+    if (!equipmentOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (event.target instanceof Element && !event.target.closest('[data-pf-equipment]')) {
+        setEquipmentOpen(null);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setEquipmentOpen(null);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [equipmentOpen]);
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [monochrome,setMonochrome] = useState<boolean>(() => {
@@ -124,7 +143,7 @@ export default function PathfinderSheet({
     const toStore = { ...values };
     if (automatic) {
       for (const key of Object.keys(toStore)) {
-        if ((isCoreComputedField(key) || isNativeCombatComputedField(key)) && !(key in computed)) toStore[key] = '';
+        if ((isCoreComputedField(key) || isNativeCombatComputedField(key, values)) && !(key in computed)) toStore[key] = '';
       }
       Object.assign(toStore, computed);
     }
@@ -166,7 +185,7 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)) && !(field.id in computed)
+    const value = automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id, values)) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
@@ -214,7 +233,7 @@ export default function PathfinderSheet({
     const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
       key={field.id}
-      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
+      className={`pf-field pf-field-text${field.id === 'armor_class' && !automatic ? ' pf-field-manual-ac' : ''}${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
       type="text"
@@ -243,6 +262,25 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
+      {page === 1 && <>
+        <button id="pf-armor-trigger" type="button" data-pf-equipment
+          className="pf-equipment-hotspot pf-armor-hotspot"
+          aria-label="Настроить надетую броню" title="Настроить надетую броню"
+          aria-haspopup="dialog" aria-expanded={equipmentOpen === 'armor'}
+          disabled={saving} onClick={() => setEquipmentOpen(current => current === 'armor' ? null : 'armor')} />
+        <button id="pf-shield-trigger" type="button" data-pf-equipment
+          className="pf-equipment-hotspot pf-shield-hotspot"
+          aria-label="Заметки о щите" title="Заметки о щите"
+          aria-haspopup="dialog" aria-expanded={equipmentOpen === 'shield'}
+          disabled={saving} onClick={() => setEquipmentOpen(current => current === 'shield' ? null : 'shield')} />
+        {equipmentOpen && <EquipmentPopover kind={equipmentOpen} values={values}
+          automatic={automatic} disabled={saving} onChange={change}
+          onClose={() => {
+            const trigger = equipmentOpen === 'armor' ? 'pf-armor-trigger' : 'pf-shield-trigger';
+            setEquipmentOpen(null);
+            document.getElementById(trigger)?.focus();
+          }} />}
+      </>}
     </section>;
   }
 
@@ -276,7 +314,7 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={automatic} onChange={event=>setAutomatic(event.target.checked)}/>
               Автоматические расчёты
             </label>
-            <p className="pf-settings-note">Расчёты выполняются прямо в полях PDF: навыки, спасброски, Восприятие, порог поломки щита и КД (если введены его составляющие). Тип брони, лимит Ловкости, ПЗ класса и свойства оружия автоматически не определяются. Старые листы остаются в ручном режиме.</p>
+            <p className="pf-settings-note">Расчёты выполняются прямо в полях PDF: навыки, спасброски, Восприятие, порог поломки щита и КД и штрафы брони (по параметрам доспеха). Название и параметры брони открываются нажатием на изображение доспеха, заметки о щите — нажатием на щит. ПЗ класса и свойства оружия пока не определяются автоматически. Старые листы остаются в ручном режиме.</p>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
