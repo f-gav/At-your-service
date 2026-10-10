@@ -44,6 +44,7 @@ export type Character = {
   details: CharacterDetails;
   created_at: string;
   updated_at: string;
+  sort_order: number;
 };
 
 export const defaultDetails = (): CharacterDetails => ({ concept: '', chronicle: '', notes: '' });
@@ -62,4 +63,18 @@ export function normalizeDetails(raw: unknown): CharacterDetails {
 export function detailString(details: CharacterDetails, key: keyof CharacterDetails): string {
   const value = details[key];
   return typeof value === 'string' ? value : '';
+}
+
+/** Move a character into the chosen list position without changing the other cards' relative order. */
+export function moveCharacterToIndex<T extends { id: string }>(
+  items: readonly T[], id: string, targetIndex: number,
+): T[] {
+  const fromIndex = items.findIndex(item => item.id === id);
+  if (fromIndex < 0 || targetIndex < 0 || targetIndex >= items.length || fromIndex === targetIndex) {
+    return [...items];
+  }
+  const reordered = [...items];
+  const [moved] = reordered.splice(fromIndex, 1);
+  reordered.splice(targetIndex, 0, moved);
+  return reordered;
 }

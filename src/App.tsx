@@ -4,6 +4,7 @@ import type { Session } from '@supabase/supabase-js';
 import {
   ArrowLeft,
   ArrowRight,
+  MoveHorizontal,
   Check,
   Cloud,
   FilePenLine,
@@ -22,6 +23,7 @@ import {
   detailString,
   normalizeDetails,
   normalizedName,
+  moveCharacterToIndex,
   systemKeys,
 } from './lib/models';
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
@@ -216,6 +218,7 @@ export default function App() {
   const [createPanel, setCreatePanel] = useState<CreatePanel>(null);
   const [showSystemPicker, setShowSystemPicker] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [movingId, setMovingId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [busy, setBusy] = useState(false);
@@ -225,6 +228,8 @@ export default function App() {
   const user = session?.user;
   const active = useMemo(() => characters.find(c => c.id === activeId) ?? null, [characters, activeId]);
   const filteredCharacters = useMemo(() => characters.filter(c => filter === 'all' || c.system === filter), [characters, filter]);
+  const movingIndex = characters.findIndex(c => c.id === movingId);
+  const movingCharacter = movingIndex >= 0 ? characters[movingIndex] : null;
 
   useEffect(() => {
     if (!openMenuId) return;
@@ -243,6 +248,15 @@ export default function App() {
       document.removeEventListener('keydown', closeOnEscape);
     };
   }, [openMenuId]);
+
+  useEffect(() => {
+    if (!movingId) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !busy) setMovingId(null);
+    };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [movingId, busy]);
 
   useEffect(() => {
     if (!showSystemPicker && !createPanel) return;
@@ -279,6 +293,7 @@ export default function App() {
     if (!supabase || !userId) {
       setCharacters([]);
       setActiveId(null);
+      setMovingId(null);
       setLoadingCharacters(false);
       return;
     }
@@ -287,9 +302,10 @@ export default function App() {
     setCharacters([]);
     const client = supabase;
     void client.from('characters')
-      .select('id, user_id, system, name, details, created_at, updated_at')
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at')
       .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: true })
       .then(({ data, error: loadError }) => {
         if (cancelled) return;
         setLoadingCharacters(false);
@@ -323,6 +339,7 @@ export default function App() {
       setCreatePanel(null);
       setShowSystemPicker(false);
       setCharacters([]);
+      setMovingId(null);
     }
   }
 
@@ -335,6 +352,7 @@ export default function App() {
     setCreatePanel(null);
     setShowSystemPicker(true);
     setOpenMenuId(null);
+    setMovingId(null);
     setError('');
   }
 
@@ -363,14 +381,15 @@ export default function App() {
     if (!name) { setError('Укажи имя персонажа.'); return; }
     setBusy(true);
     setError('');
+    const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
     const { data, error: insertError } = await supabase.from('characters')
-      .insert({ user_id: user.id, system: createPanel, name, details: defaultDetails() })
-      .select('id, user_id, system, name, details, created_at, updated_at').single();
+      .insert({ user_id: user.id, system: createPanel, name, details: defaultDetails(), sort_order: nextOrder })
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
     const created = { ...data, details: normalizeDetails(data.details) } as Character;
-    setCharacters(current => [created, ...current]);
+    setCharacters(current => [...current, created]);
     setCreatePanel(null);
     setShowSystemPicker(false);
     setActiveId(created.id);
@@ -381,7 +400,7 @@ export default function App() {
     const { data, error: saveError } = await supabase.from('characters')
       .update({ name, details })
       .eq('id', id).eq('user_id', user.id)
-      .select('id, user_id, system, name, details, created_at, updated_at').single();
+      .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
     if (saveError || !data) {
       setError(messageFromError(saveError));
       return false;
@@ -389,6 +408,37 @@ export default function App() {
     setError('');
     setCharacters(current => current.map(c => c.id === id ? { ...data, details: normalizeDetails(data.details) } as Character : c));
     return true;
+  }
+
+  function beginMove(id: string) {
+    if (busy) return;
+    setFilter('all');
+    setOpenMenuId(null);
+    setMovingId(id);
+    setError('');
+  }
+
+  async function moveCharacter(targetIndex: number) {
+    if (!supabase || !user || !movingId || busy) return;
+    const reordered = moveCharacterToIndex(characters, movingId, targetIndex);
+    if (reordered.every((character, index) => character.id === characters[index].id)) return;
+
+    const previous = characters;
+    setBusy(true);
+    setError('');
+    setCharacters(reordered.map((character, index) => ({ ...character, sort_order: index + 1 })));
+    // One database transaction updates the full order. If it fails, restore the previous list.
+    try {
+      const { error: moveError } = await supabase.rpc('reorder_characters', {
+        p_ids: reordered.map(character => character.id),
+      });
+      if (moveError) throw moveError;
+    } catch (moveError) {
+      setCharacters(previous);
+      setError(`Не удалось сохранить порядок: ${messageFromError(moveError)}`);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function deleteCharacter(character: Character) {
@@ -459,18 +509,33 @@ export default function App() {
                 {systemKeys.map((system, index) => (
                   <span className="filter-item" key={system}>
                     {index > 0 && <span className="filter-separator" aria-hidden="true">·</span>}
-                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => setFilter(current => current === system ? 'all' : system)}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VAMPIRE'}</button>
+                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => { setMovingId(null); setFilter(current => current === system ? 'all' : system); }}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VAMPIRE'}</button>
                   </span>
                 ))}
               </div>
             </div>
 
+            {movingCharacter && <div className="move-toolbar" role="status">
+              <div className="move-toolbar-copy">
+                <strong>Переместить: {movingCharacter.name}</strong>
+                <span>Нажми на другую карточку, чтобы выбрать её позицию, или используй стрелки.</span>
+              </div>
+              <div className="move-toolbar-actions">
+                <button type="button" className="move-step" title="На одну позицию назад" aria-label="На одну позицию назад" disabled={busy || movingIndex <= 0} onClick={() => void moveCharacter(movingIndex - 1)}><ArrowLeft size={18} /></button>
+                <button type="button" className="move-step" title="На одну позицию вперёд" aria-label="На одну позицию вперёд" disabled={busy || movingIndex >= characters.length - 1} onClick={() => void moveCharacter(movingIndex + 1)}><ArrowRight size={18} /></button>
+                <button type="button" className="move-finish" disabled={busy} onClick={() => setMovingId(null)}>Готово</button>
+              </div>
+            </div>}
+
             <div className="character-grid">
               {loadingCharacters ? (
                 <div className="library-state" role="status">Загружаем персонажей…</div>
               ) : filteredCharacters.map(character => (
-                <article className={`character-card character-${character.system}`} key={character.id} aria-label={`Персонаж ${character.name}`}>
-                  <button type="button" className="character-open" onClick={() => { setActiveId(character.id); setOpenMenuId(null); setError(''); }} aria-label={`Открыть лист персонажа ${character.name}`}>
+                <article className={`character-card character-${character.system}${movingId === character.id ? ' is-moving' : movingId ? ' is-move-target' : ''}`} key={character.id} aria-label={`Персонаж ${character.name}`}>
+                  <button type="button" className="character-open" disabled={busy && !!movingId} onClick={() => {
+                    if (movingId) { void moveCharacter(characters.findIndex(c => c.id === character.id)); return; }
+                    setActiveId(character.id); setOpenMenuId(null); setError('');
+                  }} aria-label={movingId ? movingId === character.id ? `Перемещаем персонажа ${character.name}` : `Переместить выбранного персонажа на позицию ${character.name}` : `Открыть лист персонажа ${character.name}`}>
                     <span className="character-portrait" aria-hidden="true" />
                     <span className="character-data">
                       <strong>{character.name}</strong>
@@ -478,18 +543,18 @@ export default function App() {
                     </span>
                   </button>
                   <span className="character-system" aria-label={GAME_SYSTEMS[character.system].title}>{badgeLabels[character.system]}</span>
-                  <div className="character-menu-area">
+                  {!movingId && <div className="character-menu-area">
                     <button type="button" className="character-menu-button" title={`Действия с персонажем ${character.name}`} aria-label={`Действия с персонажем ${character.name}`} aria-expanded={openMenuId === character.id} onClick={() => setOpenMenuId(current => current === character.id ? null : character.id)}>
                       <MoreHorizontal size={25} strokeWidth={3} />
                     </button>
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
-                      <button type="button" onClick={() => { setActiveId(character.id); setOpenMenuId(null); setError(''); }}><FilePenLine size={15} /> Открыть лист</button>
+                      <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
                     </div>}
-                  </div>
+                  </div>}
                 </article>
               ))}
-              <button type="button" className="add-character" onClick={openCreate} disabled={loadingCharacters} aria-label="Создать персонажа"><Plus size={33} strokeWidth={2.2} /></button>
+              <button type="button" className="add-character" onClick={openCreate} disabled={loadingCharacters || !!movingId || busy} aria-label="Создать персонажа"><Plus size={33} strokeWidth={2.2} /></button>
               {!loadingCharacters && filteredCharacters.length === 0 && filter !== 'all' && <div className="library-state">В этой системе пока нет персонажей. <button type="button" onClick={() => setFilter('all')}>Показать всех</button></div>}
             </div>
             {!user && authReady && <p className="library-help">Войди через Google, чтобы создавать персонажей и хранить их в своём аккаунте.</p>}
