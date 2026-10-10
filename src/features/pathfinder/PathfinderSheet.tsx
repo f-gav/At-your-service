@@ -233,7 +233,7 @@ export default function PathfinderSheet({
     const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
       key={field.id}
-      className={`pf-field pf-field-text${field.id === 'armor_class' && !automatic ? ' pf-field-manual-ac' : ''}${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
+      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
       type="text"
