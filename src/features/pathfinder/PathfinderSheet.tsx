@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Cloud, Settings2 } from 'lucide-react';
+import { ArrowLeft, Cloud, Settings2, Shield } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
@@ -10,6 +10,8 @@ import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
+import { calculateCombat, isCombatComputedField } from './rules-combat';
+import CombatPanel from './CombatPanel';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import PortraitImage from '../portrait/PortraitImage';
@@ -59,12 +61,21 @@ export default function PathfinderSheet({
       && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion');
   }, [character.details]);
   const automatic = isAutomatic(values, legacyHasValues);
-  const computed = useMemo(() => automatic ? calculateCore(values) : {}, [automatic, values]);
+  const computed = useMemo(() => {
+    if (!automatic) return {};
+    const combat = calculateCombat(values);
+    return { ...calculateCore({...values,...combat}), ...combat };
+  }, [automatic, values]);
   const displayValues = useMemo(() => automatic
     ? { ...values, ...computed }
     : values, [automatic, values, computed]);
+  const [combatOpen,setCombatOpen] = useState(false);
+  function replaceCombatValues(next: SheetValues) {
+    // Atomic update for a single deliberate shield block; existing history/undo planned separately.
+    setValues(next);
+  }
   function setAutomatic(enabled: boolean) {
-    if (enabled && !window.confirm('Включить автоматический расчёт характеристик, навыков, спасбросков и Восприятия? Ручные итоги заменятся формулами, но исходные характеристики, ранги и бонусы сохранятся.')) return;
+    if (enabled && !window.confirm('Включить автоматические расчёты PF2e? Они изменят формульные значения навыков, защиты, ПЗ и оружия в тех разделах, где расчёт отдельно включён. Ручные итоги заменятся формулами, но исходные характеристики, ранги и бонусы сохранятся.')) return;
     setValues(prev => ({ ...prev, rulesMode: enabled ? 'auto' : 'manual' }));
   }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
@@ -119,7 +130,7 @@ export default function PathfinderSheet({
     const toStore = { ...values };
     if (automatic) {
       for (const key of Object.keys(toStore)) {
-        if (isCoreComputedField(key) && !(key in computed)) toStore[key] = '';
+        if ((isCoreComputedField(key) || isCombatComputedField(values,key)) && !(key in computed)) toStore[key] = '';
       }
       Object.assign(toStore, computed);
     }
@@ -161,14 +172,14 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = automatic && isCoreComputedField(field.id) && !(field.id in computed)
+    const value = automatic && (isCoreComputedField(field.id) || isCombatComputedField(values,field.id)) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
         rank={readRank(values[field.id]) ?? 0} style={style}
         disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
     }
-    const computedField = automatic && isCoreComputedField(field.id);
+    const computedField = automatic && (isCoreComputedField(field.id) || isCombatComputedField(values,field.id));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
         <input id={id} type="checkbox" checked={value === true}
@@ -213,8 +224,8 @@ export default function PathfinderSheet({
       style={style}
       {...shared}
       type="text"
-      inputMode={numeric && !computedField ? 'numeric' : 'text'}
-      aria-description={computedField ? 'Рассчитывается автоматически на основе характеристики, уровня и ранга владения' : undefined}
+      inputMode={numeric && !computedField && !/^weapon_[1-5]_damage$/.test(field.id) ? 'numeric' : 'text'}
+      aria-description={computedField ? 'Автоматический расчёт — исходные параметры изменяются через «Бой и снаряжение» либо характеристики и ранги' : undefined}
     />;
   }
 
@@ -256,6 +267,10 @@ export default function PathfinderSheet({
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
           {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
         </span>
+        <button type="button" className="pf-settings-button pf-combat-open-button" onClick={()=>setCombatOpen(open=>!open)}
+          aria-expanded={combatOpen} aria-controls="pf-combat-panel" aria-label="Бой и снаряжение">
+          <Shield size={17}/><span>Бой и снаряжение</span>
+        </button>
         <div className="pf-settings-area">
           <button type="button" className="pf-settings-button" aria-expanded={settingsOpen}
             aria-controls="pf-settings-options" aria-label="Настройки листа"
@@ -281,7 +296,11 @@ export default function PathfinderSheet({
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
     <div className="pf-sheet-scroll" aria-label="Четыре страницы листа Pathfinder 2e">
-      <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
+      {combatOpen && <div id="pf-combat-panel">
+      <CombatPanel values={values} onChange={change} onMultiple={replaceCombatValues}
+        automatic={automatic} disabled={saving}/>
+    </div>}
+    <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
         {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
       </div>
     </div>

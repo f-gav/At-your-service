@@ -1,0 +1,25 @@
+.pf-combat-panel{max-width:1000px;margin:0 auto 20px;padding:16px 18px;border:1px solid #d7dfd9;border-radius:12px;background:#fff;color:#27332e;font:13px/1.5 "Segoe UI",Arial,sans-serif;box-shadow:0 3px 10px #14261b0a;}
+.pf-combat-panel header{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;margin-bottom:11px;}
+.pf-combat-panel header strong{font-size:17px;}
+.pf-combat-panel header span,.pf-combat-hint{color:#718078;font-size:12px;}
+.pf-combat-warning{color:#8b6425;background:#fbf8ef;padding:8px 10px;border-radius:6px;}
+.pf-combat-sections{display:grid;gap:10px;}
+.pf-combat-sections details{border:1px solid #e0e5e1;border-radius:9px;background:#fdfdfc;}
+.pf-combat-sections summary{padding:10px 12px;cursor:pointer;font-weight:600;}
+.pf-combat-details{padding:0 12px 13px;display:grid;gap:10px;}
+.pf-combat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;}
+.pf-combat-input{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#54635a;min-width:0;}
+.pf-combat-input input,.pf-combat-input select,.pf-combat-block input{width:100%;border:1px solid #c8d1cb;border-radius:6px;background:#fff;padding:8px;color:#23342b;font:inherit;min-width:0;}
+.pf-combat-input small{font-size:10px;line-height:1.3;color:#859087;}
+.pf-combat-checks{display:flex;gap:12px;flex-wrap:wrap;}
+.pf-combat-checkbox{display:inline-flex;gap:6px;align-items:center;cursor:pointer;font-size:12px;color:#34493d;}
+.pf-combat-checkbox input{accent-color:#435e4e;width:15px;height:15px;}
+.pf-combat-result{margin:0;color:#405b4d;font-size:13px;}
+.pf-combat-weapon{display:grid;gap:10px;border-top:1px solid #e3e9e4;padding:12px 0;}
+.pf-combat-weapon-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.pf-combat-block{display:flex;flex-wrap:wrap;align-items:end;gap:10px;}
+.pf-combat-block label{display:grid;gap:4px;max-width:145px;}
+.pf-combat-block button{padding:8px 12px;border:1px solid #b5c6bb;border-radius:7px;background:#e9f0e9;color:#2c4837;cursor:pointer;}
+.pf-combat-block button:disabled{opacity:.5;cursor:default;}
+@media(max-width:760px){.pf-combat-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.pf-combat-panel{padding:12px;margin:0 4px 12px;}}
+@media(max-width:400px){.pf-combat-grid{grid-template-columns:1fr;}}

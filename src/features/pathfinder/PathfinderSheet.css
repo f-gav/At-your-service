@@ -198,3 +198,6 @@
 .pf-settings-note {margin:7px 0 0;font-size:11px;color:#77847d;line-height:1.5;max-width:260px;}
 .pf-rules-label {font-size:11px;color:#7a8981;white-space:nowrap;}
 @media(max-width:640px){.pf-rules-label{font-size:10px;}}
+
+.pf-combat-open-button{background:#f3f6f3;border-color:#c3d0c5;}
+.pf-combat-open-button[aria-expanded="true"]{background:#e9f0e9;color:#315640;}
