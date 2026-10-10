@@ -44,5 +44,5 @@ assert.match(sheetSource,/portraitFrame/);
 assert.match(preview,/ta-preview-control/);
 assert.match(preview,/className=\{'ta-preview-control '/);
 assert.match(css,/\.ta-page \{container-type:inline-size;\}/);
-assert.match(migration,/source[.]webp/);
+assert.ok(migration.includes('-source[.]webp'));
 console.log('One-source portraits, independent crop frames, legacy JSON, live-metric editor preview passed.');
