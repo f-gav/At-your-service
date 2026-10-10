@@ -12,7 +12,6 @@ import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
-import type { PathfinderField } from './layout';
 import PortraitImage from '../portrait/PortraitImage';
 import type { CropFrame } from '../portrait/crop';
 import './PathfinderSheet.css';
