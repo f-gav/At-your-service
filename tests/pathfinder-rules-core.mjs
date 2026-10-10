@@ -1,12 +1,15 @@
 import assert from 'node:assert/strict';
 import { readRank, readNumber, isLevel, proficiencyBonus, SKILL_ABILITIES, SAVE_ABILITIES,
-  RANK_FIELDS, calculateCore, isAutomatic, isCoreComputedField } from '../src/features/pathfinder/rules-core.ts';
+  RANK_FIELDS, RANK_LABELS, RANK_MARKS, calculateCore, isAutomatic, isCoreComputedField } from '../src/features/pathfinder/rules-core.ts';
 import { initialSheetValues, persistSheetValues } from '../src/features/pathfinder/sheet-values.ts';
 import { readFileSync } from 'node:fs';
 
 assert.equal(Object.keys(SKILL_ABILITIES).length, 18);
 assert.equal(Object.keys(SAVE_ABILITIES).length, 3);
 assert.equal(RANK_FIELDS.size, 33);
+assert.equal(RANK_LABELS[1], 'Изученный');
+assert.equal(RANK_MARKS[1], 'И');
+assert.equal(proficiencyBonus(5,1),7); // label does not change underlying rank
 assert.equal(readRank('4'),4);
 assert.equal(readRank('0'),0);
 for(const invalid of ['5','-1','1.5','trained','',Infinity])assert.equal(readRank(invalid),undefined);
