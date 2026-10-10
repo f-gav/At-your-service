@@ -21,3 +21,11 @@ The original PDF has vector text and line art. The first version used 962 × 125
 - The 4 pages appear top to bottom in source order and use natural document scrolling.
 - Existing values and the PDF field IDs remain unchanged.
 - No automatic rules/derived stats yet.
+
+## Динамические поля и значения (исправлено)
+
+- `sheet-values.ts` загружает значения **всех** ID из `characters.details.pathfinderSheet`, в том числе полей, добавленных администратором после публикации шаблона.
+- Поле, скрытое или удалённое из шаблона, остаётся в сохранённых данных персонажа и восстанавливается, если его ID снова появится.
+- Пустая строка или снятая отметка явно очищают соответствующий ключ; другие поля не затрагиваются.
+- Загрузка опубликованной схемы не сбрасывает локальные изменения: состояние значений берётся из данных персонажа, а схема отвечает только за отображение.
+- Формат JSON остаётся версии 1: экспорт и импорт передают объект `details.pathfinderSheet` целиком, независимо от набора полей опубликованного шаблона.

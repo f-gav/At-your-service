@@ -3,7 +3,8 @@ import type { CSSProperties, ChangeEvent } from 'react';
 import { ArrowLeft, Check, Cloud, Minus, Plus } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
-import rawFields from './fields.json';
+import { initialSheetValues, persistSheetValues } from './sheet-values';
+import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
 import type { EditableField } from './editor-schema';
@@ -11,26 +12,7 @@ import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
 import './PathfinderSheet.css';
 
-type FieldValue = string | boolean;
-type SheetValues = Record<string, FieldValue>;
-
-const FIELDS: PathfinderField[] = rawFields as PathfinderField[];
 const PAGE_TITLES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
-const SHEET_KEY = 'pathfinderSheet';
-
-
-function initialValues(character: Character): SheetValues {
-  const saved = character.details[SHEET_KEY];
-  const stored = saved && typeof saved === 'object' && !Array.isArray(saved) ? saved as Record<string, unknown> : {};
-  const result: SheetValues = {};
-  for (const field of FIELDS) {
-    const value = stored[field.id];
-    if (field.kind === 'toggle') result[field.id] = value === true;
-    else result[field.id] = typeof value === 'string' ? value : typeof value === 'number' ? String(value) : '';
-  }
-  result.name = character.name;
-  return result;
-}
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'Не удалось сохранить лист. Проверь соединение и повтори попытку.';
@@ -50,7 +32,7 @@ export default function PathfinderSheet({
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
   onClose: () => void;
 }) {
-  const [values, setValues] = useState<SheetValues>(() => initialValues(character));
+  const [values, setValues] = useState<SheetValues>(() => initialSheetValues(character.details, character.name));
   const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
   useEffect(() => {
     if(!supabase)return;
@@ -60,7 +42,7 @@ export default function PathfinderSheet({
     });
     return()=>{active=false;};
   },[]);
-  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialValues(character)));
+  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [focusedCounter, setFocusedCounter] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -96,15 +78,7 @@ export default function PathfinderSheet({
     setSaving(true);
     setError('');
     const snapshot = JSON.stringify(values);
-    const oldSheet=character.details[SHEET_KEY];
-    const oldValues=oldSheet && typeof oldSheet==='object' && !Array.isArray(oldSheet) ? oldSheet as Record<string,unknown> : {};
-    const filled = { ...oldValues,...Object.fromEntries(Object.entries(values).filter(([, value]) => value !== '' && value !== false)) };
-    // Removed fields remain in stored data, but explicit clearing of visible fields is respected.
-    for(const [id,value] of Object.entries(values)){if(value===''||value===false)delete filled[id];}
-    const details: CharacterDetails = {
-      ...character.details,
-      [SHEET_KEY]: { ...filled, name: cleanName, schemaVersion: 1 },
-    };
+    const details = persistSheetValues(character.details, values, cleanName);
     try {
       const success = await onSave(character.id, cleanName, details);
       if (!success) {
