@@ -20,7 +20,7 @@ export const shieldBrokenThreshold = (max: number | undefined) =>
 export function shieldIsBroken(v: SheetValues): boolean {
   const hp = n(v, 'shield_hp');
   const threshold = shieldBrokenThreshold(n(v, 'shield_max_hp'));
-  return hp !== undefined && threshold !== undefined && hp <= threshold;
+  return hp !== undefined && (hp <= 0 || (threshold !== undefined && hp <= threshold));
 }
 export function shieldActive(v: SheetValues): boolean {
   return flag(v, 'combat_shield_raised') && !shieldIsBroken(v)

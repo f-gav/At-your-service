@@ -27,6 +27,7 @@ assert.equal(calculateCombat(shield).armor_class,'20');
 assert.equal(calculateCombat(shield).shield_broken,'10');
 assert.equal(shieldBrokenThreshold(23),11);
 assert.equal(shieldIsBroken({...shield,shield_hp:'10'}),true);
+assert.equal(shieldIsBroken({...shield,shield_max_hp:'',shield_hp:'0'}),true);
 assert.equal(calculateCombat({...shield,shield_hp:'10'}).armor_class,'18');
 assert.equal(calculateCombat({...shield,combat_shield_raised:'false'}).armor_class,'18');
 assert.equal(calculateCombat({...shield,combat_shield_ac_bonus:''}).armor_class,'18');
