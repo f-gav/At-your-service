@@ -1,5 +1,5 @@
 import type { SheetValues } from './sheet-values';
-import { isLevel, proficiencyBonus, readNumber, readRank } from './rules-core';
+import { isLevel, proficiencyBonus, readNumber, readRank } from './rules-core.ts';
 
 const weaponIds = [1, 2, 3, 4, 5] as const;
 export const WEAPON_IDS = weaponIds;
