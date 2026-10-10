@@ -157,3 +157,29 @@ export function applyShieldBlock(v: SheetValues, damage: number): SheetValues {
     ...(n(v,'hp_temp')!==undefined?{hp_temp:String(temp-usedTemp)}:{}),
   };
 }
+
+
+/**
+ * Native PDF-only calculations. Every input is visible and editable on the
+ * printed sheet. Never infer an equipped armor/weapon from its free-text name
+ * or rely on configuration hidden in the removed combat panel.
+ *
+ * Armor dex is deliberately an editable *applied* Dex bonus: the actual
+ * armor cap cannot be inferred from the PDF layout.
+ */
+export function calculateNativeCombat(v: SheetValues): Record<string,string> {
+  const result: Record<string,string> = {};
+  const dex = n(v,'armor_dex');
+  const prof = n(v,'armor_prof');
+  const item = n(v,'armor_item');
+  if (dex !== undefined && prof !== undefined && item !== undefined) {
+    add(result,'armor_class',10 + dex + prof + item,true);
+  }
+  const threshold = shieldBrokenThreshold(n(v,'shield_max_hp'));
+  if (threshold !== undefined) add(result,'shield_broken',threshold,true);
+  return result;
+}
+
+export function isNativeCombatComputedField(id:string): boolean {
+  return id === 'armor_class' || id === 'shield_broken';
+}
