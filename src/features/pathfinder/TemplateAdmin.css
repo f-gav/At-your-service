@@ -39,3 +39,25 @@
 .ta-side .ta-sample-input{width:100%;min-height:78px;resize:vertical;font-family:inherit;line-height:1.4;}
 .ta-field.ta-with-sample>span:first-child{opacity:1;white-space:nowrap;overflow:hidden;text-overflow:clip;}
 .ta-field.ta-with-sample.ta-multiline>span:first-child{white-space:pre-wrap;overflow:hidden;overflow-wrap:anywhere;height:100%;}
+
+/* Permanent underline preview matches the runtime field baseline (no sample text required). */
+.ta-field.ta-has-underline::after {
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  border-bottom:1px solid #777f79;
+  pointer-events:none;
+}
+.ta-side label.ta-underline-setting {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  line-height:1.4;
+  color:#37463e;
+}
+.ta-side .ta-underline-setting input[type="checkbox"] {
+  width:16px;min-height:16px;height:16px;flex:none;
+  accent-color:#455b50;
+}

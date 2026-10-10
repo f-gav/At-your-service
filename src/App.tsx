@@ -630,7 +630,7 @@ export default function App() {
                     {character.portrait_card_path && portraitUrls[character.portrait_card_path]
                       ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
                       : character.system==='pf2e'
-                        ? <img src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
+                        ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
                         : <span className="character-portrait-empty" aria-hidden="true">+</span>}
                   </button>}
                   <span className="character-system" aria-label={GAME_SYSTEMS[character.system].title}>{badgeLabels[character.system]}</span>

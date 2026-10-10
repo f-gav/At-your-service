@@ -44,4 +44,27 @@ assert.match(adminSource, /Выпадающее меню/);
 assert.match(adminSource, /parseOptions\(e.target.value\)/);
 assert.match(styles, /pf-field-hero-toggle input:checked/);
 assert.match(homeSource, /: 'VTM'/);
-console.log('PF2e controls: six sizes, select options, hero points, monochrome setting, JSON v1 compatibility.');
+const layoutSource=read('../src/features/pathfinder/layout.ts');
+const adminCss=read('../src/features/pathfinder/TemplateAdmin.css');
+const siteCss=read('../src/styles.css');
+assert.match(layoutSource,/underline\?: boolean;/,
+  'The optional underline is a presentation setting on the template');
+assert.match(schemaSource,/typeof a\.underline === 'boolean'/,
+  'The template validates permanent underline as a boolean');
+assert.match(adminSource,/ta-underline-setting/,
+  'The admin can enable or disable the underline');
+assert.match(adminSource,/f\.underline\?' ta-has-underline'/,
+  'The editor previews underlining when empty');
+assert.match(adminCss,/\.ta-field\.ta-has-underline::after/,
+  'Editor displays the underline without a sample');
+assert.match(sheetSource,/pf-field-underline/,
+  'Published PF2e text fields use the persistent underline');
+assert.match(styles,/\.pf-field-text\.pf-field-underline/,
+  'The persistent underline survives empty input');
+assert.match(styles,/left:4\.35%;top:4\.45%;width:28\.95%;height:32\.90%/,
+  'Portrait is inset within the printed PF2e frame');
+assert.match(homeSource,/className="character-portrait-placeholder"/,
+  'Placeholder is styled independently of uploaded portraits');
+assert.match(siteCss,/\.character-portrait-action img\.character-portrait-placeholder/,
+  'Placeholder is enlarged and lowered within the home card');
+console.log('PF2e controls: dropdowns, hero points, permanent underline, portrait framing and JSON compatibility.');

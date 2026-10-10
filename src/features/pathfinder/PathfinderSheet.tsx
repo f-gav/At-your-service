@@ -162,7 +162,7 @@ export default function PathfinderSheet({
       const current = String(value ?? '');
       const legacy = Boolean(current) && !options.includes(current);
       return <select key={field.id} id={id} aria-label={field.label} title={field.label}
-        className="pf-field pf-field-text pf-field-select" style={style} value={current}
+        className={`pf-field pf-field-text pf-field-select${field.underline ? " pf-field-underline" : ""}`} style={style} value={current}
         disabled={saving} onChange={event => change(field.id,event.target.value)}>
         <option value="">—</option>
         {legacy && <option value={current}>{current}</option>}
@@ -172,12 +172,12 @@ export default function PathfinderSheet({
     const narrow = field.w < 40 ? ' pf-field-narrow' : '';
     const tiny = field.w < 20 ? ' pf-field-tiny' : '';
     if (field.kind === 'long') {
-      return <textarea key={field.id} className={`pf-field pf-field-text pf-field-long${narrow}${tiny}`} style={style} {...shared} spellCheck={false} />;
+      return <textarea key={field.id} className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}`} style={style} {...shared} spellCheck={false} />;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
       key={field.id}
-      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}`}
+      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
       type="text"

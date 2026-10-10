@@ -117,7 +117,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <div className="ta-scroll"><div className="ta-page" ref={pageRef} style={{width:zoom,aspectRatio:PDF_WIDTH+'/'+PDF_HEIGHT}}>
         <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=3'} alt={'Страница '+page} draggable={false}/>
         {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
-          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')}
+          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>
           <span>{f.kind==='toggle'?'✓':(samples[f.id]??(f.kind==='select'?(f.options?.[0]??f.label):f.label))}</span>
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
@@ -150,6 +150,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
           <div className="ta-cols2"><label>Размер (pt)<input type="number" min="5" max="40" step=".5" value={active.fontSize??12} onChange={e=>prop('fontSize',Number(e.target.value))}/></label><label>Жирность<select value={active.fontWeight??500} onChange={e=>prop('fontWeight',Number(e.target.value))}>{[400,500,600,700,800].map(w=><option key={w} value={w}>{w}</option>)}</select></label></div>
           <div className="ta-cols2"><label>Выравнивание<select value={active.textAlign||'left'} onChange={e=>prop('textAlign',e.target.value)}><option value="left">Слева</option><option value="center">Центр</option><option value="right">Справа</option></select></label><label>Цвет<input type="color" value={active.color||'#303030'} onChange={e=>prop('color',e.target.value)}/></label></div>
           <div className="ta-cols2"><label>Отступ X<input type="number" min="0" max="20" value={active.paddingX??2} onChange={e=>prop('paddingX',Number(e.target.value))}/></label><label>Отступ Y<input type="number" min="0" max="20" value={active.paddingY??0} onChange={e=>prop('paddingY',Number(e.target.value))}/></label></div>
+          {active.kind!=='toggle'&&<label className="ta-underline-setting"><input type="checkbox" checked={active.underline===true} onChange={e=>update(active.id,{underline:e.target.checked})}/> Показывать нижнюю линию, даже без текста</label>}
           <button className="ta-delete" onClick={remove}>Удалить поле</button>
         </div>:<p>Нажми на поле на PDF, чтобы выделить его. Перетаскивай для перемещения, потяни за синий угол для изменения размера.</p>}
         <hr/>

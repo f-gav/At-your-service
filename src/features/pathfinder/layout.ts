@@ -28,6 +28,8 @@ export type PathfinderField = {
   color?: string;
   paddingX?: number;
   paddingY?: number;
+  /** Draw a permanent baseline even when the field is empty. Presentation only. */
+  underline?: boolean;
 };
 
 /** Small alignment corrections without modifying the authoritative PDF coordinates. */

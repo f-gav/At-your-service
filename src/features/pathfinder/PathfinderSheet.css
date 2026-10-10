@@ -122,9 +122,18 @@
 /* Image placement matches the dedicated PORTRAIT block of the third PDF page.
    Uses PDF coordinates (top-left), independent of administrative field values. */
 .pf-portrait-button {
-  position:absolute;z-index:3;left:3.83%;top:3.96%;width:29.95%;height:33.90%;
+  position:absolute;z-index:3;left:4.35%;top:4.45%;width:28.95%;height:32.90%;
   padding:0;margin:0;background:#fff;border:0;cursor:pointer;overflow:hidden;
 }
 .pf-portrait-button img {width:100%;height:100%;object-fit:cover;display:block;}
 .pf-portrait-button:hover {outline:2px solid #85998e;outline-offset:-2px;}
 .pf-portrait-button:focus-visible {outline:3px solid #4172b4;outline-offset:-3px;}
+
+/* Optional template property: a line persists even when the field has no value.
+   Values remain independent of this purely visual style. */
+.pf-field-text.pf-field-underline {
+  box-shadow: inset 0 -1px 0 #7c8580;
+}
+.pf-field-text.pf-field-underline:focus-visible {
+  box-shadow: inset 0 -2px 0 #68776f;
+}

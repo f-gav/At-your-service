@@ -43,7 +43,8 @@ export function validFields(value: unknown): value is EditableField[] {
       (a.textAlign === undefined || ['left','center','right'].includes(a.textAlign)) &&
       (a.color === undefined || /^#[0-9a-fA-F]{6}$/.test(a.color)) &&
       (a.paddingX === undefined || (a.paddingX >= 0 && a.paddingX <= 20)) &&
-      (a.paddingY === undefined || (a.paddingY >= 0 && a.paddingY <= 20));
+      (a.paddingY === undefined || (a.paddingY >= 0 && a.paddingY <= 20)) &&
+      (a.underline === undefined || typeof a.underline === 'boolean');
   });
 }
 export function cloneFields(fields: EditableField[]): EditableField[] {
