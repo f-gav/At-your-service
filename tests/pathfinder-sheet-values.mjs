@@ -66,7 +66,7 @@ assert.equal(fromTransfer.custom_new_counter, '8');
 
 // Guard against returning to static, fixed field enumeration.
 assert.match(sheetSource, /initialSheetValues\(character\.details, character\.name\)/);
-assert.match(sheetSource, /persistSheetValues\(character\.details, values, cleanName\)/);
+assert.match(sheetSource, /persistSheetValues\(character\.details, toStore, cleanName\)/);
 assert.doesNotMatch(sheetSource, /for\s*\(const field of FIELDS\)/);
 assert.match(jsonSource, /details:\s*normalizeDetails\(c\.details\)/);
 
