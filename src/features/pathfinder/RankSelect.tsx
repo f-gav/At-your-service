@@ -12,13 +12,13 @@ export default function RankSelect({
   onChange: (rank: Rank) => void;
   disabled: boolean;
 }) {
-  return <label className="pf-field pf-rank-field" style={style} title={label + ': ' + RANK_LABELS[rank]}>
+  return <label className="pf-field pf-rank-field" style={style}>
     <span className="pf-rank-marks" aria-hidden="true">
       {([1, 2, 3, 4] as Rank[]).map(value =>
         <span key={value} className={'pf-rank-mark' + (rank === value ? ' pf-rank-mark-selected' : '')} />,
       )}
     </span>
-    <select id={id} aria-label={label} title={label + ': ' + RANK_LABELS[rank]}
+    <select id={id} aria-label={label}
       value={String(rank)} disabled={disabled} onChange={event => onChange(Number(event.target.value) as Rank)}>
       {RANK_LABELS.map((name, value) =>
         <option value={value} key={name}>{RANK_MARKS[value]} — {name}</option>,
