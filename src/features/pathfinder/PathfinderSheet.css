@@ -93,6 +93,21 @@
 .pf-toggle-visual[data-editor-guide="true"][data-checked="false"] .pf-toggle-fill-shape {
   background: rgba(43, 116, 198, .23);
 }
+
+/*
+ * The three hero-point hexagons are already filled dark in the PDF bitmap.
+ * A transparent unchecked checkbox therefore looks exactly like a checked
+ * black-filled checkbox. Mask ONLY their inner dark area with paper white
+ * when unchecked; selected state retains the existing black fill.
+ *
+ * This rule overrides the admin guide tint for hero points as well, so the
+ * admin preview and the live sheet render identical unchecked shapes.
+ * The editor still exposes the draggable blue bounding-box outline.
+ * Existing X/Y/W/H and percentage inset settings determine the silhouette.
+ */
+.pf-toggle-visual[data-native-dark-hero="true"][data-mode="fill"][data-checked="false"] .pf-toggle-fill-shape {
+  background: #fff;
+}
 .pf-toggle-visual svg {
   display: block;
   width: 85%;
