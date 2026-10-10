@@ -125,11 +125,18 @@ assert.equal(manualResult.armor_prof,undefined);
 assert.equal(manualResult.armor_item,undefined);
 assert.equal(manualResult.skill_acrobatics_armor,undefined);
 
-// Both existing popover note IDs become normal freely editable sheet fields.
-assert.match(schema,/id: 'combat_armor_name'/);
-assert.match(schema,/id: 'combat_shield_notes'/);
-assert.match(schema,/withEquipmentTextFields/);
-assert.match(ui,/withEquipmentTextFields\(cloneFields\(data.fields\)\)/);
-assert.match(admin,/withEquipmentTextFields\(cloneFields\(schema\)\)/);
+// AC uses the existing numerical field in the armor illustration.
+// Only the shield gets a new numeric field; obsolete text overlays disappear.
+const pdfFields=JSON.parse(read('../src/features/pathfinder/fields.json'));
+assert.equal(pdfFields.find(f=>f.id==='armor_class')?.kind,'counter');
+assert.match(schema,/id: 'shield_ac_bonus'/);
+assert.match(schema,/kind: 'number'/);
+assert.match(schema,/withEquipmentNumberFields/);
+assert.match(schema,/combat_armor_name', 'combat_shield_notes'/);
+assert.match(ui,/withEquipmentNumberFields\(cloneFields\(data.fields\)\)/);
+assert.match(admin,/withEquipmentNumberFields\(cloneFields\(schema\)\)/);
 assert.match(ui,/pageFields.map\(renderField\)/);
-console.log('PF2e native AC: manual 10+Dex+proficiency+item; user-configurable armor and shield fields.');
+assert.match(ui,/field.id === 'armor_class'/);
+assert.match(ui,/Object.assign\(toStore, computed\)/);
+assert.equal(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'4',shield_ac_bonus:'5'}).armor_class,'19');
+console.log('PF2e native AC: 10 + manual Dex/proficiency/item; numbered shield and AC field.');
