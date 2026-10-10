@@ -62,6 +62,8 @@ function HeroEmblem() {
   );
 }
 
+const WRECKTRACK_URL = 'https://f-gav.github.io/WreckTrack/';
+
 const badgeLabels: Record<GameSystem, string> = {
   dnd5e: 'DnD',
   pf2e: 'PF2e',
@@ -414,12 +416,11 @@ export default function App() {
             <SiteLogo />
           </button>
           <div className="header-links">
-            <a href="https://f-gav.github.io/WreckTrack/" target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
+            <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
-                <span className="account-identity">
-                  {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial">{displayName.charAt(0).toUpperCase()}</span>}
-                  <span className="account-name">{displayName}</span>
+                <span className="account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
+                  {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>}
                 </span>
                 <button className="icon-button" type="button" title="Выйти из аккаунта" aria-label="Выйти из аккаунта" onClick={() => void signOut()}><LogOut size={17} /></button>
               </div>
@@ -428,9 +429,11 @@ export default function App() {
           <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
         {mobileMenu && <div className="mobile-menu-panel">
-          {user ? <><span className="muted">{displayName}</span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>
+          {user ? <><span className="mobile-account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
+            {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>}
+          </span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>
             : <button type="button" onClick={() => {setMobileMenu(false); void signIn();}}>Войти через Google</button>}
-          <a href="https://f-gav.github.io/WreckTrack/" target="_blank" rel="noreferrer">WreckTrack ↗</a>
+          <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer">WreckTrack ↗</a>
         </div>}
       </header>
 

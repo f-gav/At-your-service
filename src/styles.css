@@ -1,5 +1,12 @@
-/* At your service! — Visual version #1
+/* At your service! — Visual version #1 (refinement)
    Inspired by the supplied homepage mockup. No auth or database changes. */
+@font-face {
+  font-family: 'Tilda Script';
+  src: url('./assets/tilda-script-labels.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
 :root {
   font-family: 'Segoe UI', Arial, sans-serif;
   color: #202526;
@@ -57,7 +64,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   padding-bottom: 2px;
 }
 .brand-symbol-mark { color: #d8e5d8; }
-.brand-wordmark { display: block; width: 154px; height: auto; }
+.brand-wordmark { display: block; width: 154px; height: auto; transform: translateY(3px); }
 .header-links { display: flex; align-items: center; gap: 27px; }
 .header-project-link { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #687378; }
 .header-project-link:hover { color: #202526; }
@@ -67,15 +74,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 34px;
+  height: 34px;
   flex: none;
   object-fit: cover;
   border-radius: 50%;
   background: #e7ece8;
 }
 .avatar-initial { font-size: 12px; font-weight: 800; }
-.account-name { font-size: 11px; color: #202526; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-account-identity { display: flex; align-items: center; }
 .icon-button, .mobile-menu-button {
   width: 31px;
   height: 31px;
@@ -153,7 +160,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .character-card {
   position: relative;
   height: 78px;
-  border: 2px solid #252b2c;
+  border: 2px solid #b7c0bb;
   border-radius: 15px;
   background: #fbfbfa;
   min-width: 0;
@@ -179,7 +186,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   width: 65px;
   height: 65px;
   flex: none;
-  border: 2px solid #292e2e;
+  border: 2px solid #c3cac6;
   border-radius: 12px;
   background: #fafaf8;
 }
@@ -191,7 +198,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   right: 12px;
   bottom: 3px;
   pointer-events: none;
-  font: 18px/1 Georgia, 'Times New Roman', serif;
+  font: 600 23px/1 'Tilda Script', Georgia, cursive;
 }
 .character-vtm5e .character-system { color: #a51b2b; }
 .character-dnd5e .character-system { color: #16853c; }
@@ -231,7 +238,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   justify-content: center;
   height: 78px;
   width: 100%;
-  border: 2px solid #252b2c;
+  border: 2px solid #b7c0bb;
   border-radius: 15px;
   background: transparent;
   color: #242a2b;
@@ -266,7 +273,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   max-height: min(85vh, 690px);
   overflow-y: auto;
   background: #fff;
-  border: 2px solid #242a2a;
+  border: 2px solid #b7c0bb;
   border-radius: 16px;
   box-shadow: 0 24px 80px #0003;
   padding: 24px;
