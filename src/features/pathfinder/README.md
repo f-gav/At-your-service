@@ -1,23 +1,23 @@
-# Pathfinder 2e — interactive sheet v1
+# Pathfinder 2e sheet — visual iteration 2
 
-The original Russian Pathfinder Remaster sheet is a **four-page, non-fillable PDF**. `fields.json` is the single coordinate map for 373 editable inputs and toggles. Coordinates are in PDF points, measured from the top-left corner of a 600.945 × 782.362 page. The web UI converts these into percentages, so controls track the original artwork at any zoom.
+## Architecture
 
-- `PathfinderSheet.tsx`: isolated React UI; editing, counters, navigation, save-on-back.
-- `PathfinderSheet.css`: all feature-specific styles; no changes to global card styling.
-- `fields.json`: stable field identifiers, labels, kinds, positions, optional limits.
-- `public/pathfinder/page-N.webp`: visual backgrounds generated from the original PDF.
-- `public/pathfinder/Pathfinder_2e_RU_editable_V1.pdf`: separate AcroForm PDF with the same field IDs.
+- `fields.json`: canonical identifiers, types and coordinates of 373 editable fields. Coordinates are in **PDF points** with top-left origin. Do not use text labels as database keys.
+- `layout.ts`: tiny visual alignment adjustments (independent of saved values); future rule logic belongs in separate files.
+- `summary.ts`: extracts the home-card subtitle from the character sheet's `ancestry` and `character_class` fields.
+- `PathfinderSheet.tsx`: all four pages in document order, field input state, counter controls and save flow.
+- `PathfinderSheet.css`: isolated styling. No green editable-field overlays; neutral keyboard focus.
+- `public/pathfinder/page-{1..4}.webp`: lossless WebP, high-resolution (288 DPI) renders of the original PDF. `loading="lazy"` for pages 2–4.
+- `public/pathfinder/Pathfinder_2e_RU_editable_V1.pdf`: downloadable form-enabled PDF, kept for compatibility, but the web UI edits its own persisted fields.
 
-## Data model
+The website stores the character's data in `characters.details.pathfinderSheet`, with `schemaVersion: 1`. The layout and original PDF do not affect saved data. When future gameplay calculations are added, do not replace user-entered values without a migration plan.
 
-`characters.details.pathfinderSheet` is a versioned dictionary with one key per field and `schemaVersion: 1`. `name` is also synced with `characters.name`. No database schema changes, no rule engine, no automatic derived stats. This feature is intentionally independent of the other game systems.
+## Rendering quality
 
-## Next iterations
+The original PDF has vector text and line art. The first version used 962 × 1252 lossy WebP thumbnails as page backgrounds, so text became soft on Retina displays. Version 2 uses 2404 × 3130 lossless WebP images; browser display is ~960 px wide on desktop, so the image supplies about 2.5 physical pixels per CSS pixel at 100% scale. At extreme zoom, a future PDF.js renderer could offer resolution-independent vector rendering.
 
-1. Rule engine for calculated values and proficiency tiers, separately testable.
-2. Portrait upload through authenticated Supabase Storage (not base64 inside JSONB).
-3. Better spell/inventory rows (structured arrays instead of multi-line columns).
-4. Export character values back into an individual populated PDF; the downloadable template is currently blank.
-5. More mobile-friendly zoom/pan and accessibility improvements.
+## Notes
 
-PDF form viewers do not consistently support scripted increment/decrement buttons. Counters are therefore implemented in the web UI; the downloadable AcroForm PDF has editable numeric fields and clickable checkboxes. The original art is retained, including attribution.
+- The 4 pages appear top to bottom in source order and use natural document scrolling.
+- Existing values and the PDF field IDs remain unchanged.
+- No automatic rules/derived stats yet.

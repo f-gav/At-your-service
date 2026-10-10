@@ -29,6 +29,7 @@ import {
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
+import { pathfinderSubtitle } from './features/pathfinder/summary';
 
 type Filter = GameSystem | 'all';
 type CreatePanel = GameSystem | null;
@@ -74,6 +75,7 @@ const badgeLabels: Record<GameSystem, string> = {
 };
 
 function characterSubtitle(character: Character): string {
+  if (character.system === 'pf2e') return pathfinderSubtitle(character.details);
   const race = detailString(character.details, 'race').trim();
   const className = detailString(character.details, 'class').trim();
   if (race || className) return [race, className].filter(Boolean).join(' · ');

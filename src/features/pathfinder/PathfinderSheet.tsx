@@ -1,33 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Check, Cloud, Download, Minus, Plus, ShieldCheck, ZoomIn, ZoomOut } from 'lucide-react';
+import { ArrowLeft, Check, Cloud, Minus, Plus } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import rawFields from './fields.json';
+import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
+import type { PathfinderField } from './layout';
 import './PathfinderSheet.css';
 
-type FieldKind = 'text' | 'long' | 'number' | 'counter' | 'toggle';
-type Field = {
-  id: string;
-  label: string;
-  page: number;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  kind: FieldKind;
-  maxlen?: number;
-  min?: number;
-  max?: number;
-};
 type FieldValue = string | boolean;
 type SheetValues = Record<string, FieldValue>;
 
-const FIELDS: Field[] = rawFields as Field[];
-const PDF_WIDTH = 600.945;
-const PDF_HEIGHT = 782.362;
+const FIELDS: PathfinderField[] = rawFields as PathfinderField[];
 const PAGE_TITLES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
 const SHEET_KEY = 'pathfinderSheet';
+
+// Prepared once, not on every keystroke. Each page has its own overlays.
+const FIELDS_BY_PAGE = PAGE_TITLES.map((_, i) => FIELDS.filter(field => field.page === i + 1));
 
 function initialValues(character: Character): SheetValues {
   const saved = character.details[SHEET_KEY];
@@ -47,9 +36,9 @@ function errorMessage(error: unknown): string {
 }
 
 /**
- * Visual overlays are defined in fields.json using PDF-point coordinates.
- * The original sheet is a separate, immutable image asset; gameplay rules,
- * field state and persistence do not depend on the rendered layout.
+ * The four PDF pages are immutable high-resolution images.
+ * Interactive fields and their values are separate from artwork, allowing
+ * future rules engines and layout revisions without migrating saved data.
  */
 export default function PathfinderSheet({
   character,
@@ -62,13 +51,10 @@ export default function PathfinderSheet({
 }) {
   const [values, setValues] = useState<SheetValues>(() => initialValues(character));
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialValues(character)));
-  const [page, setPage] = useState(1);
-  const [zoom, setZoom] = useState(100);
   const [focusedCounter, setFocusedCounter] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const dirty = JSON.stringify(values) !== savedSnapshot;
-  const visibleFields = useMemo(() => FIELDS.filter(field => field.page === page), [page]);
 
   useEffect(() => {
     if (!dirty) return;
@@ -81,7 +67,7 @@ export default function PathfinderSheet({
     setValues(previous => previous[id] === value ? previous : { ...previous, [id]: value });
   }
 
-  function step(field: Field, delta: number) {
+  function step(field: PathfinderField, delta: number) {
     const oldValue = Number(values[field.id]);
     const current = Number.isFinite(oldValue) ? oldValue : 0;
     const minimum = field.min ?? -999999;
@@ -94,16 +80,13 @@ export default function PathfinderSheet({
     const cleanName = normalizedName(String(values.name ?? ''));
     if (!cleanName) {
       setError('Укажи имя персонажа на первой странице.');
-      setPage(1);
+      document.getElementById('pf-name')?.focus();
       return false;
     }
     setSaving(true);
     setError('');
     const snapshot = JSON.stringify(values);
-    // A version marker lets later rule engines migrate old sheets safely.
-    const filled = Object.fromEntries(
-      Object.entries(values).filter(([, value]) => value !== '' && value !== false),
-    );
+    const filled = Object.fromEntries(Object.entries(values).filter(([, value]) => value !== '' && value !== false));
     const details: CharacterDetails = {
       ...character.details,
       [SHEET_KEY]: { ...filled, name: cleanName, schemaVersion: 1 },
@@ -130,18 +113,19 @@ export default function PathfinderSheet({
     onClose();
   }
 
-  function renderField(field: Field) {
+  function renderField(field: PathfinderField) {
+    const box = fieldBox(field);
     const style: CSSProperties = {
-      left: `${100 * field.x / PDF_WIDTH}%`,
-      top: `${100 * field.y / PDF_HEIGHT}%`,
-      width: `${100 * field.w / PDF_WIDTH}%`,
-      height: `${100 * field.h / PDF_HEIGHT}%`,
+      left: `${100 * box.x / PDF_WIDTH}%`,
+      top: `${100 * box.y / PDF_HEIGHT}%`,
+      width: `${100 * box.w / PDF_WIDTH}%`,
+      height: `${100 * box.h / PDF_HEIGHT}%`,
     };
     const id = `pf-${field.id}`;
     const value = values[field.id];
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
-        <input id={id} type="checkbox" checked={value === true} onChange={event => change(field.id, event.target.checked)} aria-label={field.label} />
+        <input id={id} type="checkbox" checked={value === true} onChange={event => change(field.id, event.target.checked)} aria-label={field.label} disabled={saving} />
         <span aria-hidden="true"><Check /></span>
       </label>;
     }
@@ -154,16 +138,19 @@ export default function PathfinderSheet({
       onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => change(field.id, event.target.value),
       disabled: saving,
     };
+    const narrow = field.w < 40 ? ' pf-field-narrow' : '';
+    const tiny = field.w < 20 ? ' pf-field-tiny' : '';
     if (field.kind === 'long') {
-      return <textarea key={field.id} className="pf-field pf-field-text pf-field-long" style={style} {...shared} spellCheck={false} />;
+      return <textarea key={field.id} className={`pf-field pf-field-text pf-field-long${narrow}${tiny}`} style={style} {...shared} spellCheck={false} />;
     }
+    const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
       key={field.id}
-      className={`pf-field pf-field-text ${field.kind === 'number' || field.kind === 'counter' ? 'pf-field-number' : ''}`}
+      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}`}
       style={style}
       {...shared}
       type="text"
-      inputMode={field.kind === 'number' || field.kind === 'counter' ? 'numeric' : 'text'}
+      inputMode={numeric ? 'numeric' : 'text'}
       onFocus={field.kind === 'counter' ? () => setFocusedCounter(field.id) : undefined}
       onBlur={field.kind === 'counter' ? () => setFocusedCounter(null) : undefined}
       onKeyDown={field.kind === 'counter' ? event => {
@@ -175,17 +162,40 @@ export default function PathfinderSheet({
     />;
   }
 
-  const counter = visibleFields.find(field => field.id === focusedCounter && field.kind === 'counter');
-  const counterStyle: CSSProperties | undefined = counter ? {
-    left: `${100 * (counter.x + counter.w / 2) / PDF_WIDTH}%`,
-    top: `${100 * (counter.y + counter.h) / PDF_HEIGHT}%`,
-  } : undefined;
+  function renderPage(page: number) {
+    const pageFields = FIELDS_BY_PAGE[page - 1];
+    const counter = pageFields.find(field => field.id === focusedCounter && field.kind === 'counter');
+    const counterBox = counter ? fieldBox(counter) : null;
+    const counterStyle: CSSProperties | undefined = counter && counterBox ? {
+      left: `${100 * (counterBox.x + counterBox.w / 2) / PDF_WIDTH}%`,
+      top: `${100 * (counterBox.y + counterBox.h) / PDF_HEIGHT}%`,
+    } : undefined;
+
+    return <section key={page} className="pf-sheet-page" aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
+      <img
+        src={`${import.meta.env.BASE_URL}pathfinder/page-${page}.webp?v=2`}
+        width="2404"
+        height="3130"
+        loading={page === 1 ? 'eager' : 'lazy'}
+        decoding="async"
+        alt={`Бланк Pathfinder 2e, страница ${page}: ${PAGE_TITLES[page - 1]}`}
+        draggable={false}
+      />
+      {pageFields.map(renderField)}
+      {counter && <div className="pf-counter-popup" style={counterStyle} role="group" aria-label={`Изменить: ${counter.label}`} onMouseDown={event => event.preventDefault()}>
+        <button type="button" aria-label={`Уменьшить: ${counter.label}`} onClick={() => step(counter, -1)}><Minus size={16} /></button>
+        <span>{String(values[counter.id] || '0')}</span>
+        <button type="button" aria-label={`Увеличить: ${counter.label}`} onClick={() => step(counter, 1)}><Plus size={16} /></button>
+      </div>}
+    </section>;
+  }
 
   return <main className="page pf-editor">
     <div className="pf-toolbar">
       <button type="button" className="text-button" onClick={() => void goBack()} disabled={saving}>
         <ArrowLeft size={17} /> К персонажам
       </button>
+      <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
       <div className="pf-toolbar-right">
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
           {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
@@ -195,44 +205,11 @@ export default function PathfinderSheet({
         </button>
       </div>
     </div>
-    <div className="pf-title-row">
-      <div>
-        <span className="pf-eyebrow">PATHFINDER · 2E REMASTER</span>
-        <h1>Лист персонажа</h1>
-        <p>Редактируемый оригинальный бланк. Поля сохраняются в твоём аккаунте.</p>
-      </div>
-      <a className="pf-download" href={`${import.meta.env.BASE_URL}pathfinder/Pathfinder_2e_RU_editable_V1.pdf`} download>
-        <Download size={16} /> PDF с полями
-      </a>
-    </div>
-    <div className="pf-sheet-tools">
-      <nav className="pf-page-tabs" aria-label="Страницы листа">
-        {PAGE_TITLES.map((title, i) => <button type="button" key={title} aria-current={page === i + 1 ? 'page' : undefined}
-          className={page === i + 1 ? 'is-active' : ''} onClick={() => { setPage(i + 1); setFocusedCounter(null); }}>
-          <span>{i + 1}</span> {title}
-        </button>)}
-      </nav>
-      <div className="pf-zoom" aria-label="Масштаб страницы">
-        <button type="button" onClick={() => setZoom(z => Math.max(70, z - 10))} disabled={zoom <= 70} aria-label="Уменьшить масштаб"><ZoomOut size={16} /></button>
-        <span>{zoom}%</span>
-        <button type="button" onClick={() => setZoom(z => Math.min(150, z + 10))} disabled={zoom >= 150} aria-label="Увеличить масштаб"><ZoomIn size={16} /></button>
-      </div>
-    </div>
     {error && <p className="form-error" role="alert">{error}</p>}
-    <div className="pf-sheet-scroll" aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
-      <div className="pf-sheet-page" style={{ width: `${Math.round(960 * zoom / 100)}px` }}>
-        <img src={`${import.meta.env.BASE_URL}pathfinder/page-${page}.webp`} alt={`Исходный бланк Pathfinder, страница ${page}: ${PAGE_TITLES[page - 1]}`} draggable={false} />
-        {visibleFields.map(renderField)}
-        {counter && <div className="pf-counter-popup" style={counterStyle} role="group" aria-label={`Изменить: ${counter.label}`} onMouseDown={event => event.preventDefault()}>
-          <button type="button" aria-label={`Уменьшить: ${counter.label}`} onClick={() => step(counter, -1)}><Minus size={16} /></button>
-          <span>{String(values[counter.id] || '0')}</span>
-          <button type="button" aria-label={`Увеличить: ${counter.label}`} onClick={() => step(counter, 1)}><Plus size={16} /></button>
-        </div>}
+    <div className="pf-sheet-scroll" aria-label="Четыре страницы листа Pathfinder 2e">
+      <div className="pf-sheet-stack">
+        {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
       </div>
-    </div>
-    <div className="pf-sheet-footer">
-      <span><ShieldCheck size={16} /> Пока без автоматических расчётов: все значения вводятся вручную.</span>
-      <span>Страница {page} из 4 · {visibleFields.length} интерактивных полей</span>
     </div>
   </main>;
 }
