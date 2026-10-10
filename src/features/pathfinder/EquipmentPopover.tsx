@@ -63,6 +63,7 @@ export default function EquipmentPopover({ kind, values, automatic, disabled, on
         Использовать эту броню для расчёта КД
       </label>
       <div className="pf-equipment-grid">
+        {!automatic && input('armor_class','КД вручную','В ручном режиме КД вводится здесь или на листе.')}
         {input('combat_armor_dex_cap','Макс. бонус Ловкости','Предел бонуса от брони; для категории «Без брони» можно не указывать.')}
         {input('combat_armor_item_bonus','Бонус КД от брони','Включая соответствующие бонусы предмета.')}
         {input('combat_armor_check_penalty','Штраф проверок','Неотрицательное число, например 2.')}
