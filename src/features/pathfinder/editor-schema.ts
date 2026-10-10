@@ -4,7 +4,7 @@ import type { PathfinderField } from './layout';
 
 export type EditableField = PathfinderField & {
   adjusted?: boolean;
-  fontFamily?: 'Arial' | 'Georgia' | 'Verdana' | 'Times New Roman' | 'Courier New';
+  fontFamily?: string;
   fontSize?: number;
   fontWeight?: number;
   textAlign?: 'left' | 'center' | 'right';

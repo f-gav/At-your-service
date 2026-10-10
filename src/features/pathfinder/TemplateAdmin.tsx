@@ -48,13 +48,13 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   }
   function undoOnce(){if(!undo.length)return;setRedo(old=>[...old,cloneFields(fields)]);setFields(cloneFields(undo[undo.length-1]));setUndo(old=>old.slice(0,-1));setDirty(true);}
   function redoOnce(){if(!redo.length)return;setUndo(old=>[...old,cloneFields(fields)]);setFields(cloneFields(redo[redo.length-1]));setRedo(old=>old.slice(0,-1));setDirty(true);}
-  function start(e:PE<HTMLDivElement>,field:EditableField,mode:'move'|'size'){
+  function start(e:PE<HTMLElement>,field:EditableField,mode:'move'|'size'){
     if(preview||busy||!pageRef.current)return;
     e.preventDefault();e.stopPropagation();checkpoint();setSelected(field.id);
     drag.current={id:field.id,mode,startX:e.clientX,startY:e.clientY,original:{...field},width:pageRef.current.getBoundingClientRect().width};
     e.currentTarget.setPointerCapture(e.pointerId);
   }
-  function move(e:PE<HTMLDivElement>){
+  function move(e:PE<HTMLElement>){
     const d=drag.current;if(!d||e.currentTarget.dataset.fieldId!==d.id)return;
     const dx=(e.clientX-d.startX)*PDF_WIDTH/d.width,dy=(e.clientY-d.startY)*PDF_WIDTH/d.width;
     const r=(n:number)=>grid?Math.round(n):Math.round(n*10)/10;
