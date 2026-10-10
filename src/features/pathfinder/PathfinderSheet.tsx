@@ -183,7 +183,7 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = (field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)))) && !(field.id in computed)
+    const value = (field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
