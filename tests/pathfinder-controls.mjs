@@ -67,6 +67,12 @@ assert.match(sheetSource,/pf-field-underline/,
   'Published PF2e text fields use the persistent underline');
 assert.match(styles,/\.pf-field-text\.pf-field-underline/,
   'The persistent underline survives empty input');
+assert.doesNotMatch(styles,/\.pf-field-text:focus\s*\{[^}]*box-shadow/s,
+  'Entering a PDF text field must not draw a bottom focus line');
+assert.doesNotMatch(styles,/\.pf-field-select:focus-visible\s*\{[^}]*box-shadow/s,
+  'Opening a PDF select must not draw a bottom focus line');
+assert.doesNotMatch(styles,/\.pf-field-text\.pf-field-underline:focus-visible\s*\{/,
+  'Focused permanent underlines must not become thicker');
 assert.match(styles,/left:4\.35%;top:4\.45%;width:28\.95%;height:32\.90%/,
   'Portrait is inset within the printed PF2e frame');
 assert.match(homeSource,/className="character-portrait-placeholder"/,
