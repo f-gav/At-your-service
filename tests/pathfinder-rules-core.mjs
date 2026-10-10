@@ -82,7 +82,7 @@ const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const ui=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const rank=read('../src/features/pathfinder/RankSelect.tsx');
 const css=read('../src/features/pathfinder/PathfinderSheet.css');
-assert.match(ui,/calculateCore\(\{\.\.\.values,\.\.\.combat\}\)/);
+assert.match(ui,/calculateCore\(values\)/);
 assert.match(ui,/setAutomatic/);
 assert.match(ui,/RANK_FIELDS.has\(field.id\)/);
 assert.match(ui,/persistSheetValues\(character.details, toStore, cleanName\)/);
