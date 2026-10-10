@@ -44,7 +44,7 @@ const visual=read('../src/features/pathfinder/ToggleVisual.tsx');
 assert.match(visual,/data-native-dark-hero=\{isHeroPointId\(field.id\)/);
 assert.match(admin,/ToggleVisual field=\{f\} checked=\{samples\[f.id\]==='true'\}/);
 assert.match(app,/ToggleVisual field=\{field\} checked=\{value === true\}/);
-const maskSelector=String.raw\`.pf-toggle-visual[data-native-dark-hero="true"][data-mode="fill"][data-checked="false"] .pf-toggle-fill-shape\`;
+const maskSelector=String.raw`.pf-toggle-visual[data-native-dark-hero="true"][data-mode="fill"][data-checked="false"] .pf-toggle-fill-shape`;
 assert.ok(styles.includes(maskSelector),'Unchecked PDF hero-point ink must be masked in both editor and sheet');
 assert.ok(styles.indexOf(maskSelector)>styles.indexOf('[data-editor-guide="true"][data-checked="false"]'),
   'Hero mask must override the editor-only guide tint');
