@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import type {CSSProperties,PointerEvent as PE} from 'react';
 import {supabase} from '../../lib/supabase';
 import {PDF_WIDTH,PDF_HEIGHT} from './layout';
@@ -7,6 +7,7 @@ import type {EditableField} from './editor-schema';
 import { DEFAULT_SELECT_OPTIONS, PF2E_SIZE_OPTIONS, parseOptions } from './field-options';
 import ToggleVisual from './ToggleVisual';
 import { toggleAppearance } from './toggle-shapes';
+import { buildBardDemo } from './bard-demo';
 import './PathfinderSheet.css';
 import './TemplateAdmin.css';
 type Change=Partial<EditableField>;
@@ -17,6 +18,16 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   const [preview,setPreview]=useState(false),[zoom,setZoom]=useState(960),[grid,setGrid]=useState(false);
   const [zoomInput,setZoomInput]=useState('960');
   const [samples,setSamples]=useState<Record<string,string>>({});
+  const [bardTestOn,setBardTestOn]=useState(false);
+  const [bardOverrides,setBardOverrides]=useState<Record<string,string>>({});
+  const bardSamples=useMemo(()=>bardTestOn?buildBardDemo(fields):{},[bardTestOn,fields]);
+  const displaySamples=useMemo(()=>bardTestOn
+    ? {...samples,...bardSamples,...bardOverrides} : samples,
+    [bardTestOn,samples,bardSamples,bardOverrides]);
+  function setPreviewSample(id:string,value:string){
+    if(bardTestOn)setBardOverrides(old=>({...old,[id]:value}));
+    else setSamples(old=>({...old,[id]:value}));
+  }
   const [dirty,setDirty]=useState(false),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[status,setStatus]=useState('');
   const [version,setVersion]=useState(0),[versions,setVersions]=useState<number[]>([]),[restore,setRestore]=useState('');
   const [undo,setUndo]=useState<EditableField[][]>([]),[redo,setRedo]=useState<EditableField[][]>([]);
@@ -109,7 +120,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   // The editable preview uses the same HTML control and classes as the live sheet.
   // A generic span has different line-height, padding and vertical text alignment.
   const previewText=(f:EditableField)=>{
-    const value=samples[f.id] ?? (f.kind==='select'?(f.options?.[0]??''):f.label);
+    const value=displaySamples[f.id] ?? (f.kind==='select'?(f.options?.[0]??''):f.label);
     const narrow=f.w<40?' pf-field-narrow':'',tiny=f.w<20?' pf-field-tiny':'';
     const numeric=f.kind==='number'||f.kind==='counter';
     const className='pf-field-text'+(numeric?' pf-field-number':'')+narrow+tiny+
@@ -127,7 +138,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         ? (100*(f.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(f.paddingX??2)/PDF_WIDTH)+'cqw'
         :undefined,
     };
-    if(f.kind==='toggle')return <ToggleVisual field={f} checked={samples[f.id]==='true'} editorGuide={!preview}/>;
+    if(f.kind==='toggle')return <ToggleVisual field={f} checked={displaySamples[f.id]==='true'} editorGuide={!preview}/>;
     if(f.kind==='long')return <textarea aria-label={f.label} readOnly tabIndex={-1}
       className={'ta-preview-control '+className+' pf-field-long'} style={style} value={value}/>;
     if(f.kind==='select')return <select aria-label={f.label} tabIndex={-1}
@@ -160,6 +171,13 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <button disabled={!undo.length} onClick={undoOnce}>↶ Отмена</button>
       <button disabled={!redo.length} onClick={redoOnce}>↷ Повтор</button>
       <button onClick={()=>setPreview(!preview)}>{preview?'Правка':'Предпросмотр'}</button>
+      <button type="button" className={'ta-bard-test'+(bardTestOn?' active':'')}
+        aria-pressed={bardTestOn} disabled={loading}
+        title="Временно заполнить все четыре страницы примером барда; данные не сохраняются"
+        onClick={()=>{setBardTestOn(old=>!old);setBardOverrides({});}}>
+        {bardTestOn?'Скрыть тест':'Тест персонажа'}
+      </button>
+      {bardTestOn&&<span className="ta-bard-hint">Бард — только предпросмотр</span>}
       <label>Масштаб
         <input type="range" min="600" max="2600" step="20" value={zoom} onChange={e=>{setZoom(Number(e.target.value));setZoomInput(e.target.value);}}/>
         <input className="ta-zoom-value" type="number" min="600" max="2600" step="20" value={zoomInput}
@@ -171,7 +189,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <div className="ta-scroll"><div className="ta-page" ref={pageRef} style={{width:zoom,aspectRatio:PDF_WIDTH+'/'+PDF_HEIGHT}}>
         <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=3'} alt={'Страница '+page} draggable={false}/>
         {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
-          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
+          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(displaySamples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>
           {previewText(f)}
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
@@ -189,15 +207,15 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
           <small>ID: {active.id}</small>
           {active.kind==='toggle'
             ? <label className="ta-toggle-setting"><input type="checkbox"
-                checked={samples[active.id]==='true'}
-                onChange={e=>setSamples(old=>({...old,[active.id]:e.target.checked?'true':'false'}))}/>
+                checked={displaySamples[active.id]==='true'}
+                onChange={e=>setPreviewSample(active.id,e.target.checked?'true':'false')}/>
                 Пробное нажатие (не сохраняется)</label>
             : active.kind==='select'
-            ? <label>Пример только для предпросмотра<select value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}>
+            ? <label>Пример только для предпросмотра<select value={displaySamples[active.id]??''} onChange={e=>setPreviewSample(active.id,e.target.value)}>
                 <option value="">— Выбери вариант —</option>
                 {(active.options??[]).map(value=><option key={value} value={value}>{value}</option>)}
               </select></label>
-            : <label>Пример только для предпросмотра<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}/></label>}
+            : <label>Пример только для предпросмотра<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={displaySamples[active.id]??''} onChange={e=>setPreviewSample(active.id,e.target.value)}/></label>}
           <label>Название<input value={active.label} maxLength={160} onChange={e=>prop('label',e.target.value)}/></label>
           <label>Тип<select value={active.kind} onChange={e=>{
             const kind=e.target.value;
