@@ -408,3 +408,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* Portable character JSON upload: hidden native picker within a compact action. */
+.json-import-button { display:inline-flex; align-items:center; gap:7px; cursor:pointer; border:1px solid #c5cfca; border-radius:7px; padding:7px 11px; font-size:12px; font-weight:600; color:#53645d; background:#fff; margin-left:auto; }
+.json-import-button:hover { background:#f4f6f4; }
+.json-import-button:focus-within { outline:2px solid #6c8a7a; outline-offset:2px; }
+.json-import-button input { position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; }

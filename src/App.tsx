@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, ChangeEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import {
   ArrowLeft,
@@ -15,6 +15,8 @@ import {
   ShieldCheck,
   Trash2,
   MoreHorizontal,
+  Download,
+  Upload,
   X,
 } from 'lucide-react';
 import {
@@ -28,6 +30,7 @@ import {
 } from './lib/models';
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
+import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import TemplateAdmin from './features/pathfinder/TemplateAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
@@ -230,6 +233,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [importingJson, setImportingJson] = useState(false);
 
   const user = session?.user;
   useEffect(()=>{
@@ -423,6 +427,26 @@ export default function App() {
     return true;
   }
 
+  async function importJson(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file || !supabase || !user || busy || importingJson) return;
+    if (file.size > 1024 * 1024) { setError('JSON слишком большой (не более 1 МБ).'); return; }
+    setImportingJson(true); setError('');
+    try {
+      const parsed = parseCharacterJson(await file.text());
+      const nextOrder = characters.reduce((maximum, character) => Math.max(maximum, character.sort_order), 0) + 1;
+      const { data, error: importError } = await supabase.from('characters')
+        .insert({ user_id: user.id, system: parsed.system, name: parsed.name,
+          details: parsed.details, sort_order: nextOrder })
+        .select('id, user_id, system, name, details, sort_order, created_at, updated_at').single();
+      if (importError || !data) throw importError ?? new Error('Не удалось создать персонажа.');
+      setCharacters(current => [...current, { ...data, details: normalizeDetails(data.details) } as Character]);
+      setFilter('all'); setOpenMenuId(null);
+    } catch (cause) { setError(messageFromError(cause)); }
+    finally { setImportingJson(false); }
+  }
+
   function beginMove(id: string) {
     if (busy) return;
     setFilter('all');
@@ -526,6 +550,10 @@ export default function App() {
           <section className="library-section" aria-labelledby="library-title">
             <div className="library-heading">
               <h2 id="library-title">Мои персонажи: ({characters.length})</h2>
+              <label className="json-import-button" title="Загрузить лист персонажа из JSON">
+                <Upload size={15} /> JSON
+                <input type="file" accept=".json,application/json" aria-label="Импортировать JSON персонажа" disabled={!user || busy || importingJson} onChange={event => void importJson(event)} />
+              </label>
               <div className="system-filters" role="group" aria-label="Фильтр персонажей по системе">
                 {systemKeys.map((system, index) => (
                   <span className="filter-item" key={system}>
@@ -570,6 +598,7 @@ export default function App() {
                     </button>
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
+                      <button type="button" onClick={() => {setOpenMenuId(null);downloadCharacter(character);}}><Download size={15} /> Экспорт JSON</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
                     </div>}
                   </div>}
