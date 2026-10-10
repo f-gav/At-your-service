@@ -1,8 +1,8 @@
 import type { SheetValues } from './sheet-values';
 
 export type Rank = 0 | 1 | 2 | 3 | 4;
-export const RANK_LABELS = ['Необученный', 'Обученный', 'Эксперт', 'Мастер', 'Легенда'] as const;
-export const RANK_MARKS = ['—', 'О', 'Э', 'М', 'Л'] as const;
+export const RANK_LABELS = ['Необученный', 'Изученный', 'Эксперт', 'Мастер', 'Легенда'] as const;
+export const RANK_MARKS = ['—', 'И', 'Э', 'М', 'Л'] as const;
 export const SKILL_ABILITIES = {
   acrobatics: 'dex',
   athletics: 'str',
