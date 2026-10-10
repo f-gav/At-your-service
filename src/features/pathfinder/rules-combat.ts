@@ -182,9 +182,29 @@ export function calculateNativeCombat(v: SheetValues): Record<string,string> {
   }
   const threshold=shieldBrokenThreshold(n(v,'shield_max_hp'));
   if (threshold!==undefined) add(result,'shield_broken',threshold,true);
+
+  // Use only the three numbers explicitly written in each PDF attack strip.
+  // Weapon kind, finesse, selected ability and category are never guessed.
+  for (const i of WEAPON_IDS) {
+    const prefix='weapon_'+i+'_';
+    const ids=[prefix+'ability',prefix+'prof',prefix+'item'];
+    const hasInput=ids.some(id=>String(v[id]??'').trim()!=='');
+    if (!hasInput) continue; // preserve any older manual attack until configured
+    const vals=ids.map(id=>{
+      const raw=String(v[id]??'').trim();
+      return raw==='' ? 0 : n(v,id);
+    });
+    if (vals.every((value):value is number => value!==undefined)) {
+      add(result,prefix+'attack',vals.reduce((sum,value)=>sum+value,0));
+    }
+  }
   return result;
 }
 
+export function isNativeWeaponAttackField(id:string):boolean {
+  return /^weapon_[1-5]_attack$/.test(id);
+}
+
 export function isNativeCombatComputedField(id:string): boolean {
-  return id==='armor_class' || id==='shield_broken';
+  return id==='armor_class' || id==='shield_broken' || isNativeWeaponAttackField(id);
 }
