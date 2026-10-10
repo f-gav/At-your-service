@@ -11,6 +11,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   const [fields,setFields]=useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
   const [page,setPage]=useState(1),[selected,setSelected]=useState('');
   const [preview,setPreview]=useState(false),[zoom,setZoom]=useState(960),[grid,setGrid]=useState(false);
+  const [samples,setSamples]=useState<Record<string,string>>({});
   const [dirty,setDirty]=useState(false),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[status,setStatus]=useState('');
   const [version,setVersion]=useState(0),[versions,setVersions]=useState<number[]>([]),[restore,setRestore]=useState('');
   const [undo,setUndo]=useState<EditableField[][]>([]),[redo,setRedo]=useState<EditableField[][]>([]);
@@ -115,9 +116,9 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <div className="ta-scroll"><div className="ta-page" ref={pageRef} style={{width:zoom,aspectRatio:PDF_WIDTH+'/'+PDF_HEIGHT}}>
         <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=2'} alt={'Страница '+page} draggable={false}/>
         {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
-          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')}
+          className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>
-          <span>{f.kind==='toggle'?'✓':f.label}</span>
+          <span>{f.kind==='toggle'?'✓':(samples[f.id] ?? f.label)}</span>
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
         </div>)}
       </div></div>
@@ -126,6 +127,8 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         <label>Выбрать поле<select value={selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
         {active?<div className="ta-form">
           <small>ID: {active.id}</small>
+          <label>Пробный текст<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}/></label>
+          <small>Отображается на листе, но не сохраняется в шаблоне или персонаже.</small>
           <label>Название<input value={active.label} maxLength={160} onChange={e=>prop('label',e.target.value)}/></label>
           <label>Тип<select value={active.kind} onChange={e=>prop('kind',e.target.value)}><option value="text">Текст</option><option value="long">Многострочный текст</option><option value="number">Число</option><option value="counter">Счётчик</option><option value="toggle">Отметка</option></select></label>
           <div className="ta-cols4">{(['x','y','w','h'] as const).map(k=><label key={k}>{k.toUpperCase()}<input type="number" step=".5" value={active[k]} onChange={e=>prop(k,Number(e.target.value))}/></label>)}</div>
