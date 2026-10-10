@@ -24,7 +24,7 @@ assert.equal(pathfinderSubtitle({ pathfinderSheet: { ancestry: 'Эльф' } }), 
 assert.equal(pathfinderSubtitle({}), 'Народ - Класс');
 const level2 = fields.find(f => f.id === 'feat_level_2');
 assert.ok(level2);
-assert.equal(fieldBox(level2).y, level2.y + 4);
+assert.equal(fieldBox(level2).y, level2.y); // New coordinates are already calibrated; no second offset.
 assert.doesNotMatch(styles, /#447a63|#8ab7a0|#f2fbf4/i);
 for (const n of [1, 2, 3, 4]) {
   const image = fs.readFileSync(new URL(`../public/pathfinder/page-${n}.webp`, import.meta.url));
