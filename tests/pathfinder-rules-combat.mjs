@@ -86,44 +86,50 @@ assert.equal(restored.hp_current,'11');
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const ui=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const panel=read('../src/features/pathfinder/CombatPanel.tsx');
+const schema=read('../src/features/pathfinder/editor-schema.ts');
+const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
+
 assert.match(ui,/calculateNativeCombat\(values\)/);
-assert.match(ui,/isNativeCombatComputedField\(key, values\)/);
-assert.doesNotMatch(ui,/CombatPanel|pf-combat-panel|combatOpen/);
+assert.match(ui,/isNativeCombatComputedField\(key\)/);
+assert.doesNotMatch(ui,/EquipmentPopover|pf-armor-trigger|pf-shield-trigger|combatOpen/);
 assert.match(panel,/applyShieldBlock\(v,d\)/);
-assert.match(panel,/combat_weapon_/);
-console.log('PF2e combat patch: AC/dex cap/armor ranks/shield, HP and 5 weapons, block reaction, JSON v1.');
 
-assert.deepEqual(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'1',shield_max_hp:'19'}),{armor_class:'16',shield_broken:'9'});
-assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'3',armor_item:'1'}).armor_class,undefined);
+assert.deepEqual(calculateNativeCombat({
+  armor_dex:'2',armor_prof:'3',armor_item:'1',shield_max_hp:'19'
+}),{armor_class:'16',shield_broken:'9'});
+assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'3',armor_item:'1'}).armor_class,'14');
+assert.equal(calculateNativeCombat({}).armor_class,'10');
+assert.equal(calculateNativeCombat({armor_dex:'-2',armor_prof:'0',armor_item:'0'}).armor_class,'8');
+assert.equal(calculateNativeCombat({armor_dex:'oops',armor_prof:'2',armor_item:'0'}).armor_class,undefined);
 assert.equal(isNativeCombatComputedField('armor_class'),true);
+assert.equal(isNativeCombatComputedField('shield_broken'),true);
 assert.equal(isNativeCombatComputedField('armor_dex'),false);
+assert.equal(isNativeCombatComputedField('armor_prof'),false);
+assert.equal(isNativeCombatComputedField('armor_item'),false);
+assert.equal(isNativeCombatComputedField('skill_stealth_armor'),false);
 
-const armorEditor = {
-  ...baseline, level:'4', ability_str:'2', ability_dex:'4',
-  combat_armor_enabled:'true', combat_armor_category:'2',
-  combat_armor_name:'Кольчуга', combat_armor_dex_cap:'1',
-  combat_armor_item_bonus:'4', combat_armor_other_ac:'1',
-  armor_rank_2:'2', combat_armor_skill_penalty_enabled:'true',
-  combat_armor_check_penalty:'2', combat_armor_strength_requirement:'3'
+// Old optional armor settings may remain stored, but must never replace
+// the three values manually entered in the PDF strip.
+const oldConfiguration = {
+  ...baseline,
+  armor_dex:'-1',armor_prof:'5',armor_item:'2',
+  combat_armor_enabled:'true',combat_armor_category:'2',
+  combat_armor_dex_cap:'0',combat_armor_item_bonus:'99',
+  combat_armor_other_ac:'90',combat_armor_skill_penalty_enabled:'true',
+  combat_armor_check_penalty:'3',combat_armor_strength_requirement:'4',
 };
-const equipped = calculateNativeCombat(armorEditor);
-assert.equal(equipped.armor_class,'24'); // 10+1 Dex+8 expert+4 armor+1 other
-assert.equal(equipped.armor_dex,'+1');
-assert.equal(equipped.armor_prof,'+8');
-assert.equal(equipped.armor_item,'+4');
-assert.equal(equipped.skill_acrobatics_armor,'-2');
-assert.equal(equipped.skill_athletics_armor,'-2');
-assert.equal(calculateNativeCombat({...armorEditor,ability_str:'3'}).skill_stealth_armor,'0');
-assert.equal(calculateNativeCombat({...armorEditor,combat_armor_category:'0',combat_armor_dex_cap:''}).armor_dex,'+4');
-assert.equal(calculateNativeCombat({...armorEditor,combat_armor_category:'2',combat_armor_dex_cap:''}).armor_class,undefined);
-assert.equal(isNativeCombatComputedField('armor_dex',armorEditor),true);
-assert.equal(isNativeCombatComputedField('skill_stealth_armor',armorEditor),true);
-assert.equal(isNativeCombatComputedField('skill_stealth_armor',{...armorEditor,combat_armor_skill_penalty_enabled:'false'}),false);
-assert.equal(isNativeCombatComputedField('armor_dex',{...armorEditor,combat_armor_enabled:'false'}),false);
-assert.equal(calculateNativeCombat({...baseline,armor_dex:'2',armor_prof:'3',armor_item:'1',combat_armor_enabled:'false'}).armor_class,'16');
-const equipmentUI=read('../src/features/pathfinder/EquipmentPopover.tsx');
-assert.match(equipmentUI,/combat_armor_dex_cap/);
-assert.match(equipmentUI,/combat_armor_strength_requirement/);
-assert.match(equipmentUI,/combat_shield_notes/);
-assert.match(ui,/pf-armor-trigger/);
-assert.match(ui,/pf-shield-trigger/);
+const manualResult = calculateNativeCombat(oldConfiguration);
+assert.equal(manualResult.armor_class,'16');
+assert.equal(manualResult.armor_dex,undefined);
+assert.equal(manualResult.armor_prof,undefined);
+assert.equal(manualResult.armor_item,undefined);
+assert.equal(manualResult.skill_acrobatics_armor,undefined);
+
+// Both existing popover note IDs become normal freely editable sheet fields.
+assert.match(schema,/id: 'combat_armor_name'/);
+assert.match(schema,/id: 'combat_shield_notes'/);
+assert.match(schema,/withEquipmentTextFields/);
+assert.match(ui,/withEquipmentTextFields\(cloneFields\(data.fields\)\)/);
+assert.match(admin,/withEquipmentTextFields\(cloneFields\(schema\)\)/);
+assert.match(ui,/pageFields.map\(renderField\)/);
+console.log('PF2e native AC: manual 10+Dex+proficiency+item; user-configurable armor and shield fields.');
