@@ -22,6 +22,11 @@ const BARDS:Record<string,string> = {
   perception:'30',perception_notes:'Чуткий слух и внимательный взгляд.',
   speed:'30',movement:'Ходьба 30 фт.',
   weapon_other:'Любимая лютня.',critical_effects:'Дополнительный урон звуком.',
+  weapon_1_ability:'+5',weapon_1_prof:'+24',weapon_1_item:'+3',
+  weapon_2_ability:'+5',weapon_2_prof:'+23',weapon_2_item:'+2',
+  weapon_3_ability:'+5',weapon_3_prof:'+22',weapon_3_item:'+1',
+  weapon_4_ability:'+5',weapon_4_prof:'+22',weapon_4_item:'+2',
+  weapon_5_ability:'+5',weapon_5_prof:'+23',weapon_5_item:'+2',
   class_dc:'43',class_dc_key:'+7',class_dc_rank:'24',class_dc_item:'+2',
   ancestry_features:'Талант к импровизации',
   ancestry_feat_1:'Человеческая изобретательность',
@@ -95,6 +100,8 @@ const REACTIONS = [
   ['Своевременный припев','Слуховой','353','Помеха выступлению','Перекрывает шум.'],
 ];
 function testToggle(id:string):string {
+  const type=/^weapon_([1-5])_damage_(bludgeoning|piercing|slashing)$/.exec(id);
+  if(type) return (type[2] === (Number(type[1])===2 || Number(type[1])===3 ? 'piercing' : 'slashing')) ? 'true' : 'false';
   if(id==='tradition_occult'||id==='spontaneous'||id==='hero_1'||id==='focus_point_1')return 'true';
   if(/^tradition_|^hero_|^focus_point_|^ability_.*_partial$/.test(id)||id==='prepared')return 'false';
   return 'true';
