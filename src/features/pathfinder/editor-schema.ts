@@ -9,6 +9,8 @@ export type EditableField = PathfinderField & {
   fontFamily?: string;
   fontSize?: number;
   fontWeight?: number;
+  fontStyle?: 'normal' | 'italic';
+  textUnderline?: boolean;
   textAlign?: 'left' | 'center' | 'right';
   color?: string;
   paddingX?: number;
@@ -16,29 +18,22 @@ export type EditableField = PathfinderField & {
 };
 export const TEMPLATE_KEY = 'pf2e';
 export const PAGE_NAMES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
-/** User-configurable text boxes on the printed armor and shield illustrations.
- * Reuse previous note IDs so existing character text survives removing popovers.
- * Kept separately from the 373 calibrated source-PDF fields.
+/** The printed armor silhouette already contains the numeric armor_class field.
+ * Remove redundant legacy text overlays and add one number in the shield
+ * illustration. Stored character values and all other calibrated fields stay intact.
  */
-export const EQUIPMENT_TEXT_FIELDS: EditableField[] = [
-  {
-    id: 'combat_armor_name', label: 'Броня — текст на изображении', page: 1,
-    x: 28, y: 222, w: 56, h: 11, kind: 'text', maxlen: 200,
-    fontSize: 9, textAlign: 'center', adjusted: true,
-  },
-  {
-    id: 'combat_shield_notes', label: 'Щит — текст на изображении', page: 1,
-    x: 93, y: 212, w: 26, h: 15, kind: 'text', maxlen: 3000,
-    fontSize: 9, textAlign: 'center', adjusted: true,
-  },
-];
-
-export function withEquipmentTextFields(fields: EditableField[]): EditableField[] {
-  const found = new Set(fields.map(field => field.id));
-  return [...fields, ...EQUIPMENT_TEXT_FIELDS.filter(field => !found.has(field.id)).map(field => ({ ...field }))];
+export const EQUIPMENT_NUMBER_FIELDS: EditableField[] = [{
+  id: 'shield_ac_bonus', label: 'Щит — числовое поле', page: 1,
+  x: 95, y: 212, w: 21, h: 15, kind: 'number', maxlen: 8,
+  fontSize: 12, textAlign: 'center', adjusted: true,
+}];
+export function withEquipmentNumberFields(fields: EditableField[]): EditableField[] {
+  const retained = fields.filter(f => !['combat_armor_name', 'combat_shield_notes'].includes(f.id));
+  const existing = new Set(retained.map(f => f.id));
+  return [...retained, ...EQUIPMENT_NUMBER_FIELDS.filter(f => !existing.has(f.id)).map(f => ({...f}))];
 }
 
-export const DEFAULT_FIELDS: EditableField[] = withEquipmentTextFields(
+export const DEFAULT_FIELDS: EditableField[] = withEquipmentNumberFields(
   (baseFields as PathfinderField[]).map(f => ({
     ...f, ...fieldBox(f), adjusted: true,
     ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
@@ -64,6 +59,8 @@ export function validFields(value: unknown): value is EditableField[] {
       a.w >= 3 && a.h >= 3 && a.x >= 0 && a.y >= 0 && a.x+a.w <= 601.1 && a.y+a.h <= 782.5 &&
       (a.fontSize === undefined || (a.fontSize >= 5 && a.fontSize <= 40)) &&
       (a.fontWeight === undefined || [400,500,600,700,800].includes(a.fontWeight)) &&
+      (a.fontStyle === undefined || ['normal','italic'].includes(a.fontStyle)) &&
+      (a.textUnderline === undefined || typeof a.textUnderline === 'boolean') &&
       (a.fontFamily === undefined || fonts.includes(a.fontFamily)) &&
       (a.textAlign === undefined || ['left','center','right'].includes(a.textAlign)) &&
       (a.color === undefined || /^#[0-9a-fA-F]{6}$/.test(a.color)) &&

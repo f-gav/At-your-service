@@ -6,7 +6,7 @@ import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
-import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentTextFields } from './editor-schema';
+import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields } from './editor-schema';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
@@ -49,7 +49,7 @@ export default function PathfinderSheet({
     if(!supabase)return;
     let active=true;
     void supabase.from('sheet_templates').select('fields').eq('template_key','pf2e').maybeSingle().then(({data,error})=>{
-      if(active && !error && validFields(data?.fields)) setTemplateFields(withEquipmentTextFields(cloneFields(data.fields)));
+      if(active && !error && validFields(data?.fields)) setTemplateFields(withEquipmentNumberFields(cloneFields(data.fields)));
     });
     return()=>{active=false;};
   },[]);
@@ -60,16 +60,16 @@ export default function PathfinderSheet({
       && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion');
   }, [character.details]);
   const automatic = isAutomatic(values, legacyHasValues);
+  // AC is always the sum of the three editable PDF-strip cells, independent of
+  // the optional auto-rules mode for skills, saves and other derived values.
   const computed = useMemo(() => {
-    if (!automatic) return {};
     const combat = calculateNativeCombat(values);
-    return { ...calculateCore({ ...values, ...combat }), ...combat };
+    return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
+      : (combat.armor_class === undefined ? {} : { armor_class: combat.armor_class });
   }, [automatic, values]);
-  const displayValues = useMemo(() => automatic
-    ? { ...values, ...computed }
-    : values, [automatic, values, computed]);
+  const displayValues = useMemo(() => ({ ...values, ...computed }), [values, computed]);
   function setAutomatic(enabled: boolean) {
-    if (enabled && !window.confirm('Включить автоматические расчёты PF2e? Они изменят итоги навыков, спасбросков, Восприятия, порог поломки щита и КД, который складывается из вручную введённых Ловкости, Умения и Предмета. Ручные итоги заменятся формулами, а исходные значения сохранятся.')) return;
+    if (enabled && !window.confirm('Включить автоматические расчёты PF2e? Они изменят итоги навыков, спасбросков, Восприятия и порог поломки щита. КД всегда считается по плашке: 10 + Ловкость + Умение + Предмет. Ручные итоги заменятся формулами, а исходные значения сохранятся.')) return;
     setValues(prev => ({ ...prev, rulesMode: enabled ? 'auto' : 'manual' }));
   }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
@@ -122,12 +122,11 @@ export default function PathfinderSheet({
     // Persist the evaluated values too: exported JSON and manual-mode fallback
     // remain meaningful outside the live rule engine. Source fields are never overwritten.
     const toStore = { ...values };
-    if (automatic) {
-      for (const key of Object.keys(toStore)) {
-        if ((isCoreComputedField(key) || isNativeCombatComputedField(key)) && !(key in computed)) toStore[key] = '';
-      }
-      Object.assign(toStore, computed);
+    for (const key of Object.keys(toStore)) {
+      if ((key === 'armor_class' || (automatic && (isCoreComputedField(key) || isNativeCombatComputedField(key))))
+        && !(key in computed)) toStore[key] = '';
     }
+    Object.assign(toStore, computed);
     const details = persistSheetValues(character.details, toStore, cleanName);
     try {
       const success = await onSave(character.id, cleanName, details);
@@ -161,19 +160,21 @@ export default function PathfinderSheet({
       fontFamily: field.fontFamily || undefined,
       fontSize: field.fontSize ? (100*field.fontSize/PDF_WIDTH)+'cqw' : undefined,
       fontWeight: field.fontWeight || undefined,
+      fontStyle: field.fontStyle || undefined,
+      textDecoration: field.textUnderline ? 'underline' : undefined,
       textAlign: field.textAlign || undefined,
       color: field.color || undefined,
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)) && !(field.id in computed)
+    const value = (field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)))) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
         rank={readRank(values[field.id]) ?? 0} style={style}
         disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
     }
-    const computedField = automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id));
+    const computedField = field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
         <input id={id} type="checkbox" checked={value === true}
@@ -276,7 +277,7 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={automatic} onChange={event=>setAutomatic(event.target.checked)}/>
               Автоматические расчёты
             </label>
-            <p className="pf-settings-note">Расчёты выполняются прямо в полях PDF: навыки, спасброски, Восприятие, порог поломки щита и КД рассчитывается как 10 + Ловкость + Умение + Предмет по трём вручную заполненным полям плашки. Надписи на броне и щите редактируются прямо в PDF; в редакторе шаблона можно настраивать их расположение и оформление. Остальные параметры снаряжения не определяются автоматически. Старые листы остаются в ручном режиме.</p>
+            <p className="pf-settings-note">КД всегда равен 10 + Ловкость + Умение + Предмет по ручным значениям в плашке. Число на щите заполняется отдельно. При включении автоматики также рассчитываются навыки, спасброски, Восприятие и порог поломки. Положение и оформление полей можно изменить в редакторе.</p>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
