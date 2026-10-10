@@ -27,9 +27,9 @@ assert.equal(calculateCombat(shield).armor_class,'20');
 assert.equal(calculateCombat(shield).shield_broken,'10');
 assert.equal(shieldBrokenThreshold(23),11);
 assert.equal(shieldIsBroken({...shield,shield_hp:'10'}),true);
-assert.equal(calculateCombat({...shield,shield_hp:'10'}).armor_class,'+18');
-assert.equal(calculateCombat({...shield,combat_shield_raised:'false'}).armor_class,'+18');
-assert.equal(calculateCombat({...shield,combat_shield_ac_bonus:''}).armor_class,'+18');
+assert.equal(calculateCombat({...shield,shield_hp:'10'}).armor_class,'18');
+assert.equal(calculateCombat({...shield,combat_shield_raised:'false'}).armor_class,'18');
+assert.equal(calculateCombat({...shield,combat_shield_ac_bonus:''}).armor_class,'18');
 const armorSkills={...armor,combat_armor_skill_penalty_enabled:'true',
   combat_armor_check_penalty:'2',combat_armor_strength_requirement:'3',ability_str:'2'};
 const negativeSkills=calculateCombat(armorSkills);
