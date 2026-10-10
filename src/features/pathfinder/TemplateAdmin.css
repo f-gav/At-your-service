@@ -62,13 +62,6 @@
   accent-color:#455b50;
 }
 
-.ta-side .ta-sample-notice{
-  padding:8px 10px;border:1px solid #d7ddd7;border-radius:6px;
-  background:#f5f7f5;color:#505d55;font-size:12px;line-height:1.45;
-}
-.ta-side .ta-clear-sample{align-self:flex-start;padding:5px 9px;font-size:12px;}
-.ta-side .ta-clear-sample:disabled{cursor:default;opacity:.55;}
-
 /* Admin and live PF2e controls use identical text metrics, including vertical
    centering and input padding. Outlines avoid changing the field's dimensions. */
 .ta-page {container-type:inline-size;}
