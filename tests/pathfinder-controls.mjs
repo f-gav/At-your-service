@@ -67,4 +67,7 @@ assert.match(homeSource,/className="character-portrait-placeholder"/,
   'Placeholder is styled independently of uploaded portraits');
 assert.match(siteCss,/\.character-portrait-action img\.character-portrait-placeholder/,
   'Placeholder is enlarged and lowered within the home card');
+assert.match(adminSource,/Пример только для предпросмотра/);
+assert.match(adminSource,/пробные значения не переносятся в персонажей/);
+assert.match(adminSource,/ta-clear-sample/);
 console.log('PF2e controls: dropdowns, hero points, permanent underline, portrait framing and JSON compatibility.');

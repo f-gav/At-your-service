@@ -87,7 +87,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     const {data,error}=await supabase.rpc('publish_sheet_template',{p_template_key:TEMPLATE_KEY});
     setBusy(false);
     if(error){setStatus(error.message);return;}
-    setVersion(Number(data));setVersions(old=>[Number(data),...old]);setStatus('Опубликована версия '+data);
+    setVersion(Number(data));setVersions(old=>[Number(data),...old]);setStatus('Опубликована версия '+data+'. Оформление применено; пробные значения не переносятся в персонажей.');
   }
   async function loadVersion(){
     if(!supabase||!restore||!confirm('Загрузить выбранную версию в редактор?'))return;
@@ -129,12 +129,13 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
         {active?<div className="ta-form">
           <small>ID: {active.id}</small>
           {active.kind==='select'
-            ? <label>Пробное значение<select value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}>
+            ? <label>Пример только для предпросмотра<select value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}>
                 <option value="">— Выбери вариант —</option>
                 {(active.options??[]).map(value=><option key={value} value={value}>{value}</option>)}
               </select></label>
-            : <label>Пробный текст<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}/></label>}
-          <small>Отображается на листе, но не сохраняется в шаблоне или персонаже.</small>
+            : <label>Пример только для предпросмотра<textarea className="ta-sample-input" rows={3} placeholder="Введи текст для проверки на листе" value={samples[active.id]??''} onChange={e=>setSamples(old=>({...old,[active.id]:e.target.value}))}/></label>}
+          <p className="ta-sample-notice">Пробное значение <strong>не публикуется</strong>. В обычном листе останутся настоящие данные персонажа.</p>
+          <button type="button" className="ta-clear-sample" disabled={samples[active.id]===undefined} onClick={()=>setSamples(old=>{const next={...old};delete next[active.id];return next;})}>Очистить пробное значение</button>
           <label>Название<input value={active.label} maxLength={160} onChange={e=>prop('label',e.target.value)}/></label>
           <label>Тип<select value={active.kind} onChange={e=>{
             const kind=e.target.value;
