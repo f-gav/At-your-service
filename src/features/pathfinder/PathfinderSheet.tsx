@@ -200,9 +200,9 @@ export default function PathfinderSheet({
 
     return <section key={page} className="pf-sheet-page" aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
       <img
-        src={`${import.meta.env.BASE_URL}pathfinder/page-${page}.webp?v=2`}
-        width="2404"
-        height="3130"
+        src={`${import.meta.env.BASE_URL}pathfinder/page-${page}.webp?v=3`}
+        width="3005"
+        height="3912"
         loading={page === 1 ? 'eager' : 'lazy'}
         decoding="async"
         alt={`Бланк Pathfinder 2e, страница ${page}: ${PAGE_TITLES[page - 1]}`}

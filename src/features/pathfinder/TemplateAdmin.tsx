@@ -115,7 +115,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     </div>
     <div className="ta-columns">
       <div className="ta-scroll"><div className="ta-page" ref={pageRef} style={{width:zoom,aspectRatio:PDF_WIDTH+'/'+PDF_HEIGHT}}>
-        <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=2'} alt={'Страница '+page} draggable={false}/>
+        <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=3'} alt={'Страница '+page} draggable={false}/>
         {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
           className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(samples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>

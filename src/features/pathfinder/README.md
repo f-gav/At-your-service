@@ -7,14 +7,14 @@
 - `summary.ts`: extracts the home-card subtitle from the character sheet's `ancestry` and `character_class` fields.
 - `PathfinderSheet.tsx`: all four pages in document order, field input state, counter controls and save flow.
 - `PathfinderSheet.css`: isolated styling. No green editable-field overlays; neutral keyboard focus.
-- `public/pathfinder/page-{1..4}.webp`: lossless WebP, high-resolution (288 DPI) renders of the original PDF. `loading="lazy"` for pages 2–4.
+- `public/pathfinder/page-{1..4}.webp`: lossless WebP, high-resolution (360 DPI) renders of the original PDF. `loading="lazy"` for pages 2–4.
 - `public/pathfinder/Pathfinder_2e_RU_editable_V1.pdf`: downloadable form-enabled PDF, kept for compatibility, but the web UI edits its own persisted fields.
 
 The website stores the character's data in `characters.details.pathfinderSheet`, with `schemaVersion: 1`. The layout and original PDF do not affect saved data. When future gameplay calculations are added, do not replace user-entered values without a migration plan.
 
 ## Rendering quality
 
-The original PDF has vector text and line art. The first version used 962 × 1252 lossy WebP thumbnails as page backgrounds, so text became soft on Retina displays. Version 2 uses 2404 × 3130 lossless WebP images; browser display is ~960 px wide on desktop, so the image supplies about 2.5 physical pixels per CSS pixel at 100% scale. At extreme zoom, a future PDF.js renderer could offer resolution-independent vector rendering.
+The original PDF has vector text and line art. The first version used 962 × 1252 lossy WebP thumbnails as page backgrounds, so text became soft on Retina displays. Current version uses 3005 × 3912 lossless WebP images rendered from the original vector PDF at 360 DPI. At a ~960 CSS-px sheet width, it provides about 3.1 image pixels per CSS pixel. The PDF field coordinate system is unchanged. Rendering via PDF.js would provide resolution-independent text and lines at arbitrary zoom.
 
 ## Notes
 

@@ -32,7 +32,7 @@ for (const n of [1, 2, 3, 4]) {
   assert.equal(image.toString('ascii', 8, 12), 'WEBP');
   assert.equal(image.toString('ascii', 12, 16), 'VP8L');
   const packed = image.readUInt32LE(21);
-  assert.equal((packed & 0x3fff) + 1, 2404);
-  assert.equal(((packed >>> 14) & 0x3fff) + 1, 3130);
+  assert.equal((packed & 0x3fff) + 1, 3005);
+  assert.equal(((packed >>> 14) & 0x3fff) + 1, 3912);
 }
 console.log('PF2e UI tests passed: all four pages, 373 fields, high-resolution images, home subtitle.');
