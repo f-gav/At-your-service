@@ -68,6 +68,19 @@ assert.match(homeSource,/className="character-portrait-placeholder"/,
 assert.match(siteCss,/\.character-portrait img\.character-portrait-placeholder/,
   'Placeholder is enlarged and lowered within the home card');
 assert.match(adminSource,/Пример только для предпросмотра/);
-assert.match(adminSource,/пробные значения не переносятся в персонажей/);
-assert.match(adminSource,/ta-clear-sample/);
+assert.doesNotMatch(adminSource,/ta-clear-sample|ta-sample-notice|Пробное значение/);
+assert.match(adminSource,/className="ta-page-nav"/);
+assert.match(adminSource,/PAGE_NAMES.map/);
+assert.match(adminSource,/max="2600"/);
+assert.match(adminSource,/ta-zoom-value/);
+assert.match(adminSource,/active.fontStyle==='italic'/);
+assert.match(adminSource,/active.textUnderline===true/);
+assert.match(adminSource,/fontStyle:f.fontStyle/);
+assert.match(adminSource,/textDecoration:f.textUnderline/);
+assert.match(sheetSource,/fontStyle: field.fontStyle/);
+assert.match(sheetSource,/textDecoration: field.textUnderline/);
+assert.match(schemaSource,/a.fontStyle === undefined/);
+assert.match(schemaSource,/a.textUnderline === undefined/);
+assert.match(adminCss,/\.ta-page-nav/);
+assert.match(adminCss,/\.ta-text-style/);
 console.log('PF2e controls: dropdowns, hero points, permanent underline, portrait framing and JSON compatibility.');
