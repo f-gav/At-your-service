@@ -38,6 +38,8 @@ assert.match(schemaSource, /validOptions\(a.options\)/);
 assert.match(sheetSource, /field.kind === 'select'/);
 assert.match(sheetSource, /const legacy = Boolean\(current\) && !options.includes\(current\)/);
 assert.match(sheetSource, /ToggleVisual/);
+assert.doesNotMatch(sheetSource, /pf-settings-note/,
+  'The compact settings menu has only toggles, no explanatory paragraph');
 assert.match(sheetSource, /ays-pf2e-monochrome/);
 assert.match(sheetSource, /pf-monochrome/);
 assert.match(adminSource, /Выпадающее меню/);

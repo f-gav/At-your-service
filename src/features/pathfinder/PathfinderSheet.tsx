@@ -277,7 +277,6 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={automatic} onChange={event=>setAutomatic(event.target.checked)}/>
               Автоматические расчёты
             </label>
-            <p className="pf-settings-note">КД всегда равен 10 + Ловкость + Умение + Предмет по ручным значениям в плашке. Число на щите заполняется отдельно. При включении автоматики также рассчитываются навыки, спасброски, Восприятие и порог поломки. Положение и оформление полей можно изменить в редакторе.</p>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
