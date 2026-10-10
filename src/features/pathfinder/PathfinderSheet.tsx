@@ -219,7 +219,7 @@ export default function PathfinderSheet({
       className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
-      value={formulaDisplayValue(field.id, String(value ?? ''), focusedFormulaField === field.id)}
+      value={formulaDisplayValue(field.id, String(value ?? ''), !computedField && focusedFormulaField === field.id)}
       onFocus={() => setFocusedFormulaField(field.id)}
       onBlur={() => setFocusedFormulaField(current => current === field.id ? null : current)}
       type="text"
@@ -242,7 +242,7 @@ export default function PathfinderSheet({
         draggable={false}
       />
       {page===3 && <button type="button" className="pf-portrait-button"
-        title="Нажми, чтобы добавить или сменить портрет" aria-label="Загрузить или сменить портрет персонажа"
+        aria-label="Загрузить или сменить портрет персонажа"
         onClick={onEditPortrait}>
           <PortraitImage url={portraitUrl || `${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`}
             frame={portraitUrl?portraitFrame:undefined} />
