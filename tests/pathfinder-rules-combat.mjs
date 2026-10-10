@@ -129,6 +129,9 @@ assert.equal(manualResult.skill_acrobatics_armor,undefined);
 // Only the shield gets a new numeric field; obsolete text overlays disappear.
 const pdfFields=JSON.parse(read('../src/features/pathfinder/fields.json'));
 assert.equal(pdfFields.find(f=>f.id==='armor_class')?.kind,'counter');
+assert.match(schema,/id: 'armor_class', label: 'Класс брони — итог внутри доспеха'/);
+assert.match(schema,/x: 42\.4, y: 194\.82, w: 25\.23, h: 33\.56/);
+assert.match(schema,/fontSize: 17, fontWeight: 700/);
 assert.match(schema,/id: 'shield_ac_bonus'/);
 assert.match(schema,/kind: 'number'/);
 assert.match(schema,/withEquipmentNumberFields/);
@@ -139,4 +142,6 @@ assert.match(ui,/pageFields.map\(renderField\)/);
 assert.match(ui,/field.id === 'armor_class'/);
 assert.match(ui,/Object.assign\(toStore, computed\)/);
 assert.equal(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'4',shield_ac_bonus:'5'}).armor_class,'19');
+assert.equal(calculateNativeCombat({armor_dex:'-2',armor_prof:'1',armor_item:'4'}).armor_class,'13');
+assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'',armor_item:''}).armor_class,'10');
 console.log('PF2e native AC: 10 + manual Dex/proficiency/item; numbered shield and AC field.');

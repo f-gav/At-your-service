@@ -18,15 +18,27 @@ export type EditableField = PathfinderField & {
 };
 export const TEMPLATE_KEY = 'pf2e';
 export const PAGE_NAMES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
-/** The printed armor silhouette already contains the numeric armor_class field.
- * Remove redundant legacy text overlays and add one number in the shield
- * illustration. Stored character values and all other calibrated fields stay intact.
+/** Restore the printed armor-class field if an older user-published
+ * template deleted it. The computation already writes to armor_class but a
+ * deleted field cannot display it on the PDF. Keep the same field ID as the
+ * calibrated source (and respect a user's coordinates when it exists).
+ *
+ * Add the separate numeric shield field as before. Neither modifies the
+ * source PDF image or the manually editable AC formula strip.
  */
-export const EQUIPMENT_NUMBER_FIELDS: EditableField[] = [{
-  id: 'shield_ac_bonus', label: 'Щит — числовое поле', page: 1,
-  x: 95, y: 212, w: 21, h: 15, kind: 'number', maxlen: 8,
-  fontSize: 12, textAlign: 'center', adjusted: true,
-}];
+export const EQUIPMENT_NUMBER_FIELDS: EditableField[] = [
+  {
+    id: 'armor_class', label: 'Класс брони — итог внутри доспеха',
+    page: 1, x: 42.4, y: 194.82, w: 25.23, h: 33.56,
+    kind: 'number', maxlen: 8, fontSize: 17, fontWeight: 700,
+    textAlign: 'center', adjusted: true,
+  },
+  {
+    id: 'shield_ac_bonus', label: 'Щит — числовое поле', page: 1,
+    x: 95, y: 212, w: 21, h: 15, kind: 'number', maxlen: 8,
+    fontSize: 12, textAlign: 'center', adjusted: true,
+  },
+];
 export function withEquipmentNumberFields(fields: EditableField[]): EditableField[] {
   const retained = fields.filter(f => !['combat_armor_name', 'combat_shield_notes'].includes(f.id));
   const existing = new Set(retained.map(f => f.id));
