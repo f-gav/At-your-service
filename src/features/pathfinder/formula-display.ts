@@ -5,7 +5,7 @@
  * in the model, calculations and serialized character data.
  */
 export function isFormulaOperandField(id: string): boolean {
-  return /^(?:armor_(?:dex|prof|item)|perception_(?:ability|prof|item)|save_(?:fort|reflex|will)_(?:ability|prof|item)|skill_[a-z0-9]+_(?:ability|prof|item|armor)|(?:spell_(?:attack|dc)|class_dc)_(?:key|item))$/.test(id);
+  return /^(?:armor_(?:dex|prof|item)|perception_(?:ability|prof|item)|save_(?:fort|reflex|will)_(?:ability|prof|item)|skill_[a-z0-9]+_(?:ability|prof|item|armor)|weapon_[1-5]_(?:ability|prof|item)|(?:spell_(?:attack|dc)|class_dc)_(?:key|item))$/.test(id);
 }
 
 export function formulaDisplayValue(id: string, raw: string, isEditing = false): string {
