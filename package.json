@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "check": "tsc --noEmit",
-    "test:models": "node --experimental-strip-types tests/models.mjs && node tests/pathfinder-fields.mjs && node --experimental-strip-types tests/pathfinder-ui.mjs && node --experimental-strip-types tests/pathfinder-sheet-values.mjs && node --experimental-strip-types tests/pathfinder-controls.mjs && node --experimental-strip-types tests/portrait-crop.mjs && node tests/portrait-storage-policy.mjs && node --experimental-strip-types tests/portrait-one-source.mjs && node --experimental-strip-types tests/pathfinder-toggles.mjs"
+    "test:models": "node --experimental-strip-types tests/models.mjs && node tests/pathfinder-fields.mjs && node --experimental-strip-types tests/pathfinder-ui.mjs && node --experimental-strip-types tests/pathfinder-sheet-values.mjs && node --experimental-strip-types tests/pathfinder-controls.mjs && node --experimental-strip-types tests/portrait-crop.mjs && node tests/portrait-storage-policy.mjs && node --experimental-strip-types tests/portrait-one-source.mjs && node --experimental-strip-types tests/pathfinder-toggles.mjs && node --experimental-strip-types tests/pathfinder-rules-core.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.0",

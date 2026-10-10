@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
 import { ArrowLeft, Cloud, Minus, Plus, Settings2 } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
@@ -8,6 +8,8 @@ import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields } from './editor-schema';
 import ToggleVisual from './ToggleVisual';
+import RankSelect from './RankSelect';
+import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
 import type { PathfinderField } from './layout';
@@ -51,6 +53,21 @@ export default function PathfinderSheet({
     });
     return()=>{active=false;};
   },[]);
+  // Do not silently reinterpret a pre-existing sheet. It stays manual until opted in.
+  const legacyHasValues = useMemo(() => {
+    const stored = character.details.pathfinderSheet;
+    return !!stored && typeof stored === 'object' && !Array.isArray(stored)
+      && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion');
+  }, [character.details]);
+  const automatic = isAutomatic(values, legacyHasValues);
+  const computed = useMemo(() => automatic ? calculateCore(values) : {}, [automatic, values]);
+  const displayValues = useMemo(() => automatic
+    ? { ...values, ...computed }
+    : values, [automatic, values, computed]);
+  function setAutomatic(enabled: boolean) {
+    if (enabled && !window.confirm('Включить автоматический расчёт характеристик, навыков, спасбросков и Восприятия? Ручные итоги заменятся формулами, но исходные характеристики, ранги и бонусы сохранятся.')) return;
+    setValues(prev => ({ ...prev, rulesMode: enabled ? 'auto' : 'manual' }));
+  }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [monochrome,setMonochrome] = useState<boolean>(() => {
@@ -106,7 +123,16 @@ export default function PathfinderSheet({
     setSaving(true);
     setError('');
     const snapshot = JSON.stringify(values);
-    const details = persistSheetValues(character.details, values, cleanName);
+    // Persist the evaluated values too: exported JSON and manual-mode fallback
+    // remain meaningful outside the live rule engine. Source fields are never overwritten.
+    const toStore = { ...values };
+    if (automatic) {
+      for (const key of Object.keys(toStore)) {
+        if (isCoreComputedField(key) && !(key in computed)) toStore[key] = '';
+      }
+      Object.assign(toStore, computed);
+    }
+    const details = persistSheetValues(character.details, toStore, cleanName);
     try {
       const success = await onSave(character.id, cleanName, details);
       if (!success) {
@@ -144,7 +170,14 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = values[field.id];
+    const value = automatic && isCoreComputedField(field.id) && !(field.id in computed)
+      ? '' : displayValues[field.id];
+    if (RANK_FIELDS.has(field.id)) {
+      return <RankSelect key={field.id} id={id} label={field.label}
+        rank={readRank(values[field.id]) ?? 0} style={style}
+        disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
+    }
+    const computedField = automatic && isCoreComputedField(field.id);
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style} title={field.label}>
         <input id={id} type="checkbox" checked={value === true}
@@ -159,7 +192,10 @@ export default function PathfinderSheet({
       title: field.label,
       value: String(value ?? ''),
       maxLength: field.maxlen,
-      onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => change(field.id, event.target.value),
+      onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (!computedField) change(field.id, event.target.value);
+      },
+      readOnly: computedField,
       disabled: saving,
     };
     if (field.kind === 'select') {
@@ -186,10 +222,11 @@ export default function PathfinderSheet({
       style={style}
       {...shared}
       type="text"
-      inputMode={numeric ? 'numeric' : 'text'}
-      onFocus={field.kind === 'counter' ? () => setFocusedCounter(field.id) : undefined}
-      onBlur={field.kind === 'counter' ? () => setFocusedCounter(null) : undefined}
-      onKeyDown={field.kind === 'counter' ? event => {
+      inputMode={numeric && !computedField ? 'numeric' : 'text'}
+      aria-description={computedField ? 'Рассчитывается автоматически на основе характеристики, уровня и ранга владения' : undefined}
+      onFocus={field.kind === 'counter' && !computedField ? () => setFocusedCounter(field.id) : undefined}
+      onBlur={field.kind === 'counter' && !computedField ? () => setFocusedCounter(null) : undefined}
+      onKeyDown={field.kind === 'counter' && !computedField ? event => {
         if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
           event.preventDefault();
           step(field, event.key === 'ArrowUp' ? 1 : -1);
@@ -238,6 +275,9 @@ export default function PathfinderSheet({
         <ArrowLeft size={17} /> К персонажам
       </button>
       <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
+      <span className="pf-rules-label" title="Режим можно изменить в настройках листа">
+        {automatic ? 'Расчёты: авто' : 'Расчёты: вручную'}
+      </span>
       <div className="pf-toolbar-right">
         <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
           {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
@@ -253,6 +293,11 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={monochrome} onChange={event=>setMonochrome(event.target.checked)}/>
               Черно-белый лист
             </label>
+            <label className="pf-settings-option">
+              <input type="checkbox" checked={automatic} onChange={event=>setAutomatic(event.target.checked)}/>
+              Автоматические расчёты
+            </label>
+            <p className="pf-settings-note">Рассчитываются навыки, спасброски и Восприятие. Старые листы по умолчанию работают вручную; остальные формулы добавим следующими патчами.</p>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
