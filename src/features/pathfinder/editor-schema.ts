@@ -61,12 +61,22 @@ export function withClassDcNumericBonus(fields:EditableField[]):EditableField[] 
     : field);
 }
 
-export const DEFAULT_FIELDS: EditableField[] = withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(
+/** Keep custom editor positioning intact; supply a shaped control only when
+ * the stored template has no intentional toggle styling for magic traditions.
+ */
+export function withMagicTraditionHalfCircles(fields:EditableField[]):EditableField[] {
+  return fields.map(field => /^tradition_(arcane|occult|primal|divine)$/.test(field.id)
+    && field.kind==='toggle' && field.toggleShape===undefined
+    ? {...field, toggleShape:'semicircle' as const, toggleMode:'fill' as const,
+        toggleInsetX:10,toggleInsetY:10}
+    : field);
+}
+export const DEFAULT_FIELDS: EditableField[] = withMagicTraditionHalfCircles(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(
   (baseFields as PathfinderField[]).map(f => ({
     ...f, ...fieldBox(f), adjusted: true,
     ...(f.id === 'size' ? { kind: 'select' as const, options: [...PF2E_SIZE_OPTIONS] } : {}),
   })),
-)));
+))));
 const types = ['text','long','number','counter','toggle','select'];
 const fonts = ['Arial','Georgia','Verdana','Times New Roman','Courier New'];
 
