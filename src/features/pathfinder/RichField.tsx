@@ -4,15 +4,15 @@ import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus,
 import { createPortal } from 'react-dom';
 import { toRichHtml, serializeRichHtml } from './rich-codec';
 import { dividerMarkup, spoilerMarkup } from './rich-blocks';
-import {resourceMarkup,resourceFromElement,stepResource,restoreResource} from './resource-widget';
-import type {ResourceConfig} from './resource-widget';
+import {resourceMarkup,resourceFromElement,stepResource,restoreResource,chooseResourceCell,effectiveResource,resourceEffectiveMax} from './resource-widget';
+import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
 import './RichField.css';
 
 type Props={
   id:string;label:string;value:string;onChange:(value:string)=>void;
   placeholder?:string;disabled?:boolean;className?:string;
-  style?:CSSProperties;grow?:boolean;
+  style?:CSSProperties;grow?:boolean;resourceContext?:FormulaContext;
 };
 type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
 type Spot={left:number;top:number};
@@ -22,7 +22,7 @@ function popupPosition(rect:DOMRect):Spot {
   return {left:Math.max(8,Math.min(window.innerWidth-width-8,rect.left+rect.width/2-width/2)),
     top:Math.max(8,rect.top-57)};
 }
-export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false}:Props){
+export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={}}:Props){
   const root=useRef<HTMLDivElement>(null);
   const rangeRef=useRef<Range|null>(null);
   const [spot,setSpot]=useState<Spot|null>(null);
@@ -47,6 +47,32 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     ownValue.current=next;
     onChange(next);
   }
+  // Update calculated caps in place, without rerendering unrelated text or
+  // moving the selection in a feat's rich editor. Once a maximum shrinks, the
+  // clamped current value is persisted immediately (no phantom refills).
+  useLayoutEffect(()=>{
+    const editor=root.current;
+    if(!editor)return;
+    let dataChanged=false;
+    const widgets=Array.from(editor.querySelectorAll<HTMLElement>('[data-pf-resource-widget="1"]'));
+    for(const widget of widgets){
+      if(widget===selectedResource)continue;
+      const stored=resourceFromElement(widget);
+      const effective=effectiveResource(stored,resourceContext);
+      const resolved=resourceEffectiveMax(stored,resourceContext);
+      const count=resolved.error?stored.current:effective.current;
+      const markup=resourceMarkup({...stored,current:count},resourceContext);
+      const template=document.createElement('template');
+      template.innerHTML=markup;
+      const next=template.content.firstElementChild as HTMLElement|null;
+      if(!next)continue;
+      if(widget.dataset.infoOpen==='1')next.dataset.infoOpen='1';
+      if(next.outerHTML!==widget.outerHTML)widget.replaceWith(next);
+      if(count!==stored.current)dataChanged=true;
+    }
+    if(dataChanged)emit();
+  },[resourceContext,value,selectedResource]);
+
   function blankLineAt(range:Range,editor:HTMLElement):HTMLElement|null {
     let element:HTMLElement|null=range.startContainer.nodeType===Node.ELEMENT_NODE
       ? range.startContainer as HTMLElement : range.startContainer.parentElement;
@@ -219,7 +245,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   }
   function replaceResource(widget:HTMLElement,config:ResourceConfig){
     const template=document.createElement('template');
-    template.innerHTML=resourceMarkup(config);
+    template.innerHTML=resourceMarkup(config,resourceContext);
     widget.replaceWith(template.content);
     emit();
     setInsertSpot(null);setSpot(null);
@@ -230,14 +256,29 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       widget.dataset.infoOpen=widget.dataset.infoOpen==='1'?'0':'1';
       return;
     }
-    const current=resourceFromElement(widget);
-    if(action==='minus')replaceResource(widget,stepResource(current,-1));
-    if(action==='plus')replaceResource(widget,stepResource(current,1));
-    if(action==='restore')replaceResource(widget,restoreResource(current));
+    const stored=resourceFromElement(widget);
+    const resolved=resourceEffectiveMax(stored,resourceContext);
+    if(resolved.error)return;
+    const effective=effectiveResource(stored,resourceContext);
+    if(action==='minus')replaceResource(widget,{...stored,current:stepResource(effective,-1).current});
+    if(action==='plus')replaceResource(widget,{...stored,current:stepResource(effective,1).current});
+    if(action==='restore')replaceResource(widget,{...stored,current:restoreResource(effective).current});
+  }
+  function handleResourceCell(widget:HTMLElement,index:number){
+    const stored=resourceFromElement(widget);
+    if(resourceEffectiveMax(stored,resourceContext).error)return;
+    const effective=effectiveResource(stored,resourceContext);
+    replaceResource(widget,{...stored,current:chooseResourceCell(effective,index).current});
   }
   function handleTokenClick(event:ReactMouseEvent<HTMLDivElement>){
     const target=event.target instanceof HTMLElement?event.target:null;
     if(!target||!root.current?.contains(target))return;
+    const cell=target.closest<HTMLElement>('[data-pf-resource-cell]');
+    if(cell){
+      const widget=cell.closest<HTMLElement>('[data-pf-resource-widget]');
+      if(widget){event.preventDefault();handleResourceCell(widget,Number(cell.dataset.pfResourceCell));}
+      return;
+    }
     const resourceAction=target.closest<HTMLElement>('[data-pf-resource-action]');
     if(resourceAction){
       const widget=resourceAction.closest<HTMLElement>('[data-pf-resource-widget]');
@@ -353,6 +394,11 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             return;
           }
           const target=event.target instanceof HTMLElement?event.target:null;
+          if((event.key==='Enter'||event.key===' ')&&target?.matches('[data-pf-resource-cell]')){
+            const widget=target.closest<HTMLElement>('[data-pf-resource-widget]');
+            if(widget){event.preventDefault();handleResourceCell(widget,Number(target.dataset.pfResourceCell));}
+            return;
+          }
           if((event.key==='Enter'||event.key===' ')&&target?.matches('[data-pf-resource-action]')){
             const widget=target.closest<HTMLElement>('[data-pf-resource-widget]');
             if(widget){
@@ -371,6 +417,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     {insertToolbar}
     {selectedResource&&!disabled&&<ResourceDialog
       resource={resourceFromElement(selectedResource)}
+      resourceContext={resourceContext}
       onClose={()=>setSelectedResource(null)}
       onSave={config=>{
         if(selectedResource)replaceResource(selectedResource,config);

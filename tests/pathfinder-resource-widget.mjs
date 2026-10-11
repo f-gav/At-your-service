@@ -9,7 +9,7 @@ assert.equal(normalizeQuantity('invalid'),0);
 assert.equal(normalizeQuantity(999999999),999999);
 assert.equal(normalizeResource(DEFAULT_RESOURCE).current,1);
 assert.deepEqual(normalizeResource({name:'Стрелы',current:4,max:3,recovery:'daily',notes:'Из колчана',showNotes:true}),
- {name:'Стрелы',current:3,max:3,recovery:'daily',notes:'Из колчана',showNotes:true});
+ {name:'Стрелы',current:3,max:3,maxFormula:'',display:'counter',recovery:'daily',notes:'Из колчана',showNotes:true});
 assert.equal(normalizeResource({current:50,max:null}).current,50,'Unlimited resource can grow');
 assert.equal(normalizeResource({current:50,max:''}).max,null);
 assert.equal(normalizeResource({current:0,max:0}).current,0);

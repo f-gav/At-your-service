@@ -177,3 +177,72 @@
   .pf-resource-dialog-numbers{grid-template-columns:1fr;}
   .pf-resource-dialog-actions .pf-resource-remove{margin-right:auto;}
 }
+
+
+/* PF2e resource cells: bounded number of click targets, text-sized so they
+ * work in the narrow PDF ability column and nested spoilers. */
+.pf-rich-editable .pf-resource-cells {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: .1em;
+  padding: .2em .25em;
+  line-height: 1.1;
+}
+.pf-rich-editable [data-pf-resource-cell] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65em;
+  height: 1.65em;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #9dab9d;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1em;
+  line-height: 1;
+}
+.pf-rich-editable [data-pf-resource-cell][aria-pressed="true"] {
+  color: #355c44;
+}
+.pf-rich-editable [data-pf-resource-cell]:hover,
+.pf-rich-editable [data-pf-resource-cell]:focus-visible {
+  border-color: #9cbaa5;
+  background: #e8efe9;
+  outline: none;
+}
+.pf-rich-editable .pf-resource-warning {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.3em; height: 1.3em;
+  border: 1px solid #d8bc7d;
+  border-radius: 50%;
+  color: #94602e;
+  cursor: help;
+  font-size: .85em;
+}
+.pf-resource-dialog .pf-resource-preview {
+  margin: -6px 0 0;
+  padding: 7px 10px;
+  background: #f0f4f0;
+  border-radius: 5px;
+  color: #2a5438;
+  font-size: 13px;
+}
+.pf-resource-dialog .pf-resource-preview-warning,
+.pf-resource-dialog .pf-resource-preview.pf-resource-preview-warning {
+  color: #885339;
+  background: #fcf7ed;
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+.pf-resource-dialog button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}

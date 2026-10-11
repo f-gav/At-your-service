@@ -234,7 +234,7 @@ export default function PathfinderSheet({
     if (field.kind === 'long') {
       return <RichField key={field.id} id={id} label={field.label}
         className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}`}
-        style={style} value={String(value??'')} disabled={saving||computedField}
+        style={style} value={String(value??'')} resourceContext={values} disabled={saving||computedField}
         onChange={next=>change(field.id,next)}/>;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';

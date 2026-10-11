@@ -16,11 +16,11 @@ type Props={
   disabled?:boolean;
 };
 
-function StretchField({id,hint,value,onChange,disabled}:{
-  id:string;hint:string;value:string;onChange:(value:string)=>void;disabled?:boolean;
+function StretchField({id,hint,value,onChange,disabled,resourceContext}:{
+  id:string;hint:string;value:string;onChange:(value:string)=>void;disabled?:boolean;resourceContext:Record<string,FieldValue>;
 }){
   return <RichField id={'pf-'+id} label={hint} placeholder={hint}
-    className="pf-advancement-rich" grow value={value} onChange={onChange}
+    className="pf-advancement-rich" grow value={value} onChange={onChange} resourceContext={resourceContext}
     disabled={disabled}/>;
 }
 
@@ -105,15 +105,15 @@ export default function DynamicAdvancement({values,count,pageArtUrl,onValueChang
         <LevelBadge level={1} canRemove={false} disabled={disabled} onRemove={()=>{}}/>
         <div className="pf-advancement-left pf-advancement-first-fields">
           <StretchField id="ancestry_features" hint="Способности народа и родословной"
-            value={read('ancestry_features')} onChange={edit('ancestry_features')} disabled={disabled}/>
+            value={read('ancestry_features')} onChange={edit('ancestry_features')} disabled={disabled} resourceContext={values}/>
           <StretchField id="ancestry_feat_1" hint="Черта народа"
-            value={read('ancestry_feat_1')} onChange={edit('ancestry_feat_1')} disabled={disabled}/>
+            value={read('ancestry_feat_1')} onChange={edit('ancestry_feat_1')} disabled={disabled} resourceContext={values}/>
           <StretchField id="background_skill_feat" hint="Черта навыка за происхождение"
-            value={read('background_skill_feat')} onChange={edit('background_skill_feat')} disabled={disabled}/>
+            value={read('background_skill_feat')} onChange={edit('background_skill_feat')} disabled={disabled} resourceContext={values}/>
         </div>
         <div className="pf-advancement-right">
           <StretchField id="class_features_1" hint="Классовые черты и особенности"
-            value={read('class_features_1')} onChange={edit('class_features_1')} disabled={disabled}/>
+            value={read('class_features_1')} onChange={edit('class_features_1')} disabled={disabled} resourceContext={values}/>
         </div>
       </div>
       {Array.from({length:Math.max(0,Math.min(count,MAX_ADVANCEMENT_LEVEL)-1)},(_,i)=>i+2).map(level=>
@@ -121,11 +121,11 @@ export default function DynamicAdvancement({values,count,pageArtUrl,onValueChang
           <LevelBadge level={level} canRemove disabled={disabled} onRemove={()=>setPendingDelete(level)}/>
           <div className="pf-advancement-left">
             <StretchField id={'feat_level_'+level} hint={ancestryHint(level)}
-              value={read('feat_level_'+level)} onChange={edit('feat_level_'+level)} disabled={disabled}/>
+              value={read('feat_level_'+level)} onChange={edit('feat_level_'+level)} disabled={disabled} resourceContext={values}/>
           </div>
           <div className="pf-advancement-right">
             <StretchField id={'class_level_'+level} hint={classHint(level)}
-              value={read('class_level_'+level)} onChange={edit('class_level_'+level)} disabled={disabled}/>
+              value={read('class_level_'+level)} onChange={edit('class_level_'+level)} disabled={disabled} resourceContext={values}/>
           </div>
         </div>
       )}
