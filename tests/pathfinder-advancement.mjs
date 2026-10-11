@@ -68,4 +68,32 @@ assert.match(admin,/page!==2\|\|!isAdvancementField\(f.id\)/);
 assert.match(admin,/previewAdvancementCount/);
 const savePart=admin.slice(admin.indexOf('async function save()'),admin.indexOf('async function publish()'));
 assert.doesNotMatch(savePart,/previewAdvancementCount|displaySamples|samples/);
+
+// Regression: the right column must keep the *original PDF geometry*.
+// Previously the image used height:100% of an expanding page and stretched
+// inventory, labels and equipment boxes vertically.
+for(const componentSource of [sheet,admin]) {
+  assert.match(componentSource,/className="pf-advancement-fixed-art"/,
+    'page two needs a fixed-size art and field coordinate wrapper');
+  assert.match(componentSource,/pageArtUrl=/,
+    'the native Pathfinder art must be available for original heading fonts');
+}
+assert.match(sheet,/isAdvancementPage && <div className="pf-advancement-fixed-art"/);
+assert.match(admin,/page===2 && <div className="pf-advancement-fixed-art"/);
+assert.match(css,/aspect-ratio:\s*600\.945\s*\/\s*782\.362/,
+  'the PDF art layer needs the source page aspect ratio');
+assert.match(css,/\.pf-advancement-fixed-art > img\s*\{/,
+  'background image must be limited to the fixed artwork box');
+assert.match(css,/height:\s*100%\s*!important/,
+  'bitmap may fill only fixed artwork, not growing page');
+assert.match(css,/object-fit:\s*fill/);
+assert.match(css,/background-image:\s*var\(--pf-page-two-art\)/,
+  'native PF2e heading art replaces the browser heading');
+assert.match(css,/\.pf-sheet-page-advancement > \.pf-advancement/,
+  'dynamic section must participate in document height');
+assert.match(css,/\.pf-advancement-fixed-art > \.pf-field/,
+  'inventory inputs keep their PDF coordinate origin');
+assert.match(css,/\.pf-advancement-fixed-art > \.ta-field/,
+  'admin inventory field handles keep their PDF coordinate origin');
+
 console.log('PF2e advancement: one required level, add/remove/compact, placeholders and growing page shared by admin/live.');
