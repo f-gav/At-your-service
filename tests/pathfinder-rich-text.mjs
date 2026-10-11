@@ -20,9 +20,9 @@ assert.equal(escapeRichText('<img src=x onerror="alert(1)">'),'&lt;img src=x one
 
 const schema=read('../src/features/pathfinder/editor-schema.ts');
 assert.match(schema,/export function withMagicTraditionHalfCircles/);
-assert.match(schema,/toggleShape:'semicircle'/);
+assert.match(schema,/toggleShape:'quarter'/);
 assert.match(schema,/toggleMode:'fill'/);
-assert.match(schema,/field.toggleShape===undefined/,'Explicitly configured marks must not be overwritten');
+assert.match(schema,/field.toggleShape!==undefined&&field.toggleShape!=='semicircle'&&field.toggleShape!=='quarter'/,'Explicit non-tradition shapes remain intact');
 assert.match(schema,/withMagicTraditionHalfCircles\(withClassDcNumericBonus/);
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
@@ -51,4 +51,4 @@ assert.match(codec,/SCRIPT.*STYLE.*SVG.*IFRAME/);
 assert.match(css,/pf-advancement-fixed-art::after/);
 assert.match(css,/bottom:\s*0;\s*height:\s*3\.6%/);
 assert.match(global,/scale\(1\.08\)/);
-console.log('PF2e rich notes, numeric values, half-circle traditions, old text storage and footer restoration checked');
+console.log('PF2e rich notes, numeric values, quarter-circle traditions, old text storage and footer restoration checked');
