@@ -50,6 +50,7 @@ assert.match(codec,/if\(!KEEP\.has\(el\.tagName\)\)return inner/);
 assert.match(codec,/SCRIPT.*STYLE.*SVG.*IFRAME/);
 assert.match(read('../src/features/pathfinder/PathfinderSheet.css'),/\.pf-page-footer-mask\s*\{/,
  'All four page footers are hidden using the shared fixed-art overlay');
-assert.match(css,/bottom:\s*0;\s*height:\s*3\.6%/);
+assert.match(read('../src/features/pathfinder/PathfinderSheet.css'),/bottom:\s*0;[\s\S]*?height:\s*3\.35%/,
+ 'New mask stays within the blank lower page margin');
 assert.match(global,/scale\(1\.08\)/);
 console.log('PF2e rich notes, numeric values, quarter-circle traditions, old text storage and footer restoration checked');
