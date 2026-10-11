@@ -51,7 +51,7 @@ assert.match(editor,/setSelectedResource\(widget\)/);
 assert.match(editor,/resource=\{resourceFromElement\(selectedResource\)\}/);
 assert.match(editor,/replaceResource\(selectedResource,config\)/);
 assert.match(dialog,/name:\s*name\.trim\(\)/);
-assert.match(dialog,/maximum\.trim\(\)===''?null:maximum/);
+assert.ok(dialog.includes("maximum.trim()===''?null:maximum"));
 assert.match(dialog,/10-минутный отдых/);
 assert.match(dialog,/Ежедневная подготовка/);
 assert.match(dialog,/Показывать заметки по нажатию на значок i/);
