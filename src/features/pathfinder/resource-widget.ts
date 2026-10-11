@@ -23,11 +23,12 @@ export function normalizeResource(data:Partial<ResourceConfig>|Record<string,unk
   const max=rawMax===null||rawMax===undefined||String(rawMax).trim()===''?null:normalizeQuantity(rawMax);
   const current=Math.min(normalizeQuantity(data.current,max??0),max??LIMIT);
   const recovery=data.recovery==='ten_minutes'||data.recovery==='daily'?data.recovery:'none';
+  const shown=(data as Record<string,unknown>).showNotes;
   return {
     name:String(data.name??'Ресурс').slice(0,100),
     current,max,recovery,
     notes:String(data.notes??'').slice(0,3000),
-    showNotes:data.showNotes===true||data.showNotes==='true' as never,
+    showNotes:shown===true||shown==='1'||shown==='true',
   };
 }
 export function stepResource(resource:ResourceConfig,delta:number):ResourceConfig {
