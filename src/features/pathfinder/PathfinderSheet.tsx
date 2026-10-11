@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Cloud, Settings2 } from 'lucide-react';
+import { ArrowLeft, Cloud, Settings2, X } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
@@ -81,6 +81,45 @@ export default function PathfinderSheet({
   }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
+  const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
+    try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
+    catch{return false;}
+  });
+  const [activePage,setActivePage] = useState(1);
+  useEffect(()=>{
+    try{window.localStorage.setItem('ays-pf2e-navigation-help',navigationHelp?'1':'0');}
+    catch{ /* Keep page navigation available during this session. */ }
+  },[navigationHelp]);
+  useEffect(()=>{
+    if(!navigationHelp)return;
+    let frame=0;
+    const update=()=>{
+      frame=0;
+      const sections=PAGE_TITLES.map((_,i)=>document.getElementById('pf-sheet-page-'+(i+1)));
+      let active=1;
+      for(let i=0;i<sections.length;i++){
+        const rect=sections[i]?.getBoundingClientRect();
+        if(rect&&rect.top<=window.innerHeight*.33)active=i+1;
+      }
+      setActivePage(active);
+    };
+    const onScroll=()=>{if(!frame)frame=requestAnimationFrame(update);};
+    update();
+    window.addEventListener('scroll',onScroll,{passive:true});
+    window.addEventListener('resize',onScroll);
+    return()=>{
+      window.removeEventListener('scroll',onScroll);
+      window.removeEventListener('resize',onScroll);
+      if(frame)cancelAnimationFrame(frame);
+    };
+  },[navigationHelp]);
+  function navigatePage(page:number){
+    document.getElementById('pf-sheet-page-'+page)?.scrollIntoView({
+      block:'start',
+      behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
+    });
+    setActivePage(page);
+  }
   const [monochrome,setMonochrome] = useState<boolean>(() => {
     try { return window.localStorage.getItem('ays-pf2e-monochrome') === '1'; }
     catch { return false; }
@@ -274,7 +313,7 @@ export default function PathfinderSheet({
         </button>}
       {pageFields.map(renderField)}
     </>;
-    return <section key={page} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
+    return <section key={page} id={`pf-sheet-page-${page}`} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
       {isAdvancementPage
         ? <div className="pf-advancement-fixed-art">{artwork}</div>
         : artwork}
@@ -314,6 +353,10 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={automatic} onChange={event=>setAutomatic(event.target.checked)}/>
               Автоматические расчёты
             </label>
+            <label className="pf-settings-option">
+              <input type="checkbox" checked={navigationHelp} onChange={event=>setNavigationHelp(event.target.checked)}/>
+              Помощь в навигации
+            </label>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
@@ -327,5 +370,22 @@ export default function PathfinderSheet({
         {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
       </div>
     </div>
+    {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
+      <div className="pf-navigation-help-title">
+        <span>Страницы</span>
+        <button type="button" onClick={()=>setNavigationHelp(false)} aria-label="Скрыть помощь в навигации">
+          <X size={14}/>
+        </button>
+      </div>
+      {PAGE_TITLES.map((title,index)=><button key={title} type="button"
+        className={`pf-navigation-help-link${activePage===index+1?' pf-navigation-help-active':''}`}
+        onClick={()=>navigatePage(index+1)}
+        aria-label={`Страница ${index+1}: ${title}`}
+        aria-current={activePage===index+1?'page':undefined}
+        title={title}>
+        <span className="pf-navigation-help-number">{index+1}</span>
+        <span className="pf-navigation-help-label">{title}</span>
+      </button>)}
+    </nav>}
   </main>;
 }
