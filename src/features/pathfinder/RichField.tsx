@@ -1,9 +1,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
-import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus, PanelTopOpen } from 'lucide-react';
+import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus, PanelTopOpen, BatteryCharging } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { toRichHtml, serializeRichHtml } from './rich-codec';
 import { dividerMarkup, spoilerMarkup } from './rich-blocks';
+import {resourceMarkup,resourceFromElement,stepResource,restoreResource} from './resource-widget';
+import type {ResourceConfig} from './resource-widget';
+import ResourceDialog from './ResourceDialog';
 import './RichField.css';
 
 type Props={
@@ -13,7 +16,7 @@ type Props={
 };
 type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
 type Spot={left:number;top:number};
-type InsertKind='spoiler'|'divider';
+type InsertKind='spoiler'|'divider'|'resource';
 function popupPosition(rect:DOMRect):Spot {
   const width=370;
   return {left:Math.max(8,Math.min(window.innerWidth-width-8,rect.left+rect.width/2-width/2)),
@@ -24,6 +27,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   const rangeRef=useRef<Range|null>(null);
   const [spot,setSpot]=useState<Spot|null>(null);
   const [insertSpot,setInsertSpot]=useState<Spot|null>(null);
+  const [selectedResource,setSelectedResource]=useState<HTMLElement|null>(null);
   const [linkMode,setLinkMode]=useState(false);
   const [url,setUrl]=useState('https://');
   const linkInput=useRef<HTMLInputElement>(null);
@@ -130,12 +134,12 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     // LSS inserts block widgets from a blank line, never over selected text.
     if(!blank)return;
     const template=document.createElement('template');
-    template.innerHTML=(kind==='spoiler'?spoilerMarkup():dividerMarkup())+'<div><br></div>';
+    template.innerHTML=(kind==='spoiler'?spoilerMarkup():kind==='divider'?dividerMarkup():resourceMarkup())+'<div><br></div>';
     const fragment=template.content;
     const widget=fragment.firstElementChild as HTMLElement;
     if(blank===editor||blank.matches('[data-pf-spoiler-body]'))blank.replaceChildren(fragment);
     else blank.replaceWith(fragment);
-    const title=widget.querySelector<HTMLElement>(kind==='spoiler'?'[data-pf-spoiler-title]':'[data-pf-divider-title]');
+    const title=kind==='resource'?null:widget.querySelector<HTMLElement>(kind==='spoiler'?'[data-pf-spoiler-title]':'[data-pf-divider-title]');
     emit();
     setSpot(null);setInsertSpot(null);
     if(title)placeCaret(title);
@@ -213,9 +217,33 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     node.textContent=node.dataset.pfResource==='1'?(filled?'◇':'◆'):(filled?'☐':'☑');
     emit();
   }
+  function replaceResource(widget:HTMLElement,config:ResourceConfig){
+    const template=document.createElement('template');
+    template.innerHTML=resourceMarkup(config);
+    widget.replaceWith(template.content);
+    emit();
+    setInsertSpot(null);setSpot(null);
+  }
+  function handleResourceAction(widget:HTMLElement,action:string){
+    if(action==='settings'){setSelectedResource(widget);setInsertSpot(null);setSpot(null);return;}
+    if(action==='info'){
+      widget.dataset.infoOpen=widget.dataset.infoOpen==='1'?'0':'1';
+      return;
+    }
+    const current=resourceFromElement(widget);
+    if(action==='minus')replaceResource(widget,stepResource(current,-1));
+    if(action==='plus')replaceResource(widget,stepResource(current,1));
+    if(action==='restore')replaceResource(widget,restoreResource(current));
+  }
   function handleTokenClick(event:ReactMouseEvent<HTMLDivElement>){
     const target=event.target instanceof HTMLElement?event.target:null;
     if(!target||!root.current?.contains(target))return;
+    const resourceAction=target.closest<HTMLElement>('[data-pf-resource-action]');
+    if(resourceAction){
+      const widget=resourceAction.closest<HTMLElement>('[data-pf-resource-widget]');
+      if(widget){event.preventDefault();handleResourceAction(widget,resourceAction.dataset.pfResourceAction??'');}
+      return;
+    }
     const toggle=target.closest<HTMLElement>('[data-pf-spoiler-toggle]');
     if(toggle){
       event.preventDefault();
@@ -258,6 +286,9 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       </button>
       <button type="button" title="Добавить разделитель" onClick={()=>addBlock('divider')}>
         <Minus size={15}/> Разделитель
+      </button>
+      <button type="button" title="Добавить ресурс" onClick={()=>addBlock('resource')}>
+        <BatteryCharging size={15}/> Ресурс
       </button>
     </div>,document.body);
   const toolbar=spot&&!disabled&&typeof document!=='undefined'&&createPortal(
@@ -322,6 +353,14 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             return;
           }
           const target=event.target instanceof HTMLElement?event.target:null;
+          if((event.key==='Enter'||event.key===' ')&&target?.matches('[data-pf-resource-action]')){
+            const widget=target.closest<HTMLElement>('[data-pf-resource-widget]');
+            if(widget){
+              event.preventDefault();
+              handleResourceAction(widget,target.dataset.pfResourceAction??'');
+            }
+            return;
+          }
           if((event.key==='Enter'||event.key===' ')&&target?.matches('[data-pf-resource],[data-pf-task]')){
             event.preventDefault();toggleToken(target);
           }
@@ -330,5 +369,16 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     </div>
     {toolbar}
     {insertToolbar}
+    {selectedResource&&!disabled&&<ResourceDialog
+      resource={resourceFromElement(selectedResource)}
+      onClose={()=>setSelectedResource(null)}
+      onSave={config=>{
+        replaceResource(selectedResource,config);
+        setSelectedResource(null);
+      }}
+      onDelete={()=>{
+        removeWidget(selectedResource);
+        setSelectedResource(null);
+      }}/>}
   </>;
 }
