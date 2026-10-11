@@ -1,0 +1,207 @@
+/* Dynamic Pathfinder page 2: the rest of the PDF is deliberately unchanged.
+ * All dimensions scale with the 600.945pt-wide page (1cqw = 1% of page width).
+ */
+.pf-sheet-page.pf-sheet-page-advancement,
+.ta-page.ta-page-advancement {
+  aspect-ratio: auto !important;
+  min-height: 130.19cqw;
+  container-type: inline-size;
+  background: #fff;
+}
+.pf-sheet-page-advancement > img,
+.ta-page-advancement > img {
+  position: absolute; left:0; top:0;
+  width:100%; height:auto;
+  pointer-events:none;
+}
+.pf-advancement {
+  position: relative;
+  z-index: 3;
+  width: 66.25%;
+  min-height: 130.19cqw;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 2.8cqw 1.25cqw 2.3cqw 3.0cqw;
+  color:#342a27;
+  user-select:text;
+}
+.pf-advancement-head{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  align-items:center;
+  margin:0 0 .55cqw .1cqw;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size:1.17cqw;
+  line-height:1.12;
+  font-weight:900;
+  color:#103523;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.pf-advancement-head strong {
+  font-weight:900;
+  overflow:visible;
+}
+.pf-advancement-head strong:first-child::after{
+  content:'';
+  display:inline-block;
+  width:2.8cqw;
+  border-bottom:.19cqw solid #103523;
+  margin-left:.6cqw;
+  vertical-align:middle;
+}
+.pf-advancement-levels{
+  position:relative;
+  margin-left:2.45cqw;
+  border-top:1px solid #81594c;
+  border-right:1px solid #81594c;
+  border-bottom:1px solid #81594c;
+  border-left:1px solid #81594c;
+}
+.pf-advancement-row {
+  position:relative;
+  display:grid;
+  grid-template-columns:49.3% 50.7%;
+  min-height:5.2cqw;
+  border-bottom:1px solid #81594c;
+  background:#fff;
+}
+.pf-advancement-row-first{min-height:20.2cqw;}
+.pf-advancement-left,.pf-advancement-right {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:.5cqw .7cqw;
+  overflow:visible;
+}
+.pf-advancement-left {border-right:1px solid #d4b9ae;}
+.pf-advancement-row-first .pf-advancement-left,
+.pf-advancement-row-first .pf-advancement-right {
+  padding:.6cqw .9cqw;
+}
+.pf-advancement-first-fields {
+  justify-content:space-between;
+}
+.pf-advancement-first-fields .pf-advancement-input {
+  min-height:5.6cqw;
+}
+.pf-advancement-input {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:3.9cqw;
+  padding:.3cqw .4cqw;
+  border:0;
+  outline:0;
+  resize:none;
+  overflow:hidden;
+  background:transparent;
+  color:#252a26;
+  font-family:'Segoe UI', Arial, sans-serif;
+  font-size:1.30cqw;
+  font-weight:500;
+  line-height:1.4;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  field-sizing:content;
+  cursor:text;
+}
+.pf-advancement-input::placeholder {
+  color:#999f9a;
+  opacity:1;
+  font-style:normal;
+  font-weight:400;
+}
+.pf-advancement-input:focus-visible {
+  outline:1px solid #8aa89a;
+  outline-offset:0;
+  border-radius:0;
+}
+.pf-advancement-input:disabled {color:#59625d; opacity:1;}
+.pf-advancement-level {
+  position:absolute;
+  z-index:5;
+  top:0;
+  left:-4.55cqw;
+  width:4.5cqw;
+  height:4.5cqw;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-family:Georgia,serif;
+  font-weight:700;
+  border:0;
+  padding:0;
+  user-select:none;
+}
+.pf-advancement-first{
+  top:-.25cqw;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  width:4.55cqw;
+  height:5.9cqw;
+  background:#4b2c20;
+  clip-path:polygon(0 0,100% 0,100% 68%,50% 100%,0 68%);
+  padding-top:.65cqw;
+}
+.pf-advancement-first > span {font-family:Arial,sans-serif;font-size:.83cqw;line-height:1.25;}
+.pf-advancement-first strong {font-size:1.64cqw;font-weight:700;line-height:1.2;}
+.pf-advancement-star {
+  cursor:pointer;
+  background:#4b2c20;
+  clip-path:polygon(50% 0%,69% 31%,100% 50%,69% 69%,50% 100%,31% 69%,0% 50%,31% 31%);
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.6cqw;
+}
+.pf-advancement-level-number,.pf-advancement-level-remove{
+  position:absolute;
+  transition:opacity .12s ease;
+  line-height:1;
+}
+.pf-advancement-level-remove{opacity:0;font-size:2.3cqw;}
+.pf-advancement-star:hover .pf-advancement-level-number,
+.pf-advancement-star:focus-visible .pf-advancement-level-number{opacity:0;}
+.pf-advancement-star:hover .pf-advancement-level-remove,
+.pf-advancement-star:focus-visible .pf-advancement-level-remove{opacity:1;}
+.pf-advancement-star:focus-visible,
+.pf-advancement-add-star:focus-visible {outline:2px solid #325943;outline-offset:2px;}
+.pf-advancement-star:disabled,
+.pf-advancement-add-star:disabled {cursor:default;opacity:.6;}
+.pf-advancement-add-row {
+  min-height:4.4cqw;
+  position:relative;
+  display:grid;
+  grid-template-columns:49.3% 50.7%;
+}
+.pf-advancement-add-half:first-of-type{border-right:1px solid #d4b9ae;}
+.pf-advancement-add-star{
+  z-index:5;
+  width:4.5cqw;
+  height:4.5cqw;
+  position:absolute;
+  top:50%;
+  left:-4.55cqw;
+  transform:translateY(-50%);
+  background:#4b2c20;
+  color:#fff;
+  border:0;
+  cursor:pointer;
+  clip-path:polygon(50% 0%,69% 31%,100% 50%,69% 69%,50% 100%,31% 69%,0% 50%,31% 31%);
+  padding:0;
+  font-size:2.65cqw;
+  font-weight:400;
+  line-height:1;
+}
+.pf-advancement-add-star:hover {background:#694331;}
+/* The old absolute PDF feat overlays are omitted in this region; all other
+ * native image fields (the complete equipment column) stay untouched. */
+@media (max-width:650px){
+  .pf-advancement-input {font-family:Arial,sans-serif;}
+}
