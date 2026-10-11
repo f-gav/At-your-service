@@ -55,7 +55,7 @@ assert.ok(!isNativeWeaponAttackField('weapon_5_item'));
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const schema=read('../src/features/pathfinder/editor-schema.ts');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
-assert.match(sheet,/setTemplateFields\(withWeaponSheetFields\(withEquipmentNumberFields/);
+assert.match(sheet,/setTemplateFields\(withClassDcNumericBonus\(withWeaponSheetFields\(withEquipmentNumberFields/);
 assert.match(admin,/withWeaponSheetFields\(withEquipmentNumberFields/);
 assert.match(schema,/withWeaponSheetFields\(withEquipmentNumberFields/);
 assert.match(sheet,/id === 'armor_class' \|\| isNativeWeaponAttackField\(field.id\)/);
