@@ -37,7 +37,7 @@ export function normalizeQuantity(value:unknown,fallback=0):number {
 export function normalizeResource(data:Partial<ResourceConfig>|Record<string,unknown>):ResourceConfig {
   const rawMax=data.max;
   const max=rawMax===null||rawMax===undefined||String(rawMax).trim()===''?null:normalizeQuantity(rawMax);
-  const current=Math.min(normalizeQuantity(data.current,max??0),max??RESOURCE_LIMIT);
+  const current=Math.min(normalizeQuantity(data.current,max??0),String(data.maxFormula??'').trim()?RESOURCE_LIMIT:(max??RESOURCE_LIMIT));
   const shown=(data as Record<string,unknown>).showNotes;
   return {
     name:String(data.name??'Ресурс').slice(0,100),
