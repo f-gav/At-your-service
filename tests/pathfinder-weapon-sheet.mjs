@@ -58,7 +58,7 @@ const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
 assert.match(sheet,/setTemplateFields\(withClassDcNumericBonus\(withWeaponSheetFields\(withEquipmentNumberFields/);
 assert.match(admin,/withWeaponSheetFields\(withEquipmentNumberFields/);
 assert.match(schema,/withWeaponSheetFields\(withEquipmentNumberFields/);
-assert.match(sheet,/id === 'armor_class' \|\| isNativeWeaponAttackField\(field.id\)/);
+assert.match(sheet,/id === 'armor_class' \|\| field.id === 'class_dc' \|\| isNativeWeaponAttackField\(field.id\)/);
 assert.match(sheet,/weapon_'\+mark\[1\]\+'_damage_'\+type/);
 assert.match(sheet,/type===mark\[2\]/);
 console.log('PF2e native weapons: 5 totals in icons, 15 editable operands, 15 exclusive D/K/R circles.');
