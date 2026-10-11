@@ -325,3 +325,16 @@
   .pf-navigation-help {width: 38px; right: 3px; padding: 3px;}
   .pf-navigation-help-number {width: 22px; height: 25px;}
 }
+
+/* Page arrangement belongs to the existing sheet-settings menu, not a
+ * separate toolbar above the original PDF image. */
+.pf-settings-pages-button {
+  display:flex;align-items:center;gap:9px;
+  width:100%;margin-top:11px;padding:10px 2px 1px;
+  border:0;border-top:1px solid #e2e9e4;border-radius:0;
+  background:transparent;color:#355440;
+  text-align:left;font:inherit;font-size:13px;
+  cursor:pointer;
+}
+.pf-settings-pages-button:hover {color:#1e3425;}
+.pf-settings-pages-button:focus-visible {outline:2px solid #567d5d;outline-offset:2px;}

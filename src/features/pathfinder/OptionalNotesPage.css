@@ -1,0 +1,65 @@
+/* Pure HTML optional PF2e notes page, the only non-PDF page of the character
+ * sheet. A light paper structure visually fits the existing originals, but
+ * its height follows content with no internal text-area scrollbars. */
+.pf-optional-notes-page {
+  aspect-ratio:auto;
+  min-height:130cqw;
+  display:flex;
+  flex-direction:column;
+  padding:5.3cqw 5.2cqw 6.8cqw;
+  box-sizing:border-box;
+}
+.pf-optional-notes-heading {
+  display:flex;align-items:center;gap:1.4cqw;
+  margin:0 0 2.7cqw;
+}
+.pf-optional-notes-heading h2 {
+  font-family:Georgia,'Times New Roman',serif;
+  font-weight:800;
+  color:#153923;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+  font-size:2.65cqw;
+  line-height:1.2;
+  margin:0;
+  white-space:nowrap;
+}
+.pf-optional-notes-heading-line {
+  flex:1 1 auto;
+  border-top:3px solid #133923;
+  min-width:30px;
+}
+.pf-optional-notes-rich {
+  flex:1 1 auto;
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  min-height:100cqw;
+  height:auto;
+  padding:0;
+  color:#272d29;
+  font-family:'Segoe UI',Arial,sans-serif;
+  font-size:1.53cqw;
+  line-height:1.55;
+  background:transparent;
+}
+.pf-optional-notes-rich .pf-rich-editable {
+  display:block;
+  height:auto;
+  min-height:100cqw;
+  padding:.35cqw;
+  overflow:visible;
+  font:inherit;
+  color:inherit;
+  line-height:inherit;
+  background:transparent;
+  box-sizing:border-box;
+}
+.pf-optional-notes-rich .pf-rich-editable:focus {
+  outline:1px solid #d1ddd2;outline-offset:2px;
+}
+.pf-monochrome .pf-optional-notes-page {filter:grayscale(1);}
+@media (max-width:760px) {
+  .pf-optional-notes-rich {font-size:1.85cqw;}
+  .pf-optional-notes-heading h2 {font-size:3.05cqw;}
+}

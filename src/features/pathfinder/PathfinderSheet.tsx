@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Cloud, Settings2, X } from 'lucide-react';
+import { ArrowLeft, Cloud, Settings2, X, Files } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
@@ -18,6 +18,10 @@ import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeA
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
+import PageSettingsDialog from './PageSettingsDialog';
+import OptionalNotesPage from './OptionalNotesPage';
+import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PF_NOTES_CONTENT_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
+import type {PfPageId} from './page-order';
 import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField, isClassDcConfigured } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
 import type { EditableField } from './editor-schema';
@@ -54,6 +58,11 @@ export default function PathfinderSheet({
 }) {
   const [values, setValues] = useState<SheetValues>(() => initialSheetValues(character.details, character.name));
   const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
+  // Page presentation and optional notes belong to this character, not the
+  // global admin PDF template. Hidden notes remain saved in the character.
+  const notesEnabled=notesPageEnabled(values[PF_NOTES_ENABLED_KEY]);
+  const pageOrder=useMemo(()=>parsePageOrder(values[PF_PAGE_ORDER_KEY]),[values[PF_PAGE_ORDER_KEY]]);
+  const visiblePages=useMemo(()=>visiblePageOrder(pageOrder,notesEnabled),[pageOrder,notesEnabled]);
   useEffect(() => {
     if(!supabase)return;
     let active=true;
@@ -86,12 +95,13 @@ export default function PathfinderSheet({
   }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
+  const [pageSettingsOpen,setPageSettingsOpen] = useState(false);
   const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
     try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
     catch{return false;}
   });
-  const [activePage,setActivePage] = useState(1);
+  const [activePage,setActivePage] = useState<PfPageId>('1');
   useEffect(()=>{
     try{window.localStorage.setItem('ays-pf2e-navigation-help',navigationHelp?'1':'0');}
     catch{ /* Keep page navigation available during this session. */ }
@@ -101,11 +111,12 @@ export default function PathfinderSheet({
     let frame=0;
     const update=()=>{
       frame=0;
-      const sections=PAGE_TITLES.map((_,i)=>document.getElementById('pf-sheet-page-'+(i+1)));
-      let active=1;
-      for(let i=0;i<sections.length;i++){
-        const rect=sections[i]?.getBoundingClientRect();
-        if(rect&&rect.top<=window.innerHeight*.33)active=i+1;
+      // The current page is determined by VISUAL order rather than original
+      // PDF page number. This remains correct after notes/page reordering.
+      let active:PfPageId=visiblePages[0]??'1';
+      for(const page of visiblePages){
+        const rect=document.getElementById('pf-sheet-page-'+page)?.getBoundingClientRect();
+        if(rect&&rect.top<=window.innerHeight*.33)active=page;
       }
       setActivePage(active);
     };
@@ -118,8 +129,8 @@ export default function PathfinderSheet({
       window.removeEventListener('resize',onScroll);
       if(frame)cancelAnimationFrame(frame);
     };
-  },[navigationHelp]);
-  function navigatePage(page:number){
+  },[navigationHelp,visiblePages]);
+  function navigatePage(page:PfPageId){
     document.getElementById('pf-sheet-page-'+page)?.scrollIntoView({
       block:'start',
       behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
@@ -179,6 +190,15 @@ export default function PathfinderSheet({
 
   function changeSpellRank(rank:number) {
     setValues(previous=>setSpellcastingProficiency(previous,rank));
+  }
+  function setNotesPageEnabled(enabled:boolean){
+    setValues(previous=>({...previous,[PF_NOTES_ENABLED_KEY]:enabled}));
+  }
+  function setPageOrder(order:PfPageId[]){
+    const serialized=serializePageOrder(order);
+    setValues(previous=>previous[PF_PAGE_ORDER_KEY]===serialized?previous:{
+      ...previous,[PF_PAGE_ORDER_KEY]:serialized,
+    });
   }
 
   async function save(): Promise<boolean> {
@@ -385,6 +405,10 @@ export default function PathfinderSheet({
               <input type="checkbox" checked={navigationHelp} onChange={event=>setNavigationHelp(event.target.checked)}/>
               Помощь в навигации
             </label>
+            <button type="button" className="pf-settings-pages-button"
+              onClick={()=>{setSettingsOpen(false);setPageSettingsOpen(true);}}>
+              <Files size={16}/> Страницы листа…
+            </button>
           </div>}
         </div>
         <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
@@ -393,11 +417,19 @@ export default function PathfinderSheet({
       </div>
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
-    <div className="pf-sheet-scroll" aria-label="Четыре страницы листа Pathfinder 2e">
+    <div className="pf-sheet-scroll" aria-label="Страницы листа Pathfinder 2e">
       <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
-        {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
+        {visiblePages.map(page=>page==='notes'
+          ? <OptionalNotesPage key="notes" values={values} disabled={saving}
+              onChange={text=>change(PF_NOTES_CONTENT_KEY,text)}/>
+          : renderPage(Number(page)))}
       </div>
     </div>
+    {pageSettingsOpen&&<PageSettingsDialog
+      order={pageOrder} notesEnabled={notesEnabled} disabled={saving}
+      onNotesEnabled={setNotesPageEnabled}
+      onOrderChange={setPageOrder}
+      onClose={()=>setPageSettingsOpen(false)}/>}
     {spellSettingsOpen&&<SpellcastingDialog values={values} disabled={saving}
       onChange={(id,value)=>change(id,value)}
       onRankChange={changeSpellRank}
@@ -409,14 +441,14 @@ export default function PathfinderSheet({
           <X size={14}/>
         </button>
       </div>
-      {PAGE_TITLES.map((title,index)=><button key={title} type="button"
-        className={`pf-navigation-help-link${activePage===index+1?' pf-navigation-help-active':''}`}
-        onClick={()=>navigatePage(index+1)}
-        aria-label={`Страница ${index+1}: ${title}`}
-        aria-current={activePage===index+1?'page':undefined}
-        title={title}>
+      {visiblePages.map((page,index)=><button key={page} type="button"
+        className={`pf-navigation-help-link${activePage===page?' pf-navigation-help-active':''}`}
+        onClick={()=>navigatePage(page)}
+        aria-label={`Страница ${index+1}: ${PAGE_LABELS[page]}`}
+        aria-current={activePage===page?'page':undefined}
+        title={PAGE_LABELS[page]}>
         <span className="pf-navigation-help-number">{index+1}</span>
-        <span className="pf-navigation-help-label">{title}</span>
+        <span className="pf-navigation-help-label">{PAGE_LABELS[page]}</span>
       </button>)}
     </nav>}
   </main>;
