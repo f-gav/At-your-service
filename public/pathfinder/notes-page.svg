@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1573" height="2048" viewBox="0 0 1573 2048">
+<rect width="1573" height="2048" fill="#fff"/>
+<path d="M406 58H1506" stroke="#102b1b" stroke-width="5"/>
+<text x="58" y="66" fill="#102b1b" font-size="25" font-weight="900" font-family="Georgia,serif" letter-spacing=".6">Заметки для кампании</text>
+<g stroke="#775447" stroke-width="1.8" fill="none">
+<rect x="58" y="71" width="715" height="378"/>
+<rect x="800" y="71" width="715" height="378"/>
+<rect x="58" y="465" width="715" height="747"/>
+<rect x="800" y="465" width="715" height="747"/>
+<rect x="58" y="1230" width="715" height="748"/>
+<rect x="800" y="1230" width="715" height="748"/>
+</g>
+<g fill="#292019" font-family="Arial, sans-serif" font-size="20">
+<text x="64" y="94">Заметки</text><text x="806" y="94">Заметки</text>
+<text x="64" y="489">Заметки</text><text x="806" y="489">Заметки</text>
+<text x="64" y="1254">Заметки</text><text x="806" y="1254">Заметки</text>
+</g>
+</svg>
