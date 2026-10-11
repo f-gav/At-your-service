@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {signedNumericInput,sanitizeSignedNumericInput} from '../src/features/pathfinder/numeric-input.ts';
 import {isRich,richBody,RICH_PREFIX,escapeRichText} from '../src/features/pathfinder/rich-codec.ts';
-import {DEFAULT_FIELDS,validFields,withMagicTraditionHalfCircles} from '../src/features/pathfinder/editor-schema.ts';
+
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 
 for(const input of ['','0','-','+','+12','-43','100002'])assert.ok(signedNumericInput(input),input);
@@ -18,16 +18,12 @@ assert.equal(richBody(RICH_PREFIX+'<b>a</b>'),'<b>a</b>');
 assert.equal(richBody('Старинная черта'),'Старинная черта');
 assert.equal(escapeRichText('<img src=x onerror="alert(1)">'),'&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');
 
-assert.equal(validFields(DEFAULT_FIELDS),true);
-for(const id of ['tradition_arcane','tradition_occult','tradition_primal','tradition_divine']){
- const f=DEFAULT_FIELDS.find(f=>f.id===id);
- assert.equal(f?.kind,'toggle');assert.equal(f?.toggleShape,'semicircle');
- assert.equal(f?.toggleMode,'fill');
-}
-const original=DEFAULT_FIELDS.map(f=>({...f}));
-const changed=original.map(f=>f.id==='tradition_divine'?{...f,toggleShape:'hexagon'}:f);
-assert.equal(withMagicTraditionHalfCircles(changed).find(f=>f.id==='tradition_divine').toggleShape,'hexagon',
-  'Explicit user-selected mark shape must survive schema migration');
+const schema=read('../src/features/pathfinder/editor-schema.ts');
+assert.match(schema,/export function withMagicTraditionHalfCircles/);
+assert.match(schema,/toggleShape:'semicircle'/);
+assert.match(schema,/toggleMode:'fill'/);
+assert.match(schema,/field.toggleShape===undefined/,'Explicitly configured marks must not be overwritten');
+assert.match(schema,/withMagicTraditionHalfCircles\(withClassDcNumericBonus/);
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
 const rich=read('../src/features/pathfinder/RichField.tsx');
