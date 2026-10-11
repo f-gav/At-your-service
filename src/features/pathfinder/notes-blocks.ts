@@ -1,4 +1,4 @@
-import {PF_NOTES_CONTENT_KEY} from './page-order';
+import {PF_NOTES_CONTENT_KEY} from './page-order.ts';
 
 /** Fixed IDs live inside details.pathfinderSheet and survive JSON import/export.
  * Block 1 deliberately reuses the original single-notes field, so older
