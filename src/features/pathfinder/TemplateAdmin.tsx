@@ -259,10 +259,20 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
                 <option value="square">Квадрат</option>
                 <option value="rectangle">Прямоугольник</option>
                 <option value="circle">Круг</option>
+                <option value="quarter">Четверть круга</option>
                 <option value="diamond">Ромб</option>
                 <option value="hexagon">Шестиугольник</option>
               </select>
             </label>
+            {toggleAppearance(active).shape==='quarter'&&<label>Поворот четверти круга
+              <select value={toggleAppearance(active).rotation}
+                onChange={e=>update(active.id,{toggleRotation:Number(e.target.value) as EditableField['toggleRotation']})}>
+                <option value={0}>0° — верхняя левая</option>
+                <option value={90}>90° — верхняя правая</option>
+                <option value={180}>180° — нижняя правая</option>
+                <option value={270}>270° — нижняя левая</option>
+              </select>
+            </label>}
             <label>Вид нажатия
               <select value={toggleAppearance(active).mode}
                 onChange={e=>update(active.id,{toggleMode:e.target.value as EditableField['toggleMode']})}>
