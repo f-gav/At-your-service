@@ -16,6 +16,8 @@ import { sanitizeSignedNumericInput } from './numeric-input';
 import DynamicAdvancement from './DynamicAdvancement';
 import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeAdvancementLevel } from './advancement-model';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
+import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
+import SpellcastingDialog from './SpellcastingDialog';
 import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField, isClassDcConfigured } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
 import type { EditableField } from './editor-schema';
@@ -67,13 +69,15 @@ export default function PathfinderSheet({
       && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion');
   }, [character.details]);
   const automatic = isAutomatic(values, legacyHasValues);
+  const spellcastingConfigured=isSpellcastingConfigured(values);
   // AC is always the sum of the three editable PDF-strip cells, independent of
   // the optional auto-rules mode for skills, saves and other derived values.
   const computed = useMemo<Record<string,string>>(() => {
     const combat = calculateNativeCombat(values);
-    return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
-      : Object.fromEntries(Object.entries(combat).filter(([id]) =>
-          id === 'armor_class' || id === 'class_dc' || isNativeWeaponAttackField(id)));
+    const spellcasting=calculateSpellcasting(values);
+    return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat, ...spellcasting }
+      : {...Object.fromEntries(Object.entries(combat).filter(([id]) =>
+          id === 'armor_class' || id === 'class_dc' || isNativeWeaponAttackField(id))),...spellcasting};
   }, [automatic, values]);
   const displayValues = useMemo(() => ({ ...values, ...computed }), [values, computed]);
   function setAutomatic(enabled: boolean) {
@@ -82,6 +86,7 @@ export default function PathfinderSheet({
   }
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
+  const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
     try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
     catch{return false;}
@@ -152,6 +157,10 @@ export default function PathfinderSheet({
   }, [dirty]);
 
   function change(id: string, value: FieldValue) {
+    if(spellcastingConfigured && (id==='spell_attack_rank'||id==='spell_dc_rank') && typeof value==='string'){
+      setValues(previous=>setSpellcastingProficiency(previous,Number(value)));
+      return;
+    }
     const mark=/^weapon_([1-5])_damage_(bludgeoning|piercing|slashing)$/.exec(id);
     if (mark && value === true) {
       // The printed D/K/R circles describe the selected damage type of this
@@ -168,6 +177,10 @@ export default function PathfinderSheet({
   }
 
 
+  function changeSpellRank(rank:number) {
+    setValues(previous=>setSpellcastingProficiency(previous,rank));
+  }
+
   async function save(): Promise<boolean> {
     if (saving) return false;
     const cleanName = normalizedName(String(values.name ?? ''));
@@ -183,7 +196,7 @@ export default function PathfinderSheet({
     // remain meaningful outside the live rule engine. Source fields are never overwritten.
     const toStore = { ...values };
     for (const key of Object.keys(toStore)) {
-      if ((key === 'armor_class' || (key === 'class_dc' && isClassDcConfigured(values)) || (automatic && key !== 'class_dc' && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
+      if ((key === 'armor_class' || (key === 'class_dc' && isClassDcConfigured(values)) || (spellcastingConfigured && isSpellcastingComputedField(key)) || (automatic && key !== 'class_dc' && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
         && !(key in computed)) toStore[key] = '';
     }
     Object.assign(toStore, computed);
@@ -227,7 +240,7 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = (field.id === 'armor_class' || (field.id === 'class_dc' && isClassDcConfigured(values)) || (automatic && field.id !== 'class_dc' && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
+    const value = (field.id === 'armor_class' || (field.id === 'class_dc' && isClassDcConfigured(values)) || (spellcastingConfigured && isSpellcastingComputedField(field.id)) || (automatic && field.id !== 'class_dc' && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
       ? '' : displayValues[field.id];
     // These skulls are already printed on the PDF; each one is its own
     // directly clickable hit area. Reuse the original numeric "dying" value
@@ -241,7 +254,7 @@ export default function PathfinderSheet({
         rank={readRank(values[field.id]) ?? 0} style={style}
         disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
     }
-    const computedField = field.id === 'armor_class' || field.id === 'class_dc' || isNativeWeaponAttackField(field.id) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
+    const computedField = field.id === 'armor_class' || field.id === 'class_dc' || isNativeWeaponAttackField(field.id) || (spellcastingConfigured && isSpellcastingComputedField(field.id)) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style}>
         <input id={id} type="checkbox" checked={value === true}
@@ -287,10 +300,11 @@ export default function PathfinderSheet({
     const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
       key={field.id}
-      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${field.underline ? ' pf-field-underline' : ''}`}
+      className={`pf-field pf-field-text${numeric ? ' pf-field-number' : ''}${narrow}${tiny}${field.id === 'name' ? ' pf-field-character-name' : ''}${(field.id==='spell_attack'||field.id==='spell_dc')?' pf-field-spell-open-settings':''}${field.underline ? ' pf-field-underline' : ''}`}
       style={style}
       {...shared}
       value={formulaDisplayValue(field.id, String(value ?? ''), !computedField && focusedFormulaField === field.id)}
+      onClick={(field.id==='spell_attack'||field.id==='spell_dc')?()=>setSpellSettingsOpen(true):undefined}
       onFocus={() => setFocusedFormulaField(field.id)}
       onBlur={() => setFocusedFormulaField(current => current === field.id ? null : current)}
       type="text"
@@ -320,6 +334,11 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
+      {page===4&&<button type="button" className="pf-spell-settings-trigger"
+        disabled={saving} onClick={()=>setSpellSettingsOpen(true)}
+        aria-label="Настройки заклинаний" title="Настройки заклинаний">
+        <Settings2 size={15}/>
+      </button>}
       <div className="pf-page-footer-mask" aria-hidden="true" />
     </>;
     return <section key={page} id={`pf-sheet-page-${page}`} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
@@ -379,6 +398,10 @@ export default function PathfinderSheet({
         {PAGE_TITLES.map((_, index) => renderPage(index + 1))}
       </div>
     </div>
+    {spellSettingsOpen&&<SpellcastingDialog values={values} disabled={saving}
+      onChange={(id,value)=>change(id,value)}
+      onRankChange={changeSpellRank}
+      onClose={()=>setSpellSettingsOpen(false)}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">
         <span>Страницы</span>
