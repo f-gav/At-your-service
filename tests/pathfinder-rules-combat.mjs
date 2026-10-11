@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { calculateCombat, isCombatComputedField, weaponResult, applyShieldBlock,
-  shieldIsBroken, shieldBrokenThreshold, calculateNativeCombat, isNativeCombatComputedField } from '../src/features/pathfinder/rules-combat.ts';
+  shieldIsBroken, shieldBrokenThreshold, calculateNativeCombat, isNativeCombatComputedField, isClassDcConfigured } from '../src/features/pathfinder/rules-combat.ts';
 import { persistSheetValues,initialSheetValues } from '../src/features/pathfinder/sheet-values.ts';
 
 const baseline = {
@@ -144,4 +144,26 @@ assert.match(ui,/Object.assign\(toStore, computed\)/);
 assert.equal(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'4',shield_ac_bonus:'5'}).armor_class,'19');
 assert.equal(calculateNativeCombat({armor_dex:'-2',armor_prof:'1',armor_item:'4'}).armor_class,'13');
 assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'',armor_item:''}).armor_class,'10');
+
+assert.equal(isClassDcConfigured({}),false);
+assert.equal(isClassDcConfigured({class_dc_key:'4'}),true);
+assert.equal(calculateNativeCombat({}).class_dc,undefined,'An untouched old manual DC is preserved');
+assert.equal(calculateNativeCombat({class_dc_key:'4',class_dc_rank:'3',class_dc_item:'0'}).class_dc,'17');
+assert.equal(calculateNativeCombat({class_dc_key:'+2',class_dc_rank:'+2',class_dc_item:'+2'}).class_dc,'16');
+assert.equal(calculateNativeCombat({class_dc_key:'-1',class_dc_rank:'3'}).class_dc,'12');
+assert.equal(calculateNativeCombat({class_dc_key:'7',class_dc_rank:'24',class_dc_item:'2'}).class_dc,'43',
+  'The proficiency cell stores the full numerical bonus, not a rank index');
+assert.equal(calculateNativeCombat({level:'20',class_dc_key:'7',class_dc_rank:'24',class_dc_item:'2'}).class_dc,'43',
+  'Never add character level again to the class DC proficiency cell');
+assert.equal(calculateNativeCombat({class_dc_key:'',class_dc_rank:'3'}).class_dc,'13');
+assert.equal(calculateNativeCombat({class_dc_key:'x',class_dc_rank:'3'}).class_dc,undefined);
+assert.equal(isNativeCombatComputedField('class_dc'),true);
+assert.equal(isNativeCombatComputedField('class_dc_rank'),false);
+assert.match(schema,/export function withClassDcNumericBonus/);
+assert.match(schema,/field.max === 4 \? \{max:99\}/);
+assert.match(ui,/isClassDcConfigured\(values\)/);
+assert.match(ui,/field.id === 'class_dc'/);
+assert.match(ui,/key === 'class_dc'/);
+assert.match(admin,/withClassDcNumericBonus\(withWeaponSheetFields/);
+
 console.log('PF2e native AC: 10 + manual Dex/proficiency/item; numbered shield and AC field.');
