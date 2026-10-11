@@ -2,7 +2,7 @@ import baseFields from './fields.json';
 import { fieldBox } from './layout';
 import type { PathfinderField } from './layout';
 import { PF2E_SIZE_OPTIONS, validOptions } from './field-options';
-import { TOGGLE_MODES, TOGGLE_SHAPES } from './toggle-shapes';
+import { TOGGLE_MODES, TOGGLE_SHAPES, TOGGLE_ROTATIONS } from './toggle-shapes';
 import { withWeaponSheetFields } from './weapon-fields';
 
 export type EditableField = PathfinderField & {
@@ -65,11 +65,23 @@ export function withClassDcNumericBonus(fields:EditableField[]):EditableField[] 
  * the stored template has no intentional toggle styling for magic traditions.
  */
 export function withMagicTraditionHalfCircles(fields:EditableField[]):EditableField[] {
-  return fields.map(field => /^tradition_(arcane|occult|primal|divine)$/.test(field.id)
-    && field.kind==='toggle' && field.toggleShape===undefined
-    ? {...field, toggleShape:'semicircle' as const, toggleMode:'fill' as const,
-        toggleInsetX:10,toggleInsetY:10}
-    : field);
+  const quadrants:Record<string,0|90|180|270>={
+    tradition_arcane:0, tradition_occult:90,
+    tradition_primal:270, tradition_divine:180,
+  };
+  return fields.map(field => {
+    const rotation=quadrants[field.id];
+    if(rotation===undefined||field.kind!=='toggle')return field;
+    // Respect custom non-magic shapes, but migrate the old half-round
+    // marker used by all four printed spell-tradition sectors.
+    if(field.toggleShape!==undefined&&field.toggleShape!=='semicircle'&&field.toggleShape!=='quarter')return field;
+    return {
+      ...field, toggleShape:'quarter', toggleMode:'fill',
+      toggleRotation:field.toggleRotation??rotation,
+      toggleInsetX:field.toggleShape==='quarter'?(field.toggleInsetX??0):0,
+      toggleInsetY:field.toggleShape==='quarter'?(field.toggleInsetY??0):0,
+    };
+  });
 }
 export const DEFAULT_FIELDS: EditableField[] = withMagicTraditionHalfCircles(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(
   (baseFields as PathfinderField[]).map(f => ({
@@ -108,7 +120,9 @@ export function validFields(value: unknown): value is EditableField[] {
       (a.toggleShape === undefined || (a.kind === 'toggle' && TOGGLE_SHAPES.includes(a.toggleShape))) &&
       (a.toggleMode === undefined || (a.kind === 'toggle' && TOGGLE_MODES.includes(a.toggleMode))) &&
       (a.toggleInsetX === undefined || (a.kind === 'toggle' && Number.isFinite(a.toggleInsetX) && a.toggleInsetX >= 0 && a.toggleInsetX <= 40)) &&
-      (a.toggleInsetY === undefined || (a.kind === 'toggle' && Number.isFinite(a.toggleInsetY) && a.toggleInsetY >= 0 && a.toggleInsetY <= 40));
+      (a.toggleInsetY === undefined || (a.kind === 'toggle' && Number.isFinite(a.toggleInsetY) && a.toggleInsetY >= 0 && a.toggleInsetY <= 40)) &&
+      (a.toggleRotation === undefined || (a.kind === 'toggle' && TOGGLE_ROTATIONS.includes(a.toggleRotation)));
+
   });
 }
 export function cloneFields(fields: EditableField[]): EditableField[] {
