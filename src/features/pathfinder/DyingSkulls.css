@@ -1,0 +1,49 @@
+/* Each of the four existing skull drawings receives one transparent hit area.
+ * Only the inner silhouette is painted; the PDF's printed outline remains.
+ */
+.pf-dying-skulls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 0 !important;
+  border: 0;
+  background: transparent;
+  z-index: 4;
+  min-width: 0;
+  min-height: 0;
+}
+.pf-dying-skull {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  color: #252b2a;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pf-dying-skull-ink {
+  width: 94%;
+  height: 94%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  fill: transparent;
+}
+.pf-dying-skull[aria-pressed="true"] .pf-dying-skull-ink {
+  fill: currentColor;
+}
+.pf-dying-skull:focus-visible {
+  outline: 1px solid #536b5b;
+  outline-offset: 0;
+}
+.pf-dying-skull:disabled {
+  cursor: default;
+}
