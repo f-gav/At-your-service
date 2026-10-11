@@ -12,7 +12,9 @@ const layout = read('../src/features/pathfinder/layout.ts');
 
 assert.equal(fields.length, 373);
 assert.deepEqual([...new Set(fields.map(f => f.page))], [1, 2, 3, 4]);
-assert.match(source, /PAGE_TITLES\.map\(\(_, index\) => renderPage\(index \+ 1\)\)/);
+assert.match(source, /visiblePages\.map\(page=>page==='notes'/);
+assert.match(source, /renderPage\(Number\(page\)\)/);
+assert.match(source, /<OptionalNotesPage key="notes"/);
 assert.match(source, /page-\$\{page\}\.webp/);
 assert.match(source, /loading=\{page === 1 \? 'eager' : 'lazy'\}/);
 assert.doesNotMatch(source, /pf-page-tabs|pf-zoom|pf-title-row/);
