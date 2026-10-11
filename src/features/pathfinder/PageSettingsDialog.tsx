@@ -83,7 +83,7 @@ export default function PageSettingsDialog({
             className={'pf-pages-item'+(over===id?' pf-pages-drag-target':'')}
             onDragStart={event=>startDrag(event,id)}
             onDragOver={event=>{if(!disabled){event.preventDefault();event.dataTransfer.dropEffect='move';setOver(id);}}}
-            onDragLeave={()=>setOver(id=>id===id?null:id)}
+            onDragLeave={()=>setOver(current=>current===id?null:current)}
             onDragEnd={()=>{dragFrom.current=null;setOver(null);}}
             onDrop={event=>dropPage(event,id)}>
             <GripVertical size={18} className="pf-pages-grip" aria-hidden="true"/>
