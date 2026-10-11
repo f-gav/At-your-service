@@ -373,11 +373,11 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       resource={resourceFromElement(selectedResource)}
       onClose={()=>setSelectedResource(null)}
       onSave={config=>{
-        replaceResource(selectedResource,config);
+        if(selectedResource)replaceResource(selectedResource,config);
         setSelectedResource(null);
       }}
       onDelete={()=>{
-        removeWidget(selectedResource);
+        if(selectedResource)removeWidget(selectedResource);
         setSelectedResource(null);
       }}/>}
   </>;
