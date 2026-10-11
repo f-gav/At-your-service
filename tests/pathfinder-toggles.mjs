@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { toggleAppearance, TOGGLE_SHAPES, TOGGLE_MODES } from '../src/features/pathfinder/toggle-shapes.ts';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
-assert.deepEqual([...TOGGLE_SHAPES], ['rectangle','square','circle','diamond','hexagon']);
+assert.deepEqual([...TOGGLE_SHAPES], ['rectangle','square','circle','semicircle','diamond','hexagon']);
 assert.deepEqual([...TOGGLE_MODES], ['check','fill']);
 // Preserve old records in published templates without adding new keys.
 assert.deepEqual(toggleAppearance({id:'hero_1'}),{
