@@ -631,7 +631,7 @@ export default function App() {
                         : character.portrait_card_path && portraitUrls[character.portrait_card_path]
                           ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
                           : character.system==='pf2e'
-                            ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder.webp`} alt="" />
+                            ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder-simple.png`} alt="" />
                             : null}
                     </span>
                     <span className="character-data">

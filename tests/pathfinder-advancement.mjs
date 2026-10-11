@@ -80,8 +80,12 @@ assert.match(css,/position:\s*fixed/);
 assert.match(css,/place-items:\s*center/);
 assert.match(css,/\.pf-advancement::after/);
 assert.match(css,/background-image:\s*var\(--pf-page-two-art\)/);
-assert.match(css,/background-position:\s*calc\(1\.25cqw - 66\.25cqw\) -94cqw/,
-  'Clipped shield edge must come from the exact source PDF coordinates');
+assert.match(css,/width:\s*max\(0px, calc\(1\.25cqw - 5px\)\)/,
+  'Trim exactly five pixels from the left of the shield restoration strip');
+assert.match(css,/background-position:\s*calc\(1\.25cqw - 66\.25cqw - 5px\) -94cqw/,
+  'Cropping must preserve the right edge of the source artwork');
+assert.match(css,/transform:translateY\(calc\(-50% - 4px\)\)/,
+  'Lift only the plus level control by four pixels');
 assert.match(sheet,/onAdd=\{\(\)=>setValues\(old=>addAdvancementLevel\(old\)\)\}/);
 assert.match(admin,/page===2 && <DynamicAdvancement/,'editor and sheet use one renderer');
 assert.match(admin,/page!==2\|\|!isAdvancementField\(f.id\)/);
@@ -115,5 +119,23 @@ assert.match(css,/\.pf-advancement-fixed-art > \.pf-field/,
   'inventory inputs keep their PDF coordinate origin');
 assert.match(css,/\.pf-advancement-fixed-art > \.ta-field/,
   'admin inventory field handles keep their PDF coordinate origin');
+
+// The page itself is a size-query container. Applying cqw to its own
+// min-height uses the VIEWPORT width, not the 600.945pt PDF width.
+// Only the inner advancement section may use 130.19cqw for the page baseline.
+const pageSizeRules=[...css.matchAll(/\.pf-sheet-page\.pf-sheet-page-advancement,\s*\.ta-page\.ta-page-advancement\s*\{([^}]*)\}/g)];
+assert.equal(pageSizeRules.length,2);
+assert.ok(pageSizeRules.every(([,body])=>/min-height:\s*0;/.test(body)),
+  'Both outer page rules must avoid viewport-relative cqw heights');
+assert.ok(pageSizeRules.every(([,body])=>!/min-height:\s*130\.19cqw/.test(body)));
+assert.match(css,/\.pf-sheet-page-advancement > \.pf-advancement,[\s\S]*?min-height:\s*130\.19cqw;/,
+  'Keep the same original PDF height when only short levels are present');
+const appSource=read('../src/App.tsx');
+assert.match(appSource,/pathfinder\/portrait-placeholder-simple\.png/,
+  'Empty PF2e character card uses the user-supplied portrait icon');
+const simplePortrait=readFileSync(new URL('../public/pathfinder/portrait-placeholder-simple.png',import.meta.url));
+assert.deepEqual([...simplePortrait.subarray(0,8)],[137,80,78,71,13,10,26,10],'Portrait placeholder must be a valid PNG');
+assert.equal(simplePortrait.readUInt32BE(16),200);
+assert.equal(simplePortrait.readUInt32BE(20),200);
 
 console.log('PF2e advancement: one required level, add/remove/compact, placeholders and growing page shared by admin/live.');
