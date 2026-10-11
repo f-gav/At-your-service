@@ -68,7 +68,7 @@ export default function PathfinderSheet({
     const combat = calculateNativeCombat(values);
     return automatic ? { ...calculateCore({ ...values, ...combat }), ...combat }
       : Object.fromEntries(Object.entries(combat).filter(([id]) =>
-          id === 'armor_class' || isNativeWeaponAttackField(id)));
+          id === 'armor_class' || id === 'class_dc' || isNativeWeaponAttackField(id)));
   }, [automatic, values]);
   const displayValues = useMemo(() => ({ ...values, ...computed }), [values, computed]);
   function setAutomatic(enabled: boolean) {
@@ -139,7 +139,7 @@ export default function PathfinderSheet({
     // remain meaningful outside the live rule engine. Source fields are never overwritten.
     const toStore = { ...values };
     for (const key of Object.keys(toStore)) {
-      if ((key === 'armor_class' || (automatic && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
+      if ((key === 'armor_class' || key === 'class_dc' || (automatic && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
         && !(key in computed)) toStore[key] = '';
     }
     Object.assign(toStore, computed);
@@ -183,14 +183,14 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = (field.id === 'armor_class' || (automatic && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
+    const value = (field.id === 'armor_class' || field.id === 'class_dc' || (automatic && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
         rank={readRank(values[field.id]) ?? 0} style={style}
         disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
     }
-    const computedField = field.id === 'armor_class' || isNativeWeaponAttackField(field.id) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
+    const computedField = field.id === 'armor_class' || field.id === 'class_dc' || isNativeWeaponAttackField(field.id) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style}>
         <input id={id} type="checkbox" checked={value === true}
