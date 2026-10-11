@@ -32,6 +32,8 @@ import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
+import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
+import { emptyMoonSheet, moonSubtitle } from './features/project-moon/model';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
@@ -80,10 +82,12 @@ const badgeLabels: Record<GameSystem, string> = {
   dnd5e: 'DnD',
   pf2e: 'PF2e',
   vtm5e: 'VtM',
+  prmoon: 'Pr. Moon',
 };
 
 function characterSubtitle(character: Character): string {
   if (character.system === 'pf2e') return pathfinderSubtitle(character.details);
+  if (character.system === 'prmoon') return moonSubtitle(character.details);
   const race = detailString(character.details, 'race').trim();
   const className = detailString(character.details, 'class').trim();
   if (race || className) return [race, className].filter(Boolean).join(' · ');
@@ -427,7 +431,9 @@ export default function App() {
     setError('');
     const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
     const { data, error: insertError } = await supabase.from('characters')
-      .insert({ user_id: user.id, system: createPanel, name, details: defaultDetails(), sort_order: nextOrder })
+      .insert({ user_id: user.id, system: createPanel, name,
+         details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } : defaultDetails(),
+         sort_order: nextOrder })
       .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
@@ -571,6 +577,12 @@ export default function App() {
             portraitFrame={active.portrait_source_path?active.portrait_crops?.sheet:undefined}
             onEditPortrait={()=>setEditingPortraitId(active.id)}
             onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+        ) : active.system === 'prmoon' ? (
+          <ProjectMoonSheet key={active.id} character={active}
+            portraitUrl={active.portrait_source_path ? portraitUrls[active.portrait_source_path] : active.portrait_sheet_path ? portraitUrls[active.portrait_sheet_path] : undefined}
+            portraitFrame={active.portrait_source_path ? active.portrait_crops?.sheet : undefined}
+            onEditPortrait={() => setEditingPortraitId(active.id)}
+            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         )
@@ -598,7 +610,7 @@ export default function App() {
                 {systemKeys.map((system, index) => (
                   <span className="filter-item" key={system}>
                     {index > 0 && <span className="filter-separator" aria-hidden="true">·</span>}
-                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => { setMovingId(null); setFilter(current => current === system ? 'all' : system); }}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : 'VTM'}</button>
+                    <button type="button" aria-pressed={filter === system} className={filter === system ? 'system-filter is-active' : 'system-filter'} onClick={() => { setMovingId(null); setFilter(current => current === system ? 'all' : system); }}>{system === 'dnd5e' ? 'D&D' : system === 'pf2e' ? 'PATHFINDER' : system === 'prmoon' ? 'PR. MOON' : 'VTM'}</button>
                   </span>
                 ))}
               </div>

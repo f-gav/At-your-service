@@ -23,6 +23,14 @@ export const GAME_SYSTEMS = {
     code: '03',
     description: 'Личности, тайны и ночные хроники.',
   },
+  prmoon: {
+    short: 'Pr. Moon',
+    edition: 'Community 3.x',
+    title: 'Project Moon',
+    subtitle: 'Community Rulebook 3.x',
+    code: '04',
+    description: 'Досье обитателей Города.',
+  },
 } as const;
 
 export type GameSystem = keyof typeof GAME_SYSTEMS;

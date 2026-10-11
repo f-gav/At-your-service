@@ -5,16 +5,16 @@ import type { PortraitTransfer, ParsedPortrait } from '../features/portrait/port
 
 /** JSON is a transport format, never a source of authentication or ownership. */
 export type CharacterExport = {
-  system: 'Pathfinder' | 'DnD' | 'VtM';
+  system: 'Pathfinder' | 'DnD' | 'VtM' | 'Project Moon';
   format: 'at-your-service-character';
   version: 1;
   character: { name: string; details: CharacterDetails; portrait?: PortraitTransfer };
 };
 const labels: Record<GameSystem, CharacterExport['system']> = {
-  pf2e: 'Pathfinder', dnd5e: 'DnD', vtm5e: 'VtM',
+  pf2e: 'Pathfinder', dnd5e: 'DnD', vtm5e: 'VtM', prmoon: 'Project Moon',
 };
 const systems: Record<CharacterExport['system'], GameSystem> = {
-  Pathfinder: 'pf2e', DnD: 'dnd5e', VtM: 'vtm5e',
+  Pathfinder: 'pf2e', DnD: 'dnd5e', VtM: 'vtm5e', 'Project Moon': 'prmoon',
 };
 export function exportCharacter(c: Character): CharacterExport {
   return { system: labels[c.system], format: 'at-your-service-character', version: 1,
@@ -30,7 +30,7 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
   if (!isPlainObject(data) || data.format !== 'at-your-service-character' || data.version !== 1 ||
       !Object.hasOwn(systems, String(data.system))) throw new Error('Неизвестный формат или версия листа.');
   const system = systems[data.system as CharacterExport['system']];
-  if (system !== 'pf2e') throw new Error('Импорт для DnD и VtM появится позже. Пока поддерживается Pathfinder.');
+  if (system !== 'pf2e' && system !== 'prmoon') throw new Error('Импорт для DnD и VtM появится позже.');
   if (!isPlainObject(data.character) || typeof data.character.name !== 'string' ||
       !isPlainObject(data.character.details)) throw new Error('Некорректные данные персонажа.');
   const name = normalizedName(data.character.name);
@@ -39,6 +39,8 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
   if (JSON.stringify(details).length > 50000) throw new Error('Данные листа превышают допустимый размер.');
   const sheet = details.pathfinderSheet;
   if (sheet !== undefined && !isPlainObject(sheet)) throw new Error('Некорректные поля Pathfinder.');
+  const moon = details.projectMoonSheet;
+  if (system === 'prmoon' && moon !== undefined && !isPlainObject(moon)) throw new Error('Некорректные поля Project Moon.');
   const portrait = parsePortraitTransfer(data.character.portrait);
   return { system, name, details, portrait };
 }
@@ -52,7 +54,7 @@ export async function downloadCharacter(c: Character): Promise<void> {
   const link = document.createElement('a');
   const safeName = c.name.replace(/[^A-Za-zА-Яа-яЁё0-9 _-]/g, '_').trim().slice(0,60) || 'character';
   link.href = url;
-  link.download = safeName + '-PF2e'.replace('PF2e',c.system==='pf2e'?'PF2e':c.system==='dnd5e'?'DnD':'VtM')+'.json';
+  link.download = safeName + '-' + (c.system === 'pf2e' ? 'PF2e' : c.system === 'dnd5e' ? 'DnD' : c.system === 'prmoon' ? 'PrMoon' : 'VtM') + '.json';
   document.body.appendChild(link); link.click(); link.remove();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

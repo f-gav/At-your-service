@@ -1,0 +1,128 @@
+import type { CharacterDetails } from '../../lib/models';
+
+export const MOON_PAGES = [
+  { id: 'dossier', title: 'Досье' },
+  { id: 'combat', title: 'Боевое досье' },
+  { id: 'about', title: 'Обо мне' },
+  { id: 'notes', title: 'Заметки' },
+] as const;
+export type MoonPage = typeof MOON_PAGES[number]['id'];
+
+export const MOON_ATTRIBUTES = [
+  { id: 'fortitude', label: 'Стойкость' },
+  { id: 'prudence', label: 'Рассудительность' },
+  { id: 'temperance', label: 'Самообладание' },
+  { id: 'discernment', label: 'Проницательность' },
+  { id: 'determination', label: 'Решительность' },
+  { id: 'charm', label: 'Обаяние' },
+] as const;
+
+export type MoonResourceId = 'hp' | 'st' | 'sp' | 'light';
+export type MoonItem = { id: string; title: string; body: string };
+export type MoonWeapon = { id: string; name: string; dice: string; bonus: string; description: string };
+export type MoonSheetData = {
+  schemaVersion: 1;
+  fields: Record<string, string>;
+  autoVitals: boolean;
+  maxOverrides: Partial<Record<MoonResourceId, string>>;
+  weapons: MoonWeapon[];
+  skills: MoonItem[];
+  notes: MoonItem[];
+};
+
+const text = (value: unknown): string => typeof value === 'string' ? value : '';
+export const newMoonItem = (id: string): MoonItem => ({ id, title: '', body: '' });
+const newWeapon = (id: string): MoonWeapon => ({ id, name: '', dice: '', bonus: '', description: '' });
+
+export function emptyMoonSheet(): MoonSheetData {
+  return {
+    schemaVersion: 1,
+    fields: {},
+    autoVitals: false,
+    maxOverrides: {},
+    weapons: [newWeapon('weapon-1'), newWeapon('weapon-2')],
+    skills: Array.from({ length: 6 }, (_, index) => newMoonItem('skill-' + (index + 1))),
+    notes: Array.from({ length: 6 }, (_, index) => newMoonItem('note-' + (index + 1))),
+  };
+}
+
+const record = (value: unknown): Record<string, unknown> =>
+  value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
+const item = (raw: unknown, fallbackId: string): MoonItem => {
+  const r = record(raw);
+  return { id: text(r.id) || fallbackId, title: text(r.title), body: text(r.body) };
+};
+const weapon = (raw: unknown, fallbackId: string): MoonWeapon => {
+  const r = record(raw);
+  return { id: text(r.id) || fallbackId, name: text(r.name), dice: text(r.dice),
+    bonus: text(r.bonus), description: text(r.description) };
+};
+
+export function readMoonSheet(details: CharacterDetails): MoonSheetData {
+  const stored = record(details.projectMoonSheet);
+  const initial = emptyMoonSheet();
+  const fields = record(stored.fields);
+  const overrides = record(stored.maxOverrides);
+  const readItems = (value: unknown, fallback: MoonItem[]) => Array.isArray(value)
+    ? value.slice(0, 100).map((entry, index) => item(entry, 'skill-' + (index + 1))) : fallback;
+  return {
+    schemaVersion: 1,
+    fields: Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] =>
+      typeof entry[1] === 'string')),
+    autoVitals: stored.autoVitals === true,
+    maxOverrides: Object.fromEntries(['hp','st','sp','light']
+      .filter(key => typeof overrides[key] === 'string')
+      .map(key => [key, overrides[key] as string])),
+    weapons: Array.isArray(stored.weapons)
+      ? stored.weapons.slice(0, 2).map((entry, index) => weapon(entry, 'weapon-' + (index + 1)))
+        .concat(initial.weapons.slice(Math.min(stored.weapons.length, 2)))
+      : initial.weapons,
+    skills: readItems(stored.skills, initial.skills),
+    notes: readItems(stored.notes, initial.notes),
+  };
+}
+
+export function saveMoonSheet(details: CharacterDetails, sheet: MoonSheetData): CharacterDetails {
+  // Preserve other systems' data and any future projectMoonSheet extensions.
+  const previous = record(details.projectMoonSheet);
+  return { ...details, projectMoonSheet: { ...previous, ...sheet } };
+}
+
+export function moonSubtitle(details: CharacterDetails): string {
+  const fields = readMoonSheet(details).fields;
+  return [fields.occupation, fields.organization].filter(Boolean).join(' · ') || 'Занятие / Организация';
+}
+
+function numeric(source: string | undefined): number | null {
+  if (!source || !/^-?\d+$/.test(source.trim())) return null;
+  const value = Number(source);
+  return Number.isSafeInteger(value) ? value : null;
+}
+
+export function moonCalculatedMax(sheet: MoonSheetData, id: MoonResourceId): number | null {
+  const fields = sheet.fields;
+  const rank = numeric(fields.rank);
+  if (id === 'light') return rank === null ? null : 3 + rank;
+  if (!sheet.autoVitals) return null;
+  const value = numeric(fields[id === 'hp' ? 'fortitude' : id === 'st' ? 'charm' : 'prudence']);
+  if (value === null) return null;
+  if (id === 'hp') return rank === null ? null : 64 + 8 * value + 32 * rank;
+  if (id === 'st') return rank === null ? null : 20 + 4 * value + 4 * rank;
+  return 15 + 3 * value;
+}
+
+export function moonDisplayedMax(sheet: MoonSheetData, id: MoonResourceId): string {
+  const computed = moonCalculatedMax(sheet, id);
+  if (computed !== null) return sheet.maxOverrides[id] ?? String(computed);
+  return sheet.fields[id + 'Max'] ?? '';
+}
+
+export function moonAttackBonus(sheet: MoonSheetData): string {
+  const rank = numeric(sheet.fields.rank);
+  if (rank === null) return '';
+  return rank < 0 ? String(rank) : '+' + rank;
+}
+
+export function addMoonSkill(sheet: MoonSheetData, id: string): MoonSheetData {
+  return { ...sheet, skills: [...sheet.skills, newMoonItem(id)] };
+}

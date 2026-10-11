@@ -9,7 +9,7 @@ import {
   moveCharacterToIndex,
 } from '../src/lib/models.ts';
 
-assert.deepEqual(systemKeys, ['dnd5e', 'pf2e', 'vtm5e']);
+assert.deepEqual(systemKeys, ['dnd5e', 'pf2e', 'vtm5e', 'prmoon']);
 assert.equal(GAME_SYSTEMS.pf2e.edition, 'Remaster');
 assert.equal(normalizedName('  Дориан  '), 'Дориан');
 assert.equal(normalizedName('  ').length, 0);

@@ -3,7 +3,7 @@
 create table if not exists public.characters (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  system text not null check (system in ('dnd5e', 'pf2e', 'vtm5e')),
+  system text not null check (system in ('dnd5e', 'pf2e', 'vtm5e', 'prmoon')),
   name text not null check (char_length(trim(name)) between 1 and 100),
   details jsonb not null default '{}'::jsonb
     check (jsonb_typeof(details) = 'object' and pg_column_size(details) <= 65536),
