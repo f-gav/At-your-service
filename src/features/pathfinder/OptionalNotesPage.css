@@ -10,7 +10,7 @@
 }
 
 .pf-optional-notes-page {
-  aspect-ratio: auto;
+  aspect-ratio:auto;
   min-height: 130cqw;
   display: flex;
   flex-direction: column;
