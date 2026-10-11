@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import type { FieldValue } from './sheet-values';
 import { MAX_ADVANCEMENT_LEVEL, ancestryHint, classHint } from './advancement-model';
 import './DynamicAdvancement.css';
@@ -6,6 +7,7 @@ import './DynamicAdvancement.css';
 type Props={
   values:Record<string,FieldValue>;
   count:number;
+  pageArtUrl:string;
   onValueChange:(id:string,value:string)=>void;
   onAdd:()=>void;
   onRemove:(level:number)=>void;
@@ -48,10 +50,11 @@ function LevelBadge({level,canRemove,onRemove,disabled}:{
  * illustration. The right-side inventory remains native, and the section
  * participates in document flow so an extra-long level grows the whole page.
  */
-export default function DynamicAdvancement({values,count,onValueChange,onAdd,onRemove,disabled}:Props){
+export default function DynamicAdvancement({values,count,pageArtUrl,onValueChange,onAdd,onRemove,disabled}:Props){
   const read=(id:string)=>String(values[id]??'');
   const edit=(id:string)=>(value:string)=>onValueChange(id,value);
-  return <div className="pf-advancement" aria-label="Черты народа, общие черты и классовые способности">
+  const artStyle={'--pf-page-two-art':`url("${pageArtUrl}")`} as CSSProperties;
+  return <div className="pf-advancement" style={artStyle} aria-label="Черты народа, общие черты и классовые способности">
     <div className="pf-advancement-head">
       <strong>Черты народа и общие черты</strong>
       <strong>Классовые способности</strong>
