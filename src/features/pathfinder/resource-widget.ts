@@ -142,7 +142,8 @@ export function resourceMarkup(raw:Partial<ResourceConfig>=DEFAULT_RESOURCE,valu
   const effective=result.error?stored:effectiveResource(stored,values);
   const max=result.error?null:result.value;
   const e=escapeResource;
-  const cells=stored.display==='cells'&&max!==null&&max>0&&max<=RESOURCE_CELL_LIMIT&&!result.error;
+  const cellMax=max??0;
+  const cells=stored.display==='cells'&&cellMax>0&&cellMax<=RESOURCE_CELL_LIMIT&&!result.error;
   const info=stored.showNotes&&stored.notes.trim();
   const widgetWarning=stored.display==='cells'&&!cells
     ?(result.error?'Формула недоступна':max===null?'Для ячеек нужен максимум':
@@ -153,7 +154,7 @@ export function resourceMarkup(raw:Partial<ResourceConfig>=DEFAULT_RESOURCE,valu
   const maxLabel=result.error?'?':max===null?'':String(max);
   const cellMarkup=cells?
     '<span class="pf-resource-cells" role="group" aria-label="Ячейки ресурса">'+
-    Array.from({length:max},(_,i)=>'<span data-pf-resource-cell="'+(i+1)+
+    Array.from({length:cellMax},(_,i)=>'<span data-pf-resource-cell="'+(i+1)+
       '" role="button" tabindex="0" aria-pressed="'+(i<count?'true':'false')+
       '" aria-label="Ресурс '+(i+1)+' из '+max+'">'+(i<count?'◆':'◇')+'</span>').join('')+'</span>'
     :'<span class="pf-resource-counter">'+
