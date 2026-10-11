@@ -408,3 +408,36 @@
   .pf-advancement-confirm-actions { flex-direction: column-reverse; }
   .pf-advancement-confirm-actions button { width: 100%; }
 }
+
+/* Rich text shares the exact same layout geometry as the original expanding
+ * textareas: levels still grow downwards; no inner scrollbars are introduced. */
+.pf-advancement-rich {
+  display: block; width: 100%; min-width: 0;
+  min-height: 3.9cqw; height: auto; overflow: visible;
+  margin: 0; padding: 0; border: 0;
+  background: #fff; color: #252a26;
+  font-family: 'Segoe UI',Arial,sans-serif;
+  font-size: 1.30cqw; line-height: 1.4;
+}
+.pf-advancement-rich .pf-rich-editable {
+  min-height: 3.9cqw; height: auto; padding: .3cqw .4cqw;
+  overflow: visible; font: inherit; color: inherit;
+}
+.pf-advancement-first-fields .pf-advancement-rich,
+.pf-advancement-first-fields .pf-advancement-rich .pf-rich-editable {
+  min-height: 5.6cqw;
+}
+/* The supplied clean right-column artwork has no legal footnote. The old PDF
+ * base retains it, so mask that footnote without touching the valuables box
+ * or any field overlay. This rectangle is relative to the FIXED art, never
+ * to the growing advancement panel. */
+.pf-sheet-page-advancement .pf-advancement-fixed-art::after,
+.ta-page-advancement .pf-advancement-fixed-art::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 66.25%; right: 0; bottom: 0; height: 3.6%;
+  z-index: 1;
+  background: #fff;
+  pointer-events: none;
+}

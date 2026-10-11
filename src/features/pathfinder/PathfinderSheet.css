@@ -80,6 +80,8 @@
   pointer-events: none;
 }
 .pf-toggle-visual[data-shape="circle"] .pf-toggle-fill-shape { border-radius: 50%; }
+/* Half-round choice used for the four magical traditions. */
+.pf-toggle-visual[data-shape="semicircle"] .pf-toggle-fill-shape { border-radius: 100% 100% 0 0; }
 .pf-toggle-visual[data-shape="hexagon"] .pf-toggle-fill-shape {
   clip-path: polygon(23% 0%, 77% 0%, 100% 50%, 77% 100%, 23% 100%, 0% 50%);
 }

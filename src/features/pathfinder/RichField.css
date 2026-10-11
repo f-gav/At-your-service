@@ -1,0 +1,59 @@
+/* In-place rich editing: no native browser editing frame; all formatting
+ * remains inside the source PDF rectangle. Tooltip is portaled to viewport. */
+.pf-rich-host { z-index: 4; position: relative; box-sizing: border-box; min-width: 0; }
+.pf-rich-editable {
+  box-sizing: border-box; width: 100%; height: 100%;
+  font: inherit; color: inherit; text-align: inherit;
+  background: transparent; padding: inherit; border: 0;
+  outline: 0; overflow: auto; overflow-wrap: anywhere;
+  white-space: pre-wrap; line-height: 1.38; cursor: text;
+}
+.pf-rich-editable:focus { outline: 1px solid #a1b6a9; outline-offset: -1px; }
+.pf-rich-editable:empty::before {
+  content: attr(data-placeholder); color: #a3aaa5;
+  pointer-events: none; font-weight: 400;
+}
+.pf-rich-editable a { color: #39735a; text-decoration: underline; }
+.pf-rich-editable ul { padding-left: 1.2em; margin: 2px 0; list-style: disc; }
+.pf-rich-editable li { margin: 0; }
+.pf-rich-editable [data-pf-resource],
+.pf-rich-editable [data-pf-task] {
+  display: inline-block; vertical-align: baseline;
+  color: #416452; padding: 0 2px; cursor: pointer; user-select: none;
+  border-radius: 3px;
+}
+.pf-rich-editable [data-filled="1"] { color: #24462e; }
+.pf-rich-editable [data-pf-resource]:focus-visible,
+.pf-rich-editable [data-pf-task]:focus-visible { outline: 1px solid #436e50; }
+.pf-rich-editable.pf-rich-grow {
+  height: auto;
+  min-height: 3.9cqw;
+  overflow: visible;
+  field-sizing: content;
+}
+.pf-rich-toolbar {
+  position: fixed; z-index: 12000;
+  display: flex; align-items: center; gap: 3px;
+  padding: 5px; box-sizing: border-box; min-height: 38px;
+  border: 1px solid #d8deda; border-radius: 8px;
+  background: #fff; color: #202a25;
+  box-shadow: 0 6px 20px #0003;
+  font-family: Arial,sans-serif;
+  max-width: min(390px, calc(100vw - 16px));
+}
+.pf-rich-toolbar > button,
+.pf-rich-link-form > button {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 4px; min-width: 30px; height: 28px;
+  background: #fff; cursor: pointer; color: inherit; padding: 4px;
+}
+.pf-rich-toolbar button:hover,.pf-rich-toolbar button:focus-visible {
+  background: #e8f0eb;
+}
+.pf-rich-toolbar-separator { width: 1px; height: 21px; background: #d2dcd4; margin: 0 2px; }
+.pf-rich-link-form { display: flex; gap: 4px; align-items: center; margin:0; }
+.pf-rich-link-form input {
+  width: 210px; max-width: 55vw; box-sizing: border-box;
+  border: 1px solid #c3d1c8; border-radius: 4px;
+  padding: 4px; font-size: 12px;
+}

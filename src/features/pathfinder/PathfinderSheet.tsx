@@ -6,10 +6,12 @@ import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
-import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields, withClassDcNumericBonus } from './editor-schema';
+import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields, withClassDcNumericBonus, withMagicTraditionHalfCircles } from './editor-schema';
 import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
+import RichField from './RichField';
+import { sanitizeSignedNumericInput } from './numeric-input';
 import DynamicAdvancement from './DynamicAdvancement';
 import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeAdvancementLevel } from './advancement-model';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
@@ -53,7 +55,7 @@ export default function PathfinderSheet({
     if(!supabase)return;
     let active=true;
     void supabase.from('sheet_templates').select('fields').eq('template_key','pf2e').maybeSingle().then(({data,error})=>{
-      if(active && !error && validFields(data?.fields)) setTemplateFields(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields)))));
+      if(active && !error && validFields(data?.fields)) setTemplateFields(withMagicTraditionHalfCircles(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields))))));
     });
     return()=>{active=false;};
   },[]);
@@ -207,7 +209,10 @@ export default function PathfinderSheet({
       value: String(value ?? ''),
       maxLength: field.maxlen,
       onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (!computedField) change(field.id, event.target.value);
+        if (!computedField) change(field.id,
+          (field.kind==='number'||field.kind==='counter')
+            ? sanitizeSignedNumericInput(event.target.value)
+            : event.target.value);
       },
       readOnly: computedField,
       disabled: saving,
@@ -227,7 +232,10 @@ export default function PathfinderSheet({
     const narrow = field.w < 40 ? ' pf-field-narrow' : '';
     const tiny = field.w < 20 ? ' pf-field-tiny' : '';
     if (field.kind === 'long') {
-      return <textarea key={field.id} className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}`} style={style} {...shared} spellCheck={false} />;
+      return <RichField key={field.id} id={id} label={field.label}
+        className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}`}
+        style={style} value={String(value??'')} disabled={saving||computedField}
+        onChange={next=>change(field.id,next)}/>;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';
     return <input
