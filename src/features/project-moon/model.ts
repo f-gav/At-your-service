@@ -1,5 +1,5 @@
 import type { CharacterDetails } from '../../lib/models';
-import { DEFAULT_MOON_ORDER, parseMoonOrder } from './page-order';
+import { DEFAULT_MOON_ORDER, parseMoonOrder } from './page-order.ts';
 
 export const MOON_PAGES = [
   { id: 'dossier', title: 'Досье' },
