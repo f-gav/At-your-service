@@ -5,6 +5,7 @@
  * time it enters or leaves the editor. No executable HTML is trusted.
  */
 import { dividerMarkup, spoilerMarkup } from './rich-blocks.ts';
+import { resourceMarkup, resourceFromElement } from './resource-widget.ts';
 
 export const RICH_PREFIX='ays:rich:v1:';
 
@@ -29,6 +30,9 @@ export function sanitizeRichHtml(html:string):string {
     // Block widgets have their own strictly reconstructed HTML. Only the
     // title (plain text), collapsed flag and sanitized body are persisted.
     // Arbitrary attributes, classes and inline handlers are never replayed.
+    if(el.tagName==='DIV' && el.dataset.pfResourceWidget==='1') {
+      return resourceMarkup(resourceFromElement(el));
+    }
     if(el.tagName==='DIV' && el.dataset.pfDivider==='1') {
       const title=el.querySelector<HTMLElement>(':scope > [data-pf-divider-title]');
       return dividerMarkup(title?.textContent??'');
