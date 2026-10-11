@@ -133,7 +133,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     template.innerHTML=(kind==='spoiler'?spoilerMarkup():dividerMarkup())+'<div><br></div>';
     const fragment=template.content;
     const widget=fragment.firstElementChild as HTMLElement;
-    if(blank===editor)editor.replaceChildren(fragment);
+    if(blank===editor||blank.matches('[data-pf-spoiler-body]'))blank.replaceChildren(fragment);
     else blank.replaceWith(fragment);
     const title=widget.querySelector<HTMLElement>(kind==='spoiler'?'[data-pf-spoiler-title]':'[data-pf-divider-title]');
     emit();
@@ -149,12 +149,13 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!node||!editor.contains(node))return false;
     if(node.closest('[data-pf-divider],[data-pf-spoiler-head]'))return false;
     const line=node.closest<HTMLElement>('div,p');
-    if(!line||line===editor||!editor.contains(line))return false;
+    if(!line||!editor.contains(line))return false;
     if(line.textContent!=='---'||line.children.length>0)return false;
     const template=document.createElement('template');
     template.innerHTML=dividerMarkup()+'<div><br></div>';
     const title=template.content.firstElementChild?.querySelector<HTMLElement>('[data-pf-divider-title]');
-    line.replaceWith(template.content);
+    if(line===editor||line.matches('[data-pf-spoiler-body]'))line.replaceChildren(template.content);
+    else line.replaceWith(template.content);
     emit();
     if(title)placeCaret(title);
     setInsertSpot(null);
@@ -291,6 +292,29 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         onKeyDown={event=>{
           const title=event.target instanceof HTMLElement
             ? event.target.closest<HTMLElement>('[data-pf-divider-title]') : null;
+          const heading=event.target instanceof HTMLElement
+            ? event.target.closest<HTMLElement>('[data-pf-spoiler-title]') : null;
+          if(event.key==='Enter'&&heading){
+            event.preventDefault();
+            const body=heading.closest('[data-pf-spoiler]')?.querySelector<HTMLElement>('[data-pf-spoiler-body]');
+            if(body)placeCaret(body);
+            return;
+          }
+          if(event.key==='Enter'&&title){
+            event.preventDefault();
+            const divider=title.closest<HTMLElement>('[data-pf-divider]');
+            if(divider){
+              let next=divider.nextElementSibling as HTMLElement|null;
+              if(!next){
+                next=document.createElement('div');
+                next.appendChild(document.createElement('br'));
+                divider.after(next);
+                emit();
+              }
+              placeCaret(next);
+            }
+            return;
+          }
           if(event.key==='Backspace'&&title&&!title.textContent?.trim()){
             event.preventDefault();
             const divider=title.closest<HTMLElement>('[data-pf-divider]');
