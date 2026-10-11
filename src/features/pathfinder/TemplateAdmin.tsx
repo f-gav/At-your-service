@@ -9,6 +9,8 @@ import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import { toggleAppearance } from './toggle-shapes';
 import { buildBardDemo } from './bard-demo';
+import DynamicAdvancement from './DynamicAdvancement';
+import { isAdvancementField, removeAdvancementLevel, MAX_ADVANCEMENT_LEVEL, ADVANCEMENT_COUNT_KEY } from './advancement-model';
 import './PathfinderSheet.css';
 import './TemplateAdmin.css';
 type Change=Partial<EditableField>;
@@ -19,12 +21,27 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   const [preview,setPreview]=useState(false),[zoom,setZoom]=useState(960),[grid,setGrid]=useState(false);
   const [zoomInput,setZoomInput]=useState('960');
   const [samples,setSamples]=useState<Record<string,string>>({});
+  // Page two's expanding feat rows have no fixed PDF coordinate to drag.
+  // Demo rows are local-only and never enter the published field schema.
+  const [previewAdvancementCount,setPreviewAdvancementCount]=useState(1);
   const [bardTestOn,setBardTestOn]=useState(false);
   const [bardOverrides,setBardOverrides]=useState<Record<string,string>>({});
   const bardSamples=useMemo(()=>bardTestOn?buildBardDemo(fields):{},[bardTestOn,fields]);
   const displaySamples=useMemo(()=>bardTestOn
     ? {...samples,...bardSamples,...bardOverrides} : samples,
     [bardTestOn,samples,bardSamples,bardOverrides]);
+  function removePreviewAdvancement(level:number){
+    if(!confirm('Вы точно хотите удалить уровень?'))return;
+    const next=removeAdvancementLevel({ ...displaySamples, [ADVANCEMENT_COUNT_KEY]:String(previewAdvancementCount) },level);
+    const changed:Record<string,string>={};
+    for(let n=level;n<=previewAdvancementCount;n++){
+      changed['feat_level_'+n]=String(next['feat_level_'+n]??'');
+      changed['class_level_'+n]=String(next['class_level_'+n]??'');
+    }
+    if(bardTestOn)setBardOverrides(old=>({...old,...changed}));
+    else setSamples(old=>({...old,...changed}));
+    setPreviewAdvancementCount(old=>Math.max(1,old-1));
+  }
   function setPreviewSample(id:string,value:string){
     if(bardTestOn)setBardOverrides(old=>({...old,[id]:value}));
     else setSamples(old=>({...old,[id]:value}));
@@ -84,7 +101,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   }
   function add(){
     checkpoint();const id='custom_'+crypto.randomUUID().replace(/-/g,'').slice(0,22);
-    setFields(old=>[...old,{id,label:'Новое поле',kind:'text',page,x:90,y:120,w:120,h:20,fontSize:12,adjusted:true}]);setSelected(id);
+    setFields(old=>[...old,{id,label:'Новое поле',kind:'text',page,x:page===2?415:90,y:120,w:page===2?110:120,h:20,fontSize:12,adjusted:true}]);setSelected(id);
   }
   function remove(){
     if(!active||!confirm('Удалить поле из шаблона? Данные существующих персонажей останутся в базе.'))return;
@@ -187,14 +204,18 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       <label><input type="checkbox" checked={grid} onChange={e=>setGrid(e.target.checked)}/>Привязка 1pt</label>
     </div>
     <div className="ta-columns">
-      <div className="ta-scroll"><div className="ta-page" ref={pageRef} style={{width:zoom,aspectRatio:PDF_WIDTH+'/'+PDF_HEIGHT}}>
+      <div className="ta-scroll"><div className={"ta-page"+(page===2?" ta-page-advancement":"")} ref={pageRef} style={{width:zoom,aspectRatio:page===2?"auto":PDF_WIDTH+"/"+PDF_HEIGHT}}>
         <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=3'} alt={'Страница '+page} draggable={false}/>
-        {fields.filter(f=>f.page===page).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
+        {fields.filter(f=>f.page===page&&(page!==2||!isAdvancementField(f.id))).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
           className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(displaySamples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
           style={box(f)} onPointerDown={e=>start(e,f,'move')} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} onClick={()=>setSelected(f.id)}>
           {previewText(f)}
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
         </div>)}
+        {page===2 && <DynamicAdvancement values={displaySamples}
+          count={previewAdvancementCount} onValueChange={setPreviewSample}
+          onAdd={()=>setPreviewAdvancementCount(n=>Math.min(MAX_ADVANCEMENT_LEVEL,n+1))}
+          onRemove={removePreviewAdvancement} disabled={busy}/>}
       </div></div>
       <aside className="ta-side">
         <nav className="ta-page-nav" aria-label="Страницы листа">
@@ -202,9 +223,10 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
             className={page===i+1?'active':''} aria-current={page===i+1?'page':undefined}
             onClick={()=>{setPage(i+1);setSelected('');}}>{i+1}. {title}</button>)}
         </nav>
-        <div className="ta-row"><strong>Поля: {fields.filter(f=>f.page===page).length}</strong><button onClick={add}>+ Добавить</button></div>
-        <label>Выбрать поле<select value={selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
-        {active?<div className="ta-form">
+        <div className="ta-row"><strong>Поля: {fields.filter(f=>f.page===page&&(page!==2||!isAdvancementField(f.id))).length}</strong><button onClick={add}>+ Добавить</button></div>
+        <label>Выбрать поле<select value={page===2&&isAdvancementField(selected)?"":selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page&&(page!==2||!isAdvancementField(f.id))).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
+        {page===2&&<p className="ta-advancement-note">Черты и классовые способности теперь динамические: новые уровни добавляются кнопкой «+» прямо на странице, а высота полей растёт вместе с текстом. Их прежние координаты PDF больше не используются.</p>}
+        {active && !(page===2 && isAdvancementField(active.id))?<div className="ta-form">
           <small>ID: {active.id}</small>
           {active.kind==='toggle'
             ? <label className="ta-toggle-setting"><input type="checkbox"
