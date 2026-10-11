@@ -180,6 +180,15 @@ export function calculateNativeCombat(v: SheetValues): Record<string,string> {
   if (dex!==undefined && prof!==undefined && item!==undefined) {
     add(result,'armor_class',10+dex+prof+item,true);
   }
+  // The printed class DC strip contains numeric bonuses, not proficiency
+  // rank codes: 10 + key attribute modifier + class DC proficiency + item.
+  // Do not infer the key attribute or add the character level a second time.
+  const classDcKey=component('class_dc_key');
+  const classDcProf=component('class_dc_rank');
+  const classDcItem=component('class_dc_item');
+  if (classDcKey!==undefined && classDcProf!==undefined && classDcItem!==undefined) {
+    add(result,'class_dc',10+classDcKey+classDcProf+classDcItem,true);
+  }
   const threshold=shieldBrokenThreshold(n(v,'shield_max_hp'));
   if (threshold!==undefined) add(result,'shield_broken',threshold,true);
 
@@ -206,5 +215,5 @@ export function isNativeWeaponAttackField(id:string):boolean {
 }
 
 export function isNativeCombatComputedField(id:string): boolean {
-  return id==='armor_class' || id==='shield_broken' || isNativeWeaponAttackField(id);
+  return id==='armor_class' || id==='class_dc' || id==='shield_broken' || isNativeWeaponAttackField(id);
 }
