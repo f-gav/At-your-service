@@ -54,7 +54,7 @@ const huge=resourceMarkup({...cells,max:100},values);
 assert.doesNotMatch(huge,/data-pf-resource-cell=/);
 assert.match(huge,/Больше 40 ячеек/);
 const missing=resourceMarkup({...cells,maxFormula:'уровень + харизма'}, {});
-assert.match(missing,/Формула недоступна/);
+assert.match(missing,/Заполни поле «уровень»/,'The widget should explain exactly which stat is missing');
 assert.match(missing,/\/ \?/);
 assert.doesNotMatch(missing,/data-pf-resource-cell=/);
 const escaped=resourceMarkup({...cells,maxFormula:'уровень + харизма'},values);
