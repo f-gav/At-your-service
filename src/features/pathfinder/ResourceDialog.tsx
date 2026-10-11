@@ -1,20 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import {createPortal} from 'react-dom';
-import type {ResourceConfig,Recovery} from './resource-widget';
-import {normalizeResource} from './resource-widget';
+import type {ResourceConfig,Recovery,FormulaContext,ResourceDisplay} from './resource-widget';
+import {normalizeResource,resourceEffectiveMax,RESOURCE_CELL_LIMIT} from './resource-widget';
 import './ResourceDialog.css';
 
 type Props={
   resource:ResourceConfig;
+  resourceContext?:FormulaContext;
   onSave:(resource:ResourceConfig)=>void;
   onClose:()=>void;
   onDelete:()=>void;
 };
 
-export default function ResourceDialog({resource,onSave,onClose,onDelete}:Props){
+export default function ResourceDialog({resource,resourceContext={},onSave,onClose,onDelete}:Props){
   const [name,setName]=useState(resource.name);
   const [current,setCurrent]=useState(String(resource.current));
   const [maximum,setMaximum]=useState(resource.max===null?'':String(resource.max));
+  const [display,setDisplay]=useState<ResourceDisplay>(resource.display);
+  const [maximumMode,setMaximumMode]=useState<'manual'|'formula'>(resource.maxFormula?'formula':'manual');
+  const [formula,setFormula]=useState(resource.maxFormula);
   const [recovery,setRecovery]=useState<Recovery>(resource.recovery);
   const [notes,setNotes]=useState(resource.notes);
   const [showNotes,setShowNotes]=useState(resource.showNotes);
@@ -39,14 +43,21 @@ export default function ResourceDialog({resource,onSave,onClose,onDelete}:Props)
     document.addEventListener('keydown',escape);
     return()=>{document.removeEventListener('keydown',escape);focused?.focus();};
   },[onClose]);
+  const candidate=normalizeResource({
+    name:name.trim()||'Ресурс',current,
+    max:maximum.trim()===''?null:maximum,
+    maxFormula:maximumMode==='formula'?formula.trim():'',
+    display,recovery,notes,showNotes,
+  });
+  const preview=resourceEffectiveMax(candidate,resourceContext);
+  const unavailableVariable=preview.error?.startsWith('Заполни поле «')??false;
+  const invalidFormula=maximumMode==='formula'&&(!formula.trim()||Boolean(preview.error&&!unavailableVariable));
+  const missingCellMaximum=display==='cells'&&maximumMode==='manual'&&maximum.trim()==='';
   const submit=(event:React.FormEvent)=>{
     event.preventDefault();
-    onSave(normalizeResource({
-      name:name.trim()||'Ресурс',
-      current,
-      max:maximum.trim()===''?null:maximum,
-      recovery,notes,showNotes,
-    }));
+    if(invalidFormula||missingCellMaximum)return;
+    const resolved=preview.value;
+    onSave({...candidate,current:resolved===null?candidate.current:Math.min(candidate.current,resolved)});
   };
   return createPortal(<div className="pf-resource-backdrop"
     onMouseDown={event=>{if(event.target===event.currentTarget)onClose();}}>
@@ -57,18 +68,47 @@ export default function ResourceDialog({resource,onSave,onClose,onDelete}:Props)
         <label>Название
           <input type="text" maxLength={100} value={name} onChange={event=>setName(event.target.value)}/>
         </label>
+        <label>Отображение
+          <select value={display} onChange={event=>setDisplay(event.target.value as ResourceDisplay)}>
+            <option value="counter">Числовой счётчик (2 / 5)</option>
+            <option value="cells">Нажимаемые ячейки (◆ ◆ ◇ ◇ ◇)</option>
+          </select>
+        </label>
+        <label>Тип максимума
+          <select value={maximumMode} onChange={event=>setMaximumMode(event.target.value as 'manual'|'formula')}>
+            <option value="manual">Указать вручную</option>
+            <option value="formula">Рассчитывать по формуле</option>
+          </select>
+        </label>
         <div className="pf-resource-dialog-numbers">
           <label>Количество
             <input type="number" min="0" max="999999" step="1" value={current}
               onChange={event=>setCurrent(event.target.value)}/>
           </label>
-          <label>Максимум
-            <input type="number" min="0" max="999999" step="1"
-              value={maximum} placeholder="Без ограничения"
-              onChange={event=>setMaximum(event.target.value)}/>
-          </label>
+          {maximumMode==='manual'
+            ? <label>Максимум
+                <input type="number" min="0" max="999999" step="1"
+                  value={maximum} placeholder="Без ограничения"
+                  onChange={event=>setMaximum(event.target.value)}/>
+              </label>
+            : <label>Расчётный максимум
+                <input type="text" value={formula} maxLength={120}
+                  placeholder="уровень + харизма + 2"
+                  aria-invalid={invalidFormula}
+                  onChange={event=>setFormula(event.target.value)}/>
+              </label>}
         </div>
-        <p className="pf-resource-dialog-hint">Оставь максимум пустым, если ресурс может накапливаться без установленного предела.</p>
+        {maximumMode==='formula'
+          ? <>
+              <p className="pf-resource-dialog-hint">Переменные: уровень, сила, ловкость, выносливость, интеллект, мудрость, харизма. Допустимы числа, +, −, × (*), ÷ (/) и скобки. Например: <code>уровень + харизма + 2</code>.</p>
+              <p className={'pf-resource-preview'+(preview.error?' pf-resource-preview-warning':'')}
+                aria-live="polite">{preview.error?'Максимум пока не вычислен: '+preview.error:'Расчётный максимум: '+preview.value}</p>
+            </>
+          : <p className="pf-resource-dialog-hint">Оставь максимум пустым для неограниченного счётчика. Для режима ячеек максимум обязателен.</p>}
+        {display==='cells'&&<p className="pf-resource-dialog-hint">
+          Ячейки доступны при максимуме от 1 до {RESOURCE_CELL_LIMIT}. Если формула позднее превысит лимит, ресурс временно покажется числовым счётчиком без потери данных.
+        </p>}
+        {missingCellMaximum&&<p className="pf-resource-preview-warning" role="alert">Для ячеек укажи максимум или выбери формулу.</p>}
         <label>Восстановление
           <select value={recovery} onChange={event=>setRecovery(event.target.value as Recovery)}>
             <option value="none">Без автоматического восстановления</option>
@@ -96,7 +136,7 @@ export default function ResourceDialog({resource,onSave,onClose,onDelete}:Props)
                 <button type="button" className="pf-resource-remove" onClick={()=>setConfirmDelete(true)}>Удалить ресурс</button>
                 <span className="pf-resource-dialog-spacer"/>
                 <button type="button" ref={closeButton} onClick={onClose}>Отмена</button>
-                <button type="submit" className="pf-resource-primary">Сохранить</button>
+                <button type="submit" className="pf-resource-primary" disabled={invalidFormula||missingCellMaximum}>Сохранить</button>
               </>}
         </div>
       </form>
