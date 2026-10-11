@@ -275,10 +275,7 @@ export default function PathfinderSheet({
         pageArtUrl={`${import.meta.env.BASE_URL}pathfinder/page-2.webp?v=3`}
         onValueChange={(id,value)=>change(id,value)}
         onAdd={()=>setValues(old=>addAdvancementLevel(old))}
-        onRemove={level=>{
-          if(window.confirm('Вы точно хотите удалить уровень?'))
-            setValues(old=>removeAdvancementLevel(old,level));
-        }}/>}
+        onRemove={level=>setValues(old=>removeAdvancementLevel(old,level))}/>}
     </section>;
   }
 

@@ -61,7 +61,27 @@ assert.match(css,/pf-advancement-star:hover \.pf-advancement-level-remove/);
 assert.match(css,/\.pf-sheet-page\.pf-sheet-page-advancement/);
 assert.match(sheet,/page!==2 \|\| !isAdvancementField\(field\.id\)/,
  'old twenty levels must not show under dynamically rendered ones');
-assert.match(sheet,/if\(window\.confirm\('Вы точно хотите удалить уровень\?'\)\)/);
+assert.doesNotMatch(sheet,/window\.confirm\('Вы точно хотите удалить уровень\?'\)/,
+  'Browser-native confirm must not be used for level deletion');
+assert.doesNotMatch(admin,/confirm\('Вы точно хотите удалить уровень\?'\)/,
+  'Template editor must use the same in-app dialog');
+assert.match(component,/createPortal\(/,
+  'Deletion dialog is portaled out of the scrollable PDF editor');
+assert.match(component,/role="dialog" aria-modal="true"/);
+assert.match(component,/Вы точно хотите удалить уровень\?/);
+assert.match(component,/aria-labelledby="pf-level-confirm-title"/);
+assert.match(component,/event\.key==='Escape'/);
+assert.match(component,/setPendingDelete\(level\)/,
+  'Clicking a level star opens the dialog, not immediate deletion');
+assert.match(component,/onRemove\(pendingDelete\)/,
+  'Data should only be removed after affirmative confirmation');
+assert.match(css,/\.pf-advancement-confirm-backdrop/);
+assert.match(css,/position:\s*fixed/);
+assert.match(css,/place-items:\s*center/);
+assert.match(css,/\.pf-advancement::after/);
+assert.match(css,/background-image:\s*var\(--pf-page-two-art\)/);
+assert.match(css,/background-position:\s*calc\(1\.25cqw - 66\.25cqw\) -94cqw/,
+  'Clipped shield edge must come from the exact source PDF coordinates');
 assert.match(sheet,/onAdd=\{\(\)=>setValues\(old=>addAdvancementLevel\(old\)\)\}/);
 assert.match(admin,/page===2 && <DynamicAdvancement/,'editor and sheet use one renderer');
 assert.match(admin,/page!==2\|\|!isAdvancementField\(f.id\)/);

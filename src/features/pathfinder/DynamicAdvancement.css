@@ -307,3 +307,100 @@
 }
 /* Keep the original right-hand bitmap and inventory fields perfectly aligned
    at any number of advancement levels and at any editor zoom. */
+
+
+/* The PDF's "Вес" shield protrudes a few pixels into the white advancement
+   mask. Restore exactly that narrow sliver from the same native page art at
+   the original image coordinates. Do not move or resize equipment fields. */
+.pf-sheet-page-advancement > .pf-advancement::after,
+.ta-page-advancement > .pf-advancement::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 94cqw;
+  right: 0;
+  width: 1.25cqw;
+  height: 15cqw;
+  background-image: var(--pf-page-two-art);
+  background-repeat: no-repeat;
+  background-size: 100cqw auto;
+  background-position: calc(1.25cqw - 66.25cqw) -94cqw;
+  pointer-events: none;
+}
+
+/* App-styled confirmation is mounted in document.body so it remains centered
+   to the viewport even inside the PDF editor's overflow/zoom containers. */
+.pf-advancement-confirm-backdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 18px;
+  background: rgba(18, 31, 26, .42);
+}
+.pf-advancement-confirm {
+  box-sizing: border-box;
+  width: min(420px, 100%);
+  padding: 22px;
+  border: 1px solid #dce2dc;
+  border-radius: 12px;
+  background: #fff;
+  color: #27332b;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 16px 44px #0003;
+}
+.pf-advancement-confirm h2 {
+  margin: 0 0 10px;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 650;
+}
+.pf-advancement-confirm p {
+  margin: 0;
+  color: #68766e;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.pf-advancement-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 22px;
+}
+.pf-advancement-confirm-actions button {
+  min-width: 90px;
+  padding: 9px 13px;
+  border: 1px solid #cbd6ce;
+  border-radius: 7px;
+  background: #fff;
+  color: #334238;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.pf-advancement-confirm-actions button:hover {
+  background: #f2f4f2;
+}
+.pf-advancement-confirm-actions .pf-advancement-confirm-delete {
+  border-color: #9e4c45;
+  background: #8e403a;
+  color: #fff;
+}
+.pf-advancement-confirm-actions .pf-advancement-confirm-delete:hover {
+  background: #78342f;
+}
+.pf-advancement-confirm-actions button:focus-visible {
+  outline: 2px solid #587c67;
+  outline-offset: 2px;
+}
+.pf-advancement-confirm-actions button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+@media (max-width:480px) {
+  .pf-advancement-confirm { padding: 18px; }
+  .pf-advancement-confirm-actions { flex-direction: column-reverse; }
+  .pf-advancement-confirm-actions button { width: 100%; }
+}

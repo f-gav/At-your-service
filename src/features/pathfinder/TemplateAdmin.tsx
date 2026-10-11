@@ -31,7 +31,6 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     ? {...samples,...bardSamples,...bardOverrides} : samples,
     [bardTestOn,samples,bardSamples,bardOverrides]);
   function removePreviewAdvancement(level:number){
-    if(!confirm('Вы точно хотите удалить уровень?'))return;
     const next=removeAdvancementLevel({ ...displaySamples, [ADVANCEMENT_COUNT_KEY]:String(previewAdvancementCount) },level);
     const changed:Record<string,string>={};
     for(let n=level;n<=previewAdvancementCount;n++){

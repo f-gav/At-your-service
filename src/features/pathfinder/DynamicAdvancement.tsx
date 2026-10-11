@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { CSSProperties } from 'react';
 import type { FieldValue } from './sheet-values';
 import { MAX_ADVANCEMENT_LEVEL, ancestryHint, classHint } from './advancement-model';
@@ -54,7 +55,54 @@ export default function DynamicAdvancement({values,count,pageArtUrl,onValueChang
   const read=(id:string)=>String(values[id]??'');
   const edit=(id:string)=>(value:string)=>onValueChange(id,value);
   const artStyle={'--pf-page-two-art':`url("${pageArtUrl}")`} as CSSProperties;
-  return <div className="pf-advancement" style={artStyle} aria-label="Черты народа, общие черты и классовые способности">
+  const [pendingDelete,setPendingDelete]=useState<number|null>(null);
+  const cancelRef=useRef<HTMLButtonElement>(null);
+  const deleteRef=useRef<HTMLButtonElement>(null);
+  useEffect(()=>{
+    if(pendingDelete===null)return;
+    const previousFocus=document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    cancelRef.current?.focus();
+    const handleKey=(event:KeyboardEvent)=>{
+      if(event.key==='Escape'){
+        event.preventDefault();
+        setPendingDelete(null);
+      }
+      if(event.key==='Tab'){
+        if(event.shiftKey && document.activeElement===cancelRef.current){
+          event.preventDefault();
+          deleteRef.current?.focus();
+        }else if(!event.shiftKey && document.activeElement===deleteRef.current){
+          event.preventDefault();
+          cancelRef.current?.focus();
+        }
+      }
+    };
+    document.addEventListener('keydown',handleKey);
+    return ()=>{
+      document.removeEventListener('keydown',handleKey);
+      previousFocus?.focus();
+    };
+  },[pendingDelete]);
+  useEffect(()=>{if(disabled)setPendingDelete(null);},[disabled]);
+  const dialog=pendingDelete!==null && typeof document!=='undefined' &&
+    createPortal(<div className="pf-advancement-confirm-backdrop"
+      onMouseDown={event=>{if(event.target===event.currentTarget)setPendingDelete(null);}}>
+      <div className="pf-advancement-confirm" role="dialog" aria-modal="true"
+        aria-labelledby="pf-level-confirm-title" aria-describedby="pf-level-confirm-description">
+        <h2 id="pf-level-confirm-title">Удалить уровень {pendingDelete}?</h2>
+        <p id="pf-level-confirm-description">Вы точно хотите удалить уровень? Записи следующих уровней переместятся выше.</p>
+        <div className="pf-advancement-confirm-actions">
+          <button type="button" ref={cancelRef} onClick={()=>setPendingDelete(null)}>Отмена</button>
+          <button type="button" ref={deleteRef} className="pf-advancement-confirm-delete"
+            disabled={disabled} onClick={()=>{
+              if(pendingDelete!==null && pendingDelete>1)onRemove(pendingDelete);
+              setPendingDelete(null);
+            }}>Удалить</button>
+        </div>
+      </div>
+    </div>,document.body);
+  return <>
+  <div className="pf-advancement" style={artStyle} aria-label="Черты народа, общие черты и классовые способности">
     <div className="pf-advancement-head">
       <strong>Черты народа и общие черты</strong>
       <strong>Классовые способности</strong>
@@ -77,7 +125,7 @@ export default function DynamicAdvancement({values,count,pageArtUrl,onValueChang
       </div>
       {Array.from({length:Math.max(0,Math.min(count,MAX_ADVANCEMENT_LEVEL)-1)},(_,i)=>i+2).map(level=>
         <div className="pf-advancement-row pf-advancement-row-extra" key={level}>
-          <LevelBadge level={level} canRemove disabled={disabled} onRemove={()=>onRemove(level)}/>
+          <LevelBadge level={level} canRemove disabled={disabled} onRemove={()=>setPendingDelete(level)}/>
           <div className="pf-advancement-left">
             <StretchField id={'feat_level_'+level} hint={ancestryHint(level)}
               value={read('feat_level_'+level)} onChange={edit('feat_level_'+level)} disabled={disabled}/>
@@ -98,5 +146,7 @@ export default function DynamicAdvancement({values,count,pageArtUrl,onValueChang
         <div className="pf-advancement-add-half"/>
       </div>}
     </div>
-  </div>;
+  </div>
+  {dialog}
+  </>;
 }
