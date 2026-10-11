@@ -427,17 +427,6 @@
 .pf-advancement-first-fields .pf-advancement-rich .pf-rich-editable {
   min-height: 5.6cqw;
 }
-/* The supplied clean right-column artwork has no legal footnote. The old PDF
- * base retains it, so mask that footnote without touching the valuables box
- * or any field overlay. This rectangle is relative to the FIXED art, never
- * to the growing advancement panel. */
-.pf-sheet-page-advancement .pf-advancement-fixed-art::after,
-.ta-page-advancement .pf-advancement-fixed-art::after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 66.25%; right: 0; bottom: 0; height: 3.6%;
-  z-index: 1;
-  background: #fff;
-  pointer-events: none;
-}
+/* All four printed page footers are now hidden by the shared
+ * .pf-page-footer-mask overlay in the fixed original-art coordinate system.
+ * Do not mask the dynamically growing left advancement section here. */

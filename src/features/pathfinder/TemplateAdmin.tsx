@@ -184,6 +184,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
           {previewText(f)}
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
         </div>)}
+        <div className="pf-page-footer-mask" aria-hidden="true" />
   </>;
   return <main className="page ta-editor">
     <div className="ta-top">

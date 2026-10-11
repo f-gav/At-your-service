@@ -13,6 +13,22 @@
 .pf-sheet-stack { display: flex; flex-direction: column; gap: 18px; width: 960px; margin: 0 auto; }
 .pf-sheet-page { position: relative; width: 100%; aspect-ratio: 600.945 / 782.362; background: #fff; border: 1px solid #e3e3e0; box-shadow: 0 1px 7px #0000000b; container-type: inline-size; flex: none; }
 .pf-sheet-page > img { display: block; width: 100%; height: 100%; pointer-events: none; user-select: none; }
+/* The print page number and legal footnote are baked into each original
+ * image, not PDF input fields. Hide only the unused lower margin, keeping
+ * native bitmap dimensions and every editable field unchanged.
+ * On page 2 this element lives INSIDE the fixed-aspect original-art layer,
+ * not the expanding advancement rows. Shared by live sheet and admin. */
+.pf-page-footer-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3.35%;
+  background: #fff;
+  z-index: 7;
+  pointer-events: none;
+  user-select: none;
+}
 
 .pf-field { position: absolute; z-index: 1; box-sizing: border-box; }
 .pf-field-text { border: 0; outline: 0; border-radius: 0; background: transparent; color: #242a28; font-family: 'Segoe UI', Arial, sans-serif; font-size: clamp(10px, 1.58cqw, 23px); font-weight: 500; line-height: 1.1; padding: 0 3px 1px; margin: 0; min-width: 0; min-height: 0; caret-color: #272b2a; }
