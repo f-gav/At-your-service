@@ -18,11 +18,6 @@ const RESOURCES: { id: MoonResourceId; short: string; label: string }[] = [
   { id: 'sp', short: 'SP', label: 'Рассудок' },
   { id: 'light', short: 'L', label: 'Свет' },
 ];
-const PAGE_ENGLISH: Record<MoonPage, string> = {
-  dossier: 'CHARACTER DOSSIER', combat: 'COMBAT DOSSIER',
-  about: 'PERSONNEL RECORD', notes: 'NOTES',
-};
-
 type Props = {
   character: Character;
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
