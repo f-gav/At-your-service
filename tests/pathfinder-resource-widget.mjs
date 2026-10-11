@@ -44,9 +44,9 @@ assert.match(codec,/resourceMarkup\(resourceFromElement\(el\)\)/,
 assert.match(editor,/kind==='divider'\?dividerMarkup\(\):resourceMarkup\(\)/);
 assert.match(editor,/addBlock\('resource'\)/);
 assert.match(editor,/handleResourceAction\(widget/);
-assert.match(editor,/stepResource\(current,-1\)/);
-assert.match(editor,/stepResource\(current,1\)/);
-assert.match(editor,/restoreResource\(current\)/);
+assert.match(editor,/stepResource\(effective,-1\)/);
+assert.match(editor,/stepResource\(effective,1\)/);
+assert.match(editor,/restoreResource\(effective\)/);
 assert.match(editor,/setSelectedResource\(widget\)/);
 assert.match(editor,/resource=\{resourceFromElement\(selectedResource\)\}/);
 assert.match(editor,/replaceResource\(selectedResource,config\)/);
