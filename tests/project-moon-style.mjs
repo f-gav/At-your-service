@@ -1,0 +1,39 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const get = name => readFileSync(new URL(name, import.meta.url), 'utf8');
+const sheet = get('../src/features/project-moon/ProjectMoonSheet.tsx');
+const css = get('../src/features/project-moon/ProjectMoonSheet.css');
+const model = get('../src/features/project-moon/model.ts');
+
+assert.ok(sheet.includes('pf-toolbar moon-toolbar'));
+assert.ok(sheet.includes('pf-minimal-title moon-toolbar-title'));
+assert.ok(sheet.includes('pf-settings-button'));
+assert.ok(!sheet.includes('moon-intro'));
+assert.ok(sheet.includes("sectionTitle(1, 'Характеристики')"));
+assert.ok(sheet.includes("sectionTitle(2, 'Ресурсы / HP · ST · SP · L')"));
+assert.ok(sheet.includes("sectionTitle(3, 'Инвентарь')"));
+assert.ok(sheet.includes("sectionTitle(1, 'Боевые показатели')"));
+assert.ok(sheet.includes("sectionTitle(2, 'Основное оружие')"));
+assert.ok(sheet.includes("sectionTitle(3, 'Сопротивления / Состояния')"));
+assert.ok(sheet.includes("sectionTitle(4, 'Боевые приёмы / Skills')"));
+assert.ok(sheet.includes("sectionTitle(1, 'Личные данные')"));
+assert.ok(sheet.includes("sectionTitle(2, 'Внешность / Описание')"));
+assert.ok(sheet.includes("sectionTitle(3, 'Предыстория / Мотивация')"));
+assert.ok(sheet.includes("sectionTitle(4, 'Характер / Убеждения')"));
+assert.ok(sheet.includes('moon-note-heading'));
+assert.ok(sheet.includes('moon-resource-controls'));
+assert.ok(sheet.includes("moonDisplayedMax(sheet, id)"));
+assert.ok(sheet.includes("moonCalculatedMax(sheet, id)"));
+assert.ok(sheet.includes("updateWeapon(index, {rank:e.target.value})"));
+assert.ok(sheet.includes("updateSkill(index,{[key]:e.target.value})"));
+assert.ok(css.includes('min-height: 297mm'));
+assert.ok(css.includes('width: min(100%, 210mm)'));
+assert.ok(css.includes('border-left: 7px solid'));
+assert.ok(css.includes('repeating-linear-gradient'));
+assert.ok(css.includes('grid-template-columns: repeat(7,minmax(0,1fr))'));
+assert.ok(css.includes('.moon-note-heading'));
+assert.ok(!css.includes('.moon-intro'));
+for(const attr of ['FORTITUDE','PRUDENCE','JUSTICE','CHARM','INSIGHT','TEMPERANCE']) {
+  assert.ok(model.includes("english: '" + attr + "'"));
+}
+console.log('PASS: Project Moon A4 layout, PDF styling, fields, and clean PF-inspired toolbar');

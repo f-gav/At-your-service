@@ -9,17 +9,17 @@ export const MOON_PAGES = [
 export type MoonPage = typeof MOON_PAGES[number]['id'];
 
 export const MOON_ATTRIBUTES = [
-  { id: 'fortitude', label: 'Стойкость' },
-  { id: 'prudence', label: 'Рассудительность' },
-  { id: 'temperance', label: 'Самообладание' },
-  { id: 'discernment', label: 'Проницательность' },
-  { id: 'determination', label: 'Решительность' },
-  { id: 'charm', label: 'Обаяние' },
+  { id: 'fortitude', label: 'Стойкость', english: 'FORTITUDE' },
+  { id: 'prudence', label: 'Рассудительность', english: 'PRUDENCE' },
+  { id: 'determination', label: 'Решительность', english: 'JUSTICE' },
+  { id: 'charm', label: 'Обаяние', english: 'CHARM' },
+  { id: 'discernment', label: 'Проницательность', english: 'INSIGHT' },
+  { id: 'temperance', label: 'Самообладание', english: 'TEMPERANCE' },
 ] as const;
 
 export type MoonResourceId = 'hp' | 'st' | 'sp' | 'light';
-export type MoonItem = { id: string; title: string; body: string };
-export type MoonWeapon = { id: string; name: string; dice: string; bonus: string; description: string };
+export type MoonItem = { id: string; title: string; body: string; rank?: string; light?: string; ep?: string; type?: string };
+export type MoonWeapon = { id: string; name: string; dice: string; bonus: string; description: string; rank?: string; ep?: string; kind?: string; damage?: string; form?: string; grip?: string };
 export type MoonSheetData = {
   schemaVersion: 1;
   fields: Record<string, string>;
@@ -50,12 +50,14 @@ const record = (value: unknown): Record<string, unknown> =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 const item = (raw: unknown, fallbackId: string): MoonItem => {
   const r = record(raw);
-  return { id: text(r.id) || fallbackId, title: text(r.title), body: text(r.body) };
+  return { id: text(r.id) || fallbackId, title: text(r.title), body: text(r.body),
+    rank: text(r.rank), light: text(r.light), ep: text(r.ep), type: text(r.type) };
 };
 const weapon = (raw: unknown, fallbackId: string): MoonWeapon => {
   const r = record(raw);
   return { id: text(r.id) || fallbackId, name: text(r.name), dice: text(r.dice),
-    bonus: text(r.bonus), description: text(r.description) };
+    bonus: text(r.bonus), description: text(r.description), rank: text(r.rank), ep: text(r.ep),
+    kind: text(r.kind), damage: text(r.damage), form: text(r.form), grip: text(r.grip) };
 };
 
 export function readMoonSheet(details: CharacterDetails): MoonSheetData {
