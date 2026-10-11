@@ -5,7 +5,7 @@
  * Innate/multiclass sources may use different keys and require later support.
  */
 import type {SheetValues} from './sheet-values';
-import {isLevel,readNumber,readRank,proficiencyBonus} from './rules-core';
+import {isLevel,readNumber,readRank,proficiencyBonus} from './rules-core.ts';
 
 export const SPELLCASTING_ABILITIES=[
   {value:'str',label:'Сила'},
