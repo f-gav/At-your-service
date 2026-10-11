@@ -205,6 +205,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     </div>
     <div className="ta-columns">
       <div className="ta-scroll"><div className={"ta-page"+(page===2?" ta-page-advancement":"")} ref={pageRef} style={{width:zoom,aspectRatio:page===2?"auto":PDF_WIDTH+"/"+PDF_HEIGHT}}>
+        {page===2 && <div className="pf-advancement-fixed-art">}
         <img src={import.meta.env.BASE_URL+'pathfinder/page-'+page+'.webp?v=3'} alt={'Страница '+page} draggable={false}/>
         {fields.filter(f=>f.page===page&&(page!==2||!isAdvancementField(f.id))).map(f=><div key={f.id} data-field-id={f.id} title={f.label+' ('+f.id+')'}
           className={'ta-field '+(selected===f.id?'selected ':'')+(preview?'preview':'')+(displaySamples[f.id]!==undefined?' ta-with-sample':'')+(f.kind==='long'?' ta-multiline':'')+(f.kind!=='toggle'&&f.underline?' ta-has-underline':'')}
@@ -212,8 +213,10 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
           {previewText(f)}
           {!preview&&selected===f.id&&<span className="ta-handle" onPointerDown={e=>start(e,f,'size')}/>}
         </div>)}
+        {page===2 && </div>}
         {page===2 && <DynamicAdvancement values={displaySamples}
           count={previewAdvancementCount} onValueChange={setPreviewSample}
+          pageArtUrl={import.meta.env.BASE_URL+'pathfinder/page-2.webp?v=3'}
           onAdd={()=>setPreviewAdvancementCount(n=>Math.min(MAX_ADVANCEMENT_LEVEL,n+1))}
           onRemove={removePreviewAdvancement} disabled={busy}/>}
       </div></div>
