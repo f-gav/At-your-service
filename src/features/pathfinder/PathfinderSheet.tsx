@@ -11,7 +11,7 @@ import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
-import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField } from './rules-combat';
+import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField, isClassDcConfigured } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
 import type { EditableField } from './editor-schema';
 import { fieldBox, PDF_HEIGHT, PDF_WIDTH } from './layout';
@@ -139,7 +139,7 @@ export default function PathfinderSheet({
     // remain meaningful outside the live rule engine. Source fields are never overwritten.
     const toStore = { ...values };
     for (const key of Object.keys(toStore)) {
-      if ((key === 'armor_class' || key === 'class_dc' || (automatic && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
+      if ((key === 'armor_class' || (key === 'class_dc' && isClassDcConfigured(values)) || (automatic && key !== 'class_dc' && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
         && !(key in computed)) toStore[key] = '';
     }
     Object.assign(toStore, computed);
@@ -183,7 +183,7 @@ export default function PathfinderSheet({
       padding: field.paddingX !== undefined || field.paddingY !== undefined ? ((100*(field.paddingY??0)/PDF_WIDTH)+'cqw '+(100*(field.paddingX??2)/PDF_WIDTH)+'cqw') : undefined,
     };
     const id = `pf-${field.id}`;
-    const value = (field.id === 'armor_class' || field.id === 'class_dc' || (automatic && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
+    const value = (field.id === 'armor_class' || (field.id === 'class_dc' && isClassDcConfigured(values)) || (automatic && field.id !== 'class_dc' && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
       ? '' : displayValues[field.id];
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
