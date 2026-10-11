@@ -2,7 +2,7 @@ import {useEffect,useMemo,useRef,useState} from 'react';
 import type {CSSProperties,PointerEvent as PE} from 'react';
 import {supabase} from '../../lib/supabase';
 import {PDF_WIDTH,PDF_HEIGHT} from './layout';
-import {DEFAULT_FIELDS,validFields,cloneFields,withEquipmentNumberFields,withClassDcNumericBonus,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
+import {DEFAULT_FIELDS,validFields,cloneFields,withEquipmentNumberFields,withClassDcNumericBonus,withMagicTraditionHalfCircles,PAGE_NAMES,TEMPLATE_KEY} from './editor-schema';
 import type {EditableField} from './editor-schema';
 import { DEFAULT_SELECT_OPTIONS, PF2E_SIZE_OPTIONS, parseOptions } from './field-options';
 import { withWeaponSheetFields } from './weapon-fields';
@@ -64,7 +64,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
       if(error){setStatus('Ошибка загрузки: '+error.message);return;}
       const schema=draft.data?.fields||published.data?.fields||DEFAULT_FIELDS;
       if(!validFields(schema)){setStatus('Ошибка схемы: недопустимые поля');return;}
-      const upgraded=withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(schema))));
+      const upgraded=withMagicTraditionHalfCircles(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(schema)))));
       setFields(upgraded);
       if(JSON.stringify(upgraded)!==JSON.stringify(schema)) setDirty(true);
       setVersion(published.data?.version||0);
@@ -128,7 +128,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
     if(!supabase||!restore||!confirm('Загрузить выбранную версию в редактор?'))return;
     const {data,error}=await supabase.from('sheet_template_history').select('fields').eq('template_key',TEMPLATE_KEY).eq('version',Number(restore)).single();
     if(error||!validFields(data?.fields)){setStatus('Не удалось восстановить версию.');return;}
-    checkpoint();setFields(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields)))));setSelected('');setStatus('Версия загружена в черновик. Для публикации нажми «Опубликовать».');
+    checkpoint();setFields(withMagicTraditionHalfCircles(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields))))));setSelected('');setStatus('Версия загружена в черновик. Для публикации нажми «Опубликовать».');
   }
   const box=(f:EditableField):CSSProperties=>({
     left:(f.x/PDF_WIDTH*100)+'%',top:(f.y/PDF_HEIGHT*100)+'%',
