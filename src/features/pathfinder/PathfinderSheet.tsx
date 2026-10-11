@@ -248,7 +248,7 @@ export default function PathfinderSheet({
     const pageFields = templateFields.filter(field => field.page===page && (page!==2 || !isAdvancementField(field.id)));
     const isAdvancementPage=page===2;
 
-    return <section key={page} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
+    const artwork = <>
       <img
         src={`${import.meta.env.BASE_URL}pathfinder/page-${page}.webp?v=3`}
         width="3005"
@@ -265,8 +265,14 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
+    </>;
+    return <section key={page} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
+      {isAdvancementPage
+        ? <div className="pf-advancement-fixed-art">{artwork}</div>
+        : artwork}
       {isAdvancementPage && <DynamicAdvancement values={values}
         count={advancementLevelCount(values)} disabled={saving}
+        pageArtUrl={`${import.meta.env.BASE_URL}pathfinder/page-2.webp?v=3`}
         onValueChange={(id,value)=>change(id,value)}
         onAdd={()=>setValues(old=>addAdvancementLevel(old))}
         onRemove={level=>{
