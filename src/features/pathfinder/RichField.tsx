@@ -7,6 +7,7 @@ import { dividerMarkup, spoilerMarkup } from './rich-blocks';
 import {resourceMarkup,resourceFromElement,stepResource,restoreResource,chooseResourceCell,effectiveResource,resourceEffectiveMax} from './resource-widget';
 import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
+import {insertionMenuPosition} from './insert-menu-position';
 import './RichField.css';
 
 type Props={
@@ -25,6 +26,7 @@ function popupPosition(rect:DOMRect):Spot {
 export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={}}:Props){
   const root=useRef<HTMLDivElement>(null);
   const rangeRef=useRef<Range|null>(null);
+  const pointerRef=useRef<{x:number;y:number}|null>(null);
   const [spot,setSpot]=useState<Spot|null>(null);
   const [insertSpot,setInsertSpot]=useState<Spot|null>(null);
   const [selectedResource,setSelectedResource]=useState<HTMLElement|null>(null);
@@ -103,12 +105,9 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       if(line){
         const rect=range.getBoundingClientRect();
         const fallback=line.getBoundingClientRect();
-        const x=rect.left||fallback.left;
-        const y=rect.top||fallback.top;
-        setInsertSpot({
-          left:Math.max(8,Math.min(window.innerWidth-210,x)),
-          top:Math.max(8,Math.min(window.innerHeight-48,y+Math.max(rect.height,fallback.height,18)+3)),
-        });
+        setInsertSpot(insertionMenuPosition(rect,fallback,{
+          width:window.innerWidth,height:window.innerHeight,
+        },pointerRef.current));
       }else setInsertSpot(null);
       return;
     }
@@ -360,7 +359,9 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         contentEditable={!disabled} suppressContentEditableWarning spellCheck={false}
         data-placeholder={placeholder??''}
         onInput={()=>{if(!convertDividerShortcut())emit();}}
-        onMouseUp={refresh} onKeyUp={refresh} onClick={handleTokenClick}
+        onMouseUp={event=>{pointerRef.current={x:event.clientX,y:event.clientY};refresh();}}
+        onKeyUp={event=>{if(event.key!=='Shift')pointerRef.current=null;refresh();}}
+        onClick={handleTokenClick}
         onKeyDown={event=>{
           const title=event.target instanceof HTMLElement
             ? event.target.closest<HTMLElement>('[data-pf-divider-title]') : null;
