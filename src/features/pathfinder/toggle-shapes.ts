@@ -1,7 +1,7 @@
 import type { PathfinderField } from './layout';
 import { isHeroPointId } from './field-options.ts';
 
-export const TOGGLE_SHAPES = ['rectangle', 'square', 'circle', 'diamond', 'hexagon'] as const;
+export const TOGGLE_SHAPES = ['rectangle', 'square', 'circle', 'semicircle', 'diamond', 'hexagon'] as const;
 export const TOGGLE_MODES = ['check', 'fill'] as const;
 export type ToggleShape = typeof TOGGLE_SHAPES[number];
 export type ToggleMode = typeof TOGGLE_MODES[number];
