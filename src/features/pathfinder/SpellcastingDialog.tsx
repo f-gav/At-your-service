@@ -19,12 +19,14 @@ type Props={
 export default function SpellcastingDialog({values,onChange,onRankChange,onClose,disabled=false}:Props){
   const totals=spellcastingTotals(values);
   const main=useRef<HTMLDivElement>(null);
+  const closeCallback=useRef(onClose);
+  closeCallback.current=onClose;
   const close=useRef<HTMLButtonElement>(null);
   useEffect(()=>{
     const previousFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
     close.current?.focus();
     const keyDown=(event:KeyboardEvent)=>{
-      if(event.key==='Escape'){event.preventDefault();onClose();return;}
+      if(event.key==='Escape'){event.preventDefault();closeCallback.current();return;}
       if(event.key!=='Tab'||!main.current)return;
       const tabbable=Array.from(main.current.querySelectorAll<HTMLElement>(
         'button:not(:disabled),select:not(:disabled),input:not(:disabled)'
@@ -38,7 +40,7 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
     };
     document.addEventListener('keydown',keyDown);
     return ()=>{document.removeEventListener('keydown',keyDown);previousFocus?.focus();};
-  },[onClose]);
+  },[]);
 
   const rank=readRank(values.spell_attack_rank)??readRank(values.spell_dc_rank);
   const calculatedAttack=totals.attack===undefined?'—':spellAttackDisplay(totals.attack);
