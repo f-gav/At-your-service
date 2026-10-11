@@ -49,7 +49,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!element||!editor.contains(element)&&element!==editor)return null;
     if(element.closest('[data-pf-spoiler-title],[data-pf-divider-title],[data-pf-spoiler-head]'))return null;
     const line=element.closest<HTMLElement>('div,p');
-    if(!line||!editor.contains(line))return editor.textContent?.trim()?'':editor as HTMLElement;
+    if(!line||!editor.contains(line))return editor.textContent?.trim()?null:editor;
     if(line.closest('[data-pf-divider]'))return null;
     if(line.matches('[data-pf-spoiler]'))return null;
     if(line.querySelector('[data-pf-divider],[data-pf-spoiler],[data-pf-resource],[data-pf-task]'))return null;
