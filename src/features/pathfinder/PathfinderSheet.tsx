@@ -6,7 +6,7 @@ import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
-import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields } from './editor-schema';
+import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields, withClassDcNumericBonus } from './editor-schema';
 import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import RankSelect from './RankSelect';
@@ -51,7 +51,7 @@ export default function PathfinderSheet({
     if(!supabase)return;
     let active=true;
     void supabase.from('sheet_templates').select('fields').eq('template_key','pf2e').maybeSingle().then(({data,error})=>{
-      if(active && !error && validFields(data?.fields)) setTemplateFields(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields))));
+      if(active && !error && validFields(data?.fields)) setTemplateFields(withClassDcNumericBonus(withWeaponSheetFields(withEquipmentNumberFields(cloneFields(data.fields)))));
     });
     return()=>{active=false;};
   },[]);
