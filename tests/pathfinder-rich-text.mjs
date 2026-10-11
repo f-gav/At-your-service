@@ -48,7 +48,8 @@ assert.match(codec,/rel="noopener noreferrer"/);
 assert.match(codec,/node\.nodeType===Node\.TEXT_NODE/);
 assert.match(codec,/if\(!KEEP\.has\(el\.tagName\)\)return inner/);
 assert.match(codec,/SCRIPT.*STYLE.*SVG.*IFRAME/);
-assert.match(css,/pf-advancement-fixed-art::after/);
+assert.match(read('../src/features/pathfinder/PathfinderSheet.css'),/\.pf-page-footer-mask\s*\{/,
+ 'All four page footers are hidden using the shared fixed-art overlay');
 assert.match(css,/bottom:\s*0;\s*height:\s*3\.6%/);
 assert.match(global,/scale\(1\.08\)/);
 console.log('PF2e rich notes, numeric values, quarter-circle traditions, old text storage and footer restoration checked');
