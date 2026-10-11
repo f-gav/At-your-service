@@ -69,7 +69,7 @@
   min-height: 1.65em;
   width: 100%;
   margin: .32em 0;
-  color: #5b7364;
+  color: #252a26;
   cursor: text;
   break-inside: avoid;
 }
@@ -82,6 +82,7 @@
 }
 .pf-rich-editable [data-pf-divider-title="1"] {
   display: inline-block;
+  color: inherit;
   flex: 0 1 auto;
   min-width: 1px;
   max-width: 86%;
