@@ -205,3 +205,105 @@
 @media (max-width:650px){
   .pf-advancement-input {font-family:Arial,sans-serif;}
 }
+
+
+/* Page 2 has two coordinate systems:
+ * - artwork and inventory fields always live in the fixed original PDF box
+ * - only the left advancement column can grow in document flow.
+ * Never size the PDF image or its fields against the growing page height.
+ */
+.pf-sheet-page.pf-sheet-page-advancement,
+.ta-page.ta-page-advancement {
+  position: relative;
+  display: flow-root;
+  aspect-ratio: auto !important;
+  min-height: 130.19cqw;
+  container-type: inline-size;
+  background: #fff;
+}
+.pf-sheet-page-advancement > .pf-advancement-fixed-art,
+.ta-page-advancement > .pf-advancement-fixed-art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 600.945 / 782.362;
+  height: auto !important;
+  pointer-events: none;
+}
+.pf-sheet-page-advancement .pf-advancement-fixed-art > img,
+.ta-page-advancement .pf-advancement-fixed-art > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill;
+  max-height: none !important;
+  pointer-events: none;
+  user-select: none;
+}
+.pf-sheet-page-advancement .pf-advancement-fixed-art > .pf-field,
+.ta-page-advancement .pf-advancement-fixed-art > .ta-field {
+  pointer-events: auto;
+}
+.pf-sheet-page-advancement > .pf-advancement,
+.ta-page-advancement > .pf-advancement {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 66.25%;
+  min-height: 130.19cqw;
+  margin: 0;
+  padding: 2.38cqw 0 2.4cqw 2.9cqw;
+  background: #fff;
+  overflow: visible;
+}
+/* Use the *real printed artwork* for the heading: the image carries the
+   Pathfinder display font. The hidden strings remain for accessibility. */
+.pf-advancement .pf-advancement-head {
+  position: relative;
+  display: block;
+  height: 2.45cqw;
+  width: calc(100% + 2.9cqw);
+  margin: -2.38cqw 0 0 -2.9cqw;
+  background-color: #fff;
+  background-image: var(--pf-page-two-art);
+  background-repeat: no-repeat;
+  background-size: 100cqw auto;
+  background-position: left top;
+}
+.pf-advancement .pf-advancement-head strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.pf-advancement .pf-advancement-head strong:first-child::after { display: none; }
+.pf-advancement .pf-advancement-levels {
+  width: calc(100% - 2.45cqw);
+  margin: .9cqw 0 0 2.45cqw;
+}
+/* The native header/badge remains at the correct width regardless of how
+   much text was written, while the text rows flow normally. */
+.pf-advancement .pf-advancement-row-first { min-height: 20.2cqw; }
+.pf-advancement .pf-advancement-input {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  resize: none;
+  background: #fff;
+}
+/* Give the first badge the exact printed PDF shape and typography rather
+   than the substituted system font. Clip a patch of the original artwork. */
+.pf-advancement .pf-advancement-first {
+  background: #4b2c20;
+  clip-path: polygon(0 0,100% 0,100% 68%,50% 100%,0 68%);
+}
+/* Keep the original right-hand bitmap and inventory fields perfectly aligned
+   at any number of advancement levels and at any editor zoom. */
