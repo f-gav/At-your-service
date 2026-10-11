@@ -320,6 +320,7 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
+      <div className="pf-page-footer-mask" aria-hidden="true" />
     </>;
     return <section key={page} id={`pf-sheet-page-${page}`} className={`pf-sheet-page${isAdvancementPage ? " pf-sheet-page-advancement" : ""}`} aria-label={`Страница ${page}: ${PAGE_TITLES[page - 1]}`}>
       {isAdvancementPage
