@@ -18,7 +18,7 @@ const button=app.slice(start,end);
 assert.match(button, /<span className="character-portrait"/);
 assert.match(button, /<PortraitImage url=/);
 assert.match(button, /portrait_crops\?\.card/);
-assert.match(button, /pathfinder\/portrait-placeholder.webp/);
+assert.match(button, /pathfinder\/portrait-placeholder-simple.png/);
 assert.doesNotMatch(button, /onEditPortrait|setEditingPortraitId/);
 assert.doesNotMatch(app, /className="character-portrait-action"/);
 assert.doesNotMatch(appStyles, /\.character-portrait-action/);
