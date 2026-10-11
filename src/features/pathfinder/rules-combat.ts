@@ -183,11 +183,14 @@ export function calculateNativeCombat(v: SheetValues): Record<string,string> {
   // The printed class DC strip contains numeric bonuses, not proficiency
   // rank codes: 10 + key attribute modifier + class DC proficiency + item.
   // Do not infer the key attribute or add the character level a second time.
-  const classDcKey=component('class_dc_key');
-  const classDcProf=component('class_dc_rank');
-  const classDcItem=component('class_dc_item');
-  if (classDcKey!==undefined && classDcProf!==undefined && classDcItem!==undefined) {
-    add(result,'class_dc',10+classDcKey+classDcProf+classDcItem,true);
+  // Without any operands, preserve existing legacy manually recorded class DC.
+  if (isClassDcConfigured(v)) {
+    const classDcKey=component('class_dc_key');
+    const classDcProf=component('class_dc_rank');
+    const classDcItem=component('class_dc_item');
+    if (classDcKey!==undefined && classDcProf!==undefined && classDcItem!==undefined) {
+      add(result,'class_dc',10+classDcKey+classDcProf+classDcItem,true);
+    }
   }
   const threshold=shieldBrokenThreshold(n(v,'shield_max_hp'));
   if (threshold!==undefined) add(result,'shield_broken',threshold,true);
@@ -208,6 +211,11 @@ export function calculateNativeCombat(v: SheetValues): Record<string,string> {
     }
   }
   return result;
+}
+
+export function isClassDcConfigured(v:SheetValues):boolean {
+  return ['class_dc_key','class_dc_rank','class_dc_item']
+    .some(id=>String(v[id]??'').trim()!=='');
 }
 
 export function isNativeWeaponAttackField(id:string):boolean {
