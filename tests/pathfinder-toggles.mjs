@@ -3,18 +3,18 @@ import { readFileSync } from 'node:fs';
 import { toggleAppearance, TOGGLE_SHAPES, TOGGLE_MODES } from '../src/features/pathfinder/toggle-shapes.ts';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
-assert.deepEqual([...TOGGLE_SHAPES], ['rectangle','square','circle','semicircle','diamond','hexagon']);
+assert.deepEqual([...TOGGLE_SHAPES], ['rectangle','square','circle','semicircle','quarter','diamond','hexagon']);
 assert.deepEqual([...TOGGLE_MODES], ['check','fill']);
 // Preserve old records in published templates without adding new keys.
 assert.deepEqual(toggleAppearance({id:'hero_1'}),{
-  shape:'hexagon',mode:'fill',insetX:12,insetY:16,
+  shape:'hexagon',mode:'fill',insetX:12,insetY:16,rotation:0,
 });
 assert.deepEqual(toggleAppearance({id:'focus_point_1'}),{
-  shape:'square',mode:'check',insetX:0,insetY:0,
+  shape:'square',mode:'check',insetX:0,insetY:0,rotation:0,
 });
 assert.deepEqual(toggleAppearance({
   id:'hero_2',toggleShape:'circle',toggleMode:'check',toggleInsetX:4,toggleInsetY:6,
-}),{shape:'circle',mode:'check',insetX:4,insetY:6});
+}),{shape:'circle',mode:'check',insetX:4,insetY:6,rotation:0});
 
 const schema=read('../src/features/pathfinder/editor-schema.ts');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
@@ -24,6 +24,11 @@ const adminCss=read('../src/features/pathfinder/TemplateAdmin.css');
 const model=read('../src/features/pathfinder/layout.ts');
 const json=read('../src/lib/character-json.ts');
 
+assert.match(schema,/TOGGLE_ROTATIONS.includes\(a.toggleRotation\)/);
+assert.match(schema,/tradition_arcane:0, tradition_occult:90/);
+assert.match(schema,/tradition_primal:270, tradition_divine:180/);
+assert.match(admin,/Поворот четверти круга/);
+assert.match(styles,/data-shape="quarter"/);
 assert.match(schema,/TOGGLE_SHAPES.includes\(a.toggleShape\)/);
 assert.match(schema,/TOGGLE_MODES.includes\(a.toggleMode\)/);
 assert.match(schema,/toggleInsetX >= 0 && a.toggleInsetX <= 40/);

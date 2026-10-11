@@ -80,8 +80,13 @@
   pointer-events: none;
 }
 .pf-toggle-visual[data-shape="circle"] .pf-toggle-fill-shape { border-radius: 50%; }
-/* Half-round choice used for the four magical traditions. */
+/* Legacy half-round template control, retained for custom fields. */
 .pf-toggle-visual[data-shape="semicircle"] .pf-toggle-fill-shape { border-radius: 100% 100% 0 0; }
+.pf-toggle-visual[data-shape="quarter"] .pf-toggle-fill-shape {
+  border-radius: 100% 0 0 0;
+  transform: rotate(var(--toggle-rotation, 0deg));
+  transform-origin: center;
+}
 .pf-toggle-visual[data-shape="hexagon"] .pf-toggle-fill-shape {
   clip-path: polygon(23% 0%, 77% 0%, 100% 50%, 77% 100%, 23% 100%, 0% 50%);
 }
@@ -211,3 +216,96 @@
 
 .pf-combat-open-button{background:#f3f6f3;border-color:#c3d0c5;}
 .pf-combat-open-button[aria-expanded="true"]{background:#e9f0e9;color:#315640;}
+
+
+/* Optional local-only navigation. Unlike the PDF fields it stays at the
+ * viewport edge, does not alter the printable page width, and can be hidden. */
+.pf-sheet-page {scroll-margin-top: 18px;}
+.pf-navigation-help {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 34;
+  box-sizing: border-box;
+  width: 172px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid #d3ddd5;
+  border-radius: 10px;
+  background: #fffffffa;
+  box-shadow: 0 7px 22px #0000001b;
+  color: #304036;
+  font: 12px/1.35 Arial,sans-serif;
+}
+.pf-navigation-help-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 3px 6px;
+  font-size: 11px;
+  font-weight: 650;
+  color: #68766c;
+}
+.pf-navigation-help-title button {
+  border: 0;
+  border-radius: 4px;
+  padding: 2px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: inherit;
+}
+.pf-navigation-help-link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 6px;
+  color: #455b4c;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+.pf-navigation-help-link:hover,
+.pf-navigation-help-link:focus-visible {
+  background: #edf3ed;
+}
+.pf-navigation-help-active {
+  background: #e1eae3;
+  font-weight: 650;
+  color: #244d31;
+}
+.pf-navigation-help-number {
+  flex: none;
+  width: 21px;
+  height: 21px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cad6cc;
+  border-radius: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.pf-navigation-help-link:focus-visible,
+.pf-navigation-help-title button:focus-visible {
+  outline: 2px solid #557760;
+  outline-offset: 2px;
+}
+@media(max-width:1240px){
+  .pf-navigation-help {width: 43px; right: 5px; padding: 5px;}
+  .pf-navigation-help-title {justify-content: center; padding: 2px 0 5px;}
+  .pf-navigation-help-title > span {display:none;}
+  .pf-navigation-help-link {padding: 4px; justify-content: center;}
+  .pf-navigation-help-label {display:none;}
+}
+@media(max-width:760px){
+  .pf-navigation-help {width: 38px; right: 3px; padding: 3px;}
+  .pf-navigation-help-number {width: 22px; height: 25px;}
+}

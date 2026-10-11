@@ -31,10 +31,12 @@ export type PathfinderField = {
   /** Draw a permanent baseline even when the field is empty. Presentation only. */
   underline?: boolean;
   /** Appearance of clickable checkbox/toggle overlays; omitted fields retain legacy behavior. */
-  toggleShape?: 'rectangle' | 'square' | 'circle' | 'semicircle' | 'diamond' | 'hexagon';
+  toggleShape?: 'rectangle' | 'square' | 'circle' | 'semicircle' | 'quarter' | 'diamond' | 'hexagon';
   toggleMode?: 'check' | 'fill';
   toggleInsetX?: number;
   toggleInsetY?: number;
+  /** Clockwise orientation of a quarter-circle mark, in 90-degree steps. */
+  toggleRotation?: 0 | 90 | 180 | 270;
 };
 
 /** Small alignment corrections without modifying the authoritative PDF coordinates. */

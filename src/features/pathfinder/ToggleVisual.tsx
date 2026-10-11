@@ -16,6 +16,7 @@ export default function ToggleVisual({
   const style = {
     '--toggle-inset-x': appearance.insetX + '%',
     '--toggle-inset-y': appearance.insetY + '%',
+    '--toggle-rotation': appearance.rotation + 'deg',
   } as CSSProperties;
   return <span
     className="pf-toggle-visual"
