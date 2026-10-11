@@ -427,12 +427,4 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* Project Moon uses an understated navy, bookish serif label rather than the generic script badge. */
-.character-prmoon .character-system {
-  color: #29445f;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 20px;
-  font-style: italic;
-  font-weight: 700;
-  letter-spacing: -.045em;
-  line-height: 1.05;
-}
+.character-prmoon .character-system { color: #29445f; }

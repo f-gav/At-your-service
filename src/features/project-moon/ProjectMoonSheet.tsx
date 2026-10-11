@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowLeft, Cloud, Plus, RotateCcw, Settings2, Trash2 } from 'lucide-react';
+import { ArrowLeft, Cloud, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import PortraitImage from '../portrait/PortraitImage';
@@ -11,6 +11,7 @@ import {
   moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
+import MoonPageSettingsDialog from './MoonPageSettingsDialog';
 import { supabase } from '../../lib/supabase';
 import { MOON_LAYOUT_KEY, DEFAULT_MOON_LAYOUT, parseMoonLayout, moonLayoutVariables } from './layout-settings';
 import type { MoonLayout } from './layout-settings';
@@ -36,8 +37,49 @@ type Props = {
 export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false }: Props) {
   const [name, setName] = useState(character.name);
   const [sheet, setSheet] = useState(() => readMoonSheet(character.details));
-  const [page, setPage] = useState<MoonPage>('dossier');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [pageSettingsOpen, setPageSettingsOpen] = useState(false);
+  const [navigationHelp, setNavigationHelp] = useState<boolean>(() => {
+    try { return window.localStorage.getItem('ays-prmoon-navigation-help') === '1'; }
+    catch { return false; }
+  });
+  const [activePage, setActivePage] = useState<MoonPage>('dossier');
+  const pageOrder = sheet.pageOrder;
+  useEffect(() => {
+    try { window.localStorage.setItem('ays-prmoon-navigation-help', navigationHelp ? '1' : '0'); }
+    catch { /* Navigation remains usable without local storage. */ }
+  }, [navigationHelp]);
+  useEffect(() => {
+    if (!navigationHelp || previewMode) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let current: MoonPage = pageOrder[0] ?? 'dossier';
+      for (const page of pageOrder) {
+        const rect = document.getElementById('moon-sheet-page-' + page)?.getBoundingClientRect();
+        if (rect && rect.top <= window.innerHeight * .33) current = page;
+      }
+      setActivePage(current);
+    };
+    const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [navigationHelp, previewMode, pageOrder]);
+  function navigatePage(page: MoonPage) {
+    document.getElementById('moon-sheet-page-' + page)?.scrollIntoView({
+      block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+    setActivePage(page);
+  }
+  const changePageOrder = (order: MoonPage[]) =>
+    setSheet(old => ({ ...old, pageOrder: order }));
   const [publishedLayout, setPublishedLayout] = useState<MoonLayout>(DEFAULT_MOON_LAYOUT);
   useEffect(() => {
     if (previewMode || !supabase) return;
@@ -111,11 +153,6 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     if (dirty && !(await save())) return;
     onClose();
   }
-  function selectPage(next: MoonPage) {
-    setPage(next);
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }
-
   const field = (label: string, key: string, placeholder = '', extraClass = '') =>
     <label className={'moon-field ' + extraClass} key={key}>
       <span>{label}</span>
@@ -180,6 +217,14 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                 onChange={event => setSheet(old => ({ ...old, autoVitals: event.target.checked }))} />
               Автоматический подсчёт HP / ST / SP
             </label>
+            <label className="pf-settings-option">
+              <input type="checkbox" checked={navigationHelp} onChange={event => setNavigationHelp(event.target.checked)}/>
+              Помощь в навигации
+            </label>
+            <button type="button" className="pf-settings-pages-button"
+              onClick={() => { setSettingsOpen(false); setPageSettingsOpen(true); }}>
+              <Files size={16}/> Страницы листа…
+            </button>
             <p>Показатели можно изменить вручную в любой момент.</p>
           </div>}
         </div>
@@ -188,16 +233,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       </div>
     </div>
 
-    <nav className="moon-tabs" aria-label="Страницы Project Moon">
-      {MOON_PAGES.map(({ id, title }, index) =>
-        <button key={id} type="button" className={page === id ? 'moon-tab moon-tab-active' : 'moon-tab'}
-          aria-current={page === id ? 'page' : undefined} onClick={() => selectPage(id)}>
-          <span>{String(index + 1).padStart(2, '0')}</span> {title}
-        </button>)}
-    </nav>
-
-    <article className={'moon-paper moon-page-' + page}
-      aria-label={'Страница: ' + MOON_PAGES.find(p => p.id === page)?.title}>
+    <div className="moon-sheet-scroll" aria-label="Страницы листа Project Moon">
+      {pageOrder.map(page => <article key={page} id={'moon-sheet-page-' + page}
+        className={'moon-paper moon-page-' + page}
+        aria-label={'Страница: ' + MOON_PAGES.find(p => p.id === page)?.title}>
       <header className="moon-page-heading">
         <span>PROJECT MOON</span>
         <h2>{MOON_PAGES.find(item => item.id === page)?.title}</h2>
@@ -301,9 +340,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                   onChange={()=>updateWeapon(index,{kind:value})}/>{value}</label>)}
               </div>
               <div className="moon-choice-row"><span>Урон:</span>
-                {['Slash','Pierce','Blunt'].map(value=><label key={value}><input type="radio" disabled={saving}
+                {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'}]
+                  .map(({value,label})=><label key={value}><input type="radio" disabled={saving}
                   name={'moon-weapon-damage-' + index} checked={(weapon.damage ?? '')===value}
-                  onChange={()=>updateWeapon(index,{damage:value})}/>{value}</label>)}
+                  onChange={()=>updateWeapon(index,{damage:value})}/>{label}</label>)}
               </div>
               <div className="moon-weapon-secondary">
                 <label>Кости <input disabled={saving} aria-label={'Кости оружия ' + (index + 1)}
@@ -329,7 +369,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           {sectionTitle(3, 'Сопротивления / Состояния')}
           <div className="moon-resistance-layout">
             <table className="moon-data-table" aria-label="Сопротивления">
-              <thead><tr><th>УРОН</th><th>SLASH</th><th>PIERCE</th><th>BLUNT</th></tr></thead>
+              <thead><tr><th>УРОН</th><th>РЕЖУЩИЙ</th><th>КОЛЮЩИЙ</th><th>ДРОБЯЩИЙ</th></tr></thead>
               <tbody>{['HP','ST'].map(kind=><tr key={kind}>
                 <th>{kind} ×</th>
                 {['slash','pierce','blunt'].map(damage=><td key={damage}>
@@ -433,7 +473,28 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
             disabled={saving} grow placeholder="Текст заметки…" />
         </section>)}
       </div>}
-    </article>
+      </article>)}
+    </div>
+    {pageSettingsOpen && <MoonPageSettingsDialog
+      order={pageOrder} disabled={saving} onOrderChange={changePageOrder}
+      onClose={() => setPageSettingsOpen(false)} />}
+    {!previewMode && navigationHelp && <nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
+      <div className="pf-navigation-help-title">
+        <span>Страницы</span>
+        <button type="button" onClick={() => setNavigationHelp(false)} aria-label="Скрыть помощь в навигации">
+          <X size={14}/>
+        </button>
+      </div>
+      {pageOrder.map((page,index) => <button key={page} type="button"
+        className={'pf-navigation-help-link' + (activePage === page ? ' pf-navigation-help-active' : '')}
+        onClick={() => navigatePage(page)}
+        aria-label={'Страница ' + (index + 1) + ': ' + MOON_PAGES.find(p => p.id === page)?.title}
+        aria-current={activePage === page ? 'page' : undefined}
+        title={MOON_PAGES.find(p => p.id === page)?.title}>
+        <span className="pf-navigation-help-number">{index + 1}</span>
+        <span className="pf-navigation-help-label">{MOON_PAGES.find(p => p.id === page)?.title}</span>
+      </button>)}
+    </nav>}
     {error && <p role="alert" className="form-error">{error}</p>}
   </main>;
 }

@@ -276,3 +276,15 @@
 .moon-attribute { min-height: var(--moon-attr-height,79px); }
 .moon-note { min-height: var(--moon-note-height,246px); }
 @media (max-width:660px) { .moon-paper { padding: 16px 12px 24px; } }
+
+/* PF2e-style continuous A4 stack. Page order is changed from sheet settings. */
+.moon-sheet-scroll { display: flex; flex-direction: column; gap: 22px; align-items: center; }
+.moon-sheet-scroll .moon-paper { flex: none; scroll-margin-top: 16px; }
+.moon-editor .pf-settings-popover.moon-settings-popover { width: min(350px, 90vw); }
+.moon-settings-popover .pf-settings-pages-button { font-family: 'Segoe UI', Arial, sans-serif; }
+@media print {
+  .moon-sheet-scroll { display: block; }
+  .moon-sheet-scroll .moon-paper { break-after: page; page-break-after: always; margin-bottom: 0; }
+  .moon-sheet-scroll .moon-paper:last-child { break-after: auto; page-break-after: auto; }
+  .moon-editor .pf-navigation-help, .moon-editor .pf-settings-popover { display: none !important; }
+}

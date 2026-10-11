@@ -1,4 +1,5 @@
 import type { CharacterDetails } from '../../lib/models';
+import { DEFAULT_MOON_ORDER, parseMoonOrder } from './page-order';
 
 export const MOON_PAGES = [
   { id: 'dossier', title: 'Досье' },
@@ -24,6 +25,7 @@ export type MoonSheetData = {
   schemaVersion: 1;
   fields: Record<string, string>;
   autoVitals: boolean;
+  pageOrder: MoonPage[];
   maxOverrides: Partial<Record<MoonResourceId, string>>;
   weapons: MoonWeapon[];
   skills: MoonItem[];
@@ -39,6 +41,7 @@ export function emptyMoonSheet(): MoonSheetData {
     schemaVersion: 1,
     fields: {},
     autoVitals: false,
+    pageOrder: [...DEFAULT_MOON_ORDER],
     maxOverrides: {},
     weapons: [newWeapon('weapon-1'), newWeapon('weapon-2')],
     skills: Array.from({ length: 6 }, (_, index) => newMoonItem('skill-' + (index + 1))),
@@ -72,6 +75,7 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
     fields: Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] =>
       typeof entry[1] === 'string')),
     autoVitals: stored.autoVitals === true,
+    pageOrder: parseMoonOrder(stored.pageOrder),
     maxOverrides: Object.fromEntries(['hp','st','sp','light']
       .filter(key => typeof overrides[key] === 'string')
       .map(key => [key, overrides[key] as string])),
