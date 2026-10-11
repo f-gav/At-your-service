@@ -4,6 +4,8 @@
  * New formatted content is prefixed and HTML is allow-list sanitized every
  * time it enters or leaves the editor. No executable HTML is trusted.
  */
+import { dividerMarkup, spoilerMarkup } from './rich-blocks.ts';
+
 export const RICH_PREFIX='ays:rich:v1:';
 
 export function isRich(value:string):boolean {return value.startsWith(RICH_PREFIX);}
@@ -24,6 +26,21 @@ export function sanitizeRichHtml(html:string):string {
     if(node.nodeType!==Node.ELEMENT_NODE)return '';
     const el=node as HTMLElement;
     if(['SCRIPT','STYLE','SVG','IFRAME','FORM','BUTTON','INPUT','IMG'].includes(el.tagName))return '';
+    // Block widgets have their own strictly reconstructed HTML. Only the
+    // title (plain text), collapsed flag and sanitized body are persisted.
+    // Arbitrary attributes, classes and inline handlers are never replayed.
+    if(el.tagName==='DIV' && el.dataset.pfDivider==='1') {
+      const title=el.querySelector<HTMLElement>(':scope > [data-pf-divider-title]');
+      return dividerMarkup(title?.textContent??'');
+    }
+    if(el.tagName==='DIV' && el.dataset.pfSpoiler==='1') {
+      const head=el.querySelector<HTMLElement>(':scope > [data-pf-spoiler-head]');
+      const title=head?.querySelector<HTMLElement>('[data-pf-spoiler-title]');
+      const body=el.querySelector<HTMLElement>(':scope > [data-pf-spoiler-body]');
+      if(!head||!body)return Array.from(el.childNodes).map(clean).join('');
+      const content=Array.from(body.childNodes).map(clean).join('') || '<div><br></div>';
+      return spoilerMarkup(title?.textContent??'',content,el.dataset.collapsed==='1');
+    }
     const inner=Array.from(el.childNodes).map(clean).join('');
     if(!KEEP.has(el.tagName))return inner;
     if(el.tagName==='BR')return '<br>';
