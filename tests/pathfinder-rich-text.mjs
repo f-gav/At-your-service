@@ -42,7 +42,8 @@ assert.doesNotMatch(rich,/insertOrderedList|dice|d20|roller/);
 assert.match(rich,/serializeRichHtml/);
 assert.match(rich,/data-pf-resource="1"/);
 assert.match(rich,/data-pf-task="1"/);
-assert.match(rich,/onInput=\{emit\}/);
+assert.match(rich,/onInput=\{\(\)=>\{if\(!convertDividerShortcut\(\)\)emit\(\);\}\}/,
+ 'Rich text changes must still persist and the --- shortcut must convert a divider');
 assert.match(codec,/rel="noopener noreferrer"/);
 assert.match(codec,/node\.nodeType===Node\.TEXT_NODE/);
 assert.match(codec,/if\(!KEEP\.has\(el\.tagName\)\)return inner/);
