@@ -1,203 +1,57 @@
-/* The Russian Pathfinder PDF uses Taroca for decorative headings.
- * Vollkorn SC Black is a legally redistributable Cyrillic substitute.
- * The font is bundled locally: no third-party service is needed to render it. */
-@font-face {
-  font-family: 'AYS Pathfinder Heading';
-  src: url('../../assets/fonts/VollkornSC-Black.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-}
-
+/* Fixed fifth sheet: the uploaded page artwork owns every decorative pixel.
+ * The six contentEditable overlays align to its printed rectangles.
+ * Coordinates are sheet-relative: zoom and the fixed-width mobile viewport
+ * never shift text away from the background.
+ */
 .pf-optional-notes-page {
-  aspect-ratio:auto;
-  min-height: 130cqw;
-  display: flex;
-  flex-direction: column;
-  padding: 5.1cqw 5.1cqw 6.3cqw;
-  box-sizing: border-box;
-  color: #242b28;
-}
-.pf-optional-notes-heading {
-  display: flex;
-  align-items: center;
-  gap: 1.5cqw;
-  margin: 0 0 3cqw;
-  color: #183b2a;
-}
-.pf-optional-notes-heading-rule {
-  position: relative;
-  flex: 1;
-  min-width: 2cqw;
-  border-top: .32cqw solid currentColor;
-}
-.pf-optional-notes-heading-rule::after {
-  content: '';
-  position: absolute;
-  right: -.35cqw;
-  top: -.65cqw;
-  width: .9cqw;
-  height: .9cqw;
-  background: currentColor;
-  transform: rotate(45deg);
-}
-.pf-optional-notes-heading-rule:last-child::after {
-  right: auto;
-  left: -.35cqw;
-}
-.pf-optional-notes-heading h2 {
-  font-family: 'AYS Pathfinder Heading', Georgia, serif;
-  font-size: 4.1cqw;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: .012em;
-  line-height: 1;
-  margin: 0;
+  aspect-ratio: 1573 / 2048;
+  background: #fff;
 }
 .pf-optional-notes-grid {
+  position: absolute;
+  z-index: 1;
+  top: 3.47%;
+  right: 3.72%;
+  bottom: 3.47%;
+  left: 3.72%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.3cqw;
-  align-items: stretch;
+  grid-template-rows: .507fr 1fr 1fr;
+  column-gap: 1.9cqw;
+  row-gap: 1cqw;
+  pointer-events: none;
 }
 .pf-optional-note-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: var(--pf-note-card-min-height, 36cqw);
-  box-sizing: border-box;
-  background-color: #fff;
-  background-image:
-    linear-gradient(to right, #e9ede9 1px, transparent 1px),
-    linear-gradient(to bottom, #e9ede9 1px, transparent 1px);
-  background-size: 1.55cqw 1.55cqw;
-  border: .17cqw solid #a6a9a6;
-  border-radius: .7cqw;
-  overflow: hidden;
-}
-.pf-optional-note-card-heading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex: none;
-  min-height: 2.6cqw;
-  margin: 0 .4cqw;
-  padding: .23cqw 2.6cqw;
-  border-bottom: .13cqw solid #434a46;
-  background: #fffefcee;
-  box-sizing: border-box;
-}
-.pf-optional-note-card-title,
-.pf-optional-note-card-title-input {
-  color: #29352d;
-  font-family: 'AYS Pathfinder Heading', Georgia, serif;
-  font-weight: 900;
-  font-size: 1.28cqw;
-  text-transform: uppercase;
-  line-height: 1.3;
-  text-align: center;
-  max-width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.pf-optional-note-card-title-input {
-  padding: 0;
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid #759080;
-  background: transparent;
-  outline-offset: 2px;
-}
-.pf-optional-note-card-rename {
-  position: absolute;
-  right: .1cqw;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  background: transparent;
-  color: #77817c;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 2.4cqw;
-  height: 2.4cqw;
-  padding: 0;
-  cursor: pointer;
-}
-.pf-optional-note-card-rename:hover,
-.pf-optional-note-card-rename:focus-visible { color: #17492d; }
-.pf-optional-note-card-body {
-  display: flex;
-  flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
-  background: transparent;
+  overflow: hidden;
+  pointer-events: auto;
+}
+.pf-optional-note-card-body {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  color: #242a28;
   font-family: 'Segoe UI', Arial, sans-serif;
-  font-size: 1.42cqw;
-  line-height: 1.48;
-  color: #26302b;
+  font-size: 1.45cqw;
+  line-height: 1.38;
 }
 .pf-optional-note-card-body .pf-rich-editable {
-  display: block;
-  flex: 1 1 auto;
-  width: 100%;
-  min-height: 29cqw;
-  height: auto;
   box-sizing: border-box;
-  overflow: visible;
-  padding: .9cqw 1.05cqw 3.25cqw;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 2.05cqw .65cqw .6cqw;
+  overflow: auto;
+  scrollbar-width: thin;
+  border: none;
+  background: transparent;
+  color: inherit;
   font: inherit;
   line-height: inherit;
-  color: inherit;
-  background: transparent;
 }
 .pf-optional-note-card-body .pf-rich-editable:focus-visible {
-  outline: 1px solid #a3b6a9;
+  outline: 1px solid #92afa0;
   outline-offset: -1px;
-}
-.pf-optional-note-card-controls {
-  display: flex;
-  gap: .3cqw;
-  position: absolute;
-  bottom: .35cqw;
-  right: .45cqw;
-  z-index: 5;
-  padding: .15cqw;
-  border-radius: 1cqw;
-  background: #ffffffef;
-  box-shadow: 0 0 0 1px #d6dcd7;
-}
-.pf-optional-note-card-controls button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.7cqw;
-  height: 1.7cqw;
-  border: 0;
-  border-radius: 50%;
-  padding: 0;
-  background: #f6f7f5;
-  color: #29312d;
-  cursor: pointer;
-}
-.pf-optional-note-card-controls button:hover:not(:disabled),
-.pf-optional-note-card-controls button:focus-visible { background: #e2ebe4; }
-.pf-optional-note-card-controls button:disabled { opacity: .3; cursor: default; }
-.pf-monochrome .pf-optional-notes-page { filter: grayscale(1); }
-@media (max-width: 760px) {
-  .pf-optional-notes-page { padding: 5cqw 4.5cqw 6cqw; }
-  .pf-optional-notes-heading h2 { font-size: 4.5cqw; }
-  .pf-optional-notes-grid { grid-template-columns: 1fr; gap: 2cqw; }
-  .pf-optional-note-card { min-height: max(54cqw, var(--pf-note-card-min-height)); }
-  .pf-optional-note-card-heading { min-height: 4.6cqw; }
-  .pf-optional-note-card-title,
-  .pf-optional-note-card-title-input { font-size: 2.05cqw; }
-  .pf-optional-note-card-rename { width: 4.6cqw; height: 4.6cqw; }
-  .pf-optional-note-card-body { font-size: 2.2cqw; }
-  .pf-optional-note-card-body .pf-rich-editable { min-height: 46cqw; padding: 1.5cqw 1.6cqw 5cqw; }
-  .pf-optional-note-card-controls { gap: .7cqw; }
-  .pf-optional-note-card-controls button { width: 3cqw; height: 3cqw; }
 }
