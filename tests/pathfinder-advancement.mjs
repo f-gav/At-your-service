@@ -78,8 +78,8 @@ for(const componentSource of [sheet,admin]) {
   assert.match(componentSource,/pageArtUrl=/,
     'the native Pathfinder art must be available for original heading fonts');
 }
-assert.match(sheet,/isAdvancementPage && <div className="pf-advancement-fixed-art"/);
-assert.match(admin,/page===2 && <div className="pf-advancement-fixed-art"/);
+assert.match(sheet,/isAdvancementPage\s*\?\s*<div className="pf-advancement-fixed-art"/);
+assert.match(admin,/page===2\s*\?\s*<div className="pf-advancement-fixed-art"/);
 assert.match(css,/aspect-ratio:\s*600\.945\s*\/\s*782\.362/,
   'the PDF art layer needs the source page aspect ratio');
 assert.match(css,/\.pf-advancement-fixed-art > img\s*\{/,
