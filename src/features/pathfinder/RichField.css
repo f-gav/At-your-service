@@ -57,3 +57,170 @@
   border: 1px solid #c3d1c8; border-radius: 4px;
   padding: 4px; font-size: 12px;
 }
+
+
+/* LSS-style divider is a genuine editable inline title between two rules.
+ * Empty title leaves a continuous, thin horizontal separator. */
+.pf-rich-editable [data-pf-divider="1"] {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 0;
+  min-height: 1.65em;
+  width: 100%;
+  margin: .32em 0;
+  color: #5b7364;
+  cursor: text;
+  break-inside: avoid;
+}
+.pf-rich-editable [data-pf-divider="1"]::before,
+.pf-rich-editable [data-pf-divider="1"]::after {
+  content: "";
+  flex: 1 1 0;
+  min-width: 3px;
+  border-top: 1px solid #b5c5ba;
+}
+.pf-rich-editable [data-pf-divider-title="1"] {
+  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 1px;
+  max-width: 86%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-divider-title="1"]:not(:empty) {
+  margin: 0 .55em;
+}
+.pf-rich-editable [data-pf-divider-title="1"]:focus-visible {
+  outline: 1px dotted #738d7c;
+}
+
+/* Spoiler is a structured block and not flattened when collapsed. Its body
+ * remains in saved data and can contain nested spoilers / resources. */
+.pf-rich-editable [data-pf-spoiler="1"] {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  margin: .45em 0;
+  border: 1px solid #becdc2;
+  border-radius: 5px;
+  color: inherit;
+  background: #fff;
+  overflow: visible;
+}
+.pf-rich-editable [data-pf-spoiler-head="1"] {
+  display: flex;
+  align-items: center;
+  min-height: 1.9em;
+  padding: .25em .3em;
+  gap: .3em;
+  background: #f2f5f2;
+  color: #283f32;
+}
+.pf-rich-editable [data-pf-spoiler-title="1"] {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 0 .2em;
+  outline: 0;
+  font-weight: 650;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-spoiler-title="1"]:empty::before {
+  content: "Заголовок спойлера";
+  color: #98a59b;
+  font-weight: 400;
+  pointer-events: none;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"],
+.pf-rich-editable [data-pf-spoiler-remove="1"] {
+  display: inline-flex;
+  flex: 0 0 1.3em;
+  min-height: 1.3em;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.08em;
+  line-height: 1;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"]:hover,
+.pf-rich-editable [data-pf-spoiler-remove="1"]:hover {
+  background: #dce6dc;
+}
+.pf-rich-editable [data-pf-spoiler-remove="1"] {
+  opacity: 0;
+  color: #9a514b;
+  transition: opacity .14s;
+}
+.pf-rich-editable [data-pf-spoiler="1"]:hover [data-pf-spoiler-remove="1"],
+.pf-rich-editable [data-pf-spoiler-remove="1"]:focus-visible {opacity: 1;}
+.pf-rich-editable [data-pf-spoiler-body="1"] {
+  box-sizing: border-box;
+  min-height: 2em;
+  width: 100%;
+  padding: .5em .65em;
+  outline: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-spoiler-body="1"]:focus-visible {outline: 1px dotted #91a697;}
+.pf-rich-editable [data-pf-spoiler="1"][data-collapsed="1"] > [data-pf-spoiler-body="1"] {
+  display: none;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"]:focus-visible,
+.pf-rich-editable [data-pf-spoiler-remove="1"]:focus-visible {
+  outline: 2px solid #65816a;
+}
+
+/* Visible only when caret is placed on an empty line. Hosted on document.body
+ * to avoid clipping in a PDF rectangle with overflow scrolling. */
+.pf-rich-insert-toolbar {
+  position: fixed;
+  z-index: 12001;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  max-width: min(290px, calc(100vw - 16px));
+  padding: 4px;
+  border: 1px solid #d5e0d6;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 4px 16px #0002;
+  font-family: Arial, sans-serif;
+  color: #293c30;
+}
+.pf-rich-insert-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #63826c;
+  padding: 0 3px;
+}
+.pf-rich-insert-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: none;
+  color: inherit;
+  border-radius: 4px;
+  padding: 5px 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pf-rich-insert-toolbar button:hover,
+.pf-rich-insert-toolbar button:focus-visible {
+  background: #e9f1e9;
+}
+/* Longer formatting selection toolbar can wrap on narrow mobile viewports. */
+.pf-rich-toolbar { flex-wrap: wrap; }

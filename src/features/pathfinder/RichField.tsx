@@ -1,8 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
-import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond } from 'lucide-react';
+import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus, PanelTopOpen } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { toRichHtml, serializeRichHtml } from './rich-codec';
+import { dividerMarkup, spoilerMarkup } from './rich-blocks';
 import './RichField.css';
 
 type Props={
@@ -12,6 +13,7 @@ type Props={
 };
 type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
 type Spot={left:number;top:number};
+type InsertKind='spoiler'|'divider';
 function popupPosition(rect:DOMRect):Spot {
   const width=370;
   return {left:Math.max(8,Math.min(window.innerWidth-width-8,rect.left+rect.width/2-width/2)),
@@ -21,6 +23,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   const root=useRef<HTMLDivElement>(null);
   const rangeRef=useRef<Range|null>(null);
   const [spot,setSpot]=useState<Spot|null>(null);
+  const [insertSpot,setInsertSpot]=useState<Spot|null>(null);
   const [linkMode,setLinkMode]=useState(false);
   const [url,setUrl]=useState('https://');
   const linkInput=useRef<HTMLInputElement>(null);
@@ -28,7 +31,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
 
   useLayoutEffect(()=>{
     const editor=root.current;
-    if(!editor||document.activeElement===editor&&value===ownValue.current)return;
+    if(!editor||(editor.contains(document.activeElement)&&value===ownValue.current))return;
     const html=toRichHtml(value);
     if(editor.innerHTML!==html)editor.innerHTML=html;
   },[value]);
@@ -40,24 +43,55 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     ownValue.current=next;
     onChange(next);
   }
+  function blankLineAt(range:Range,editor:HTMLElement):HTMLElement|null {
+    let element:HTMLElement|null=range.startContainer.nodeType===Node.ELEMENT_NODE
+      ? range.startContainer as HTMLElement : range.startContainer.parentElement;
+    if(!element||!editor.contains(element)&&element!==editor)return null;
+    if(element.closest('[data-pf-spoiler-title],[data-pf-divider-title],[data-pf-spoiler-head]'))return null;
+    const line=element.closest<HTMLElement>('div,p');
+    if(!line||!editor.contains(line))return editor.textContent?.trim()?null:editor;
+    if(line.closest('[data-pf-divider]'))return null;
+    if(line.matches('[data-pf-spoiler]'))return null;
+    if(line.querySelector('[data-pf-divider],[data-pf-spoiler],[data-pf-resource],[data-pf-task]'))return null;
+    return line.textContent?.trim() ? null : line;
+  }
   function refresh(){
     const editor=root.current;
     const sel=window.getSelection();
-    if(!editor||!sel||sel.isCollapsed||!sel.rangeCount||!sel.toString().trim()){
-      setSpot(null);setLinkMode(false);return;
+    if(!editor||!sel||!sel.rangeCount){
+      setSpot(null);setInsertSpot(null);return;
     }
     const range=sel.getRangeAt(0);
     const host=range.commonAncestorContainer;
-    if(!editor.contains(host)){setSpot(null);setLinkMode(false);return;}
+    if(!editor.contains(host)&&host!==editor){
+      setSpot(null);setInsertSpot(null);return;
+    }
+    rangeRef.current=range.cloneRange();
+    if(sel.isCollapsed){
+      setSpot(null);
+      const line=blankLineAt(range,editor);
+      if(line){
+        const rect=range.getBoundingClientRect();
+        const fallback=line.getBoundingClientRect();
+        const x=rect.left||fallback.left;
+        const y=rect.top||fallback.top;
+        setInsertSpot({
+          left:Math.max(8,Math.min(window.innerWidth-210,x)),
+          top:Math.max(8,Math.min(window.innerHeight-48,y+Math.max(rect.height,fallback.height,18)+3)),
+        });
+      }else setInsertSpot(null);
+      return;
+    }
+    setInsertSpot(null);
+    if(!sel.toString().trim()){setSpot(null);return;}
     const rect=range.getBoundingClientRect();
     if(!rect.width&&!rect.height){setSpot(null);return;}
-    rangeRef.current=range.cloneRange();
     setSpot(popupPosition(rect));
   }
   useEffect(()=>{
     const onSelection=()=>refresh();
     document.addEventListener('selectionchange',onSelection);
-    const onViewport=()=>setSpot(null);
+    const onViewport=()=>{setSpot(null);setInsertSpot(null);};
     window.addEventListener('scroll',onViewport,true);
     window.addEventListener('resize',onViewport);
     return()=>{
@@ -74,6 +108,80 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     const selection=window.getSelection();
     selection?.removeAllRanges();
     selection?.addRange(range);
+  }
+  function placeCaret(el:HTMLElement){
+    el.focus();
+    const range=document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    const selection=window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    rangeRef.current=range.cloneRange();
+  }
+  function addBlock(kind:InsertKind){
+    const editor=root.current;
+    if(!editor)return;
+    restore();
+    const selection=window.getSelection();
+    const range=selection?.rangeCount?selection.getRangeAt(0):document.createRange();
+    if(!selection?.rangeCount){range.selectNodeContents(editor);range.collapse(false);}
+    const blank=blankLineAt(range,editor);
+    // LSS inserts block widgets from a blank line, never over selected text.
+    if(!blank)return;
+    const template=document.createElement('template');
+    template.innerHTML=(kind==='spoiler'?spoilerMarkup():dividerMarkup())+'<div><br></div>';
+    const fragment=template.content;
+    const widget=fragment.firstElementChild as HTMLElement;
+    if(blank===editor||blank.matches('[data-pf-spoiler-body]'))blank.replaceChildren(fragment);
+    else blank.replaceWith(fragment);
+    const title=widget.querySelector<HTMLElement>(kind==='spoiler'?'[data-pf-spoiler-title]':'[data-pf-divider-title]');
+    emit();
+    setSpot(null);setInsertSpot(null);
+    if(title)placeCaret(title);
+  }
+  function convertDividerShortcut():boolean {
+    const editor=root.current,sel=window.getSelection();
+    if(!editor||!sel?.rangeCount||!sel.isCollapsed)return false;
+    const range=sel.getRangeAt(0);
+    let node=range.startContainer.nodeType===Node.ELEMENT_NODE
+      ? range.startContainer as HTMLElement : range.startContainer.parentElement;
+    if(!node||!editor.contains(node))return false;
+    if(node.closest('[data-pf-divider],[data-pf-spoiler-head]'))return false;
+    const line=node.closest<HTMLElement>('div,p');
+    if(!line||!editor.contains(line))return false;
+    if(line.textContent!=='---'||line.children.length>0)return false;
+    const template=document.createElement('template');
+    template.innerHTML=dividerMarkup()+'<div><br></div>';
+    const title=template.content.firstElementChild?.querySelector<HTMLElement>('[data-pf-divider-title]');
+    if(line===editor||line.matches('[data-pf-spoiler-body]'))line.replaceChildren(template.content);
+    else line.replaceWith(template.content);
+    emit();
+    if(title)placeCaret(title);
+    setInsertSpot(null);
+    return true;
+  }
+  function removeWidget(widget:HTMLElement){
+    const editor=root.current;
+    if(!editor)return;
+    let next=widget.nextElementSibling as HTMLElement|null;
+    if(!next){
+      next=document.createElement('div');
+      next.appendChild(document.createElement('br'));
+      widget.after(next);
+    }
+    widget.remove();
+    emit();
+    placeCaret(next);
+    setInsertSpot(null);setSpot(null);
+  }
+  function toggleSpoiler(spoiler:HTMLElement){
+    const collapsed=spoiler.dataset.collapsed==='1';
+    spoiler.dataset.collapsed=collapsed?'0':'1';
+    const toggle=spoiler.querySelector('[data-pf-spoiler-toggle]');
+    if(toggle)toggle.textContent=collapsed?'▾':'▸';
+    emit();
+    setSpot(null);setInsertSpot(null);
   }
   function apply(tool:Tool){
     restore();
@@ -106,8 +214,31 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     emit();
   }
   function handleTokenClick(event:ReactMouseEvent<HTMLDivElement>){
-    const target=event.target instanceof HTMLElement?event.target.closest<HTMLElement>('[data-pf-resource],[data-pf-task]'):null;
-    if(target&&root.current?.contains(target)){event.preventDefault();toggleToken(target);}
+    const target=event.target instanceof HTMLElement?event.target:null;
+    if(!target||!root.current?.contains(target))return;
+    const toggle=target.closest<HTMLElement>('[data-pf-spoiler-toggle]');
+    if(toggle){
+      event.preventDefault();
+      const spoiler=toggle.closest<HTMLElement>('[data-pf-spoiler]');
+      if(spoiler)toggleSpoiler(spoiler);
+      return;
+    }
+    const remove=target.closest<HTMLElement>('[data-pf-spoiler-remove]');
+    if(remove){
+      event.preventDefault();
+      const spoiler=remove.closest<HTMLElement>('[data-pf-spoiler]');
+      if(spoiler)removeWidget(spoiler);
+      return;
+    }
+    const divider=target.closest<HTMLElement>('[data-pf-divider]');
+    if(divider&&!target.closest('[data-pf-divider-title]')){
+      event.preventDefault();
+      const title=divider.querySelector<HTMLElement>('[data-pf-divider-title]');
+      if(title)placeCaret(title);
+      return;
+    }
+    const token=target.closest<HTMLElement>('[data-pf-resource],[data-pf-task]');
+    if(token){event.preventDefault();toggleToken(token);}
   }
   function handlePaste(event:React.ClipboardEvent<HTMLDivElement>){
     event.preventDefault();
@@ -116,6 +247,19 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     document.execCommand('insertText',false,text);
     emit();
   }
+  const insertToolbar=insertSpot&&!disabled&&typeof document!=='undefined'&&createPortal(
+    <div className="pf-rich-insert-toolbar" role="toolbar"
+      aria-label="Вставить блок на пустую строку"
+      style={{left:insertSpot.left,top:insertSpot.top}}
+      onMouseDown={event=>event.preventDefault()}>
+      <span aria-hidden="true" className="pf-rich-insert-plus"><Plus size={15}/></span>
+      <button type="button" title="Добавить спойлер" onClick={()=>addBlock('spoiler')}>
+        <PanelTopOpen size={15}/> Спойлер
+      </button>
+      <button type="button" title="Добавить разделитель" onClick={()=>addBlock('divider')}>
+        <Minus size={15}/> Разделитель
+      </button>
+    </div>,document.body);
   const toolbar=spot&&!disabled&&typeof document!=='undefined'&&createPortal(
     <div className="pf-rich-toolbar" role="toolbar" aria-label="Форматирование выделенного текста"
       style={{left:spot.left,top:spot.top}} onMouseDown={event=>event.preventDefault()}>
@@ -143,8 +287,40 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         role="textbox" aria-label={label} aria-multiline="true"
         contentEditable={!disabled} suppressContentEditableWarning spellCheck={false}
         data-placeholder={placeholder??''}
-        onInput={emit} onMouseUp={refresh} onKeyUp={refresh} onClick={handleTokenClick}
+        onInput={()=>{if(!convertDividerShortcut())emit();}}
+        onMouseUp={refresh} onKeyUp={refresh} onClick={handleTokenClick}
         onKeyDown={event=>{
+          const title=event.target instanceof HTMLElement
+            ? event.target.closest<HTMLElement>('[data-pf-divider-title]') : null;
+          const heading=event.target instanceof HTMLElement
+            ? event.target.closest<HTMLElement>('[data-pf-spoiler-title]') : null;
+          if(event.key==='Enter'&&heading){
+            event.preventDefault();
+            const body=heading.closest('[data-pf-spoiler]')?.querySelector<HTMLElement>('[data-pf-spoiler-body]');
+            if(body)placeCaret(body);
+            return;
+          }
+          if(event.key==='Enter'&&title){
+            event.preventDefault();
+            const divider=title.closest<HTMLElement>('[data-pf-divider]');
+            if(divider){
+              let next=divider.nextElementSibling as HTMLElement|null;
+              if(!next){
+                next=document.createElement('div');
+                next.appendChild(document.createElement('br'));
+                divider.after(next);
+                emit();
+              }
+              placeCaret(next);
+            }
+            return;
+          }
+          if(event.key==='Backspace'&&title&&!title.textContent?.trim()){
+            event.preventDefault();
+            const divider=title.closest<HTMLElement>('[data-pf-divider]');
+            if(divider)removeWidget(divider);
+            return;
+          }
           const target=event.target instanceof HTMLElement?event.target:null;
           if((event.key==='Enter'||event.key===' ')&&target?.matches('[data-pf-resource],[data-pf-task]')){
             event.preventDefault();toggleToken(target);
@@ -153,5 +329,6 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         onPaste={handlePaste}/>
     </div>
     {toolbar}
+    {insertToolbar}
   </>;
 }
