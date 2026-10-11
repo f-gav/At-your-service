@@ -1,0 +1,141 @@
+/* Character-sheet spellcasting configuration: stays over the PDF instead of
+ * moving any printed panels. Responsive, scrollable, keyboard-accessible. */
+.pf-spell-dialog-backdrop{
+  position:fixed;
+  z-index:14500;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:rgba(25,31,29,.42);
+}
+.pf-spell-dialog{
+  position:relative;
+  box-sizing:border-box;
+  width:min(780px,100%);
+  max-height:min(92vh,860px);
+  overflow-y:auto;
+  padding:26px;
+  border:1px solid #c8d2cb;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 18px 56px #0003;
+  color:#26302a;
+  font:14px/1.45 'Segoe UI',Arial,sans-serif;
+}
+.pf-spell-dialog h2{margin:0 40px 22px 0;font-size:21px;font-weight:650;}
+.pf-spell-dialog h3{font-size:16px;font-weight:650;margin:22px 0 12px;}
+.pf-spell-dialog-close{
+  position:absolute;right:18px;top:18px;
+  width:32px;height:32px;display:grid;place-items:center;
+  padding:4px;border:0;border-radius:6px;
+  background:transparent;color:inherit;cursor:pointer;
+}
+.pf-spell-dialog-close:hover{background:#edf2ee;}
+.pf-spell-dialog-summary{
+  display:grid;grid-template-columns:minmax(190px,1.2fr) 1fr 1fr;
+  gap:16px;align-items:stretch;
+}
+.pf-spell-dialog-summary > label,.pf-spell-dialog-stat{
+  box-sizing:border-box;
+  min-height:88px;
+  padding:12px;
+  border:1px solid #d2d9d4;
+  border-radius:8px;
+  background:#f7f8f7;
+}
+.pf-spell-dialog label>span,
+.pf-spell-dialog-stat>span{
+  display:block;
+  margin-bottom:7px;
+  color:#6d756f;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.025em;
+}
+.pf-spell-dialog select,
+.pf-spell-dialog input{
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  min-height:35px;
+  border:1px solid #c9d1cc;
+  border-radius:6px;
+  padding:6px 9px;
+  background:#fff;
+  color:#25342a;
+  font:inherit;
+}
+.pf-spell-dialog-stat strong{
+  font-size:24px;
+  display:block;
+  margin-top:3px;
+  font-variant-numeric:tabular-nums;
+}
+.pf-spell-dialog-proficiency{
+  display:grid;
+  grid-template-columns:minmax(210px,260px) 1fr;
+  align-items:end;
+  gap:18px;
+  margin-top:20px;
+}
+.pf-spell-dialog-proficiency p{
+  color:#69776d;
+  line-height:1.5;
+  font-size:12px;
+  margin:0 0 3px;
+}
+.pf-spell-dialog-warning{
+  margin:15px 0 0;
+  padding:10px 13px;
+  background:#fff8ec;
+  color:#805a26;
+  border-radius:7px;
+  font-size:12px;
+}
+.pf-spell-dialog-slots{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px 18px;
+}
+.pf-spell-dialog-slots input{
+  background:#f7f8f7;
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+}
+.pf-spell-dialog-footnote{
+  margin:18px 0 0;
+  color:#818a83;
+  font-size:12px;
+  line-height:1.5;
+}
+.pf-spell-dialog :is(select,input,button):focus-visible{
+  outline:2px solid #597867;outline-offset:2px;
+}
+/* Overlay one small gear at the end of the Spell Parameters heading, outside
+ * every interactive PDF field. Position uses the same original PDF ratios. */
+.pf-spell-settings-trigger {
+  position:absolute;z-index:12;
+  left:34.2%;top:8.05%;
+  width:2.85%;aspect-ratio:1;
+  padding:0;display:grid;place-items:center;
+  background:#fff;
+  color:#28513a;
+  border:1px solid #a6b5aa;
+  border-radius:50%;
+  cursor:pointer;
+}
+.pf-spell-settings-trigger svg {width:75%;height:75%;}
+.pf-spell-settings-trigger:hover,.pf-spell-settings-trigger:focus-visible{
+  background:#e7f0e9;outline:1px solid #5b8165;
+}
+.pf-spell-settings-trigger:disabled{cursor:default;opacity:.5;}
+.pf-field-spell-open-settings{cursor:pointer!important;}
+@media(max-width:680px){
+  .pf-spell-dialog{padding:19px;}
+  .pf-spell-dialog-summary{grid-template-columns:1fr 1fr;gap:8px;}
+  .pf-spell-dialog-key{grid-column:1/-1;}
+  .pf-spell-dialog-proficiency{grid-template-columns:1fr;}
+  .pf-spell-dialog-slots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+}
