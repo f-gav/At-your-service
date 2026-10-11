@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {
+  DEFAULT_MOON_LAYOUT, MOON_LAYOUT_CONTROLS,
+  encodeMoonLayout, parseMoonLayout, moonLayoutVariables,
+} from '../src/features/project-moon/layout-settings.ts';
+const load = path => readFileSync(new URL(path,import.meta.url),'utf8');
+const original = {...DEFAULT_MOON_LAYOUT};
+const payload = encodeMoonLayout(original);
+assert.equal(payload.length,8);
+assert.deepEqual(parseMoonLayout(payload),original);
+assert.deepEqual(parseMoonLayout(null),original);
+assert.equal(parseMoonLayout([{id:'pagePadding',value:999}]).pagePadding,22);
+assert.equal(parseMoonLayout([{id:'titleFont',value:-500}]).titleFont,20);
+assert.equal(parseMoonLayout([{id:'lineColor',value:'red'}]).lineColor,original.lineColor);
+assert.equal(parseMoonLayout([{id:'inkColor',value:'#123abc'}]).inkColor,'#123abc');
+assert.equal(parseMoonLayout([{id:'sectionGap',value:'120'}]).sectionGap,original.sectionGap);
+assert.equal(MOON_LAYOUT_CONTROLS.length,payload.length);
+const vars = moonLayoutVariables(original);
+assert.equal(vars['--moon-page-padding'],'11mm');
+assert.equal(vars['--moon-title-size'],'26px');
+assert.equal(vars['--moon-line'],'#bfc4c8');
+
+const app = load('../src/App.tsx');
+const chooser = load('../src/features/sheet-admin/SheetAdmin.tsx');
+const editor = load('../src/features/project-moon/MoonLayoutAdmin.tsx');
+const sheet = load('../src/features/project-moon/ProjectMoonSheet.tsx');
+const moonCSS = load('../src/features/project-moon/ProjectMoonSheet.css');
+const genericCSS = load('../src/styles.css');
+const resourceCSS = load('../src/features/pathfinder/ResourceDialog.css');
+const pfAdmin = load('../src/features/pathfinder/TemplateAdmin.tsx');
+const migration = load('../supabase/migrations/20261012_project_moon_template_editor.sql');
+assert.ok(app.includes('<SheetAdmin userId={user.id}'));
+assert.ok(chooser.includes("system === 'pf2e'"));
+assert.ok(chooser.includes("system === 'prmoon'"));
+assert.ok(chooser.includes('key ==='));
+assert.ok(chooser.includes('disabled={!active}'));
+assert.ok(pfAdmin.includes('backLabel'));
+assert.ok(editor.includes('sheet_template_drafts'));
+assert.ok(editor.includes("supabase.rpc('publish_sheet_template'"));
+assert.ok(editor.includes('sheet_template_history'));
+assert.ok(editor.includes('layoutOverride={layout}'));
+assert.ok(sheet.includes('layoutOverride ?? publishedLayout'));
+assert.ok(sheet.includes("eq('template_key', MOON_LAYOUT_KEY)"));
+assert.ok(moonCSS.includes('var(--moon-page-padding'));
+assert.ok(moonCSS.includes('min-height: 297mm'));
+assert.ok(genericCSS.includes('.character-prmoon .character-system'));
+assert.ok(genericCSS.includes('#29445f'));
+assert.ok(resourceCSS.includes('.pf-resource-danger:hover'));
+assert.ok(resourceCSS.includes('color: #fff'));
+assert.ok(migration.includes("'pf2e', 'prmoon'"));
+assert.ok(migration.includes('sheet_admins'));
+console.log('PASS: selectable sheet admin, Moon HTML layout publishing, safe config and both UI fixes');

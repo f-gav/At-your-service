@@ -268,3 +268,11 @@
   .moon-paper { width: 210mm; min-height: 297mm; border: 0; box-shadow: none; padding: 8mm 11mm; }
   @page { size: A4; margin: 0; }
 }
+
+/* Values configured by the Project Moon HTML layout editor (A4 dimensions stay fixed). */
+.moon-paper { padding: 8mm var(--moon-page-padding,11mm) 14mm; font-size: var(--moon-text-size,12px); }
+.moon-page-heading h2 { font-size: var(--moon-title-size,26px); color:var(--moon-ink,#1c1e21); }
+.moon-section { margin-top: var(--moon-section-gap,15px); }
+.moon-attribute { min-height: var(--moon-attr-height,79px); }
+.moon-note { min-height: var(--moon-note-height,246px); }
+@media (max-width:660px) { .moon-paper { padding: 16px 12px 24px; } }

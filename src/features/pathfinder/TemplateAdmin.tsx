@@ -15,7 +15,7 @@ import './PathfinderSheet.css';
 import './TemplateAdmin.css';
 type Change=Partial<EditableField>;
 type Drag={id:string;mode:'move'|'size';startX:number;startY:number;original:EditableField;width:number};
-export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()=>void}){
+export default function TemplateAdmin({userId,onClose,backLabel='← К персонажам'}:{userId:string;onClose:()=>void;backLabel?:string}){
   const [fields,setFields]=useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
   const [page,setPage]=useState(1),[selected,setSelected]=useState('');
   const [preview,setPreview]=useState(false),[zoom,setZoom]=useState(960),[grid,setGrid]=useState(false);
@@ -188,7 +188,7 @@ export default function TemplateAdmin({userId,onClose}:{userId:string;onClose:()
   </>;
   return <main className="page ta-editor">
     <div className="ta-top">
-      <button onClick={()=>{if(!dirty||confirm('Выйти без сохранения изменений?'))onClose();}}>← К персонажам</button>
+      <button onClick={()=>{if(!dirty||confirm('Выйти без сохранения изменений?'))onClose();}}>{backLabel}</button>
       <h1>Редактор листа PF2e</h1>
       <button disabled={loading||busy} onClick={()=>void save()}>Сохранить черновик</button>
       <button className="ta-publish" disabled={loading||busy} onClick={()=>void publish()}>Опубликовать</button>

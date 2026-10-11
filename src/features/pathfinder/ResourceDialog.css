@@ -246,3 +246,11 @@
   opacity: .5;
   cursor: not-allowed;
 }
+
+/* Keep the destructive confirmation legible on hover and keyboard focus. */
+.pf-resource-dialog-actions .pf-resource-danger:hover,
+.pf-resource-dialog-actions .pf-resource-danger:focus-visible {
+  background: #80352f;
+  border-color: #80352f;
+  color: #fff;
+}

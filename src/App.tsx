@@ -38,7 +38,7 @@ import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
 import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl } from './features/portrait/portrait-storage';
-import TemplateAdmin from './features/pathfinder/TemplateAdmin';
+import SheetAdmin from './features/sheet-admin/SheetAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
 type Filter = GameSystem | 'all';
@@ -569,7 +569,7 @@ export default function App() {
       </header>
 
       {showTemplateAdmin && user && isTemplateAdmin ? (
-        <TemplateAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
+        <SheetAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
       ) : active ? (
         active.system === 'pf2e' ? (
           <PathfinderSheet key={active.id} character={active}

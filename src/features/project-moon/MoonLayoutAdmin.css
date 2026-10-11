@@ -1,0 +1,43 @@
+/* Live preview is always the same HTML component users edit, not a bitmap. */
+.moon-admin { max-width: 1500px; padding: 12px 0 70px; }
+.moon-admin-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.moon-admin-toolbar h1 { font-size: 18px; font-weight: 600; margin: 0 auto 0 0; }
+.moon-admin-toolbar button,.moon-admin-inspector button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  background: white; border: 1px solid #ccd5cf; border-radius: 6px;
+  padding: 9px 11px; cursor: pointer; color: #334039; font-size: 12px;
+}
+.moon-admin-toolbar button:disabled,.moon-admin-inspector button:disabled { opacity: .5; cursor: default; }
+.moon-admin-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+.moon-admin-toolbar .moon-admin-publish { background: #2d493b; color: #fff; border-color: #2d493b; }
+.moon-admin-status { font-size: 12px; color: #697971; margin: 7px 0 11px; min-height: 18px; }
+.moon-admin-columns { display: grid; grid-template-columns: minmax(0,1fr) 285px; gap: 15px; align-items: start; }
+.moon-admin-preview {
+  background: #e9edec; border: 1px solid #d2d9d5; border-radius: 7px;
+  max-height: 80vh; overflow: auto; padding: 12px; min-width: 0;
+}
+.moon-admin-preview .moon-editor { width: 100%; max-width: none; padding: 0; margin: 0; }
+.moon-admin-preview .moon-toolbar { display: none; }
+.moon-admin-preview .moon-tabs { margin-bottom: 6px; }
+.moon-admin-preview .moon-paper { width: min(100%,210mm); }
+.moon-admin-inspector {
+  position: sticky; top: 15px; max-height: 86vh; overflow: auto;
+  background: white; border: 1px solid #d8e0d9; border-radius: 9px;
+  padding: 14px; display: flex; flex-direction: column; gap: 12px;
+  font-size: 12px;
+}
+.moon-admin-inspector h2 { margin: 0; font-size: 16px; }
+.moon-admin-inspector h3 { margin: 0; font-size: 13px; }
+.moon-admin-inspector p { color: #69776f; margin: 0; line-height: 1.5; }
+.moon-admin-inspector hr { width: 100%; border: 0; border-top: 1px solid #e4ebe5; }
+.moon-admin-controls { display: flex; flex-direction: column; gap: 15px; }
+.moon-admin-inspector label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #44584d; }
+.moon-admin-inspector label input[type=color] { height: 32px; width: 100%; border: 1px solid #cbd6cd; background: #fff; padding: 2px; }
+.moon-admin-inspector select { width: 100%; border: 1px solid #cbd6cd; min-height: 34px; border-radius: 5px; background: white; }
+.moon-admin-value { display: flex; align-items: center; gap: 7px; }
+.moon-admin-value input[type=range] { min-width: 0; flex: 1; accent-color: #405f4b; }
+.moon-admin-value input[type=number] { width: 56px; min-width: 0; height: 30px; border: 1px solid #cbd6cd; border-radius: 5px; padding: 4px; color: #23362d; }
+.moon-admin-value small { color: #89958e; min-width: 20px; }
+.moon-admin-inspector .moon-admin-reset { justify-content: start; width: 100%; }
+@media(max-width:1050px){ .moon-admin-columns{grid-template-columns:minmax(0,1fr)} .moon-admin-inspector{position:static;max-height:none} }
+@media(max-width:650px){ .moon-admin-toolbar h1{flex-basis:100%;order:-1} .moon-admin-preview{padding:5px;max-height:70vh} }

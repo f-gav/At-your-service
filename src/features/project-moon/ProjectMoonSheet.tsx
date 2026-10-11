@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { ArrowLeft, Cloud, Plus, RotateCcw, Settings2, Trash2 } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
@@ -10,6 +11,9 @@ import {
   moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
+import { supabase } from '../../lib/supabase';
+import { MOON_LAYOUT_KEY, DEFAULT_MOON_LAYOUT, parseMoonLayout, moonLayoutVariables } from './layout-settings';
+import type { MoonLayout } from './layout-settings';
 import './ProjectMoonSheet.css';
 
 const RESOURCES: { id: MoonResourceId; short: string; label: string }[] = [
@@ -25,20 +29,30 @@ type Props = {
   portraitUrl?: string;
   portraitFrame?: CropFrame;
   onEditPortrait: () => void;
+  layoutOverride?: MoonLayout;
+  previewMode?: boolean;
 };
 
-export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait }: Props) {
+export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false }: Props) {
   const [name, setName] = useState(character.name);
   const [sheet, setSheet] = useState(() => readMoonSheet(character.details));
   const [page, setPage] = useState<MoonPage>('dossier');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [publishedLayout, setPublishedLayout] = useState<MoonLayout>(DEFAULT_MOON_LAYOUT);
+  useEffect(() => {
+    if (previewMode || !supabase) return;
+    let current = true;
+    void supabase.from('sheet_templates').select('fields').eq('template_key', MOON_LAYOUT_KEY).maybeSingle()
+      .then(({data,error}) => { if (current && !error && data?.fields) setPublishedLayout(parseMoonLayout(data.fields)); });
+    return () => { current = false; };
+  }, [previewMode]);
   const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify([character.name, readMoonSheet(character.details)]));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const dirty = JSON.stringify([name, sheet]) !== savedSnapshot;
 
   useEffect(() => {
-    if (!dirty) return;
+    if (!dirty || previewMode) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); };
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
@@ -144,7 +158,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     })}
   </div>;
 
-  return <main className="page moon-editor">
+  return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? publishedLayout) as CSSProperties}>
     <div className="pf-toolbar moon-toolbar">
       <button type="button" className="text-button" disabled={saving} onClick={() => void back()}>
         <ArrowLeft size={17} /> К персонажам
