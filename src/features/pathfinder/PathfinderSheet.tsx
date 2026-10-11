@@ -20,7 +20,7 @@ import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedFie
 import SpellcastingDialog from './SpellcastingDialog';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
-import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PF_NOTES_CONTENT_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
+import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
 import type {PfPageId} from './page-order';
 import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField, isClassDcConfigured } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
@@ -421,7 +421,7 @@ export default function PathfinderSheet({
       <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
         {visiblePages.map(page=>page==='notes'
           ? <OptionalNotesPage key="notes" values={values} disabled={saving}
-              onChange={text=>change(PF_NOTES_CONTENT_KEY,text)}/>
+              onChange={(id,value)=>change(id,value)}/>
           : renderPage(Number(page)))}
       </div>
     </div>
