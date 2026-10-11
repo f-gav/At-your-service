@@ -1,7 +1,10 @@
 /** Safe canonical block markup reused by the editor and HTML serializer.
  * Nested spoiler bodies stay editable; headings and title are edited in place.
  */
-import { escapeRichText } from './rich-codec.ts';
+function escapeRichText(value:string):string {
+  return value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 
 export function dividerMarkup(title=''):string {
   return '<div data-pf-divider="1" contenteditable="false">'+
