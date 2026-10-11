@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
 import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond } from 'lucide-react';
 import { createPortal } from 'react-dom';
-import { toRichHtml, sanitizeRichHtml, serializeRichHtml } from './rich-codec';
+import { toRichHtml, serializeRichHtml } from './rich-codec';
 import './RichField.css';
 
 type Props={
