@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import type { FieldValue } from './sheet-values';
 import { MAX_ADVANCEMENT_LEVEL, ancestryHint, classHint } from './advancement-model';
 import './DynamicAdvancement.css';
+import RichField from './RichField';
 
 type Props={
   values:Record<string,FieldValue>;
@@ -18,17 +19,9 @@ type Props={
 function StretchField({id,hint,value,onChange,disabled}:{
   id:string;hint:string;value:string;onChange:(value:string)=>void;disabled?:boolean;
 }){
-  const ref=useRef<HTMLTextAreaElement>(null);
-  useLayoutEffect(()=>{
-    const target=ref.current;
-    if(!target)return;
-    target.style.height='auto';
-    target.style.height=target.scrollHeight+'px';
-  },[value]);
-  return <textarea ref={ref} className="pf-advancement-input" id={'pf-'+id}
-    aria-label={hint} placeholder={hint} value={value}
-    rows={1} spellCheck={false} disabled={disabled}
-    onChange={event=>onChange(event.target.value)} />;
+  return <RichField id={'pf-'+id} label={hint} placeholder={hint}
+    className="pf-advancement-rich" grow value={value} onChange={onChange}
+    disabled={disabled}/>;
 }
 
 function LevelBadge({level,canRemove,onRemove,disabled}:{
