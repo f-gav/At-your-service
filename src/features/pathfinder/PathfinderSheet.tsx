@@ -9,6 +9,7 @@ import { supabase } from '../../lib/supabase';
 import { DEFAULT_FIELDS, cloneFields, validFields, withEquipmentNumberFields, withClassDcNumericBonus, withMagicTraditionHalfCircles } from './editor-schema';
 import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
+import DyingSkulls from './DyingSkulls';
 import RankSelect from './RankSelect';
 import RichField from './RichField';
 import { sanitizeSignedNumericInput } from './numeric-input';
@@ -228,6 +229,13 @@ export default function PathfinderSheet({
     const id = `pf-${field.id}`;
     const value = (field.id === 'armor_class' || (field.id === 'class_dc' && isClassDcConfigured(values)) || (automatic && field.id !== 'class_dc' && (isCoreComputedField(field.id) || (isNativeCombatComputedField(field.id) && !isNativeWeaponAttackField(field.id))))) && !(field.id in computed)
       ? '' : displayValues[field.id];
+    // These skulls are already printed on the PDF; each one is its own
+    // directly clickable hit area. Reuse the original numeric "dying" value
+    // so previously saved characters and JSON exports need no migration.
+    if (field.id === 'dying') {
+      return <DyingSkulls key={field.id} style={style} value={values.dying}
+        disabled={saving} onChange={next=>change('dying',next)}/>;
+    }
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
         rank={readRank(values[field.id]) ?? 0} style={style}
