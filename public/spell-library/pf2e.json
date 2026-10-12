@@ -520,8 +520,8 @@
       "cast": {
         "actions": 2
       },
-      "area": "15 футовый конус",
-      "savingThrow": "Стойкость",
+      "area": "Конус длиной 15 футов",
+      "savingThrow": "Спасбросок Стойкости",
       "resource": "none"
     },
     {
@@ -542,7 +542,7 @@
         "actions": 2
       },
       "range": "Касание",
-      "duration": "1 minute",
+      "duration": "1 минута",
       "resource": "none"
     },
     {
@@ -553,8 +553,8 @@
         "actions": 2
       },
       "range": "30 футов",
-      "area": "5 футовый куб",
-      "savingThrow": "простой Рефлекс",
+      "area": "Куб со стороной 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "resource": "none"
     },
     {
@@ -564,7 +564,7 @@
       "cast": {
         "actions": 2
       },
-      "duration": "10 minutes",
+      "duration": "10 минут",
       "resource": "none",
       "heightened": {
         "5": "Голос разносится на 1200 футов.",
@@ -579,8 +579,8 @@
         "actions": 2
       },
       "range": "30 футов",
-      "area": "5 футовый взрыв",
-      "savingThrow": "простой Рефлекс",
+      "area": "Взрыв радиусом 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "resource": "none"
     },
     {
@@ -591,7 +591,7 @@
         "actions": 2
       },
       "range": "Касание",
-      "duration": "10 minutes",
+      "duration": "10 минут",
       "resource": "none"
     },
     {
@@ -603,7 +603,7 @@
       },
       "range": "60 футов",
       "targets": "1 существо",
-      "savingThrow": "простой Воля",
+      "savingThrow": "Простой спасбросок Воли",
       "resource": "none",
       "heightened": {
         "+2": "Урон увеличивается на 1d6."
@@ -616,7 +616,7 @@
       "cast": {
         "actions": 1
       },
-      "duration": "10 minutes",
+      "duration": "10 минут",
       "resource": "none",
       "heightened": {
         "2": "Длительность — 1 час; разговор сокращает запас воздуха лишь на 10 минут.",
@@ -683,7 +683,7 @@
       "cast": {
         "time": "Реакция"
       },
-      "duration": "until the end of your next turn",
+      "duration": "до конца вашего следующего хода",
       "trigger": "Вы должны получить урон огнём.",
       "resource": "none",
       "heightened": {
@@ -699,7 +699,7 @@
       },
       "range": "30 футов",
       "targets": "1 или 2 существа",
-      "savingThrow": "простой Рефлекс",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "resource": "none",
       "heightened": {
         "+1": "Урон каждой цели увеличивается на 1d4."
@@ -714,7 +714,7 @@
       },
       "trigger": "Вы или существо в пределах 60 футов становится целью атаки заклинанием указанной стихии либо совершает спасбросок от него.",
       "requirements": "У вас имеется подходящая ячейка заклинания противодействующей стихии.",
-      "resource": "none"
+      "resource": "spell-slot"
     },
     {
       "id": "pf2e-figment-pf2e-remaster",
@@ -736,7 +736,7 @@
       },
       "range": "30 футов",
       "targets": "1 союзник и 1 враг",
-      "duration": "Поддерживаемое, до 1 minute",
+      "duration": "Поддерживаемое, до 1 минута",
       "resource": "none",
       "heightened": {
         "6": "Бонус состояния к КБ и спасброскам увеличивается до +2."
@@ -751,7 +751,7 @@
       },
       "range": "60 футов",
       "targets": "1 существо",
-      "savingThrow": "простой Стойкость",
+      "savingThrow": "Простой спасбросок Стойкости",
       "resource": "none",
       "heightened": {
         "+1": "Урон холодом увеличивается на 1d4, а слабость к дробящему урону при критическом провале — на 1."
@@ -776,7 +776,7 @@
         "actions": 2
       },
       "area": "5 футовая эманация",
-      "savingThrow": "Стойкость",
+      "savingThrow": "Спасбросок Стойкости",
       "resource": "none",
       "heightened": {
         "+1": "Урон увеличивается на 1d6."
@@ -806,7 +806,7 @@
       "cast": {
         "actions": 2
       },
-      "duration": "1 hour",
+      "duration": "1 час",
       "resource": "none"
     }
   ],
@@ -833,7 +833,8 @@
       "locale": "en",
       "name": "Ancient Dust",
       "description": "You exhale a 15-foot cone of grave dust. Creatures inside take void damage equal to your spellcasting ability modifier and 1 persistent void damage, depending on a Fortitude save. Critical success: no effect. Success: half the initial damage and no persistent damage. Failure: full initial and persistent damage. Critical failure: double initial and persistent damage. Heightened (+2 ranks): increase the initial damage by 1d6 and persistent damage by 1.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-approximate",
@@ -841,7 +842,8 @@
       "locale": "en",
       "name": "Approximate",
       "description": "You instantly estimate how many visible objects of a named kind occupy a 1-cubic-foot area within 10 feet. Round the count to its leading place value: 180 coins would be reported as approximately 200. You can specify a broad or narrow category, but its identifying features must be obvious to the eye. Disguised objects can mislead this spell.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-artistic-recollection",
@@ -849,7 +851,8 @@
       "locale": "en",
       "name": "Artistic Recollection",
       "description": "By touching an empty surface, you conjure a roughly sketchbook-sized image of a person, place, or object in the style of a pastel oil painting. You must have seen the subject or studied it thoroughly. The image appears instantly and fades cleanly when the one-minute duration ends.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-bramble-bush",
@@ -857,7 +860,8 @@
       "locale": "en",
       "name": "Bramble Bush",
       "description": "You grow a thorn-covered bush in a 5-foot cube within 30 feet; it lashes out and then withers. Creatures in the area take 1d4 piercing damage with a basic Reflex save. Until the beginning of your next turn, the square is difficult and hazardous terrain. A creature entering it suffers piercing damage equal to 1d4 plus half the spell's rank, rounded up, minus 1, with a basic Reflex save. Heightened (+2 ranks): the initial damage increases by 1d4, and the hazardous terrain damage by 1.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-bullhorn",
@@ -881,7 +885,8 @@
       "locale": "en",
       "name": "Caustic Blast",
       "description": "You throw an acidic glob that explodes into a 5-foot burst within 30 feet. Creatures in the burst suffer 1d8 acid damage, reduced or increased by a basic Reflex save. A critical failure also causes 1 persistent acid damage. Heightened (+2 ranks): add 1d8 to the initial damage and 1 to the persistent damage on a critical failure.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-create-earthen-facsimile",
@@ -889,7 +894,8 @@
       "locale": "en",
       "name": "Create Earthen Facsimile",
       "description": "You hold a little soil and shape it magically into a tiny, simple figurine. It retains its form for up to 10 minutes as long as it is left undisturbed, but it is brittle and easily crumbles under pressure. Once the spell expires, the miniature turns back into loose earth.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-daze",
@@ -1089,7 +1095,8 @@
       "locale": "en",
       "name": "Frost's Touch",
       "description": "A touch of supernatural chill cools an object within 30 feet, for example a drink or a hot cooking pot. You can freeze a tiny quantity of moisture into a crude, fragile ice object of negligible Bulk; it cannot serve as a spell component, tool, or weapon and melts under ordinary conditions. Heightened (3rd): create one rigid ice item up to 1 Bulk and item level 1. Heightened (5th): up to 4 Bulk and item level 4. Heightened (7th): up to 8 Bulk and item level 8. Heightened (9th): up to 20 Bulk and item level 12. Only one such ice item can exist at a time.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-gale-blast",
@@ -1113,7 +1120,8 @@
       "locale": "en",
       "name": "Ghost Sound",
       "description": "You produce an illusion of simple noises originating in a square within 30 feet. Their combined loudness can be no greater than four ordinary people shouting at once. The noises cannot form comprehensible words or complex music. You must Sustain the spell to keep the sound going. Heightened (3rd): the range becomes 60 feet. Heightened (5th): the range becomes 120 feet. This is a Legacy spell, not the Remaster replacement Figment.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     },
     {
       "spellId": "pf2e-glamorize",
@@ -1121,7 +1129,8 @@
       "locale": "en",
       "name": "Glamorize",
       "description": "You add a subtle magical flourish to your personal appearance or immediate surroundings for up to an hour: change your hair highlights or cosmetics, polish your nails, adjust flattering lighting, make your hair ripple briefly, or accompany a smile with a faint chime. You may Sustain the spell to revise these effects. With GM approval, the details might provide a +1 status bonus to an appropriate Impersonate or Performance check.",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
     }
   ],
   "sources": [
