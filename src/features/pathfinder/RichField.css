@@ -357,3 +357,31 @@
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"]:focus-visible {
   opacity:1;
 }
+
+/* PF spell tables: reserve an actual minimum for Prepared ("Да"/"Нет").
+   A white-space rule alone cannot stop breaks in a track narrower than a word. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {
+  min-width:2.5em;
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:keep-all;
+  hyphens:none;
+  text-align:center;
+}
+/* Center the delete control on the outer border, in the narrow gutter.
+   It stays outside the editable Prepared cell and is shown on card hover. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {
+  right:-.6em;
+  top:50%;
+  transform:translateY(-50%);
+  width:1.1em;
+  height:1.1em;
+  min-height:1.1em;
+  padding:0;
+  z-index:20;
+  opacity:0;
+}
+.pf-spell-table-rich [data-pf-spoiler="1"]:hover > [data-pf-spell-columns] [data-pf-spoiler-remove="1"],
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"]:focus-visible {
+  opacity:1;
+}
