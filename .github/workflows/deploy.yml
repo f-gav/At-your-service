@@ -54,6 +54,8 @@ jobs:
         run: |
           npx playwright install chromium
           npm run test:pdf-browser
+      - name: Verify library navigation in Chromium
+        run: npm run test:spell-library-browser
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload build artifact
