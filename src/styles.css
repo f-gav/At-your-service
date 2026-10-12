@@ -1,9 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 /* At your service! — Visual version #1 (refinement)
    Inspired by the supplied homepage mockup. No auth or database changes. */
 @font-face {
   font-family: 'Tilda Script';
   src: url('./assets/tilda-script-labels.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+/* Original uploaded Tilda Script SemiBold, subset to the exact characters
+   of the Pr. Moon card label. Its r and o are included and connect correctly. */
+@font-face {
+  font-family: 'Tilda Script Moon';
+  src: url('./assets/tilda-script-prmoon-semibold.woff2') format('woff2');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -422,15 +430,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* Project Moon uses an understated navy, bookish serif label rather than the generic script badge. */
 .character-prmoon .character-system { color: #29445f; }
 
-/* The header's "At your service!" is wordmark.svg (outlined vector
-   paths), not live text rendered with this webfont. Therefore the wordmark
-   cannot prove that our small tilda-script-labels.woff2 subset supports
-   every letter in "Pr. Moon". Keep its entire label in one complete Latin
-   script font to avoid mixed-glyph fallback. Other systems retain Tilda. */
+/* Use the user's original connected Tilda Script SemiBold for Pr. Moon.
+   Match the other badges' weight and size, but preserve Pr. Moon's navy hue.
+   This complete word-specific subset includes every glyph: P r . M o n. */
 .character-prmoon .character-system {
-  font-family: 'Lobster', 'Segoe Script', 'Brush Script MT', cursive;
+  font-family: 'Tilda Script Moon', 'Tilda Script', Georgia, cursive;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
   letter-spacing: 0;
 }
