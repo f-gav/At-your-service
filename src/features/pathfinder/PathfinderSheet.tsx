@@ -71,7 +71,7 @@ export default function PathfinderSheet({
   async function exportPdf(){
     if(pdfInFlight.current||!pdfRoot.current)return;
     pdfInFlight.current=true;setExportingPdf(true);setPdfError('');
-    try{await exportRenderedSheetPdf(pdfRoot.current,name,'pf2e');}
+    try{await exportRenderedSheetPdf(pdfRoot.current,String(values.name??character.name),'pf2e');}
     catch(cause){setPdfError(cause instanceof Error?cause.message:'Ошибка экспорта PDF.');}
     finally{
       pdfInFlight.current=false;setExportingPdf(false);
