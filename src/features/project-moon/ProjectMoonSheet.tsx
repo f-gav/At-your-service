@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowLeft, Cloud, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Cloud, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import PortraitImage from '../portrait/PortraitImage';
@@ -8,7 +8,7 @@ import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
 import {
   MOON_PAGES, MOON_ATTRIBUTES, readMoonSheet, saveMoonSheet,
-  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill,
+  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill, addMoonWeapon, moonWeaponLetter,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
@@ -38,6 +38,37 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const [name, setName] = useState(character.name);
   const [sheet, setSheet] = useState(() => readMoonSheet(character.details));
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [weaponOffset, setWeaponOffset] = useState(0);
+  const weaponViewportRef = useRef<HTMLDivElement>(null);
+  const [compactWeapons, setCompactWeapons] = useState(() => window.matchMedia('(max-width: 660px)').matches);
+  const visibleWeapons = compactWeapons ? 1 : 2;
+  const maxWeaponOffset = Math.max(0, sheet.weapons.length - visibleWeapons);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 660px)');
+    const update = () => setCompactWeapons(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  useEffect(() => {
+    if (weaponOffset > maxWeaponOffset) setWeaponOffset(maxWeaponOffset);
+  }, [weaponOffset, maxWeaponOffset]);
+  useEffect(() => {
+    const viewport = weaponViewportRef.current;
+    const cards = viewport?.querySelectorAll<HTMLElement>('.moon-weapon-card');
+    if (!viewport || !cards?.length) return;
+    const target = cards[Math.min(weaponOffset, cards.length - 1)].offsetLeft - cards[0].offsetLeft;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    viewport.scrollTo({
+      left: target,
+      behavior: sheet.smoothWeaponSwitch && !reducedMotion ? 'smooth' : 'instant',
+    });
+  }, [weaponOffset, sheet.smoothWeaponSwitch, sheet.weapons.length, compactWeapons]);
+  const addWeapon = () => {
+    if (saving || sheet.weapons.length >= 100) return;
+    const length = sheet.weapons.length;
+    setSheet(old => addMoonWeapon(old, 'weapon-' + crypto.randomUUID()));
+    setWeaponOffset(Math.max(0, length + 1 - visibleWeapons));
+  };
   const [pageSettingsOpen, setPageSettingsOpen] = useState(false);
   const [navigationHelp, setNavigationHelp] = useState<boolean>(() => {
     try { return window.localStorage.getItem('ays-prmoon-navigation-help') === '1'; }
@@ -113,6 +144,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     setSheet(old => ({ ...old, skills: old.skills.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
   const updateNote = (index: number, patch: Partial<MoonItem>) =>
     setSheet(old => ({ ...old, notes: old.notes.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
+  const updateWeaponById = (id: string, patch: Partial<MoonWeapon>) =>
+    setSheet(old => ({ ...old, weapons: old.weapons.map(entry => entry.id === id ? { ...entry, ...patch } : entry) }));
   const changeMax = (id: MoonResourceId, value: string) => setSheet(old => {
     if (moonCalculatedMax(old, id) !== null) {
       return { ...old, maxOverrides: { ...old.maxOverrides, [id]: value } };
@@ -216,6 +249,11 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               Автоматический подсчёт HP / ST / SP
             </label>
             <label className="pf-settings-option">
+              <input type="checkbox" disabled={saving} checked={sheet.smoothWeaponSwitch}
+                onChange={event => setSheet(old => ({...old, smoothWeaponSwitch: event.target.checked}))}/>
+              Плавная анимация переключения
+            </label>
+            <label className="pf-settings-option">
               <input type="checkbox" checked={navigationHelp} onChange={event => setNavigationHelp(event.target.checked)}/>
               Помощь в навигации
             </label>
@@ -317,50 +355,75 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           </div>
         </section>
         <section className="moon-section">
-          {sectionTitle(2, 'Основное оружие')}
-          <div className="moon-two-columns">
-            {sheet.weapons.map((weapon, index) => <div className="moon-card moon-weapon-card" key={weapon.id}>
-              <div className="moon-card-heading">
-                <strong>ОРУЖИЕ {index === 0 ? 'A' : 'B'}</strong>
-                <span className="moon-card-meta">
-                  <label>РАНГ <input aria-label={'Ранг оружия ' + (index + 1)} disabled={saving}
-                    value={weapon.rank ?? ''} onChange={e => updateWeapon(index, {rank:e.target.value})} /></label>
-                  <label>EP <input aria-label={'EP оружия ' + (index + 1)} disabled={saving}
-                    value={weapon.ep ?? ''} onChange={e => updateWeapon(index, {ep:e.target.value})} /></label>
-                </span>
-              </div>
-              <label className="moon-compact-field"><strong>Название:</strong>
-                <input disabled={saving} value={weapon.name} onChange={e=>updateWeapon(index,{name:e.target.value})}
-                  aria-label={'Название оружия ' + (index + 1)} /></label>
-              <div className="moon-choice-row"><span>Тип:</span>
-                {['ближнее','дальнее'].map(value=><label key={value}><input type="radio" disabled={saving}
-                  name={'moon-weapon-kind-' + index} checked={(weapon.kind ?? '')===value}
-                  onChange={()=>updateWeapon(index,{kind:value})}/>{value}</label>)}
-              </div>
-              <div className="moon-choice-row"><span>Урон:</span>
-                {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'}]
-                  .map(({value,label})=><label key={value}><input type="radio" disabled={saving}
-                  name={'moon-weapon-damage-' + index} checked={(weapon.damage ?? '')===value}
-                  onChange={()=>updateWeapon(index,{damage:value})}/>{label}</label>)}
-              </div>
-              <div className="moon-weapon-secondary">
-                <label>Кости <input disabled={saving} aria-label={'Кости оружия ' + (index + 1)}
-                  value={weapon.dice} onChange={e=>updateWeapon(index,{dice:e.target.value})} /></label>
-                <label>Форма <input disabled={saving} aria-label={'Форма оружия ' + (index + 1)}
-                  value={weapon.form ?? ''} onChange={e=>updateWeapon(index,{form:e.target.value})} /></label>
-              </div>
-              <label className="moon-compact-field"><span>Хват / свойства:</span>
-                <input disabled={saving} value={weapon.grip ?? ''} onChange={e=>updateWeapon(index,{grip:e.target.value})}
-                  aria-label={'Хват и свойства оружия ' + (index + 1)} /></label>
-              <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
-                <RichField id={'moon-' + weapon.id} label={'Эффекты оружия ' + (index + 1)}
-                  value={weapon.description} onChange={value=>updateWeapon(index,{description:value})}
-                  disabled={saving} grow placeholder="Эффекты и условия…" />
-              </div>
-              <label className="moon-compact-field moon-bonus-field"><span>Доп. бонус:</span>
-                <input disabled={saving} value={weapon.bonus} onChange={e=>updateWeapon(index,{bonus:e.target.value})}
-                  aria-label={'Дополнительный бонус оружия ' + (index + 1)} /></label>
-            </div>)}
+          <div className="moon-weapon-section-heading">
+            {sectionTitle(2, 'Основное оружие')}
+            <div className="moon-weapon-pagination" role="group" aria-label="Переключение оружия">
+              <button type="button" aria-label="Предыдущее оружие" title="Предыдущее оружие"
+                disabled={weaponOffset === 0}
+                onClick={() => setWeaponOffset(value => Math.max(0,value-1))}><ChevronLeft size={17}/></button>
+              <span aria-live="polite">
+                {moonWeaponLetter(weaponOffset)}–{moonWeaponLetter(Math.min(weaponOffset + visibleWeapons - 1,sheet.weapons.length-1))}
+                <small> / {sheet.weapons.length}</small>
+              </span>
+              <button type="button" aria-label="Следующее оружие" title="Следующее оружие"
+                disabled={weaponOffset >= maxWeaponOffset}
+                onClick={() => setWeaponOffset(value => Math.min(maxWeaponOffset,value+1))}><ChevronRight size={17}/></button>
+              <button type="button" className="moon-add-weapon-mobile" aria-label="Добавить оружие"
+                title="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
+                onClick={addWeapon}><Plus size={16}/></button>
+            </div>
+          </div>
+          <div className="moon-weapon-carousel" ref={weaponViewportRef} aria-label="Карточки оружия">
+            <div className="moon-weapon-track">
+              {sheet.weapons.map((weapon, index) => <div className="moon-card moon-weapon-card" key={weapon.id}
+                inert={index < weaponOffset || index >= weaponOffset + visibleWeapons}>
+                <div className="moon-card-heading moon-weapon-heading">
+                  <input type="text" className="moon-weapon-title" maxLength={160} disabled={saving}
+                    aria-label={'Название оружия ' + moonWeaponLetter(index)}
+                    value={weapon.name}
+                    placeholder={'ОРУЖИЕ ' + moonWeaponLetter(index)}
+                    onChange={event => updateWeaponById(weapon.id,{name:event.target.value})}/>
+                  <span className="moon-card-meta">
+                    <label>РАНГ <input aria-label={'Ранг оружия ' + (index + 1)} disabled={saving}
+                      value={weapon.rank ?? ''} onChange={e => updateWeaponById(weapon.id,{rank:e.target.value})} /></label>
+                    <label>EP <input aria-label={'EP оружия ' + (index + 1)} disabled={saving}
+                      value={weapon.ep ?? ''} onChange={e => updateWeaponById(weapon.id,{ep:e.target.value})} /></label>
+                    {index === weaponOffset + visibleWeapons - 1 &&
+                      <button type="button" className="moon-add-weapon" title="Добавить оружие"
+                        aria-label="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
+                        onClick={addWeapon}><Plus size={15}/></button>}
+                  </span>
+                </div>
+                <div className="moon-choice-row"><span>Тип:</span>
+                  {['ближнее','дальнее'].map(value=><label key={value}><input type="radio" disabled={saving}
+                    name={'moon-weapon-kind-' + weapon.id} checked={(weapon.kind ?? '')===value}
+                    onChange={()=>updateWeaponById(weapon.id,{kind:value})}/>{value}</label>)}
+                </div>
+                <div className="moon-choice-row"><span>Урон:</span>
+                  {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'}]
+                    .map(({value,label})=><label key={value}><input type="radio" disabled={saving}
+                    name={'moon-weapon-damage-' + weapon.id} checked={(weapon.damage ?? '')===value}
+                    onChange={()=>updateWeaponById(weapon.id,{damage:value})}/>{label}</label>)}
+                </div>
+                <div className="moon-weapon-secondary">
+                  <label>Кости <input disabled={saving} aria-label={'Кости оружия ' + (index + 1)}
+                    value={weapon.dice} onChange={e=>updateWeaponById(weapon.id,{dice:e.target.value})} /></label>
+                  <label>Форма <input disabled={saving} aria-label={'Форма оружия ' + (index + 1)}
+                    value={weapon.form ?? ''} onChange={e=>updateWeaponById(weapon.id,{form:e.target.value})} /></label>
+                </div>
+                <label className="moon-compact-field"><span>Хват / свойства:</span>
+                  <input disabled={saving} value={weapon.grip ?? ''} onChange={e=>updateWeaponById(weapon.id,{grip:e.target.value})}
+                    aria-label={'Хват и свойства оружия ' + (index + 1)} /></label>
+                <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
+                  <RichField id={'moon-' + weapon.id} label={'Эффекты оружия ' + (index + 1)}
+                    value={weapon.description} onChange={value=>updateWeaponById(weapon.id,{description:value})}
+                    disabled={saving} grow placeholder="Эффекты и условия…" />
+                </div>
+                <label className="moon-compact-field moon-bonus-field"><span>Доп. бонус:</span>
+                  <input disabled={saving} value={weapon.bonus} onChange={e=>updateWeaponById(weapon.id,{bonus:e.target.value})}
+                    aria-label={'Дополнительный бонус оружия ' + (index + 1)} /></label>
+              </div>)}
+            </div>
           </div>
         </section>
         <section className="moon-section">
