@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Этот документ ведётся **нарастающим итогом** после каждой волны. Он отражает язык карточек **на нашем сайте**, а не категорическое отсутствие переводов в интернете.
 
-**Импортировано:** 48 чар из 71, **на русском:** 29, **только на английском:** 19.
+**Импортировано:** 71 чары из 71, **на русском:** 48, **только на английском:** 23.
 
 ## Волна 001 — 9 английских
 
@@ -28,6 +28,13 @@
 8. **Know the Way** — `know-the-way` · Remaster · Pathfinder Player Core
 9. **Live Wire** — `live-wire` · Remaster · Pathfinder Player Core 2
 10. **Musical Accompaniment** — `musical-accompaniment` · Remaster · Pathfinder Impossible Magic
+
+## Волна 003 — 4 английских
+
+1. **Root Reading** — `root-reading` · Remaster · Pathfinder Rage of Elements
+2. **Take Root** — `take-root` · Remaster · Pathfinder Rage of Elements
+3. **Timber** — `timber` · Remaster · Pathfinder Rage of Elements
+4. **Torturous Trauma** — `torturous-trauma` · Legacy · Pathfinder #186: Ghost King's Rage
 
 ## Правило дальнейшей работы
 
