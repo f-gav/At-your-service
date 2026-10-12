@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Этот документ ведётся **нарастающим итогом** после каждой волны. Он отражает язык карточек **на нашем сайте**, а не категорическое отсутствие переводов в интернете.
 
-**Импортировано:** 71 чары из 71, **на русском:** 48, **только на английском:** 23.
+**Импортировано:** 71 чары и 24 заклинания 1-го круга (95 записей). **На русском:** 61, **только на английском:** 34.
 
 ## Волна 001 — 9 английских
 
@@ -35,6 +35,20 @@
 2. **Take Root** — `take-root` · Remaster · Pathfinder Rage of Elements
 3. **Timber** — `timber` · Remaster · Pathfinder Rage of Elements
 4. **Torturous Trauma** — `torturous-trauma` · Legacy · Pathfinder #186: Ghost King's Rage
+
+## Заклинания 1-го круга — волна 001 (11 английских)
+
+1. **500 Toads** — `500-toads` · Remaster · Pathfinder NPC Core
+2. **Admonishing Ray** — `admonishing-ray` · Legacy · Pathfinder #158: Sixty Feet Under
+3. **Airburst** — `airburst` · Legacy · Pathfinder #169: Kindled Magic
+4. **Aqueous Blast** — `aqueous-blast` · Legacy · Pathfinder Kingmaker
+5. **Armor of Thorn and Claw** — `armor-of-thorn-and-claw` · Remaster · Pathfinder Lost Omens Draconic Codex
+6. **Benediction** — `benediction` · Remaster · Pathfinder Lost Omens Divine Mysteries
+7. **Beseech the Sphinx** — `beseech-the-sphinx` · Remaster · Pathfinder Lost Omens Rival Academies
+8. **Blessing of Vigor** — `blessing-of-vigor` · Remaster · Pathfinder Impossible Magic
+9. **Bone Shield** — `bone-shield` · Remaster · Pathfinder Impossible Magic
+10. **Breathe Fire** — `breathe-fire` · Remaster · Pathfinder Player Core
+11. **Briny Bolt** — `briny-bolt` · Remaster · Pathfinder Adventure Path: Gatewalkers
 
 ## Правило дальнейшей работы
 
