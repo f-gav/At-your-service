@@ -313,7 +313,7 @@ export default function PathfinderSheet({
         ...style,
         '--pf-spell-span-width': `${100*tableSpan.width/PDF_WIDTH}cqw`,
         '--pf-spell-span-offset': `${100*tableSpan.offset/PDF_WIDTH}cqw`,
-        '--pf-spell-heading-columns': tableSpan.columns.map(w=>`${w}fr`).join(' '),
+        '--pf-spell-heading-columns': tableSpan.columns.map((w,i)=>i===tableSpan.columns.length-1?`minmax(2.5em, ${w}fr)`:`minmax(0, ${w}fr)`).join(' '),
       } as CSSProperties : style;
       return <RichField key={field.id} id={id} label={field.label}
         className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}${tableSpan ? ' pf-spell-table-rich' : ''}`}
