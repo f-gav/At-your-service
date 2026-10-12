@@ -11,7 +11,7 @@ export const PF_SPELL_TABLES = [
   ['spellbook_right_names','spellbook_right_actions','spellbook_right_ranks','spellbook_right_prepared'],
 ] as const;
 
-export type SpellTableSpan = { width: number; offset: number; columns: number[] };
+export type SpellTableSpan = { width: number; offset: number; columns: number[]; tracks: number[] };
 
 export function spellTableSpan(field: EditableField, fields: readonly EditableField[]): SpellTableSpan | null {
   if (field.page !== 4 || field.kind !== 'long') return null;
@@ -25,5 +25,7 @@ export function spellTableSpan(field: EditableField, fields: readonly EditableFi
   const right = Math.max(...boxes.map(box => box.x + box.w));
   const offset = fieldBox(field).x - left;
   if (!Number.isFinite(left) || !Number.isFinite(right) || right <= left) return null;
-  return { width: right-left, offset, columns: boxes.map(box => box.w) };
+  const starts=boxes.map(box=>box.x);
+  const tracks=starts.map((x,i)=>(i+1<starts.length?starts[i+1]:right)-x);
+  return { width: right-left, offset, columns: boxes.map(box => box.w), tracks };
 }
