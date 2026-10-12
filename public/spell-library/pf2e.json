@@ -1,8 +1,1201 @@
 {
   "schemaVersion": 1,
   "system": "pf2e",
-  "spells": [],
-  "versions": [],
-  "translations": [],
-  "sources": []
+  "spells": [
+    {
+      "id": "pf2e-acid-splash",
+      "system": "pf2e",
+      "slug": "acid-splash",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-ancient-dust",
+      "system": "pf2e",
+      "slug": "ancient-dust",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "void"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-186-ghost-king-s-rage"
+    },
+    {
+      "id": "pf2e-approximate",
+      "system": "pf2e",
+      "slug": "approximate",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-artistic-recollection",
+      "system": "pf2e",
+      "slug": "artistic-recollection",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-bramble-bush",
+      "system": "pf2e",
+      "slug": "bramble-bush",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-203-shepherd-of-decay"
+    },
+    {
+      "id": "pf2e-bullhorn",
+      "system": "pf2e",
+      "slug": "bullhorn",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-caustic-blast",
+      "system": "pf2e",
+      "slug": "caustic-blast",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-create-earthen-facsimile",
+      "system": "pf2e",
+      "slug": "create-earthen-facsimile",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-daze",
+      "system": "pf2e",
+      "slug": "daze",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-deep-breath",
+      "system": "pf2e",
+      "slug": "deep-breath",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "cantrip",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-detect-magic",
+      "system": "pf2e",
+      "slug": "detect-magic",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-detect-metal",
+      "system": "pf2e",
+      "slug": "detect-metal",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-divine-lance",
+      "system": "pf2e",
+      "slug": "divine-lance",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "sanctified",
+        "spirit"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-draw-moisture",
+      "system": "pf2e",
+      "slug": "draw-moisture",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-eat-fire",
+      "system": "pf2e",
+      "slug": "eat-fire",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-electric-arc",
+      "system": "pf2e",
+      "slug": "electric-arc",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "electricity",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-elemental-counter",
+      "system": "pf2e",
+      "slug": "elemental-counter",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-figment",
+      "system": "pf2e",
+      "slug": "figment",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-forbidding-ward",
+      "system": "pf2e",
+      "slug": "forbidding-ward",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-frostbite",
+      "system": "pf2e",
+      "slug": "frostbite",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "cold",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-frosts-touch",
+      "system": "pf2e",
+      "slug": "frosts-touch",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "cold",
+        "concentrate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-treasure-vault-remastered"
+    },
+    {
+      "id": "pf2e-gale-blast",
+      "system": "pf2e",
+      "slug": "gale-blast",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-ghost-sound",
+      "system": "pf2e",
+      "slug": "ghost-sound",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-glamorize",
+      "system": "pf2e",
+      "slug": "glamorize",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-acid-splash-pf2e-legacy",
+      "spellId": "pf2e-acid-splash",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "3": "Основной урон 2d6, продолжительный урон 2.",
+        "5": "Основной урон 3d6, продолжительный урон 3, урон брызгами 2.",
+        "7": "Основной урон 4d6, продолжительный урон 4, урон брызгами 3.",
+        "9": "Основной урон 5d6, продолжительный урон 5, урон брызгами 4."
+      }
+    },
+    {
+      "id": "pf2e-ancient-dust-pf2e-legacy",
+      "spellId": "pf2e-ancient-dust",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Конус длиной 15 футов",
+      "savingThrow": "Спасбросок Стойкости",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-approximate-pf2e-remaster",
+      "spellId": "pf2e-approximate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-artistic-recollection-pf2e-remaster",
+      "spellId": "pf2e-artistic-recollection",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "duration": "1 минута",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-bramble-bush-pf2e-remaster",
+      "spellId": "pf2e-bramble-bush",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "Куб со стороной 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-bullhorn-pf2e-remaster",
+      "spellId": "pf2e-bullhorn",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "5": "Голос разносится на 1200 футов.",
+        "7": "Голос слышен на расстоянии до 1 мили."
+      }
+    },
+    {
+      "id": "pf2e-caustic-blast-pf2e-remaster",
+      "spellId": "pf2e-caustic-blast",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "Взрыв радиусом 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-create-earthen-facsimile-pf2e-remaster",
+      "spellId": "pf2e-create-earthen-facsimile",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "duration": "10 минут",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-daze-pf2e-remaster",
+      "spellId": "pf2e-daze",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Простой спасбросок Воли",
+      "resource": "none",
+      "heightened": {
+        "+2": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-deep-breath-pf2e-remaster",
+      "spellId": "pf2e-deep-breath",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "2": "Длительность — 1 час; разговор сокращает запас воздуха лишь на 10 минут.",
+        "4": "Длительность — 8 часов; разговор уменьшает запас на 10 минут."
+      }
+    },
+    {
+      "id": "pf2e-detect-magic-pf2e-remaster",
+      "spellId": "pf2e-detect-magic",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "30 футовая эманация",
+      "resource": "none",
+      "heightened": {
+        "3": "Определяется круг самого сильного обнаруженного магического эффекта.",
+        "4": "Вы также приблизительно определяете местоположение источника самой сильной магии с точностью до 5-футового куба."
+      }
+    },
+    {
+      "id": "pf2e-detect-metal-pf2e-remaster",
+      "spellId": "pf2e-detect-metal",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "30 футовая эманация",
+      "resource": "none",
+      "heightened": {
+        "3": "Вы различаете виды обнаруженного металла и можете преодолеть иллюзию, маскирующую один металл под другой, если её круг ниже круга чар."
+      }
+    },
+    {
+      "id": "pf2e-divine-lance-pf2e-remaster",
+      "spellId": "pf2e-divine-lance",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-draw-moisture-pf2e-remaster",
+      "spellId": "pf2e-draw-moisture",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "targets": "1 object",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-eat-fire-pf2e-remaster",
+      "spellId": "pf2e-eat-fire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "Реакция"
+      },
+      "duration": "до конца вашего следующего хода",
+      "trigger": "Вы должны получить урон огнём.",
+      "resource": "none",
+      "heightened": {
+        "+3": "Сопротивление огню увеличивается на 5."
+      }
+    },
+    {
+      "id": "pf2e-electric-arc-pf2e-remaster",
+      "spellId": "pf2e-electric-arc",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 или 2 существа",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон каждой цели увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-elemental-counter-pf2e-remaster",
+      "spellId": "pf2e-elemental-counter",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "Реакция"
+      },
+      "trigger": "Вы или существо в пределах 60 футов становится целью атаки заклинанием указанной стихии либо совершает спасбросок от него.",
+      "requirements": "У вас имеется подходящая ячейка заклинания противодействующей стихии.",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-figment-pf2e-remaster",
+      "spellId": "pf2e-figment",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "duration": "Поддерживаемое",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-forbidding-ward-pf2e-remaster",
+      "spellId": "pf2e-forbidding-ward",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 союзник и 1 враг",
+      "duration": "Поддерживаемое, до 1 минута",
+      "resource": "none",
+      "heightened": {
+        "6": "Бонус состояния к КБ и спасброскам увеличивается до +2."
+      }
+    },
+    {
+      "id": "pf2e-frostbite-pf2e-remaster",
+      "spellId": "pf2e-frostbite",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон холодом увеличивается на 1d4, а слабость к дробящему урону при критическом провале — на 1."
+      }
+    },
+    {
+      "id": "pf2e-frosts-touch-pf2e-remaster",
+      "spellId": "pf2e-frosts-touch",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 предмет",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-gale-blast-pf2e-remaster",
+      "spellId": "pf2e-gale-blast",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "5 футовая эманация",
+      "savingThrow": "Спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      },
+      "outcomes": {
+        "criticalSuccess": "Без эффекта.",
+        "success": "Половина урона.",
+        "failure": "Полный урон и отталкивание на 5 футов.",
+        "criticalFailure": "Двойной урон и отталкивание на 10 футов."
+      }
+    },
+    {
+      "id": "pf2e-ghost-sound-pf2e-legacy",
+      "spellId": "pf2e-ghost-sound",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "duration": "Поддерживаемое",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-glamorize-pf2e-remaster",
+      "spellId": "pf2e-glamorize",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 час",
+      "resource": "none"
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-acid-splash",
+      "versionId": "pf2e-acid-splash-pf2e-legacy",
+      "locale": "en",
+      "name": "Acid Splash",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-acid-splash",
+      "versionId": "pf2e-acid-splash-pf2e-legacy",
+      "locale": "ru",
+      "name": "Всплеск кислоты",
+      "description": "Вы бросаете в цель сгусток кислоты. Совершите атаку заклинанием по КБ существа в пределах дистанции. При попадании цель получает 1d6 урона кислотой, а брызги наносят ещё 1 единицу урона кислотой в соответствии с правилами разбрызгивания. При критическом попадании цель дополнительно получает продолжительный урон кислотой, равный половине круга заклинания с округлением вверх. Эта версия заклинания относится к Legacy; в Remaster используется другое заклинание — Caustic Blast.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русских PDF pf2.ru; описание адаптировано для At your service!"
+    },
+    {
+      "spellId": "pf2e-ancient-dust",
+      "versionId": "pf2e-ancient-dust-pf2e-legacy",
+      "locale": "en",
+      "name": "Ancient Dust",
+      "description": "You exhale a 15-foot cone of grave dust. Creatures inside take void damage equal to your spellcasting ability modifier and 1 persistent void damage, depending on a Fortitude save. Critical success: no effect. Success: half the initial damage and no persistent damage. Failure: full initial and persistent damage. Critical failure: double initial and persistent damage. Heightened (+2 ranks): increase the initial damage by 1d6 and persistent damage by 1.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-approximate",
+      "versionId": "pf2e-approximate-pf2e-remaster",
+      "locale": "en",
+      "name": "Approximate",
+      "description": "You instantly estimate how many visible objects of a named kind occupy a 1-cubic-foot area within 10 feet. Round the count to its leading place value: 180 coins would be reported as approximately 200. You can specify a broad or narrow category, but its identifying features must be obvious to the eye. Disguised objects can mislead this spell.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-artistic-recollection",
+      "versionId": "pf2e-artistic-recollection-pf2e-remaster",
+      "locale": "en",
+      "name": "Artistic Recollection",
+      "description": "By touching an empty surface, you conjure a roughly sketchbook-sized image of a person, place, or object in the style of a pastel oil painting. You must have seen the subject or studied it thoroughly. The image appears instantly and fades cleanly when the one-minute duration ends.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-bramble-bush",
+      "versionId": "pf2e-bramble-bush-pf2e-remaster",
+      "locale": "en",
+      "name": "Bramble Bush",
+      "description": "You grow a thorn-covered bush in a 5-foot cube within 30 feet; it lashes out and then withers. Creatures in the area take 1d4 piercing damage with a basic Reflex save. Until the beginning of your next turn, the square is difficult and hazardous terrain. A creature entering it suffers piercing damage equal to 1d4 plus half the spell's rank, rounded up, minus 1, with a basic Reflex save. Heightened (+2 ranks): the initial damage increases by 1d4, and the hazardous terrain damage by 1.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-bullhorn",
+      "versionId": "pf2e-bullhorn-pf2e-remaster",
+      "locale": "en",
+      "name": "Bullhorn",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bullhorn",
+      "versionId": "pf2e-bullhorn-pf2e-remaster",
+      "locale": "ru",
+      "name": "Рупор",
+      "description": "Ваш голос становится слышен отчётливо на расстоянии до 500 футов даже среди обычного шума. Заклинание не позволяет обходить стены и не увеличивает дальность других звуковых или языковых эффектов. Вы получаете бонус состояния +1 к проверкам Принуждения, а также к проверкам выступления, основанным на звуке, на большой площадке. Заклинание можно завершить досрочно.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русских PDF pf2.ru; описание адаптировано для At your service!"
+    },
+    {
+      "spellId": "pf2e-caustic-blast",
+      "versionId": "pf2e-caustic-blast-pf2e-remaster",
+      "locale": "en",
+      "name": "Caustic Blast",
+      "description": "You throw an acidic glob that explodes into a 5-foot burst within 30 feet. Creatures in the burst suffer 1d8 acid damage, reduced or increased by a basic Reflex save. A critical failure also causes 1 persistent acid damage. Heightened (+2 ranks): add 1d8 to the initial damage and 1 to the persistent damage on a critical failure.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-create-earthen-facsimile",
+      "versionId": "pf2e-create-earthen-facsimile-pf2e-remaster",
+      "locale": "en",
+      "name": "Create Earthen Facsimile",
+      "description": "You hold a little soil and shape it magically into a tiny, simple figurine. It retains its form for up to 10 minutes as long as it is left undisturbed, but it is brittle and easily crumbles under pressure. Once the spell expires, the miniature turns back into loose earth.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-daze",
+      "versionId": "pf2e-daze-pf2e-remaster",
+      "locale": "en",
+      "name": "Daze",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-daze",
+      "versionId": "pf2e-daze-pf2e-remaster",
+      "locale": "ru",
+      "name": "Ступор",
+      "description": "Вы воздействуете на разум существа на расстоянии до 60 футов. Цель получает 1d6 ментального несмертельного урона с простым спасброском Воли. При критическом провале спасброска цель дополнительно получает состояние «Ошеломлён 1».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-deep-breath",
+      "versionId": "pf2e-deep-breath-pf2e-remaster",
+      "locale": "en",
+      "name": "Deep Breath",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-deep-breath",
+      "versionId": "pf2e-deep-breath-pf2e-remaster",
+      "locale": "ru",
+      "name": "Глубокий вдох",
+      "description": "Вы делаете глубокий вдох и удерживаете его до конца действия чар, не теряя запас воздуха от получения урона. Разговор, включая словесное сотворение заклинания, немедленно расходует весь запас. Чары не создают воздух: если вдохнуть нечего, они не помогут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-detect-magic",
+      "versionId": "pf2e-detect-magic-pf2e-remaster",
+      "locale": "en",
+      "name": "Detect Magic",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-detect-magic",
+      "versionId": "pf2e-detect-magic-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обнаружение магии",
+      "description": "Вы посылаете магический импульс на 30 футов вокруг себя и узнаёте, есть ли магия в области, но не определяете её природу или точное местоположение. По желанию можно исключить заранее известные вам предметы и эффекты. Обманчивые иллюзии обнаруживаются, только когда их круг ниже круга ваших чар; не скрывающие внешний вид ауры обычно обнаруживаются.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-detect-metal",
+      "versionId": "pf2e-detect-metal-pf2e-remaster",
+      "locale": "en",
+      "name": "Detect Metal",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-detect-metal",
+      "versionId": "pf2e-detect-metal-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обнаружение металла",
+      "description": "Вы чувствуете, присутствует ли металл в пределах 30 футов: предметы, жилы и залежи. Известное вам снаряжение можно игнорировать. Иллюзии могут скрыть металл, если их круг не ниже круга чар; обманный образ предмета из другого материала также может исказить впечатление. На базовом круге определяется лишь наличие металла, а не его разновидность.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-divine-lance",
+      "versionId": "pf2e-divine-lance-pf2e-remaster",
+      "locale": "en",
+      "name": "Divine Lance",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-divine-lance",
+      "versionId": "pf2e-divine-lance-pf2e-remaster",
+      "locale": "ru",
+      "name": "Божественное копьё",
+      "description": "Вы выпускаете направленный луч божественной силы. Совершите дистанционную атаку заклинанием по КБ одного существа в пределах 60 футов. Попадание наносит 2d4 духовного урона, а критическое попадание — двойной урон. Эффект имеет черты «освящённый» и «духовный».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-draw-moisture",
+      "versionId": "pf2e-draw-moisture-pf2e-remaster",
+      "locale": "en",
+      "name": "Draw Moisture",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-draw-moisture",
+      "versionId": "pf2e-draw-moisture-pf2e-remaster",
+      "locale": "ru",
+      "name": "Вытянуть влагу",
+      "description": "Вы извлекаете до одной пинты воды из предмета в пределах 10 футов; этого достаточно, чтобы высушить предмет с массой менее 1 единицы. Вода собирается у вас в руке: во время сотворения можно перелить её в сосуд, иначе она падает на землю. Повторное применение помогает сушить более крупные предметы. При достаточной влажности воздух тоже можно использовать для получения небольшого количества питьевой воды.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-eat-fire",
+      "versionId": "pf2e-eat-fire-pf2e-remaster",
+      "locale": "en",
+      "name": "Eat Fire",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-eat-fire",
+      "versionId": "pf2e-eat-fire-pf2e-remaster",
+      "locale": "ru",
+      "name": "Глотать пламя",
+      "description": "Вы поглощаете пламя, уменьшая его вред: до конца текущего хода получаете сопротивление огню 5. До конца следующего хода можете отдельным действием выдохнуть дым, создав 5-футовый взрыв дымовой завесы в пределах 20 футов: существа внутри скрыты друг от друга, пока дым не рассеется (не более 1 минуты). Чары завершаются, если вы теряете сознание, вдыхаете или выдыхаете, в том числе при разговоре.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-electric-arc",
+      "versionId": "pf2e-electric-arc-pf2e-remaster",
+      "locale": "en",
+      "name": "Electric Arc",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-electric-arc",
+      "versionId": "pf2e-electric-arc-pf2e-remaster",
+      "locale": "ru",
+      "name": "Электрическая дуга",
+      "description": "Разряд электричества поражает одно или два существа в пределах 30 футов. Каждая цель получает 2d4 урона электричеством с простым спасброском Рефлекса. В Remaster базовый урон составляет именно 2d4, без прибавления модификатора характеристики заклинателя.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-elemental-counter",
+      "versionId": "pf2e-elemental-counter-pf2e-remaster",
+      "locale": "en",
+      "name": "Elemental Counter",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-elemental-counter",
+      "versionId": "pf2e-elemental-counter-pf2e-remaster",
+      "locale": "ru",
+      "name": "Стихийная нейтрализация",
+      "description": "В качестве реакции вы расходуете подготовленное или доступное заклинание из соответствующей ячейки, чтобы противодействовать эффекту враждебной стихии. Растения и дерево противодействуют земле; земля — воде; вода — огню; огонь — металлу; металл — растениям и дереву. Используйте круг потраченного заклинания как круг для проверки противодействия. Само расходуемое заклинание не сотворяется.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-figment",
+      "versionId": "pf2e-figment-pf2e-remaster",
+      "locale": "en",
+      "name": "Figment",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-figment",
+      "versionId": "pf2e-figment-pf2e-remaster",
+      "locale": "ru",
+      "name": "Вымысел",
+      "description": "Вы создаёте простой иллюзорный звук или изображение на расстоянии до 30 футов. Звук не может воспроизводить разборчивую речь или сложную музыку; изображение занимает не более 5-футового куба и при осмотре ближе чем с 15 футов выглядит грубым. При сотворении или поддержании чар вы можете попытаться отвлечь внимание иллюзией, получая бонус обстоятельства +2 к проверке Обмана. Существо, против которого проверка не удалась, распознаёт вымысел.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-forbidding-ward",
+      "versionId": "pf2e-forbidding-ward-pf2e-remaster",
+      "locale": "en",
+      "name": "Forbidding Ward",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-forbidding-ward",
+      "versionId": "pf2e-forbidding-ward-pf2e-remaster",
+      "locale": "ru",
+      "name": "Преграждающий оберег",
+      "description": "Вы магически защищаете союзника от конкретного врага. Выберите одного союзника и одного врага в пределах 30 футов. Пока вы поддерживаете чары, союзник получает бонус состояния +1 к КБ и спасброскам против атак, заклинаний и других эффектов выбранного противника. Продолжительность — до 1 минуты.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-frostbite",
+      "versionId": "pf2e-frostbite-pf2e-remaster",
+      "locale": "en",
+      "name": "Frostbite",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-frostbite",
+      "versionId": "pf2e-frostbite-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обморожение",
+      "description": "Вы окутываете существо в пределах 60 футов ледяным холодом. Оно получает 2d4 урона холодом с простым спасброском Стойкости. При критическом провале существо дополнительно приобретает слабость 1 к дробящему урону до начала вашего следующего хода.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-frosts-touch",
+      "versionId": "pf2e-frosts-touch-pf2e-remaster",
+      "locale": "en",
+      "name": "Frost's Touch",
+      "description": "A touch of supernatural chill cools an object within 30 feet, for example a drink or a hot cooking pot. You can freeze a tiny quantity of moisture into a crude, fragile ice object of negligible Bulk; it cannot serve as a spell component, tool, or weapon and melts under ordinary conditions. Heightened (3rd): create one rigid ice item up to 1 Bulk and item level 1. Heightened (5th): up to 4 Bulk and item level 4. Heightened (7th): up to 8 Bulk and item level 8. Heightened (9th): up to 20 Bulk and item level 12. Only one such ice item can exist at a time.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-gale-blast",
+      "versionId": "pf2e-gale-blast-pf2e-remaster",
+      "locale": "en",
+      "name": "Gale Blast",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gale-blast",
+      "versionId": "pf2e-gale-blast-pf2e-remaster",
+      "locale": "ru",
+      "name": "Штормовой порыв",
+      "description": "Вы создаёте вокруг себя короткий порыв ветра в пределах 5-футовой эманации. Каждое существо в области совершает спасбросок Стойкости против 1d6 дробящего урона. При успехе получает половину урона; при провале — полный урон и отталкивается на 5 футов; при критическом провале — двойной урон и отталкивается на 10 футов. При критическом успехе эффект отсутствует.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-ghost-sound",
+      "versionId": "pf2e-ghost-sound-pf2e-legacy",
+      "locale": "en",
+      "name": "Ghost Sound",
+      "description": "You produce an illusion of simple noises originating in a square within 30 feet. Their combined loudness can be no greater than four ordinary people shouting at once. The noises cannot form comprehensible words or complex music. You must Sustain the spell to keep the sound going. Heightened (3rd): the range becomes 60 feet. Heightened (5th): the range becomes 120 feet. This is a Legacy spell, not the Remaster replacement Figment.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-glamorize",
+      "versionId": "pf2e-glamorize-pf2e-remaster",
+      "locale": "en",
+      "name": "Glamorize",
+      "description": "You add a subtle magical flourish to your personal appearance or immediate surroundings for up to an hour: change your hair highlights or cosmetics, polish your nails, adjust flattering lighting, make your hair ripple briefly, or accompany a smile with a faint chime. You may Sustain the spell to revise these effects. With GM approval, the details might provide a +1 status bonus to an appropriate Impersonate or Performance check.",
+      "translationStatus": "draft",
+      "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-pathfinder-core-rulebook",
+      "name": "Pathfinder Core Rulebook",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-186-ghost-king-s-rage",
+      "name": "Pathfinder #186: Ghost King's Rage",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-impossible-magic",
+      "name": "Pathfinder Impossible Magic",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-203-shepherd-of-decay",
+      "name": "Pathfinder #203: Shepherd of Decay",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-player-core-2",
+      "name": "Pathfinder Player Core 2",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-player-core",
+      "name": "Pathfinder Player Core",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-rage-of-elements",
+      "name": "Pathfinder Rage of Elements",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-treasure-vault-remastered",
+      "name": "Pathfinder Treasure Vault (Remastered)",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-divine-mysteries",
+      "name": "Pathfinder Lost Omens Divine Mysteries",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    }
+  ]
 }

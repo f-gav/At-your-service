@@ -37,7 +37,8 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByRole('heading',{name:'Каталог пока пуст'}).waitFor();
+  await page.getByText('24 записей',{exact:true}).waitFor();
+  assert.equal(await page.locator('.spell-result').count(),24);
   // Legibility regression against the LSS-inspired size pass.
   const librarySizing=await page.evaluate(()=>{
     const size=selector=>parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
@@ -61,13 +62,32 @@ try{
   assert.ok(librarySizing.nav>=15,'Top navigation typography matches enlarged library');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'0 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'24 записей');
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
+  assert.equal(await page.locator('.spell-result').count(),1);
+  await page.locator('.spell-result').first().click();
+  await page.getByRole('heading',{name:'Электрическая дуга [Electric Arc]'}).waitFor();
+  assert.ok(await page.getByText('2d4 урона электричеством',{exact:false}).isVisible());
+  assert.ok(await page.locator('.spell-descriptors span').count()>0);
+  const order=await page.evaluate(()=>{
+    const top=selector=>document.querySelector(selector).getBoundingClientRect().top;
+    return ['.spell-viewer-top h2','.spell-descriptors','.spell-parameters','.spell-description','.spell-availability'].map(top);
+  });
+  assert.ok(order.every((v,i)=>i===0||v>=order[i-1]),'LSS information sequence must be preserved');
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Ancient Dust');
+  await page.locator('.spell-result').first().click();
+  await page.getByText('Правила до Remaster',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.getByRole('button',{name:'Чары',exact:true}).click();
   assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('неизвестное');
   await page.getByRole('button',{name:/Сбросить фильтры/}).click();
   assert.equal(await page.getByRole('searchbox',{name:'Поиск заклинаний'}).inputValue(),'');
   await page.getByRole('button',{name:/D&D 5e/}).click();
+  await page.getByText('0 записей',{exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Каталог пока пуст'}).waitFor();
   assert.equal(await page.locator('.spell-filter-grid select').first().inputValue(),'dnd-2024');
   assert.equal(await page.getByRole('button',{name:'Фокусные'}).count(),0);
   await page.getByRole('button',{name:/Pathfinder 2e/}).click();

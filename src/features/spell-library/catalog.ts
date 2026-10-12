@@ -39,6 +39,7 @@ export type SpellRulesVersion = {
   heightened?:Record<string,string>;
   outcomes?:Partial<Record<'criticalSuccess'|'success'|'failure'|'criticalFailure',string>>;
   requirements?:string;
+  trigger?:string;
   resource?:'spell-slot'|'focus-point'|'none'|'other';
   sourceId?:string;
 };
@@ -89,6 +90,7 @@ export type SpellView = {
   summary:string;
   locale:'ru'|'en';
   translated:boolean;
+  translationStatus?:'verified'|'draft'|'missing';
   spell:SpellIdentity;
   rules:SpellRulesVersion;
   source?:SpellSource;
@@ -167,6 +169,14 @@ export function parseSpellCatalog(raw:unknown, expected:SpellSystem):SpellCatalo
 export function toSpellViews(catalog:SpellCatalog,edition:string):SpellView[]{
   const sources=new Map(catalog.sources.map(source=>[source.id,source]));
   const versions=new Map(catalog.versions.filter(v=>v.edition===edition).map(v=>[v.spellId,v]));
+  // Show legacy-only entries alongside the default Remaster collection, while
+  // keeping their true rules revision unmistakable in the details. Never silently
+  // re-label old rules as Remaster.
+  if(edition==='pf2e-remaster'){
+    for(const v of catalog.versions.filter(v=>v.edition==='pf2e-legacy')){
+      if(!versions.has(v.spellId))versions.set(v.spellId,v);
+    }
+  }
   return catalog.spells.flatMap(spell=>{
     const rules=versions.get(spell.id);
     if(!rules)return [];
@@ -179,7 +189,7 @@ export function toSpellViews(catalog:SpellCatalog,edition:string):SpellView[]{
       name:selected?.name||spell.slug,
       englishName:english?.name||spell.slug,
       summary:selected?.summary||'',description:selected?.description||'',
-      locale:selected?.locale||'en',translated:Boolean(russian),
+      locale:selected?.locale||'en',translated:Boolean(russian),translationStatus:selected?.translationStatus,
       source:sources.get(rules.sourceId??spell.sourceId),
     }];
   });
