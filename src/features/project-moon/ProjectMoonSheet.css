@@ -380,3 +380,7 @@
 .moon-portrait-button:hover {outline:2px solid #93999e;outline-offset:2px;}
 .moon-portrait-button .moon-portrait-art {width:100%;}
 @media(max-width:660px) { .moon-portrait-button {width:min(185px,100%);height:auto;min-height:0;justify-self:center;order:-1;} }
+
+/* The full ID frame needs its natural aspect ratio, not the old 170px portrait box. */
+.moon-portrait-button {align-self:start;overflow:visible;}
+.moon-portrait-button .moon-portrait-art-stage {height:auto;}
