@@ -55,7 +55,8 @@ assert.ok(sheet.includes("weaponViewportRef.current"));
 assert.ok(sheet.includes("behavior: sheet.smoothWeaponSwitch && !reducedMotion ? 'smooth' : 'instant'"));
 assert.ok(sheet.includes("inert={index < weaponOffset"));
 assert.ok(sheet.includes("updateWeaponById(weapon.id,{name:event.target.value})"));
-assert.ok(!sheet.includes('<strong>Название:</strong>'));
+const weaponSection = sheet.slice(sheet.indexOf('className="moon-weapon-carousel"'), sheet.indexOf("sectionTitle(3, 'Сопротивления"));
+assert.ok(!weaponSection.includes('<strong>Название:</strong>')); // The skill cards retain their own name field.
 assert.ok(css.includes('.moon-weapon-track > .moon-weapon-card'));
 assert.ok(css.includes('flex:0 0 calc((100% - 12px) / 2)'));
 assert.ok(css.includes('scroll-snap-type:x mandatory'));
