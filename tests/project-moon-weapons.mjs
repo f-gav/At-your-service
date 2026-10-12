@@ -92,7 +92,7 @@ assert.ok(confirmation.includes('Отмена'));
 assert.ok(confirmation.includes('Удалить'));
 assert.ok(confirmation.includes('previouslyFocused?.focus()'));
 
-assert.ok(sheet.includes('removeMoonWeapon(old, id)'));
+assert.ok(sheet.includes('removeMoonWeapon(old, pendingWeaponDelete)'));
 assert.ok(sheet.includes("weaponViewportRef.current"));
 assert.ok(sheet.includes("behavior: sheet.smoothWeaponSwitch && !reducedMotion ? 'smooth' : 'instant'"));
 assert.ok(sheet.includes("inert={index < weaponOffset"));
