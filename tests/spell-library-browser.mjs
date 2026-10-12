@@ -20,8 +20,22 @@ try{
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto(base,{waitUntil:'networkidle'});
   assert.ok(await page.getByRole('heading',{name:/Мои персонажи/}).isVisible(),'Character home unchanged');
+  const headerMetrics=()=>page.evaluate(()=>{
+    const header=document.querySelector('.site-header').getBoundingClientRect();
+    const nav=document.querySelector('.site-nav').getBoundingClientRect();
+    return {x:header.x,width:header.width,top:header.top,navX:nav.x,
+      viewportWidth:document.documentElement.clientWidth};
+  });
+  const homeHeader=await headerMetrics();
   await page.locator('.site-nav').getByRole('button',{name:'Библиотека'}).click();
   assert.equal(new URL(page.url()).hash,'#library');
+  const libraryHeader=await headerMetrics();
+  for(const key of ['x','width','navX','viewportWidth']){
+    assert.ok(Math.abs(homeHeader[key]-libraryHeader[key])<1,
+      'Switching tabs must not move the topbar horizontally: '+key+
+      ', home='+homeHeader[key]+', library='+libraryHeader[key]);
+  }
+  assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   await page.getByRole('heading',{name:'Каталог пока пуст'}).waitFor();
   assert.equal(await page.locator('.spell-total').textContent(),'0 записей');
@@ -39,6 +53,19 @@ try{
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   await page.locator('.site-nav').getByRole('button',{name:'Персонажи'}).click();
   assert.ok(await page.getByRole('heading',{name:/Мои персонажи/}).isVisible());
+  const backHeader=await headerMetrics();
+  assert.ok(Math.abs(homeHeader.navX-backHeader.navX)<1,'Tab position returns without a slide');
+  // WreckTrack behavior: navigation bar is sticky, and returning from a scrolled
+  // section resets the scroll before users see the next section.
+  await page.locator('.site-nav').getByRole('button',{name:'Библиотека'}).click();
+  await page.evaluate(()=>{document.body.style.minHeight='1800px';window.scrollTo({top:500,behavior:'instant'});});
+  await page.waitForFunction(()=>window.scrollY>400);
+  const atScroll=await headerMetrics();
+  assert.ok(Math.abs(atScroll.top)<1,'Header must remain fixed while scrolling');
+  await page.locator('.site-nav').getByRole('button',{name:'Персонажи'}).click();
+  await page.waitForFunction(()=>window.scrollY===0);
+  const afterScroll=await headerMetrics();
+  assert.ok(Math.abs(afterScroll.navX-homeHeader.navX)<1,'Header position stays constant after scroll navigation');
   await page.close();
   // Browser-only synthetic fixture validates how the platform will behave
   // after import. Production JSON manifests remain strictly empty.
@@ -75,10 +102,18 @@ try{
   await mobile.goto(base+'#library',{waitUntil:'networkidle'});
   await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   assert.ok(await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Библиотека'}).isVisible());
+  const mobileHeader=await mobile.locator('.site-header').boundingBox();
+  const mobileNavigation=await mobile.locator('.site-tabs-mobile').boundingBox();
   await mobile.getByRole('button',{name:/Фильтры/}).click();
   assert.ok(await mobile.locator('.spell-filter-panel').isVisible());
   await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Персонажи'}).click();
   assert.ok(await mobile.getByRole('heading',{name:/Мои персонажи/}).isVisible());
+  const mobileAfterHeader=await mobile.locator('.site-header').boundingBox();
+  const mobileAfterNavigation=await mobile.locator('.site-tabs-mobile').boundingBox();
+  assert.ok(Math.abs(mobileAfterHeader.x-mobileHeader.x)<1,'Mobile header must not slide');
+  assert.ok(Math.abs(mobileAfterNavigation.x-mobileNavigation.x)<1,'Mobile tabs must stay aligned');
+  const mobileOverflow=await mobile.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+  assert.ok(mobileOverflow<=1,'Tabs must not introduce horizontal overflow: '+mobileOverflow);
   assert.deepEqual(errors,[],'No browser JavaScript exceptions');
   console.log('PASS: desktop/mobile primary tabs, deep-link, independent empty catalogs, filters and responsive UI');
   await mobile.close();
