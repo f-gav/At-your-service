@@ -16,7 +16,6 @@ import {
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
-import { supabase } from '../../lib/supabase';
 import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';
 import type { MoonLayout } from './layout-settings';
 import './ProjectMoonSheet.css';
