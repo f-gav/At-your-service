@@ -39,6 +39,23 @@ try{
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   await page.getByText('24 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),24);
+  // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
+  for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
+    await page.setViewportSize({width,height:900});
+    const stats=await page.evaluate(()=>{
+      const tiles=Array.from(document.querySelectorAll('.spell-result')).slice(0,4);
+      const top=tiles[0]?.getBoundingClientRect().top;
+      return {columns:tiles.filter(t=>Math.abs(t.getBoundingClientRect().top-top)<2).length,
+        overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert.equal(stats.columns,columns,`Incorrect tile grid at ${width}px: ${stats.columns}`);
+    assert.ok(stats.overflow<=1,`Horizontal page overflow at ${width}px: ${stats.overflow}`);
+  }
+  await page.setViewportSize({width:1360,height:860});
+  assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
+    'Library expands beyond the old 1180px narrow page on desktop');
+  assert.equal(await page.locator('.spell-result-stats').count(),24,
+    'Compact tiles show three metadata fields');
   // Legibility regression against the LSS-inspired size pass.
   const librarySizing=await page.evaluate(()=>{
     const size=selector=>parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
@@ -65,6 +82,9 @@ try{
   assert.equal(await page.locator('.spell-total').textContent(),'24 записей');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
   assert.equal(await page.locator('.spell-result').count(),1);
+  const tile=page.locator('.spell-result').first();
+  assert.ok(await tile.locator('.spell-source-label').isVisible(),'Each tile retains a source-book badge');
+  assert.equal(await tile.locator('.spell-mini-stat').count(),3,'Each tile exposes casting/range/defense');
   const listBefore=await page.locator('.spell-result').count();
   const scrollBefore=await page.evaluate(()=>scrollY);
   await page.locator('.spell-result').first().click();
@@ -99,10 +119,20 @@ try{
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('dialog').waitFor({state:'hidden'});
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
+  // Quick ranks and categories use real catalog filtering, independent of expanded filters.
+  await page.getByRole('button',{name:'1',exact:true}).click();
+  assert.equal(await page.locator('.spell-result').count(),0,'Rank 1 has no spells in first wave');
+  await page.getByRole('button',{name:'0',exact:true}).click();
+  assert.equal(await page.locator('.spell-result').count(),24,'Rank 0 shows all imported cantrips');
   await page.getByRole('button',{name:'Чары',exact:true}).click();
   assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
+  await page.getByRole('button',{name:/Фильтры/}).click();
+  assert.ok(await page.locator('.spell-filter-panel').isVisible(),'Extended filters can open on desktop');
+  assert.equal(await page.getByRole('button',{name:/Фильтры/}).getAttribute('aria-expanded'),'true');
+  await page.getByRole('button',{name:/Фильтры/}).click();
+  assert.ok(!(await page.locator('.spell-filter-panel').isVisible()),'Extended filters can close on desktop');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('неизвестное');
-  await page.getByRole('button',{name:/Сбросить фильтры/}).click();
+  await page.locator('.spell-reset-main').click();
   assert.equal(await page.getByRole('searchbox',{name:'Поиск заклинаний'}).inputValue(),'');
   await page.getByRole('button',{name:/D&D 5e/}).click();
   await page.getByText('0 записей',{exact:true}).waitFor();
