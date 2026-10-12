@@ -6518,6 +6518,69 @@
       "name": "Friendfetch",
       "description": "You shoot out ephemeral, telekinetic strands that drag each target directly toward you, stopping in the closest unoccupied space to you in this path. This is forced movement.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-dizzying-colors",
+      "versionId": "pf2e-dizzying-colors-pf2e-remaster",
+      "locale": "ru",
+      "name": "Цветные брызги",
+      "description": "Поток переливающихся цветов воздействует на существ в конусе длиной 15 футов. Каждое совершает спасбросок Воли. Критический успех: нет эффекта. Успех: ослеплённое сиянием (dazzled) на 1 раунд. Провал: ошеломлено 1, ослеплено на 1 раунд и ослеплено сиянием на 1 минуту. Критический провал: ошеломлено на 1 раунд и ослеплено на 1 минуту.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-endure",
+      "versionId": "pf2e-endure-pf2e-remaster",
+      "locale": "ru",
+      "name": "Упорство",
+      "description": "Вы укрепляете дух существа касанием. Цель получает 5 временных ОЗ на 1 минуту. Усиление (+1 круг): количество временных ОЗ увеличивается на 5.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-enfeeble",
+      "versionId": "pf2e-enfeeble-pf2e-remaster",
+      "locale": "ru",
+      "name": "Слабость",
+      "description": "Вы ослабляете физическую силу цели. Она совершает спасбросок Стойкости. Критический успех: нет эффекта. Успех: ослаблена 1 до начала вашего следующего хода. Провал: ослаблена 2 на 1 минуту. Критический провал: ослаблена 3 на 1 минуту.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-fear",
+      "versionId": "pf2e-fear-pf2e-remaster",
+      "locale": "ru",
+      "name": "Ужас",
+      "description": "Вы внушаете цели сильный страх. Она совершает спасбросок Воли. Критический успех: нет эффекта. Успех: напугана 1. Провал: напугана 2. Критический провал: напугана 3 и убегает в течение 1 раунда. Усиление (3-й круг): можно выбрать до пяти существ.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-fleet-step",
+      "versionId": "pf2e-fleet-step-pf2e-remaster",
+      "locale": "ru",
+      "name": "Легконогость",
+      "description": "На 1 минуту вы получаете бонус состояния +30 футов к своей Скорости.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-fold-metal",
+      "versionId": "pf2e-fold-metal-pf2e-remaster",
+      "locale": "ru",
+      "name": "Складывание металла",
+      "description": "Вы складываете бесхозный металлический предмет массой не более 5 единиц в гладкий шарик размером не больше яйца. Предмет возвращает форму при прекращении заклинания, истечении времени либо при соприкосновении шара с водой или огнём. Наблюдатели могут заметить несоответствие проверкой Восприятия против вашей СЛ заклинания. Магический предмет сохраняет магические ауры, но его нельзя носить, закреплять или активировать. Усиление (3-й круг): длительность становится 1 час.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-force-barrage",
+      "versionId": "pf2e-force-barrage-pf2e-remaster",
+      "locale": "ru",
+      "name": "Силовой залп",
+      "description": "Вы выпускаете магический снаряд, автоматически попадающий в видимое существо и наносящий 1d4+1 урона силой. Заклинание можно сотворить за 1–3 действия; за каждое дополнительное действие вы выпускаете ещё один снаряд (до трёх), выбирая цель для каждого отдельно. Если несколько снарядов попали в одну цель, сложите их урон перед применением сопротивлений, слабостей и прочих модификаторов. Усиление (+2 круга): за каждое затраченное действие выпускается на один снаряд больше.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
     }
   ],
   "sources": [
