@@ -53,6 +53,8 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       const first=head?.querySelector<HTMLElement>('[data-pf-spoiler-title="1"]');
       if(!head||!first)continue;
       head.dataset.pfSpellColumns=String(spellColumns.length);
+      // Hints are visual placeholders, never persisted as spell data.
+      first.dataset.pfSpellPlaceholder='Заголовок';
       let last=first;
       for(let i=1;i<spellColumns.length;i++){
         let cell=head.querySelector<HTMLElement>('[data-pf-spell-column="'+i+'"]');
@@ -65,6 +67,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
           cell.setAttribute('aria-label', 'Столбец '+(i+1)+' спойлера');
           last.after(cell);
         }
+        cell.dataset.pfSpellPlaceholder=i===spellColumns.length-1?'Да':'1';
         last=cell;
       }
     }
