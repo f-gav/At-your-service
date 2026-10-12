@@ -56,13 +56,14 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
     ['Область',rules.area||'—'],
     ['Защита',rules.savingThrow||'—'],
     ['Длительность',rules.duration||'—'],
+    ...(rules.resource==='spell-slot'?[['Расход','Ячейка заклинания']]:[]),
   ].filter(([k,v])=>v!=='—'||k==='Сотворение');
   const name=spell.name===spell.englishName?spell.name:`${spell.name} [${spell.englishName}]`;
   const descriptors=entry.traits.filter(t=>t!=='cantrip').map(t=>PF_TRAIT_LABELS[t]||t);
   return <article className="spell-viewer" aria-label={`Описание заклинания ${spell.name}`}>
     <div className="spell-viewer-top">
       <div className="spell-viewer-heading">
-        <span className="spell-eyebrow">{spellKindName(entry.kind)} · {rankLabel(entry.system,entry.rank)}</span>
+        <span className="spell-eyebrow">{entry.kind==='cantrip'?'Чары · базовый круг 1':spellKindName(entry.kind)+' · '+rankLabel(entry.system,entry.rank)}</span>
         <h2>{name}</h2>
         <div className="spell-descriptors" aria-label="Дескрипторы">
           {descriptors.map(t=><span key={t}>{t}</span>)}
@@ -70,7 +71,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
         <div className="spell-edition-line">
           <span>{editionTitle(rules.edition)}</span>
           {rules.edition==='pf2e-legacy'&&<span className="spell-legacy-note">Правила до Remaster</span>}
-          {spell.translationStatus==='draft'&&<span>Перевод на проверке</span>}
+          {spell.translationStatus==='draft'&&<span>Текст на проверке</span>}
           {spell.locale==='en'&&<span>Только английский текст</span>}
         </div>
       </div>
@@ -106,7 +107,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       {entry.rarity!=='common'&&<p className="spell-rarity">Редкость: {RARITY_LABELS[entry.rarity]}</p>}
     </section>
     <footer className="spell-viewer-source">
-      <span>{sourceName(spell)} · {editionTitle(rules.edition)}</span>
+      <span>{sourceName(spell)} · {editionTitle(rules.edition)} · {spell.source?.license||'Источник указан'}</span>
       {spell.source?.url&&<a href={spell.source.url} target="_blank" rel="noreferrer">Источник <ExternalLink size={13}/></a>}
     </footer>
   </article>;
@@ -183,7 +184,7 @@ export default function SpellLibrary({onBack}:Props){
       <div>
         <button type="button" className="spell-back-link" onClick={onBack}><ArrowLeft size={15}/> К персонажам</button>
         <div className="spell-intro-heading"><BookOpen size={24} strokeWidth={1.55}/><h1 id="spell-library-heading">Библиотека заклинаний</h1></div>
-        <p>Справочник магии для игровых систем. Заклинания будут добавлены отдельным обновлением.</p>
+        <p>Справочник магии Pathfinder и D&D: традиции, круги, дескрипторы и правила сотворения.</p>
       </div>
     </div>
     <div className="spell-system-tabs" role="group" aria-label="Игровая система">
@@ -297,7 +298,7 @@ export default function SpellLibrary({onBack}:Props){
                   ? 'Раздел подготовлен для будущих пользовательских заклинаний. Возможность их создания добавим отдельно.'
                   :hasFilters&&views.length>0
                     ? 'Попробуй изменить поисковый запрос или фильтры.'
-                    : 'Раздел и фильтры готовы. Сами заклинания Pathfinder и D&D мы загрузим отдельным патчем.'}</p>
+                    : 'Раздел пока не наполнен. Следующие партии заклинаний будут появляться постепенно.'}</p>
                 {hasFilters&&<button type="button" onClick={reset}>Показать все разделы</button>}
                 {!hasFilters&&<div className="spell-empty-footer"><Layers3 size={15}/> Основа для двух игровых систем</div>}
               </div>
