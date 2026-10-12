@@ -37,36 +37,53 @@ function sourceName(spell:SpellView){
 function spellKindName(kind:SpellKind):string{
   return SPELL_KIND_LABELS[kind];
 }
+const PF_TRAIT_LABELS:Record<string,string>={
+  cantrip:'Чары',acid:'Кислота',air:'Воздух',attack:'Атака',
+  auditory:'Слуховой',cold:'Холод',concentrate:'Концентрация',
+  detection:'Обнаружение',earth:'Земля',electricity:'Электричество',
+  fire:'Огонь',illusion:'Иллюзия',manipulate:'Манипуляция',
+  mental:'Ментальный',metal:'Металл',nonlethal:'Несмертельный',
+  plant:'Растение',sanctified:'Освящённый',spirit:'Духовный',
+  subtle:'Незаметный',void:'Пустота',water:'Вода',wood:'Дерево',
+};
+const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition==='pf2e-remaster'?'Remaster':edition;
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
   const entry=spell.spell,rules=spell.rules;
-  const traits=entry.system==='pf2e'?
-    entry.traditions.map(t=>PF_TRADITIONS[t]):entry.classes;
   const values=[
     ['Сотворение',rules.cast?.actions===undefined?(rules.cast?.time||'—'):`${rules.cast.actions} действ.`],
     ['Дистанция',rules.range||'—'],
-    ['Цель',rules.targets||'—'],
+    ['Цели',rules.targets||'—'],
     ['Область',rules.area||'—'],
     ['Защита',rules.savingThrow||'—'],
     ['Длительность',rules.duration||'—'],
-  ];
+  ].filter(([k,v])=>v!=='—'||k==='Сотворение');
+  const name=spell.name===spell.englishName?spell.name:`${spell.name} [${spell.englishName}]`;
+  const descriptors=entry.traits.filter(t=>t!=='cantrip').map(t=>PF_TRAIT_LABELS[t]||t);
   return <article className="spell-viewer" aria-label={`Описание заклинания ${spell.name}`}>
     <div className="spell-viewer-top">
-      <div><span className="spell-eyebrow">{spellKindName(entry.kind)} · {rankLabel(entry.system,entry.rank)}</span>
-        <h2>{spell.name}</h2>
-        {spell.name!==spell.englishName&&<p className="spell-english-name">{spell.englishName}</p>}
+      <div className="spell-viewer-heading">
+        <span className="spell-eyebrow">{spellKindName(entry.kind)} · {rankLabel(entry.system,entry.rank)}</span>
+        <h2>{name}</h2>
+        <div className="spell-descriptors" aria-label="Дескрипторы">
+          {descriptors.map(t=><span key={t}>{t}</span>)}
+        </div>
+        <div className="spell-edition-line">
+          <span>{editionTitle(rules.edition)}</span>
+          {rules.edition==='pf2e-legacy'&&<span className="spell-legacy-note">Правила до Remaster</span>}
+          {spell.translationStatus==='draft'&&<span>Перевод на проверке</span>}
+          {spell.locale==='en'&&<span>Только английский текст</span>}
+        </div>
       </div>
       <button type="button" className="spell-close" aria-label="Закрыть описание" onClick={onClose}><X size={18}/></button>
     </div>
-    <div className="spell-traits">
-      {traits.map(t=><span key={t}>{t}</span>)}
-      <span>{RARITY_LABELS[entry.rarity]}</span>
-      {entry.school&&<span>{DND_SCHOOLS.find(x=>x.id===entry.school)?.label||entry.school}</span>}
-    </div>
-    <dl className="spell-stat-grid">
-      {values.map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
-    </dl>
-    {rules.requirements&&<p className="spell-requirements"><strong>Требования:</strong> {rules.requirements}</p>}
-    <div className="spell-description">
+    <section className="spell-parameters" aria-label="Параметры сотворения">
+      {rules.trigger&&<p className="spell-trigger"><b>Триггер:</b> {rules.trigger}</p>}
+      {rules.requirements&&<p className="spell-trigger"><b>Требования:</b> {rules.requirements}</p>}
+      <dl className="spell-stat-grid">
+        {values.map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </section>
+    <section className="spell-description" aria-label="Описание и эффекты">
       {spell.summary&&<p className="spell-summary">{spell.summary}</p>}
       {spell.description
         ? <p className="spell-body-text">{spell.description}</p>
@@ -80,9 +97,16 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
         <h3>Усиление</h3>
         {Object.entries(rules.heightened).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
-    </div>
+    </section>
+    <section className="spell-availability" aria-label="Доступность заклинания">
+      <h3>Доступно</h3>
+      {entry.system==='pf2e'
+        ? <div className="spell-traditions">{entry.traditions.map(t=><span key={t}>{PF_TRADITIONS[t]}</span>)}</div>
+        : <div className="spell-traditions">{entry.classes.map(t=><span key={t}>{t}</span>)}</div>}
+      {entry.rarity!=='common'&&<p className="spell-rarity">Редкость: {RARITY_LABELS[entry.rarity]}</p>}
+    </section>
     <footer className="spell-viewer-source">
-      <span>{sourceName(spell)} · {rules.edition}</span>
+      <span>{sourceName(spell)} · {editionTitle(rules.edition)}</span>
       {spell.source?.url&&<a href={spell.source.url} target="_blank" rel="noreferrer">Источник <ExternalLink size={13}/></a>}
     </footer>
   </article>;
