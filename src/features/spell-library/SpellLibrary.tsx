@@ -68,6 +68,8 @@ const PF_TRAIT_LABELS:Record<string,string>={
   mental:'Ментальный',metal:'Металл',nonlethal:'Несмертельный',
   plant:'Растение',sanctified:'Освящённый',spirit:'Духовный',
   subtle:'Незаметный',void:'Пустота',water:'Вода',wood:'Дерево',
+  aura:'Аура',emotion:'Эмоция',linguistic:'Языковой',sonic:'Звук',
+  morph:'Трансформация',healing:'Исцеление',fortune:'Удача',
 };
 const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition==='pf2e-remaster'?'Remaster':edition;
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
