@@ -1677,6 +1677,238 @@
       ],
       "rarity": "rare",
       "sourceId": "src-pathfinder-kingmaker"
+    },
+    {
+      "id": "pf2e-armor-of-thorn-and-claw",
+      "system": "pf2e",
+      "slug": "armor-of-thorn-and-claw",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-draconic-codex"
+    },
+    {
+      "id": "pf2e-bane",
+      "system": "pf2e",
+      "slug": "bane",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "aura",
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-befuddle",
+      "system": "pf2e",
+      "slug": "befuddle",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-benediction",
+      "system": "pf2e",
+      "slug": "benediction",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "aura",
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-beseech-the-sphinx",
+      "system": "pf2e",
+      "slug": "beseech-the-sphinx",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-lost-omens-rival-academies"
+    },
+    {
+      "id": "pf2e-biting-words",
+      "system": "pf2e",
+      "slug": "biting-words",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "auditory",
+        "concentrate",
+        "linguistic",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-bless",
+      "system": "pf2e",
+      "slug": "bless",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "aura",
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-blessing-of-vigor",
+      "system": "pf2e",
+      "slug": "blessing-of-vigor",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "healing",
+        "manipulate",
+        "vitality"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-bone-shield",
+      "system": "pf2e",
+      "slug": "bone-shield",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-breadcrumbs",
+      "system": "pf2e",
+      "slug": "breadcrumbs",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-breathe-fire",
+      "system": "pf2e",
+      "slug": "breathe-fire",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-briny-bolt",
+      "system": "pf2e",
+      "slug": "briny-bolt",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-adventure-path-gatewalkers"
     }
   ],
   "versions": [
@@ -2849,6 +3081,192 @@
       "heightened": {
         "+1": "The water blast's bludgeoning damage increases by 1d8."
       }
+    },
+    {
+      "id": "pf2e-armor-of-thorn-and-claw-pf2e-remaster",
+      "spellId": "pf2e-armor-of-thorn-and-claw",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": null,
+      "duration": "1 минута",
+      "resource": "spell-slot",
+      "heightened": {
+        "+2": "Piercing contact damage increases by 2; persistent bleed damage increases by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-bane-pf2e-remaster",
+      "spellId": "pf2e-bane",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "targets": "враги в области",
+      "area": "Эманация радиусом 10 футов",
+      "savingThrow": "Спасбросок Воли",
+      "duration": "1 минута",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-befuddle-pf2e-remaster",
+      "spellId": "pf2e-befuddle",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "area": null,
+      "savingThrow": "Спасбросок Воли",
+      "duration": "1 round",
+      "resource": "spell-slot",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Неуклюжесть 1 и Одурманен 1.",
+        "failure": "Неуклюжесть 2 и Одурманен 2.",
+        "criticalFailure": "Неуклюжесть 3, Одурманен 3 и Замешательство."
+      }
+    },
+    {
+      "id": "pf2e-benediction-pf2e-remaster",
+      "spellId": "pf2e-benediction",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Эманация радиусом 15 футов",
+      "duration": "1 минута",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-beseech-the-sphinx-pf2e-remaster",
+      "spellId": "pf2e-beseech-the-sphinx",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо, кроме вас",
+      "area": null,
+      "duration": "10 minutes",
+      "resource": "spell-slot",
+      "heightened": {
+        "4": "Status bonus increases to +2.",
+        "7": "Status bonus increases to +3."
+      }
+    },
+    {
+      "id": "pf2e-biting-words-pf2e-remaster",
+      "spellId": "pf2e-biting-words",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "area": null,
+      "savingThrow": "Атака заклинанием против КБ",
+      "duration": "1 минута",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Урон каждой атаки увеличивается на 2d6."
+      }
+    },
+    {
+      "id": "pf2e-bless-pf2e-remaster",
+      "spellId": "pf2e-bless",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "targets": "вы и союзники в области",
+      "area": "Эманация радиусом 15 футов",
+      "duration": "1 минута",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blessing-of-vigor-pf2e-remaster",
+      "spellId": "pf2e-blessing-of-vigor",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "вы или 1 союзник",
+      "area": null,
+      "duration": "3 раунда",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Fast healing increases by 3."
+      }
+    },
+    {
+      "id": "pf2e-bone-shield-pf2e-remaster",
+      "spellId": "pf2e-bone-shield",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "area": null,
+      "duration": "Поддерживаемое, до 1 минуты",
+      "resource": "spell-slot",
+      "requirements": "Требуется свободная рука для создания щита.",
+      "heightened": {
+        "+2": "Shield Hardness increases by 3."
+      }
+    },
+    {
+      "id": "pf2e-breadcrumbs-pf2e-remaster",
+      "spellId": "pf2e-breadcrumbs",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 минута"
+      },
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "area": null,
+      "duration": "1 час",
+      "resource": "spell-slot",
+      "heightened": {
+        "2": "Длительность увеличивается до 8 часов.",
+        "3": "Действует до следующих ежедневных приготовлений."
+      }
+    },
+    {
+      "id": "pf2e-breathe-fire-pf2e-remaster",
+      "spellId": "pf2e-breathe-fire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Конус длиной 15 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Fire damage increases by 2d6."
+      }
+    },
+    {
+      "id": "pf2e-briny-bolt-pf2e-remaster",
+      "spellId": "pf2e-briny-bolt",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "area": null,
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Damage increases by 2d6 per normal hit."
+      },
+      "outcomes": {
+        "success": "2d6 дробящего урона и слепота на 1 раунд; Взаимодействие снимает слепоту.",
+        "criticalSuccess": "4d6 дробящего урона, слепота на 1 раунд и ослепление светом на 1 минуту; Взаимодействие снимает только слепоту."
+      }
     }
   ],
   "translations": [
@@ -3972,6 +4390,142 @@
       "name": "Aqueous Blast",
       "description": "You summon water around an outstretched fist. Until the end of your turn, you may spend a single action with the attack and concentrate traits to make a ranged spell attack against a creature within 30 feet. A hit inflicts 2d8 bludgeoning damage; a critical hit also knocks the target prone. Heightened (+1 rank): the damage increases by 1d8.",
       "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-armor-of-thorn-and-claw",
+      "versionId": "pf2e-armor-of-thorn-and-claw-pf2e-remaster",
+      "locale": "en",
+      "name": "Armor of Thorn and Claw",
+      "description": "Barbed thorns and claws grow out of your skin or scales for 1 minute. A creature touching you or hitting you with an unarmed melee attack takes 1 piercing damage. A creature grappling, restraining, swallowing, or otherwise holding you immobilized suffers 1d4 persistent bleed damage. Heightened (+2 ranks): increase contact damage by 2 and persistent bleed damage by 1d4.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-bane",
+      "versionId": "pf2e-bane-pf2e-remaster",
+      "locale": "en",
+      "name": "Bane",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bane",
+      "versionId": "pf2e-bane-pf2e-remaster",
+      "locale": "ru",
+      "name": "Проклятие",
+      "description": "Вокруг вас распространяется аура сомнения радиусом 10 футов. Враги в ней совершают спасбросок Воли; при провале получают штраф состояния −1 к броскам атаки, пока находятся в области. Раз за раунд вы можете Поддержать заклинание, увеличить радиус ещё на 10 футов и заставить ранее не затронутых врагов в области совершить спасбросок. Длительность — 1 минута. Может противодействовать «Благословению».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-befuddle",
+      "versionId": "pf2e-befuddle-pf2e-remaster",
+      "locale": "en",
+      "name": "Befuddle",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-befuddle",
+      "versionId": "pf2e-befuddle-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сбить с толку",
+      "description": "Вы запутываете мысли и движения цели на 1 раунд. Спасбросок Воли определяет силу эффекта: при критическом успехе цель не страдает; при успехе получает «Неуклюжесть 1» и «Одурманен 1»; при провале — оба состояния со значением 2; при критическом провале — оба состояния со значением 3 и состояние «Замешательство».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-benediction",
+      "versionId": "pf2e-benediction-pf2e-remaster",
+      "locale": "en",
+      "name": "Benediction",
+      "description": "Divine power radiates in a protective aura around you for 1 minute. You and your allies within the 15-foot emanation gain a +1 status bonus to AC. Once per round on subsequent turns, you can Sustain the spell to increase its radius by 10 feet. Benediction can counteract Malediction.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-beseech-the-sphinx",
+      "versionId": "pf2e-beseech-the-sphinx-pf2e-remaster",
+      "locale": "en",
+      "name": "Beseech the Sphinx",
+      "description": "Invoke the wisdom of the Sphinx constellation for an ally other than yourself within 30 feet. Choose one skill and one saving throw type (Fortitude, Reflex, or Will). For 10 minutes, the ally gains +1 status on checks with the selected skill and the chosen saving throw. Heightened to rank 4: increase the bonus to +2; rank 7: increase it to +3.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-biting-words",
+      "versionId": "pf2e-biting-words-pf2e-remaster",
+      "locale": "en",
+      "name": "Biting Words",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-biting-words",
+      "versionId": "pf2e-biting-words-pf2e-remaster",
+      "locale": "ru",
+      "name": "Кусачие слова",
+      "description": "Вы наполняете колкие слова магической силой. Сразу после сотворения совершите дистанционную атаку заклинанием по существу в пределах 30 футов; попадание наносит 2d6 урона звуком (критическое попадание — вдвое больше). В последующих ходах вы можете потратить одно действие с чертами атаки, концентрации и языковой, чтобы повторить атаку. После третьей атаки заклинание прекращается; максимальная длительность — 1 минута.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-bless",
+      "versionId": "pf2e-bless-pf2e-remaster",
+      "locale": "en",
+      "name": "Bless",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bless",
+      "versionId": "pf2e-bless-pf2e-remaster",
+      "locale": "ru",
+      "name": "Благословение",
+      "description": "Вы окружаете себя аурой благословения радиусом 15 футов на 1 минуту. Вы и ваши союзники внутри неё получаете бонус состояния +1 к броскам атаки. Раз в раунд последующих ходов вы можете Поддержать заклинание, увеличив радиус эманации на 10 футов. Это заклинание может противодействовать «Проклятию» (Bane).",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-blessing-of-vigor",
+      "versionId": "pf2e-blessing-of-vigor-pf2e-remaster",
+      "locale": "en",
+      "name": "Blessing of Vigor",
+      "description": "A divine blessing helps you or an ally within 30 feet recover from injuries. For 3 rounds, the target gains fast healing 3, regaining 3 Hit Points at the start of each of its turns. Heightened (+1 rank): increase fast healing by 3.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-bone-shield",
+      "versionId": "pf2e-bone-shield-pf2e-remaster",
+      "locale": "en",
+      "name": "Bone Shield",
+      "description": "Create a crude bone shield in one free hand and immediately Raise it for a +2 circumstance bonus to AC. The conjured shield has Hardness 3 and 1 HP, with +2 circumstance bonus to its Hardness against piercing or slashing attacks. You can Shield Block only with this shield. The spell is Sustained up to 1 minute: the first time each round you Sustain it, you can Raise the shield, and if destroyed it is replaced in a free hand already raised. Heightened (+2 ranks): Hardness increases by 3.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-breadcrumbs",
+      "versionId": "pf2e-breadcrumbs-pf2e-remaster",
+      "locale": "en",
+      "name": "Breadcrumbs",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-breadcrumbs",
+      "versionId": "pf2e-breadcrumbs-pf2e-remaster",
+      "locale": "ru",
+      "name": "Хлебные крошки",
+      "description": "Согласное существо при движении оставляет за собой мерцающий след, позволяющий ему видеть, где оно уже проходило. След существует в течение действия заклинания, но не показывает порядок прохождения точек и направление движения. Длительность — 1 час.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-breathe-fire",
+      "versionId": "pf2e-breathe-fire-pf2e-remaster",
+      "locale": "en",
+      "name": "Breathe Fire",
+      "description": "You exhale a jet of magical flame through a 15-foot cone. Each creature within the area takes 2d6 fire damage with a basic Reflex save. Heightened (+1 rank): increase the fire damage by 2d6.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-briny-bolt",
+      "versionId": "pf2e-briny-bolt-pf2e-remaster",
+      "locale": "en",
+      "name": "Briny Bolt",
+      "description": "Fire a projectile of seawater at one creature within 60 feet and make a ranged spell attack. A hit deals 2d6 bludgeoning damage and blinds the target for 1 round; the victim can spend an Interact action to clear the blindness. On a critical hit, it takes 4d6 damage, is blinded for 1 round, and dazzled for 1 minute; an Interact action ends only the blindness. Heightened (+1 rank): increase normal hit damage by 2d6 (and critical-hit damage accordingly).",
+      "translationStatus": "draft"
     }
   ],
   "sources": [
@@ -4106,6 +4660,27 @@
       "name": "Pathfinder Kingmaker",
       "publisher": "Paizo",
       "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-draconic-codex",
+      "name": "Pathfinder Lost Omens Draconic Codex",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-rival-academies",
+      "name": "Pathfinder Lost Omens Rival Academies",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-adventure-path-gatewalkers",
+      "name": "Pathfinder Adventure Path: Gatewalkers",
+      "publisher": "Paizo",
+      "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
