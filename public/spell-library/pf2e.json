@@ -373,6 +373,125 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-forbidding-ward",
+      "system": "pf2e",
+      "slug": "forbidding-ward",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-frostbite",
+      "system": "pf2e",
+      "slug": "frostbite",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "cold",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-frosts-touch",
+      "system": "pf2e",
+      "slug": "frosts-touch",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "cold",
+        "concentrate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-treasure-vault-remastered"
+    },
+    {
+      "id": "pf2e-gale-blast",
+      "system": "pf2e",
+      "slug": "gale-blast",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-ghost-sound",
+      "system": "pf2e",
+      "slug": "ghost-sound",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-glamorize",
+      "system": "pf2e",
+      "slug": "glamorize",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
     }
   ],
   "versions": [
@@ -606,6 +725,88 @@
       },
       "range": "30 футов",
       "duration": "Поддерживаемое",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-forbidding-ward-pf2e-remaster",
+      "spellId": "pf2e-forbidding-ward",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 союзник и 1 враг",
+      "duration": "Поддерживаемое, до 1 minute",
+      "resource": "none",
+      "heightened": {
+        "6": "Бонус состояния к КБ и спасброскам увеличивается до +2."
+      }
+    },
+    {
+      "id": "pf2e-frostbite-pf2e-remaster",
+      "spellId": "pf2e-frostbite",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "простой Стойкость",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон холодом увеличивается на 1d4, а слабость к дробящему урону при критическом провале — на 1."
+      }
+    },
+    {
+      "id": "pf2e-frosts-touch-pf2e-remaster",
+      "spellId": "pf2e-frosts-touch",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 предмет",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-gale-blast-pf2e-remaster",
+      "spellId": "pf2e-gale-blast",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "5 футовая эманация",
+      "savingThrow": "Стойкость",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      },
+      "outcomes": {
+        "criticalSuccess": "Без эффекта.",
+        "success": "Половина урона.",
+        "failure": "Полный урон и отталкивание на 5 футов.",
+        "criticalFailure": "Двойной урон и отталкивание на 10 футов."
+      }
+    },
+    {
+      "id": "pf2e-ghost-sound-pf2e-legacy",
+      "spellId": "pf2e-ghost-sound",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "duration": "Поддерживаемое",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-glamorize-pf2e-remaster",
+      "spellId": "pf2e-glamorize",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 hour",
       "resource": "none"
     }
   ],
@@ -849,6 +1050,78 @@
       "description": "Вы создаёте простой иллюзорный звук или изображение на расстоянии до 30 футов. Звук не может воспроизводить разборчивую речь или сложную музыку; изображение занимает не более 5-футового куба и при осмотре ближе чем с 15 футов выглядит грубым. При сотворении или поддержании чар вы можете попытаться отвлечь внимание иллюзией, получая бонус обстоятельства +2 к проверке Обмана. Существо, против которого проверка не удалась, распознаёт вымысел.",
       "translationStatus": "draft",
       "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-forbidding-ward",
+      "versionId": "pf2e-forbidding-ward-pf2e-remaster",
+      "locale": "en",
+      "name": "Forbidding Ward",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-forbidding-ward",
+      "versionId": "pf2e-forbidding-ward-pf2e-remaster",
+      "locale": "ru",
+      "name": "Преграждающий оберег",
+      "description": "Вы магически защищаете союзника от конкретного врага. Выберите одного союзника и одного врага в пределах 30 футов. Пока вы поддерживаете чары, союзник получает бонус состояния +1 к КБ и спасброскам против атак, заклинаний и других эффектов выбранного противника. Продолжительность — до 1 минуты.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-frostbite",
+      "versionId": "pf2e-frostbite-pf2e-remaster",
+      "locale": "en",
+      "name": "Frostbite",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-frostbite",
+      "versionId": "pf2e-frostbite-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обморожение",
+      "description": "Вы окутываете существо в пределах 60 футов ледяным холодом. Оно получает 2d4 урона холодом с простым спасброском Стойкости. При критическом провале существо дополнительно приобретает слабость 1 к дробящему урону до начала вашего следующего хода.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-frosts-touch",
+      "versionId": "pf2e-frosts-touch-pf2e-remaster",
+      "locale": "en",
+      "name": "Frost's Touch",
+      "description": "A touch of supernatural chill cools an object within 30 feet, for example a drink or a hot cooking pot. You can freeze a tiny quantity of moisture into a crude, fragile ice object of negligible Bulk; it cannot serve as a spell component, tool, or weapon and melts under ordinary conditions. Heightened (3rd): create one rigid ice item up to 1 Bulk and item level 1. Heightened (5th): up to 4 Bulk and item level 4. Heightened (7th): up to 8 Bulk and item level 8. Heightened (9th): up to 20 Bulk and item level 12. Only one such ice item can exist at a time.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gale-blast",
+      "versionId": "pf2e-gale-blast-pf2e-remaster",
+      "locale": "en",
+      "name": "Gale Blast",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gale-blast",
+      "versionId": "pf2e-gale-blast-pf2e-remaster",
+      "locale": "ru",
+      "name": "Штормовой порыв",
+      "description": "Вы создаёте вокруг себя короткий порыв ветра в пределах 5-футовой эманации. Каждое существо в области совершает спасбросок Стойкости против 1d6 дробящего урона. При успехе получает половину урона; при провале — полный урон и отталкивается на 5 футов; при критическом провале — двойной урон и отталкивается на 10 футов. При критическом успехе эффект отсутствует.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-ghost-sound",
+      "versionId": "pf2e-ghost-sound-pf2e-legacy",
+      "locale": "en",
+      "name": "Ghost Sound",
+      "description": "You produce an illusion of simple noises originating in a square within 30 feet. Their combined loudness can be no greater than four ordinary people shouting at once. The noises cannot form comprehensible words or complex music. You must Sustain the spell to keep the sound going. Heightened (3rd): the range becomes 60 feet. Heightened (5th): the range becomes 120 feet. This is a Legacy spell, not the Remaster replacement Figment.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-glamorize",
+      "versionId": "pf2e-glamorize-pf2e-remaster",
+      "locale": "en",
+      "name": "Glamorize",
+      "description": "You add a subtle magical flourish to your personal appearance or immediate surroundings for up to an hour: change your hair highlights or cosmetics, polish your nails, adjust flattering lighting, make your hair ripple briefly, or accompany a smile with a faint chime. You may Sustain the spell to revise these effects. With GM approval, the details might provide a +1 status bonus to an appropriate Impersonate or Performance check.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -899,6 +1172,20 @@
       "name": "Pathfinder Rage of Elements",
       "publisher": "Paizo",
       "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-treasure-vault-remastered",
+      "name": "Pathfinder Treasure Vault (Remastered)",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-divine-mysteries",
+      "name": "Pathfinder Lost Omens Divine Mysteries",
+      "publisher": "Paizo",
+      "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
     }
   ]
