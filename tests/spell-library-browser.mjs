@@ -63,7 +63,7 @@ try{
     return {
       title:size('.spell-intro-heading h1'),
       tab:size('.spell-system-tab span'),
-      category:size('.spell-category'),
+      category:size('.spell-kind-chip'),
       search:size('.spell-search input'),
       searchHeight:height('.spell-search'),
       filter:size('.spell-filter-grid select'),
@@ -197,7 +197,7 @@ try{
   await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   const phoneSizing=await mobile.evaluate(()=>{
     const tab=document.querySelector('.spell-system-tab span');
-    const category=document.querySelector('.spell-category');
+    const category=document.querySelector('.spell-kind-chip');
     return {tab:parseFloat(getComputedStyle(tab).fontSize),
       category:parseFloat(getComputedStyle(category).fontSize),
       overflow:document.documentElement.scrollWidth-window.innerWidth};
