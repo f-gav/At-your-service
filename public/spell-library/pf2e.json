@@ -2374,6 +2374,67 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-dizzying-colors",
+      "system": "pf2e",
+      "slug": "dizzying-colors",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "incapacitation",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-dome-of-tranquility",
+      "system": "pf2e",
+      "slug": "dome-of-tranquility",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-draw-ire",
+      "system": "pf2e",
+      "slug": "draw-ire",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-secrets-of-magic"
     }
   ],
   "versions": [
@@ -4070,6 +4131,46 @@
         "rules": " (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it."
       },
       "targets": "1 item or spell effect"
+    },
+    {
+      "id": "pf2e-dizzying-colors-pf2e-remaster",
+      "spellId": "pf2e-dizzying-colors",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "cone: 15 feet",
+      "duration": "1 or more rounds (see below)",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-dome-of-tranquility-pf2e-remaster",
+      "spellId": "pf2e-dome-of-tranquility",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 minute"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 30 feet",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-draw-ire-pf2e-legacy",
+      "spellId": "pf2e-draw-ire",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "120 feet",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "will save",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d10."
+      }
     }
   ],
   "translations": [
@@ -5557,6 +5658,30 @@
       "description": "Вы определяете, является ли существо ядовитым или способным вводить яд, либо содержит ли предмет яд или отравлен ли он. Заклинание не сообщает разновидности яда и не показывает, сколькими способами цель может быть ядовита. Вещества вроде свинца и алкоголя тоже считаются ядами и могут скрывать наличие других. Усиление (2-й круг): вы узнаёте количество и разновидности ядов.",
       "translationStatus": "draft",
       "translatorCredit": "Русское название: pf2e-ru-translation; описание самостоятельно пересказано по Foundry PF2e."
+    },
+    {
+      "spellId": "pf2e-dizzying-colors",
+      "versionId": "pf2e-dizzying-colors-pf2e-remaster",
+      "locale": "en",
+      "name": "Dizzying Colors",
+      "description": "You unleash a swirling multitude of colors that overwhelms creatures based on their Will saves.\n\n\n\nCritical Success The creature is unaffected.\n\nSuccess The creature is Dazzled for 1 round.\n\nFailure The creature is Stunned 1, Blinded for 1 round, and dazzled for 1 minute.\n\nCritical Failure The creature is stunned for 1 round and blinded for 1 minute.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-dome-of-tranquility",
+      "versionId": "pf2e-dome-of-tranquility-pf2e-remaster",
+      "locale": "en",
+      "name": "Dome of Tranquility",
+      "description": "The air around you falls still and blocks out the sounds of the outside world. While you can clearly hear anything within this isolated dome, you can't hear anything outside of it. The opposite is also true, with no one outside of your dome being able to hear what's within. This dome doesn't block line of sight. If anything larger than 1 Bulk passes through it, the dome is automatically dispersed. You can Dismiss this spell.\n\nHeightened (3rd) The duration increases to 8 hours.\n\nHeightened (5th) The duration increases to 24 hours.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-draw-ire",
+      "versionId": "pf2e-draw-ire-pf2e-legacy",
+      "locale": "en",
+      "name": "Draw Ire",
+      "description": "You cause mental distress to a creature, goading it to strike back at you. You deal 1d10 mental damage to the creature and cause it to take a -1 status penalty to attack rolls against creatures other than you. The creature must attempt a Will saving throw.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half damage and the penalty. The spell ends at the end of the target's next turn. Spell Effect: Draw Ire (Success)\n\nFailure The target takes full damage and the penalty.\n\nCritical Failure The target takes double damage, and the status penalty is -2.\n\nSpell Effect: Draw Ire\n\nHeightened (+1) The damage increases by 1d10.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
