@@ -313,7 +313,14 @@ export default function PathfinderSheet({
         ...style,
         '--pf-spell-span-width': `${100*tableSpan.width/PDF_WIDTH}cqw`,
         '--pf-spell-span-offset': `${100*tableSpan.offset/PDF_WIDTH}cqw`,
-        '--pf-spell-heading-columns': tableSpan.tracks.map((w,i)=>{ const shift = Math.min(6,tableSpan.width*.012); return `${(100*(w+(i===0?-shift:i===tableSpan.tracks.length-1?shift:0))/tableSpan.width).toFixed(4)}%`; }).join(' '),
+        '--pf-spell-heading-columns': tableSpan.tracks.map((w,i)=>{
+          // Printed PDF header lines do not coincide with editable field starts.
+          // Calibrate the THREE inner boundaries, not just the first one.
+          const proportions=tableSpan.tracks.map(track=>100*track/tableSpan.width);
+          const correction=tableSpan.tracks.length===4
+            ? [-7.5,5.5,0,2] : [-2,2,0];
+          return `${(proportions[i]+correction[i]).toFixed(4)}%`;
+        }).join(' '),
       } as CSSProperties : style;
       return <RichField key={field.id} id={id} label={field.label}
         className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}${tableSpan ? ' pf-spell-table-rich' : ''}`}
