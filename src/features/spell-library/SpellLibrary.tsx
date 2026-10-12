@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
-  RARITY_LABELS,SPELL_KIND_LABELS,SPELL_SYSTEMS,
+  RARITY_LABELS,SPELL_SYSTEMS,
   emptySpellCatalog,filterSpellViews,parseSpellCatalog,toSpellViews,
 } from './catalog';
 import type {
@@ -34,9 +34,6 @@ function rankLabel(system:SpellSystem,rank:number){
 }
 function sourceName(spell:SpellView){
   return spell.source?.name||'Источник не указан';
-}
-function spellKindName(kind:SpellKind):string{
-  return SPELL_KIND_LABELS[kind];
 }
 /** A compact secondary label for list rows and the popup header. */
 function spellTypeLabel(spell:SpellView):string{
