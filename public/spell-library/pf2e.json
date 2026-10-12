@@ -1452,6 +1452,231 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-500-toads",
+      "system": "pf2e",
+      "slug": "500-toads",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-npc-core"
+    },
+    {
+      "id": "pf2e-acidic-burst",
+      "system": "pf2e",
+      "slug": "acidic-burst",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-admonishing-ray",
+      "system": "pf2e",
+      "slug": "admonishing-ray",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-158-sixty-feet-under"
+    },
+    {
+      "id": "pf2e-agitate",
+      "system": "pf2e",
+      "slug": "agitate",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-air-bubble",
+      "system": "pf2e",
+      "slug": "air-bubble",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-airburst",
+      "system": "pf2e",
+      "slug": "airburst",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-169-kindled-magic"
+    },
+    {
+      "id": "pf2e-alarm",
+      "system": "pf2e",
+      "slug": "alarm",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-animal-allies",
+      "system": "pf2e",
+      "slug": "animal-allies",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-animate-rope",
+      "system": "pf2e",
+      "slug": "animate-rope",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-advanced-player-s-guide"
+    },
+    {
+      "id": "pf2e-ant-haul",
+      "system": "pf2e",
+      "slug": "ant-haul",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-anticipate-peril",
+      "system": "pf2e",
+      "slug": "anticipate-peril",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-aqueous-blast",
+      "system": "pf2e",
+      "slug": "aqueous-blast",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-kingmaker"
     }
   ],
   "versions": [
@@ -2431,6 +2656,199 @@
       },
       "duration": "1 минута",
       "resource": "none"
+    },
+    {
+      "id": "pf2e-500-toads-pf2e-remaster",
+      "spellId": "pf2e-500-toads",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "Взрыв радиусом 15 футов",
+      "duration": "1 раунд",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-acidic-burst-pf2e-remaster",
+      "spellId": "pf2e-acidic-burst",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Эманация радиусом 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Урон кислотой увеличивается на 2d6."
+      }
+    },
+    {
+      "id": "pf2e-admonishing-ray-pf2e-legacy",
+      "spellId": "pf2e-admonishing-ray",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "area": null,
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Increase bludgeoning damage by 2d6."
+      },
+      "outcomes": {
+        "criticalSuccess": "Double bludgeoning damage.",
+        "success": "Full bludgeoning damage."
+      }
+    },
+    {
+      "id": "pf2e-agitate-pf2e-remaster",
+      "spellId": "pf2e-agitate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "area": null,
+      "savingThrow": "Спасбросок Воли",
+      "duration": "Зависит от спасброска",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Урон за ход без движения увеличивается на 2d8."
+      },
+      "outcomes": {
+        "criticalSuccess": "Чары не действуют.",
+        "success": "Длительность — 1 раунд.",
+        "failure": "Длительность — 2 раунда.",
+        "criticalFailure": "Длительность — 4 раунда."
+      }
+    },
+    {
+      "id": "pf2e-air-bubble-pf2e-remaster",
+      "spellId": "pf2e-air-bubble",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "Реакция"
+      },
+      "range": "60 футов",
+      "targets": "спровоцировавшее существо",
+      "area": null,
+      "duration": "1 минута",
+      "resource": "spell-slot",
+      "trigger": "Существо в пределах 60 футов попадает в среду, в которой не может дышать."
+    },
+    {
+      "id": "pf2e-airburst-pf2e-legacy",
+      "spellId": "pf2e-airburst",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "targets": "все существа и бесхозные предметы",
+      "area": "Эманация радиусом 5 футов",
+      "savingThrow": "Спасбросок Стойкости",
+      "resource": "spell-slot",
+      "heightened": {
+        "4": "The emanation increases to 10 feet and the push distance increases to 10 feet."
+      },
+      "outcomes": {
+        "criticalSuccess": "No effect.",
+        "success": "–2 status to checks during reactions until the end of your turn.",
+        "failure": "As success, and pushed 5 feet.",
+        "criticalFailure": "Pushed 5 feet and unable to react until the end of your turn."
+      }
+    },
+    {
+      "id": "pf2e-alarm-pf2e-remaster",
+      "spellId": "pf2e-alarm",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "10 минут"
+      },
+      "range": "Касание",
+      "area": "Взрыв радиусом 20 футов",
+      "duration": "8 часов",
+      "resource": "spell-slot",
+      "heightened": {
+        "3": "Можно дополнительно задать виды существ, на которые должна срабатывать сигнализация."
+      }
+    },
+    {
+      "id": "pf2e-animal-allies-pf2e-remaster",
+      "spellId": "pf2e-animal-allies",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Эманация радиусом 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "Урон увеличивается на 3d4."
+      }
+    },
+    {
+      "id": "pf2e-animate-rope-pf2e-legacy",
+      "spellId": "pf2e-animate-rope",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "100 футов",
+      "targets": "до 50 футов верёвки или подобного неживого предмета",
+      "area": null,
+      "duration": "Поддерживаемое, до 1 минута",
+      "resource": "spell-slot",
+      "heightened": {
+        "+2": "Дистанция увеличивается на 50 футов, а доступная длина верёвки — ещё на 50 футов."
+      }
+    },
+    {
+      "id": "pf2e-ant-haul-pf2e-remaster",
+      "spellId": "pf2e-ant-haul",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "targets": "1 существо",
+      "area": null,
+      "duration": "8 часов",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-anticipate-peril-pf2e-remaster",
+      "spellId": "pf2e-anticipate-peril",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "area": null,
+      "duration": "10 минут",
+      "resource": "spell-slot",
+      "heightened": {
+        "+2": "Бонус состояния к инициативе увеличивается на 1, но не более +4 при сотворении 7-го круга."
+      }
+    },
+    {
+      "id": "pf2e-aqueous-blast-pf2e-legacy",
+      "spellId": "pf2e-aqueous-blast",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "area": null,
+      "savingThrow": "Атака заклинанием против КБ",
+      "duration": "До конца вашего хода",
+      "resource": "spell-slot",
+      "heightened": {
+        "+1": "The water blast's bludgeoning damage increases by 1d8."
+      }
     }
   ],
   "translations": [
@@ -3394,6 +3812,166 @@
       "description": "Вы совершаете небольшой личный ритуал, чтобы избавиться от невезения. Один раз в течение следующей минуты, перед броском проверки, вы можете нейтрализовать действующий на неё эффект неудачи (как при одновременном применении эффектов удачи и неудачи). После этого чары завершаются, и вы становитесь временно невосприимчивы к ним на 10 минут.",
       "translationStatus": "draft",
       "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-500-toads",
+      "versionId": "pf2e-500-toads-pf2e-remaster",
+      "locale": "en",
+      "name": "500 Toads",
+      "description": "Hundreds of conjured toads fill a 15-foot burst for 1 round. Their movement and combined weight set off traps that can be triggered by a Medium creature's weight, motion, or position. The covered area becomes difficult terrain; the spell immediately replaces any toads destroyed by traps so that the area remains occupied.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-acidic-burst",
+      "versionId": "pf2e-acidic-burst-pf2e-remaster",
+      "locale": "en",
+      "name": "Acidic Burst",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-acidic-burst",
+      "versionId": "pf2e-acidic-burst-pf2e-remaster",
+      "locale": "ru",
+      "name": "Кислотный взрыв",
+      "description": "Вокруг вас возникает оболочка кислоты, которая сразу лопается наружу. Все существа в 5-футовой эманации получают 2d6 урона кислотой с простым спасброском Рефлекса.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-admonishing-ray",
+      "versionId": "pf2e-admonishing-ray-pf2e-legacy",
+      "locale": "en",
+      "name": "Admonishing Ray",
+      "description": "A harmless-looking blast of magic lands like a hard punch or slap, rather than causing lasting injury. Make a spell attack against one creature within 60 feet. On a hit, the target takes 2d6 nonlethal bludgeoning damage; a critical hit deals double. Heightened (+1 rank): increase damage by 2d6.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-agitate",
+      "versionId": "pf2e-agitate-pf2e-remaster",
+      "locale": "en",
+      "name": "Agitate",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-agitate",
+      "versionId": "pf2e-agitate-pf2e-remaster",
+      "locale": "ru",
+      "name": "Взбудоражить",
+      "description": "Вы переполняете тело и сознание цели беспокойной энергией. Пока эффект действует, существо должно хотя бы раз за ход Переместиться, Лететь или Плыть, иначе в конце своего хода оно получает 2d8 ментального несмертельного урона. Спасбросок Воли определяет продолжительность: критический успех — без эффекта; успех — 1 раунд; провал — 2 раунда; критический провал — 4 раунда.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-air-bubble",
+      "versionId": "pf2e-air-bubble-pf2e-remaster",
+      "locale": "en",
+      "name": "Air Bubble",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-air-bubble",
+      "versionId": "pf2e-air-bubble-pf2e-remaster",
+      "locale": "ru",
+      "name": "Воздушный пузырь",
+      "description": "Вокруг головы спровоцировавшего реакцию существа появляется пузырь чистого воздуха. Он позволяет цели дышать нормально до 1 минуты, но исчезает сразу, как только существо возвращается в среду, где может дышать без магии.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-airburst",
+      "versionId": "pf2e-airburst-pf2e-legacy",
+      "locale": "en",
+      "name": "Airburst",
+      "description": "A sharp gust spreads from you through a 5-foot emanation. Unattended objects of 1 Bulk or less move 5 feet away. Each Large or smaller creature attempts a Fortitude save: critical success, no effect; success, –2 status penalty to checks made as part of reactions until the end of your turn; failure, the same penalty and pushed 5 feet; critical failure, pushed 5 feet and cannot use reactions until the end of your turn.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-alarm",
+      "versionId": "pf2e-alarm-pf2e-remaster",
+      "locale": "en",
+      "name": "Alarm",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-alarm",
+      "versionId": "pf2e-alarm-pf2e-remaster",
+      "locale": "ru",
+      "name": "Тревога",
+      "description": "За 10 минут вы защищаете область радиусом 20 футов и задаёте пароль. Если Маленькое или более крупное телесное существо входит туда без пароля, срабатывает выбранная вами ментальная тревога либо слышимый звон колокольчика. Тревога будит вас; звон может разбудить и остальных существ в области после проверки Восприятия против СЛ 15. Знающий о сигнализации нарушитель может избежать срабатывания проверкой Скрытности против СЛ заклинания. Защита длится 8 часов.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-animal-allies",
+      "versionId": "pf2e-animal-allies-pf2e-remaster",
+      "locale": "en",
+      "name": "Animal Allies",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animal-allies",
+      "versionId": "pf2e-animal-allies-pf2e-remaster",
+      "locale": "ru",
+      "name": "Животные-союзники",
+      "description": "Вы призываете мелких животных из окружающей среды — насекомых, птиц или рыб, — которые мгновенно нападают на существ в 5-футовой эманации вокруг вас. Каждая цель получает 3d4 колющего урона с простым спасброском Рефлекса.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-animate-rope",
+      "versionId": "pf2e-animate-rope-pf2e-legacy",
+      "locale": "en",
+      "name": "Animate Rope",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animate-rope",
+      "versionId": "pf2e-animate-rope-pf2e-legacy",
+      "locale": "ru",
+      "name": "Оживление верёвки",
+      "description": "Вы оживляете до 50 футов верёвки или похожего неживого предмета в пределах 100 футов. При сотворении можно отдать два простых приказа, при каждом Поддержании — ещё один: связывать (атакой заклинанием против СЛ Рефлекса цели, накладывая штраф к Скорости −10 футов, а при критическом успехе −20 футов), сворачиваться, ползти на 10 футов, завязывать узел, делать петлю, обвязывать добровольную цель или развязываться. Существо может Освободиться против вашей СЛ заклинания либо порвать верёвку. Длительность — поддерживаемая, до 1 минуты.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-ant-haul",
+      "versionId": "pf2e-ant-haul-pf2e-remaster",
+      "locale": "en",
+      "name": "Ant Haul",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ant-haul",
+      "versionId": "pf2e-ant-haul-pf2e-remaster",
+      "locale": "ru",
+      "name": "Муравьиная добыча",
+      "description": "Вы усиливаете мышцы и опорно-двигательную систему цели. На 8 часов существо может нести на 3 единицы Массы больше обычного до получения состояния «Перегружен», а его максимальная переносимая Масса увеличивается на 6.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-anticipate-peril",
+      "versionId": "pf2e-anticipate-peril-pf2e-remaster",
+      "locale": "en",
+      "name": "Anticipate Peril",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-anticipate-peril",
+      "versionId": "pf2e-anticipate-peril-pf2e-remaster",
+      "locale": "ru",
+      "name": "Предвидение опасности",
+      "description": "Вы даруете цели кратковременное предчувствие угрозы. В течение следующих 10 минут цель получает бонус состояния +1 к следующему броску инициативы. Сразу после такого броска действие заклинания заканчивается.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация механик из Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-aqueous-blast",
+      "versionId": "pf2e-aqueous-blast-pf2e-legacy",
+      "locale": "en",
+      "name": "Aqueous Blast",
+      "description": "You summon water around an outstretched fist. Until the end of your turn, you may spend a single action with the attack and concentrate traits to make a ranged spell attack against a creature within 30 feet. A hit inflicts 2d8 bludgeoning damage; a critical hit also knocks the target prone. Heightened (+1 rank): the damage increases by 1d8.",
+      "translationStatus": "draft"
     }
   ],
   "sources": [
@@ -3494,6 +4072,41 @@
       "publisher": "Paizo",
       "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-npc-core",
+      "name": "Pathfinder NPC Core",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-158-sixty-feet-under",
+      "name": "Pathfinder #158: Sixty Feet Under",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-169-kindled-magic",
+      "name": "Pathfinder #169: Kindled Magic",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-advanced-player-s-guide",
+      "name": "Pathfinder Advanced Player's Guide",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-kingmaker",
+      "name": "Pathfinder Kingmaker",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
 }
