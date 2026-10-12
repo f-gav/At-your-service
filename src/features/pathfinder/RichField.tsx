@@ -13,7 +13,7 @@ import './RichField.css';
 type Props={
   id:string;label:string;value:string;onChange:(value:string)=>void;
   placeholder?:string;disabled?:boolean;className?:string;
-  style?:CSSProperties;grow?:boolean;resourceContext?:FormulaContext;
+  style?:CSSProperties;grow?:boolean;resourceContext?:FormulaContext;spellColumns?:number[];
 };
 type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
 type Spot={left:number;top:number};
@@ -23,7 +23,7 @@ function popupPosition(rect:DOMRect):Spot {
   return {left:Math.max(8,Math.min(window.innerWidth-width-8,rect.left+rect.width/2-width/2)),
     top:Math.max(8,rect.top-57)};
 }
-export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={}}:Props){
+export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={},spellColumns}:Props){
   const root=useRef<HTMLDivElement>(null);
   const rangeRef=useRef<Range|null>(null);
   const pointerRef=useRef<{x:number;y:number}|null>(null);
@@ -160,6 +160,25 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!blank)return;
     const template=document.createElement('template');
     template.innerHTML=(kind==='spoiler'?spoilerMarkup():kind==='divider'?dividerMarkup():resourceMarkup())+'<div><br></div>';
+    if(kind==='spoiler'&&spellColumns?.length){
+      const spoiler=template.content.firstElementChild as HTMLElement;
+      const head=spoiler.querySelector<HTMLElement>('[data-pf-spoiler-head]');
+      let title=head?.querySelector<HTMLElement>('[data-pf-spoiler-title]');
+      if(head&&title){
+        head.dataset.pfSpellColumns=String(spellColumns.length);
+        head.style.setProperty('--pf-spell-heading-columns',spellColumns.map(w=>`${w}fr`).join(' '));
+        for(let i=1;i<spellColumns.length;i++){
+          const cell=document.createElement('span');
+          cell.dataset.pfSpoilerTitle='1';
+          cell.dataset.pfSpellColumn=String(i);
+          cell.contentEditable='true';
+          cell.setAttribute('role','textbox');
+          cell.setAttribute('aria-label',`Заголовок спойлера — столбец ${i+1}`);
+          title.after(cell);
+          title=cell;
+        }
+      }
+    }
     const fragment=template.content;
     const widget=fragment.firstElementChild as HTMLElement;
     if(blank===editor||blank.matches('[data-pf-spoiler-body]'))blank.replaceChildren(fragment);
