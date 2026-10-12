@@ -26,6 +26,7 @@ const COMMON_CATEGORIES:Category[]=[
   {id:'mine',label:'Мои заклинания',description:'В будущем'},
 ];
 const DND_CATEGORIES=COMMON_CATEGORIES.filter(x=>x.id!=='focus'&&x.id!=='special');
+const RESULTS_PER_PAGE=50;
 function rankLabel(system:SpellSystem,rank:number){
   if(rank===0)return 'Чары';
   return system==='pf2e'?`${rank}-й круг`:`${rank}-й уровень`;
@@ -97,6 +98,7 @@ export default function SpellLibrary({onBack}:Props){
   const [loadError,setLoadError]=useState('');
   const [selectedId,setSelectedId]=useState<string|null>(null);
   const [mobileFilters,setMobileFilters]=useState(false);
+  const [visibleCount,setVisibleCount]=useState(RESULTS_PER_PAGE);
 
   useEffect(()=>{
     let active=true;
@@ -134,6 +136,7 @@ export default function SpellLibrary({onBack}:Props){
   const [sourceFilter,setSourceFilter]=useState('all');
   const shown=sourceFilter==='all'?visible:visible.filter(x=>x.source?.name===sourceFilter);
   const displayed=selected&&shown.find(x=>x.id===selected.id);
+  useEffect(()=>setVisibleCount(RESULTS_PER_PAGE),[system,edition,section,filters,sourceFilter]);
 
   function changeSystem(next:SpellSystem){
     if(next===system)return;
@@ -254,10 +257,14 @@ export default function SpellLibrary({onBack}:Props){
           ? <SpellDetails spell={displayed} onClose={()=>setSelectedId(null)}/>
           : shown.length>0
             ? <div className="spell-result-list" role="list">
-              {shown.map(spell=><button type="button" role="listitem" className="spell-result" key={spell.id} onClick={()=>setSelectedId(spell.id)}>
+              {shown.slice(0,visibleCount).map(spell=><button type="button" role="listitem" className="spell-result" key={spell.id} onClick={()=>setSelectedId(spell.id)}>
                 <div><strong>{spell.name}</strong><span>{spell.englishName!==spell.name?spell.englishName:sourceName(spell)}</span></div>
                 <div><span>{rankLabel(spell.system,spell.spell.rank)}</span><ChevronRight size={16}/></div>
               </button>)}
+              {shown.length>visibleCount&&<div className="spell-load-more">
+                <span>Показано {Math.min(visibleCount,shown.length)} из {shown.length}</span>
+                <button type="button" onClick={()=>setVisibleCount(current=>current+RESULTS_PER_PAGE)}>Показать ещё</button>
+              </div>}
             </div>
             : <div className="spell-empty" role="status">
                 <span className="spell-empty-symbol"><Sparkles size={31} strokeWidth={1.2}/></span>
