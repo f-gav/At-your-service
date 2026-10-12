@@ -59,14 +59,14 @@ export const DEFAULT_MOON_LAYOUT = {
   noteHeight: 246,
   lineColor: '#bfc4c8',
   inkColor: '#1c1e21',
-  portraitWidth: 210,
-  portraitShiftX: 0,
-  portraitShiftY: 0,
+  portraitWidth: 170,
+  portraitShiftX: 7,
+  portraitShiftY: -90,
   // Mask artwork and its portrait window move independently of the frame.
-  maskWidth: 100,
-  maskHeight: 100,
-  maskShiftX: 0,
-  maskShiftY: 0,
+  maskWidth: 98,
+  maskHeight: 98,
+  maskShiftX: -2,
+  maskShiftY: 2,
   textStyles: cloneMoonTextStyles(),
 };
 export type MoonLayout = typeof DEFAULT_MOON_LAYOUT;
