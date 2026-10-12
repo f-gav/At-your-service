@@ -288,3 +288,68 @@
   .moon-sheet-scroll .moon-paper:last-child { break-after: auto; page-break-after: auto; }
   .moon-editor .pf-navigation-help, .moon-editor .pf-settings-popover { display: none !important; }
 }
+
+/* Weapon A/B is a two-card window over a persistent list. The browser's
+   native horizontal smooth scroll is opt-in per character and respects reduced motion. */
+.moon-weapon-section-heading {
+  display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--moon-ink);
+  margin-bottom:8px;min-width:0;
+}
+.moon-weapon-section-heading .moon-section-title {
+  margin:0;border:0;flex:1 1 auto;min-width:0;
+}
+.moon-weapon-pagination {
+  display:inline-flex;flex:none;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;color:#565f64;
+}
+.moon-weapon-pagination span { min-width:49px;text-align:center;white-space:nowrap; }
+.moon-weapon-pagination small {font-weight:400;color:#81898e;font-size:9px;}
+.moon-weapon-pagination button {
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:26px;height:27px;background:#fff;border:1px solid #c6cccf;
+  border-radius:4px;color:#3b4549;cursor:pointer;
+}
+.moon-weapon-pagination button:hover:enabled,
+.moon-add-weapon:hover:enabled { background:#dfe4e6;color:#10191d; }
+.moon-weapon-pagination button:disabled,
+.moon-add-weapon:disabled { opacity:.35;cursor:default; }
+.moon-weapon-pagination .moon-add-weapon-mobile { display:none; }
+.moon-weapon-carousel {
+  width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+}
+.moon-weapon-carousel::-webkit-scrollbar {display:none;}
+.moon-weapon-track {display:flex;gap:12px;align-items:stretch;min-width:100%;}
+.moon-weapon-track > .moon-weapon-card {
+  flex:0 0 calc((100% - 12px) / 2);
+  min-width:0;scroll-snap-align:start;
+}
+.moon-weapon-heading { min-width:0; }
+.moon-weapon-title {
+  min-width:0;flex:1 1 auto;max-width:190px;
+  background:transparent;border:0;border-bottom:1px solid transparent;
+  color:#202325;font-size:12px;font-weight:800;line-height:1.2;
+  text-overflow:ellipsis;padding:4px 2px;
+}
+.moon-weapon-title::placeholder {color:#202325;opacity:1;}
+.moon-weapon-title:hover,.moon-weapon-title:focus {
+  border-bottom-color:#889398;outline:0;
+}
+.moon-weapon-heading .moon-card-meta { flex:none; gap:4px; }
+.moon-weapon-heading .moon-add-weapon {
+  width:23px;height:23px;display:inline-flex;align-items:center;
+  justify-content:center;border:1px solid #aeb6bb;border-radius:4px;
+  color:#333b3f;background:#fff;margin-left:3px;padding:2px;cursor:pointer;
+}
+@media (max-width:660px) {
+  .moon-weapon-track > .moon-weapon-card { flex-basis:100%; }
+  .moon-weapon-heading .moon-add-weapon { display:none; }
+  .moon-weapon-pagination .moon-add-weapon-mobile { display:inline-flex; }
+  .moon-weapon-pagination span { min-width:43px; }
+}
+@media print {
+  .moon-weapon-pagination,.moon-weapon-heading .moon-add-weapon { display:none!important; }
+  .moon-weapon-carousel {overflow:visible;scroll-snap-type:none;}
+  .moon-weapon-track {flex-wrap:wrap;}
+  .moon-weapon-track > .moon-weapon-card {flex-basis:calc((100% - 12px) / 2);}
+}

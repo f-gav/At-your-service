@@ -113,8 +113,6 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     setSheet(old => ({ ...old, skills: old.skills.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
   const updateNote = (index: number, patch: Partial<MoonItem>) =>
     setSheet(old => ({ ...old, notes: old.notes.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
-  const updateWeapon = (index: number, patch: Partial<MoonWeapon>) =>
-    setSheet(old => ({ ...old, weapons: old.weapons.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
   const changeMax = (id: MoonResourceId, value: string) => setSheet(old => {
     if (moonCalculatedMax(old, id) !== null) {
       return { ...old, maxOverrides: { ...old.maxOverrides, [id]: value } };

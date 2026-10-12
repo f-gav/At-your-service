@@ -25,6 +25,7 @@ export type MoonSheetData = {
   schemaVersion: 1;
   fields: Record<string, string>;
   autoVitals: boolean;
+  smoothWeaponSwitch: boolean;
   pageOrder: MoonPage[];
   maxOverrides: Partial<Record<MoonResourceId, string>>;
   weapons: MoonWeapon[];
@@ -34,16 +35,17 @@ export type MoonSheetData = {
 
 const text = (value: unknown): string => typeof value === 'string' ? value : '';
 export const newMoonItem = (id: string): MoonItem => ({ id, title: '', body: '' });
-const newWeapon = (id: string): MoonWeapon => ({ id, name: '', dice: '', bonus: '', description: '' });
+export const newMoonWeapon = (id: string): MoonWeapon => ({ id, name: '', dice: '', bonus: '', description: '' });
 
 export function emptyMoonSheet(): MoonSheetData {
   return {
     schemaVersion: 1,
     fields: {},
     autoVitals: false,
+    smoothWeaponSwitch: true,
     pageOrder: [...DEFAULT_MOON_ORDER],
     maxOverrides: {},
-    weapons: [newWeapon('weapon-1'), newWeapon('weapon-2')],
+    weapons: [newMoonWeapon('weapon-1'), newMoonWeapon('weapon-2')],
     skills: Array.from({ length: 6 }, (_, index) => newMoonItem('skill-' + (index + 1))),
     notes: Array.from({ length: 6 }, (_, index) => newMoonItem('note-' + (index + 1))),
   };
@@ -75,12 +77,13 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
     fields: Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] =>
       typeof entry[1] === 'string')),
     autoVitals: stored.autoVitals === true,
+    smoothWeaponSwitch: stored.smoothWeaponSwitch !== false,
     pageOrder: parseMoonOrder(stored.pageOrder),
     maxOverrides: Object.fromEntries(['hp','st','sp','light']
       .filter(key => typeof overrides[key] === 'string')
       .map(key => [key, overrides[key] as string])),
     weapons: Array.isArray(stored.weapons)
-      ? stored.weapons.slice(0, 2).map((entry, index) => weapon(entry, 'weapon-' + (index + 1)))
+      ? stored.weapons.slice(0, 100).map((entry, index) => weapon(entry, 'weapon-' + (index + 1)))
         .concat(initial.weapons.slice(Math.min(stored.weapons.length, 2)))
       : initial.weapons,
     skills: readItems(stored.skills, initial.skills),
@@ -131,4 +134,17 @@ export function moonAttackBonus(sheet: MoonSheetData): string {
 
 export function addMoonSkill(sheet: MoonSheetData, id: string): MoonSheetData {
   return { ...sheet, skills: [...sheet.skills, newMoonItem(id)] };
+}
+
+export function addMoonWeapon(sheet: MoonSheetData, id: string): MoonSheetData {
+  if (sheet.weapons.length >= 100) return sheet;
+  return { ...sheet, weapons: [...sheet.weapons, newMoonWeapon(id)] };
+}
+
+/** Labels are A–Z then AA, AB…; stored weapon IDs remain independent of labels. */
+export function moonWeaponLetter(index: number): string {
+  let value = index + 1;
+  let label = '';
+  while (value > 0) { value--; label = String.fromCharCode(65 + value % 26) + label; value = Math.floor(value / 26); }
+  return label;
 }

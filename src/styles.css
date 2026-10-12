@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 /* At your service! — Visual version #1 (refinement)
    Inspired by the supplied homepage mockup. No auth or database changes. */
 @font-face {
@@ -428,3 +429,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Project Moon uses an understated navy, bookish serif label rather than the generic script badge. */
 .character-prmoon .character-system { color: #29445f; }
+
+/* The bundled Tilda Script is a labels-only subset. Its missing Latin r/o
+   fell back to Georgia, breaking 'Pr. Moon' across mismatched typefaces.
+   A complete Latin cursive family is applied to the entire wordmark only. */
+.character-prmoon .character-system {
+  font-family: 'Lobster', 'Segoe Script', 'Brush Script MT', cursive;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+}
