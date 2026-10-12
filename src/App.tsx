@@ -634,7 +634,7 @@ export default function App() {
             onEditPortrait={() => setEditingPortraitId(active.id)}
             onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
         ) : (
-          <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
+          <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         )
       ) : (
         <main className="page page-home">
