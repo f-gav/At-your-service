@@ -41,3 +41,25 @@
 .moon-admin-inspector .moon-admin-reset { justify-content: start; width: 100%; }
 @media(max-width:1050px){ .moon-admin-columns{grid-template-columns:minmax(0,1fr)} .moon-admin-inspector{position:static;max-height:none} }
 @media(max-width:650px){ .moon-admin-toolbar h1{flex-basis:100%;order:-1} .moon-admin-preview{padding:5px;max-height:70vh} }
+
+/* Typography section uses the same restrained controls as the layout inspector. */
+.moon-admin-typography {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding-top:14px;
+  border-top:1px solid #e4ebe5;
+}
+.moon-admin-typography h3 {font-size:14px;margin:0;}
+.moon-admin-text-controls {display:flex;flex-direction:column;gap:12px;}
+.moon-admin-text-controls label {min-width:0;}
+.moon-admin-text-controls .moon-admin-value input[type=number] {width:60px;}
+.moon-admin-text-controls .moon-admin-value small {min-width:20px;}
+.moon-admin-text-controls .moon-admin-text-toggle {
+  display:flex;align-items:center;flex-direction:row;gap:8px;
+}
+.moon-admin-text-toggle input[type=checkbox] {accent-color:#405f4b;width:15px;height:15px;}
+.moon-admin-inspector .moon-admin-reset-typography {
+  font-size:11px;line-height:1.3;justify-content:center;
+  padding:8px 10px;
+}

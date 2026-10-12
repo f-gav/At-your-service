@@ -41,7 +41,7 @@
 }
 .portrait-crop-frame-preview .portrait-crop-viewport {
   position:absolute;
-  left:3.65%;
+  left:calc(3.65% + 3px);
   top:18.09%;
   width:92.7%;
   height:64%;

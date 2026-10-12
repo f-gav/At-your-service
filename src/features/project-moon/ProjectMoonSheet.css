@@ -411,3 +411,119 @@
 @media print {
   .moon-portrait-host {break-inside:avoid;}
 }
+
+/*
+ * Admin-controlled typography is scoped to printed character content,
+ * not the action toolbar, crop editor or editing controls.
+ * Every family, weight and spacing value is validated by parseMoonLayout.
+ */
+
+.moon-paper .moon-page-heading > span {
+  font-family: var(--moon-type-pageKicker-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-pageKicker-size,12px);
+  font-weight: var(--moon-type-pageKicker-weight,800);
+  font-style: var(--moon-type-pageKicker-style,normal);
+  letter-spacing: var(--moon-type-pageKicker-spacing,0px);
+  line-height: var(--moon-type-pageKicker-leading,1.35);
+  text-align: var(--moon-type-pageKicker-align,left);
+}
+
+.moon-paper .moon-page-heading h2 {
+  font-family: var(--moon-type-pageTitle-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-pageTitle-size,26px);
+  font-weight: var(--moon-type-pageTitle-weight,800);
+  font-style: var(--moon-type-pageTitle-style,normal);
+  letter-spacing: var(--moon-type-pageTitle-spacing,0px);
+  line-height: var(--moon-type-pageTitle-leading,1.35);
+  text-align: var(--moon-type-pageTitle-align,left);
+}
+
+.moon-paper .moon-section-title {
+  font-family: var(--moon-type-sectionTitle-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-sectionTitle-size,12px);
+  font-weight: var(--moon-type-sectionTitle-weight,800);
+  font-style: var(--moon-type-sectionTitle-style,normal);
+  letter-spacing: var(--moon-type-sectionTitle-spacing,0px);
+  line-height: var(--moon-type-sectionTitle-leading,1.35);
+  text-align: var(--moon-type-sectionTitle-align,left);
+}
+
+.moon-paper .moon-field > span, .moon-paper .moon-small-label, .moon-paper .moon-combat-fields .moon-field > span, .moon-paper .moon-primary-stats .moon-field > span {
+  font-family: var(--moon-type-fieldLabel-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-fieldLabel-size,12px);
+  font-weight: var(--moon-type-fieldLabel-weight,800);
+  font-style: var(--moon-type-fieldLabel-style,normal);
+  letter-spacing: var(--moon-type-fieldLabel-spacing,0px);
+  line-height: var(--moon-type-fieldLabel-leading,1.35);
+  text-align: var(--moon-type-fieldLabel-align,left);
+}
+
+.moon-paper .moon-field:not(.moon-name) input, .moon-paper .moon-compact-field input, .moon-paper .moon-weapon-secondary input, .moon-paper .moon-data-table input {
+  font-family: var(--moon-type-fieldValue-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-fieldValue-size,12px);
+  font-weight: var(--moon-type-fieldValue-weight,800);
+  font-style: var(--moon-type-fieldValue-style,normal);
+  letter-spacing: var(--moon-type-fieldValue-spacing,0px);
+  line-height: var(--moon-type-fieldValue-leading,1.35);
+  text-align: var(--moon-type-fieldValue-align,left);
+}
+
+.moon-paper .moon-name input {
+  font-family: var(--moon-type-characterName-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-characterName-size,15px);
+  font-weight: var(--moon-type-characterName-weight,800);
+  font-style: var(--moon-type-characterName-style,normal);
+  letter-spacing: var(--moon-type-characterName-spacing,0px);
+  line-height: var(--moon-type-characterName-leading,1.35);
+  text-align: var(--moon-type-characterName-align,left);
+}
+
+.moon-paper .moon-attribute-label {
+  font-family: var(--moon-type-attributeLabel-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-attributeLabel-size,12px);
+  font-weight: var(--moon-type-attributeLabel-weight,800);
+  font-style: var(--moon-type-attributeLabel-style,normal);
+  letter-spacing: var(--moon-type-attributeLabel-spacing,0px);
+  line-height: var(--moon-type-attributeLabel-leading,1.35);
+  text-align: var(--moon-type-attributeLabel-align,left);
+}
+
+.moon-paper .moon-resource-title {
+  font-family: var(--moon-type-resourceTitle-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-resourceTitle-size,12px);
+  font-weight: var(--moon-type-resourceTitle-weight,800);
+  font-style: var(--moon-type-resourceTitle-style,normal);
+  letter-spacing: var(--moon-type-resourceTitle-spacing,0px);
+  line-height: var(--moon-type-resourceTitle-leading,1.35);
+  text-align: var(--moon-type-resourceTitle-align,left);
+}
+
+.moon-paper .moon-card-heading strong, .moon-paper .moon-weapon-title {
+  font-family: var(--moon-type-cardTitle-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-cardTitle-size,12px);
+  font-weight: var(--moon-type-cardTitle-weight,800);
+  font-style: var(--moon-type-cardTitle-style,normal);
+  letter-spacing: var(--moon-type-cardTitle-spacing,0px);
+  line-height: var(--moon-type-cardTitle-leading,1.35);
+  text-align: var(--moon-type-cardTitle-align,left);
+}
+
+.moon-paper .moon-note-heading input {
+  font-family: var(--moon-type-noteTitle-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-noteTitle-size,12px);
+  font-weight: var(--moon-type-noteTitle-weight,800);
+  font-style: var(--moon-type-noteTitle-style,normal);
+  letter-spacing: var(--moon-type-noteTitle-spacing,0px);
+  line-height: var(--moon-type-noteTitle-leading,1.35);
+  text-align: var(--moon-type-noteTitle-align,left);
+}
+
+.moon-paper .moon-rich-group .pf-rich-editable, .moon-paper .moon-long-field .pf-rich-editable, .moon-paper .moon-note .pf-rich-editable, .moon-paper .moon-conditions-extra .pf-rich-editable {
+  font-family: var(--moon-type-bodyText-family,'DejaVu Sans','Noto Sans',Arial,sans-serif);
+  font-size: var(--moon-type-bodyText-size,12px);
+  font-weight: var(--moon-type-bodyText-weight,400);
+  font-style: var(--moon-type-bodyText-style,normal);
+  letter-spacing: var(--moon-type-bodyText-spacing,0px);
+  line-height: var(--moon-type-bodyText-leading,1.35);
+  text-align: var(--moon-type-bodyText-align,left);
+}

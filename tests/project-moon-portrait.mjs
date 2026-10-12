@@ -45,6 +45,9 @@ const knownCompleteFrame = readFileSync(new URL('../public/project-moon/portrait
 assert.equal(createHash('sha256').update(knownCompleteFrame).digest('hex'),
   'd3d06780da3b1bd5cedab3b86eb21759c14b983b76f9da7ea2c913bf261d0bd6',
   'Do not replace the complete frame with a truncated or masked-down PNG');
+assert.ok(cardCSS.includes('left:calc(3.65% + 3px);'), 'Photo is nudged right without moving the frame');
+const cropPreviewStyles=source('../src/features/portrait/PortraitEditor.css');
+assert.ok(cropPreviewStyles.includes('left:calc(3.65% + 3px);'), 'Crop preview must match the dossier photo position');
 assert.ok(cardCSS.includes('top:18.09%'));
 assert.ok(cardCSS.includes('height:64%'));
 assert.ok(!cardCSS.includes('.moon-portrait-art-stage'), 'No second coordinate system');

@@ -34,7 +34,8 @@
 .moon-portrait-art-mask {z-index:2;}
 .moon-portrait-art-window {
   position:absolute;
-  left:3.65%;
+  /* Align the photo with the full, unmodified PNG frame. */
+  left:calc(3.65% + 3px);
   top:18.09%;
   width:92.7%;
   height:64%;

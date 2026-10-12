@@ -5,10 +5,10 @@ import type { Character } from '../../lib/models';
 import ProjectMoonSheet from './ProjectMoonSheet';
 import { emptyMoonSheet } from './model';
 import {
-  DEFAULT_MOON_LAYOUT, MOON_LAYOUT_CONTROLS, MOON_LAYOUT_KEY,
-  parseMoonLayout, encodeMoonLayout, isMoonPortraitShift,
+  DEFAULT_MOON_LAYOUT, MOON_LAYOUT_CONTROLS, MOON_LAYOUT_KEY, MOON_TEXT_GROUPS,
+  parseMoonLayout, encodeMoonLayout, isMoonPortraitShift, normalizeMoonTextStyle, cloneMoonTextStyles,
 } from './layout-settings';
-import type { MoonLayout, MoonLayoutKey } from './layout-settings';
+import type { MoonLayout, MoonLayoutKey, MoonTextGroup, MoonTextStyle } from './layout-settings';
 import './MoonLayoutAdmin.css';
 
 const previewCharacter: Character = {
@@ -27,7 +27,9 @@ const previewCharacter: Character = {
 
 type Props = { userId: string; onClose: () => void };
 export default function MoonLayoutAdmin({userId,onClose}: Props) {
-  const [layout, setLayout] = useState<MoonLayout>(DEFAULT_MOON_LAYOUT);
+  const [layout, setLayout] = useState<MoonLayout>(() =>
+    ({...DEFAULT_MOON_LAYOUT,textStyles:cloneMoonTextStyles()}));
+  const [selectedTextGroup,setSelectedTextGroup] = useState<MoonTextGroup>('fieldLabel');
   const [saved, setSaved] = useState(JSON.stringify(DEFAULT_MOON_LAYOUT));
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -77,7 +79,30 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     if (!Number.isFinite(number)) return;
     const bounded = isMoonPortraitShift(key) ? number
       : Math.min(control.max!, Math.max(control.min!, number));
-    setLayout(old => ({ ...old, [key]: Math.round(bounded) }));
+    setLayout(old => {
+      if (key === 'titleFont') {
+        const titleFont = Math.round(bounded);
+        return {...old,titleFont,textStyles:{
+          ...old.textStyles,pageTitle:{...old.textStyles.pageTitle,size:titleFont},
+        }};
+      }
+      return { ...old, [key]: Math.round(bounded) };
+    });
+  }
+
+  function changeTextStyle<K extends keyof MoonTextStyle>(field: K, value: MoonTextStyle[K]) {
+    setLayout(old => {
+      const before = old.textStyles[selectedTextGroup];
+      const updated = normalizeMoonTextStyle({...before,[field]:value}, before);
+      if (selectedTextGroup === 'pageTitle' && field === 'size')
+        updated.size = Math.max(20,Math.min(42,updated.size));
+      return {
+        ...old,
+        ...(selectedTextGroup === 'pageTitle' && field === 'size'
+          ? {titleFont:updated.size} : {}),
+        textStyles:{...old.textStyles,[selectedTextGroup]:updated},
+      };
+    });
   }
 
   async function saveDraft(): Promise<boolean> {
@@ -170,8 +195,104 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
                   </span>}
             </label>)}
         </div>
+
+        <section className="moon-admin-typography" aria-label="Оформление текстовых блоков">
+          <h3>Текстовые блоки</h3>
+          <p>Выбери тип текста на листе и настрой его внешний вид. Изменения сразу видны в предпросмотре и не меняют содержимое персонажей.</p>
+          <label>Какой текст редактировать?
+            <select value={selectedTextGroup}
+              onChange={e=>setSelectedTextGroup(e.target.value as MoonTextGroup)}
+              disabled={loading || busy}>
+              {MOON_TEXT_GROUPS.map(group=><option key={group.key} value={group.key}>{group.title}</option>)}
+            </select>
+          </label>
+          <div className="moon-admin-text-controls">
+            <label>Размер шрифта
+              <span className="moon-admin-value">
+                <input type="range" min={selectedTextGroup === 'pageTitle' ? 20 : 7}
+                  max={selectedTextGroup === 'pageTitle' ? 42 : 48} step={1}
+                  value={layout.textStyles[selectedTextGroup].size}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('size',Number(e.target.value))}/>
+                <input type="number" min={selectedTextGroup === 'pageTitle' ? 20 : 7}
+                  max={selectedTextGroup === 'pageTitle' ? 42 : 48} step={1}
+                  value={layout.textStyles[selectedTextGroup].size}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('size',Number(e.target.value))}/>
+                <small>px</small>
+              </span>
+            </label>
+            <label>Жирность
+              <select value={layout.textStyles[selectedTextGroup].weight}
+                disabled={loading || busy}
+                onChange={e=>changeTextStyle('weight',Number(e.target.value))}>
+                {[100,200,300,400,500,600,700,800,900].map(weight=>
+                  <option key={weight} value={weight}>{weight}{weight===400?' · обычный':weight===700?' · полужирный':weight===800?' · жирный':''}</option>)}
+              </select>
+            </label>
+            <label>Шрифт
+              <select value={layout.textStyles[selectedTextGroup].family}
+                disabled={loading || busy}
+                onChange={e=>changeTextStyle('family',e.target.value as MoonTextStyle['family'])}>
+                <option value="sans">Без засечек (как в PDF)</option>
+                <option value="serif">С засечками</option>
+                <option value="mono">Моноширинный</option>
+              </select>
+            </label>
+            <label>Выравнивание
+              <select value={layout.textStyles[selectedTextGroup].align}
+                disabled={loading || busy}
+                onChange={e=>changeTextStyle('align',e.target.value as MoonTextStyle['align'])}>
+                <option value="left">Слева</option>
+                <option value="center">По центру</option>
+                <option value="right">Справа</option>
+              </select>
+            </label>
+            <label>Межбуквенный интервал
+              <span className="moon-admin-value">
+                <input type="range" min={-2} max={6} step={0.1}
+                  value={layout.textStyles[selectedTextGroup].letterSpacing}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('letterSpacing',Number(e.target.value))}/>
+                <input type="number" min={-2} max={6} step={0.1}
+                  value={layout.textStyles[selectedTextGroup].letterSpacing}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('letterSpacing',Number(e.target.value))}/>
+                <small>px</small>
+              </span>
+            </label>
+            <label>Межстрочный интервал
+              <span className="moon-admin-value">
+                <input type="range" min={1} max={2.5} step={0.05}
+                  value={layout.textStyles[selectedTextGroup].lineHeight}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('lineHeight',Number(e.target.value))}/>
+                <input type="number" min={1} max={2.5} step={0.05}
+                  value={layout.textStyles[selectedTextGroup].lineHeight}
+                  disabled={loading || busy}
+                  onChange={e=>changeTextStyle('lineHeight',Number(e.target.value))}/>
+              </span>
+            </label>
+            <label className="moon-admin-text-toggle">
+              <input type="checkbox" checked={layout.textStyles[selectedTextGroup].italic}
+                disabled={loading || busy}
+                onChange={e=>changeTextStyle('italic',e.target.checked)}/>
+              Курсив
+            </label>
+            <button type="button" className="moon-admin-reset-typography"
+              disabled={loading || busy}
+              onClick={()=>setLayout(old=>{
+                const defaults = cloneMoonTextStyles()[selectedTextGroup];
+                return {
+                  ...old,
+                  ...(selectedTextGroup === 'pageTitle' ? {titleFont:26}:{}),
+                  textStyles:{...old.textStyles,[selectedTextGroup]:defaults},
+                };
+              })}>Сбросить оформление выбранного типа</button>
+          </div>
+        </section>
         <button type="button" className="moon-admin-reset" disabled={busy || loading}
-          onClick={() => {if (confirm('Вернуть исходные размеры и цвета листа?')) setLayout({...DEFAULT_MOON_LAYOUT});}}>
+          onClick={() => {if (confirm('Вернуть исходные размеры, шрифты и цвета листа?')) setLayout({...DEFAULT_MOON_LAYOUT,textStyles:cloneMoonTextStyles()});}}>
           <RotateCcw size={15}/> Исходное оформление
         </button>
         <hr/>
