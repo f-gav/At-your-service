@@ -55,7 +55,7 @@ assert.ok(json.includes('const portrait = await portraitToJson(c)'));
 assert.ok(portraits.includes('source:string;crops:PortraitCrops'));
 assert.ok(portraits.includes("type:'legacy'"));
 assert.ok(app.includes('parseCharacterJson(await file.text())'));
-assert.ok(app.includes('await downloadCharacter(character)'));
+assert.ok(app.includes('void downloadCharacter(character)'), 'Card menu exposes JSON export');
 assert.ok(app.includes('savePortrait(imported,user.id,parsed.portrait.source,parsed.portrait.crops)'));
 assert.ok(docs.includes('**Экспорт и импорт JSON v1 для Pr. Moon**'));
 const original = emptyMoonSheet();
