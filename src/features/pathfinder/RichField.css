@@ -275,3 +275,28 @@
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {min-width:0;padding:0 .2em;overflow-wrap:anywhere;}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-toggle="1"] {position:absolute;left:.1em;top:50%;transform:translateY(-50%);}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {position:absolute;right:.1em;top:50%;transform:translateY(-50%);}
+
+/* A single spell spoiler has independently editable headings under printed columns.
+   The left toggle is overlaid so it does not consume a grid column. */
+.pf-spell-table-rich [data-pf-spell-columns] {
+  box-sizing:border-box;
+  grid-template-columns:var(--pf-spell-heading-columns);
+  padding-left:0;
+  padding-right:0;
+  column-gap:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {
+  box-sizing:border-box;
+  display:block;
+  min-height:1.6em;
+  padding:.12em .3em;
+  border-left:1px solid #cad5cb;
+  cursor:text;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:first-of-type {
+  padding-left:1.6em;
+  border-left:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:last-of-type {padding-right:1.5em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:focus {outline:1px solid #688c76;outline-offset:-1px;background:#fff;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty:before {content:'·';color:#b5c3b8;pointer-events:none;}
