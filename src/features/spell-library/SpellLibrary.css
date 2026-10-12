@@ -153,3 +153,35 @@
  .spell-search input {font-size:14px;}
  .spell-category {font-size:14px;}
 }
+
+/* Wave 001: information hierarchy based on LSS, in At your service! colors. */
+.spell-viewer-heading {flex:1;min-width:0;}
+.spell-viewer-top h2 {font-size:26px;line-height:1.38;overflow-wrap:anywhere;}
+.spell-descriptors {display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.spell-descriptors span {padding:5px 9px;border:1px solid #cbd9cb;background:#ecf2eb;color:#395943;font-size:13px;font-weight:650;border-radius:4px;}
+.spell-edition-line {display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:14px 0 0;font-size:12px;color:#84958a;}
+.spell-edition-line span + span {padding-left:9px;border-left:1px solid #d8e2d9;}
+.spell-edition-line .spell-legacy-note {color:#a16c3f;}
+.spell-parameters {margin-top:20px;padding:19px 21px;background:#f0f3ef;border-radius:8px;}
+.spell-parameters .spell-stat-grid {border:0;padding:0;margin:0;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 20px;}
+.spell-parameters .spell-stat-grid dt {font-size:13px;color:#677e70;font-weight:600;}
+.spell-parameters .spell-stat-grid dd {font-size:16px;margin-top:4px;line-height:1.5;}
+.spell-trigger {font-size:14px;line-height:1.65;margin:0 0 13px;color:#395740;}
+.spell-trigger b {color:#263f2e;}
+.spell-description {margin-top:24px;}
+.spell-body-text {margin:0;white-space:pre-line;}
+.spell-summary {margin:0 0 12px;}
+.spell-outcomes {margin-top:20px;padding-top:15px;}
+.spell-outcomes p,.spell-heightened p {margin:7px 0;}
+.spell-availability {margin-top:30px;padding-top:22px;border-top:1px solid #e2e9e2;}
+.spell-availability h3 {font-size:15px;margin:0 0 12px;font-weight:680;color:#3c5543;}
+.spell-traditions {display:flex;flex-wrap:wrap;gap:8px;}
+.spell-traditions span {padding:7px 12px;border-radius:15px;background:#dfe8df;color:#35533c;font-size:13px;font-weight:700;}
+.spell-rarity {color:#738377;font-size:13px;margin:12px 0 0;}
+@media(max-width:560px) {
+ .spell-viewer-top h2 {font-size:22px;}
+ .spell-parameters {padding:15px 14px;}
+ .spell-parameters .spell-stat-grid {gap:13px;}
+ .spell-parameters .spell-stat-grid dd {font-size:14px;}
+ .spell-descriptors span {font-size:12px;}
+}
