@@ -268,3 +268,10 @@
 .pf-spell-table-rich > .pf-rich-editable > div:not([data-pf-spoiler]) > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"] {
   min-height: 3.3em;
 }
+
+/* Spell-table spoilers have independently editable, column-aligned heading cells. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {flex:initial;}
+.pf-spell-table-rich [data-pf-spell-columns] {display:grid;grid-template-columns:var(--pf-spell-heading-columns);position:relative;padding-left:1.7em;padding-right:1.5em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {min-width:0;padding:0 .2em;overflow-wrap:anywhere;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-toggle="1"] {position:absolute;left:.1em;top:50%;transform:translateY(-50%);}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {position:absolute;right:.1em;top:50%;transform:translateY(-50%);}
