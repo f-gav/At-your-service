@@ -38,7 +38,16 @@ assert.ok(card.includes('className="moon-portrait-art-caption"'));
 assert.ok(!card.includes('moon-portrait-art-stage'), 'Old misaligned stage must be removed');
 assert.ok(!card.includes('compact'), 'Home uses a normal square silhouette');
 assert.ok(cardCSS.includes('aspect-ratio:384 / 586'));
-assert.ok(cardCSS.includes('.moon-portrait-art-mask {z-index:2;}'));
+assert.ok(cardCSS.includes('.moon-portrait-art-mask {z-index:1;}'));
+assert.ok(cardCSS.includes('.moon-portrait-art-mask-layer {'));
+assert.ok(cardCSS.includes('left:var(--moon-mask-shift-x,0px)'));
+assert.ok(cardCSS.includes('top:var(--moon-mask-shift-y,0px)'));
+assert.ok(cardCSS.includes('width:var(--moon-mask-width,100%)'));
+assert.ok(cardCSS.includes('height:var(--moon-mask-height,100%)'));
+assert.ok(card.includes('className="moon-portrait-art-mask-layer"'));
+assert.ok(card.includes('className="moon-portrait-art-trigger"'));
+assert.ok(card.indexOf('moon-portrait-art-trigger') < card.indexOf('moon-portrait-art-caption'),
+  'Clickable portrait window belongs to the independently movable mask layer');
 assert.ok(cardCSS.includes('.moon-portrait-art-frame {z-index:3;}'), 'Frame must overlay the portrait, never behind it');
 assert.ok(cardCSS.includes('z-index:4;'), 'Nameplate must overlay the frame');
 const knownCompleteFrame = readFileSync(new URL('../public/project-moon/portrait-frame.png',import.meta.url));
@@ -66,5 +75,5 @@ const moonSheetCSS = source('../src/features/project-moon/ProjectMoonSheet.css')
 assert.ok(moonSheetCSS.includes('.moon-portrait-host'));
 assert.ok(moonSheetCSS.includes('var(--moon-portrait-width'));
 const layoutSettings = source('../src/features/project-moon/layout-settings.ts');
-for (const key of ['portraitWidth','portraitShiftX','portraitShiftY']) assert.ok(layoutSettings.includes(key));
+for (const key of ['portraitWidth','portraitShiftX','portraitShiftY','maskWidth','maskHeight','maskShiftX','maskShiftY']) assert.ok(layoutSettings.includes(key));
 console.log('PASS: Pr. Moon frame/mask share coordinates, clickable mask, vertical crop preview and admin layout');

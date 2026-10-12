@@ -7,7 +7,7 @@ import {
 const load = path => readFileSync(new URL(path,import.meta.url),'utf8');
 const original = {...DEFAULT_MOON_LAYOUT};
 const payload = encodeMoonLayout(original);
-assert.equal(payload.length,12);
+assert.equal(payload.length,16);
 assert.deepEqual(parseMoonLayout(payload),original);
 assert.deepEqual(parseMoonLayout(null),original);
 assert.equal(parseMoonLayout([{id:'pagePadding',value:999}]).pagePadding,22);
@@ -26,12 +26,45 @@ assert.equal(vars['--moon-type-bodyText-family'],"'DejaVu Sans','Noto Sans',Aria
 assert.equal(MOON_TEXT_GROUPS.length,11);
 assert.equal(vars['--moon-portrait-width'],'210px');
 assert.equal(vars['--moon-portrait-shift-x'],'0px');
+assert.equal(vars['--moon-mask-width'],'100%');
+assert.equal(vars['--moon-mask-height'],'100%');
+assert.equal(vars['--moon-mask-shift-x'],'0px');
+assert.equal(vars['--moon-mask-shift-y'],'0px');
 assert.equal(parseMoonLayout([{id:'portraitWidth',value:9999}]).portraitWidth,270);
 const extremeShifts = parseMoonLayout([{id:'portraitShiftX',value:758},{id:'portraitShiftY',value:-1250}]);
 assert.equal(extremeShifts.portraitShiftX,758);
 assert.equal(extremeShifts.portraitShiftY,-1250);
 assert.deepEqual(parseMoonLayout(encodeMoonLayout(extremeShifts)),extremeShifts);
 assert.equal(moonLayoutVariables(extremeShifts)['--moon-portrait-shift-y'],'-1250px');
+const adjustedMask = parseMoonLayout([
+  {id:'portraitWidth',value:226},
+  {id:'portraitShiftX',value:12},
+  {id:'maskWidth',value:107},
+  {id:'maskHeight',value:93},
+  {id:'maskShiftX',value:46},
+  {id:'maskShiftY',value:-324},
+]);
+assert.equal(adjustedMask.portraitWidth,226);
+assert.equal(adjustedMask.portraitShiftX,12);
+assert.equal(adjustedMask.maskWidth,107);
+assert.equal(adjustedMask.maskHeight,93);
+assert.equal(adjustedMask.maskShiftX,46);
+assert.equal(adjustedMask.maskShiftY,-324);
+assert.deepEqual(parseMoonLayout(encodeMoonLayout(adjustedMask)),adjustedMask,
+  'Frame and mask geometry must survive independent save and reload');
+const independentVars=moonLayoutVariables(adjustedMask);
+assert.equal(independentVars['--moon-portrait-width'],'226px');
+assert.equal(independentVars['--moon-portrait-shift-x'],'12px');
+assert.equal(independentVars['--moon-mask-width'],'107%');
+assert.equal(independentVars['--moon-mask-height'],'93%');
+assert.equal(independentVars['--moon-mask-shift-x'],'46px');
+assert.equal(independentVars['--moon-mask-shift-y'],'-324px');
+const previousTemplate = parseMoonLayout(payload.filter(item =>
+  !['maskWidth','maskHeight','maskShiftX','maskShiftY'].includes(item.id)));
+assert.equal(previousTemplate.maskWidth,100);
+assert.equal(previousTemplate.maskHeight,100);
+assert.equal(previousTemplate.maskShiftX,0);
+assert.equal(previousTemplate.maskShiftY,0);
 
 const oldLayout = parseMoonLayout(payload.slice(0,-1));
 assert.deepEqual(oldLayout.textStyles,DEFAULT_MOON_LAYOUT.textStyles,'Old 11-field drafts should have sane typography defaults');
@@ -90,6 +123,11 @@ assert.ok(editor.includes('Жирность'));
 assert.ok(editor.includes('Шрифт'));
 assert.ok(editor.includes('Курсив'));
 assert.ok(editor.includes('isMoonPortraitShift(key)'));
+assert.ok(editor.includes('frameControls.map(renderControl)'));
+assert.ok(editor.includes('maskControls.map(renderControl)'));
+assert.ok(editor.includes('Сбросить только маску'));
+assert.ok(editor.includes('Настройки маски портрета'));
+assert.ok(editor.includes('Настройки рамки портрета'));
 assert.ok(editor.includes('min={isMoonPortraitShift(option.key) ? undefined : option.min}'));
 assert.ok(editor.includes('max={isMoonPortraitShift(option.key) ? undefined : option.max}'));
 assert.ok(sheet.includes('layoutOverride ?? publishedLayout'));
@@ -109,4 +147,8 @@ assert.ok(migration.includes('sheet_admins'));
 const typeMigration=load('../supabase/migrations/20261012_prmoon_typography_controls.sql');
 assert.ok(typeMigration.includes('jsonb_array_length(draft_fields) not in (8,11,12)'));
 assert.ok(typeMigration.includes("'textStyles'"));
+const maskMigration=load('../supabase/migrations/20261012_prmoon_independent_mask_controls.sql');
+assert.ok(maskMigration.includes('jsonb_array_length(draft_fields) not in (8,11,12,16)'));
+for(const field of ['maskWidth','maskHeight','maskShiftX','maskShiftY'])
+  assert.ok(maskMigration.includes("'"+field+"'"));
 console.log('PASS: selectable sheet admin, Moon HTML layout publishing, safe config and both UI fixes');

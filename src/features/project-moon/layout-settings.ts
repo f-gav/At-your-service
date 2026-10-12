@@ -62,13 +62,19 @@ export const DEFAULT_MOON_LAYOUT = {
   portraitWidth: 210,
   portraitShiftX: 0,
   portraitShiftY: 0,
+  // Mask artwork and its portrait window move independently of the frame.
+  maskWidth: 100,
+  maskHeight: 100,
+  maskShiftX: 0,
+  maskShiftY: 0,
   textStyles: cloneMoonTextStyles(),
 };
 export type MoonLayout = typeof DEFAULT_MOON_LAYOUT;
 export type MoonLayoutKey = keyof MoonLayout;
 export type MoonNumericColorKey = Exclude<MoonLayoutKey, 'textStyles'>;
 export const isMoonPortraitShift = (key: MoonLayoutKey): boolean =>
-  key === 'portraitShiftX' || key === 'portraitShiftY';
+  key === 'portraitShiftX' || key === 'portraitShiftY' ||
+  key === 'maskShiftX' || key === 'maskShiftY';
 
 type MoonLayoutControl = {
   key: MoonNumericColorKey;
@@ -84,9 +90,13 @@ export const MOON_LAYOUT_CONTROLS: MoonLayoutControl[] = [
   { key: 'noteHeight', title: 'Минимальная высота заметок', min: 160, max: 520, step: 2, unit: 'px' },
   { key: 'lineColor', title: 'Цвет линий' },
   { key: 'inkColor', title: 'Цвет текста' },
-  { key: 'portraitWidth', title: 'Ширина рамки и маски', min: 155, max: 270, step: 1, unit: 'px' },
+  { key: 'portraitWidth', title: 'Ширина рамки', min: 155, max: 270, step: 1, unit: 'px' },
   { key: 'portraitShiftX', title: 'Смещение рамки по горизонтали', min: -35, max: 35, step: 1, unit: 'px' },
   { key: 'portraitShiftY', title: 'Смещение рамки по вертикали', min: -35, max: 35, step: 1, unit: 'px' },
+  { key: 'maskWidth', title: 'Ширина маски', min: 30, max: 220, step: 1, unit: '%' },
+  { key: 'maskHeight', title: 'Высота маски', min: 30, max: 220, step: 1, unit: '%' },
+  { key: 'maskShiftX', title: 'Смещение маски по горизонтали', min: -35, max: 35, step: 1, unit: 'px' },
+  { key: 'maskShiftY', title: 'Смещение маски по вертикали', min: -35, max: 35, step: 1, unit: 'px' },
 ];
 
 type Entry = { id: string; value: unknown };
@@ -172,6 +182,10 @@ export function moonLayoutVariables(layout: MoonLayout): Record<string,string> {
     '--moon-portrait-width': layout.portraitWidth + 'px',
     '--moon-portrait-shift-x': layout.portraitShiftX + 'px',
     '--moon-portrait-shift-y': layout.portraitShiftY + 'px',
+    '--moon-mask-width': layout.maskWidth + '%',
+    '--moon-mask-height': layout.maskHeight + '%',
+    '--moon-mask-shift-x': layout.maskShiftX + 'px',
+    '--moon-mask-shift-y': layout.maskShiftY + 'px',
     '--moon-line': layout.lineColor,
     '--moon-ink': layout.inkColor,
   };

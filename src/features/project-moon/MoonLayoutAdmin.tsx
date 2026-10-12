@@ -148,6 +148,38 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     onClose();
   }
 
+  const frameKeys = ['portraitWidth','portraitShiftX','portraitShiftY'];
+  const maskKeys = ['maskWidth','maskHeight','maskShiftX','maskShiftY'];
+  const baseControls = MOON_LAYOUT_CONTROLS.filter(option =>
+    !frameKeys.includes(option.key) && !maskKeys.includes(option.key));
+  const frameControls = MOON_LAYOUT_CONTROLS.filter(option => frameKeys.includes(option.key));
+  const maskControls = MOON_LAYOUT_CONTROLS.filter(option => maskKeys.includes(option.key));
+  const renderControl = (option: typeof MOON_LAYOUT_CONTROLS[number]) => (
+        <label key={option.key}>{option.title}
+              {option.min === undefined
+                ? <input type="color" disabled={busy || loading}
+                    value={layout[option.key] as string}
+                    onChange={e => change(option.key,e.target.value)}/>
+                : <span className="moon-admin-value">
+                    <input type="range"
+                      min={isMoonPortraitShift(option.key)
+                        ? Math.min(option.min!, (layout[option.key] as number) - 100) : option.min}
+                      max={isMoonPortraitShift(option.key)
+                        ? Math.max(option.max!, (layout[option.key] as number) + 100) : option.max}
+                      step={option.step || 1} disabled={busy || loading}
+                      value={layout[option.key] as number}
+                      onChange={e => change(option.key,e.target.value)}/>
+                    <input type="number" min={isMoonPortraitShift(option.key) ? undefined : option.min}
+                      max={isMoonPortraitShift(option.key) ? undefined : option.max}
+                      step={option.step || 1}
+                      aria-label={option.title} disabled={busy || loading} value={layout[option.key] as number}
+                      onChange={e => change(option.key,e.target.value)}/>
+                    <small>{option.unit}</small>
+                  </span>}
+        </label>
+
+  );
+
   return <main className="page moon-admin">
     <header className="moon-admin-toolbar">
       <button type="button" onClick={exit}><ArrowLeft size={17}/> К выбору листа</button>
@@ -171,30 +203,22 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
         <h2>Оформление HTML-листа</h2>
         <p>Изменяй параметры и смотри результат на всех четырёх страницах. Поля персонажей и их значения не затрагиваются.</p>
         <div className="moon-admin-controls">
-          {MOON_LAYOUT_CONTROLS.map(option =>
-            <label key={option.key}>{option.title}
-              {option.min === undefined
-                ? <input type="color" disabled={busy || loading}
-                    value={layout[option.key] as string}
-                    onChange={e => change(option.key,e.target.value)}/>
-                : <span className="moon-admin-value">
-                    <input type="range"
-                      min={isMoonPortraitShift(option.key)
-                        ? Math.min(option.min!, (layout[option.key] as number) - 100) : option.min}
-                      max={isMoonPortraitShift(option.key)
-                        ? Math.max(option.max!, (layout[option.key] as number) + 100) : option.max}
-                      step={option.step || 1} disabled={busy || loading}
-                      value={layout[option.key] as number}
-                      onChange={e => change(option.key,e.target.value)}/>
-                    <input type="number" min={isMoonPortraitShift(option.key) ? undefined : option.min}
-                      max={isMoonPortraitShift(option.key) ? undefined : option.max}
-                      step={option.step || 1}
-                      aria-label={option.title} disabled={busy || loading} value={layout[option.key] as number}
-                      onChange={e => change(option.key,e.target.value)}/>
-                    <small>{option.unit}</small>
-                  </span>}
-            </label>)}
+          {baseControls.map(renderControl)}
         </div>
+        <section className="moon-admin-portrait-settings" aria-label="Настройки рамки портрета">
+          <h3>Рамка портрета</h3>
+          <p>Ширина и смещение декоративной рамки. Маска и изображение регулируются отдельно.</p>
+          <div className="moon-admin-controls">{frameControls.map(renderControl)}</div>
+        </section>
+        <section className="moon-admin-portrait-settings" aria-label="Настройки маски портрета">
+          <h3>Маска и изображение</h3>
+          <p>Отдельные ширина, высота и смещения. При изменении маски портрет и область нажатия перемещаются вместе с ней.</p>
+          <div className="moon-admin-controls">{maskControls.map(renderControl)}</div>
+          <button type="button" className="moon-admin-reset-mask" disabled={busy || loading}
+            onClick={()=>setLayout(old=>({...old,
+              maskWidth:100,maskHeight:100,maskShiftX:0,maskShiftY:0,
+            }))}>Сбросить только маску</button>
+        </section>
 
         <section className="moon-admin-typography" aria-label="Оформление текстовых блоков">
           <h3>Текстовые блоки</h3>
