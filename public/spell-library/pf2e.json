@@ -1909,6 +1909,127 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-adventure-path-gatewalkers"
+    },
+    {
+      "id": "pf2e-buffeting-winds",
+      "system": "pf2e",
+      "slug": "buffeting-winds",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate",
+        "manipulate",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-knights-of-lastwall"
+    },
+    {
+      "id": "pf2e-buoyant-bubbles",
+      "system": "pf2e",
+      "slug": "buoyant-bubbles",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-camel-spit",
+      "system": "pf2e",
+      "slug": "camel-spit",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "attack",
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-howl-of-the-wild"
+    },
+    {
+      "id": "pf2e-carryall",
+      "system": "pf2e",
+      "slug": "carryall",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "force",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-celestial-accord",
+      "system": "pf2e",
+      "slug": "celestial-accord",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "good",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-183-field-of-maidens"
+    },
+    {
+      "id": "pf2e-charm",
+      "system": "pf2e",
+      "slug": "charm",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "incapacitation",
+        "manipulate",
+        "mental",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -3267,6 +3388,90 @@
         "success": "2d6 дробящего урона и слепота на 1 раунд; Взаимодействие снимает слепоту.",
         "criticalSuccess": "4d6 дробящего урона, слепота на 1 раунд и ослепление светом на 1 минуту; Взаимодействие снимает только слепоту."
       }
+    },
+    {
+      "id": "pf2e-buffeting-winds-pf2e-legacy",
+      "spellId": "pf2e-buffeting-winds",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "area": "cone: 15 feet",
+      "savingThrow": "Basic reflex save",
+      "heightened": {
+        "source": " (+1) The damage increases by 2d4."
+      }
+    },
+    {
+      "id": "pf2e-buoyant-bubbles-pf2e-remaster",
+      "spellId": "pf2e-buoyant-bubbles",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1,
+        "text": "1"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-camel-spit-pf2e-remaster",
+      "spellId": "pf2e-camel-spit",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "duration": "1 minute",
+      "heightened": {
+        "source": " (+1) The damage increases by 1d6, and the persistent damage on a critical hit is increased by 1."
+      }
+    },
+    {
+      "id": "pf2e-carryall-pf2e-remaster",
+      "spellId": "pf2e-carryall",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "duration": "8 hours"
+    },
+    {
+      "id": "pf2e-celestial-accord-pf2e-legacy",
+      "spellId": "pf2e-celestial-accord",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "2 creatures that each have an unfriendly or worse attitude toward the other",
+      "duration": "1 minute",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-charm-pf2e-remaster",
+      "spellId": "pf2e-charm",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 creature",
+      "duration": "1 hour",
+      "savingThrow": "will save",
+      "heightened": {
+        "source": " (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures."
+      }
     }
   ],
   "translations": [
@@ -4526,6 +4731,63 @@
       "name": "Briny Bolt",
       "description": "Fire a projectile of seawater at one creature within 60 feet and make a ranged spell attack. A hit deals 2d6 bludgeoning damage and blinds the target for 1 round; the victim can spend an Interact action to clear the blindness. On a critical hit, it takes 4d6 damage, is blinded for 1 round, and dazzled for 1 minute; an Interact action ends only the blindness. Heightened (+1 rank): increase normal hit damage by 2d6 (and critical-hit damage accordingly).",
       "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-buffeting-winds",
+      "versionId": "pf2e-buffeting-winds-pf2e-legacy",
+      "locale": "en",
+      "name": "Buffeting Winds",
+      "description": "You release a quick burst of wind that batters your living opponents without causing them lasting harm, while also blowing undead away. The wind deals 2d4 bludgeoning damage, which is nonlethal against living creatures. Against undead, the winds are more vicious, and the spell loses the nonlethal trait against such creatures. Each creature in the area must attempt a basic Reflex save. On a failure, undead creatures are also knocked back 5 feet (or 10 feet on a critical failure).\n\n\n\n\nHeightened (+1) The damage increases by 2d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-buoyant-bubbles",
+      "versionId": "pf2e-buoyant-bubbles-pf2e-remaster",
+      "locale": "en",
+      "name": "Buoyant Bubbles",
+      "description": "You create a thin layer of foamy bubbles that adhere to the target, causing it to float in water and similar liquids. The target doesn't sink, even if it hasn't succeeded at a Swim check this round; an already-sinking target resurfaces with the bubbles' help over the course of 1 round. If on a plane where the water or liquid has a surface, the bubbles also prevent the target from diving beneath that surface unless it succeeds at a Fortitude save against your spell DC.\n\n\n\n\nHeightened (4th) You can target up to 5 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-camel-spit",
+      "versionId": "pf2e-camel-spit-pf2e-remaster",
+      "locale": "en",
+      "name": "Camel Spit",
+      "description": "You alter your stomach, esophagus, and tongue to be able to spit partially digested food with force. You can spit at a foe once you finish Casting the Spell and can repeat the attack once on each of your subsequent turns by taking a single action, which has the acid, attack, and concentrate traits. After your third spit attack, the spell ends. When you attack with camel spit, make a ranged spell attack roll against a creature within 15 feet, dealing 1d6 acid damage and causing the target to be condition for 1 round if you hit. On a critical hit, you deal double damage and the target takes persistent damage] damage.\n\n\n\n\nHeightened (+1) The damage increases by 1d6, and the persistent damage on a critical hit is increased by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-carryall",
+      "versionId": "pf2e-carryall-pf2e-remaster",
+      "locale": "en",
+      "name": "Carryall",
+      "description": "A small platform of magical force materializes adjacent to you to carry cargo. It is condition or has a ghostly appearance, is 2 feet in diameter, and follows 5 feet behind you, floating just above the ground. It holds up to 5 Bulk of objects (if they can fit on it). Any objects atop the platform fall to the ground when the spell ends. You can Sustain the spell to move the platform up to 30 feet along the ground, to make it stay in place, or to have it return to you and resume following you. The spell ends if a creature tries to ride atop the platform, if the platform is overloaded, if anyone tries to lift or force the platform higher above the ground, or if you move more than 60 feet away from the platform.\n\n\nHeightened (4th) The platform can carry 10 Bulk, creatures can ride atop it, and it can hover in the air, not just on the ground",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-celestial-accord",
+      "versionId": "pf2e-celestial-accord-pf2e-legacy",
+      "locale": "en",
+      "name": "Celestial Accord",
+      "description": "You intervene in a heated disagreement between two creatures, encouraging them to put aside their differences and find some common ground. The emotional heat of the prior moment becomes only a memory. Each target must make a Will save. A creature currently engaged in combat can't get a result worse than success, and a target that is subject to hostility from any other creature ceases to be affected by celestial accord.\n\n\n\n\nCritical Success The creature is unaffected.\n\nSuccess The creature is filled with doubt about its own intentions and feels an urge to cooperate with the other. It has a -2 status penalty to attack rolls against the other target for 1 round.\n\nFailure The creature can't make hostile actions against the other target and its attitude toward the other target improves to indifferent for the spell's duration.\n\nCritical Failure As failure, but the creature's attitude toward the other target improves to friendly for the duration and is indifferent thereafter (until something happens to change that attitude normally).",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-charm",
+      "versionId": "pf2e-charm-pf2e-remaster",
+      "locale": "en",
+      "name": "Charm",
+      "description": "To the target, your words are honey and your visage seems bathed in a dreamy haze. It must attempt a Will save, with a +4 circumstance bonus if you or your allies recently threatened it or used hostile actions against it.\n\nYou can Dismiss the spell. If you use hostile actions against the target, the spell ends. When the spell ends, the target doesn't necessarily realize it was charmed unless its friendship with you or the actions you convinced it to take clash with its expectations, meaning you could potentially convince the target to continue being your friend via mundane means.\n\n\n\n\nCritical Success The target is unaffected and aware you tried to charm it.\n\nSuccess The target is unaffected but thinks your spell was something harmless instead of charm, unless it identifies the spell.\n\nFailure The target's attitude becomes condition toward you. If it was Friendly, it becomes condition. It can't use hostile actions against you.\n\nCritical Failure The target's attitude becomes Helpful toward you, and it can't use hostile actions against you.\n\n\n\n\nHeightened (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-charm",
+      "versionId": "pf2e-charm-pf2e-remaster",
+      "locale": "ru",
+      "name": "Очаровать",
+      "description": "Цель совершает спасбросок Воли; если вы или союзники недавно угрожали ей, она получает бонус обстоятельства +4. При провале отношение к вам становится дружелюбным (или услужливым, если уже было дружелюбным), а при критическом провале — услужливым. Успех оставляет существо без эффекта, критический успех также позволяет распознать попытку очарования. Враждебные действия против цели прекращают заклинание. На 4-м круге действие длится до следующей ежедневной подготовки, на 8-м можно выбрать до десяти целей.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
     }
   ],
   "sources": [
@@ -4681,6 +4943,27 @@
       "name": "Pathfinder Adventure Path: Gatewalkers",
       "publisher": "Paizo",
       "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-knights-of-lastwall",
+      "name": "Pathfinder Lost Omens Knights of Lastwall",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-howl-of-the-wild",
+      "name": "Pathfinder Howl of the Wild",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-183-field-of-maidens",
+      "name": "Pathfinder #183: Field of Maidens",
+      "publisher": "Paizo",
+      "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
