@@ -163,7 +163,7 @@ assert.match(schema,/export function withClassDcNumericBonus/);
 assert.match(schema,/field.max === 4 \? \{max:99\}/);
 assert.match(ui,/isClassDcConfigured\(values\)/);
 assert.match(ui,/field.id === 'class_dc'/);
-assert.match(ui,/key === 'class_dc'/);
+assert.match(ui,/key==='class_dc'/);
 assert.match(admin,/withClassDcNumericBonus\(withWeaponSheetFields/);
 
 console.log('PF2e native AC: 10 + manual Dex/proficiency/item; numbered shield and AC field.');
