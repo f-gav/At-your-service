@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import AutoSaveStatus from './lib/AutoSaveStatus';
 import {useAutoSave} from './lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
@@ -220,6 +220,11 @@ export default function App() {
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
   const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>window.location.hash==='#library'?'library':'characters');
+  // Reset the new page position before paint. Scrolling the old page inside
+  // navigateTo could visibly move the header when content height changes.
+  useLayoutEffect(()=>{
+    window.scrollTo({top:0,behavior:'instant'});
+  },[mainTab]);
   const [authReady, setAuthReady] = useState(!isConfigured);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loadingCharacters, setLoadingCharacters] = useState(false);
@@ -251,7 +256,6 @@ export default function App() {
     closeCreate();
     const hash=tab==='library'?'#library':'';
     window.history.replaceState(null,'',window.location.pathname+window.location.search+hash);
-    window.scrollTo({top:0,behavior:'instant'});
   }
 
   const user = session?.user;
