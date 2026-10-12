@@ -146,6 +146,12 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
   try {
     await document.fonts.ready;
     await awaitImages(stage);
+    // The source paper uses min-height:A4, but long rich-text pages may overflow.
+    // Expand the capture boundary to preserve that content rather than crop it.
+    for(const page of Array.from(stack.children) as HTMLElement[]){
+      const fullHeight=Math.max(page.scrollHeight,page.offsetHeight);
+      if(fullHeight>page.offsetHeight)page.style.height=fullHeight+'px';
+    }
     // Import on demand; home screen never downloads the PDF rendering engines.
     const [{default:html2canvas},{jsPDF}]=await Promise.all([import('html2canvas'),import('jspdf')]);
     const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
