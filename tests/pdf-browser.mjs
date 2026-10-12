@@ -35,6 +35,10 @@ try {
       await page.waitForSelector(selector);
       const expectedDom=test.system==='pf2e'?(test.notes?5:4):4;
       assert.equal(await page.locator(selector).count(),expectedDom,'HTML sheet page count');
+      const dimensions=await page.locator(selector).evaluateAll(elements=>elements.map(el=>({
+        page:el.id,height:el.getBoundingClientRect().height,scrollHeight:el.scrollHeight,width:el.getBoundingClientRect().width
+      })));
+      console.log('Source HTML pages:',JSON.stringify(dimensions));
       const promise=page.waitForEvent('download',{timeout:180000});
       await page.locator('#generate-test-pdf').click();
       const download=await promise;
