@@ -40,7 +40,12 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!editor||(editor.contains(document.activeElement)&&value===ownValue.current))return;
     const html=toRichHtml(value);
     if(editor.innerHTML!==html)editor.innerHTML=html;
-  },[value]);
+    if(spellColumns?.length){
+      for(const head of editor.querySelectorAll<HTMLElement>('[data-pf-spell-columns]')){
+        head.style.setProperty('--pf-spell-heading-columns',spellColumns.map(w=>`${w}fr`).join(' '));
+      }
+    }
+  },[value,spellColumns]);
 
   function emit(){
     const editor=root.current;
