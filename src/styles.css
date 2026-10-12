@@ -422,9 +422,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* Project Moon uses an understated navy, bookish serif label rather than the generic script badge. */
 .character-prmoon .character-system { color: #29445f; }
 
-/* The bundled Tilda Script is a labels-only subset. Its missing Latin r/o
-   fell back to Georgia, breaking 'Pr. Moon' across mismatched typefaces.
-   A complete Latin cursive family is applied to the entire wordmark only. */
+/* The header's "At your service!" is wordmark.svg (outlined vector
+   paths), not live text rendered with this webfont. Therefore the wordmark
+   cannot prove that our small tilda-script-labels.woff2 subset supports
+   every letter in "Pr. Moon". Keep its entire label in one complete Latin
+   script font to avoid mixed-glyph fallback. Other systems retain Tilda. */
 .character-prmoon .character-system {
   font-family: 'Lobster', 'Segoe Script', 'Brush Script MT', cursive;
   font-size: 18px;

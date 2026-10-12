@@ -12,6 +12,7 @@ import ToggleVisual from './ToggleVisual';
 import DyingSkulls from './DyingSkulls';
 import RankSelect from './RankSelect';
 import RichField from './RichField';
+import {spellTableSpan} from './spell-table-spoilers';
 import { sanitizeSignedNumericInput } from './numeric-input';
 import DynamicAdvancement from './DynamicAdvancement';
 import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeAdvancementLevel } from './advancement-model';
@@ -312,9 +313,15 @@ export default function PathfinderSheet({
     const narrow = field.w < 40 ? ' pf-field-narrow' : '';
     const tiny = field.w < 20 ? ' pf-field-tiny' : '';
     if (field.kind === 'long') {
+      const tableSpan = spellTableSpan(field, templateFields);
+      const richStyle = tableSpan ? {
+        ...style,
+        '--pf-spell-span-width': `${100*tableSpan.width/PDF_WIDTH}cqw`,
+        '--pf-spell-span-offset': `${100*tableSpan.offset/PDF_WIDTH}cqw`,
+      } as CSSProperties : style;
       return <RichField key={field.id} id={id} label={field.label}
-        className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}`}
-        style={style} value={String(value??'')} resourceContext={values} disabled={saving||computedField}
+        className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}${tableSpan ? ' pf-spell-table-rich' : ''}`}
+        style={richStyle} value={String(value??'')} resourceContext={values} disabled={saving||computedField}
         onChange={next=>change(field.id,next)}/>;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';

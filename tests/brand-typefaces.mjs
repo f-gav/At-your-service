@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
+const wordmark=read('../public/wordmark.svg');
+const css=read('../src/styles.css');
+const app=read('../src/App.tsx');
+const subset=readFileSync(new URL('../src/assets/tilda-script-labels.woff2',import.meta.url));
+assert.ok(wordmark.includes('<path d='),'The main site wordmark is vector outlines');
+assert.ok(!/<text(?:\\s|>)/i.test(wordmark),'The main site wordmark is NOT text in a font');
+assert.ok(app.includes('wordmark.svg'));
+assert.equal(subset.toString('ascii',0,4),'wOF2');
+assert.ok(subset.byteLength<15000,'Bundled script is a small subset, not a complete design source');
+assert.match(css,/font-family: 'Tilda Script'/);
+assert.match(css,/\.character-prmoon \.character-system\s*\{[\s\S]*?font-family: 'Lobster'/);
+console.log('PASS: logo is outlined SVG, not proof of Tilda Script glyph coverage; Pr. Moon fallback remains uniform');
