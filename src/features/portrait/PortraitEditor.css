@@ -59,3 +59,17 @@
   pointer-events:none;
   z-index:2;
 }
+
+
+/* Match the seamless left edge of the Pr. Moon frame in crop preview. */
+.portrait-crop-frame-preview::after {
+  content:"";
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  left:calc(3.65% - 0.5px);
+  top:18.09%;
+  width:1.5px;
+  height:64%;
+  background:#5e666e;
+}

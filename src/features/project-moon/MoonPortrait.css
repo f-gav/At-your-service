@@ -96,3 +96,22 @@
   outline:3px solid #355e80;
   outline-offset:-3px;
 }
+
+
+/*
+ * The original PNG has a sub-pixel pale highlight on the left inner cutout.
+ * Cover that artwork seam with the frame's own slate color. This overlay is
+ * anchored to the FRAME, not the adjustable mask or portrait, so the admin's
+ * saved independent position/scale settings are left completely untouched.
+ */
+.moon-portrait-art::after {
+  content:"";
+  position:absolute;
+  z-index:4;
+  pointer-events:none;
+  left:calc(3.65% - 0.5px);
+  top:18.09%;
+  width:1.5px;
+  height:64%;
+  background:#5e666e;
+}

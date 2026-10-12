@@ -49,6 +49,12 @@ assert.ok(card.includes('className="moon-portrait-art-trigger"'));
 assert.ok(card.indexOf('moon-portrait-art-trigger') < card.indexOf('moon-portrait-art-caption'),
   'Clickable portrait window belongs to the independently movable mask layer');
 assert.ok(cardCSS.includes('.moon-portrait-art-frame {z-index:3;}'), 'Frame must overlay the portrait, never behind it');
+assert.ok(cardCSS.includes('.moon-portrait-art::after'), 'Seal the pale left aperture seam');
+assert.ok(cardCSS.includes('background:#5e666e;'), 'Seam matches frame color');
+assert.ok(cardCSS.includes('left:calc(3.65% - 0.5px);'));
+assert.ok(cardCSS.includes('pointer-events:none;'), 'Correction must not intercept portrait click');
+assert.ok(!cardCSS.includes('var(--moon-mask-shift-x') || cardCSS.includes('.moon-portrait-art-mask-layer'), 'User mask controls remain');
+
 assert.ok(cardCSS.includes('z-index:4;'), 'Nameplate must overlay the frame');
 const knownCompleteFrame = readFileSync(new URL('../public/project-moon/portrait-frame.png',import.meta.url));
 assert.equal(createHash('sha256').update(knownCompleteFrame).digest('hex'),
@@ -56,6 +62,8 @@ assert.equal(createHash('sha256').update(knownCompleteFrame).digest('hex'),
   'Do not replace the complete frame with a truncated or masked-down PNG');
 assert.ok(cardCSS.includes('left:calc(3.65% + 2px);'), 'Portrait slightly overlaps the interior frame');
 const cropPreviewStyles=source('../src/features/portrait/PortraitEditor.css');
+assert.ok(cropPreviewStyles.includes('.portrait-crop-frame-preview::after'), 'Crop preview hides identical seam');
+
 assert.ok(cropPreviewStyles.includes('left:calc(3.65% + 2px);'), 'Crop preview must match the dossier photo position');
 assert.ok(cardCSS.includes('top:calc(18.09% - 1px)'));
 assert.ok(cardCSS.includes('width:calc(92.7% + 4px)'));
