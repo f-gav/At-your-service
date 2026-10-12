@@ -50,6 +50,10 @@ jobs:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+      - name: Verify downloadable PDFs in Chromium
+        run: |
+          npx playwright install chromium
+          npm run test:pdf-browser
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload build artifact
