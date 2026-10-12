@@ -40,7 +40,35 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!editor||(editor.contains(document.activeElement)&&value===ownValue.current))return;
     const html=toRichHtml(value);
     if(editor.innerHTML!==html)editor.innerHTML=html;
+    ensureSpellHeadings(editor);
   },[value]);
+
+  // Existing single-title spell spoilers are upgraded in place without
+  // rewriting their body or discarding text. The sanitizer persists these cells.
+  function ensureSpellHeadings(editor:HTMLElement){
+    if(!spellColumns || spellColumns.length<2)return;
+    for(const spoiler of editor.querySelectorAll<HTMLElement>('[data-pf-spoiler="1"]')){
+      if(spoiler.closest('[data-pf-spoiler-body]'))continue;
+      const head=spoiler.querySelector<HTMLElement>(':scope > [data-pf-spoiler-head]');
+      const first=head?.querySelector<HTMLElement>('[data-pf-spoiler-title="1"]');
+      if(!head||!first)continue;
+      head.dataset.pfSpellColumns=String(spellColumns.length);
+      let last=first;
+      for(let i=1;i<spellColumns.length;i++){
+        let cell=head.querySelector<HTMLElement>('[data-pf-spell-column="'+i+'"]');
+        if(!cell){
+          cell=document.createElement('span');
+          cell.dataset.pfSpoilerTitle='1';
+          cell.dataset.pfSpellColumn=String(i);
+          cell.contentEditable='true';
+          cell.setAttribute('role','textbox');
+          cell.setAttribute('aria-label', 'Столбец '+(i+1)+' спойлера');
+          last.after(cell);
+        }
+        last=cell;
+      }
+    }
+  }
 
   function emit(){
     const editor=root.current;
@@ -161,22 +189,10 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     const template=document.createElement('template');
     template.innerHTML=(kind==='spoiler'?spoilerMarkup():kind==='divider'?dividerMarkup():resourceMarkup())+'<div><br></div>';
     if(kind==='spoiler'&&spellColumns?.length){
-      const spoiler=template.content.firstElementChild as HTMLElement;
-      const head=spoiler.querySelector<HTMLElement>('[data-pf-spoiler-head]');
-      let title=head?.querySelector<HTMLElement>('[data-pf-spoiler-title]');
-      if(head&&title){
-        head.dataset.pfSpellColumns=String(spellColumns.length);
-        for(let i=1;i<spellColumns.length;i++){
-          const cell=document.createElement('span');
-          cell.dataset.pfSpoilerTitle='1';
-          cell.dataset.pfSpellColumn=String(i);
-          cell.contentEditable='true';
-          cell.setAttribute('role','textbox');
-          cell.setAttribute('aria-label',`Заголовок спойлера — столбец ${i+1}`);
-          title.after(cell);
-          title=cell;
-        }
-      }
+      const temporary=document.createElement('div');
+      temporary.appendChild(template.content);
+      ensureSpellHeadings(temporary);
+      while(temporary.firstChild)template.content.appendChild(temporary.firstChild);
     }
     const fragment=template.content;
     const widget=fragment.firstElementChild as HTMLElement;
