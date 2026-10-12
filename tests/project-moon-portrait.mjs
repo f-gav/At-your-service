@@ -16,7 +16,12 @@ for (const path of ['../public/project-moon/portrait-frame.png','../public/proje
 }
 assert.ok(app.includes("character.system === 'prmoon'"));
 assert.ok(!app.includes('<MoonPortrait compact'));
-assert.ok(app.includes('project-moon/portrait-placeholder.png'));
+assert.ok(app.includes('project-moon/character-icon.png'));
+assert.ok(!app.includes('project-moon/portrait-placeholder.png'), 'Old dossier placeholder must not be used as home avatar');
+const goblin = readFileSync(new URL('../public/project-moon/character-icon.png',import.meta.url));
+assert.deepEqual([...goblin.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+assert.equal(goblin.readUInt32BE(16),192);
+assert.equal(goblin.readUInt32BE(20),192);
 assert.ok(app.includes('character.portrait_crops?.card'));
 assert.ok(!app.includes('character.portrait_crops?.sheet'), 'Home thumb uses card crop, not sheet crop');
 assert.ok(app.includes('system={portraitCharacter.system}'));

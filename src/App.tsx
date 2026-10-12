@@ -646,7 +646,7 @@ export default function App() {
                           ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
                           : character.portrait_card_path && portraitUrls[character.portrait_card_path]
                             ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
-                            : <img src={`${import.meta.env.BASE_URL}project-moon/portrait-placeholder.png`} alt="" />
+                            : <img src={`${import.meta.env.BASE_URL}project-moon/character-icon.png`} alt="" />
                         : character.portrait_source_path && portraitUrls[character.portrait_source_path]
                           ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
                           : character.portrait_card_path && portraitUrls[character.portrait_card_path]
