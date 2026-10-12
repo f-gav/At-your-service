@@ -1,4 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
+import AutoSaveStatus from './lib/AutoSaveStatus';
+import {useAutoSave} from './lib/use-auto-save';
+import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
+import {usePwaInstall} from './lib/use-pwa-install';
 import type { FormEvent, ChangeEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import {
@@ -6,7 +10,6 @@ import {
   ArrowRight,
   MoveHorizontal,
   Check,
-  Cloud,
   FilePenLine,
   LogIn,
   LogOut,
@@ -116,80 +119,63 @@ function CharacterEditor({
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
   onClose: () => void;
 }) {
-  const [name, setName] = useState(character.name);
-  const [concept, setConcept] = useState(detailString(character.details, 'concept'));
-  const [chronicle, setChronicle] = useState(detailString(character.details, 'chronicle'));
-  const [notes, setNotes] = useState(detailString(character.details, 'notes'));
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [lastSaved, setLastSaved] = useState({
-    name: character.name,
-    concept: detailString(character.details, 'concept'),
-    chronicle: detailString(character.details, 'chronicle'),
-    notes: detailString(character.details, 'notes'),
+  const draftKey=characterDraftKey(character.user_id,character.id);
+  const [serverBaseline]=useState(()=>JSON.stringify({
+    name:character.name,
+    concept:detailString(character.details,'concept'),
+    chronicle:detailString(character.details,'chronicle'),
+    notes:detailString(character.details,'notes'),
+  }));
+  const [initialDraft]=useState(()=>{
+    const recovered=recoverLocalDraft(draftKey,serverBaseline);
+    if(!recovered)return null;
+    try {
+      const value:unknown=JSON.parse(recovered);
+      if(value&&typeof value==='object'&&!Array.isArray(value)) {
+        const item=value as Record<string,unknown>;
+        if(['name','concept','chronicle','notes'].every(key=>typeof item[key]==='string'))
+          return item as {name:string;concept:string;chronicle:string;notes:string};
+      }
+    }catch{ /* stale or corrupt device draft */ }
+    return null;
   });
-
-  const dirty = name !== lastSaved.name || concept !== lastSaved.concept ||
-    chronicle !== lastSaved.chronicle || notes !== lastSaved.notes;
+  const [name,setName]=useState(()=>initialDraft?.name??character.name);
+  const [concept,setConcept]=useState(()=>initialDraft?.concept??detailString(character.details,'concept'));
+  const [chronicle,setChronicle]=useState(()=>initialDraft?.chronicle??detailString(character.details,'chronicle'));
+  const [notes,setNotes]=useState(()=>initialDraft?.notes??detailString(character.details,'notes'));
+  const auto=useAutoSave({
+    snapshot:JSON.stringify({name,concept,chronicle,notes}),
+    initialSnapshot:serverBaseline,draftKey,
+    persist:async serialized=>{
+      const captured=JSON.parse(serialized) as {name:string;concept:string;chronicle:string;notes:string};
+      const cleanName=normalizedName(captured.name);
+      if(!cleanName)throw new Error('Укажи имя персонажа.');
+      const details:CharacterDetails={
+        ...character.details,
+        concept:captured.concept.slice(0,500),
+        chronicle:captured.chronicle.slice(0,200),
+        notes:captured.notes.slice(0,20000),
+      };
+      return onSave(character.id,cleanName,details);
+    },
+  });
+  const editLocked=false;
+  const {error}=auto;
   const system = GAME_SYSTEMS[character.system];
 
-  useEffect(() => {
-    if (!dirty) return;
-    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); };
-    window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
-  }, [dirty]);
-
-  async function save(): Promise<boolean> {
-    const cleanName = normalizedName(name);
-    if (!cleanName) {
-      setError('Укажи имя персонажа.');
-      return false;
-    }
-    setSaving(true);
-    setError('');
-    const details: CharacterDetails = {
-      ...character.details,
-      concept: concept.slice(0, 500),
-      chronicle: chronicle.slice(0, 200),
-      notes: notes.slice(0, 20000),
-    };
-    try {
-      const success = await onSave(character.id, cleanName, details);
-      if (!success) {
-        setError('Не получилось сохранить изменения. Проверь подключение и повтори попытку.');
-        return false;
-      }
-      setName(cleanName);
-      setLastSaved({ name: cleanName, concept, chronicle, notes });
-      return true;
-    } catch (err) {
-      setError(messageFromError(err));
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  }
-
   async function goBack() {
-    if (saving) return;
-    if (dirty && !(await save())) return;
+    if(!(await auto.saveNow()))return;
     onClose();
   }
 
   return (
     <main className="page page-editor">
       <div className="editor-nav">
-        <button className="text-button" type="button" onClick={() => void goBack()} disabled={saving}>
+        <button className="text-button" type="button" onClick={() => void goBack()} disabled={editLocked}>
           <ArrowLeft size={17} /> К персонажам
         </button>
         <div className="editor-actions">
-          <span className={`save-status ${dirty ? 'status-changed' : ''}`} aria-live="polite">
-            {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено в аккаунте'}
-          </span>
-          <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
-            <Cloud size={16} /> {saving ? 'Сохраняю…' : 'Сохранить'}
-          </button>
+          <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
         </div>
       </div>
       <div className="sheet-heading">
@@ -202,21 +188,21 @@ function CharacterEditor({
         <div className="paper-topline"><span>AT YOUR SERVICE</span><span>{system.short.toUpperCase()} / CHARACTER SHEET</span></div>
         <div className="paper-row paper-row-major">
           <label className="field-label field-name">ИМЯ ПЕРСОНАЖА
-            <input disabled={saving} maxLength={100} value={name} onChange={e => { setName(e.target.value); }} placeholder="Например, Авантюрист" autoComplete="off" />
+            <input disabled={editLocked} maxLength={100} value={name} onChange={e => { setName(e.target.value); }} placeholder="Например, Авантюрист" autoComplete="off" />
           </label>
           <span className="sheet-placeholder-emblem" aria-hidden="true">{system.short}</span>
         </div>
         <div className="paper-grid">
           <label className="field-label">КОНЦЕПЦИЯ / ОПИСАНИЕ
-            <input disabled={saving} maxLength={500} value={concept} onChange={e => { setConcept(e.target.value); }} placeholder="Кто этот персонаж?" />
+            <input disabled={editLocked} maxLength={500} value={concept} onChange={e => { setConcept(e.target.value); }} placeholder="Кто этот персонаж?" />
           </label>
           <label className="field-label">КАМПАНИЯ / ХРОНИКА
-            <input disabled={saving} maxLength={200} value={chronicle} onChange={e => { setChronicle(e.target.value); }} placeholder="Название истории" />
+            <input disabled={editLocked} maxLength={200} value={chronicle} onChange={e => { setChronicle(e.target.value); }} placeholder="Название истории" />
           </label>
         </div>
         <div className="divider-line" />
         <label className="field-label field-notes">ЗАМЕТКИ ПЕРСОНАЖА
-          <textarea disabled={saving} rows={9} maxLength={20000} value={notes} onChange={e => { setNotes(e.target.value); }} placeholder="История, способности, предметы, планы…" />
+          <textarea disabled={editLocked} rows={9} maxLength={20000} value={notes} onChange={e => { setNotes(e.target.value); }} placeholder="История, способности, предметы, планы…" />
         </label>
         <div className="paper-footer"><span>ПОЛНЫЙ ЛИСТ ПОЯВИТСЯ ПОСЛЕ УТВЕРЖДЕНИЯ МАКЕТА</span><FilePenLine size={18} /></div>
       </section>
@@ -246,6 +232,7 @@ export default function App() {
   const [importingJson, setImportingJson] = useState(false);
   const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
   const [portraitUrls,setPortraitUrls] = useState<Record<string,string>>({});
+  const {canInstall,install}=usePwaInstall();
 
   const user = session?.user;
   useEffect(()=>{
@@ -548,6 +535,10 @@ export default function App() {
             <SiteLogo />
           </button>
           <div className="header-links">
+            {canInstall && <button type="button" className="header-project-link pwa-install-link"
+              onClick={()=>void install()} title="Установить сайт как приложение">
+              <Download size={15}/> Установить
+            </button>}
             <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
             {isTemplateAdmin && user && <button type="button" className="header-project-link" style={{background:'none',border:0,cursor:'pointer'}} onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
@@ -562,6 +553,9 @@ export default function App() {
           <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
         {mobileMenu && <div className="mobile-menu-panel">
+          {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}>
+            Установить приложение
+          </button>}
           {user ? <><span className="mobile-account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
             {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>}
           </span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>

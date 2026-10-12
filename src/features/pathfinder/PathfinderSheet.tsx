@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Cloud, Settings2, X, Files } from 'lucide-react';
+import { ArrowLeft, Settings2, X, Files } from 'lucide-react';
+import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import {useAutoSave} from '../../lib/use-auto-save';
+import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
@@ -57,7 +60,19 @@ export default function PathfinderSheet({
   portraitFrame?: CropFrame;
   onEditPortrait: () => void;
 }) {
-  const [values, setValues] = useState<SheetValues>(() => initialSheetValues(character.details, character.name));
+  const draftKey=characterDraftKey(character.user_id,character.id);
+  const [serverBaseline]=useState(()=>JSON.stringify(initialSheetValues(character.details,character.name)));
+  const [values,setValues]=useState<SheetValues>(()=>{
+    const original=initialSheetValues(character.details,character.name);
+    const recovered=recoverLocalDraft(draftKey,JSON.stringify(original));
+    if(!recovered)return original;
+    try {
+      const parsed:unknown=JSON.parse(recovered);
+      if(parsed && typeof parsed==='object' && !Array.isArray(parsed))
+        return {...original,...parsed as SheetValues};
+    } catch { /* Ignore an invalid local draft. */ }
+    return original;
+  });
   const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
   // Page presentation and optional notes belong to this character, not the
   // global admin PDF template. Hidden notes remain saved in the character.
@@ -94,7 +109,6 @@ export default function PathfinderSheet({
     if (enabled && !window.confirm('Включить автоматические расчёты PF2e? Они изменят итоги навыков, спасбросков, Восприятия и порог поломки щита. КД всегда считается по плашке: 10 + Ловкость + Умение + Предмет. Ручные итоги заменятся формулами, а исходные значения сохранятся.')) return;
     setValues(prev => ({ ...prev, rulesMode: enabled ? 'auto' : 'manual' }));
   }
-  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify(initialSheetValues(character.details, character.name)));
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [pageSettingsOpen,setPageSettingsOpen] = useState(false);
   const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
@@ -157,16 +171,38 @@ export default function PathfinderSheet({
     return()=>{document.removeEventListener('pointerdown',closeOutside);document.removeEventListener('keydown',closeEsc);};
   }, [settingsOpen]);
   const [focusedFormulaField,setFocusedFormulaField] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const dirty = JSON.stringify(values) !== savedSnapshot;
-
-  useEffect(() => {
-    if (!dirty) return;
-    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); };
-    window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
-  }, [dirty]);
+  // Do not lock inputs while the background save is running. Write requests
+  // are serialized in useAutoSave, and each acknowledges only its own snapshot.
+  const editLocked=false;
+  const auto=useAutoSave({
+    snapshot:JSON.stringify(values),initialSnapshot:serverBaseline,draftKey,
+    persist:async serialized=>{
+      const captured=JSON.parse(serialized) as SheetValues;
+      const cleanName=normalizedName(String(captured.name??''));
+      if(!cleanName)throw new Error('Укажи имя персонажа на первой странице.');
+      // Recalculate derived values from the EXACT snapshot being persisted,
+      // not from a newer render while a previous cloud request is pending.
+      const isAuto=isAutomatic(captured,legacyHasValues);
+      const spellActive=isSpellcastingConfigured(captured);
+      const combat=calculateNativeCombat(captured);
+      const spells=calculateSpellcasting(captured);
+      const derived=isAuto
+        ? {...calculateCore({...captured,...combat}),...combat,...spells}
+        : {...Object.fromEntries(Object.entries(combat).filter(([id])=>
+            id==='armor_class'||id==='class_dc'||isNativeWeaponAttackField(id))),...spells};
+      const stored={...captured};
+      for(const key of Object.keys(stored)) {
+        if((key==='armor_class'||(key==='class_dc'&&isClassDcConfigured(captured))
+          ||(spellActive&&isSpellcastingComputedField(key))
+          ||(isAuto&&key!=='class_dc'&&(isCoreComputedField(key)
+            ||(isNativeCombatComputedField(key)&&!isNativeWeaponAttackField(key)))))
+          &&!(key in derived))stored[key]='';
+      }
+      Object.assign(stored,derived);
+      return onSave(character.id,cleanName,persistSheetValues(character.details,stored,cleanName));
+    },
+  });
+  const {dirty,error}=auto;
 
   function change(id: string, value: FieldValue) {
     if(spellcastingConfigured && (id==='spell_attack_rank'||id==='spell_dc_rank') && typeof value==='string'){
@@ -202,45 +238,8 @@ export default function PathfinderSheet({
     });
   }
 
-  async function save(): Promise<boolean> {
-    if (saving) return false;
-    const cleanName = normalizedName(String(values.name ?? ''));
-    if (!cleanName) {
-      setError('Укажи имя персонажа на первой странице.');
-      document.getElementById('pf-name')?.focus();
-      return false;
-    }
-    setSaving(true);
-    setError('');
-    const snapshot = JSON.stringify(values);
-    // Persist the evaluated values too: exported JSON and manual-mode fallback
-    // remain meaningful outside the live rule engine. Source fields are never overwritten.
-    const toStore = { ...values };
-    for (const key of Object.keys(toStore)) {
-      if ((key === 'armor_class' || (key === 'class_dc' && isClassDcConfigured(values)) || (spellcastingConfigured && isSpellcastingComputedField(key)) || (automatic && key !== 'class_dc' && (isCoreComputedField(key) || (isNativeCombatComputedField(key) && !isNativeWeaponAttackField(key)))))
-        && !(key in computed)) toStore[key] = '';
-    }
-    Object.assign(toStore, computed);
-    const details = persistSheetValues(character.details, toStore, cleanName);
-    try {
-      const success = await onSave(character.id, cleanName, details);
-      if (!success) {
-        setError('Не удалось сохранить лист в Supabase. Повтори попытку.');
-        return false;
-      }
-      setSavedSnapshot(snapshot);
-      return true;
-    } catch (cause) {
-      setError(errorMessage(cause));
-      return false;
-    } finally {
-      setSaving(false);
-    }
-  }
-
   async function goBack() {
-    if (saving) return;
-    if (dirty && !(await save())) return;
+    if(!(await auto.saveNow()))return; // no silent exit while changes remain local
     onClose();
   }
 
@@ -268,19 +267,19 @@ export default function PathfinderSheet({
     // so previously saved characters and JSON exports need no migration.
     if (field.id === 'dying') {
       return <DyingSkulls key={field.id} style={style} value={values.dying}
-        disabled={saving} onChange={next=>change('dying',next)}/>;
+        disabled={editLocked} onChange={next=>change('dying',next)}/>;
     }
     if (RANK_FIELDS.has(field.id)) {
       return <RankSelect key={field.id} id={id} label={field.label}
         rank={readRank(values[field.id]) ?? 0} style={style}
-        disabled={saving} onChange={rank => change(field.id, String(rank))}/>;
+        disabled={editLocked} onChange={rank => change(field.id, String(rank))}/>;
     }
     const computedField = field.id === 'armor_class' || field.id === 'class_dc' || isNativeWeaponAttackField(field.id) || (spellcastingConfigured && isSpellcastingComputedField(field.id)) || (automatic && (isCoreComputedField(field.id) || isNativeCombatComputedField(field.id)));
     if (field.kind === 'toggle') {
       return <label key={field.id} className="pf-field pf-field-toggle" style={style}>
         <input id={id} type="checkbox" checked={value === true}
           onChange={event => change(field.id, event.target.checked)}
-          aria-label={field.label} disabled={saving} />
+          aria-label={field.label} disabled={editLocked} />
         <ToggleVisual field={field} checked={value === true}/>
       </label>;
     }
@@ -296,7 +295,7 @@ export default function PathfinderSheet({
             : event.target.value);
       },
       readOnly: computedField,
-      disabled: saving,
+      disabled: editLocked,
     };
     if (field.kind === 'select') {
       const options = field.options ?? [];
@@ -304,7 +303,7 @@ export default function PathfinderSheet({
       const legacy = Boolean(current) && !options.includes(current);
       return <select key={field.id} id={id} aria-label={field.label}
         className={`pf-field pf-field-text pf-field-select${field.underline ? " pf-field-underline" : ""}`} style={style} value={current}
-        disabled={saving} onChange={event => change(field.id,event.target.value)}>
+        disabled={editLocked} onChange={event => change(field.id,event.target.value)}>
         <option value="">—</option>
         {legacy && <option value={current}>{current}</option>}
         {options.map(option=><option key={option} value={option}>{option}</option>)}
@@ -321,7 +320,7 @@ export default function PathfinderSheet({
       } as CSSProperties : style;
       return <RichField key={field.id} id={id} label={field.label}
         className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}${tableSpan ? ' pf-spell-table-rich' : ''}`}
-        style={richStyle} value={String(value??'')} resourceContext={values} disabled={saving||computedField}
+        style={richStyle} value={String(value??'')} resourceContext={values} disabled={editLocked||computedField}
         onChange={next=>change(field.id,next)}/>;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';
@@ -362,7 +361,7 @@ export default function PathfinderSheet({
         </button>}
       {pageFields.map(renderField)}
       {page===4&&<button type="button" className="pf-spell-settings-trigger"
-        disabled={saving} onClick={()=>setSpellSettingsOpen(true)}
+        disabled={editLocked} onClick={()=>setSpellSettingsOpen(true)}
         aria-label="Настройки заклинаний" title="Настройки заклинаний">
         <Settings2 size={15}/>
       </button>}
@@ -373,7 +372,7 @@ export default function PathfinderSheet({
         ? <div className="pf-advancement-fixed-art">{artwork}</div>
         : artwork}
       {isAdvancementPage && <DynamicAdvancement values={values}
-        count={advancementLevelCount(values)} disabled={saving}
+        count={advancementLevelCount(values)} disabled={editLocked}
         pageArtUrl={`${import.meta.env.BASE_URL}pathfinder/page-2.webp?v=3`}
         onValueChange={(id,value)=>change(id,value)}
         onAdd={()=>setValues(old=>addAdvancementLevel(old))}
@@ -383,16 +382,14 @@ export default function PathfinderSheet({
 
   return <main className="page pf-editor">
     <div className="pf-toolbar">
-      <button type="button" className="text-button" onClick={() => void goBack()} disabled={saving}>
+      <button type="button" className="text-button" onClick={() => void goBack()} disabled={editLocked}>
         <ArrowLeft size={17} /> К персонажам
       </button>
       <div className="pf-toolbar-heading">
         <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
       </div>
       <div className="pf-toolbar-right">
-        <span className={`pf-save-status ${dirty ? 'pf-unsaved' : ''}`} aria-live="polite">
-          {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
-        </span>
+        <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
         <div className="pf-settings-area">
           <button type="button" className="pf-settings-button" aria-expanded={settingsOpen}
             aria-controls="pf-settings-options" aria-label="Настройки листа"
@@ -418,26 +415,24 @@ export default function PathfinderSheet({
             </button>
           </div>}
         </div>
-        <button type="button" className="button button-primary" disabled={saving || !dirty} onClick={() => void save()}>
-          <Cloud size={16} /> Сохранить
-        </button>
+
       </div>
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
     <div className="pf-sheet-scroll" aria-label="Страницы листа Pathfinder 2e">
       <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
         {visiblePages.map(page=>page==='notes'
-          ? <OptionalNotesPage key="notes" values={values} disabled={saving}
+          ? <OptionalNotesPage key="notes" values={values} disabled={editLocked}
               onChange={(id,value)=>change(id,value)}/>
           : renderPage(Number(page)))}
       </div>
     </div>
     {pageSettingsOpen&&<PageSettingsDialog
-      order={pageOrder} notesEnabled={notesEnabled} disabled={saving}
+      order={pageOrder} notesEnabled={notesEnabled} disabled={editLocked}
       onNotesEnabled={setNotesPageEnabled}
       onOrderChange={setPageOrder}
       onClose={()=>setPageSettingsOpen(false)}/>}
-    {spellSettingsOpen&&<SpellcastingDialog values={values} disabled={saving}
+    {spellSettingsOpen&&<SpellcastingDialog values={values} disabled={editLocked}
       onChange={(id,value)=>change(id,value)}
       onRankChange={changeSpellRank}
       onClose={()=>setSpellSettingsOpen(false)}/>}

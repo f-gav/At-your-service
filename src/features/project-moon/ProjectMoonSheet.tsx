@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Cloud, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
+import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import {useAutoSave} from '../../lib/use-auto-save';
+import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import MoonPortrait from './MoonPortrait';
@@ -36,8 +39,21 @@ type Props = {
 };
 
 export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false }: Props) {
-  const [name, setName] = useState(character.name);
-  const [sheet, setSheet] = useState(() => readMoonSheet(character.details));
+  const draftKey=characterDraftKey(character.user_id,character.id);
+  const [serverBaseline]=useState(()=>JSON.stringify([character.name,readMoonSheet(character.details)]));
+  const [recovered]=useState(()=>{
+    if(previewMode)return null;
+    const draft=recoverLocalDraft(draftKey,serverBaseline);
+    if(!draft)return null;
+    try {
+      const parsed:unknown=JSON.parse(draft);
+      if(Array.isArray(parsed)&&typeof parsed[0]==='string'&&parsed[1]&&typeof parsed[1]==='object')
+        return {name:parsed[0] as string,sheet:readMoonSheet({projectMoonSheet:parsed[1]})};
+    }catch{ /* Do not use invalid drafts. */ }
+    return null;
+  });
+  const [name,setName]=useState(()=>recovered?.name??character.name);
+  const [sheet,setSheet]=useState(()=>recovered?.sheet??readMoonSheet(character.details));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [weaponOffset, setWeaponOffset] = useState(0);
   const [pendingWeaponDelete, setPendingWeaponDelete] = useState<string | null>(null);
@@ -66,18 +82,18 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     });
   }, [weaponOffset, sheet.smoothWeaponSwitch, sheet.weapons.length, compactWeapons]);
   const addWeapon = () => {
-    if (saving || sheet.weapons.length >= 100) return;
+    if (editLocked || sheet.weapons.length >= 100) return;
     const length = sheet.weapons.length;
     setSheet(old => addMoonWeapon(old, 'weapon-' + crypto.randomUUID()));
     setWeaponOffset(Math.max(0, length + 1 - visibleWeapons));
   };
   const deleteWeapon = (id: string) => {
-    if (saving || sheet.weapons.length <= 2) return;
+    if (editLocked || sheet.weapons.length <= 2) return;
     if (!sheet.weapons.some(weapon => weapon.id === id)) return;
     setPendingWeaponDelete(id);
   };
   const confirmWeaponDeletion = () => {
-    if (!pendingWeaponDelete || saving) return;
+    if (!pendingWeaponDelete || editLocked) return;
     setSheet(old => removeMoonWeapon(old, pendingWeaponDelete));
     setWeaponOffset(old => Math.min(old, Math.max(0, sheet.weapons.length - 1 - visibleWeapons)));
     setPendingWeaponDelete(null);
@@ -134,17 +150,19 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       .then(({data,error}) => { if (current && !error && data?.fields) setPublishedLayout(parseMoonLayout(data.fields)); });
     return () => { current = false; };
   }, [previewMode]);
-  const [savedSnapshot, setSavedSnapshot] = useState(() => JSON.stringify([character.name, readMoonSheet(character.details)]));
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const dirty = JSON.stringify([name, sheet]) !== savedSnapshot;
-
-  useEffect(() => {
-    if (!dirty || previewMode) return;
-    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); };
-    window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
-  }, [dirty]);
+  // Cloud autosaves are serialized; players can continue editing during them.
+  const editLocked=previewMode;
+  const auto=useAutoSave({
+    snapshot:JSON.stringify([name,sheet]),initialSnapshot:serverBaseline,
+    draftKey,enabled:!previewMode,
+    persist:async serialized=>{
+      const [capturedName,capturedSheet]=JSON.parse(serialized) as [string,typeof sheet];
+      const cleanName=normalizedName(capturedName);
+      if(!cleanName)throw new Error('Укажи имя персонажа.');
+      return onSave(character.id,cleanName,saveMoonSheet(character.details,capturedSheet));
+    },
+  });
+  const {dirty,error}=auto;
 
   useEffect(() => {
     if (!settingsOpen) return;
@@ -178,37 +196,20 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     return { ...old, fields: { ...old.fields, [key]: String(current + offset) } };
   });
 
-  async function save(): Promise<boolean> {
-    if (saving) return false;
-    const cleanName = normalizedName(name);
-    if (!cleanName) { setError('Укажи имя персонажа.'); return false; }
-    setSaving(true); setError('');
-    try {
-      const success = await onSave(character.id, cleanName, saveMoonSheet(character.details, sheet));
-      if (!success) { setError('Не удалось сохранить. Проверь соединение и повтори попытку.'); return false; }
-      setName(cleanName);
-      setSavedSnapshot(JSON.stringify([cleanName, sheet]));
-      return true;
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Не удалось сохранить лист.');
-      return false;
-    } finally { setSaving(false); }
-  }
   async function back() {
-    if (saving) return;
-    if (dirty && !(await save())) return;
+    if(!(await auto.saveNow()))return; // return only after latest edits reach cloud
     onClose();
   }
   const field = (label: string, key: string, placeholder = '', extraClass = '') =>
     <label className={'moon-field ' + extraClass} key={key}>
       <span>{label}</span>
-      <input type="text" disabled={saving} value={sheet.fields[key] ?? ''} placeholder={placeholder}
+      <input type="text" disabled={editLocked} value={sheet.fields[key] ?? ''} placeholder={placeholder}
         onChange={event => change(key, event.target.value)} maxLength={220} />
     </label>;
   const longField = (label: string, key: string, placeholder = '', extraClass = '') =>
     <section className={'moon-long-field ' + extraClass} key={key}>
       <RichField id={'moon-' + key} label={label} value={sheet.fields[key] ?? ''}
-        onChange={value => change(key, value)} placeholder={placeholder} disabled={saving} grow />
+        onChange={value => change(key, value)} placeholder={placeholder} disabled={editLocked} grow />
     </section>;
   const sectionTitle = (index: number, title: string) =>
     <h3 className="moon-section-title"><span>{String(index).padStart(2, '0')}</span>{title}</h3>;
@@ -221,18 +222,18 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
         <div className="moon-resource-info">
           <span className="moon-resource-title">{label}</span>
           <div className="moon-resource-controls">
-            <button type="button" disabled={saving} onClick={() => adjustResource(id, -1)}
+            <button type="button" disabled={editLocked} onClick={() => adjustResource(id, -1)}
               title="Уменьшить текущее значение" aria-label={'Уменьшить ' + id}>−</button>
-            <input type="text" inputMode="numeric" maxLength={8} disabled={saving}
+            <input type="text" inputMode="numeric" maxLength={8} disabled={editLocked}
               aria-label={'Текущее ' + id} value={sheet.fields[id + 'Current'] ?? ''}
               placeholder="—" onChange={event => change(id + 'Current', event.target.value)} />
             <span>/</span>
-            <input type="text" inputMode="numeric" maxLength={8} disabled={saving}
+            <input type="text" inputMode="numeric" maxLength={8} disabled={editLocked}
               aria-label={'Максимальное ' + id} placeholder="—"
               value={moonDisplayedMax(sheet, id)} onChange={event => changeMax(id, event.target.value)} />
-            <button type="button" disabled={saving} onClick={() => adjustResource(id, 1)}
+            <button type="button" disabled={editLocked} onClick={() => adjustResource(id, 1)}
               title="Увеличить текущее значение" aria-label={'Увеличить ' + id}>+</button>
-            {computed !== null && overridden && <button type="button" disabled={saving}
+            {computed !== null && overridden && <button type="button" disabled={editLocked}
               title="Вернуть автоматический расчёт" aria-label={'Сбросить ручной максимум ' + id}
               onClick={() => resetMax(id)}><RotateCcw size={12} /></button>}
           </div>
@@ -243,14 +244,13 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
 
   return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? publishedLayout) as CSSProperties}>
     <div className="pf-toolbar moon-toolbar">
-      <button type="button" className="text-button" disabled={saving} onClick={() => void back()}>
+      <button type="button" className="text-button" disabled={editLocked} onClick={() => void back()}>
         <ArrowLeft size={17} /> К персонажам
       </button>
       <h1 className="pf-minimal-title moon-toolbar-title">Лист персонажа Pr. Moon</h1>
       <div className="pf-toolbar-right">
-        <span className={'pf-save-status' + (dirty ? ' pf-unsaved' : '')} aria-live="polite">
-          {saving ? 'Сохранение…' : dirty ? 'Есть изменения' : 'Сохранено'}
-        </span>
+        {!previewMode && <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>}
+
         <div className="pf-settings-area moon-settings-area">
           <button type="button" className="pf-settings-button" aria-label="Настройки листа"
             aria-expanded={settingsOpen} onClick={() => setSettingsOpen(open => !open)}>
@@ -259,12 +259,12 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           {settingsOpen && <div className="pf-settings-popover moon-settings-popover" role="group"
             aria-label="Настройки Project Moon">
             <label className="pf-settings-option">
-              <input type="checkbox" disabled={saving} checked={sheet.autoVitals}
+              <input type="checkbox" disabled={editLocked} checked={sheet.autoVitals}
                 onChange={event => setSheet(old => ({ ...old, autoVitals: event.target.checked }))} />
               Автоматический подсчёт HP / ST / SP
             </label>
             <label className="pf-settings-option">
-              <input type="checkbox" disabled={saving} checked={sheet.smoothWeaponSwitch}
+              <input type="checkbox" disabled={editLocked} checked={sheet.smoothWeaponSwitch}
                 onChange={event => setSheet(old => ({...old, smoothWeaponSwitch: event.target.checked}))}/>
               Плавная анимация переключения
             </label>
@@ -279,8 +279,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
             <p>Показатели можно изменить вручную в любой момент.</p>
           </div>}
         </div>
-        <button type="button" className="button button-primary" disabled={saving || !dirty}
-          onClick={() => void save()}><Cloud size={16} /> Сохранить</button>
+
       </div>
     </div>
 
@@ -297,7 +296,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
         <div className="moon-dossier-top">
           <div className="moon-dossier-fields">
             <label className="moon-field moon-name"><span>ИМЯ ПЕРСОНАЖА</span>
-              <input type="text" disabled={saving} maxLength={100} value={name}
+              <input type="text" disabled={editLocked} maxLength={100} value={name}
                 onChange={event => setName(event.target.value)} placeholder="Имя персонажа" />
             </label>
             <div className="moon-identity-pairs">
@@ -334,7 +333,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
             {MOON_ATTRIBUTES.map(item =>
               <label className="moon-attribute" key={item.id}>
                 <span className="moon-attribute-label">{item.label}<small>{item.english}</small></span>
-                <input inputMode="numeric" type="text" maxLength={4} disabled={saving}
+                <input inputMode="numeric" type="text" maxLength={4} disabled={editLocked}
                   value={sheet.fields[item.id] ?? ''} onChange={event => change(item.id, event.target.value)}
                   placeholder="—" aria-label={item.label} />
               </label>)}
@@ -382,12 +381,12 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                 disabled={weaponOffset >= maxWeaponOffset}
                 onClick={() => setWeaponOffset(value => Math.min(maxWeaponOffset,value+1))}><ChevronRight size={17}/></button>
               <button type="button" className="moon-add-weapon-mobile" aria-label="Добавить оружие"
-                title="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
+                title="Добавить оружие" disabled={editLocked || sheet.weapons.length >= 100}
                 onClick={addWeapon}><Plus size={16}/></button>
               <button type="button" className="moon-delete-weapon-mobile"
                 aria-label={'Удалить оружие ' + moonWeaponLetter(Math.min(weaponOffset + visibleWeapons - 1, sheet.weapons.length - 1))}
                 title={sheet.weapons.length <= 2 ? 'Должно остаться хотя бы два оружия' : 'Удалить выбранное оружие'}
-                disabled={saving || sheet.weapons.length <= 2}
+                disabled={editLocked || sheet.weapons.length <= 2}
                 onClick={() => deleteWeapon(sheet.weapons[Math.min(weaponOffset + visibleWeapons - 1, sheet.weapons.length - 1)].id)}>
                 <X size={16}/>
               </button>
@@ -398,55 +397,55 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               {sheet.weapons.map((weapon, index) => <div className="moon-card moon-weapon-card" key={weapon.id}
                 inert={index < weaponOffset || index >= weaponOffset + visibleWeapons}>
                 <div className="moon-card-heading moon-weapon-heading">
-                  <input type="text" className="moon-weapon-title" maxLength={160} disabled={saving}
+                  <input type="text" className="moon-weapon-title" maxLength={160} disabled={editLocked}
                     aria-label={'Название оружия ' + moonWeaponLetter(index)}
                     value={weapon.name}
                     placeholder={'ОРУЖИЕ ' + moonWeaponLetter(index)}
                     onChange={event => updateWeaponById(weapon.id,{name:event.target.value})}/>
                   <span className="moon-card-meta">
-                    <label>РАНГ <input aria-label={'Ранг оружия ' + (index + 1)} disabled={saving}
+                    <label>РАНГ <input aria-label={'Ранг оружия ' + (index + 1)} disabled={editLocked}
                       value={weapon.rank ?? ''} onChange={e => updateWeaponById(weapon.id,{rank:e.target.value})} /></label>
-                    <label>EP <input aria-label={'EP оружия ' + (index + 1)} disabled={saving}
+                    <label>EP <input aria-label={'EP оружия ' + (index + 1)} disabled={editLocked}
                       value={weapon.ep ?? ''} onChange={e => updateWeaponById(weapon.id,{ep:e.target.value})} /></label>
                     {index === weaponOffset + visibleWeapons - 1 && <>
                       <button type="button" className="moon-add-weapon" title="Добавить оружие"
-                        aria-label="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
+                        aria-label="Добавить оружие" disabled={editLocked || sheet.weapons.length >= 100}
                         onClick={addWeapon}><Plus size={15}/></button>
                       <button type="button" className="moon-delete-weapon"
                         title={sheet.weapons.length <= 2 ? 'Должно остаться хотя бы два оружия' : 'Удалить это оружие'}
                         aria-label={'Удалить оружие ' + moonWeaponLetter(index)}
-                        disabled={saving || sheet.weapons.length <= 2}
+                        disabled={editLocked || sheet.weapons.length <= 2}
                         onClick={() => deleteWeapon(weapon.id)}><X size={15}/></button>
                     </>}
                   </span>
                 </div>
                 <div className="moon-choice-row"><span>Тип:</span>
-                  {['ближнее','дальнее'].map(value=><label key={value}><input type="radio" disabled={saving}
+                  {['ближнее','дальнее'].map(value=><label key={value}><input type="radio" disabled={editLocked}
                     name={'moon-weapon-kind-' + weapon.id} checked={(weapon.kind ?? '')===value}
                     onChange={()=>updateWeaponById(weapon.id,{kind:value})}/>{value}</label>)}
                 </div>
                 <div className="moon-choice-row"><span>Урон:</span>
                   {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'}]
-                    .map(({value,label})=><label key={value}><input type="radio" disabled={saving}
+                    .map(({value,label})=><label key={value}><input type="radio" disabled={editLocked}
                     name={'moon-weapon-damage-' + weapon.id} checked={(weapon.damage ?? '')===value}
                     onChange={()=>updateWeaponById(weapon.id,{damage:value})}/>{label}</label>)}
                 </div>
                 <div className="moon-weapon-secondary">
-                  <label>Кости <input disabled={saving} aria-label={'Кости оружия ' + (index + 1)}
+                  <label>Кости <input disabled={editLocked} aria-label={'Кости оружия ' + (index + 1)}
                     value={weapon.dice} onChange={e=>updateWeaponById(weapon.id,{dice:e.target.value})} /></label>
-                  <label>Форма <input disabled={saving} aria-label={'Форма оружия ' + (index + 1)}
+                  <label>Форма <input disabled={editLocked} aria-label={'Форма оружия ' + (index + 1)}
                     value={weapon.form ?? ''} onChange={e=>updateWeaponById(weapon.id,{form:e.target.value})} /></label>
                 </div>
                 <label className="moon-compact-field"><span>Хват / свойства:</span>
-                  <input disabled={saving} value={weapon.grip ?? ''} onChange={e=>updateWeaponById(weapon.id,{grip:e.target.value})}
+                  <input disabled={editLocked} value={weapon.grip ?? ''} onChange={e=>updateWeaponById(weapon.id,{grip:e.target.value})}
                     aria-label={'Хват и свойства оружия ' + (index + 1)} /></label>
                 <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
                   <RichField id={'moon-' + weapon.id} label={'Эффекты оружия ' + (index + 1)}
                     value={weapon.description} onChange={value=>updateWeaponById(weapon.id,{description:value})}
-                    disabled={saving} grow placeholder="Эффекты и условия…" />
+                    disabled={editLocked} grow placeholder="Эффекты и условия…" />
                 </div>
                 <label className="moon-compact-field moon-bonus-field"><span>Доп. бонус:</span>
-                  <input disabled={saving} value={weapon.bonus} onChange={e=>updateWeaponById(weapon.id,{bonus:e.target.value})}
+                  <input disabled={editLocked} value={weapon.bonus} onChange={e=>updateWeaponById(weapon.id,{bonus:e.target.value})}
                     aria-label={'Дополнительный бонус оружия ' + (index + 1)} /></label>
               </div>)}
             </div>
@@ -460,7 +459,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               <tbody>{['HP','ST'].map(kind=><tr key={kind}>
                 <th>{kind} ×</th>
                 {['slash','pierce','blunt'].map(damage=><td key={damage}>
-                  <input disabled={saving} aria-label={kind + ' ' + damage}
+                  <input disabled={editLocked} aria-label={kind + ' ' + damage}
                     value={sheet.fields['resistance' + kind + damage] ??
                       (damage === 'slash' ? (sheet.fields['resistance' + kind.charAt(0) + kind.slice(1).toLowerCase()] ?? '') : '')}
                     onChange={e=>change('resistance' + kind + damage,e.target.value)}/>
@@ -471,7 +470,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               <table className="moon-data-table" aria-label="Состояния">
                 <thead><tr><th>СОСТОЯНИЕ</th><th>СТАКИ</th><th>СРОК</th></tr></thead>
                 <tbody>{[1,2].map(index=><tr key={index}>
-                  {['Name','Stacks','Duration'].map(key=><td key={key}><input disabled={saving}
+                  {['Name','Stacks','Duration'].map(key=><td key={key}><input disabled={editLocked}
                     aria-label={'Состояние ' + index + ' ' + key}
                     value={sheet.fields['condition' + key + index] ?? ''}
                     onChange={e=>change('condition' + key + index,e.target.value)}/></td>)}
@@ -479,7 +478,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               </table>
               <div className="moon-conditions-extra"><RichField id="moon-conditions" label="Дополнительные состояния"
                 value={sheet.fields.conditions ?? ''} onChange={value=>change('conditions',value)}
-                disabled={saving} grow placeholder="Другие состояния…" /></div>
+                disabled={editLocked} grow placeholder="Другие состояния…" /></div>
             </div>
           </div>
         </section>
@@ -491,32 +490,32 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                 <strong>ПРИЁМ {String(index + 1).padStart(2, '0')}</strong>
                 <span className="moon-card-meta">
                   {(['rank','light','ep'] as const).map((key)=><label key={key}>{key.toUpperCase()}
-                    <input disabled={saving} aria-label={key + ' приёма ' + (index + 1)}
+                    <input disabled={editLocked} aria-label={key + ' приёма ' + (index + 1)}
                       value={skill[key] ?? ''} onChange={e=>updateSkill(index,{[key]:e.target.value})}/></label>)}
                   <button type="button" title="Удалить приём" aria-label={'Удалить приём ' + (index + 1)}
-                    disabled={saving} onClick={()=>setSheet(old=>({
+                    disabled={editLocked} onClick={()=>setSheet(old=>({
                       ...old,skills:old.skills.filter(entry=>entry.id!==skill.id)
                     }))}><Trash2 size={14}/></button>
                 </span>
               </div>
               <label className="moon-compact-field"><strong>Название:</strong>
-                <input disabled={saving} value={skill.title}
+                <input disabled={editLocked} value={skill.title}
                   onChange={e=>updateSkill(index,{title:e.target.value})}
                   aria-label={'Название приёма ' + (index + 1)}/></label>
               <div className="moon-choice-row"><span>Тип:</span>
                 {['атака','блок','уклонение','проверка'].map(value=><label key={value}>
-                  <input type="radio" disabled={saving} name={'moon-skill-type-' + skill.id}
+                  <input type="radio" disabled={editLocked} name={'moon-skill-type-' + skill.id}
                     checked={(skill.type ?? '') === value} onChange={()=>updateSkill(index,{type:value})}/>{value}
                 </label>)}
               </div>
               <div className="moon-rich-group"><span>УСЛОВИЯ / ЭФФЕКТ:</span>
                 <RichField id={'moon-' + skill.id} label={'Приём ' + (index + 1)}
                   value={skill.body} onChange={value=>updateSkill(index,{body:value})}
-                  disabled={saving} grow placeholder="Условия, эффекты и описание…" />
+                  disabled={editLocked} grow placeholder="Условия, эффекты и описание…" />
               </div>
             </div>)}
           </div>
-          <button type="button" className="moon-add" disabled={saving || sheet.skills.length >= 100}
+          <button type="button" className="moon-add" disabled={editLocked || sheet.skills.length >= 100}
             onClick={() => setSheet(old => addMoonSkill(old, 'skill-' + crypto.randomUUID()))}>
             <Plus size={16} /> Добавить приём
           </button>
@@ -550,24 +549,24 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       {page === 'notes' && <div className="moon-two-columns moon-notes">
         {sheet.notes.map((note, index) => <section className="moon-card moon-note" key={note.id}>
           <div className="moon-note-heading">
-            <input type="text" disabled={saving} maxLength={120}
+            <input type="text" disabled={editLocked} maxLength={120}
               aria-label={'Заголовок заметки ' + (index + 1)} value={note.title}
               onChange={event => updateNote(index, { title: event.target.value })}
               placeholder={'ЗАМЕТКИ ' + String(index + 1).padStart(2,'0')} />
           </div>
           <RichField id={'moon-' + note.id} label={'Заметка ' + (index + 1)}
             value={note.body} onChange={value => updateNote(index, { body: value })}
-            disabled={saving} grow placeholder="Текст заметки…" />
+            disabled={editLocked} grow placeholder="Текст заметки…" />
         </section>)}
       </div>}
       </article>)}
     </div>
     {pendingWeaponDelete && pendingWeaponIndex >= 0 && <MoonWeaponDeleteDialog
       label={'оружие ' + moonWeaponLetter(pendingWeaponIndex)}
-      disabled={saving} onCancel={() => setPendingWeaponDelete(null)}
+      disabled={editLocked} onCancel={() => setPendingWeaponDelete(null)}
       onConfirm={confirmWeaponDeletion} />}
     {pageSettingsOpen && <MoonPageSettingsDialog
-      order={pageOrder} disabled={saving} onOrderChange={changePageOrder}
+      order={pageOrder} disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
     {!previewMode && navigationHelp && <nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">

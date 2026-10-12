@@ -443,3 +443,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Pr. Moon thumbnails crop the ID frame before its bottom name plate. */
 .character-prmoon .character-portrait { border-color:#aeb8b8; background:#f3f4f4; }
+
+/* Install action appears only after an eligible browser offers PWA installation. */
+.pwa-install-link {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer;
+  border:0;
+  background:transparent;
+  color:inherit;
+  font:inherit;
+}
+.pwa-install-link:hover {text-decoration:underline;}
+.pwa-install-link:focus-visible {outline:2px solid #557766;outline-offset:3px;}
+.editor-actions {min-width:0;}
+@media (max-width:650px) {
+  .editor-actions {justify-content:flex-end;max-width:100%;}
+}
