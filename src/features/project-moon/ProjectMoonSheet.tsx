@@ -17,7 +17,7 @@ import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import { supabase } from '../../lib/supabase';
-import { MOON_LAYOUT_KEY, DEFAULT_MOON_LAYOUT, parseMoonLayout, moonLayoutVariables } from './layout-settings';
+import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';
 import type { MoonLayout } from './layout-settings';
 import './ProjectMoonSheet.css';
 
@@ -142,26 +142,9 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   }
   const changePageOrder = (order: MoonPage[]) =>
     setSheet(old => ({ ...old, pageOrder: order }));
-  const [publishedLayout, setPublishedLayout] = useState<MoonLayout>(DEFAULT_MOON_LAYOUT);
-  // Avoid flashing the obsolete default portrait/attributes layout before the
-  // published template overrides arrive from Supabase.
-  const [layoutReady, setLayoutReady] = useState(() => previewMode || Boolean(layoutOverride) || !supabase);
-  useEffect(() => {
-    if (previewMode || layoutOverride || !supabase) {
-      setLayoutReady(true);
-      return;
-    }
-    let current = true;
-    setLayoutReady(false);
-    void supabase.from('sheet_templates').select('fields').eq('template_key', MOON_LAYOUT_KEY).maybeSingle()
-      .then(({data,error}) => {
-        if (!current) return;
-        if (!error && data?.fields) setPublishedLayout(parseMoonLayout(data.fields));
-      })
-      .catch(() => { /* Keep the default layout if template lookup fails. */ })
-      .finally(() => { if (current) setLayoutReady(true); });
-    return () => { current = false; };
-  }, [previewMode, layoutOverride]);
+  // The approved published appearance is the only normal sheet layout.
+  // The administration preview can still supply an explicit layoutOverride.
+  // Never swap geometry asynchronously after the sheet becomes visible.
   // Cloud autosaves are serialized; players can continue editing during them.
   const editLocked=previewMode;
   const auto=useAutoSave({
@@ -254,11 +237,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     })}
   </div>;
 
-  if (!layoutReady) return <main className="page moon-editor" aria-busy="true">
-    <div className="moon-layout-loading" role="status">Загружаем лист персонажа…</div>
-  </main>;
-
-  return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? publishedLayout) as CSSProperties}>
+  return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? DEFAULT_MOON_LAYOUT) as CSSProperties}>
     <div className="pf-toolbar moon-toolbar">
       <button type="button" className="text-button" disabled={editLocked} onClick={() => void back()}>
         <ArrowLeft size={17} /> К персонажам
