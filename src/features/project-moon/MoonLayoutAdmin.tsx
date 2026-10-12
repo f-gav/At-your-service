@@ -75,8 +75,9 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     }
     const number = Number(raw);
     if (!Number.isFinite(number)) return;
-    setLayout(old => ({ ...old, [key]: Math.round(isMoonPortraitShift(key)
-      ? number : Math.min(control.max!, Math.max(control.min!,number)) }));
+    const bounded = isMoonPortraitShift(key) ? number
+      : Math.min(control.max!, Math.max(control.min!, number));
+    setLayout(old => ({ ...old, [key]: Math.round(bounded) }));
   }
 
   async function saveDraft(): Promise<boolean> {
