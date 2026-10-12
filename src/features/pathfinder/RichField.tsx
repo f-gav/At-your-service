@@ -40,12 +40,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!editor||(editor.contains(document.activeElement)&&value===ownValue.current))return;
     const html=toRichHtml(value);
     if(editor.innerHTML!==html)editor.innerHTML=html;
-    if(spellColumns?.length){
-      for(const head of editor.querySelectorAll<HTMLElement>('[data-pf-spell-columns]')){
-        head.style.setProperty('--pf-spell-heading-columns',spellColumns.map(w=>`${w}fr`).join(' '));
-      }
-    }
-  },[value,spellColumns]);
+  },[value]);
 
   function emit(){
     const editor=root.current;
@@ -171,7 +166,6 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       let title=head?.querySelector<HTMLElement>('[data-pf-spoiler-title]');
       if(head&&title){
         head.dataset.pfSpellColumns=String(spellColumns.length);
-        head.style.setProperty('--pf-spell-heading-columns',spellColumns.map(w=>`${w}fr`).join(' '));
         for(let i=1;i<spellColumns.length;i++){
           const cell=document.createElement('span');
           cell.dataset.pfSpoilerTitle='1';
