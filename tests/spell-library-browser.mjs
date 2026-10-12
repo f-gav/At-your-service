@@ -31,7 +31,7 @@ try{
   await page.getByRole('button',{name:/Сбросить фильтры/}).click();
   assert.equal(await page.getByRole('searchbox',{name:'Поиск заклинаний'}).inputValue(),'');
   await page.getByRole('button',{name:/D&D 5e/}).click();
-  assert.ok(await page.getByText('D&D 2024',{exact:true}).isVisible());
+  assert.equal(await page.locator('.spell-filter-grid select').first().inputValue(),'dnd-2024');
   assert.equal(await page.getByRole('button',{name:'Фокусные'}).count(),0);
   await page.getByRole('button',{name:/Pathfinder 2e/}).click();
   assert.equal(await page.getByRole('button',{name:'Фокусные'}).count(),1);
