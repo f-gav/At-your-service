@@ -24,7 +24,7 @@ assert.equal(vars['--moon-type-sectionTitle-size'],'13px');
 assert.equal(vars['--moon-type-sectionTitle-weight'],'800');
 assert.equal(vars['--moon-type-bodyText-family'],"'DejaVu Sans','Noto Sans',Arial,sans-serif");
 assert.equal(MOON_TEXT_GROUPS.length,11);
-assert.equal(vars['--moon-portrait-width'],'210px');
+assert.equal(vars['--moon-portrait-width'],'170px');
 assert.equal(vars['--moon-portrait-shift-x'],'0px');
 assert.equal(vars['--moon-mask-width'],'100%');
 assert.equal(vars['--moon-mask-height'],'100%');
@@ -61,7 +61,7 @@ assert.equal(independentVars['--moon-mask-shift-x'],'46px');
 assert.equal(independentVars['--moon-mask-shift-y'],'-324px');
 const previousTemplate = parseMoonLayout(payload.filter(item =>
   !['maskWidth','maskHeight','maskShiftX','maskShiftY'].includes(item.id)));
-assert.equal(previousTemplate.maskWidth,100);
+assert.equal(previousTemplate.maskWidth,98);
 assert.equal(previousTemplate.maskHeight,100);
 assert.equal(previousTemplate.maskShiftX,0);
 assert.equal(previousTemplate.maskShiftY,0);
