@@ -5382,10 +5382,10 @@
       "spellId": "pf2e-charm",
       "versionId": "pf2e-charm-pf2e-remaster",
       "locale": "ru",
-      "name": "Очарование",
-      "description": "Цель совершает спасбросок Воли; если вы или союзники недавно угрожали ей, она получает бонус обстоятельства +4. При провале отношение к вам становится дружелюбным (или услужливым, если уже было дружелюбным), а при критическом провале — услужливым. Успех оставляет существо без эффекта, критический успех также позволяет распознать попытку очарования. Враждебные действия против цели прекращают заклинание. На 4-м круге действие длится до следующей ежедневной подготовки, на 8-м можно выбрать до десяти целей.",
+      "name": "Очаровать",
+      "description": "Вы внушаете цели дружелюбие. Она совершает спасбросок Воли с бонусом обстоятельства +4, если вы или ваши союзники недавно ей угрожали или действовали против неё враждебно. Критический успех: цель не подвержена эффекту и понимает попытку очарования. Успех: эффекта нет, но попытка кажется безобидной магией, если цель не распознала заклинание. Провал: отношение цели к вам становится дружелюбным, а если уже было дружелюбным — услужливым; она не может действовать против вас враждебно. Критический провал: отношение становится услужливым. Ваши враждебные действия против цели прекращают заклинание. Усиление (4-й): длительность до следующей ежедневной подготовки; (8-й): до 10 целей.",
       "translationStatus": "draft",
-      "translatorCredit": "Предварительный русский вариант; требует сверки русскоязычного источника. Описание — самостоятельная адаптация Foundry PF2e."
+      "translatorCredit": "Русское название: pf2e-ru-translation; описание самостоятельно пересказано по Foundry PF2e."
     },
     {
       "spellId": "pf2e-chilling-spray",
@@ -5530,6 +5530,33 @@
       "name": "Disguise Magic",
       "description": "You alter how an item's or spell's magical aura appears to effects like detect magic. You can hide the auras entirely, have an item register as a common item of lower level, or make a spell register as a common spell of the same or lower rank. You can Dismiss the spell. A caster using condition or condition of a higher rank than disguise magic can attempt to disbelieve the illusion using the skill matching the tradition of the spell (Arcana for arcane, Religion for divine, Occultism for occult, or Nature for primal). Further attempts by the same caster get the same result as the initial check to disbelieve.\n\n\n\n\nHeightened (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-command",
+      "versionId": "pf2e-command-pf2e-remaster",
+      "locale": "ru",
+      "name": "Приказ",
+      "description": "Вы отдаёте приказ приблизиться, убежать, отпустить предмет, упасть ничком или стоять на месте. Цель совершает спасбросок Воли. Успех: без эффекта. Провал: первым действием следующего хода существо обязано выполнить приказ, затратив одно действие. Критический провал: оно должно потратить все действия своего следующего хода на выполнение приказа. Пока приказ не выполнен, цель не может Откладывать ход или использовать реакции. Усиление (5-й круг): до 10 целей.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation; описание самостоятельно пересказано по Foundry PF2e."
+    },
+    {
+      "spellId": "pf2e-create-water",
+      "versionId": "pf2e-create-water-pf2e-remaster",
+      "locale": "ru",
+      "name": "Создание воды",
+      "description": "Из сложенных чашей ладоней вытекает вода. Вы создаёте 2 галлона воды (примерно 7,6 литра). Если её никто не выпьет, через сутки созданная вода испарится.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation; описание самостоятельно пересказано по Foundry PF2e."
+    },
+    {
+      "spellId": "pf2e-detect-poison",
+      "versionId": "pf2e-detect-poison-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обнаружение яда",
+      "description": "Вы определяете, является ли существо ядовитым или способным вводить яд, либо содержит ли предмет яд или отравлен ли он. Заклинание не сообщает разновидности яда и не показывает, сколькими способами цель может быть ядовита. Вещества вроде свинца и алкоголя тоже считаются ядами и могут скрывать наличие других. Усиление (2-й круг): вы узнаёте количество и разновидности ядов.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation; описание самостоятельно пересказано по Foundry PF2e."
     }
   ],
   "sources": [
