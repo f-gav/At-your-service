@@ -60,7 +60,7 @@ function messageFromError(error: unknown): string {
 function SiteLogo() {
   return (
     <span className="brand-wrap" aria-label="At your service!">
-      <span className="brand-symbol" aria-hidden="true">a<span className="brand-symbol-mark">.</span></span>
+      <img className="brand-icon" src={`${import.meta.env.BASE_URL}site-icon.png`} alt="" aria-hidden="true" />
       <img className="brand-wordmark" src={`${import.meta.env.BASE_URL}wordmark.svg`} alt="At your service!" />
     </span>
   );

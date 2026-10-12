@@ -50,21 +50,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .brand-button { padding: 0; background: none; border: 0; text-align: left; flex: none; }
 .brand-wrap { display: inline-flex; align-items: center; gap: 9px; }
-.brand-symbol {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+.brand-icon {
+  display: block;
   width: 33px;
   height: 33px;
-  border-radius: 8px;
-  color: #fff;
-  background: #1e2425;
-  font: 800 23px/1 'Segoe UI', Arial, sans-serif;
-  letter-spacing: -2px;
-  padding-right: 3px;
-  padding-bottom: 2px;
+  flex: none;
+  object-fit: contain;
 }
-.brand-symbol-mark { color: #d8e5d8; }
 .brand-wordmark { display: block; width: 154px; height: auto; transform: translateY(3px); }
 .header-links { display: flex; align-items: center; gap: 27px; }
 .header-project-link { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #687378; }
@@ -372,7 +364,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 650px) {
   .site-header { height: 67px; }
   .header-inner, .page { width: calc(100% - 34px); }
-  .brand-symbol { width: 30px; height: 30px; font-size: 21px; }
+  .brand-icon { width: 30px; height: 30px; }
   .brand-wordmark { width: 142px; }
   .header-links { display: none; }
   .mobile-menu-button { display: inline-flex; }
