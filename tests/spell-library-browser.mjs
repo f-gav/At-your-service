@@ -155,13 +155,15 @@ try{
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
+  assert.equal(await page.locator('.spell-result').count(),50,'First 50 English-only cards render');
+  await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),54,'English-only filter includes cantrips and rank 1');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
   // Quick ranks and categories use real catalog filtering, independent of expanded filters.
   await page.getByRole('button',{name:'1',exact:true}).click();
-  assert.equal(await page.locator('.spell-result').count(),48,'Rank 1 has 24 spells in wave 001');
+  assert.equal(await page.locator('.spell-result').count(),48,'Rank 1 has 48 spells after wave 002');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Воздушный пузырь');
   assert.equal(await page.locator('.spell-result').count(),1,'Search Russian rank-one spell');
   await page.locator('.spell-result').first().click();
