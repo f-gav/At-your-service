@@ -143,13 +143,25 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const changePageOrder = (order: MoonPage[]) =>
     setSheet(old => ({ ...old, pageOrder: order }));
   const [publishedLayout, setPublishedLayout] = useState<MoonLayout>(DEFAULT_MOON_LAYOUT);
+  // Avoid flashing the obsolete default portrait/attributes layout before the
+  // published template overrides arrive from Supabase.
+  const [layoutReady, setLayoutReady] = useState(() => previewMode || Boolean(layoutOverride) || !supabase);
   useEffect(() => {
-    if (previewMode || !supabase) return;
+    if (previewMode || layoutOverride || !supabase) {
+      setLayoutReady(true);
+      return;
+    }
     let current = true;
+    setLayoutReady(false);
     void supabase.from('sheet_templates').select('fields').eq('template_key', MOON_LAYOUT_KEY).maybeSingle()
-      .then(({data,error}) => { if (current && !error && data?.fields) setPublishedLayout(parseMoonLayout(data.fields)); });
+      .then(({data,error}) => {
+        if (!current) return;
+        if (!error && data?.fields) setPublishedLayout(parseMoonLayout(data.fields));
+      })
+      .catch(() => { /* Keep the default layout if template lookup fails. */ })
+      .finally(() => { if (current) setLayoutReady(true); });
     return () => { current = false; };
-  }, [previewMode]);
+  }, [previewMode, layoutOverride]);
   // Cloud autosaves are serialized; players can continue editing during them.
   const editLocked=previewMode;
   const auto=useAutoSave({
@@ -241,6 +253,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       </div>;
     })}
   </div>;
+
+  if (!layoutReady) return <main className="page moon-editor" aria-busy="true">
+    <div className="moon-layout-loading" role="status">Загружаем лист персонажа…</div>
+  </main>;
 
   return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? publishedLayout) as CSSProperties}>
     <div className="pf-toolbar moon-toolbar">
