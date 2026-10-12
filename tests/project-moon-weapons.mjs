@@ -64,7 +64,34 @@ assert.ok(sheet.includes('className="moon-weapon-carousel"'));
 assert.ok(sheet.includes('className="moon-delete-weapon"'));
 assert.ok(sheet.includes('className="moon-delete-weapon-mobile"'));
 assert.ok(sheet.includes('aria-label={\'Удалить оружие \' + moonWeaponLetter(index)}'));
-assert.ok(sheet.includes('window.confirm('));
+assert.ok(sheet.includes('<MoonWeaponDeleteDialog'));
+assert.ok(sheet.includes('pendingWeaponDelete'));
+assert.ok(sheet.includes('setPendingWeaponDelete(id)'));
+assert.ok(sheet.includes('onConfirm={confirmWeaponDeletion}'));
+assert.ok(!sheet.includes('window.confirm('));
+
+const confirmation = read('../src/features/project-moon/MoonWeaponDeleteDialog.tsx');
+const pathfinderConfirmation = read('../src/features/pathfinder/DynamicAdvancement.tsx');
+for (const marker of [
+  'pf-advancement-confirm-backdrop',
+  'pf-advancement-confirm',
+  'pf-advancement-confirm-actions',
+  'pf-advancement-confirm-delete',
+  'role="dialog"',
+  'aria-modal="true"',
+  "event.key === 'Escape'",
+  "event.key === 'Tab'",
+  'createPortal(',
+]) {
+  assert.ok(confirmation.includes(marker), 'Project Moon confirmation missing '+marker);
+  assert.ok(pathfinderConfirmation.includes(marker.replace('event.key', 'event.key')) ||
+    ['createPortal(', "event.key === 'Escape'", "event.key === 'Tab'"].includes(marker),
+    'PF2e reference confirmation does not have '+marker);
+}
+assert.ok(confirmation.includes('Отмена'));
+assert.ok(confirmation.includes('Удалить'));
+assert.ok(confirmation.includes('previouslyFocused?.focus()'));
+
 assert.ok(sheet.includes('removeMoonWeapon(old, id)'));
 assert.ok(sheet.includes("weaponViewportRef.current"));
 assert.ok(sheet.includes("behavior: sheet.smoothWeaponSwitch && !reducedMotion ? 'smooth' : 'instant'"));

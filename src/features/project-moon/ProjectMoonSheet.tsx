@@ -12,6 +12,7 @@ import {
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
+import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import { supabase } from '../../lib/supabase';
 import { MOON_LAYOUT_KEY, DEFAULT_MOON_LAYOUT, parseMoonLayout, moonLayoutVariables } from './layout-settings';
 import type { MoonLayout } from './layout-settings';
@@ -39,6 +40,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const [sheet, setSheet] = useState(() => readMoonSheet(character.details));
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [weaponOffset, setWeaponOffset] = useState(0);
+  const [pendingWeaponDelete, setPendingWeaponDelete] = useState<string | null>(null);
   const weaponViewportRef = useRef<HTMLDivElement>(null);
   const [compactWeapons, setCompactWeapons] = useState(() => window.matchMedia('(max-width: 660px)').matches);
   const visibleWeapons = compactWeapons ? 1 : 2;
@@ -71,14 +73,17 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   };
   const deleteWeapon = (id: string) => {
     if (saving || sheet.weapons.length <= 2) return;
-    const index = sheet.weapons.findIndex(weapon => weapon.id === id);
-    if (index < 0) return;
-    const weapon = sheet.weapons[index];
-    const label = weapon.name.trim() || 'ОРУЖИЕ ' + moonWeaponLetter(index);
-    if (!window.confirm('Удалить «' + label + '»? Данные этого оружия будут потеряны.')) return;
-    setSheet(old => removeMoonWeapon(old, id));
-    setWeaponOffset(old => Math.min(old, Math.max(0, sheet.weapons.length - 1 - visibleWeapons)));
+    if (!sheet.weapons.some(weapon => weapon.id === id)) return;
+    setPendingWeaponDelete(id);
   };
+  const confirmWeaponDeletion = () => {
+    if (!pendingWeaponDelete || saving) return;
+    setSheet(old => removeMoonWeapon(old, pendingWeaponDelete));
+    setWeaponOffset(old => Math.min(old, Math.max(0, sheet.weapons.length - 1 - visibleWeapons)));
+    setPendingWeaponDelete(null);
+  };
+  const pendingWeaponIndex = pendingWeaponDelete === null
+    ? -1 : sheet.weapons.findIndex(weapon => weapon.id === pendingWeaponDelete);
   const [pageSettingsOpen, setPageSettingsOpen] = useState(false);
   const [navigationHelp, setNavigationHelp] = useState<boolean>(() => {
     try { return window.localStorage.getItem('ays-prmoon-navigation-help') === '1'; }
@@ -559,6 +564,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       </div>}
       </article>)}
     </div>
+    {pendingWeaponDelete && pendingWeaponIndex >= 0 && <MoonWeaponDeleteDialog
+      label={'оружие ' + moonWeaponLetter(pendingWeaponIndex)}
+      disabled={saving} onCancel={() => setPendingWeaponDelete(null)}
+      onConfirm={confirmWeaponDeletion} />}
     {pageSettingsOpen && <MoonPageSettingsDialog
       order={pageOrder} disabled={saving} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
