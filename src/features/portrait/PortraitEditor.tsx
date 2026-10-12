@@ -7,11 +7,11 @@ import './PortraitEditor.css';
 
 const CARD_SIZE={width:384,height:384};
 const SHEET_SIZE={width:480,height:708};
-const MOON_SHEET_SIZE={width:480,height:506}; // Matches the mask's portrait window.
+const MOON_SHEET_SIZE={width:480,height:505}; // Crop ratio matches the frame's portrait window.
 const MAX_SOURCE=3*1024*1024;
 const init=():CropPosition=>({zoom:1,dx:0,dy:0});
 
-function CropPanel({title,image,imageSize,output,crop,onChange}:{title:string;image:string;imageSize:CropSize;output:CropSize;crop:CropPosition;onChange:(value:CropPosition)=>void}) {
+function CropPanel({title,image,imageSize,output,crop,onChange,framePreview=false}:{title:string;image:string;imageSize:CropSize;output:CropSize;crop:CropPosition;onChange:(value:CropPosition)=>void;framePreview?:boolean}) {
   const viewportRef=useRef<HTMLDivElement>(null);
   const dragRef=useRef<{x:number;y:number;initial:CropPosition}|null>(null);
   const [viewport,setViewport]=useState<CropSize>({width:220,height:220*output.height/output.width});
@@ -37,16 +37,21 @@ function CropPanel({title,image,imageSize,output,crop,onChange}:{title:string;im
   };
   return <div className="portrait-crop-panel">
     <strong>{title}</strong>
-    <div className="portrait-crop-viewport" ref={viewportRef}
-      style={{aspectRatio:output.width+'/'+output.height}}
-      onPointerDown={event=>{event.preventDefault();dragRef.current={x:event.clientX,y:event.clientY,initial:{...crop}};event.currentTarget.setPointerCapture(event.pointerId);}}
-      onPointerMove={onMove}
-      onPointerUp={()=>{dragRef.current=null;}}
-      onPointerCancel={()=>{dragRef.current=null;}}
-      onWheel={onWheel} aria-label={'Обрезка изображения: '+title}>
-      <img src={image} alt="Предпросмотр обрезки" draggable={false}
-        style={{width:geometry.renderedWidth,height:geometry.renderedHeight,left:'calc(50% + '+geometry.dx+'px)',top:'calc(50% + '+geometry.dy+'px)',transform:'translate(-50%,-50%)'}}/>
-      <div className="portrait-crop-outline" aria-hidden="true" />
+    <div className={framePreview ? 'portrait-crop-frame-preview' : 'portrait-crop-basic-preview'}>
+      <div className="portrait-crop-viewport" ref={viewportRef}
+        style={framePreview ? undefined : {aspectRatio:output.width+'/'+output.height}}
+        onPointerDown={event=>{event.preventDefault();dragRef.current={x:event.clientX,y:event.clientY,initial:{...crop}};event.currentTarget.setPointerCapture(event.pointerId);}}
+        onPointerMove={onMove}
+        onPointerUp={()=>{dragRef.current=null;}}
+        onPointerCancel={()=>{dragRef.current=null;}}
+        onWheel={onWheel} aria-label={'Обрезка изображения: '+title}>
+        <img src={image} alt="Предпросмотр обрезки" draggable={false}
+          style={{width:geometry.renderedWidth,height:geometry.renderedHeight,left:'calc(50% + '+geometry.dx+'px)',top:'calc(50% + '+geometry.dy+'px)',transform:'translate(-50%,-50%)'}}/>
+        <div className="portrait-crop-outline" aria-hidden="true" />
+      </div>
+      {framePreview && <img className="portrait-crop-frame-art"
+        src={`${import.meta.env.BASE_URL}project-moon/portrait-frame.png`}
+        alt="" draggable={false}/>}
     </div>
     <label className="portrait-crop-zoom">Масштаб
       <input aria-label={'Масштаб '+title} type="range" min={1} max={3} step={.025} value={crop.zoom} onChange={e=>adjustZoom(Number(e.target.value))}/>
@@ -122,10 +127,10 @@ export default function PortraitEditor({name,existing,onClose,onSave,onDelete,sy
         <button className="portrait-upload" disabled={busy} onClick={()=>fileRef.current?.click()}>Загрузить изображение</button>
         {existing&&<button className="portrait-delete" disabled={busy} onClick={()=>void remove()}>Удалить текущий портрет</button>}
       </div>:<>
-        <p className="portrait-hint">{system === 'prmoon' ? 'Выбери кадр для карточки и отдельный кадр для портрета Pr. Moon.' : 'Выбери два кадра: квадратный для карточки и вертикальный для листа PF2e.'}</p>
+        <p className="portrait-hint">{system === 'prmoon' ? 'Выбери квадрат для главного меню. Справа — вертикальная рамка Pr. Moon с точной областью кадрирования внутри.' : 'Выбери два кадра: квадратный для карточки и вертикальный для листа PF2e.'}</p>
         <div className="portrait-crop-panels">
           <div ref={squarePanel} className="portrait-crop-holder"><CropPanel title="Карточка · квадрат" image={imageUrl} imageSize={imageSize} output={CARD_SIZE} crop={square} onChange={setSquare}/></div>
-          <div ref={verticalPanel} className="portrait-crop-holder"><CropPanel title={system === 'prmoon' ? 'Pr. Moon · портрет' : 'Лист · портрет'} image={imageUrl} imageSize={imageSize} output={sheetOutput} crop={vertical} onChange={setVertical}/></div>
+          <div ref={verticalPanel} className="portrait-crop-holder"><CropPanel title={system === 'prmoon' ? 'Pr. Moon · вертикальная рамка' : 'Лист · портрет'} image={imageUrl} imageSize={imageSize} output={sheetOutput} crop={vertical} onChange={setVertical} framePreview={system === 'prmoon'}/></div>
         </div>
         <div className="portrait-actions"><button disabled={busy} onClick={()=>fileRef.current?.click()}>Другая картинка</button><button disabled={busy} onClick={()=>{dispose();imageRef.current=null;setImageUrl('');}}>Отмена</button><button className="portrait-save" disabled={busy} onClick={()=>void save()}>{busy?'Сохраняем…':'Сохранить'}</button></div>
       </>}
