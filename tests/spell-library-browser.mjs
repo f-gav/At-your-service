@@ -41,7 +41,9 @@ try{
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
   assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 119 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),119,'Remaining 69 cards load correctly');
+  assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
+  await page.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await page.locator('.spell-result').count(),119,'Third page loads final 19 cards');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 119 loaded: no more button');
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
