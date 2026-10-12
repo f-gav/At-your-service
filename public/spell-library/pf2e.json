@@ -492,6 +492,502 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-glass-shield",
+      "system": "pf2e",
+      "slug": "glass-shield",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "earth"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-glowing-trail",
+      "system": "pf2e",
+      "slug": "glowing-trail",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-194-cult-of-the-cave-worm"
+    },
+    {
+      "id": "pf2e-gouging-claw",
+      "system": "pf2e",
+      "slug": "gouging-claw",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-guidance",
+      "system": "pf2e",
+      "slug": "guidance",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-haunting-hymn",
+      "system": "pf2e",
+      "slug": "haunting-hymn",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-healing-plaster",
+      "system": "pf2e",
+      "slug": "healing-plaster",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-secrets-of-magic"
+    },
+    {
+      "id": "pf2e-ignition",
+      "system": "pf2e",
+      "slug": "ignition",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-illuminate",
+      "system": "pf2e",
+      "slug": "illuminate",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-infectious-enthusiasm",
+      "system": "pf2e",
+      "slug": "infectious-enthusiasm",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "emotion",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-inside-ropes",
+      "system": "pf2e",
+      "slug": "inside-ropes",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-181-zombie-feast"
+    },
+    {
+      "id": "pf2e-invoke-true-name",
+      "system": "pf2e",
+      "slug": "invoke-true-name",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "true-name"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-secrets-of-magic"
+    },
+    {
+      "id": "pf2e-join-pasts",
+      "system": "pf2e",
+      "slug": "join-pasts",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-147-tomorrow-must-burn"
+    },
+    {
+      "id": "pf2e-know-the-way",
+      "system": "pf2e",
+      "slug": "know-the-way",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-light",
+      "system": "pf2e",
+      "slug": "light",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "light",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-live-wire",
+      "system": "pf2e",
+      "slug": "live-wire",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "electricity",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-message",
+      "system": "pf2e",
+      "slug": "message",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "linguistic",
+        "mental",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-musical-accompaniment",
+      "system": "pf2e",
+      "slug": "musical-accompaniment",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-needle-darts",
+      "system": "pf2e",
+      "slug": "needle-darts",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-phase-bolt",
+      "system": "pf2e",
+      "slug": "phase-bolt",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-dark-archive-remastered"
+    },
+    {
+      "id": "pf2e-prestidigitation",
+      "system": "pf2e",
+      "slug": "prestidigitation",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-protect-companion",
+      "system": "pf2e",
+      "slug": "protect-companion",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-puff-of-poison",
+      "system": "pf2e",
+      "slug": "puff-of-poison",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "poison"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-ray-of-frost",
+      "system": "pf2e",
+      "slug": "ray-of-frost",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "cold",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-read-aura",
+      "system": "pf2e",
+      "slug": "read-aura",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -808,6 +1304,351 @@
       },
       "duration": "1 час",
       "resource": "none"
+    },
+    {
+      "id": "pf2e-glass-shield-pf2e-remaster",
+      "spellId": "pf2e-glass-shield",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "duration": "до начала вашего следующего хода",
+      "resource": "none",
+      "heightened": {
+        "3": "Hardness 4; shattering damage 3d4.",
+        "5": "Hardness 7; shattering damage 4d4.",
+        "7": "Hardness 10; shattering damage 5d4.",
+        "9": "Hardness 12; shattering damage 6d4."
+      }
+    },
+    {
+      "id": "pf2e-glowing-trail-pf2e-legacy",
+      "spellId": "pf2e-glowing-trail",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 час",
+      "resource": "none",
+      "heightened": {
+        "3": "The trail lasts for 1 day.",
+        "5": "The trail lasts for 1 week.",
+        "7": "The trail lasts for 1 month.",
+        "9": "The trail lasts for 1 year."
+      }
+    },
+    {
+      "id": "pf2e-gouging-claw-pf2e-remaster",
+      "spellId": "pf2e-gouging-claw",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Первоначальный урон увеличивается на 1d6, продолжительное кровотечение — на 1."
+      }
+    },
+    {
+      "id": "pf2e-guidance-pf2e-remaster",
+      "spellId": "pf2e-guidance",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "duration": "до начала вашего следующего хода",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-haunting-hymn-pf2e-remaster",
+      "spellId": "pf2e-haunting-hymn",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Конус длиной 15 футов",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+2": "Урон увеличивается на 1d8."
+      }
+    },
+    {
+      "id": "pf2e-healing-plaster-pf2e-legacy",
+      "spellId": "pf2e-healing-plaster",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "5 футов",
+      "targets": "a handful of dirt or mud",
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "3": "Материал даёт пользователю бонус предмета +1 к проверкам Медицины при оказании первой помощи или лечении ран."
+      }
+    },
+    {
+      "id": "pf2e-ignition-pf2e-remaster",
+      "spellId": "pf2e-ignition",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Начальный урон увеличивается на 1d4 (либо 1d6 вблизи); продолжительный урон при критическом попадании — на соответствующую кость."
+      }
+    },
+    {
+      "id": "pf2e-illuminate-pf2e-remaster",
+      "spellId": "pf2e-illuminate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "area": "Эманация радиусом 30 футов",
+      "savingThrow": "Спасбросок Рефлекса",
+      "resource": "none",
+      "heightened": {
+        "+1": "The maximum emanation radius increases by 10 feet."
+      }
+    },
+    {
+      "id": "pf2e-infectious-enthusiasm-pf2e-remaster",
+      "spellId": "pf2e-infectious-enthusiasm",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 раунд",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-inside-ropes-pf2e-legacy",
+      "spellId": "pf2e-inside-ropes",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "3": "You gain a +1 item bonus to Athletics checks made to Climb using these entrails."
+      }
+    },
+    {
+      "id": "pf2e-invoke-true-name-pf2e-legacy",
+      "spellId": "pf2e-invoke-true-name",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 creature whose true name you know",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-join-pasts-pf2e-legacy",
+      "spellId": "pf2e-join-pasts",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "Касание",
+      "targets": "2 willing creatures",
+      "duration": "1 раунд",
+      "resource": "none",
+      "heightened": {
+        "+1": "You can include one additional willing creature; multiple companions can Aid the creature recalling knowledge."
+      }
+    },
+    {
+      "id": "pf2e-know-the-way-pf2e-remaster",
+      "spellId": "pf2e-know-the-way",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "none",
+      "heightened": {
+        "3": "You can choose a location visited within the past week.",
+        "7": "You can choose a previously visited location no matter how long ago the visit occurred."
+      }
+    },
+    {
+      "id": "pf2e-light-pf2e-remaster",
+      "spellId": "pf2e-light",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 футов",
+      "duration": "до следующих ежедневных приготовлений",
+      "resource": "none",
+      "heightened": {
+        "4": "Радиус яркого света увеличивается до 60 футов, тусклого — ещё на 60 футов."
+      }
+    },
+    {
+      "id": "pf2e-live-wire-pf2e-remaster",
+      "spellId": "pf2e-live-wire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+2": "Slashing damage, initial electricity damage, and persistent electricity damage on a critical hit each increase by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-message-pf2e-remaster",
+      "spellId": "pf2e-message",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "120 футов",
+      "targets": "1 creature",
+      "duration": "см. описание",
+      "resource": "none",
+      "heightened": {
+        "3": "Дистанция возрастает до 500 футов."
+      }
+    },
+    {
+      "id": "pf2e-musical-accompaniment-pf2e-remaster",
+      "spellId": "pf2e-musical-accompaniment",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 минута",
+      "resource": "none",
+      "heightened": {
+        "2": "Duration increases to 10 minutes."
+      }
+    },
+    {
+      "id": "pf2e-needle-darts-pf2e-remaster",
+      "spellId": "pf2e-needle-darts",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Вы выпускаете ещё одну иглу: обычный урон увеличивается на 1d4, продолжительное кровотечение при критическом попадании — на 1."
+      }
+    },
+    {
+      "id": "pf2e-phase-bolt-pf2e-remaster",
+      "spellId": "pf2e-phase-bolt",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-prestidigitation-pf2e-remaster",
+      "spellId": "pf2e-prestidigitation",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "targets": "1 object (cook, lift, or tidy only)",
+      "duration": "Поддерживаемое",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-protect-companion-pf2e-remaster",
+      "spellId": "pf2e-protect-companion",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "your eidolon, or a creature with the minion trait under your control",
+      "duration": "до начала вашего следующего хода",
+      "resource": "none",
+      "heightened": {
+        "+2": "Реакция уменьшает получаемый компаньоном урон ещё на 10, но вы теряете на 5 ОЗ больше. Вы можете выбрать эффект более низкого круга, сохранив текущий круг заклинания."
+      }
+    },
+    {
+      "id": "pf2e-puff-of-poison-pf2e-remaster",
+      "spellId": "pf2e-puff-of-poison",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "targets": "1 creature",
+      "savingThrow": "Спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+2": "Начальный и продолжительный урон ядом увеличиваются каждый на 1d4."
+      },
+      "outcomes": {
+        "criticalSuccess": "Без эффекта.",
+        "success": "Половина начального урона без продолжительного.",
+        "failure": "Полный начальный и продолжительный урон.",
+        "criticalFailure": "Удвоенный начальный и продолжительный урон."
+      }
+    },
+    {
+      "id": "pf2e-ray-of-frost-pf2e-legacy",
+      "spellId": "pf2e-ray-of-frost",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон холодом увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-read-aura-pf2e-remaster",
+      "spellId": "pf2e-read-aura",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 minute"
+      },
+      "range": "30 футов",
+      "targets": "1 object",
+      "resource": "none",
+      "heightened": {
+        "3": "Можно выбрать до 10 предметов.",
+        "6": "Можно выбрать любое количество предметов."
+      }
     }
   ],
   "translations": [
@@ -1131,6 +1972,310 @@
       "description": "You add a subtle magical flourish to your personal appearance or immediate surroundings for up to an hour: change your hair highlights or cosmetics, polish your nails, adjust flattering lighting, make your hair ripple briefly, or accompany a smile with a faint chime. You may Sustain the spell to revise these effects. With GM approval, the details might provide a +1 status bonus to an appropriate Impersonate or Performance check.",
       "translationStatus": "draft",
       "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-glass-shield",
+      "versionId": "pf2e-glass-shield-pf2e-remaster",
+      "locale": "en",
+      "name": "Glass Shield",
+      "description": "A pane of magical glass forms a shield that grants you a +1 circumstance bonus to AC without occupying a hand. You can Shield Block with it (Hardness 2), including against magical effects. The block shatters the glass and ends the spell; if the attacker is within 5 feet, shards deal 1d4 piercing damage with a basic Reflex save. You cannot cast this spell again for 10 minutes after using its block.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-glowing-trail",
+      "versionId": "pf2e-glowing-trail-pf2e-legacy",
+      "locale": "en",
+      "name": "Glowing Trail",
+      "description": "As you move, a hazy trace of light marks your path through the air, recording your size but not your precise appearance. The trace normally fades after 10 minutes; the spell itself lasts 1 hour. Choose whether the trail is visible as a colored mist (which illuminates nothing beyond itself) or invisible, in which case only you can sense it. Dismissing the spell does not make existing traces vanish instantly.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-gouging-claw",
+      "versionId": "pf2e-gouging-claw-pf2e-remaster",
+      "locale": "en",
+      "name": "Gouging Claw",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gouging-claw",
+      "versionId": "pf2e-gouging-claw-pf2e-remaster",
+      "locale": "ru",
+      "name": "Раздирающий коготь",
+      "description": "Вы превращаете часть конечности в острый коготь и совершаете атаку заклинанием в ближнем бою против КБ цели. Попадание наносит на ваш выбор 2d6 рубящего или колющего урона и 2 продолжительного урона кровотечением. При критическом попадании оба вида урона удваиваются.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-guidance",
+      "versionId": "pf2e-guidance-pf2e-remaster",
+      "locale": "en",
+      "name": "Guidance",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-guidance",
+      "versionId": "pf2e-guidance-pf2e-remaster",
+      "locale": "ru",
+      "name": "Наставление",
+      "description": "Вы даруете существу +1 бонус состояния к одному броску атаки, проверке Восприятия, спасброску или проверке навыка до начала вашего следующего хода. Цель выбирает бросок заранее. После применения бонуса действие чар прекращается; независимо от использования цель временно невосприимчива к этим чарам на 1 час.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-haunting-hymn",
+      "versionId": "pf2e-haunting-hymn-pf2e-remaster",
+      "locale": "en",
+      "name": "Haunting Hymn",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-haunting-hymn",
+      "versionId": "pf2e-haunting-hymn-pf2e-remaster",
+      "locale": "ru",
+      "name": "Навязчивый гимн",
+      "description": "Вы исполняете тревожную мелодию, которую слышат только существа в 15-футовом конусе. Каждое получает 1d8 урона звуком с простым спасброском Стойкости. При критическом провале цель также становится глухой на 1 минуту.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-healing-plaster",
+      "versionId": "pf2e-healing-plaster-pf2e-legacy",
+      "locale": "en",
+      "name": "Healing Plaster",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-healing-plaster",
+      "versionId": "pf2e-healing-plaster-pf2e-legacy",
+      "locale": "ru",
+      "name": "Исцеляющий гипс",
+      "description": "Вы превращаете горсть земли или грязи в целебный пластичный материал. В течение 10 минут его можно использовать вместо инструментов лекаря для проверок Медицины при оказании первой помощи или лечении ран. Если не применить материал до конца действия чар либо сотворить их ещё раз, он станет обычной землёй.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-ignition",
+      "versionId": "pf2e-ignition-pf2e-remaster",
+      "locale": "en",
+      "name": "Ignition",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ignition",
+      "versionId": "pf2e-ignition-pf2e-remaster",
+      "locale": "ru",
+      "name": "Воспламенение",
+      "description": "Вы щёлкаете пальцами, направляя искру в существо. Совершите атаку заклинанием против его КБ: при попадании цель получает 2d4 урона огнём. Если цель в пределах вашей досягаемости ближнего боя, можно атаковать в ближнем бою и использовать кости d6 вместо d4. При критическом попадании начальный урон удваивается, а цель получает 1d4 продолжительного урона огнём (для атаки вблизи — d6).",
+      "translationStatus": "draft",
+      "translatorCredit": "Название подтверждено PF2 RU; описание самостоятельно адаптировано по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-illuminate",
+      "versionId": "pf2e-illuminate-pf2e-remaster",
+      "locale": "en",
+      "name": "Illuminate",
+      "description": "You ignite nonmagical fire-based light sources such as candles, torches, and oil lamps within a 30-foot emanation. You may reduce the emanation's radius as you cast. A creature holding an affected light source against its will can attempt a Reflex save to extinguish it before the new light draws attention.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-infectious-enthusiasm",
+      "versionId": "pf2e-infectious-enthusiasm-pf2e-remaster",
+      "locale": "en",
+      "name": "Infectious Enthusiasm",
+      "description": "You kindle a contagious sense of purpose, gaining a +1 status bonus to attack rolls, Will saves, or Charisma-based skill checks (choose one type when casting). An ally who watched the casting from within 30 feet may spend one action with the concentrate trait to gain your chosen bonus until the start of their next turn. The spell lasts 1 round. Casting it openly during social interaction can negate its Charisma-based benefit against a witness.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-inside-ropes",
+      "versionId": "pf2e-inside-ropes-pf2e-legacy",
+      "locale": "en",
+      "name": "Inside Ropes",
+      "description": "You draw out a harmless 50-foot length of your own magical entrails and use it as a rope for climbing. While climbing with them, you move at half your usual climbing speed (minimum 5 feet), but a DC 5 flat check can prevent a fall after a critical failure on a Climb check. Others can use the rope, but only you benefit from its uncanny grip on walls. Releasing or damaging it ends the spell.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-invoke-true-name",
+      "versionId": "pf2e-invoke-true-name-pf2e-legacy",
+      "locale": "en",
+      "name": "Invoke True Name",
+      "description": "You pronounce the true name of a creature you can see within 30 feet. Until the end of the current turn, it is off-guard against your spells and takes a –2 circumstance penalty to saving throws against them. The first time one of your spells damages it this turn, it also has weakness to that damage equal to twice the rank of Invoke True Name.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-join-pasts",
+      "versionId": "pf2e-join-pasts-pf2e-legacy",
+      "locale": "en",
+      "name": "Join Pasts",
+      "description": "You touch the foreheads of two willing creatures, joining their minds for one round. They may share memories and experiences without sending words. When one attempts Recall Knowledge, the other can Aid the check using any Lore skill, even one normally unrelated, without advance preparation.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-know-the-way",
+      "versionId": "pf2e-know-the-way-pf2e-remaster",
+      "locale": "en",
+      "name": "Know the Way",
+      "description": "You instantly sense which way is north (if this direction exists where you are). You may also remember a place you visited during the preceding 24 hours and learn the direction in which it lies.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-light",
+      "versionId": "pf2e-light-pf2e-remaster",
+      "locale": "en",
+      "name": "Light",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-light",
+      "versionId": "pf2e-light-pf2e-remaster",
+      "locale": "ru",
+      "name": "Свет",
+      "description": "Вы создаёте парящую сферу света выбранного цвета. Она излучает яркий свет в радиусе 20 футов и тусклый — ещё на 20 футов. Если сфера появляется рядом с согласным существом, она может следовать за ним. Поддерживая чары, можно передвинуть сферу на расстояние до 60 футов, прикрепить её к существу или отделить. Заклинание действует до ваших следующих ежедневных приготовлений; одновременно может существовать до четырёх таких сфер.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-live-wire",
+      "versionId": "pf2e-live-wire-pf2e-remaster",
+      "locale": "en",
+      "name": "Live Wire",
+      "description": "A length of electrified copper lashes at one creature within 30 feet. Make a spell attack: on a success the target takes 1d4 slashing plus 1d4 electricity damage; on a failure it still takes the electricity damage only. On a critical success, double the initial damage and deal 1d4 persistent electricity damage at the spell's base rank. A critical failure has no effect.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-message",
+      "versionId": "pf2e-message-pf2e-remaster",
+      "locale": "en",
+      "name": "Message",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-message",
+      "versionId": "pf2e-message-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сообщение",
+      "description": "Вы беззвучно произносите слова, которые услышит только существо в пределах 120 футов, словно вы стоите рядом. Цель может кратко ответить реакцией либо свободным действием на своём следующем ходу, если видит вас и находится в пределах дистанции. Ответ слышите только вы.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-musical-accompaniment",
+      "versionId": "pf2e-musical-accompaniment-pf2e-remaster",
+      "locale": "en",
+      "name": "Musical Accompaniment",
+      "description": "Enchanted orchestral music follows you, adapting to your deeds for 1 minute. It grants a +1 status bonus to Performance. With GM permission, it may also support Deception, Diplomacy, or Intimidation, though an onlooker might reject such overt manipulation. The music can be as loud as four people shouting and imposes a –4 circumstance penalty to Stealth; it cannot produce meaningful lyrics or exactly chosen melodies. You may Dismiss the spell.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-needle-darts",
+      "versionId": "pf2e-needle-darts-pf2e-remaster",
+      "locale": "en",
+      "name": "Needle Darts",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-needle-darts",
+      "versionId": "pf2e-needle-darts-pf2e-remaster",
+      "locale": "ru",
+      "name": "Иглы-дротики",
+      "description": "Вы превращаете имеющийся у вас кусочек металла в три иглы и выпускаете их в одну цель. При успешной атаке заклинанием против КБ они наносят 3d4 колющего урона; металл сохраняет особые свойства, например холодное железо действует на соответствующую слабость. После атаки металл возвращается к вам. При критическом попадании урон удваивается и цель получает продолжительное кровотечение, равное кругу заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-phase-bolt",
+      "versionId": "pf2e-phase-bolt-pf2e-remaster",
+      "locale": "en",
+      "name": "Phase Bolt",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-phase-bolt",
+      "versionId": "pf2e-phase-bolt-pf2e-remaster",
+      "locale": "ru",
+      "name": "Фазовый болт",
+      "description": "Вы выпускаете магический снаряд, который на пути к цели то исчезает, то возникает вновь. Совершите дистанционную атаку заклинанием против КБ одного существа в пределах 60 футов. Для этой атаки уменьшите любые бонусы обстоятельства цели к КБ (в том числе от укрытия и щита) на 2. При попадании болт наносит 3d4 колющего урона; критическое попадание удваивает урон.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-prestidigitation",
+      "versionId": "pf2e-prestidigitation-pf2e-remaster",
+      "locale": "en",
+      "name": "Prestidigitation",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-prestidigitation",
+      "versionId": "pf2e-prestidigitation-pf2e-remaster",
+      "locale": "ru",
+      "name": "Престидижитация",
+      "description": "Вы выполняете небольшие магические трюки, выбирая один при каждом поддержании чар: нагреть, охладить или ароматизировать до 1 фунта неживого вещества; медленно поднять бесхозный предмет лёгкой массы на 1 фут; создать грубый и крайне хрупкий временный предмет ничтожной массы, непригодный как инструмент или оружие; либо окрасить, очистить или испачкать небольшой предмет. Для крупного предмета очищение требует дополнительного времени. Эти чары не могут наносить урон или накладывать вредные состояния. Изменения обычно сохраняются лишь пока вы поддерживаете чары.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-protect-companion",
+      "versionId": "pf2e-protect-companion-pf2e-remaster",
+      "locale": "en",
+      "name": "Protect Companion",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-protect-companion",
+      "versionId": "pf2e-protect-companion-pf2e-remaster",
+      "locale": "ru",
+      "name": "Защитить компаньона",
+      "description": "Вы прикрываете своим магическим щитом эйдолона или подчинённое вам существо с чертой «миньон» в пределах 30 футов. До начала следующего хода цель получает +1 бонус обстоятельства к КБ. Вы получаете реакцию «Блок жизни», позволяющую принять часть урона за цель. После применения реакции чары прекращаются, а повторное сотворение невозможно 10 минут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-puff-of-poison",
+      "versionId": "pf2e-puff-of-poison-pf2e-remaster",
+      "locale": "en",
+      "name": "Puff of Poison",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-puff-of-poison",
+      "versionId": "pf2e-puff-of-poison-pf2e-remaster",
+      "locale": "ru",
+      "name": "Дуновение яда",
+      "description": "Вы выдыхаете в лицо существу в пределах 10 футов облако яда. Цель получает 1d4 урона ядом и 1d4 продолжительного урона ядом, в зависимости от спасброска Стойкости: при критическом успехе эффекта нет; при успехе — половина начального урона без продолжительного; при провале — полный начальный и продолжительный урон; при критическом провале — двойной начальный и продолжительный урон.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-ray-of-frost",
+      "versionId": "pf2e-ray-of-frost-pf2e-legacy",
+      "locale": "en",
+      "name": "Ray of Frost",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ray-of-frost",
+      "versionId": "pf2e-ray-of-frost-pf2e-legacy",
+      "locale": "ru",
+      "name": "Морозный луч",
+      "description": "Вы направляете в существо в пределах 120 футов ледяной луч и совершаете атаку заклинанием против его КБ. При попадании цель получает 2d4 урона холодом. При критическом попадании урон удваивается, а ко всем Скоростям цели применяется штраф состояния –10 футов на 1 раунд. Это заклинание относится к Legacy, поэтому не следует путать его с Remaster-версией Frostbite.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-read-aura",
+      "versionId": "pf2e-read-aura-pf2e-remaster",
+      "locale": "en",
+      "name": "Read Aura",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-read-aura",
+      "versionId": "pf2e-read-aura-pf2e-remaster",
+      "locale": "ru",
+      "name": "Чтение ауры",
+      "description": "Вы в течение одной минуты изучаете предмет на расстоянии до 30 футов. После сотворения узнаёте, является ли он магическим. Вы и те, кому вы расскажете о наблюдаемой ауре, получаете +2 бонус обстоятельства к попыткам Опознать магию этого предмета. Иллюзорный предмет распознаётся как таковой только если круг иллюзии ниже круга этих чар.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
     }
   ],
   "sources": [
@@ -1193,6 +2338,41 @@
     {
       "id": "src-pathfinder-lost-omens-divine-mysteries",
       "name": "Pathfinder Lost Omens Divine Mysteries",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-194-cult-of-the-cave-worm",
+      "name": "Pathfinder #194: Cult of the Cave Worm",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-secrets-of-magic",
+      "name": "Pathfinder Secrets of Magic",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-181-zombie-feast",
+      "name": "Pathfinder #181: Zombie Feast",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-147-tomorrow-must-burn",
+      "name": "Pathfinder #147: Tomorrow Must Burn",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-dark-archive-remastered",
+      "name": "Pathfinder Dark Archive (Remastered)",
       "publisher": "Paizo",
       "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
