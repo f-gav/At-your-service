@@ -41,10 +41,10 @@
 }
 .portrait-crop-frame-preview .portrait-crop-viewport {
   position:absolute;
-  left:calc(3.65% + 3px);
-  top:18.09%;
-  width:92.7%;
-  height:64%;
+  left:calc(3.65% + 2px);
+  top:calc(18.09% - 1px);
+  width:calc(92.7% + 4px);
+  height:calc(64% + 4px);
   aspect-ratio:auto;
   border:0;
 }

@@ -45,11 +45,15 @@ const knownCompleteFrame = readFileSync(new URL('../public/project-moon/portrait
 assert.equal(createHash('sha256').update(knownCompleteFrame).digest('hex'),
   'd3d06780da3b1bd5cedab3b86eb21759c14b983b76f9da7ea2c913bf261d0bd6',
   'Do not replace the complete frame with a truncated or masked-down PNG');
-assert.ok(cardCSS.includes('left:calc(3.65% + 3px);'), 'Photo is nudged right without moving the frame');
+assert.ok(cardCSS.includes('left:calc(3.65% + 2px);'), 'Portrait slightly overlaps the interior frame');
 const cropPreviewStyles=source('../src/features/portrait/PortraitEditor.css');
-assert.ok(cropPreviewStyles.includes('left:calc(3.65% + 3px);'), 'Crop preview must match the dossier photo position');
-assert.ok(cardCSS.includes('top:18.09%'));
-assert.ok(cardCSS.includes('height:64%'));
+assert.ok(cropPreviewStyles.includes('left:calc(3.65% + 2px);'), 'Crop preview must match the dossier photo position');
+assert.ok(cardCSS.includes('top:calc(18.09% - 1px)'));
+assert.ok(cardCSS.includes('width:calc(92.7% + 4px)'));
+assert.ok(cardCSS.includes('height:calc(64% + 4px)'));
+assert.ok(cropPreviewStyles.includes('top:calc(18.09% - 1px)'));
+assert.ok(cropPreviewStyles.includes('width:calc(92.7% + 4px)'));
+assert.ok(cropPreviewStyles.includes('height:calc(64% + 4px)'));
 assert.ok(!cardCSS.includes('.moon-portrait-art-stage'), 'No second coordinate system');
 assert.ok(portraitEditor.includes("system === 'prmoon' ? MOON_SHEET_SIZE : SHEET_SIZE"));
 assert.ok(portraitEditor.includes('const SHEET_SIZE={width:480,height:708}'), 'Existing PF crop must be unchanged');

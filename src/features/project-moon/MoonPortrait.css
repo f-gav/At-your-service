@@ -35,10 +35,10 @@
 .moon-portrait-art-window {
   position:absolute;
   /* Align the photo with the full, unmodified PNG frame. */
-  left:calc(3.65% + 3px);
-  top:18.09%;
-  width:92.7%;
-  height:64%;
+  left:calc(3.65% + 2px);
+  top:calc(18.09% - 1px);
+  width:calc(92.7% + 4px);
+  height:calc(64% + 4px);
   overflow:hidden;
   z-index:2;
   background:#fff;
