@@ -2030,6 +2030,123 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-chilling-spray",
+      "system": "pf2e",
+      "slug": "chilling-spray",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cold",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-cinder-scribe",
+      "system": "pf2e",
+      "slug": "cinder-scribe",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-cleanse-cuisine",
+      "system": "pf2e",
+      "slug": "cleanse-cuisine",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-command",
+      "system": "pf2e",
+      "slug": "command",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "concentrate",
+        "linguistic",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-concordant-choir",
+      "system": "pf2e",
+      "slug": "concordant-choir",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-conductive-weapon",
+      "system": "pf2e",
+      "slug": "conductive-weapon",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "electricity",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
     }
   ],
   "versions": [
@@ -3472,6 +3589,91 @@
       "heightened": {
         "source": " (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures."
       }
+    },
+    {
+      "id": "pf2e-chilling-spray-pf2e-remaster",
+      "spellId": "pf2e-chilling-spray",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "area": "cone: 15 feet",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "source": " (+1) The damage increases by 2d4."
+      }
+    },
+    {
+      "id": "pf2e-cinder-scribe-pf2e-remaster",
+      "spellId": "pf2e-cinder-scribe",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "one object (see below)",
+      "duration": "24 hours"
+    },
+    {
+      "id": "pf2e-cleanse-cuisine-pf2e-remaster",
+      "spellId": "pf2e-cleanse-cuisine",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "10 feet",
+      "target": "1 cubic foot"
+    },
+    {
+      "id": "pf2e-command-pf2e-remaster",
+      "spellId": "pf2e-command",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 creature",
+      "duration": "until the end of the target's next turn",
+      "savingThrow": "will save",
+      "heightened": {
+        "source": " (5th) You can target up to 10 creatures."
+      }
+    },
+    {
+      "id": "pf2e-concordant-choir-pf2e-remaster",
+      "spellId": "pf2e-concordant-choir",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "text": "1 to 3"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "varies",
+      "savingThrow": "Basic fortitude save",
+      "heightened": {
+        "source": " (+1) The damage increases by 1d4 for the 1-action version, or 2d4 for the other versions."
+      }
+    },
+    {
+      "id": "pf2e-conductive-weapon-pf2e-remaster",
+      "spellId": "pf2e-conductive-weapon",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "1 metal weapon that is unattended or is wielded by you or a willing ally",
+      "duration": "1 minute"
     }
   ],
   "translations": [
@@ -4788,6 +4990,54 @@
       "description": "Цель совершает спасбросок Воли; если вы или союзники недавно угрожали ей, она получает бонус обстоятельства +4. При провале отношение к вам становится дружелюбным (или услужливым, если уже было дружелюбным), а при критическом провале — услужливым. Успех оставляет существо без эффекта, критический успех также позволяет распознать попытку очарования. Враждебные действия против цели прекращают заклинание. На 4-м круге действие длится до следующей ежедневной подготовки, на 8-м можно выбрать до десяти целей.",
       "translationStatus": "draft",
       "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-chilling-spray",
+      "versionId": "pf2e-chilling-spray-pf2e-remaster",
+      "locale": "en",
+      "name": "Chilling Spray",
+      "description": "A cone of icy shards bursts from your spread hands and coats the targets in a layer of frost. You deal 2d4 cold damage to creatures in the area; they must each attempt a Reflex save.\n\n\nCritical Success The creature is unaffected.\n\nSuccess The creature takes half damage.\n\nFailure The creature takes full damage and takes a –5-foot status penalty to its Speeds for 2 rounds.\n\nCritical Failure The creature takes double damage and takes a –10-foot status penalty to its Speeds for 2 rounds.\n\n\nHeightened (+1) The damage increases by 2d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-cinder-scribe",
+      "versionId": "pf2e-cinder-scribe-pf2e-remaster",
+      "locale": "en",
+      "name": "Cinder Scribe",
+      "description": "Conjuring a quill of magical flame, you take an object and write a message onto it that disappears to the naked eye almost as soon as you finish writing it. If this message is written onto an object that can't withstand a burning fire, such as paper or leather, then the object is destroyed while you're writing it. If the inscribed object is thrust into a roaring fire, the writing on it is revealed for 1 minute before fading. The writing can be revealed this way any number of times, and it's erased only if it's counteracted by an effect similar to dispel magic or when the duration ends. Even if the object is destroyed, pieces of the message exist on its various parts. For example, if the object was turned to dust and recreated via remake, the message would remain intact.\n\n\nHeightened (2nd) The duration increases to a year and a day.\n\nHeightened (4th) The duration is unlimited.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-cleanse-cuisine",
+      "versionId": "pf2e-cleanse-cuisine-pf2e-remaster",
+      "locale": "en",
+      "name": "Cleanse Cuisine",
+      "description": "You transform all food and beverages in the area into delicious fare, changing water into wine or another fine beverage, or enhancing the food's taste and ingredients to make it a gourmet treat. You can also choose to remove all toxins and contaminations from the food. This spell doesn't prevent future contamination, natural decay, or spoilage, nor does it make the food any more nutritious.\n\n\n\n\nHeightened (+2) Add another cubic foot to the area, which must be contiguous with the rest.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-command",
+      "versionId": "pf2e-command-pf2e-remaster",
+      "locale": "en",
+      "name": "Command",
+      "description": "You shout a command that's hard to ignore. You can command the target to approach you, run away (as if it had the condition condition), release what it's holding, drop condition, or stand in place. It can't condition or take any reactions until it has obeyed your command. The effects depend on the target's Will save.\n\n\n\n\nSuccess The creature is unaffected.\n\nFailure For the first action on its next turn, the creature must use a single action to do as you command.\n\nCritical Failure The target must use all its actions on its next turn to obey your command.\n\n\n\n\nHeightened (5th) You can target up to 10 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-concordant-choir",
+      "versionId": "pf2e-concordant-choir-pf2e-remaster",
+      "locale": "en",
+      "name": "Concordant Choir",
+      "description": "You unleash a dangerous consonance of reverberating sound, focusing on a single target or spreading out to damage many foes. The number of actions you spend Casting this Spell determines its targets, range, area, and other parameters.\n\n\n1 The spell deals 1d4 sonic damage to a single enemy, with a basic Fortitude save.\n\n2 (manipulate) The spell deals 2d4 sonic damage to all creatures in a @Template[burst|distance:10], with a basic Fortitude save.\n\n3 (manipulate) The spell deals 2d4 sonic damage to all creatures in a @Template[emanation|distance:30], with a basic Fortitude save.\n\n\nHeightened (+1) The damage increases by 1d4 for the 1-action version, or 2d4 for the other versions.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-conductive-weapon",
+      "versionId": "pf2e-conductive-weapon-pf2e-remaster",
+      "locale": "en",
+      "name": "Conductive Weapon",
+      "description": "You channel powerful electric current through the metal of a weapon, zapping anyone the item hits. The target becomes a +1 shock weapon. If any target of an attack with the weapon is wearing metal armor or is primarily made of metal, the electricity damage die from the shock rune is 1d12.\n\ncondition",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
