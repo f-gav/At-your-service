@@ -2654,6 +2654,100 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-flashy-disappearance",
+      "system": "pf2e",
+      "slug": "flashy-disappearance",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-firebrands"
+    },
+    {
+      "id": "pf2e-fleet-step",
+      "system": "pf2e",
+      "slug": "fleet-step",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-flense",
+      "system": "pf2e",
+      "slug": "flense",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-186-ghost-king-s-rage"
+    },
+    {
+      "id": "pf2e-flourishing-flora",
+      "system": "pf2e",
+      "slug": "flourishing-flora",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-fold-metal",
+      "system": "pf2e",
+      "slug": "fold-metal",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
     }
   ],
   "versions": [
@@ -4534,6 +4628,63 @@
         "time": "10 minutes"
       },
       "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-flashy-disappearance-pf2e-legacy",
+      "spellId": "pf2e-flashy-disappearance",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-fleet-step-pf2e-remaster",
+      "spellId": "pf2e-fleet-step",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-flense-pf2e-legacy",
+      "spellId": "pf2e-flense",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature or corpse",
+      "heightened": {
+        "rules": " (+1) The slashing damage to living and undead creatures increases by 2d6, and the persistent bleed damage to living creatures increases by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-flourishing-flora-pf2e-remaster",
+      "spellId": "pf2e-flourishing-flora",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 5 feet",
+      "savingThrow": "Basic reflex save"
+    },
+    {
+      "id": "pf2e-fold-metal-pf2e-remaster",
+      "spellId": "pf2e-fold-metal",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 unattended metallic object up to 5 Bulk",
+      "duration": "10 minutes"
     }
   ],
   "translations": [
@@ -6132,6 +6283,46 @@
       "locale": "en",
       "name": "Fishing Spot",
       "description": "You conjure a fishing rod and an extraplanar pool teeming with fish. After 10 minutes of fishing, you catch a magical fish; roll [[/r 1d8 #Fishing Spot]] to see which fish you caught and the effects gained from eating it once it's cooked. The fish must be cooked and eaten (a process that takes about 30 minutes) within 1 hour of being caught, and the listed effect lasts for 1 hour after consumption. Each fish can feed only a single creature.\nMusical trout +2 status bonus to Performance checks\nPrimordial bass +2 status bonus to Survival checks\nGhoulfish +2 status bonus to Intimidation checks\nBurbling barbel +2 status bonus to Deception and Diplomacy checks\nDashing dace +2 status bonus to Acrobatics checks\nVigocarp +2 status bonus to Athletics checks to [[/act climb]] and [[/act swim]]\nAggressive perch +2 status bonus to Athletics checks to [[/act disarm]], [[/act grapple]], [[/act reposition]], [[/act shove]], and [[/act trip]]\nScholar salmon +2 status bonus to checks to Recall Knowledge\nSpell Effect: Fishing Spot",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-flashy-disappearance",
+      "versionId": "pf2e-flashy-disappearance-pf2e-legacy",
+      "locale": "en",
+      "name": "Flashy Disappearance",
+      "description": "You create a puff of colorful smoke that quickly disperses while you become temporarily Invisible. You become Undetected to all creatures unless they can see invisible creatures. You Stride. At the end of your movement, if you have cover, greater cover, or concealment, attempt a @Check[stealth|traits:action:hide] check to Hide. You gain a +2 status bonus to this Stealth check. The invisibility then ends, and you either become Observed or Hidden to creatures as determined by your check to Hide, if you made one.\n\nSpell Effect: Flashy Disappearance",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fleet-step",
+      "versionId": "pf2e-fleet-step-pf2e-remaster",
+      "locale": "en",
+      "name": "Fleet Step",
+      "description": "You gain a +30-foot status bonus to your Speed.\n\nSpell Effect: Fleet Step",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-flense",
+      "versionId": "pf2e-flense-pf2e-legacy",
+      "locale": "en",
+      "name": "Flense",
+      "description": "With a touch, you strip off the flesh, muscle, and internal organs off your target, leaving only bare bones. The effect depends on whether the target is a living creature, undead creature, or inanimate corpse. A creature or corpse that lacks flesh, muscle, and internal organs is immune to this spell.\n\nInanimate Corpse The flesh, muscle, viscera, and organs are stripped from the corpse and vanish, leaving only bare bones behind.\n\nLiving Creature Make a spell attack roll. On a hit, the target takes 2d6 slashing damage. On a critical hit, double the damage, and the target also takes 1d4 persistent bleed damage. If this spell's damage kills the target, the corpse is only bones.\n\nUndead Creature Make a spell attack roll. On a hit, the target takes 2d6 slashing damage. On a critical hit, double the damage, and the target also becomes Enfeebled 1 for 1 minute. If this spell's damage destroys the target, only its bare bones remain behind.\n\n\n\nHeightened (+1) The slashing damage to living and undead creatures increases by 2d6, and the persistent bleed damage to living creatures increases by 1d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-flourishing-flora",
+      "versionId": "pf2e-flourishing-flora-pf2e-remaster",
+      "locale": "en",
+      "name": "Flourishing Flora",
+      "description": "Plants rapidly grow up from the ground. All creatures in the target area take 2d4 damage. The type of damage depends on the type of plant you choose to grow. On a critical failure, targets experience additional effects, also depending on what you choose to grow. The type of plant and its effects are chosen when you Cast the Spell.\n\n\nCacti Piercing damage, and Damage ((@item.level)[bleed)] damage on a critical failure.\nFlowers Poison damage, and Dazzled for 2 rounds on a critical failure.\nFruits Bludgeoning damage, and Clumsy 1 for 2 rounds on a critical failure.\nRoots Bludgeoning damage, and the affected creatures fall Prone on a critical failure.\n\n\n\nHeightened (+1) The damage increases by 1d4, and the persistent bleed damage from cacti increases by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fold-metal",
+      "versionId": "pf2e-fold-metal-pf2e-remaster",
+      "locale": "en",
+      "name": "Fold Metal",
+      "description": "You bend the target object into a smooth metallic ball no larger than an egg. The target reverts to its original shape only when you Dismiss the spell, the duration expires, or if the ball touches water or fire, whichever comes first.\n\nCreatures that see the reshaped object can attempt a Perception check against your spell DC to notice the ball might not actually be what it seems. If the object is magical, it retains its magical auras but can't be worn, affixed, or Activated.\n\n\n\nHeightened (3rd) The spell duration becomes 1 hour.",
       "translationStatus": "verified"
     }
   ],
