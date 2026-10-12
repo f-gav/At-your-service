@@ -65,8 +65,19 @@ try{
   assert.equal(await page.locator('.spell-total').textContent(),'24 записей');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
   assert.equal(await page.locator('.spell-result').count(),1);
+  const listBefore=await page.locator('.spell-result').count();
+  const scrollBefore=await page.evaluate(()=>scrollY);
   await page.locator('.spell-result').first().click();
+  const dialog=page.getByRole('dialog',{name:'Электрическая дуга [Electric Arc]'});
+  await dialog.waitFor();
   await page.getByRole('heading',{name:'Электрическая дуга [Electric Arc]'}).waitFor();
+  assert.equal(await page.locator('.spell-result').count(),listBefore,'Results remain mounted behind modal');
+  assert.equal(await page.evaluate(()=>scrollY),scrollBefore,'Opening modal does not reset list scroll');
+  assert.equal(await page.evaluate(()=>document.body.style.overflow),'hidden','Backdrop locks background scrolling');
+  assert.equal(await dialog.getByText('Источник: Pathfinder Player Core').count(),1,
+    'Actual source book is displayed inside the spell popup');
+  assert.equal(await dialog.getByText('Текст на проверке').count(),0,'Do not show draft label');
+  assert.equal(await dialog.getByRole('link',{name:'Источник'}).count(),0,'No external source button');
   assert.ok(await page.getByText('2d4 урона электричеством',{exact:false}).isVisible());
   assert.ok(await page.locator('.spell-descriptors span').count()>0);
   const order=await page.evaluate(()=>{
@@ -74,11 +85,19 @@ try{
     return ['.spell-viewer-top h2','.spell-descriptors','.spell-parameters','.spell-description','.spell-availability'].map(top);
   });
   assert.ok(order.every((v,i)=>i===0||v>=order[i-1]),'LSS information sequence must be preserved');
-  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.keyboard.press('Escape');
+  await page.getByRole('dialog').waitFor({state:'hidden'});
+  assert.equal(await page.evaluate(()=>document.body.style.overflow),'','Background scrolling unlocked');
+  assert.equal(await page.locator('.spell-result').count(),1,'Filtered result persists after Escape');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Ancient Dust');
   await page.locator('.spell-result').first().click();
   await page.getByText('Правила до Remaster',{exact:true}).waitFor();
+  await page.locator('.spell-modal-overlay').click({position:{x:4,y:4}});
+  await page.getByRole('dialog').waitFor({state:'hidden'});
+  await page.locator('.spell-result').first().click();
+  await page.getByRole('dialog').waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('dialog').waitFor({state:'hidden'});
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.getByRole('button',{name:'Чары',exact:true}).click();
   assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
@@ -136,7 +155,9 @@ try{
   await preview.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await preview.locator('.spell-result').count(),55);
   await preview.locator('.spell-result').first().click();
-  assert.ok(await preview.getByText('Текст синтетического образца.').isVisible());
+  assert.equal(await preview.locator('.spell-result').count(),55,'All 55 rows remain behind dialog');
+  assert.ok(await preview.getByRole('dialog').getByText('Текст синтетического образца.').isVisible());
+  assert.ok(await preview.locator('.spell-result').first().locator('span').textContent()!=='Example Spell');
   await preview.getByRole('button',{name:'Закрыть описание'}).click();
   assert.equal(await preview.locator('.spell-result').count(),55);
   await preview.close();
@@ -158,6 +179,16 @@ try{
   const mobileNavigation=await mobile.locator('.site-tabs-mobile').boundingBox();
   await mobile.getByRole('button',{name:/Фильтры/}).click();
   assert.ok(await mobile.locator('.spell-filter-panel').isVisible());
+  await mobile.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
+  await mobile.locator('.spell-result').first().click();
+  const phoneDialog=mobile.getByRole('dialog');
+  await phoneDialog.waitFor();
+  const modalBounds=await mobile.locator('.spell-modal').boundingBox();
+  assert.ok(modalBounds.x>=0&&modalBounds.x+modalBounds.width<=390+1,
+    'Popup must fit the mobile viewport');
+  assert.equal(await mobile.locator('.spell-result').count(),1);
+  await mobile.getByRole('button',{name:'Закрыть описание'}).click();
+  await phoneDialog.waitFor({state:'hidden'});
   await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Персонажи'}).click();
   assert.ok(await mobile.getByRole('heading',{name:/Мои персонажи/}).isVisible());
   const mobileAfterHeader=await mobile.locator('.site-header').boundingBox();
