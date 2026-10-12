@@ -2259,6 +2259,121 @@
       ],
       "rarity": "uncommon",
       "sourceId": "src-pathfinder-season-of-ghosts-hardcover-compilation"
+    },
+    {
+      "id": "pf2e-decompose",
+      "system": "pf2e",
+      "slug": "decompose",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-defended-by-spirits",
+      "system": "pf2e",
+      "slug": "defended-by-spirits",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "spirit"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-shining-kingdoms"
+    },
+    {
+      "id": "pf2e-dehydrate",
+      "system": "pf2e",
+      "slug": "dehydrate",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-detect-poison",
+      "system": "pf2e",
+      "slug": "detect-poison",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-devils-horseshoe",
+      "system": "pf2e",
+      "slug": "devils-horseshoe",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "sanctified",
+        "spirit"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-cheliax-infernal-inheritance"
+    },
+    {
+      "id": "pf2e-disguise-magic",
+      "system": "pf2e",
+      "slug": "disguise-magic",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -3867,6 +3982,94 @@
       "heightened": {
         "source": " (+1) The mental damage increases by 1d4."
       }
+    },
+    {
+      "id": "pf2e-decompose-pf2e-remaster",
+      "spellId": "pf2e-decompose",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "1 Large or smaller corpse"
+    },
+    {
+      "id": "pf2e-defended-by-spirits-pf2e-remaster",
+      "spellId": "pf2e-defended-by-spirits",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 ally and 1 enemy",
+      "duration": "1 minute",
+      "heightened": {
+        "source": " (+2) The damage increases by 1d6."
+      }
+    },
+    {
+      "id": "pf2e-dehydrate-pf2e-remaster",
+      "spellId": "pf2e-dehydrate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 5 feet",
+      "duration": "1 minute",
+      "savingThrow": "fortitude save",
+      "heightened": {
+        "source": " (+2) The range increases by 10 feet, the burst increases by 5 feet, and the persistent fire damage increases by 3d6."
+      }
+    },
+    {
+      "id": "pf2e-detect-poison-pf2e-remaster",
+      "spellId": "pf2e-detect-poison",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 object or creature"
+    },
+    {
+      "id": "pf2e-devils-horseshoe-pf2e-remaster",
+      "spellId": "pf2e-devils-horseshoe",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "text": "10 minutes"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "one door or similar opening",
+      "duration": "8 hours",
+      "savingThrow": "will save",
+      "heightened": {
+        "source": " (+1) The damage increases by 2d6."
+      }
+    },
+    {
+      "id": "pf2e-disguise-magic-pf2e-remaster",
+      "spellId": "pf2e-disguise-magic",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "text": "1 minute"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 item or spell effect",
+      "duration": "until your next daily preparations",
+      "heightened": {
+        "source": " (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it."
+      }
     }
   ],
   "translations": [
@@ -5279,6 +5482,54 @@
       "name": "Cycle of Retribution",
       "description": "An understanding of how violence begets more violence fills your target, causing it mental anguish in the form of splitting headaches when it attempts to take violent actions. The target must attempt a Will saving throw, with the following results.\n\n\nCritical Success The target is unaffected.\n\nSuccess The next time the target takes a hostile action, the target takes 1d4 mental damage; the spell's duration then ends.\n\nFailure The first time in a round when the target takes a hostile action, the target takes 1d4 mental damage.\n\nCritical Failure Each time the target takes a hostile action, the target takes 1d4 mental damage.\n\n\nHeightened (+1) The mental damage increases by 1d4.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-decompose",
+      "versionId": "pf2e-decompose-pf2e-remaster",
+      "locale": "en",
+      "name": "Decompose",
+      "description": "You touch a corpse to speed up the decaying process. The target begins to rapidly decompose. After a day, any organic material will be gone, and after a week, any trace of the target will be gone.\n\n\nHeightened (3rd) Organic material is gone within a minute, and any trace of the target is gone within an hour.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-defended-by-spirits",
+      "versionId": "pf2e-defended-by-spirits-pf2e-remaster",
+      "locale": "en",
+      "name": "Defended by Spirits",
+      "description": "You entreat a spirit or the spiritual energies in your location to surround and protect an ally from an certain foe. Each time the enemy attacks and damages the ally, the enemy takes 1d6 spirit damage. The enemy is aware of these spirits and has a general sense that attacking the ally will draw the spirits' ire.\n\n\nHeightened (+2) The damage increases by 1d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-dehydrate",
+      "versionId": "pf2e-dehydrate-pf2e-remaster",
+      "locale": "en",
+      "name": "Dehydrate",
+      "description": "You stir the inner fire of all things within the area, driving out moisture. All creatures in the area take 1d6 persistent fire damage with a basic Fortitude save; creatures with the water or plant traits get a result one degree of success worse than they rolled. The spell ends for a creature when its persistent damage ends.\n\nA creature affected by dehydrate attempts an additional Fortitude save at the end of each of its turns, before rolling to recover from the persistent damage. It can forgo this additional save if it consumed water or a similar hydrating liquid within the last round (drinking typically requires a single action).\n\n\n\n\nSuccess The creature takes no additional effect.\n\nFailure The creature is Enfeebled 1 until the end of its next turn.\n\nCritical Failure The creature is Enfeebled 2 until the end of its next turn.\n\n\n\n\nHeightened (+2) The range increases by 10 feet, the burst increases by 5 feet, and the persistent fire damage increases by 3d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-detect-poison",
+      "versionId": "pf2e-detect-poison-pf2e-remaster",
+      "locale": "en",
+      "name": "Detect Poison",
+      "description": "You detect whether a creature is venomous or poisonous, or if an object is poison or has been poisoned. You do not ascertain whether the target is poisonous in multiple ways, nor do you learn the type or types of poison. Certain substances, like lead and alcohol, are poisons and so mask other poisons.\n\n\n\n\nHeightened (2nd) You learn the number and types of poison.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-devils-horseshoe",
+      "versionId": "pf2e-devils-horseshoe-pf2e-remaster",
+      "locale": "en",
+      "name": "Devil's Horseshoe",
+      "description": "Drawing from superstitions about scaring a devil by threatening to nail horseshoes to their hooves, you conjure a silver horseshoe over an entrance. A fiend that passes through the target takes 2d6 spirit damage and must attempt a Will save.\n\n\nCritical Success The fiend is unaffected.\n\nSuccess The fiend takes half damage, and attacks against the fiend are treated as magical silver for 1 round.\n\nFailure The fiend takes full damage and is Enfeebled 1 and Stupefied 1 for 1 minute. Attacks against the fiend are treated as magical silver for 1 minute.\n\nCritical Failure The fiend takes double damage and is Enfeebled 2 and Stupefied 2 for 1 minute. Attacks against the fiend are treated as magical silver for 10 minutes.\n\n\nHeightened (+1) The damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-disguise-magic",
+      "versionId": "pf2e-disguise-magic-pf2e-remaster",
+      "locale": "en",
+      "name": "Disguise Magic",
+      "description": "You alter how an item's or spell's magical aura appears to effects like detect magic. You can hide the auras entirely, have an item register as a common item of lower level, or make a spell register as a common spell of the same or lower rank. You can Dismiss the spell. A caster using condition or condition of a higher rank than disguise magic can attempt to disbelieve the illusion using the skill matching the tradition of the spell (Arcana for arcane, Religion for divine, Occultism for occult, or Nature for primal). Further attempts by the same caster get the same result as the initial check to disbelieve.\n\n\n\n\nHeightened (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -5481,6 +5732,13 @@
     {
       "id": "src-pathfinder-season-of-ghosts-hardcover-compilation",
       "name": "Pathfinder Season of Ghosts Hardcover Compilation",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-shining-kingdoms",
+      "name": "Pathfinder Lost Omens Shining Kingdoms",
       "publisher": "Paizo",
       "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
