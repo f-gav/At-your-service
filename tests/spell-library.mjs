@@ -101,7 +101,7 @@ assert.equal(liveViews.find(v=>v.spell.slug==='admonishing-ray')?.rules.edition,
 assert.equal(liveViews.find(v=>v.spell.slug==='500-toads')?.spell.rarity,'rare');
 assert.ok(liveViews.find(v=>v.spell.slug==='bone-shield')?.rules.requirements?.includes('рука'));
 assert.ok(liveViews.find(v=>v.spell.slug==='breathe-fire')?.description.includes('2d6'));
-assert.ok(source('../docs/SPELL-RANK1-WAVE-001-RU.md').includes('13 русских'));
+assert.ok(source('../docs/SPELL-RANK1-WAVE-001-RU.md').includes('13 карточек с русскими названиями'));
 
 
 assert.equal(liveViews.find(v=>v.spell.slug==='gouging-claw')?.rules.edition,'pf2e-remaster');
