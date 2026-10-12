@@ -1,7 +1,8 @@
-import {useEffect,useMemo,useState} from 'react';
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
+import {createPortal} from 'react-dom';
 import {
   ArrowLeft,BookOpen,BookMarked,ChevronRight,Filter,RotateCcw,
-  Search,ScrollText,Sparkles,X,ExternalLink,Layers3
+  Search,ScrollText,Sparkles,X,Layers3
 } from 'lucide-react';
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
@@ -37,6 +38,16 @@ function sourceName(spell:SpellView){
 function spellKindName(kind:SpellKind):string{
   return SPELL_KIND_LABELS[kind];
 }
+/** A compact secondary label for list rows and the popup header. */
+function spellTypeLabel(spell:SpellView):string{
+  const {kind,rank}=spell.spell;
+  if(kind==='cantrip')return spell.system==='dnd5e'?'Заговор':'Чары';
+  const level=spell.system==='dnd5e'?'уровня':'круга';
+  if(kind==='spell')return `Заклинание ${rank}-го ${level}`;
+  if(kind==='focus')return `Фокусное заклинание ${rank}-го ${level}`;
+  if(kind==='ritual')return `Ритуал ${rank}-го ${level}`;
+  return `Особая магия ${rank}-го ${level}`;
+}
 const PF_TRAIT_LABELS:Record<string,string>={
   cantrip:'Чары',acid:'Кислота',air:'Воздух',attack:'Атака',
   auditory:'Слуховой',cold:'Холод',concentrate:'Концентрация',
@@ -63,17 +74,17 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
   return <article className="spell-viewer" aria-label={`Описание заклинания ${spell.name}`}>
     <div className="spell-viewer-top">
       <div className="spell-viewer-heading">
-        <span className="spell-eyebrow">{entry.kind==='cantrip'?'Чары · базовый круг 1':spellKindName(entry.kind)+' · '+rankLabel(entry.system,entry.rank)}</span>
-        <h2>{name}</h2>
+        <span className="spell-eyebrow">{spellTypeLabel(spell)}</span>
+        <h2 id="spell-popup-title">{name}</h2>
         <div className="spell-descriptors" aria-label="Дескрипторы">
           {descriptors.map(t=><span key={t}>{t}</span>)}
         </div>
         <div className="spell-edition-line">
           <span>{editionTitle(rules.edition)}</span>
           {rules.edition==='pf2e-legacy'&&<span className="spell-legacy-note">Правила до Remaster</span>}
-          {spell.translationStatus==='draft'&&<span>Текст на проверке</span>}
           {spell.locale==='en'&&<span>Только английский текст</span>}
         </div>
+        <p className="spell-source-book"><strong>Источник:</strong> {sourceName(spell)}</p>
       </div>
       <button type="button" className="spell-close" aria-label="Закрыть описание" onClick={onClose}><X size={18}/></button>
     </div>
@@ -106,11 +117,50 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
         : <div className="spell-traditions">{entry.classes.map(t=><span key={t}>{t}</span>)}</div>}
       {entry.rarity!=='common'&&<p className="spell-rarity">Редкость: {RARITY_LABELS[entry.rarity]}</p>}
     </section>
-    <footer className="spell-viewer-source">
-      <span>{sourceName(spell)} · {editionTitle(rules.edition)} · {spell.source?.license||'Источник указан'}</span>
-      {spell.source?.url&&<a href={spell.source.url} target="_blank" rel="noreferrer">Источник <ExternalLink size={13}/></a>}
-    </footer>
   </article>;
+}
+
+/** A portal prevents the popup from being constrained by the catalogue grid. */
+function SpellModal({spell,onClose}:{spell:SpellView;onClose:()=>void}){
+  const dialogRef=useRef<HTMLElement|null>(null);
+  useEffect(()=>{
+    const previousOverflow=document.body.style.overflow;
+    const focusedBefore=document.activeElement instanceof HTMLElement?document.activeElement:null;
+    document.body.style.overflow='hidden';
+    const dialog=dialogRef.current;
+    dialog?.querySelector<HTMLButtonElement>('.spell-close')?.focus({preventScroll:true});
+    function onKeyDown(event:KeyboardEvent){
+      if(event.key==='Escape'){event.preventDefault();onClose();return;}
+      if(event.key!=='Tab'||!dialog)return;
+      const focusable=Array.from(dialog.querySelectorAll<HTMLElement>(
+        'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+      )).filter(node=>node.getClientRects().length>0);
+      if(!focusable.length){event.preventDefault();dialog.focus();return;}
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(event.shiftKey&&(document.activeElement===first||!dialog.contains(document.activeElement))){
+        event.preventDefault();last.focus();
+      }else if(!event.shiftKey&&(document.activeElement===last||!dialog.contains(document.activeElement))){
+        event.preventDefault();first.focus();
+      }
+    }
+    document.addEventListener('keydown',onKeyDown);
+    return ()=>{
+      document.removeEventListener('keydown',onKeyDown);
+      document.body.style.overflow=previousOverflow;
+      if(focusedBefore?.isConnected)focusedBefore.focus({preventScroll:true});
+    };
+  },[onClose]);
+  return createPortal(
+    <div className="spell-modal-overlay" onMouseDown={event=>{
+      if(event.target===event.currentTarget)onClose();
+    }}>
+      <section ref={dialogRef} className="spell-modal" role="dialog" aria-modal="true"
+        aria-labelledby="spell-popup-title" tabIndex={-1}>
+        <SpellDetails spell={spell} onClose={onClose}/>
+      </section>
+    </div>,
+    document.body
+  );
 }
 
 export default function SpellLibrary({onBack}:Props){
@@ -122,6 +172,7 @@ export default function SpellLibrary({onBack}:Props){
   const [loadState,setLoadState]=useState<'loading'|'ready'|'error'>('loading');
   const [loadError,setLoadError]=useState('');
   const [selectedId,setSelectedId]=useState<string|null>(null);
+  const closeDetails=useCallback(()=>setSelectedId(null),[]);
   const [mobileFilters,setMobileFilters]=useState(false);
   const [visibleCount,setVisibleCount]=useState(RESULTS_PER_PAGE);
 
@@ -278,13 +329,11 @@ export default function SpellLibrary({onBack}:Props){
           <ScrollText size={29}/><h3>Не удалось открыть каталог</h3><p>{loadError}</p>
           <button type="button" onClick={()=>changeSystem(system==='pf2e'?'dnd5e':'pf2e')}>Открыть другую систему</button>
         </div>}
-        {loadState==='ready'&&(displayed
-          ? <SpellDetails spell={displayed} onClose={()=>setSelectedId(null)}/>
-          : shown.length>0
+        {loadState==='ready'&&(shown.length>0
             ? <div className="spell-result-list" role="list">
               {shown.slice(0,visibleCount).map(spell=><button type="button" role="listitem" className="spell-result" key={spell.id} onClick={()=>setSelectedId(spell.id)}>
-                <div><strong>{spell.name}</strong><span>{spell.englishName!==spell.name?spell.englishName:sourceName(spell)}</span></div>
-                <div><span>{rankLabel(spell.system,spell.spell.rank)}</span><ChevronRight size={16}/></div>
+                <div><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span></div>
+                <div><ChevronRight size={18}/></div>
               </button>)}
               {shown.length>visibleCount&&<div className="spell-load-more">
                 <span>Показано {Math.min(visibleCount,shown.length)} из {shown.length}</span>
@@ -305,5 +354,6 @@ export default function SpellLibrary({onBack}:Props){
         )}
       </section>
     </div>
+    {displayed&&<SpellModal spell={displayed} onClose={closeDetails}/>}
   </main>;
 }
