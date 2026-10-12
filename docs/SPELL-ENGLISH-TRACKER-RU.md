@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 48 заклинаний 1-го круга (119 записей). **На русском:** 65, **только на английском:** 54.
+**Импортировано:** 71 чары и 72 заклинания 1-го круга (143 записи). **На русском:** 72, **только на английском:** 71.
 
 ## Волна 001 — 9 английских
 
@@ -83,3 +83,24 @@
 20. **Disguise Magic** — `disguise-magic` · Remaster · Pathfinder Player Core
 
 **Русские названия, подтверждённые справочником:** Charm — «Очаровать», Command — «Приказ», Create Water — «Создание воды», Detect Poison — «Обнаружение яда». Описания адаптированы самостоятельно.
+
+
+## Заклинания 1-го круга — волна 003 (17 английских)
+
+1. **Dome of Tranquility** — `dome-of-tranquility` · Remaster · Pathfinder Impossible Magic
+2. **Draw Ire** — `draw-ire` · Legacy · Pathfinder Secrets of Magic
+3. **Déjà Vu** — `déjà-vu` · Remaster · Pathfinder Player Core 2
+4. **Echoing Weapon** — `echoing-weapon` · Remaster · Pathfinder Impossible Magic
+5. **Elysian Whimsy** — `elysian-whimsy` · Legacy · Pathfinder #183: Field of Maidens
+6. **Equal Footing** — `equal-footing` · Remaster · Pathfinder Lost Omens Shining Kingdoms
+7. **Exchange Image** — `exchange-image` · Legacy · Pathfinder #147: Tomorrow Must Burn
+8. **Fashionista** — `fashionista` · Legacy · Pathfinder Lost Omens Firebrands
+9. **Fated Healing** — `fated-healing` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
+10. **Fishing Spot** — `fishing-spot` · Remaster · Pathfinder Impossible Magic
+11. **Flashy Disappearance** — `flashy-disappearance` · Legacy · Pathfinder Lost Omens Firebrands
+12. **Flense** — `flense` · Legacy · Pathfinder #186: Ghost King's Rage
+13. **Flourishing Flora** — `flourishing-flora` · Remaster · Pathfinder Rage of Elements
+14. **Foraging Friends** — `foraging-friends` · Remaster · Pathfinder Howl of the Wild
+15. **Forced Mercy** — `forced-mercy` · Remaster · Pathfinder Battlecry!
+16. **Forge** — `forge` · Legacy · Pathfinder Lost Omens Highhelm
+17. **Friendfetch** — `friendfetch` · Legacy · Pathfinder #169: Kindled Magic
