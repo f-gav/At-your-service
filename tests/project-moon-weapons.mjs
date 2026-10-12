@@ -109,6 +109,6 @@ assert.ok(css.includes('prefers-reduced-motion') || sheet.includes('prefers-redu
 assert.ok(globalCSS.includes(".character-prmoon .character-system { color: #29445f; }"));
 const prMoonFont = globalCSS.match(/\.character-prmoon \.character-system \{\s*font-family: ([^;]+);/);
 assert.ok(prMoonFont,'Pr. Moon uses its own complete cursive font');
-assert.ok(prMoonFont[1].includes('Lobster'));
-assert.ok(!prMoonFont[1].includes('Tilda Script'));
-console.log('PASS: Pr. Moon weapon carousel, persistent unlimited slots, settings and full Latin badge font');
+assert.ok(prMoonFont[1].includes('Tilda Script Moon'), 'Pr. Moon uses the supplied original Tilda Script font');
+assert.ok(!prMoonFont[1].includes('Lobster'), 'Remove legacy external-font workaround');
+console.log('PASS: Pr. Moon weapon carousel, persistent unlimited slots, settings and original Tilda Script badge font');
