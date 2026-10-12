@@ -68,7 +68,7 @@ assert.match(sheet,/onNotesEnabled=\{setNotesPageEnabled\}/);
 assert.match(sheet,/onOrderChange=\{setPageOrder\}/);
 assert.match(sheet,/PAGE_LABELS\[page\]/);
 assert.match(sheet,/document\.getElementById\('pf-sheet-page-'\+page\)/);
-assert.match(sheet,/persistSheetValues\(character\.details, toStore, cleanName\)/);
+assert.match(sheet,/persistSheetValues\(character\.details,stored,cleanName\)/);
 assert.match(sheet,/Страницы листа…/);
 assert.match(notes,/id="pf-sheet-page-notes"/);
 assert.match(notes,/className="pf-sheet-page pf-optional-notes-page"/);
