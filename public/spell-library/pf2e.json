@@ -492,6 +492,125 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-glass-shield",
+      "system": "pf2e",
+      "slug": "glass-shield",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "earth"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-glowing-trail",
+      "system": "pf2e",
+      "slug": "glowing-trail",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-194-cult-of-the-cave-worm"
+    },
+    {
+      "id": "pf2e-gouging-claw",
+      "system": "pf2e",
+      "slug": "gouging-claw",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-guidance",
+      "system": "pf2e",
+      "slug": "guidance",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-haunting-hymn",
+      "system": "pf2e",
+      "slug": "haunting-hymn",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-healing-plaster",
+      "system": "pf2e",
+      "slug": "healing-plaster",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-secrets-of-magic"
     }
   ],
   "versions": [
@@ -808,6 +927,95 @@
       },
       "duration": "1 час",
       "resource": "none"
+    },
+    {
+      "id": "pf2e-glass-shield-pf2e-remaster",
+      "spellId": "pf2e-glass-shield",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "duration": "до начала вашего следующего хода",
+      "resource": "none",
+      "heightened": {
+        "3": "Hardness 4; shattering damage 3d4.",
+        "5": "Hardness 7; shattering damage 4d4.",
+        "7": "Hardness 10; shattering damage 5d4.",
+        "9": "Hardness 12; shattering damage 6d4."
+      }
+    },
+    {
+      "id": "pf2e-glowing-trail-pf2e-legacy",
+      "spellId": "pf2e-glowing-trail",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 час",
+      "resource": "none",
+      "heightened": {
+        "3": "The trail lasts for 1 day.",
+        "5": "The trail lasts for 1 week.",
+        "7": "The trail lasts for 1 month.",
+        "9": "The trail lasts for 1 year."
+      }
+    },
+    {
+      "id": "pf2e-gouging-claw-pf2e-remaster",
+      "spellId": "pf2e-gouging-claw",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Первоначальный урон увеличивается на 1d6, продолжительное кровотечение — на 1."
+      }
+    },
+    {
+      "id": "pf2e-guidance-pf2e-remaster",
+      "spellId": "pf2e-guidance",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "duration": "до начала вашего следующего хода",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-haunting-hymn-pf2e-remaster",
+      "spellId": "pf2e-haunting-hymn",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Конус длиной 15 футов",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+2": "Урон увеличивается на 1d8."
+      }
+    },
+    {
+      "id": "pf2e-healing-plaster-pf2e-legacy",
+      "spellId": "pf2e-healing-plaster",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "5 футов",
+      "targets": "a handful of dirt or mud",
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "3": "Материал даёт применяющему его бонус предмета +1 к Медицины при оказании первой помощи или лечении ран."
+      }
     }
   ],
   "translations": [
@@ -1131,6 +1339,86 @@
       "description": "You add a subtle magical flourish to your personal appearance or immediate surroundings for up to an hour: change your hair highlights or cosmetics, polish your nails, adjust flattering lighting, make your hair ripple briefly, or accompany a smile with a faint chime. You may Sustain the spell to revise these effects. With GM approval, the details might provide a +1 status bonus to an appropriate Impersonate or Performance check.",
       "translationStatus": "draft",
       "translatorCredit": "Original English rules summary adapted from Foundry PF2e data, v14-dev"
+    },
+    {
+      "spellId": "pf2e-glass-shield",
+      "versionId": "pf2e-glass-shield-pf2e-remaster",
+      "locale": "en",
+      "name": "Glass Shield",
+      "description": "A pane of magical glass forms a shield that grants you a +1 circumstance bonus to AC without occupying a hand. You can Shield Block with it (Hardness 2), including against magical effects. The block shatters the glass and ends the spell; if the attacker is within 5 feet, shards deal 1d4 piercing damage with a basic Reflex save. You cannot cast this spell again for 10 minutes after using its block.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-glowing-trail",
+      "versionId": "pf2e-glowing-trail-pf2e-legacy",
+      "locale": "en",
+      "name": "Glowing Trail",
+      "description": "As you move, a hazy trace of light marks your path through the air, recording your size but not your precise appearance. The trace normally fades after 10 minutes; the spell itself lasts 1 hour. Choose whether the trail is visible as a colored mist (which illuminates nothing beyond itself) or invisible, in which case only you can sense it. Dismissing the spell does not make existing traces vanish instantly.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-gouging-claw",
+      "versionId": "pf2e-gouging-claw-pf2e-remaster",
+      "locale": "en",
+      "name": "Gouging Claw",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gouging-claw",
+      "versionId": "pf2e-gouging-claw-pf2e-remaster",
+      "locale": "ru",
+      "name": "Раздирающий коготь",
+      "description": "Вы превращаете часть конечности в острый коготь и совершаете атаку заклинанием в ближнем бою против КБ цели. Попадание наносит на ваш выбор 2d6 рубящего или колющего урона и 2 продолжительного урона кровотечением. При критическом попадании оба вида урона удваиваются.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-guidance",
+      "versionId": "pf2e-guidance-pf2e-remaster",
+      "locale": "en",
+      "name": "Guidance",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-guidance",
+      "versionId": "pf2e-guidance-pf2e-remaster",
+      "locale": "ru",
+      "name": "Наставление",
+      "description": "Вы даруете существу +1 бонус состояния к одному броску атаки, проверке Восприятия, спасброску или проверке навыка до начала вашего следующего хода. Цель выбирает бросок заранее. После применения бонуса действие чар прекращается; независимо от использования цель временно невосприимчива к этим чарам на 1 час.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-haunting-hymn",
+      "versionId": "pf2e-haunting-hymn-pf2e-remaster",
+      "locale": "en",
+      "name": "Haunting Hymn",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-haunting-hymn",
+      "versionId": "pf2e-haunting-hymn-pf2e-remaster",
+      "locale": "ru",
+      "name": "Навязчивый гимн",
+      "description": "Вы исполняете тревожную мелодию, которую слышат только существа в 15-футовом конусе. Каждое получает 1d8 урона звуком с простым спасброском Стойкости. При критическом провале цель также становится глухой на 1 минуту.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-healing-plaster",
+      "versionId": "pf2e-healing-plaster-pf2e-legacy",
+      "locale": "en",
+      "name": "Healing Plaster",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-healing-plaster",
+      "versionId": "pf2e-healing-plaster-pf2e-legacy",
+      "locale": "ru",
+      "name": "Исцеляющий гипс",
+      "description": "Вы превращаете горсть земли или грязи в целебный пластичный материал. В течение 10 минут его можно использовать вместо инструментов лекаря для проверок Медицины при оказании первой помощи или лечении ран. Если не применить материал до конца действия чар либо сотворить их ещё раз, он станет обычной землёй.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
     }
   ],
   "sources": [
@@ -1195,6 +1483,20 @@
       "name": "Pathfinder Lost Omens Divine Mysteries",
       "publisher": "Paizo",
       "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-194-cult-of-the-cave-worm",
+      "name": "Pathfinder #194: Cult of the Cave Worm",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-secrets-of-magic",
+      "name": "Pathfinder Secrets of Magic",
+      "publisher": "Paizo",
+      "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
     }
   ]
