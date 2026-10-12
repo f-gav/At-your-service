@@ -38,14 +38,69 @@ function sourceAbbreviation(spell:SpellView){
   const words=title.replace(/^Pathfinder\s+/i,'').split(/\s+/).filter(w=>!/^(of|the|and|для|и)$/i.test(w));
   return words.map(w=>w[0]?.toUpperCase()||'').join('').slice(0,4)||'—';
 }
+/** Localize PF2e rules metadata, without changing mechanical quantities. */
+function localizeRuleValue(value:string,field:'time'|'range'|'targets'|'area'|'savingThrow'|'duration'):string{
+  const source=value.trim();
+  if(!source||source==='—')return source;
+  const exact:Record<string,string>={
+    '1 object':'1 предмет','1 creature':'1 существо','1 or 2 creatures':'1 или 2 существа',
+    '1 creature or object':'1 существо или предмет','1 willing creature':'1 согласное существо',
+    '1 enemy':'1 враг','1 ally and 1 enemy':'1 союзник и 1 враг',
+    '1 dying creature':'1 умирающее существо','1 non-hostile domesticated animal':'1 неагрессивное домашнее животное',
+    '1 living creature':'1 живое существо','1 creature that is undead or otherwise has void healing':'1 нежить или существо с исцелением пустотой',
+    'a handful of dirt or mud':'горсть земли или грязи',
+    '1 creature whose true name you know':'1 существо, истинное имя которого вам известно',
+    '2 willing creatures':'2 согласных существа',
+    '1 object (cook, lift, or tidy only)':'1 предмет (только готовить, поднимать или прибирать)',
+    'your eidolon, or a creature with the minion trait under your control':'ваш эйдолон или подконтрольное существо с признаком «миньон»',
+    '1 unattended object of light Bulk or less':'1 бесхозный предмет массой не более 1 лёгкой единицы',
+    '2 creatures that each have an unfriendly or worse attitude toward the other':'2 существа, недружелюбно или хуже относящиеся друг к другу',
+    'one object (see below)':'1 предмет (см. описание)',
+    '1 metal weapon that is unattended or is wielded by you or a willing ally':'1 бесхозное металлическое оружие либо оружие в руках вас или согласного союзника',
+    '1 held object of 2 Bulk or less':'1 удерживаемый предмет массой не более 2 единиц',
+    '1 Large or smaller corpse':'1 труп размера Большой или меньше',
+    '1 object or creature':'1 предмет или существо',
+    'one door or similar opening':'1 дверь или аналогичный проём',
+    '1 item or spell effect':'1 предмет или эффект заклинания',
+    'varies':'различается','reaction':'Реакция','touch':'Касание',
+    'until your next daily preparations':'до следующей ежедневной подготовки',
+    "until the end of the target's next turn":'до конца следующего хода цели',
+    '1 cubic foot':'1 кубический фут',
+  };
+  if(exact[source])return exact[source];
+  const timeMatch=source.match(/^(\d+)\s+(minute|minutes|hour|hours|round|rounds|day|days)$/i);
+  if(timeMatch){
+    const n=Number(timeMatch[1]);
+    const unit=timeMatch[2].toLowerCase();
+    const plural=(one:string,few:string,many:string)=>n%10===1&&n%100!==11?one:n%10>=2&&n%10<=4&&(n%100<12||n%100>14)?few:many;
+    if(unit.startsWith('minute'))return n+' '+plural('минута','минуты','минут');
+    if(unit.startsWith('hour'))return n+' '+plural('час','часа','часов');
+    if(unit.startsWith('round'))return n+' '+plural('раунд','раунда','раундов');
+    return n+' '+plural('день','дня','дней');
+  }
+  const feet=source.match(/^(\d+)\s+feet$/i);
+  if(feet)return feet[1]+' футов';
+  const area=source.match(/^(cone|burst|emanation|line):\s*(\d+)\s+feet$/i);
+  if(area){
+    const noun:{[key:string]:string}={cone:'Конус',burst:'Взрыв',emanation:'Эманация',line:'Линия'};
+    return noun[area[1].toLowerCase()]+' '+area[2]+' футов';
+  }
+  const save=source.match(/^(basic\s+)?(reflex|fortitude|will)\s+save$/i);
+  if(save){
+    const names:{[key:string]:string}={reflex:'Рефлекса',fortitude:'Стойкости',will:'Воли'};
+    return (save[1]?'Простой спасбросок ':'Спасбросок ')+names[save[2].toLowerCase()];
+  }
+  return source;
+}
+
 function cardCasting(spell:SpellView){
   const cast=spell.rules.cast;
   if(typeof cast?.actions==='number')return {short:cast.actions+' д.',long:'Сотворение: '+cast.actions+' действий'};
-  const time=cast?.time||'—';
+  const time=localizeRuleValue(cast?.time||'—','time');
   return {short:time==='Реакция'?'Р':time,long:'Сотворение: '+time};
 }
 function cardDefense(spell:SpellView){
-  const save=spell.rules.savingThrow||'';
+  const save=localizeRuleValue(spell.rules.savingThrow||'','savingThrow');
   const short=save.includes('Рефлекс')?'Рефлекс':save.includes('Стойкость')?'Стойкость':
     save.includes('Воли')?'Воля':save.includes('КБ')?'КБ':save||'—';
   return {short,long:'Защита: '+(save||'не указана')};
@@ -75,12 +130,12 @@ const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition===
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
   const entry=spell.spell,rules=spell.rules;
   const values=[
-    ['Сотворение',rules.cast?.actions===undefined?(rules.cast?.time||'—'):`${rules.cast.actions} действ.`],
-    ['Дистанция',rules.range||'—'],
-    ['Цели',rules.targets||'—'],
-    ['Область',rules.area||'—'],
-    ['Защита',rules.savingThrow||'—'],
-    ['Длительность',rules.duration||'—'],
+    ['Сотворение',rules.cast?.actions===undefined?(localizeRuleValue(rules.cast?.time||'—','time')):`${rules.cast.actions} действ.`],
+    ['Дистанция',localizeRuleValue(rules.range||'—','range')],
+    ['Цели',localizeRuleValue(rules.targets||'—','targets')],
+    ['Область',localizeRuleValue(rules.area||'—','area')],
+    ['Защита',localizeRuleValue(rules.savingThrow||'—','savingThrow')],
+    ['Длительность',localizeRuleValue(rules.duration||'—','duration')],
     ...(rules.resource==='spell-slot'?[['Расход','Ячейка заклинания']]:[]),
   ].filter(([k,v])=>v!=='—'||k==='Сотворение');
   const name=spell.name===spell.englishName?spell.name:`${spell.name} [${spell.englishName}]`;
@@ -374,7 +429,7 @@ export default function SpellLibrary({onBack}:Props){
           {shown.slice(0,visibleCount).map(spell=>{
             const casting=cardCasting(spell);
             const defense=cardDefense(spell);
-            const range=spell.rules.range||'—';
+            const range=localizeRuleValue(spell.rules.range||'—','range');
             return <button type="button" role="listitem" className="spell-result" key={spell.id}
               onClick={()=>setSelectedId(spell.id)} aria-label={`${spell.name}, ${spellTypeLabel(spell)}`}>
               <div className="spell-result-heading">
