@@ -39,7 +39,7 @@ function sourceAbbreviation(spell:SpellView){
   return words.map(w=>w[0]?.toUpperCase()||'').join('').slice(0,4)||'—';
 }
 /** Localize PF2e rules metadata, without changing mechanical quantities. */
-function localizeRuleValue(value:string,field:'time'|'range'|'targets'|'area'|'savingThrow'|'duration'):string{
+function localizeRuleValue(value:string,_field:'time'|'range'|'targets'|'area'|'savingThrow'|'duration'):string{
   const source=value.trim();
   if(!source||source==='—')return source;
   const exact:Record<string,string>={
