@@ -1231,6 +1231,227 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-tangle-vine",
+      "system": "pf2e",
+      "slug": "tangle-vine",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-telekinetic-hand",
+      "system": "pf2e",
+      "slug": "telekinetic-hand",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-telekinetic-projectile",
+      "system": "pf2e",
+      "slug": "telekinetic-projectile",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-timber",
+      "system": "pf2e",
+      "slug": "timber",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-time-sense",
+      "system": "pf2e",
+      "slug": "time-sense",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-dark-archive-remastered"
+    },
+    {
+      "id": "pf2e-torturous-trauma",
+      "system": "pf2e",
+      "slug": "torturous-trauma",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "nonlethal"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-186-ghost-king-s-rage"
+    },
+    {
+      "id": "pf2e-tremor-signs",
+      "system": "pf2e",
+      "slug": "tremor-signs",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "earth",
+        "manipulate",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-vitality-lash",
+      "system": "pf2e",
+      "slug": "vitality-lash",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "vitality"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-void-warp",
+      "system": "pf2e",
+      "slug": "void-warp",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "void"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-warp-step",
+      "system": "pf2e",
+      "slug": "warp-step",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-dark-archive-remastered"
+    },
+    {
+      "id": "pf2e-wash-your-luck",
+      "system": "pf2e",
+      "slug": "wash-your-luck",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "fortune",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
     }
   ],
   "versions": [
@@ -2056,6 +2277,160 @@
         "3": "Длительность увеличивается до 10 минут.",
         "6": "Длительность увеличивается до 1 часа."
       }
+    },
+    {
+      "id": "pf2e-tangle-vine-pf2e-remaster",
+      "spellId": "pf2e-tangle-vine",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "2": "Эффекты действуют 2 раунда.",
+        "4": "Эффекты действуют 1 минуту."
+      },
+      "outcomes": {
+        "criticalSuccess": "Цель обездвижена и получает штраф −10 футов ко всем Скоростям.",
+        "success": "Штраф −10 футов ко всем Скоростям.",
+        "failure": "Без эффекта."
+      }
+    },
+    {
+      "id": "pf2e-telekinetic-hand-pf2e-remaster",
+      "spellId": "pf2e-telekinetic-hand",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 unattended object of light Bulk or less",
+      "duration": "Поддерживаемое",
+      "resource": "none",
+      "heightened": {
+        "3": "Можно переносить бесхозный предмет Массой не более 1.",
+        "5": "Дистанция увеличивается до 60 футов; можно переносить предмет Массой не более 1.",
+        "7": "Дистанция 60 футов; можно переносить предмет Массой не более 2."
+      }
+    },
+    {
+      "id": "pf2e-telekinetic-projectile-pf2e-remaster",
+      "spellId": "pf2e-telekinetic-projectile",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-timber-pf2e-remaster",
+      "spellId": "pf2e-timber",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Линия длиной 15 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "none",
+      "heightened": {
+        "+1": "Increase the bludgeoning damage by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-time-sense-pf2e-remaster",
+      "spellId": "pf2e-time-sense",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-torturous-trauma-pf2e-legacy",
+      "spellId": "pf2e-torturous-trauma",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 living creature",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+1": "Bludgeoning damage increases by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-tremor-signs-pf2e-remaster",
+      "spellId": "pf2e-tremor-signs",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "120 футов",
+      "targets": "1 creature",
+      "resource": "none",
+      "heightened": {
+        "4": "Можно выбрать до 5 существ."
+      }
+    },
+    {
+      "id": "pf2e-vitality-lash-pf2e-remaster",
+      "spellId": "pf2e-vitality-lash",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature that is undead or otherwise has void healing",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-void-warp-pf2e-remaster",
+      "spellId": "pf2e-void-warp",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 living creature",
+      "savingThrow": "Простой спасбросок Стойкости",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-warp-step-pf2e-remaster",
+      "spellId": "pf2e-warp-step",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-wash-your-luck-pf2e-remaster",
+      "spellId": "pf2e-wash-your-luck",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 минута",
+      "resource": "none"
     }
   ],
   "translations": [
@@ -2859,6 +3234,166 @@
       "description": "Вы успокаиваете одомашненное животное, которое не настроено враждебно. Если оно не преуспело в спасброске Воли, его отношение к вам на 1 минуту улучшается на одну ступень: недружелюбное становится нейтральным, нейтральное — дружелюбным, дружелюбное — готовым помочь. Затем животное становится временно невосприимчивым на 1 день. На диких животных (например, волках) чары не действуют.",
       "translationStatus": "draft",
       "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-tangle-vine",
+      "versionId": "pf2e-tangle-vine-pf2e-remaster",
+      "locale": "en",
+      "name": "Tangle Vine",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-tangle-vine",
+      "versionId": "pf2e-tangle-vine-pf2e-remaster",
+      "locale": "ru",
+      "name": "Оплетающая лоза",
+      "description": "Из воздуха возникает лоза, которая обвивает существо в пределах 30 футов. Совершите атаку заклинанием. При успехе все Скорости цели получают штраф обстоятельства −10 футов на 1 раунд. При критическом успехе цель также обездвижена. Она может попытаться Освободиться против вашей СЛ заклинания, чтобы снять эффекты. При провале атаки эффекта нет.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-telekinetic-hand",
+      "versionId": "pf2e-telekinetic-hand-pf2e-remaster",
+      "locale": "en",
+      "name": "Telekinetic Hand",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-telekinetic-hand",
+      "versionId": "pf2e-telekinetic-hand-pf2e-remaster",
+      "locale": "ru",
+      "name": "Телекинетическая рука",
+      "description": "Вы создаёте видимую призрачную или невидимую руку, которая хватает бесхозный предмет лёгкой Массы или меньше в пределах 30 футов. Рука поднимает и медленно передвигает его на расстояние до 20 футов в любом направлении. При каждом Поддержании заклинания можно переместить предмет ещё на 20 футов. Если чары прекращаются, пока предмет в воздухе, он падает.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-telekinetic-projectile",
+      "versionId": "pf2e-telekinetic-projectile-pf2e-remaster",
+      "locale": "en",
+      "name": "Telekinetic Projectile",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-telekinetic-projectile",
+      "versionId": "pf2e-telekinetic-projectile-pf2e-remaster",
+      "locale": "ru",
+      "name": "Телекинетический бросок",
+      "description": "Вы телекинетически швыряете в существо находящийся в пределах дистанции бесхозный предмет Массой не более 1. Совершите атаку заклинанием против КБ цели. При попадании наносите 2d6 дробящего, колющего или рубящего урона в зависимости от предмета; при критическом попадании урон удваивается. Магические свойства и другие особые черты предмета не влияют на атаку.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-timber",
+      "versionId": "pf2e-timber-pf2e-remaster",
+      "locale": "en",
+      "name": "Timber",
+      "description": "You conjure a small dead tree where you stand and topple it into a 15-foot line before it instantly decomposes. All creatures in the line take 2d4 bludgeoning damage with a basic Reflex save. A creature that critically fails is dazzled until the end of its next turn.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-time-sense",
+      "versionId": "pf2e-time-sense-pf2e-remaster",
+      "locale": "en",
+      "name": "Time Sense",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-time-sense",
+      "versionId": "pf2e-time-sense-pf2e-remaster",
+      "locale": "ru",
+      "name": "Чувство времени",
+      "description": "Вы ощущаете течение времени с точностью до секунды. По желанию можете определить точное положение в календаре или момент ожидаемого астрономического события, если обладаете нужными знаниями, например навыком Природы или Знания астрономии. В том же ходу можете получить +1 бонус состояния к одной атаке, спасброску или проверке, требующей исключительно точного расчёта времени. После получения этого бонуса нельзя получить его снова от этих чар в течение 1 часа.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-torturous-trauma",
+      "versionId": "pf2e-torturous-trauma-pf2e-legacy",
+      "locale": "en",
+      "name": "Torturous Trauma",
+      "description": "You inflict invisible internal trauma on a living creature within 30 feet, dealing 1d4 plus your spellcasting ability modifier bludgeoning damage with a basic Fortitude save. On a critical failure, the victim is also fatigued until the start of your next turn. A creature without internal organs is immune to the spell.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-tremor-signs",
+      "versionId": "pf2e-tremor-signs-pf2e-remaster",
+      "locale": "en",
+      "name": "Tremor Signs",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-tremor-signs",
+      "versionId": "pf2e-tremor-signs-pf2e-remaster",
+      "locale": "ru",
+      "name": "Вибрационные сигналы",
+      "description": "Вы посылаете по земле короткий набор толчков с условным смыслом, не длиннее короткого предложения. Получатель должен находиться в пределах 120 футов и соприкасаться с тем же массивом земли, что и вы; прямая видимость и свободная линия эффекта не обязательны. Цель может коротко ответить реакцией либо свободным действием в следующий ход. Передать можно только заранее известные обоим сигналы, но не сложные новые идеи. Существо с чувством вибрации может заметить эти толчки.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-vitality-lash",
+      "versionId": "pf2e-vitality-lash-pf2e-remaster",
+      "locale": "en",
+      "name": "Vitality Lash",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-vitality-lash",
+      "versionId": "pf2e-vitality-lash-pf2e-remaster",
+      "locale": "ru",
+      "name": "Витальная плеть",
+      "description": "Вы поражаете нежить или существо с исцелением пустотой волной жизненной силы. Цель получает 2d6 урона жизненной энергией с простым спасброском Стойкости. При критическом провале цель также получает состояние «Ослаблен 1» до начала вашего следующего хода.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-void-warp",
+      "versionId": "pf2e-void-warp-pf2e-remaster",
+      "locale": "en",
+      "name": "Void Warp",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-void-warp",
+      "versionId": "pf2e-void-warp-pf2e-remaster",
+      "locale": "ru",
+      "name": "Пустотное искажение",
+      "description": "Вы искажаете жизненную силу одного живого существа в пределах 30 футов энергией Пустоты. Цель получает 2d4 урона пустотой с простым спасброском Стойкости. При критическом провале цель также получает состояние «Ослаблен 1» до начала вашего следующего хода.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-warp-step",
+      "versionId": "pf2e-warp-step-pf2e-remaster",
+      "locale": "en",
+      "name": "Warp Step",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-warp-step",
+      "versionId": "pf2e-warp-step-pf2e-remaster",
+      "locale": "ru",
+      "name": "Шаг искривления",
+      "description": "Пространство под ногами сокращается, позволяя пройти дальше обычного. До конца вашего хода вы получаете бонус состояния +5 футов к Скорости, после чего дважды совершаете Перемещение. При наличии соответствующего типа передвижения вместо Перемещения можно дважды использовать Рыть, Карабкаться, Лететь или Плыть.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-wash-your-luck",
+      "versionId": "pf2e-wash-your-luck-pf2e-remaster",
+      "locale": "en",
+      "name": "Wash Your Luck",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-wash-your-luck",
+      "versionId": "pf2e-wash-your-luck-pf2e-remaster",
+      "locale": "ru",
+      "name": "Очищение удачи",
+      "description": "Вы совершаете небольшой личный ритуал, чтобы избавиться от невезения. Один раз в течение следующей минуты, перед броском проверки, вы можете нейтрализовать действующий на неё эффект неудачи (как при одновременном применении эффектов удачи и неудачи). После этого чары завершаются, и вы становитесь временно невосприимчивы к ним на 10 минут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено с русскоязычными Pathfinder-ресурсами; описание адаптировано по Foundry PF2e v14-dev."
     }
   ],
   "sources": [
