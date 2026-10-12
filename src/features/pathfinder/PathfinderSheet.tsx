@@ -316,7 +316,7 @@ export default function PathfinderSheet({
       } as CSSProperties : style;
       return <RichField key={field.id} id={id} label={field.label}
         className={`pf-field pf-field-text pf-field-long${narrow}${tiny}${field.underline ? " pf-field-underline" : ""}${tableSpan ? ' pf-spell-table-rich' : ''}`}
-        style={richStyle} value={String(value??'')} resourceContext={values} disabled={editLocked||computedField}
+        style={richStyle} spellColumns={tableSpan?.columns} value={String(value??'')} resourceContext={values} disabled={editLocked||computedField}
         onChange={next=>change(field.id,next)}/>;
     }
     const numeric = field.kind === 'number' || field.kind === 'counter';
