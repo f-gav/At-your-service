@@ -32,7 +32,7 @@ const css=read('../src/features/pathfinder/DynamicAdvancement.css');
 const global=read('../src/styles.css');
 assert.match(sheet,/sanitizeSignedNumericInput\(event\.target\.value\)/);
 assert.match(sheet,/field\.kind==='number'\|\|field\.kind==='counter'/);
-assert.match(sheet,/field\\.kind === 'long'[\\s\\S]{0,850}return <RichField/,
+assert.match(sheet,/field\.kind === 'long'[\s\S]{0,850}return <RichField/,
  'Long fields still render through RichField; spell tables now calculate their row-wide span first');
 assert.match(sheet,/withMagicTraditionHalfCircles/);
 assert.match(admin,/withMagicTraditionHalfCircles/);
