@@ -56,7 +56,8 @@ try{
     'Library expands beyond the old 1180px narrow page on desktop');
   assert.equal(await page.locator('.spell-result-stats').count(),24,
     'Compact tiles show three metadata fields');
-  // Legibility regression against the LSS-inspired size pass.
+  // Legibility regression: open the accordion before measuring field heights.
+  await page.locator('.spell-filter-toggle').click();
   const librarySizing=await page.evaluate(()=>{
     const size=selector=>parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
     const height=selector=>document.querySelector(selector).getBoundingClientRect().height;
@@ -77,6 +78,7 @@ try{
   assert.ok(librarySizing.search>=15&&librarySizing.searchHeight>=50,'Search is large and touch friendly');
   assert.ok(librarySizing.filter>=14&&librarySizing.filterHeight>=44,'Filters are not tiny');
   assert.ok(librarySizing.nav>=15,'Top navigation typography matches enlarged library');
+  await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
   assert.equal(await page.locator('.spell-total').textContent(),'24 записей');
