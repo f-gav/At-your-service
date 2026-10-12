@@ -293,10 +293,10 @@
   border-left:1px solid #cad5cb;
   cursor:text;
 }
-.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:first-of-type {
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:not([data-pf-spell-column]) {
   padding-left:1.6em;
   border-left:0;
 }
-.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:last-of-type {padding-right:1.5em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {padding-right:1.5em;}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:focus {outline:1px solid #688c76;outline-offset:-1px;background:#fff;}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty:before {content:'·';color:#b5c3b8;pointer-events:none;}
