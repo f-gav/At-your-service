@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Settings2, X, Files } from 'lucide-react';
+import { ArrowLeft, Settings2, X, Files, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
+import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
@@ -48,6 +50,8 @@ export default function PathfinderSheet({
   portraitUrl,
   portraitFrame,
   onEditPortrait,
+  autoExport=false,
+  onAutoExportComplete,
 }: {
   character: Character;
   onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
@@ -55,8 +59,34 @@ export default function PathfinderSheet({
   portraitUrl?: string;
   portraitFrame?: CropFrame;
   onEditPortrait: () => void;
+  autoExport?: boolean;
+  onAutoExportComplete?: () => void;
 }) {
   const draftKey=characterDraftKey(character.user_id,character.id);
+  const pdfRoot=useRef<HTMLElement>(null);
+  const pdfInFlight=useRef(false);
+  const pdfAutoStarted=useRef(false);
+  const [exportingPdf,setExportingPdf]=useState(false);
+  const [pdfError,setPdfError]=useState('');
+  async function exportPdf(){
+    if(pdfInFlight.current||!pdfRoot.current)return;
+    pdfInFlight.current=true;setExportingPdf(true);setPdfError('');
+    try{await exportRenderedSheetPdf(pdfRoot.current,String(values.name??character.name),'pf2e');}
+    catch(cause){setPdfError(cause instanceof Error?cause.message:'Ошибка экспорта PDF.');}
+    finally{
+      pdfInFlight.current=false;setExportingPdf(false);
+      if(autoExport)onAutoExportComplete?.();
+    }
+  }
+  useEffect(()=>{
+    if(!autoExport){pdfAutoStarted.current=false;return;}
+    if(pdfAutoStarted.current)return;
+    pdfAutoStarted.current=true;
+    const timer=window.setTimeout(()=>{void exportPdf();},600);
+    return ()=>window.clearTimeout(timer);
+  },[autoExport]);
+
+
   const [serverBaseline]=useState(()=>JSON.stringify(initialSheetValues(character.details,character.name)));
   const [values,setValues]=useState<SheetValues>(()=>{
     const original=initialSheetValues(character.details,character.name);
@@ -380,7 +410,7 @@ export default function PathfinderSheet({
     </section>;
   }
 
-  return <main className="page pf-editor">
+  return <main className="page pf-editor" ref={pdfRoot}>
     <div className="pf-toolbar">
       <button type="button" className="text-button" onClick={() => void goBack()} disabled={editLocked}>
         <ArrowLeft size={17} /> К персонажам
@@ -390,6 +420,11 @@ export default function PathfinderSheet({
       </div>
       <div className="pf-toolbar-right">
         <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
+        <button type="button" className="sheet-pdf-export-tab" disabled={exportingPdf}
+          onClick={()=>void exportPdf()} title="Скачать заполненный лист в PDF"
+          aria-label="Экспорт листа Pathfinder в PDF">
+          <FileDown size={18}/><span>{exportingPdf?'Создаю…':'PDF'}</span>
+        </button>
         <div className="pf-settings-area">
           <button type="button" className="pf-settings-button" aria-expanded={settingsOpen}
             aria-controls="pf-settings-options" aria-label="Настройки листа"
@@ -419,6 +454,7 @@ export default function PathfinderSheet({
       </div>
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}
+    {pdfError && <p role="alert" className="form-error">{pdfError}</p>}
     <div className="pf-sheet-scroll" aria-label="Страницы листа Pathfinder 2e">
       <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
         {visiblePages.map(page=>page==='notes'

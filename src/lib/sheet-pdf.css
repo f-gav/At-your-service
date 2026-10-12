@@ -1,0 +1,96 @@
+/* Shared PDF action: a restrained side tab beside the character sheet, as in LSS. */
+.pf-editor,.moon-editor {position:relative;}
+.sheet-pdf-export-tab {
+  position:absolute;
+  top:132px;
+  right:-37px;
+  z-index:12;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  width:49px;
+  min-height:65px;
+  padding:7px 4px 7px 13px;
+  border:1px solid #c6ceca;
+  border-left:0;
+  border-radius:0 7px 7px 0;
+  background:#f7f8f6;
+  box-shadow:2px 3px 7px #1e302015;
+  color:#34453a;
+  cursor:pointer;
+  font:600 11px/1.2 'Segoe UI',Arial,sans-serif;
+}
+.sheet-pdf-export-tab:hover:not(:disabled),
+.sheet-pdf-export-tab:focus-visible {
+  background:#e8eeea;
+  color:#24392c;
+}
+.sheet-pdf-export-tab:disabled {opacity:.6;cursor:wait;}
+.moon-editor .sheet-pdf-export-tab {right:calc((100% - 210mm)/2 - 36px);}
+@media(max-width:1150px) {
+  .pf-editor .sheet-pdf-export-tab {right:0;top:145px;}
+}
+@media(max-width:900px) {
+  .sheet-pdf-export-tab,
+  .moon-editor .sheet-pdf-export-tab,
+  .pf-editor .sheet-pdf-export-tab {
+    position:static;
+    display:inline-flex;
+    flex-direction:row;
+    width:auto;
+    min-height:34px;
+    padding:7px 10px;
+    border:1px solid #c6ceca;
+    border-radius:5px;
+    box-shadow:none;
+    font-size:12px;
+  }
+}
+
+/* Hidden, detached-from-state capture copies of real page DOM.
+   Preserve original A4 geometry and remove editing-only controls. */
+.sheet-pdf-stage {box-sizing:border-box!important;}
+.sheet-pdf-stage .pf-sheet-stack,
+.sheet-pdf-stage .moon-sheet-scroll {gap:0!important;overflow:visible!important;}
+.sheet-pdf-stage .pf-sheet-page,
+.sheet-pdf-stage .moon-paper {
+  box-sizing:border-box;
+  margin:0!important;
+  box-shadow:none!important;
+  filter:none;
+}
+.sheet-pdf-stage .moon-paper {
+  width:210mm!important;
+  min-height:297mm;
+  border:0!important;
+  overflow:visible!important;
+}
+.sheet-pdf-stage .moon-sheet-scroll {display:block!important;}
+.sheet-pdf-stage .moon-weapon-carousel {overflow:visible!important;scroll-snap-type:none!important;}
+.sheet-pdf-stage .moon-weapon-track {
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px!important;
+  flex-wrap:initial!important;
+  width:100%!important;
+  transform:none!important;
+}
+.sheet-pdf-stage .moon-weapon-card {
+  flex:initial!important;
+  width:auto!important;
+  min-width:0!important;
+}
+.sheet-pdf-stage .moon-weapon-pagination,
+.sheet-pdf-stage .moon-add,
+.sheet-pdf-stage .moon-card button,
+.sheet-pdf-stage .moon-portrait-art-trigger,
+.sheet-pdf-stage .pf-page-spell-settings,
+.sheet-pdf-stage .pf-advancement-controls,
+.sheet-pdf-stage .pf-weapon-control {
+  display:none!important;
+}
+.sheet-pdf-stage .moon-pdf-supplement {padding:8mm 11mm 14mm!important;}
+.sheet-pdf-stage .moon-pdf-extra-grid {margin-top:15px;row-gap:12px;}
+.sheet-pdf-stage input,.sheet-pdf-stage textarea {pointer-events:none;}

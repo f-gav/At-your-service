@@ -461,3 +461,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:650px) {
   .editor-actions {justify-content:flex-end;max-width:100%;}
 }
+
+/* Patch 2: duplicate character dialog, reusing the existing create-modal style. */
+.duplicate-portrait-option {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:16px 0 24px;
+  font-size:13px;
+  color:#34423d;
+  cursor:pointer;
+}
+.duplicate-portrait-option input {width:17px;height:17px;accent-color:#41634f;}
+.duplicate-actions {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:10px;
+}
+.duplicate-actions .button {display:inline-flex;align-items:center;gap:7px;justify-content:center;}

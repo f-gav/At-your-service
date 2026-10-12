@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
+import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
@@ -35,10 +37,36 @@ type Props = {
   onEditPortrait: () => void;
   layoutOverride?: MoonLayout;
   previewMode?: boolean;
+  autoExport?: boolean;
+  onAutoExportComplete?: () => void;
 };
 
-export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false }: Props) {
+export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false, autoExport=false, onAutoExportComplete }: Props) {
   const draftKey=characterDraftKey(character.user_id,character.id);
+  const pdfRoot=useRef<HTMLElement>(null);
+  const pdfInFlight=useRef(false);
+  const pdfAutoStarted=useRef(false);
+  const [exportingPdf,setExportingPdf]=useState(false);
+  const [pdfError,setPdfError]=useState('');
+  async function exportPdf(){
+    if(pdfInFlight.current||!pdfRoot.current)return;
+    pdfInFlight.current=true;setExportingPdf(true);setPdfError('');
+    try{await exportRenderedSheetPdf(pdfRoot.current,name,'prmoon');}
+    catch(cause){setPdfError(cause instanceof Error?cause.message:'Ошибка экспорта PDF.');}
+    finally{
+      pdfInFlight.current=false;setExportingPdf(false);
+      if(autoExport)onAutoExportComplete?.();
+    }
+  }
+  useEffect(()=>{
+    if(!autoExport){pdfAutoStarted.current=false;return;}
+    if(pdfAutoStarted.current)return;
+    pdfAutoStarted.current=true;
+    const timer=window.setTimeout(()=>{void exportPdf();},600);
+    return ()=>window.clearTimeout(timer);
+  },[autoExport]);
+
+
   const [serverBaseline]=useState(()=>JSON.stringify([character.name,readMoonSheet(character.details)]));
   const [recovered]=useState(()=>{
     if(previewMode)return null;
@@ -236,7 +264,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     })}
   </div>;
 
-  return <main className="page moon-editor" style={moonLayoutVariables(layoutOverride ?? DEFAULT_MOON_LAYOUT) as CSSProperties}>
+  return <main className="page moon-editor" ref={pdfRoot} style={moonLayoutVariables(layoutOverride ?? DEFAULT_MOON_LAYOUT) as CSSProperties}>
     <div className="pf-toolbar moon-toolbar">
       <button type="button" className="text-button" disabled={editLocked} onClick={() => void back()}>
         <ArrowLeft size={17} /> К персонажам
@@ -244,6 +272,11 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       <h1 className="pf-minimal-title moon-toolbar-title">Лист персонажа Pr. Moon</h1>
       <div className="pf-toolbar-right">
         {!previewMode && <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>}
+          {!previewMode && <button type="button" className="sheet-pdf-export-tab" disabled={exportingPdf}
+            onClick={()=>void exportPdf()} title="Скачать заполненный лист в PDF"
+            aria-label="Экспорт листа Project Moon в PDF">
+            <FileDown size={18}/><span>{exportingPdf?'Создаю…':'PDF'}</span>
+          </button>}
 
         <div className="pf-settings-area moon-settings-area">
           <button type="button" className="pf-settings-button" aria-label="Настройки листа"
@@ -277,6 +310,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       </div>
     </div>
 
+    {pdfError && <p role="alert" className="form-error">{pdfError}</p>}
     <div className="moon-sheet-scroll" aria-label="Страницы листа Project Moon">
       {pageOrder.map(page => <article key={page} id={'moon-sheet-page-' + page}
         className={'moon-paper moon-page-' + page}

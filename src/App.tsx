@@ -18,6 +18,8 @@ import {
   ShieldCheck,
   Trash2,
   MoreHorizontal,
+  Copy,
+  FileDown,
   Download,
   Upload,
   X,
@@ -42,7 +44,7 @@ import { emptyMoonSheet, moonSubtitle } from './features/project-moon/model';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
-import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl } from './features/portrait/portrait-storage';
+import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl, downloadPortraitBlob } from './features/portrait/portrait-storage';
 import SheetAdmin from './features/sheet-admin/SheetAdmin';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
@@ -223,6 +225,9 @@ export default function App() {
   const [createPanel, setCreatePanel] = useState<CreatePanel>(null);
   const [showSystemPicker, setShowSystemPicker] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [duplicateTarget,setDuplicateTarget] = useState<Character|null>(null);
+  const [duplicatePortrait,setDuplicatePortrait] = useState(true);
+  const [exportPdfId,setExportPdfId] = useState<string|null>(null);
   const [movingId, setMovingId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
@@ -477,6 +482,54 @@ export default function App() {
     finally { setImportingJson(false); }
   }
 
+  async function duplicateCharacter(character:Character,includePortrait:boolean) {
+    if(!supabase||!user||busy)return;
+    setBusy(true);setError('');
+    let created:Character|null=null;
+    try{
+      const name=normalizedName(character.name+' (копия)').slice(0,100);
+      const nextOrder=characters.reduce((max,c)=>Math.max(max,c.sort_order),0)+1;
+      // JSON clone avoids shared mutable nested sheet data between characters.
+      const details=normalizeDetails(JSON.parse(JSON.stringify(character.details)) as CharacterDetails);
+      const {data,error:insertError}=await supabase.from('characters')
+        .insert({user_id:user.id,system:character.system,name,details,sort_order:nextOrder})
+        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+      if(insertError||!data)throw insertError??new Error('Не удалось продублировать лист.');
+      created={...data,details:normalizeDetails(data.details)} as Character;
+      if(includePortrait){
+        if(character.portrait_source_path && character.portrait_crops){
+          const blob=await downloadPortraitBlob(character.portrait_source_path);
+          const paths=await savePortrait(created,user.id,blob,character.portrait_crops);
+          created={...created,...paths};
+        }else if(character.portrait_card_path&&character.portrait_sheet_path){
+          const [card,sheet]=await Promise.all([
+            downloadPortraitBlob(character.portrait_card_path),
+            downloadPortraitBlob(character.portrait_sheet_path),
+          ]);
+          const paths=await saveLegacyPortrait(created,user.id,card,sheet);
+          created={...created,...paths};
+        }
+      }
+      setCharacters(current=>[...current,created!]);
+      setFilter('all');
+      setDuplicateTarget(null);
+      setOpenMenuId(null);
+    }catch(cause){
+      if(created){
+        try{await cleanupBeforeDelete(created);}catch{ /* best effort rollback */ }
+        await supabase.from('characters').delete().eq('id',created.id).eq('user_id',user.id);
+      }
+      setError('Не удалось создать копию: '+messageFromError(cause));
+    }finally{setBusy(false);}
+  }
+
+  function exportCharacterPdf(character:Character){
+    if(busy)return;
+    setOpenMenuId(null);setError('');
+    setExportPdfId(character.id);
+    setActiveId(character.id);
+  }
+
   function beginMove(id: string) {
     if (busy) return;
     setFilter('all');
@@ -573,13 +626,13 @@ export default function App() {
             portraitUrl={active.portrait_source_path?portraitUrls[active.portrait_source_path]:active.portrait_sheet_path?portraitUrls[active.portrait_sheet_path]:undefined}
             portraitFrame={active.portrait_source_path?active.portrait_crops?.sheet:undefined}
             onEditPortrait={()=>setEditingPortraitId(active.id)}
-            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
         ) : active.system === 'prmoon' ? (
           <ProjectMoonSheet key={active.id} character={active}
             portraitUrl={active.portrait_source_path ? portraitUrls[active.portrait_source_path] : active.portrait_sheet_path ? portraitUrls[active.portrait_sheet_path] : undefined}
             portraitFrame={active.portrait_source_path ? active.portrait_crops?.sheet : undefined}
             onEditPortrait={() => setEditingPortraitId(active.id)}
-            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         )
@@ -661,6 +714,8 @@ export default function App() {
                       <MoreHorizontal size={25} strokeWidth={3} />
                     </button>
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
+                      <button type="button" onClick={() => {setOpenMenuId(null);setDuplicatePortrait(true);setDuplicateTarget(character);}} disabled={busy}><Copy size={15}/> Дублировать</button>
+                      {(character.system==='pf2e'||character.system==='prmoon') && <button type="button" disabled={busy} onClick={() => exportCharacterPdf(character)}><FileDown size={15}/> Экспорт PDF</button>}
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
@@ -700,6 +755,24 @@ export default function App() {
           </div>}
         </main>
       )}
+
+      {duplicateTarget && <div className="modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget&&!busy)setDuplicateTarget(null);}}>
+        <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="duplicate-title">
+          <div className="modal-top"><span>ДУБЛИРОВАНИЕ ПЕРСОНАЖА</span>
+            <button type="button" className="modal-close" disabled={busy} aria-label="Закрыть" onClick={()=>setDuplicateTarget(null)}><X size={20}/></button></div>
+          <h2 id="duplicate-title">Создать копию «{duplicateTarget.name}»?</h2>
+          <p>Характеристики, заметки, оружие и настройки листа будут скопированы без изменений. Копия сохраняется как отдельный персонаж.</p>
+          <label className="duplicate-portrait-option"><input type="checkbox" checked={duplicatePortrait}
+            onChange={event=>setDuplicatePortrait(event.target.checked)} disabled={busy}/>
+            Скопировать портрет и его кадрирование
+          </label>
+          <div className="duplicate-actions">
+            <button type="button" className="button" disabled={busy} onClick={()=>setDuplicateTarget(null)}>Отмена</button>
+            <button type="button" className="button button-primary" disabled={busy}
+              onClick={()=>void duplicateCharacter(duplicateTarget,duplicatePortrait)}><Copy size={16}/> {busy?'Создаю…':'Дублировать'}</button>
+          </div>
+        </section>
+      </div>}
 
       {portraitCharacter && <PortraitEditor key={portraitCharacter.id} name={portraitCharacter.name} system={portraitCharacter.system}
         existing={portraitPaths(portraitCharacter).length>0} onClose={()=>setEditingPortraitId(null)}
