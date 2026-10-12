@@ -38,6 +38,29 @@ try{
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   await page.getByRole('heading',{name:'Каталог пока пуст'}).waitFor();
+  // Legibility regression against the LSS-inspired size pass.
+  const librarySizing=await page.evaluate(()=>{
+    const size=selector=>parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
+    const height=selector=>document.querySelector(selector).getBoundingClientRect().height;
+    return {
+      title:size('.spell-intro-heading h1'),
+      tab:size('.spell-system-tab span'),
+      category:size('.spell-category'),
+      search:size('.spell-search input'),
+      searchHeight:height('.spell-search'),
+      filter:size('.spell-filter-grid select'),
+      filterHeight:height('.spell-filter-grid select'),
+      nav:size('.site-nav button'),
+    };
+  });
+  assert.ok(librarySizing.title>=36,'Library title is legible');
+  assert.ok(librarySizing.tab>=17,'System tabs should have large titles');
+  assert.ok(librarySizing.category>=15,'Category buttons should have readable text');
+  assert.ok(librarySizing.search>=15&&librarySizing.searchHeight>=50,'Search is large and touch friendly');
+  assert.ok(librarySizing.filter>=14&&librarySizing.filterHeight>=44,'Filters are not tiny');
+  assert.ok(librarySizing.nav>=15,'Top navigation typography matches enlarged library');
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
+    'Desktop library must have no horizontal overflow');
   assert.equal(await page.locator('.spell-total').textContent(),'0 записей');
   await page.getByRole('button',{name:'Чары',exact:true}).click();
   assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
@@ -101,6 +124,15 @@ try{
   mobile.on('pageerror',error=>errors.push(error.message));
   await mobile.goto(base+'#library',{waitUntil:'networkidle'});
   await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
+  const phoneSizing=await mobile.evaluate(()=>{
+    const tab=document.querySelector('.spell-system-tab span');
+    const category=document.querySelector('.spell-category');
+    return {tab:parseFloat(getComputedStyle(tab).fontSize),
+      category:parseFloat(getComputedStyle(category).fontSize),
+      overflow:document.documentElement.scrollWidth-window.innerWidth};
+  });
+  assert.ok(phoneSizing.tab>=15&&phoneSizing.category>=14,'Mobile text stays readable');
+  assert.ok(phoneSizing.overflow<=1,'Larger mobile controls must not overflow horizontally');
   assert.ok(await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Библиотека'}).isVisible());
   const mobileHeader=await mobile.locator('.site-header').boundingBox();
   const mobileNavigation=await mobile.locator('.site-tabs-mobile').boundingBox();
