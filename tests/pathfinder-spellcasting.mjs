@@ -82,7 +82,7 @@ const dialog=read('../src/features/pathfinder/SpellcastingDialog.tsx');
 const css=read('../src/features/pathfinder/SpellcastingDialog.css');
 assert.match(sheet,/calculateSpellcasting\(values\)/);
 assert.match(sheet,/spellcastingConfigured && isSpellcastingComputedField\(field\.id\)/);
-assert.match(sheet,/spellcastingConfigured && isSpellcastingComputedField\(key\)/);
+assert.match(sheet,/spellActive&&isSpellcastingComputedField\(key\)/);
 assert.match(sheet,/onRankChange=\{changeSpellRank\}/);
 assert.match(sheet,/setSpellcastingProficiency\(previous,rank\)/);
 assert.match(sheet,/page===4&&<button type="button" className="pf-spell-settings-trigger"/);
