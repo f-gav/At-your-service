@@ -105,7 +105,7 @@ function appendSupplementPages(stage:HTMLElement,heading:string,nodes:HTMLElemen
 }
 
 function safeFileName(name:string,system:PdfSystem){
-  const safe=name.replace(/[\\/:*?"<>|\\x00-\\x1f]/g,' ').trim().slice(0,80)||'Персонаж';
+  const safe=name.replace(/[<>:"/\\|?*]/g,' ').replace(/[\u0000-\u001f]/g,' ').trim().slice(0,80)||'Персонаж';
   return `${system==='pf2e'?'PF2e':'PrMoon'}_${safe}.pdf`;
 }
 
