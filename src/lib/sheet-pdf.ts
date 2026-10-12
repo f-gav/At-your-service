@@ -14,7 +14,7 @@ export function exportPagePlan(system:PdfSystem,basePages:number,weapons=2,skill
   const extraWeapons=system==='prmoon'?Math.max(0,weapons-2):0;
   const extraSkills=system==='prmoon'?Math.max(0,skills-6):0;
   return {
-    basePages,
+    basePages:system==='prmoon'?basePages+1:basePages,
     extraWeapons,
     extraSkills,
     extraPages:Math.ceil(extraWeapons/EXTRA_CARDS_PER_PAGE)+Math.ceil(extraSkills/EXTRA_CARDS_PER_PAGE),
@@ -62,6 +62,9 @@ async function awaitImages(parent:HTMLElement){
 }
 
 function prepareMoonCombat(page:HTMLElement){
+  // Six ordinary skills live on a dedicated fifth PDF page: the combat
+  // article is taller than A4 even before any additional skills are created.
+  page.querySelector('.moon-skills')?.closest('section.moon-section')?.remove();
   page.querySelectorAll('.moon-weapon-card').forEach((card,index)=>{
     if(index>=2)card.remove(); else card.removeAttribute('inert');
   });
@@ -81,8 +84,8 @@ function cloneSupplementCards(nodes:HTMLElement[]):HTMLElement[]{
   });
 }
 
-function appendSupplementPages(stage:HTMLElement,heading:string,nodes:HTMLElement[]){
-  for(let i=0;i<nodes.length;i+=EXTRA_CARDS_PER_PAGE){
+function appendSupplementPages(stage:HTMLElement,heading:string,nodes:HTMLElement[],perPage=EXTRA_CARDS_PER_PAGE){
+  for(let i=0;i<nodes.length;i+=perPage){
     const page=document.createElement('article');
     page.className='moon-paper moon-pdf-supplement';
     page.setAttribute('aria-label',heading);
@@ -97,7 +100,7 @@ function appendSupplementPages(stage:HTMLElement,heading:string,nodes:HTMLElemen
     section.className='moon-section';
     const grid=document.createElement('div');
     grid.className='moon-two-columns moon-pdf-extra-grid';
-    grid.append(...cloneSupplementCards(nodes.slice(i,i+EXTRA_CARDS_PER_PAGE)));
+    grid.append(...cloneSupplementCards(nodes.slice(i,i+perPage)));
     section.append(grid);
     page.append(header,section);
     stage.append(page);
@@ -134,6 +137,10 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
       page.style.width='210mm';
     }
     stack.append(page);
+    if(system==='prmoon'&&oldPage.classList.contains('moon-page-combat')){
+      const coreSkills=Array.from(root.querySelectorAll<HTMLElement>('.moon-skill-card')).slice(0,6);
+      appendSupplementPages(stack,'Боевые приёмы',coreSkills,6);
+    }
   }
   stage.append(stack);
   if(system==='prmoon'){
