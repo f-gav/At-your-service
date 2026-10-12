@@ -227,23 +227,34 @@
 .pf-rich-toolbar { flex-wrap: wrap; }
 
 /*
- * PF2e spell tables have independent name/action/rank/prepared editors on a
- * fixed PDF, but each spoiler is a single full-row spell card. Extend only
- * the spoiler across the native table width (measured from the live template
- * coordinates), not the underlying text fields. Everything outside a
- * spoiler remains independently editable in its original column.
+ * The three spell tables contain independent rich editors for Name, Actions,
+ * Rank and Prepared. Each RichField is BOTH a .pf-rich-host and a .pf-field-long.
+ * Crucially, .pf-field-long has overflow:auto on the OUTER host: removing
+ * clipping only from .pf-rich-editable was insufficient, so the earlier
+ * full-row spoiler was always cut back down to the source column width.
  *
- * A rich editor containing a row-spanning spoiler must not clip its own
- * contents at the narrow column boundary. The parent stays narrow so it
- * does not steal clicks from its adjacent editors.
+ * Only when an editor contains a spoiler, lift BOTH scrolling boundaries.
+ * Plain columns retain their scrolling behavior. The root remains narrow,
+ * so other columns can still receive clicks outside the actual spoiler card.
+ * :has looks for descendants, not only immediate children: contenteditable
+ * may wrap a widget in an extra <div> when pasting or inserting.
  */
-.pf-spell-table-rich:has(> .pf-rich-editable > [data-pf-spoiler="1"]) {
-  z-index: 11;
+.pf-spell-table-rich:has([data-pf-spoiler="1"]) {
+  overflow: visible; /* override .pf-field-long { overflow:auto } on the HOST */
+  z-index: 11;       /* the card, not the whole table, paints over siblings */
 }
-.pf-spell-table-rich:has(> .pf-rich-editable > [data-pf-spoiler="1"]) > .pf-rich-editable {
-  overflow: visible;
+.pf-spell-table-rich:has([data-pf-spoiler="1"]) > .pf-rich-editable {
+  overflow: visible; /* override the INNER contenteditable scroll clipping */
 }
-.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"] {
+
+/* Only top-level spoilers span the row. Nested spoilers inside the description
+ * keep their own natural width. A direct child is the normal insert format;
+ * a spoiler in a simple wrapper is supported for legacy/browsers' DOM output.
+ * The width/offset come from the actual PDF template field coordinates,
+ * including adjustments made by the sheet administrator.
+ */
+.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"],
+.pf-spell-table-rich > .pf-rich-editable > div:not([data-pf-spoiler]) > [data-pf-spoiler="1"] {
   position: relative;
   left: calc(-1 * var(--pf-spell-span-offset, 0px));
   width: var(--pf-spell-span-width, 100%);
@@ -253,6 +264,7 @@
   background: #fff;
   box-shadow: 0 2px 6px #25362c1f;
 }
-.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"] {
+.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"],
+.pf-spell-table-rich > .pf-rich-editable > div:not([data-pf-spoiler]) > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"] {
   min-height: 3.3em;
 }
