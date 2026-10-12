@@ -126,6 +126,132 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-caustic-blast",
+      "system": "pf2e",
+      "slug": "caustic-blast",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-create-earthen-facsimile",
+      "system": "pf2e",
+      "slug": "create-earthen-facsimile",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-daze",
+      "system": "pf2e",
+      "slug": "daze",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-deep-breath",
+      "system": "pf2e",
+      "slug": "deep-breath",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "cantrip",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-detect-magic",
+      "system": "pf2e",
+      "slug": "detect-magic",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-detect-metal",
+      "system": "pf2e",
+      "slug": "detect-metal",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
     }
   ],
   "versions": [
@@ -204,6 +330,85 @@
         "5": "Голос разносится на 1200 футов.",
         "7": "Голос слышен на расстоянии до 1 мили."
       }
+    },
+    {
+      "id": "pf2e-caustic-blast-pf2e-remaster",
+      "spellId": "pf2e-caustic-blast",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "5 футовый взрыв",
+      "savingThrow": "простой Рефлекс",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-create-earthen-facsimile-pf2e-remaster",
+      "spellId": "pf2e-create-earthen-facsimile",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "duration": "10 minutes",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-daze-pf2e-remaster",
+      "spellId": "pf2e-daze",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "простой Воля",
+      "resource": "none",
+      "heightened": {
+        "+2": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-deep-breath-pf2e-remaster",
+      "spellId": "pf2e-deep-breath",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "10 minutes",
+      "resource": "none",
+      "heightened": {
+        "2": "Длительность — 1 час; разговор сокращает запас воздуха лишь на 10 минут.",
+        "4": "Длительность — 8 часов; разговор уменьшает запас на 10 минут."
+      }
+    },
+    {
+      "id": "pf2e-detect-magic-pf2e-remaster",
+      "spellId": "pf2e-detect-magic",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "30 футовая эманация",
+      "resource": "none",
+      "heightened": {
+        "3": "Определяется круг самого сильного обнаруженного магического эффекта.",
+        "4": "Вы также приблизительно определяете местоположение источника самой сильной магии с точностью до 5-футового куба."
+      }
+    },
+    {
+      "id": "pf2e-detect-metal-pf2e-remaster",
+      "spellId": "pf2e-detect-metal",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "30 футовая эманация",
+      "resource": "none",
+      "heightened": {
+        "3": "Вы различаете виды обнаруженного металла и можете преодолеть иллюзию, маскирующую один металл под другой, если её круг ниже круга чар."
+      }
     }
   ],
   "translations": [
@@ -270,6 +475,86 @@
       "description": "Ваш голос становится слышен отчётливо на расстоянии до 500 футов даже среди обычного шума. Заклинание не позволяет обходить стены и не увеличивает дальность других звуковых или языковых эффектов. Вы получаете бонус состояния +1 к проверкам Принуждения, а также к проверкам выступления, основанным на звуке, на большой площадке. Заклинание можно завершить досрочно.",
       "translationStatus": "draft",
       "translatorCredit": "Название из русских PDF pf2.ru; описание адаптировано для At your service!"
+    },
+    {
+      "spellId": "pf2e-caustic-blast",
+      "versionId": "pf2e-caustic-blast-pf2e-remaster",
+      "locale": "en",
+      "name": "Caustic Blast",
+      "description": "You throw an acidic glob that explodes into a 5-foot burst within 30 feet. Creatures in the burst suffer 1d8 acid damage, reduced or increased by a basic Reflex save. A critical failure also causes 1 persistent acid damage. Heightened (+2 ranks): add 1d8 to the initial damage and 1 to the persistent damage on a critical failure.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-create-earthen-facsimile",
+      "versionId": "pf2e-create-earthen-facsimile-pf2e-remaster",
+      "locale": "en",
+      "name": "Create Earthen Facsimile",
+      "description": "You hold a little soil and shape it magically into a tiny, simple figurine. It retains its form for up to 10 minutes as long as it is left undisturbed, but it is brittle and easily crumbles under pressure. Once the spell expires, the miniature turns back into loose earth.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-daze",
+      "versionId": "pf2e-daze-pf2e-remaster",
+      "locale": "en",
+      "name": "Daze",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-daze",
+      "versionId": "pf2e-daze-pf2e-remaster",
+      "locale": "ru",
+      "name": "Ступор",
+      "description": "Вы воздействуете на разум существа на расстоянии до 60 футов. Цель получает 1d6 ментального несмертельного урона с простым спасброском Воли. При критическом провале спасброска цель дополнительно получает состояние «Ошеломлён 1».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-deep-breath",
+      "versionId": "pf2e-deep-breath-pf2e-remaster",
+      "locale": "en",
+      "name": "Deep Breath",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-deep-breath",
+      "versionId": "pf2e-deep-breath-pf2e-remaster",
+      "locale": "ru",
+      "name": "Глубокий вдох",
+      "description": "Вы делаете глубокий вдох и удерживаете его до конца действия чар, не теряя запас воздуха от получения урона. Разговор, включая словесное сотворение заклинания, немедленно расходует весь запас. Чары не создают воздух: если вдохнуть нечего, они не помогут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-detect-magic",
+      "versionId": "pf2e-detect-magic-pf2e-remaster",
+      "locale": "en",
+      "name": "Detect Magic",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-detect-magic",
+      "versionId": "pf2e-detect-magic-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обнаружение магии",
+      "description": "Вы посылаете магический импульс на 30 футов вокруг себя и узнаёте, есть ли магия в области, но не определяете её природу или точное местоположение. По желанию можно исключить заранее известные вам предметы и эффекты. Обманчивые иллюзии обнаруживаются, только когда их круг ниже круга ваших чар; не скрывающие внешний вид ауры обычно обнаруживаются.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-detect-metal",
+      "versionId": "pf2e-detect-metal-pf2e-remaster",
+      "locale": "en",
+      "name": "Detect Metal",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-detect-metal",
+      "versionId": "pf2e-detect-metal-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обнаружение металла",
+      "description": "Вы чувствуете, присутствует ли металл в пределах 30 футов: предметы, жилы и залежи. Известное вам снаряжение можно игнорировать. Иллюзии могут скрыть металл, если их круг не ниже круга чар; обманный образ предмета из другого материала также может исказить впечатление. На базовом круге определяется лишь наличие металла, а не его разновидность.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
     }
   ],
   "sources": [
@@ -306,6 +591,20 @@
       "name": "Pathfinder Player Core 2",
       "publisher": "Paizo",
       "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-player-core",
+      "name": "Pathfinder Player Core",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-rage-of-elements",
+      "name": "Pathfinder Rage of Elements",
+      "publisher": "Paizo",
+      "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
     }
   ]
