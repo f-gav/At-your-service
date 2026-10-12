@@ -1,8 +1,312 @@
 {
   "schemaVersion": 1,
   "system": "pf2e",
-  "spells": [],
-  "versions": [],
-  "translations": [],
-  "sources": []
+  "spells": [
+    {
+      "id": "pf2e-acid-splash",
+      "system": "pf2e",
+      "slug": "acid-splash",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-ancient-dust",
+      "system": "pf2e",
+      "slug": "ancient-dust",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "void"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-186-ghost-king-s-rage"
+    },
+    {
+      "id": "pf2e-approximate",
+      "system": "pf2e",
+      "slug": "approximate",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-artistic-recollection",
+      "system": "pf2e",
+      "slug": "artistic-recollection",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-bramble-bush",
+      "system": "pf2e",
+      "slug": "bramble-bush",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-203-shepherd-of-decay"
+    },
+    {
+      "id": "pf2e-bullhorn",
+      "system": "pf2e",
+      "slug": "bullhorn",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-acid-splash-pf2e-legacy",
+      "spellId": "pf2e-acid-splash",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "3": "Основной урон 2d6, продолжительный урон 2.",
+        "5": "Основной урон 3d6, продолжительный урон 3, урон брызгами 2.",
+        "7": "Основной урон 4d6, продолжительный урон 4, урон брызгами 3.",
+        "9": "Основной урон 5d6, продолжительный урон 5, урон брызгами 4."
+      }
+    },
+    {
+      "id": "pf2e-ancient-dust-pf2e-legacy",
+      "spellId": "pf2e-ancient-dust",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "area": "15 футовый конус",
+      "savingThrow": "Стойкость",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-approximate-pf2e-remaster",
+      "spellId": "pf2e-approximate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-artistic-recollection-pf2e-remaster",
+      "spellId": "pf2e-artistic-recollection",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "duration": "1 minute",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-bramble-bush-pf2e-remaster",
+      "spellId": "pf2e-bramble-bush",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "5 футовый куб",
+      "savingThrow": "простой Рефлекс",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-bullhorn-pf2e-remaster",
+      "spellId": "pf2e-bullhorn",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "10 minutes",
+      "resource": "none",
+      "heightened": {
+        "5": "Голос разносится на 1200 футов.",
+        "7": "Голос слышен на расстоянии до 1 мили."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-acid-splash",
+      "versionId": "pf2e-acid-splash-pf2e-legacy",
+      "locale": "en",
+      "name": "Acid Splash",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-acid-splash",
+      "versionId": "pf2e-acid-splash-pf2e-legacy",
+      "locale": "ru",
+      "name": "Всплеск кислоты",
+      "description": "Вы бросаете в цель сгусток кислоты. Совершите атаку заклинанием по КБ существа в пределах дистанции. При попадании цель получает 1d6 урона кислотой, а брызги наносят ещё 1 единицу урона кислотой в соответствии с правилами разбрызгивания. При критическом попадании цель дополнительно получает продолжительный урон кислотой, равный половине круга заклинания с округлением вверх. Эта версия заклинания относится к Legacy; в Remaster используется другое заклинание — Caustic Blast.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русских PDF pf2.ru; описание адаптировано для At your service!"
+    },
+    {
+      "spellId": "pf2e-ancient-dust",
+      "versionId": "pf2e-ancient-dust-pf2e-legacy",
+      "locale": "en",
+      "name": "Ancient Dust",
+      "description": "You exhale a 15-foot cone of grave dust. Creatures inside take void damage equal to your spellcasting ability modifier and 1 persistent void damage, depending on a Fortitude save. Critical success: no effect. Success: half the initial damage and no persistent damage. Failure: full initial and persistent damage. Critical failure: double initial and persistent damage. Heightened (+2 ranks): increase the initial damage by 1d6 and persistent damage by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-approximate",
+      "versionId": "pf2e-approximate-pf2e-remaster",
+      "locale": "en",
+      "name": "Approximate",
+      "description": "You instantly estimate how many visible objects of a named kind occupy a 1-cubic-foot area within 10 feet. Round the count to its leading place value: 180 coins would be reported as approximately 200. You can specify a broad or narrow category, but its identifying features must be obvious to the eye. Disguised objects can mislead this spell.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-artistic-recollection",
+      "versionId": "pf2e-artistic-recollection-pf2e-remaster",
+      "locale": "en",
+      "name": "Artistic Recollection",
+      "description": "By touching an empty surface, you conjure a roughly sketchbook-sized image of a person, place, or object in the style of a pastel oil painting. You must have seen the subject or studied it thoroughly. The image appears instantly and fades cleanly when the one-minute duration ends.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bramble-bush",
+      "versionId": "pf2e-bramble-bush-pf2e-remaster",
+      "locale": "en",
+      "name": "Bramble Bush",
+      "description": "You grow a thorn-covered bush in a 5-foot cube within 30 feet; it lashes out and then withers. Creatures in the area take 1d4 piercing damage with a basic Reflex save. Until the beginning of your next turn, the square is difficult and hazardous terrain. A creature entering it suffers piercing damage equal to 1d4 plus half the spell's rank, rounded up, minus 1, with a basic Reflex save. Heightened (+2 ranks): the initial damage increases by 1d4, and the hazardous terrain damage by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bullhorn",
+      "versionId": "pf2e-bullhorn-pf2e-remaster",
+      "locale": "en",
+      "name": "Bullhorn",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bullhorn",
+      "versionId": "pf2e-bullhorn-pf2e-remaster",
+      "locale": "ru",
+      "name": "Рупор",
+      "description": "Ваш голос становится слышен отчётливо на расстоянии до 500 футов даже среди обычного шума. Заклинание не позволяет обходить стены и не увеличивает дальность других звуковых или языковых эффектов. Вы получаете бонус состояния +1 к проверкам Принуждения, а также к проверкам выступления, основанным на звуке, на большой площадке. Заклинание можно завершить досрочно.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русских PDF pf2.ru; описание адаптировано для At your service!"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-pathfinder-core-rulebook",
+      "name": "Pathfinder Core Rulebook",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-186-ghost-king-s-rage",
+      "name": "Pathfinder #186: Ghost King's Rage",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-impossible-magic",
+      "name": "Pathfinder Impossible Magic",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-203-shepherd-of-decay",
+      "name": "Pathfinder #203: Shepherd of Decay",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-player-core-2",
+      "name": "Pathfinder Player Core 2",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    }
+  ]
 }
