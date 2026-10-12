@@ -162,7 +162,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       return onSave(character.id,cleanName,saveMoonSheet(character.details,capturedSheet));
     },
   });
-  const {dirty,error}=auto;
+  const {error}=auto;
 
   useEffect(() => {
     if (!settingsOpen) return;

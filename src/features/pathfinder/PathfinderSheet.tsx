@@ -36,10 +36,6 @@ import './PathfinderSheet.css';
 
 const PAGE_TITLES = ['Характеристики', 'Способности и снаряжение', 'Заметки и действия', 'Заклинания'];
 
-function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : 'Не удалось сохранить лист. Проверь соединение и повтори попытку.';
-}
-
 /**
  * The four PDF pages are immutable high-resolution images.
  * Interactive fields and their values are separate from artwork, allowing
@@ -202,7 +198,7 @@ export default function PathfinderSheet({
       return onSave(character.id,cleanName,persistSheetValues(character.details,stored,cleanName));
     },
   });
-  const {dirty,error}=auto;
+  const {error}=auto;
 
   function change(id: string, value: FieldValue) {
     if(spellcastingConfigured && (id==='spell_attack_rank'||id==='spell_dc_rank') && typeof value==='string'){
