@@ -185,3 +185,69 @@
  .spell-parameters .spell-stat-grid dd {font-size:14px;}
  .spell-descriptors span {font-size:12px;}
 }
+
+/* LSS-like spell card overlay: opening a spell never replaces the result list. */
+.spell-modal-overlay {
+  position:fixed;
+  inset:0;
+  z-index:2200;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:22px;
+  background:rgba(16,23,19,.56);
+  overscroll-behavior:contain;
+}
+.spell-modal {
+  display:block;
+  box-sizing:border-box;
+  width:min(720px,100%);
+  max-height:calc(100dvh - 44px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  border:1px solid #dce4dc;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 22px 75px rgba(0,0,0,.25);
+  scrollbar-width:thin;
+  outline:none;
+}
+.spell-modal .spell-viewer {
+  padding:27px 31px 33px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+.spell-modal .spell-close {
+  position:sticky;
+  top:0;
+  z-index:1;
+  flex:0 0 auto;
+  min-width:44px;
+  min-height:44px;
+  background:#f5f7f5;
+}
+.spell-modal .spell-viewer-source {display:none;}
+.spell-source-book {
+  font-size:14px;
+  line-height:1.6;
+  color:#526b59;
+  margin:15px 0 0;
+}
+.spell-source-book strong {color:#314b37;}
+.spell-result > div:last-child {
+  color:#82958a;
+}
+.spell-result > div:last-child svg {width:20px;height:20px;}
+@media(max-width:760px) {
+  .spell-modal-overlay {padding:12px;align-items:center;}
+  .spell-modal {max-height:calc(100dvh - 24px);border-radius:9px;}
+  .spell-modal .spell-viewer {padding:22px 20px 27px;}
+}
+@media(max-width:450px) {
+  .spell-modal-overlay {padding:7px;}
+  .spell-modal {max-height:calc(100dvh - 14px);border-radius:7px;}
+  .spell-modal .spell-viewer {padding:17px 15px 25px;}
+  .spell-modal .spell-viewer-top h2 {font-size:22px;line-height:1.35;}
+  .spell-source-book {font-size:13px;}
+}
