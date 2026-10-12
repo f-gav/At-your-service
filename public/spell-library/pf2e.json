@@ -988,6 +988,249 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-read-the-air",
+      "system": "pf2e",
+      "slug": "read-the-air",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-root-reading",
+      "system": "pf2e",
+      "slug": "root-reading",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-rousing-splash",
+      "system": "pf2e",
+      "slug": "rousing-splash",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-scatter-scree",
+      "system": "pf2e",
+      "slug": "scatter-scree",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-shield",
+      "system": "pf2e",
+      "slug": "shield",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "force"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-sigil",
+      "system": "pf2e",
+      "slug": "sigil",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-slashing-gust",
+      "system": "pf2e",
+      "slug": "slashing-gust",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-spout",
+      "system": "pf2e",
+      "slug": "spout",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-stabilize",
+      "system": "pf2e",
+      "slug": "stabilize",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "healing",
+        "manipulate",
+        "vitality"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-summon-instrument",
+      "system": "pf2e",
+      "slug": "summon-instrument",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-take-root",
+      "system": "pf2e",
+      "slug": "take-root",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-tame",
+      "system": "pf2e",
+      "slug": "tame",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
     }
   ],
   "versions": [
@@ -1649,6 +1892,170 @@
         "3": "Можно выбрать до 10 предметов.",
         "6": "Можно выбрать любое количество предметов."
       }
+    },
+    {
+      "id": "pf2e-read-the-air-pf2e-remaster",
+      "spellId": "pf2e-read-the-air",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 минута",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-root-reading-pf2e-remaster",
+      "spellId": "pf2e-root-reading",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "Эманация радиусом 30 футов",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-rousing-splash-pf2e-remaster",
+      "spellId": "pf2e-rousing-splash",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 creature",
+      "resource": "none",
+      "heightened": {
+        "+1": "Количество временных ОЗ увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-scatter-scree-pf2e-remaster",
+      "spellId": "pf2e-scatter-scree",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "Линия длиной 10 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "duration": "1 минута",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-shield-pf2e-remaster",
+      "spellId": "pf2e-shield",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "до начала вашего следующего хода",
+      "resource": "none",
+      "heightened": {
+        "+2": "Твёрдость магического щита увеличивается на 5."
+      }
+    },
+    {
+      "id": "pf2e-sigil-pf2e-remaster",
+      "spellId": "pf2e-sigil",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "Касание",
+      "targets": "1 creature or object",
+      "duration": "Неограниченно",
+      "resource": "none",
+      "heightened": {
+        "3": "Метка на существе исчезает через месяц.",
+        "5": "Метка на существе исчезает через год.",
+        "7": "Метка на существе не исчезает сама."
+      }
+    },
+    {
+      "id": "pf2e-slashing-gust-pf2e-remaster",
+      "spellId": "pf2e-slashing-gust",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 or 2 creatures",
+      "savingThrow": "Атака заклинанием против КБ",
+      "requirements": "У вас свободна хотя бы одна рука.",
+      "resource": "none",
+      "heightened": {
+        "+1": "Обычный урон и продолжительное кровотечение при критическом попадании увеличиваются каждый на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-spout-pf2e-remaster",
+      "spellId": "pf2e-spout",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "Куб со стороной 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-stabilize-pf2e-remaster",
+      "spellId": "pf2e-stabilize",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 dying creature",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-summon-instrument-pf2e-remaster",
+      "spellId": "pf2e-summon-instrument",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "duration": "1 час",
+      "resource": "none",
+      "heightened": {
+        "5": "Вместо обычного появляется превосходный инструмент виртуоза."
+      }
+    },
+    {
+      "id": "pf2e-take-root-pf2e-remaster",
+      "spellId": "pf2e-take-root",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 willing creature",
+      "duration": "1 раунд",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-tame-pf2e-remaster",
+      "spellId": "pf2e-tame",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "targets": "1 non-hostile domesticated animal",
+      "savingThrow": "Спасбросок Воли",
+      "duration": "1 минута",
+      "resource": "none",
+      "heightened": {
+        "3": "Длительность увеличивается до 10 минут.",
+        "6": "Длительность увеличивается до 1 часа."
+      }
     }
   ],
   "translations": [
@@ -2276,6 +2683,182 @@
       "description": "Вы в течение одной минуты изучаете предмет на расстоянии до 30 футов. После сотворения узнаёте, является ли он магическим. Вы и те, кому вы расскажете о наблюдаемой ауре, получаете +2 бонус обстоятельства к попыткам Опознать магию этого предмета. Иллюзорный предмет распознаётся как таковой только если круг иллюзии ниже круга этих чар.",
       "translationStatus": "draft",
       "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация данных Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-read-the-air",
+      "versionId": "pf2e-read-the-air-pf2e-remaster",
+      "locale": "en",
+      "name": "Read the Air",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-read-the-air",
+      "versionId": "pf2e-read-the-air-pf2e-remaster",
+      "locale": "ru",
+      "name": "Прочитать эфир",
+      "description": "Вы быстро улавливаете правила поведения и скрытые ожидания окружающих. При сотворении совершите проверку Вспомнить информацию (Общество) о текущей социальной ситуации. Вы также получаете бонус состояния +1 к следующей проверке Дипломатии для Произвести впечатление на присутствующих при сотворении чар, если совершите её в течение 1 минуты. Повторять эти чары в той же социальной ситуации бесполезно.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-root-reading",
+      "versionId": "pf2e-root-reading-pf2e-remaster",
+      "locale": "en",
+      "name": "Root Reading",
+      "description": "You sense an area through nearby tree and shrub roots. You learn if unnoticed creatures of Medium or larger size are present in a 30-foot emanation, though they remain undetected to you. You may immediately Seek one of them with a +1 status bonus, which also applies to subsequent Seek checks against hidden or undetected creatures until the end of your next turn. You can sense if such creatures passed through within the last hour and the vague direction of travel; gain +1 status on your initial Track check for a creature detected this way.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-rousing-splash",
+      "versionId": "pf2e-rousing-splash-pf2e-remaster",
+      "locale": "en",
+      "name": "Rousing Splash",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-rousing-splash",
+      "versionId": "pf2e-rousing-splash-pf2e-remaster",
+      "locale": "ru",
+      "name": "Бодрящие брызги",
+      "description": "Вы окатываете союзника прохладной водой. Цель получает 1d4 временных ОЗ на 1 минуту, после чего становится временно невосприимчива к временным ОЗ от этих чар на 10 минут. Кроме того, цель может немедленно совершить чистую проверку для прекращения одного эффекта продолжительного урона кислотой или огнём со сниженной СЛ благодаря подходящей помощи.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-scatter-scree",
+      "versionId": "pf2e-scatter-scree-pf2e-remaster",
+      "locale": "en",
+      "name": "Scatter Scree",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-scatter-scree",
+      "versionId": "pf2e-scatter-scree-pf2e-remaster",
+      "locale": "ru",
+      "name": "Рассеять щебень",
+      "description": "В выбранной 10-футовой линии в пределах 30 футов появляется груда камней. Существа в области получают 2d4 дробящего урона с простым спасброском Рефлекса. На 1 минуту область становится сложной местностью. Существо может действием Взаимодействовать очистить одну клетку от камней. Если вы сотворите эти чары снова, предыдущая область исчезнет.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-shield",
+      "versionId": "pf2e-shield-pf2e-remaster",
+      "locale": "en",
+      "name": "Shield",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shield",
+      "versionId": "pf2e-shield-pf2e-remaster",
+      "locale": "ru",
+      "name": "Щит",
+      "description": "Вы создаёте щит из магической силы, как при действии Поднять щит. До начала следующего хода получаете бонус обстоятельства +1 к КБ, не занимая руку. Пока чары действуют, можно применить реакцию Блок щитом с Твёрдостью 5, даже против урона от магического эффекта. После блока щит исчезает и вы не можете вновь сотворить эти чары в течение 10 минут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-sigil",
+      "versionId": "pf2e-sigil-pf2e-remaster",
+      "locale": "en",
+      "name": "Sigil",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sigil",
+      "versionId": "pf2e-sigil-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сигил",
+      "description": "Вы наносите на предмет или существо собственную безвредную магическую метку размером примерно 1 квадратный дюйм. Она может быть видимой или невидимой; прикоснувшись и потратив действие Взаимодействовать, вы переключаете её видимость. Метку можно стереть или соскоблить за 5 минут. С существа она исчезает естественным образом примерно через неделю; на предмете длительность магической метки не ограничена.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-slashing-gust",
+      "versionId": "pf2e-slashing-gust-pf2e-remaster",
+      "locale": "en",
+      "name": "Slashing Gust",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-slashing-gust",
+      "versionId": "pf2e-slashing-gust-pf2e-remaster",
+      "locale": "ru",
+      "name": "Рубящий шквал",
+      "description": "Взмахом свободной руки вы посылаете в противника острые потоки воздуха. Если обе руки свободны, можно выбрать двух существ в пределах 60 футов; иначе только одно. Для каждой цели отдельно совершите атаку заклинанием против КБ. Попадание наносит 2d4 рубящего урона, критическое попадание удваивает его и наносит 1d4 продолжительного кровотечения. При атаках по двум существам штраф множественных атак возрастает только после обеих проверок, но они учитываются как две атаки.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-spout",
+      "versionId": "pf2e-spout-pf2e-remaster",
+      "locale": "en",
+      "name": "Spout",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-spout",
+      "versionId": "pf2e-spout-pf2e-remaster",
+      "locale": "ru",
+      "name": "Столб воды",
+      "description": "Из земли или воздуха резко вырывается вода в 5-футовом кубе в пределах 30 футов. Существа в области получают 2d4 дробящего урона с простым спасброском Рефлекса. При критическом провале существо также застигнуто врасплох до конца вашего следующего хода. Если центр эффекта находится в водоёме, область можно выбрать как 5-футовый взрыв вместо куба.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-stabilize",
+      "versionId": "pf2e-stabilize-pf2e-remaster",
+      "locale": "en",
+      "name": "Stabilize",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-stabilize",
+      "versionId": "pf2e-stabilize-pf2e-remaster",
+      "locale": "ru",
+      "name": "Стабилизировать",
+      "description": "Поток жизненной энергии останавливает угасание существа при смерти в пределах 30 футов. Цель перестаёт находиться в состоянии «При смерти», но сохраняет состояние «Без сознания» и 0 ОЗ. Эти чары сами по себе не восстанавливают ОЗ.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-summon-instrument",
+      "versionId": "pf2e-summon-instrument-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Instrument",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-instrument",
+      "versionId": "pf2e-summon-instrument-pf2e-remaster",
+      "locale": "ru",
+      "name": "Призыв музыкального инструмента",
+      "description": "Вы материализуете в своих руках обычный переносной музыкальный инструмент выбранного вида. Играть на нём можете только вы; через 1 час он исчезает. При повторном сотворении чар ранее призванный инструмент немедленно пропадает.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-take-root",
+      "versionId": "pf2e-take-root-pf2e-remaster",
+      "locale": "en",
+      "name": "Take Root",
+      "description": "Fine roots sprout harmlessly from a willing creature within 30 feet and secure its stance or grip for 1 round. The creature gets a +1 circumstance bonus to Fortitude DC against Shove and +1 to Reflex DC against Disarm or Trip. It also gains +1 to saves against spells or effects trying to remove an item from its grasp.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-tame",
+      "versionId": "pf2e-tame-pf2e-remaster",
+      "locale": "en",
+      "name": "Tame",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-tame",
+      "versionId": "pf2e-tame-pf2e-remaster",
+      "locale": "ru",
+      "name": "Приручение",
+      "description": "Вы успокаиваете одомашненное животное, которое не настроено враждебно. Если оно не преуспело в спасброске Воли, его отношение к вам на 1 минуту улучшается на одну ступень: недружелюбное становится нейтральным, нейтральное — дружелюбным, дружелюбное — готовым помочь. Затем животное становится временно невосприимчивым на 1 день. На диких животных (например, волках) чары не действуют.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из русскоязычных справочников Pathfinder; описание независимо адаптировано по Foundry PF2e v14-dev."
     }
   ],
   "sources": [
