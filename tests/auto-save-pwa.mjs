@@ -80,6 +80,9 @@ assert.ok(sw.includes("if(url.origin!==self.location.origin||!url.href.startsWit
 assert.ok(sw.includes("req.mode==='navigate'"));
 assert.ok(!sw.includes('supabase.co')&&!sw.includes('auth.getSession'));
 assert.ok(sw.includes("const isPublicAsset="));
+assert.ok(sw.includes("CACHE_NAME='ays-shell-v2'"),'Cache rotates after obsolete layout assets');
+assert.ok(sw.includes('const response=await fetch(req);'),'Public assets refresh over the network');
+assert.ok(sw.includes('return (await caches.match(req))||Response.error()'),'Cached assets only serve as offline fallback');
 assert.ok(!sw.includes("localStorage"),'No personal character data in service worker');
 
 execFileSync(process.execPath,[new URL('../scripts/generate-pwa-icons.mjs',import.meta.url).pathname]);
