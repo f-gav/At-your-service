@@ -732,6 +732,138 @@
       ],
       "rarity": "uncommon",
       "sourceId": "src-pathfinder-147-tomorrow-must-burn"
+    },
+    {
+      "id": "pf2e-know-the-way",
+      "system": "pf2e",
+      "slug": "know-the-way",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-light",
+      "system": "pf2e",
+      "slug": "light",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "light",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-live-wire",
+      "system": "pf2e",
+      "slug": "live-wire",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "electricity",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-message",
+      "system": "pf2e",
+      "slug": "message",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "linguistic",
+        "mental",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-musical-accompaniment",
+      "system": "pf2e",
+      "slug": "musical-accompaniment",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "cantrip",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-needle-darts",
+      "system": "pf2e",
+      "slug": "needle-darts",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
     }
   ],
   "versions": [
@@ -1215,6 +1347,91 @@
       "heightened": {
         "+1": "You can include one additional willing creature; multiple companions can Aid the creature recalling knowledge."
       }
+    },
+    {
+      "id": "pf2e-know-the-way-pf2e-remaster",
+      "spellId": "pf2e-know-the-way",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "none",
+      "heightened": {
+        "3": "You can choose a location visited within the past week.",
+        "7": "You can choose a previously visited location no matter how long ago the visit occurred."
+      }
+    },
+    {
+      "id": "pf2e-light-pf2e-remaster",
+      "spellId": "pf2e-light",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 футов",
+      "duration": "до следующих ежедневных приготовлений",
+      "resource": "none",
+      "heightened": {
+        "4": "Радиус яркого света увеличивается до 60 футов, тусклого — ещё на 60 футов."
+      }
+    },
+    {
+      "id": "pf2e-live-wire-pf2e-remaster",
+      "spellId": "pf2e-live-wire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+2": "Slashing damage, initial electricity damage, and persistent electricity damage on a critical hit each increase by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-message-pf2e-remaster",
+      "spellId": "pf2e-message",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "120 футов",
+      "targets": "1 creature",
+      "duration": "см. описание",
+      "resource": "none",
+      "heightened": {
+        "3": "Дистанция возрастает до 500 футов."
+      }
+    },
+    {
+      "id": "pf2e-musical-accompaniment-pf2e-remaster",
+      "spellId": "pf2e-musical-accompaniment",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 минута",
+      "resource": "none",
+      "heightened": {
+        "2": "Duration increases to 10 minutes."
+      }
+    },
+    {
+      "id": "pf2e-needle-darts-pf2e-remaster",
+      "spellId": "pf2e-needle-darts",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Вы выпускаете ещё одну иглу: обычный урон увеличивается на 1d4, продолжительное кровотечение при критическом попадании — на 1."
+      }
     }
   ],
   "translations": [
@@ -1674,6 +1891,78 @@
       "name": "Join Pasts",
       "description": "You touch the foreheads of two willing creatures, joining their minds for one round. They may share memories and experiences without sending words. When one attempts Recall Knowledge, the other can Aid the check using any Lore skill, even one normally unrelated, without advance preparation.",
       "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-know-the-way",
+      "versionId": "pf2e-know-the-way-pf2e-remaster",
+      "locale": "en",
+      "name": "Know the Way",
+      "description": "You instantly sense which way is north (if this direction exists where you are). You may also remember a place you visited during the preceding 24 hours and learn the direction in which it lies.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-light",
+      "versionId": "pf2e-light-pf2e-remaster",
+      "locale": "en",
+      "name": "Light",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-light",
+      "versionId": "pf2e-light-pf2e-remaster",
+      "locale": "ru",
+      "name": "Свет",
+      "description": "Вы создаёте парящую сферу света выбранного цвета. Она излучает яркий свет в радиусе 20 футов и тусклый — ещё на 20 футов. Если сфера появляется рядом с согласным существом, она может следовать за ним. Поддерживая чары, можно передвинуть сферу на расстояние до 60 футов, прикрепить её к существу или отделить. Заклинание действует до ваших следующих ежедневных приготовлений; одновременно может существовать до четырёх таких сфер.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-live-wire",
+      "versionId": "pf2e-live-wire-pf2e-remaster",
+      "locale": "en",
+      "name": "Live Wire",
+      "description": "A length of electrified copper lashes at one creature within 30 feet. Make a spell attack: on a success the target takes 1d4 slashing plus 1d4 electricity damage; on a failure it still takes the electricity damage only. On a critical success, double the initial damage and deal 1d4 persistent electricity damage at the spell's base rank. A critical failure has no effect.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-message",
+      "versionId": "pf2e-message-pf2e-remaster",
+      "locale": "en",
+      "name": "Message",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-message",
+      "versionId": "pf2e-message-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сообщение",
+      "description": "Вы беззвучно произносите слова, которые услышит только существо в пределах 120 футов, словно вы стоите рядом. Цель может кратко ответить реакцией либо свободным действием на своём следующем ходу, если видит вас и находится в пределах дистанции. Ответ слышите только вы.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-musical-accompaniment",
+      "versionId": "pf2e-musical-accompaniment-pf2e-remaster",
+      "locale": "en",
+      "name": "Musical Accompaniment",
+      "description": "Enchanted orchestral music follows you, adapting to your deeds for 1 minute. It grants a +1 status bonus to Performance. With GM permission, it may also support Deception, Diplomacy, or Intimidation, though an onlooker might reject such overt manipulation. The music can be as loud as four people shouting and imposes a –4 circumstance penalty to Stealth; it cannot produce meaningful lyrics or exactly chosen melodies. You may Dismiss the spell.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-needle-darts",
+      "versionId": "pf2e-needle-darts-pf2e-remaster",
+      "locale": "en",
+      "name": "Needle Darts",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-needle-darts",
+      "versionId": "pf2e-needle-darts-pf2e-remaster",
+      "locale": "ru",
+      "name": "Иглы-дротики",
+      "description": "Вы превращаете имеющийся у вас кусочек металла в три иглы и выпускаете их в одну цель. При успешной атаке заклинанием против КБ они наносят 3d4 колющего урона; металл сохраняет особые свойства, например холодное железо действует на соответствующую слабость. После атаки металл возвращается к вам. При критическом попадании урон удваивается и цель получает продолжительное кровотечение, равное кругу заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: PF2 RU; описание: самостоятельная адаптация Foundry PF2e"
     }
   ],
   "sources": [
