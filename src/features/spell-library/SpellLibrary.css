@@ -301,7 +301,7 @@
   align-items:center;min-height:39px;border:1px solid #d5dfd6;border-radius:5px;
   background:#fff;color:#526958;font-size:14px;line-height:1.15;font-weight:630;transition:background .12s;}
 .spell-rank-chip {min-width:40px;padding:7px 11px;font-variant-numeric:tabular-nums;}
-.spell-kind-chip {padding:9px 14px;}
+.spell-kind-chip {padding:9px 14px;font-size:15px;}
 .spell-rank-chip:hover:not(.is-active),.spell-kind-chip:hover:not(.is-active) {
   background:#edf2ec;border-color:#bdcdbf;color:#2e4c36;
 }
