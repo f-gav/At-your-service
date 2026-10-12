@@ -2435,6 +2435,104 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-secrets-of-magic"
+    },
+    {
+      "id": "pf2e-déjà-vu",
+      "system": "pf2e",
+      "slug": "déjà-vu",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "incapacitation",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-echoing-weapon",
+      "system": "pf2e",
+      "slug": "echoing-weapon",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-elysian-whimsy",
+      "system": "pf2e",
+      "slug": "elysian-whimsy",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "incapacitation",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-183-field-of-maidens"
+    },
+    {
+      "id": "pf2e-endure",
+      "system": "pf2e",
+      "slug": "endure",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-enfeeble",
+      "system": "pf2e",
+      "slug": "enfeeble",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -4171,6 +4269,72 @@
       "heightened": {
         "rules": " (+1) The damage increases by 1d10."
       }
+    },
+    {
+      "id": "pf2e-déjà-vu-pf2e-remaster",
+      "spellId": "pf2e-déjà-vu",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "100 feet",
+      "targets": "1 creature",
+      "duration": "2 rounds",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-echoing-weapon-pf2e-remaster",
+      "spellId": "pf2e-echoing-weapon",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 weapon",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-elysian-whimsy-pf2e-legacy",
+      "spellId": "pf2e-elysian-whimsy",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "varies",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-endure-pf2e-remaster",
+      "spellId": "pf2e-endure",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "heightened": {
+        "rules": " (+1) The temporary Hit Points increase by 5.\n\nSpell Effect: Endure"
+      }
+    },
+    {
+      "id": "pf2e-enfeeble-pf2e-remaster",
+      "spellId": "pf2e-enfeeble",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "varies",
+      "savingThrow": "fortitude save"
     }
   ],
   "translations": [
@@ -5681,6 +5845,46 @@
       "locale": "en",
       "name": "Draw Ire",
       "description": "You cause mental distress to a creature, goading it to strike back at you. You deal 1d10 mental damage to the creature and cause it to take a -1 status penalty to attack rolls against creatures other than you. The creature must attempt a Will saving throw.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half damage and the penalty. The spell ends at the end of the target's next turn. Spell Effect: Draw Ire (Success)\n\nFailure The target takes full damage and the penalty.\n\nCritical Failure The target takes double damage, and the status penalty is -2.\n\nSpell Effect: Draw Ire\n\nHeightened (+1) The damage increases by 1d10.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-déjà-vu",
+      "versionId": "pf2e-déjà-vu-pf2e-remaster",
+      "locale": "en",
+      "name": "Déjà Vu",
+      "description": "You loop a thought process in the target's mind, forcing it to repeat a moment's worth of actions. The target must attempt a Will save. If the target fails, whatever actions the target uses on its next turn, it must repeat on its following turn. The actions must be repeated in the same order and as close to the same specifics as possible. For example, if the target makes an attack, it must repeat the attack against the same creature, if possible, and if the target moves, it must move the same distance and direction, if possible, on its next turn.\n\nIf the target can't repeat an action, such as Casting a Spell that has been exhausted or needing to target a creature that has died, it can act as it chooses for that action but becomes Stupefied 1 until the end of its turn.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-echoing-weapon",
+      "versionId": "pf2e-echoing-weapon-pf2e-remaster",
+      "locale": "en",
+      "name": "Echoing Weapon",
+      "description": "You channel energy into the target weapon, and the air around it faintly hums each time it strikes a blow, as the impact is absorbed into the weapon. If a creature is wielding the weapon at the end of its turn, the weapon discharges a burst of sound targeting one creature adjacent to the wielder. The sonic damage dealt is equal to the number of successful Strikes with the target weapon that the wielder made that turn (to a maximum of 4 sonic damage if the wielder hits with four Strikes).\n\n1: Damage ((ceil(@item.rank/2))[sonic)], 2: Damage ((ceil(@item.rank/2)*2)[sonic)], 3: Damage ((ceil(@item.rank/2)*3)[sonic)], 4: Damage ((ceil(@item.rank/2)*4)[sonic)]\n\nHeightened (+2) The sonic damage increases by 1 per Strike (and the maximum damage increases by 4).",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-elysian-whimsy",
+      "versionId": "pf2e-elysian-whimsy-pf2e-legacy",
+      "locale": "en",
+      "name": "Elysian Whimsy",
+      "description": "You overwhelm the target with an unexpected and unpredictable desire if it fails a Will save. Roll [[/r 1d4]] to determine the spell's effect.\n\n\n\n\n1d4\nEffect\n\n\n\n\n1\nThe target feels a powerful urge to dance. For 1 round, it takes a –5-foot status penalty to its Speeds (-10-foot status penalty on a critical failure), capering and prancing as it moves.\n\n\n2\nThe target is compelled to loudly sing a song. Its first action on its next turn must be to Perform a song it knows, or to babble pleasingly if it knows no songs. On a critical failure, the target must use all its actions on its next turn to Perform a song.\n\n\n3\nThe target is filled with an irresistible urge to support a nearby creature's entertainment career. Its first action on its next turn must be to prepare to Aid a Perform check for the nearest creature it can see and the target can use the next reaction it gains only to Aid the creature it helped. On a critical failure, it must spend all its actions on its next turn preparing to Aid a Perform check.\n\n\n4\nThe target is overcome with a desire to give away its wealth. Its first action on its next turn must be to Interact to pull out a non-magical item of value it is carrying (such as a coin, piece of jewelry, or an item made of precious metal), if it doesn't already have one in hand. It then Releases the valuable item. If the target neither holds nor carries an appropriate item, it instead spends its first action loudly apologizing for having nothing to give. On a critical failure, the target must spend any actions remaining on its turn apologizing for not giving more.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-endure",
+      "versionId": "pf2e-endure-pf2e-remaster",
+      "locale": "en",
+      "name": "Endure",
+      "description": "You invigorate the touched creature's mind and urge it to press on. You grant the touched creature 5 temporary Hit Points that last for 1 minute.\n\nHeightened (+1) The temporary Hit Points increase by 5.\n\nSpell Effect: Endure",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-enfeeble",
+      "versionId": "pf2e-enfeeble-pf2e-remaster",
+      "locale": "en",
+      "name": "Enfeeble",
+      "description": "You sap the target's strength, depending on its Fortitude save.\n\n\n\nCritical Success The target is unaffected.\n\nSuccess The target is Enfeebled 1 until the start of your next turn.\n\nFailure The target is Enfeebled 2 for 1 minute.\n\nCritical Failure The target is Enfeebled 3 for 1 minute.",
       "translationStatus": "verified"
     }
   ],
