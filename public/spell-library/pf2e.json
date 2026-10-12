@@ -252,6 +252,127 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-divine-lance",
+      "system": "pf2e",
+      "slug": "divine-lance",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "sanctified",
+        "spirit"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-draw-moisture",
+      "system": "pf2e",
+      "slug": "draw-moisture",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-eat-fire",
+      "system": "pf2e",
+      "slug": "eat-fire",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-electric-arc",
+      "system": "pf2e",
+      "slug": "electric-arc",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "electricity",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-elemental-counter",
+      "system": "pf2e",
+      "slug": "elemental-counter",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-figment",
+      "system": "pf2e",
+      "slug": "figment",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "subtle"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -409,6 +530,83 @@
       "heightened": {
         "3": "Вы различаете виды обнаруженного металла и можете преодолеть иллюзию, маскирующую один металл под другой, если её круг ниже круга чар."
       }
+    },
+    {
+      "id": "pf2e-divine-lance-pf2e-remaster",
+      "spellId": "pf2e-divine-lance",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-draw-moisture-pf2e-remaster",
+      "spellId": "pf2e-draw-moisture",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "10 футов",
+      "targets": "1 object",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-eat-fire-pf2e-remaster",
+      "spellId": "pf2e-eat-fire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "Реакция"
+      },
+      "duration": "until the end of your next turn",
+      "trigger": "Вы должны получить урон огнём.",
+      "resource": "none",
+      "heightened": {
+        "+3": "Сопротивление огню увеличивается на 5."
+      }
+    },
+    {
+      "id": "pf2e-electric-arc-pf2e-remaster",
+      "spellId": "pf2e-electric-arc",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 или 2 существа",
+      "savingThrow": "простой Рефлекс",
+      "resource": "none",
+      "heightened": {
+        "+1": "Урон каждой цели увеличивается на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-elemental-counter-pf2e-remaster",
+      "spellId": "pf2e-elemental-counter",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "Реакция"
+      },
+      "trigger": "Вы или существо в пределах 60 футов становится целью атаки заклинанием указанной стихии либо совершает спасбросок от него.",
+      "requirements": "У вас имеется подходящая ячейка заклинания противодействующей стихии.",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-figment-pf2e-remaster",
+      "spellId": "pf2e-figment",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "duration": "Поддерживаемое",
+      "resource": "none"
     }
   ],
   "translations": [
@@ -555,6 +753,102 @@
       "description": "Вы чувствуете, присутствует ли металл в пределах 30 футов: предметы, жилы и залежи. Известное вам снаряжение можно игнорировать. Иллюзии могут скрыть металл, если их круг не ниже круга чар; обманный образ предмета из другого материала также может исказить впечатление. На базовом круге определяется лишь наличие металла, а не его разновидность.",
       "translationStatus": "draft",
       "translatorCredit": "Название — PDF pf2.ru; адаптация описания — At your service!"
+    },
+    {
+      "spellId": "pf2e-divine-lance",
+      "versionId": "pf2e-divine-lance-pf2e-remaster",
+      "locale": "en",
+      "name": "Divine Lance",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-divine-lance",
+      "versionId": "pf2e-divine-lance-pf2e-remaster",
+      "locale": "ru",
+      "name": "Божественное копьё",
+      "description": "Вы выпускаете направленный луч божественной силы. Совершите дистанционную атаку заклинанием по КБ одного существа в пределах 60 футов. Попадание наносит 2d4 духовного урона, а критическое попадание — двойной урон. Эффект имеет черты «освящённый» и «духовный».",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-draw-moisture",
+      "versionId": "pf2e-draw-moisture-pf2e-remaster",
+      "locale": "en",
+      "name": "Draw Moisture",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-draw-moisture",
+      "versionId": "pf2e-draw-moisture-pf2e-remaster",
+      "locale": "ru",
+      "name": "Вытянуть влагу",
+      "description": "Вы извлекаете до одной пинты воды из предмета в пределах 10 футов; этого достаточно, чтобы высушить предмет с массой менее 1 единицы. Вода собирается у вас в руке: во время сотворения можно перелить её в сосуд, иначе она падает на землю. Повторное применение помогает сушить более крупные предметы. При достаточной влажности воздух тоже можно использовать для получения небольшого количества питьевой воды.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-eat-fire",
+      "versionId": "pf2e-eat-fire-pf2e-remaster",
+      "locale": "en",
+      "name": "Eat Fire",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-eat-fire",
+      "versionId": "pf2e-eat-fire-pf2e-remaster",
+      "locale": "ru",
+      "name": "Глотать пламя",
+      "description": "Вы поглощаете пламя, уменьшая его вред: до конца текущего хода получаете сопротивление огню 5. До конца следующего хода можете отдельным действием выдохнуть дым, создав 5-футовый взрыв дымовой завесы в пределах 20 футов: существа внутри скрыты друг от друга, пока дым не рассеется (не более 1 минуты). Чары завершаются, если вы теряете сознание, вдыхаете или выдыхаете, в том числе при разговоре.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-electric-arc",
+      "versionId": "pf2e-electric-arc-pf2e-remaster",
+      "locale": "en",
+      "name": "Electric Arc",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-electric-arc",
+      "versionId": "pf2e-electric-arc-pf2e-remaster",
+      "locale": "ru",
+      "name": "Электрическая дуга",
+      "description": "Разряд электричества поражает одно или два существа в пределах 30 футов. Каждая цель получает 2d4 урона электричеством с простым спасброском Рефлекса. В Remaster базовый урон составляет именно 2d4, без прибавления модификатора характеристики заклинателя.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-elemental-counter",
+      "versionId": "pf2e-elemental-counter-pf2e-remaster",
+      "locale": "en",
+      "name": "Elemental Counter",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-elemental-counter",
+      "versionId": "pf2e-elemental-counter-pf2e-remaster",
+      "locale": "ru",
+      "name": "Стихийная нейтрализация",
+      "description": "В качестве реакции вы расходуете подготовленное или доступное заклинание из соответствующей ячейки, чтобы противодействовать эффекту враждебной стихии. Растения и дерево противодействуют земле; земля — воде; вода — огню; огонь — металлу; металл — растениям и дереву. Используйте круг потраченного заклинания как круг для проверки противодействия. Само расходуемое заклинание не сотворяется.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
+    },
+    {
+      "spellId": "pf2e-figment",
+      "versionId": "pf2e-figment-pf2e-remaster",
+      "locale": "en",
+      "name": "Figment",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-figment",
+      "versionId": "pf2e-figment-pf2e-remaster",
+      "locale": "ru",
+      "name": "Вымысел",
+      "description": "Вы создаёте простой иллюзорный звук или изображение на расстоянии до 30 футов. Звук не может воспроизводить разборчивую речь или сложную музыку; изображение занимает не более 5-футового куба и при осмотре ближе чем с 15 футов выглядит грубым. При сотворении или поддержании чар вы можете попытаться отвлечь внимание иллюзией, получая бонус обстоятельства +2 к проверке Обмана. Существо, против которого проверка не удалась, распознаёт вымысел.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название из PDF pf2.ru, изложение адаптировано At your service!"
     }
   ],
   "sources": [
