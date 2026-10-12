@@ -19,10 +19,10 @@ try {
   assert.ok(ready,'Vite preview server did not start');
   browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   const cases=[
-    {system:'prmoon',notes:false,extras:false,expected:4},
+    {system:'prmoon',notes:false,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
-    {system:'prmoon',notes:false,extras:true,expected:6},
+    {system:'prmoon',notes:false,extras:true,expected:7},
   ];
   for(const [index,test] of cases.entries()){
     const page=await browser.newPage({viewport:{width:1440,height:1000},acceptDownloads:true});
