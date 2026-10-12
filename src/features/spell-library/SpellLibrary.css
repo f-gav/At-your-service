@@ -131,3 +131,8 @@
  .spell-viewer {padding:18px 14px;}
  .spell-stat-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
 }
+
+/* Avoid rendering thousands of result rows in a single browser frame. */
+.spell-load-more {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 17px;color:#87958a;font-size:11px;background:#f8faf8;}
+.spell-load-more button {padding:7px 13px;border:1px solid #ccdacd;background:#fff;border-radius:5px;color:#365b3e;font-size:11px;}
+.spell-load-more button:hover {background:#ecf2ed;}
