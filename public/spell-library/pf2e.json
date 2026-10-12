@@ -3739,13 +3739,13 @@
       "edition": "pf2e-legacy",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "area": "cone: 15 feet",
       "savingThrow": "Basic reflex save",
       "heightened": {
-        "source": " (+1) The damage increases by 2d4."
+        "rules": " (+1) The damage increases by 2d4."
       }
     },
     {
@@ -3754,12 +3754,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 1,
-        "text": "1"
+        "time": "1"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 creature",
-      "duration": "1 minute"
+      "duration": "1 minute",
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-camel-spit-pf2e-remaster",
@@ -3767,12 +3767,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "duration": "1 minute",
       "heightened": {
-        "source": " (+1) The damage increases by 1d6, and the persistent damage on a critical hit is increased by 1."
+        "rules": " (+1) The damage increases by 1d6, and the persistent damage on a critical hit is increased by 1."
       }
     },
     {
@@ -3781,7 +3781,7 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "duration": "8 hours"
@@ -3792,13 +3792,13 @@
       "edition": "pf2e-legacy",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "2 creatures that each have an unfriendly or worse attitude toward the other",
       "duration": "1 minute",
-      "savingThrow": "will save"
+      "savingThrow": "will save",
+      "targets": "2 creatures that each have an unfriendly or worse attitude toward the other"
     },
     {
       "id": "pf2e-charm-pf2e-remaster",
@@ -3806,16 +3806,16 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 creature",
       "duration": "1 hour",
       "savingThrow": "will save",
       "heightened": {
-        "source": " (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures."
-      }
+        "rules": " (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures."
+      },
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-chilling-spray-pf2e-remaster",
@@ -3823,13 +3823,13 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "area": "cone: 15 feet",
       "savingThrow": "reflex save",
       "heightened": {
-        "source": " (+1) The damage increases by 2d4."
+        "rules": " (+1) The damage increases by 2d4."
       }
     },
     {
@@ -3838,12 +3838,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "one object (see below)",
-      "duration": "24 hours"
+      "duration": "24 hours",
+      "targets": "one object (see below)"
     },
     {
       "id": "pf2e-cleanse-cuisine-pf2e-remaster",
@@ -3851,11 +3851,11 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "10 feet",
-      "target": "1 cubic foot"
+      "targets": "1 cubic foot"
     },
     {
       "id": "pf2e-command-pf2e-remaster",
@@ -3863,31 +3863,31 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 creature",
       "duration": "until the end of the target's next turn",
       "savingThrow": "will save",
       "heightened": {
-        "source": " (5th) You can target up to 10 creatures."
-      }
+        "rules": " (5th) You can target up to 10 creatures."
+      },
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-concordant-choir-pf2e-remaster",
       "spellId": "pf2e-concordant-choir",
       "edition": "pf2e-remaster",
       "cast": {
-        "text": "1 to 3"
+        "time": "1 to 3"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "varies",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "source": " (+1) The damage increases by 1d4 for the 1-action version, or 2d4 for the other versions."
-      }
+        "rules": " (+1) The damage increases by 1d4 for the 1-action version, or 2d4 for the other versions."
+      },
+      "targets": "varies"
     },
     {
       "id": "pf2e-conductive-weapon-pf2e-remaster",
@@ -3895,12 +3895,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "1 metal weapon that is unattended or is wielded by you or a willing ally",
-      "duration": "1 minute"
+      "duration": "1 minute",
+      "targets": "1 metal weapon that is unattended or is wielded by you or a willing ally"
     },
     {
       "id": "pf2e-connective-current-pf2e-remaster",
@@ -3908,12 +3908,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 enemy",
-      "duration": "1 minute"
+      "duration": "1 minute",
+      "targets": "1 enemy"
     },
     {
       "id": "pf2e-cradle-aloft-pf2e-remaster",
@@ -3921,12 +3921,12 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 1,
-        "text": "1"
+        "time": "1"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "1 held object of 2 Bulk or less",
-      "duration": "1 minute"
+      "duration": "1 minute",
+      "targets": "1 held object of 2 Bulk or less"
     },
     {
       "id": "pf2e-create-water-pf2e-remaster",
@@ -3934,7 +3934,7 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "0 feet"
@@ -3944,13 +3944,13 @@
       "spellId": "pf2e-curse-of-recoil",
       "edition": "pf2e-remaster",
       "cast": {
-        "text": "reaction"
+        "time": "reaction"
       },
       "resource": "spell-slot",
       "range": "120 feet",
-      "target": "1 creature",
       "duration": "1 round",
-      "savingThrow": "will save"
+      "savingThrow": "will save",
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-curse-of-slippery-steps-pf2e-remaster",
@@ -3958,13 +3958,13 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 creature",
       "duration": "varies",
-      "savingThrow": "reflex save"
+      "savingThrow": "reflex save",
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-cycle-of-retribution-pf2e-remaster",
@@ -3972,16 +3972,16 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "1 creature",
       "duration": "1 minute",
       "savingThrow": "will save",
       "heightened": {
-        "source": " (+1) The mental damage increases by 1d4."
-      }
+        "rules": " (+1) The mental damage increases by 1d4."
+      },
+      "targets": "1 creature"
     },
     {
       "id": "pf2e-decompose-pf2e-remaster",
@@ -3989,11 +3989,11 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "1 Large or smaller corpse"
+      "targets": "1 Large or smaller corpse"
     },
     {
       "id": "pf2e-defended-by-spirits-pf2e-remaster",
@@ -4001,15 +4001,15 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 ally and 1 enemy",
       "duration": "1 minute",
       "heightened": {
-        "source": " (+2) The damage increases by 1d6."
-      }
+        "rules": " (+2) The damage increases by 1d6."
+      },
+      "targets": "1 ally and 1 enemy"
     },
     {
       "id": "pf2e-dehydrate-pf2e-remaster",
@@ -4017,7 +4017,7 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
@@ -4025,7 +4025,7 @@
       "duration": "1 minute",
       "savingThrow": "fortitude save",
       "heightened": {
-        "source": " (+2) The range increases by 10 feet, the burst increases by 5 feet, and the persistent fire damage increases by 3d6."
+        "rules": " (+2) The range increases by 10 feet, the burst increases by 5 feet, and the persistent fire damage increases by 3d6."
       }
     },
     {
@@ -4034,42 +4034,42 @@
       "edition": "pf2e-remaster",
       "cast": {
         "actions": 2,
-        "text": "2"
+        "time": "2"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 object or creature"
+      "targets": "1 object or creature"
     },
     {
       "id": "pf2e-devils-horseshoe-pf2e-remaster",
       "spellId": "pf2e-devils-horseshoe",
       "edition": "pf2e-remaster",
       "cast": {
-        "text": "10 minutes"
+        "time": "10 minutes"
       },
       "resource": "spell-slot",
       "range": "touch",
-      "target": "one door or similar opening",
       "duration": "8 hours",
       "savingThrow": "will save",
       "heightened": {
-        "source": " (+1) The damage increases by 2d6."
-      }
+        "rules": " (+1) The damage increases by 2d6."
+      },
+      "targets": "one door or similar opening"
     },
     {
       "id": "pf2e-disguise-magic-pf2e-remaster",
       "spellId": "pf2e-disguise-magic",
       "edition": "pf2e-remaster",
       "cast": {
-        "text": "1 minute"
+        "time": "1 minute"
       },
       "resource": "spell-slot",
       "range": "30 feet",
-      "target": "1 item or spell effect",
       "duration": "until your next daily preparations",
       "heightened": {
-        "source": " (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it."
-      }
+        "rules": " (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it."
+      },
+      "targets": "1 item or spell effect"
     }
   ],
   "translations": [
@@ -5382,10 +5382,10 @@
       "spellId": "pf2e-charm",
       "versionId": "pf2e-charm-pf2e-remaster",
       "locale": "ru",
-      "name": "Очаровать",
+      "name": "Очарование",
       "description": "Цель совершает спасбросок Воли; если вы или союзники недавно угрожали ей, она получает бонус обстоятельства +4. При провале отношение к вам становится дружелюбным (или услужливым, если уже было дружелюбным), а при критическом провале — услужливым. Успех оставляет существо без эффекта, критический успех также позволяет распознать попытку очарования. Враждебные действия против цели прекращают заклинание. На 4-м круге действие длится до следующей ежедневной подготовки, на 8-м можно выбрать до десяти целей.",
       "translationStatus": "draft",
-      "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельная адаптация Foundry PF2e v14-dev."
+      "translatorCredit": "Предварительный русский вариант; требует сверки русскоязычного источника. Описание — самостоятельная адаптация Foundry PF2e."
     },
     {
       "spellId": "pf2e-chilling-spray",
