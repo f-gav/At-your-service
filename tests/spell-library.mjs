@@ -51,6 +51,15 @@ assert.ok(electric?.description.includes('2d4'),'Remaster electric arc has 2d4 b
 assert.ok(!electric?.description.includes('1d4 +'),'Legacy mechanics must not leak into Remaster');
 assert.equal(liveViews.find(v=>v.spell.slug==='elemental-counter')?.rules.resource,'spell-slot');
 assert.equal(englishOnly.length,19,'Cumulative English-only ledger across waves 001 and 002');
+const tracker=source('../docs/SPELL-ENGLISH-TRACKER-RU.md');
+const trackedNames=[...tracker.matchAll(/^\\d+\\. \\*\\*([^*]+)\\*\\*/gm)].map(m=>m[1]).sort();
+const actualEnglishNames=liveViews.filter(v=>v.locale==='en').map(v=>v.englishName).sort();
+assert.deepEqual(trackedNames,actualEnglishNames,
+  'Cumulative English-only tracker must exactly match untranslated site cards');
+const manifest=source('../docs/SPELL-WAVE-002-RU.md');
+assert.ok(manifest.includes('14 с подтверждённым русским названием'));
+assert.ok(manifest.includes('10 с английскими названиями'));
+
 assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=24).length,10,
  'Wave 002 adds ten English-only cantrips');
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=24).length,14);
