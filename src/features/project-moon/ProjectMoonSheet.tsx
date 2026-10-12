@@ -8,7 +8,7 @@ import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
 import {
   MOON_PAGES, MOON_ATTRIBUTES, readMoonSheet, saveMoonSheet,
-  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill, addMoonWeapon, moonWeaponLetter,
+  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill, addMoonWeapon, removeMoonWeapon, moonWeaponLetter,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
@@ -68,6 +68,16 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     const length = sheet.weapons.length;
     setSheet(old => addMoonWeapon(old, 'weapon-' + crypto.randomUUID()));
     setWeaponOffset(Math.max(0, length + 1 - visibleWeapons));
+  };
+  const deleteWeapon = (id: string) => {
+    if (saving || sheet.weapons.length <= 2) return;
+    const index = sheet.weapons.findIndex(weapon => weapon.id === id);
+    if (index < 0) return;
+    const weapon = sheet.weapons[index];
+    const label = weapon.name.trim() || 'ОРУЖИЕ ' + moonWeaponLetter(index);
+    if (!window.confirm('Удалить «' + label + '»? Данные этого оружия будут потеряны.')) return;
+    setSheet(old => removeMoonWeapon(old, id));
+    setWeaponOffset(old => Math.min(old, Math.max(0, sheet.weapons.length - 1 - visibleWeapons)));
   };
   const [pageSettingsOpen, setPageSettingsOpen] = useState(false);
   const [navigationHelp, setNavigationHelp] = useState<boolean>(() => {
@@ -371,6 +381,13 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               <button type="button" className="moon-add-weapon-mobile" aria-label="Добавить оружие"
                 title="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
                 onClick={addWeapon}><Plus size={16}/></button>
+              <button type="button" className="moon-delete-weapon-mobile"
+                aria-label={'Удалить оружие ' + moonWeaponLetter(Math.min(weaponOffset + visibleWeapons - 1, sheet.weapons.length - 1))}
+                title={sheet.weapons.length <= 2 ? 'Должно остаться хотя бы два оружия' : 'Удалить выбранное оружие'}
+                disabled={saving || sheet.weapons.length <= 2}
+                onClick={() => deleteWeapon(sheet.weapons[Math.min(weaponOffset + visibleWeapons - 1, sheet.weapons.length - 1)].id)}>
+                <X size={16}/>
+              </button>
             </div>
           </div>
           <div className="moon-weapon-carousel" ref={weaponViewportRef} aria-label="Карточки оружия">
@@ -388,10 +405,16 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                       value={weapon.rank ?? ''} onChange={e => updateWeaponById(weapon.id,{rank:e.target.value})} /></label>
                     <label>EP <input aria-label={'EP оружия ' + (index + 1)} disabled={saving}
                       value={weapon.ep ?? ''} onChange={e => updateWeaponById(weapon.id,{ep:e.target.value})} /></label>
-                    {index === weaponOffset + visibleWeapons - 1 &&
+                    {index === weaponOffset + visibleWeapons - 1 && <>
                       <button type="button" className="moon-add-weapon" title="Добавить оружие"
                         aria-label="Добавить оружие" disabled={saving || sheet.weapons.length >= 100}
-                        onClick={addWeapon}><Plus size={15}/></button>}
+                        onClick={addWeapon}><Plus size={15}/></button>
+                      <button type="button" className="moon-delete-weapon"
+                        title={sheet.weapons.length <= 2 ? 'Должно остаться хотя бы два оружия' : 'Удалить это оружие'}
+                        aria-label={'Удалить оружие ' + moonWeaponLetter(index)}
+                        disabled={saving || sheet.weapons.length <= 2}
+                        onClick={() => deleteWeapon(weapon.id)}><X size={15}/></button>
+                    </>}
                   </span>
                 </div>
                 <div className="moon-choice-row"><span>Тип:</span>

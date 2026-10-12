@@ -353,3 +353,23 @@
   .moon-weapon-track {flex-wrap:wrap;}
   .moon-weapon-track > .moon-weapon-card {flex-basis:calc((100% - 12px) / 2);}
 }
+
+/* Destructive control appears immediately after '+' on the rightmost visible weapon. */
+.moon-weapon-heading .moon-delete-weapon {
+  width:23px;height:23px;display:inline-flex;align-items:center;
+  justify-content:center;border:1px solid #aeb6bb;border-radius:4px;
+  color:#333b3f;background:#fff;margin-left:0;padding:2px;cursor:pointer;
+}
+.moon-weapon-heading .moon-delete-weapon:hover:enabled,
+.moon-weapon-pagination .moon-delete-weapon-mobile:hover:enabled {
+  background:#f8eaea;border-color:#b65c5c;color:#9b3434;
+}
+.moon-weapon-heading .moon-delete-weapon:disabled {opacity:.3;cursor:default;}
+.moon-weapon-pagination .moon-delete-weapon-mobile {display:none;}
+@media(max-width:660px) {
+  .moon-weapon-heading .moon-delete-weapon {display:none;}
+  .moon-weapon-pagination .moon-delete-weapon-mobile {display:inline-flex;}
+}
+@media print {
+  .moon-weapon-heading .moon-delete-weapon {display:none!important;}
+}

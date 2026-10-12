@@ -141,6 +141,12 @@ export function addMoonWeapon(sheet: MoonSheetData, id: string): MoonSheetData {
   return { ...sheet, weapons: [...sheet.weapons, newMoonWeapon(id)] };
 }
 
+/** Remove a chosen weapon but retain the two initial slots at minimum. */
+export function removeMoonWeapon(sheet: MoonSheetData, id: string): MoonSheetData {
+  if (sheet.weapons.length <= 2 || !sheet.weapons.some(weapon => weapon.id === id)) return sheet;
+  return { ...sheet, weapons: sheet.weapons.filter(weapon => weapon.id !== id) };
+}
+
 /** Labels are A–Z then AA, AB…; stored weapon IDs remain independent of labels. */
 export function moonWeaponLetter(index: number): string {
   let value = index + 1;

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  emptyMoonSheet, readMoonSheet, saveMoonSheet, addMoonWeapon,
+  emptyMoonSheet, readMoonSheet, saveMoonSheet, addMoonWeapon, removeMoonWeapon,
   moonWeaponLetter,
 } from '../src/features/project-moon/model.ts';
 
@@ -38,6 +38,16 @@ assert.equal(reloaded.weapons[2].name,'Третье оружие');
 assert.equal(reloaded.weapons[2].damage,'Slash');
 assert.equal(reloaded.weapons[3].name,'Четвёртое оружие');
 assert.equal(reloaded.smoothWeaponSwitch,false);
+const deleted = removeMoonWeapon(reloaded, 'weapon-D');
+assert.equal(deleted.weapons.length,3);
+assert.equal(deleted.weapons[2].name,'Третье оружие');
+const next = removeMoonWeapon(deleted,'weapon-C');
+assert.equal(next.weapons.length,2);
+assert.equal(next.weapons[0].name,'Старая катана');
+assert.equal(next.weapons[1].name,'Револьвер');
+assert.strictEqual(removeMoonWeapon(next,'weapon-A'),next); // cannot drop below two slots
+assert.strictEqual(removeMoonWeapon(reloaded,'nonexistent'),reloaded);
+assert.equal(readMoonSheet(saveMoonSheet({},deleted)).weapons.length,3);
 assert.equal(saved.pathfinderSheet.unchanged,true);
 
 const sheet = read('../src/features/project-moon/ProjectMoonSheet.tsx');
@@ -51,6 +61,11 @@ assert.ok(sheet.includes('aria-label="Предыдущее оружие"'));
 assert.ok(sheet.includes('aria-label="Следующее оружие"'));
 assert.ok(sheet.includes('className="moon-weapon-title"'));
 assert.ok(sheet.includes('className="moon-weapon-carousel"'));
+assert.ok(sheet.includes('className="moon-delete-weapon"'));
+assert.ok(sheet.includes('className="moon-delete-weapon-mobile"'));
+assert.ok(sheet.includes('aria-label={\'Удалить оружие \' + moonWeaponLetter(index)}'));
+assert.ok(sheet.includes('window.confirm('));
+assert.ok(sheet.includes('removeMoonWeapon(old, id)'));
 assert.ok(sheet.includes("weaponViewportRef.current"));
 assert.ok(sheet.includes("behavior: sheet.smoothWeaponSwitch && !reducedMotion ? 'smooth' : 'instant'"));
 assert.ok(sheet.includes("inert={index < weaponOffset"));
@@ -61,6 +76,8 @@ assert.ok(css.includes('.moon-weapon-track > .moon-weapon-card'));
 assert.ok(css.includes('flex:0 0 calc((100% - 12px) / 2)'));
 assert.ok(css.includes('scroll-snap-type:x mandatory'));
 assert.ok(css.includes('.moon-weapon-pagination'));
+assert.ok(css.includes('.moon-weapon-heading .moon-delete-weapon'));
+assert.ok(css.includes('.moon-delete-weapon-mobile'));
 assert.ok(css.includes('prefers-reduced-motion') || sheet.includes('prefers-reduced-motion'));
 assert.ok(globalCSS.includes(".character-prmoon .character-system { color: #29445f; }"));
 const prMoonFont = globalCSS.match(/\.character-prmoon \.character-system \{\s*font-family: ([^;]+);/);
