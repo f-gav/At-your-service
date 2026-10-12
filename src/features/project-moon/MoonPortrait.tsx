@@ -2,7 +2,7 @@ import PortraitImage from '../portrait/PortraitImage';
 import type { CropFrame } from '../portrait/crop';
 import './MoonPortrait.css';
 
-export const MOON_PORTRAIT_FRAME = `${import.meta.env.BASE_URL}project-moon/portrait-frame.png`;
+export const MOON_PORTRAIT_FRAME = `${import.meta.env.BASE_URL}project-moon/portrait-frame.png?v=2`;
 export const MOON_PORTRAIT_MASK = `${import.meta.env.BASE_URL}project-moon/portrait-placeholder.png`;
 
 type Props = {

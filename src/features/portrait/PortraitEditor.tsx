@@ -50,7 +50,7 @@ function CropPanel({title,image,imageSize,output,crop,onChange,framePreview=fals
         <div className="portrait-crop-outline" aria-hidden="true" />
       </div>
       {framePreview && <img className="portrait-crop-frame-art"
-        src={`${import.meta.env.BASE_URL}project-moon/portrait-frame.png`}
+        src={`${import.meta.env.BASE_URL}project-moon/portrait-frame.png?v=2`}
         alt="" draggable={false}/>}
     </div>
     <label className="portrait-crop-zoom">Масштаб
