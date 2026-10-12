@@ -26,7 +26,6 @@ const COMMON_CATEGORIES:Category[]=[
   {id:'mine',label:'Мои заклинания',description:'В будущем'},
 ];
 const DND_CATEGORIES=COMMON_CATEGORIES.filter(x=>x.id!=='focus'&&x.id!=='special');
-const optionLabel=(x:string)=>x==='all'?'Все':x;
 function rankLabel(system:SpellSystem,rank:number){
   if(rank===0)return 'Чары';
   return system==='pf2e'?`${rank}-й круг`:`${rank}-й уровень`;
@@ -119,9 +118,16 @@ export default function SpellLibrary({onBack}:Props){
 
   const views=useMemo(()=>toSpellViews(catalog,edition),[catalog,edition]);
   const categories=system==='pf2e'?COMMON_CATEGORIES:DND_CATEGORIES;
-  const sectionFilters:SpellFilters={...filters,kind:section==='all'||section==='mine'?'all':section};
-  const visible=useMemo(()=>section==='mine'?[]:filterSpellViews(views,sectionFilters),
-    [views,section,filters]);
+  const sectionFilters:SpellFilters={...filters,kind:section==='all'||section==='mine'||(system==='dnd5e'&&section==='ritual')?'all':section};
+  const visible=useMemo(()=>{
+    if(section==='mine')return [];
+    const matches=filterSpellViews(views,sectionFilters);
+    // In D&D, Ritual is a casting option on an ordinary spell, not a
+    // separate spell kind as in Pathfinder.
+    return system==='dnd5e'&&section==='ritual'
+      ?matches.filter(entry=>entry.rules.ritual===true||entry.spell.kind==='ritual')
+      :matches;
+  },[views,system,section,filters]);
   const selected=visible.find(item=>item.id===selectedId);
   const classOptions=useMemo(()=>[...new Set(catalog.spells.flatMap(s=>s.classes))].sort(),[catalog]);
   const sourceOptions=useMemo(()=>catalog.sources.map(s=>s.name).sort(),[catalog]);
@@ -131,7 +137,7 @@ export default function SpellLibrary({onBack}:Props){
 
   function changeSystem(next:SpellSystem){
     if(next===system)return;
-    setSystem(next);setEdition(SPELL_SYSTEMS[next].editions[0]);
+    setSystem(next);setCatalog(emptySpellCatalog(next));setEdition(SPELL_SYSTEMS[next].editions[0]);
     setSection('all');setFilters(DEFAULT_SPELL_FILTERS);setSourceFilter('all');setSelectedId(null);
   }
   const update=<K extends keyof SpellFilters>(key:K,value:SpellFilters[K])=>{
