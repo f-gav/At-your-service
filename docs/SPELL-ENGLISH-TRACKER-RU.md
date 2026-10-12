@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 48 заклинаний 1-го круга (119 записей). **На русском:** 62, **только на английском:** 57.
+**Импортировано:** 71 чары и 48 заклинаний 1-го круга (119 записей). **На русском:** 65, **только на английском:** 54.
 
 ## Волна 001 — 9 английских
 
@@ -59,7 +59,7 @@
 - Английские карточки имеют полноценные оригинальные имена, игровые описания и атрибуцию книг — это не пустые заглушки.
 
 
-## Заклинания 1-го круга — волна 002 (23 английских)
+## Заклинания 1-го круга — волна 002 (20 английских)
 
 1. **Buffeting Winds** — `buffeting-winds` · Legacy · Pathfinder Lost Omens Knights of Lastwall
 2. **Buoyant Bubbles** — `buoyant-bubbles` · Remaster · Pathfinder Rage of Elements
@@ -69,20 +69,17 @@
 6. **Chilling Spray** — `chilling-spray` · Remaster · Pathfinder Player Core 2
 7. **Cinder Scribe** — `cinder-scribe` · Remaster · Pathfinder Impossible Magic
 8. **Cleanse Cuisine** — `cleanse-cuisine` · Remaster · Pathfinder Player Core
-9. **Command** — `command` · Remaster · Pathfinder Player Core
-10. **Concordant Choir** — `concordant-choir` · Remaster · Pathfinder Player Core 2
-11. **Conductive Weapon** — `conductive-weapon` · Remaster · Pathfinder Rage of Elements
-12. **Connective Current** — `connective-current` · Remaster · Pathfinder Lost Omens High Seas
-13. **Cradle Aloft** — `cradle-aloft` · Remaster · Pathfinder Impossible Magic
-14. **Create Water** — `create-water` · Remaster · Pathfinder Player Core
-15. **Curse of Recoil** — `curse-of-recoil` · Remaster · Pathfinder Battlecry!
-16. **Curse of Slippery Steps** — `curse-of-slippery-steps` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-17. **Cycle of Retribution** — `cycle-of-retribution` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
-18. **Decompose** — `decompose` · Remaster · Pathfinder Impossible Magic
-19. **Defended by Spirits** — `defended-by-spirits` · Remaster · Pathfinder Lost Omens Shining Kingdoms
-20. **Dehydrate** — `dehydrate` · Remaster · Pathfinder Rage of Elements
-21. **Detect Poison** — `detect-poison` · Remaster · Pathfinder Player Core
-22. **Devil's Horseshoe** — `devils-horseshoe` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-23. **Disguise Magic** — `disguise-magic` · Remaster · Pathfinder Player Core
+9. **Concordant Choir** — `concordant-choir` · Remaster · Pathfinder Player Core 2
+10. **Conductive Weapon** — `conductive-weapon` · Remaster · Pathfinder Rage of Elements
+11. **Connective Current** — `connective-current` · Remaster · Pathfinder Lost Omens High Seas
+12. **Cradle Aloft** — `cradle-aloft` · Remaster · Pathfinder Impossible Magic
+13. **Curse of Recoil** — `curse-of-recoil` · Remaster · Pathfinder Battlecry!
+14. **Curse of Slippery Steps** — `curse-of-slippery-steps` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+15. **Cycle of Retribution** — `cycle-of-retribution` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
+16. **Decompose** — `decompose` · Remaster · Pathfinder Impossible Magic
+17. **Defended by Spirits** — `defended-by-spirits` · Remaster · Pathfinder Lost Omens Shining Kingdoms
+18. **Dehydrate** — `dehydrate` · Remaster · Pathfinder Rage of Elements
+19. **Devil's Horseshoe** — `devils-horseshoe` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+20. **Disguise Magic** — `disguise-magic` · Remaster · Pathfinder Player Core
 
-**Предварительная русская карточка:** Charm — «Очарование». Её перевод помечен как черновик до сверки.
+**Русские названия, подтверждённые справочником:** Charm — «Очаровать», Command — «Приказ», Create Water — «Создание воды», Detect Poison — «Обнаружение яда». Описания адаптированы самостоятельно.
