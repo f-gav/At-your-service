@@ -4,7 +4,44 @@ import {fileURLToPath} from 'node:url';
 import {resolve,dirname} from 'node:path';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const source=PNG.sync.read(readFileSync(resolve(root,'public/site-icon.png')));
+// The original temporary site icon has an indexed palette with a tRNS
+// chunk longer than its PLTE. Browsers may tolerate that non-standard input,
+// but strict decoders (pngjs) reject it. Normalize the tRNS length and CRC
+// in memory before rendering PWA icons; preserve the checked-in site icon.
+function crc32(buffer) {
+  let crc=0xffffffff;
+  for(const byte of buffer) {
+    crc^=byte;
+    for(let bit=0;bit<8;bit++)crc=(crc>>>1) ^ ((crc&1)?0xedb88320:0);
+  }
+  return (crc^0xffffffff)>>>0;
+}
+function normalizeIndexedTransparency(buffer) {
+  const signature=buffer.subarray(0,8);
+  if(!signature.equals(Buffer.from([137,80,78,71,13,10,26,10])))throw Error('Expected a PNG site icon');
+  const chunks=[signature];
+  let offset=8;
+  let paletteEntries=0;
+  while(offset+12<=buffer.length) {
+    const length=buffer.readUInt32BE(offset);
+    if(offset+12+length>buffer.length)throw Error('Truncated PNG chunk');
+    const type=buffer.subarray(offset+4,offset+8).toString('ascii');
+    let data=buffer.subarray(offset+8,offset+8+length);
+    if(type==='PLTE')paletteEntries=data.length/3;
+    if(type==='tRNS' && paletteEntries && data.length>paletteEntries)
+      data=data.subarray(0,paletteEntries);
+    const header=Buffer.allocUnsafe(8);
+    header.writeUInt32BE(data.length,0);
+    header.write(type,4,4,'ascii');
+    const checksum=Buffer.allocUnsafe(4);
+    checksum.writeUInt32BE(crc32(Buffer.concat([header.subarray(4),data])),0);
+    chunks.push(header,data,checksum);
+    offset+=length+12;
+    if(type==='IEND')break;
+  }
+  return Buffer.concat(chunks);
+}
+const source=PNG.sync.read(normalizeIndexedTransparency(readFileSync(resolve(root,'public/site-icon.png'))));
 function resize(width,maskable=false) {
   const image=new PNG({width,height:width});
   const scale=maskable?0.76:1;
