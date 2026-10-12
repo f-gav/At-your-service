@@ -46,6 +46,7 @@ import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
 import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl, downloadPortraitBlob } from './features/portrait/portrait-storage';
 import SheetAdmin from './features/sheet-admin/SheetAdmin';
+import SpellLibrary from './features/spell-library/SpellLibrary';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
 type Filter = GameSystem | 'all';
@@ -218,6 +219,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
+  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>window.location.hash==='#library'?'library':'characters');
   const [authReady, setAuthReady] = useState(!isConfigured);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loadingCharacters, setLoadingCharacters] = useState(false);
@@ -238,6 +240,19 @@ export default function App() {
   const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
   const [portraitUrls,setPortraitUrls] = useState<Record<string,string>>({});
   const {canInstall,install}=usePwaInstall();
+  useEffect(()=>{
+    const sync=()=>{if(!activeId&&!showTemplateAdmin)setMainTab(window.location.hash==='#library'?'library':'characters');};
+    window.addEventListener('hashchange',sync);
+    return()=>window.removeEventListener('hashchange',sync);
+  },[activeId,showTemplateAdmin]);
+  function navigateTo(tab:'characters'|'library'){
+    if(activeId||showTemplateAdmin)return; // Never unmount an unsaved sheet.
+    setMainTab(tab);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
+    closeCreate();
+    const hash=tab==='library'?'#library':'';
+    window.history.replaceState(null,'',window.location.pathname+window.location.search+hash);
+    window.scrollTo({top:0,behavior:'instant'});
+  }
 
   const user = session?.user;
   useEffect(()=>{
@@ -584,9 +599,15 @@ export default function App() {
     <div className="site-shell">
       <header className="site-header">
         <div className="header-inner">
-          <button type="button" className="brand-button" onClick={() => { if (!activeId) { closeCreate(); setFilter('all'); } }} aria-label="На главную">
+          <button type="button" className="brand-button" onClick={() => { if (!activeId&&!showTemplateAdmin) { navigateTo('characters'); setFilter('all'); } }} aria-label="На главную">
             <SiteLogo />
           </button>
+          <nav className="site-nav" aria-label="Основные разделы">
+            <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
+              disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы сменить раздел':undefined} onClick={()=>navigateTo('characters')}>Персонажи</button>
+            <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
+              disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы открыть библиотеку':undefined} onClick={()=>navigateTo('library')}>Библиотека</button>
+          </nav>
           <div className="header-links">
             {canInstall && <button type="button" className="header-project-link pwa-install-link"
               onClick={()=>void install()} title="Установить сайт как приложение">
@@ -616,6 +637,12 @@ export default function App() {
           <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer">WreckTrack ↗</a>
           {isTemplateAdmin&&user&&<button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
         </div>}
+        <nav className="site-tabs-mobile" aria-label="Основные разделы">
+          <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
+            disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
+          <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
+            disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('library')}>Библиотека</button>
+        </nav>
       </header>
 
       {showTemplateAdmin && user && isTemplateAdmin ? (
@@ -636,6 +663,8 @@ export default function App() {
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
         )
+      ) : mainTab==='library' ? (
+        <SpellLibrary onBack={()=>navigateTo('characters')} />
       ) : (
         <main className="page page-home">
           <section className="hero" aria-labelledby="main-title">

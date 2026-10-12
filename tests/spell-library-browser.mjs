@@ -1,0 +1,88 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {chromium} from 'playwright';
+const port='4183';
+const origin='http://127.0.0.1:'+port;
+const base=origin+'/At-your-service/';
+const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1',
+  '--port',port,'--strictPort'],{stdio:'ignore',env:{...process.env,VITE_BASE_PATH:'/At-your-service/'}});
+let browser;
+try{
+  let ready=false;
+  for(let i=0;i<60;i++){
+    try{if((await fetch(base)).ok){ready=true;break;}}catch{/* waiting */}
+    await new Promise(resolve=>setTimeout(resolve,250));
+  }
+  assert.ok(ready,'Vite test server did not start');
+  browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  const page=await browser.newPage({viewport:{width:1360,height:860}});
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto(base,{waitUntil:'networkidle'});
+  assert.ok(await page.getByRole('heading',{name:/Мои персонажи/}).isVisible(),'Character home unchanged');
+  await page.locator('.site-nav').getByRole('button',{name:'Библиотека'}).click();
+  assert.equal(new URL(page.url()).hash,'#library');
+  await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
+  await page.getByRole('heading',{name:'Каталог пока пуст'}).waitFor();
+  assert.equal(await page.locator('.spell-total').textContent(),'0 записей');
+  await page.getByRole('button',{name:'Чары',exact:true}).click();
+  assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('неизвестное');
+  await page.getByRole('button',{name:/Сбросить фильтры/}).click();
+  assert.equal(await page.getByRole('searchbox',{name:'Поиск заклинаний'}).inputValue(),'');
+  await page.getByRole('button',{name:/D&D 5e/}).click();
+  assert.equal(await page.locator('.spell-filter-grid select').first().inputValue(),'dnd-2024');
+  assert.equal(await page.getByRole('button',{name:'Фокусные'}).count(),0);
+  await page.getByRole('button',{name:/Pathfinder 2e/}).click();
+  assert.equal(await page.getByRole('button',{name:'Фокусные'}).count(),1);
+  await page.reload({waitUntil:'networkidle'});
+  await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
+  await page.locator('.site-nav').getByRole('button',{name:'Персонажи'}).click();
+  assert.ok(await page.getByRole('heading',{name:/Мои персонажи/}).isVisible());
+  await page.close();
+  // Browser-only synthetic fixture validates how the platform will behave
+  // after import. Production JSON manifests remain strictly empty.
+  const preview=await browser.newPage({viewport:{width:1360,height:860}});
+  const fixture={
+    schemaVersion:1,system:'pf2e',
+    sources:[{id:'test-source',name:'Тестовый справочник'}],
+    spells:Array.from({length:55},(_,i)=>({
+      id:'fixture-'+i,system:'pf2e',slug:'fixture-'+i,kind:'spell',rank:1,
+      traditions:['arcane'],classes:[],traits:['mental'],rarity:'common',sourceId:'test-source',
+    })),
+    versions:Array.from({length:55},(_,i)=>({id:'fixture-version-'+i,spellId:'fixture-'+i,edition:'pf2e-remaster',cast:{actions:2}})),
+    translations:Array.from({length:55},(_,i)=>({
+      spellId:'fixture-'+i,versionId:'fixture-version-'+i,locale:'ru',
+      name:'Проверочное заклинание '+String(i+1).padStart(3,'0'),
+      summary:'Проверка отображения карточки',description:'Текст синтетического образца.',
+    })),
+  };
+  await preview.route('**/spell-library/pf2e.json',route=>route.fulfill({
+    status:200,contentType:'application/json',body:JSON.stringify(fixture)
+  }));
+  await preview.goto(base+'#library',{waitUntil:'networkidle'});
+  await preview.getByText('55 записей',{exact:true}).waitFor();
+  assert.equal(await preview.locator('.spell-result').count(),50,'Catalog results are paginated');
+  await preview.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await preview.locator('.spell-result').count(),55);
+  await preview.locator('.spell-result').first().click();
+  assert.ok(await preview.getByText('Текст синтетического образца.').isVisible());
+  await preview.getByRole('button',{name:'Закрыть описание'}).click();
+  assert.equal(await preview.locator('.spell-result').count(),55);
+  await preview.close();
+  const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  mobile.on('pageerror',error=>errors.push(error.message));
+  await mobile.goto(base+'#library',{waitUntil:'networkidle'});
+  await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
+  assert.ok(await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Библиотека'}).isVisible());
+  await mobile.getByRole('button',{name:/Фильтры/}).click();
+  assert.ok(await mobile.locator('.spell-filter-panel').isVisible());
+  await mobile.locator('.site-tabs-mobile').getByRole('button',{name:'Персонажи'}).click();
+  assert.ok(await mobile.getByRole('heading',{name:/Мои персонажи/}).isVisible());
+  assert.deepEqual(errors,[],'No browser JavaScript exceptions');
+  console.log('PASS: desktop/mobile primary tabs, deep-link, independent empty catalogs, filters and responsive UI');
+  await mobile.close();
+}finally{
+  if(browser)await browser.close();
+  server.kill('SIGTERM');
+}
