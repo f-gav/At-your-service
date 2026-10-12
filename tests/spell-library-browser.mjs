@@ -88,6 +88,16 @@ try{
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
   assert.equal(await page.locator('.spell-total').textContent(),'119 записей');
+  // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
+  await page.locator('.spell-result').first().click();
+  const aura=page.getByRole('dialog',{name:'Чтение ауры [Read Aura]'});
+  await aura.waitFor();
+  await aura.getByText('1 минута',{exact:true}).waitFor();
+  await aura.getByText('1 предмет',{exact:true}).waitFor();
+  assert.equal(await aura.getByText('1 minute',{exact:true}).count(),0);
+  assert.equal(await aura.getByText('1 object',{exact:true}).count(),0);
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
   assert.equal(await page.locator('.spell-result').count(),1);
   const tile=page.locator('.spell-result').first();
