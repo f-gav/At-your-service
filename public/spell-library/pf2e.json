@@ -2147,6 +2147,118 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-connective-current",
+      "system": "pf2e",
+      "slug": "connective-current",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-high-seas"
+    },
+    {
+      "id": "pf2e-cradle-aloft",
+      "system": "pf2e",
+      "slug": "cradle-aloft",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-create-water",
+      "system": "pf2e",
+      "slug": "create-water",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-curse-of-recoil",
+      "system": "pf2e",
+      "slug": "curse-of-recoil",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "curse"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-battlecry"
+    },
+    {
+      "id": "pf2e-curse-of-slippery-steps",
+      "system": "pf2e",
+      "slug": "curse-of-slippery-steps",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult",
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "curse",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-cheliax-infernal-inheritance"
+    },
+    {
+      "id": "pf2e-cycle-of-retribution",
+      "system": "pf2e",
+      "slug": "cycle-of-retribution",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-season-of-ghosts-hardcover-compilation"
     }
   ],
   "versions": [
@@ -3674,6 +3786,87 @@
       "range": "touch",
       "target": "1 metal weapon that is unattended or is wielded by you or a willing ally",
       "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-connective-current-pf2e-remaster",
+      "spellId": "pf2e-connective-current",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 enemy",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-cradle-aloft-pf2e-remaster",
+      "spellId": "pf2e-cradle-aloft",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1,
+        "text": "1"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "1 held object of 2 Bulk or less",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-create-water-pf2e-remaster",
+      "spellId": "pf2e-create-water",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "0 feet"
+    },
+    {
+      "id": "pf2e-curse-of-recoil-pf2e-remaster",
+      "spellId": "pf2e-curse-of-recoil",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "text": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "120 feet",
+      "target": "1 creature",
+      "duration": "1 round",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-curse-of-slippery-steps-pf2e-remaster",
+      "spellId": "pf2e-curse-of-slippery-steps",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "target": "1 creature",
+      "duration": "varies",
+      "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-cycle-of-retribution-pf2e-remaster",
+      "spellId": "pf2e-cycle-of-retribution",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2,
+        "text": "2"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "target": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "will save",
+      "heightened": {
+        "source": " (+1) The mental damage increases by 1d4."
+      }
     }
   ],
   "translations": [
@@ -5038,6 +5231,54 @@
       "name": "Conductive Weapon",
       "description": "You channel powerful electric current through the metal of a weapon, zapping anyone the item hits. The target becomes a +1 shock weapon. If any target of an attack with the weapon is wearing metal armor or is primarily made of metal, the electricity damage die from the shock rune is 1d12.\n\ncondition",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-connective-current",
+      "versionId": "pf2e-connective-current-pf2e-remaster",
+      "locale": "en",
+      "name": "Connective Current",
+      "description": "You create a magical connection between you and an enemy, as if you were both caught in the same current. When the target takes a move action, you can Stride up to half your Speed in the same direction as the target as a reaction.\n\n\nHeightened (4th) You can Stride up to your Speed.\n\nHeightened (6th) As 4th, and you gain an additional reaction when you Cast this Spell and at the start of each of your turns that you can use only to make this movement.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-cradle-aloft",
+      "versionId": "pf2e-cradle-aloft-pf2e-remaster",
+      "locale": "en",
+      "name": "Cradle Aloft",
+      "description": "You temporarily release gravity's hold on an object, allowing you to let go of it without dropping it to the floor. The object floats next to you in your space, following you if you move. You can Interact to retrieve the object on your turn as a free action. If you're within reach of another creature, that creature can spend a single action with the attack trait to attempt an Athletics check against your spell DC, retrieving the object out of the air on a success. The creature must have a free hand to attempt this check. The spell ends if a creature successfully retrieves the object. If the object is floating when the spell ends, it falls.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-create-water",
+      "versionId": "pf2e-create-water-pf2e-remaster",
+      "locale": "en",
+      "name": "Create Water",
+      "description": "As you cup your hands, water begins to flow forth from them. You create 2 gallons of water. If no one drinks it, it evaporates after 1 day.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-curse-of-recoil",
+      "versionId": "pf2e-curse-of-recoil-pf2e-remaster",
+      "locale": "en",
+      "name": "Curse of Recoil",
+      "description": "Trigger An enemy you can see is about to make a ranged attack.\n\n\nYou curse an enemy to suffer a kickback as they make a ranged attack, potentially causing them to miss. The triggering enemy attempts a Will save.\n\n\nCritical Success The target is unaffected.\n\nSuccess The recoil from their ranged attack causes the target to be condition until the beginning of their next turn.\n\nFailure The recoil imposes a –1 status penalty to the ranged attack and renders the target off-guard until the beginning of their next turn.\n\ncondition\n\nCritical Failure The recoil imposes a –2 status penalty to the ranged attack and renders the target off-guard until the beginning of their next turn. Until the start of their next turn, any additional ranged attacks made with the same weapon, spell, or ability take the same penalty.\n\ncondition",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-curse-of-slippery-steps",
+      "versionId": "pf2e-curse-of-slippery-steps-pf2e-remaster",
+      "locale": "en",
+      "name": "Curse of Slippery Steps",
+      "description": "You curse the target with perpetually poor footing and wet boots. The target must attempt a Reflex save.\n\n\nCritical Success The target is unaffected.\n\nSuccess The target treats all terrain as difficult terrain for 1 round.\n\nFailure The target treats all terrain as difficult terrain, and it leaves a trail of water behind it, giving any skill checks to [[/act track]] it during the duration a +2 circumstance bonus. The duration is 1 hour.\n\nCritical Failure As failure, except the duration is 24 hours.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-cycle-of-retribution",
+      "versionId": "pf2e-cycle-of-retribution-pf2e-remaster",
+      "locale": "en",
+      "name": "Cycle of Retribution",
+      "description": "An understanding of how violence begets more violence fills your target, causing it mental anguish in the form of splitting headaches when it attempts to take violent actions. The target must attempt a Will saving throw, with the following results.\n\n\nCritical Success The target is unaffected.\n\nSuccess The next time the target takes a hostile action, the target takes 1d4 mental damage; the spell's duration then ends.\n\nFailure The first time in a round when the target takes a hostile action, the target takes 1d4 mental damage.\n\nCritical Failure Each time the target takes a hostile action, the target takes 1d4 mental damage.\n\n\nHeightened (+1) The mental damage increases by 1d4.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -5214,6 +5455,34 @@
       "name": "Pathfinder #183: Field of Maidens",
       "publisher": "Paizo",
       "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-high-seas",
+      "name": "Pathfinder Lost Omens High Seas",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-battlecry",
+      "name": "Pathfinder Battlecry!",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-cheliax-infernal-inheritance",
+      "name": "Pathfinder Lost Omens Cheliax, Infernal Inheritance",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-season-of-ghosts-hardcover-compilation",
+      "name": "Pathfinder Season of Ghosts Hardcover Compilation",
+      "publisher": "Paizo",
+      "license": "ORC",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
