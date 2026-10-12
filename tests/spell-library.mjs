@@ -52,7 +52,7 @@ assert.ok(!electric?.description.includes('1d4 +'),'Legacy mechanics must not le
 assert.equal(liveViews.find(v=>v.spell.slug==='elemental-counter')?.rules.resource,'spell-slot');
 assert.equal(englishOnly.length,19,'Cumulative English-only ledger across waves 001 and 002');
 const tracker=source('../docs/SPELL-ENGLISH-TRACKER-RU.md');
-const trackedNames=[...tracker.matchAll(/^\\d+\\. \\*\\*([^*]+)\\*\\*/gm)].map(m=>m[1]).sort();
+const trackedNames=[...tracker.matchAll(/^\d+\. \*\*([^*]+)\*\*/gm)].map(m=>m[1]).sort();
 const actualEnglishNames=liveViews.filter(v=>v.locale==='en').map(v=>v.englishName).sort();
 assert.deepEqual(trackedNames,actualEnglishNames,
   'Cumulative English-only tracker must exactly match untranslated site cards');
