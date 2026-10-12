@@ -62,9 +62,9 @@ assert.equal(independentVars['--moon-mask-shift-y'],'-324px');
 const previousTemplate = parseMoonLayout(payload.filter(item =>
   !['maskWidth','maskHeight','maskShiftX','maskShiftY'].includes(item.id)));
 assert.equal(previousTemplate.maskWidth,98);
-assert.equal(previousTemplate.maskHeight,100);
-assert.equal(previousTemplate.maskShiftX,0);
-assert.equal(previousTemplate.maskShiftY,0);
+assert.equal(previousTemplate.maskHeight,98);
+assert.equal(previousTemplate.maskShiftX,-2);
+assert.equal(previousTemplate.maskShiftY,2);
 
 const oldLayout = parseMoonLayout(payload.slice(0,-1));
 assert.deepEqual(oldLayout.textStyles,DEFAULT_MOON_LAYOUT.textStyles,'Old 11-field drafts should have sane typography defaults');
@@ -133,7 +133,7 @@ assert.ok(editor.includes('max={isMoonPortraitShift(option.key) ? undefined : op
 assert.ok(sheet.includes('layoutOverride ?? DEFAULT_MOON_LAYOUT'));
 assert.ok(!sheet.includes('setPublishedLayout('),'Normal sheet must never swap layout after initial paint');
 assert.ok(!sheet.includes("from('sheet_templates')"),'Normal sheet reads canonical layout from bundled code');
-assert.ok(sheet.includes("eq('template_key', MOON_LAYOUT_KEY)"));
+assert.ok(!sheet.includes("eq('template_key', MOON_LAYOUT_KEY)"), 'Canonical live sheet no longer fetches alternative layout');
 assert.ok(moonCSS.includes('var(--moon-page-padding'));
 assert.ok(moonCSS.includes('min-height: 297mm'));
 assert.ok(moonCSS.includes('var(--moon-type-fieldLabel-size'));
