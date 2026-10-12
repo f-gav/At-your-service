@@ -63,7 +63,7 @@ const manifest=source('../docs/SPELL-WAVE-002-RU.md');
 assert.ok(manifest.includes('14 с подтверждённым русским названием'));
 assert.ok(manifest.includes('10 с английскими названиями'));
 
-assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=24).length,10,
+assert.equal(englishOnly.filter(slug=>{const i=wave.spells.findIndex(s=>s.slug===slug);return i>=24&&i<48;}).length,10,
  'Wave 002 adds ten English-only cantrips');
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=24&&wave.spells.findIndex(s=>s.id===t.spellId)<48).length,14);
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=48).length,19,'Wave 003 has 19 Russian entries');
