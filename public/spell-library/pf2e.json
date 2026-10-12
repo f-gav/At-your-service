@@ -2533,6 +2533,127 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-equal-footing",
+      "system": "pf2e",
+      "slug": "equal-footing",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "curse",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-shining-kingdoms"
+    },
+    {
+      "id": "pf2e-exchange-image",
+      "system": "pf2e",
+      "slug": "exchange-image",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-147-tomorrow-must-burn"
+    },
+    {
+      "id": "pf2e-fashionista",
+      "system": "pf2e",
+      "slug": "fashionista",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-firebrands"
+    },
+    {
+      "id": "pf2e-fated-healing",
+      "system": "pf2e",
+      "slug": "fated-healing",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "linguistic",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-season-of-ghosts-hardcover-compilation"
+    },
+    {
+      "id": "pf2e-fear",
+      "system": "pf2e",
+      "slug": "fear",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "fear",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-fishing-spot",
+      "system": "pf2e",
+      "slug": "fishing-spot",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
     }
   ],
   "versions": [
@@ -4335,6 +4456,84 @@
       "targets": "1 creature",
       "duration": "varies",
       "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-equal-footing-pf2e-remaster",
+      "spellId": "pf2e-equal-footing",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature with a land Speed greater than yours",
+      "duration": "varies",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-exchange-image-pf2e-legacy",
+      "spellId": "pf2e-exchange-image",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "you and 1 other humanoid",
+      "duration": "varies",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-fashionista-pf2e-legacy",
+      "spellId": "pf2e-fashionista",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 willing creature",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-fated-healing-pf2e-remaster",
+      "spellId": "pf2e-fated-healing",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "2 creatures who are hostile toward each other",
+      "duration": "5 rounds",
+      "heightened": {
+        "rules": " (+1) The targets regain an additional 1d4 Hit Points at the end of their own turns."
+      }
+    },
+    {
+      "id": "pf2e-fear-pf2e-remaster",
+      "spellId": "pf2e-fear",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "varies",
+      "savingThrow": "will save",
+      "heightened": {
+        "rules": " (3rd) You can target up to five creatures."
+      }
+    },
+    {
+      "id": "pf2e-fishing-spot-pf2e-remaster",
+      "spellId": "pf2e-fishing-spot",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "10 minutes"
+      },
+      "resource": "spell-slot"
     }
   ],
   "translations": [
@@ -5886,6 +6085,54 @@
       "name": "Enfeeble",
       "description": "You sap the target's strength, depending on its Fortitude save.\n\n\n\nCritical Success The target is unaffected.\n\nSuccess The target is Enfeebled 1 until the start of your next turn.\n\nFailure The target is Enfeebled 2 for 1 minute.\n\nCritical Failure The target is Enfeebled 3 for 1 minute.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-equal-footing",
+      "versionId": "pf2e-equal-footing-pf2e-remaster",
+      "locale": "en",
+      "name": "Equal Footing",
+      "description": "You level the field between yourself and another creature, hampering its movements if it's quicker than you. The target attempts a Will save.\n\nCritical Success The target is unaffected.\n\nSuccess The target is Clumsy 1 and takes a –10-foot status penalty to all its Speeds until the end of your next turn.\n\nSpell Effect: Equal Footing (Success)\n\nFailure The target is clumsy 1 and takes a –15-foot status penalty to all its Speeds for 1 minute. During this time, it can't benefit from bonuses to its Speeds or take other penalties to its Speeds.\n\nCritical Failure The target is Clumsy 2 and takes a –15-foot status penalty to all its Speeds for 1 minute. During this time, it can't benefit from bonuses to its Speeds or take other penalties to its Speeds.\n\nSpell Effect: Equal Footing (Failure or Critical Failure)",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-exchange-image",
+      "versionId": "pf2e-exchange-image-pf2e-legacy",
+      "locale": "en",
+      "name": "Exchange Image",
+      "description": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and Unconscious targets automatically critically fail this saving throw.\n\n\n\nCritical Success No effect.\n\nSuccess You take on the target's appearance, and they take yours. This has the same effects as a 1st-rank Illusory Disguise spell, except that the target can't Dismiss the disguise. The duration is 1 minute or until Dismissed.\n\nFailure As success, but the duration is 1 hour or until Dismissed.\n\nCritical Failure As success, but the duration is 24 hours.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fashionista",
+      "versionId": "pf2e-fashionista-pf2e-legacy",
+      "locale": "en",
+      "name": "Fashionista",
+      "description": "The target's clothes are transformed into ostentatious attire that epitomizes high-end local fashion. No details of the target's appearance transform other than their clothes, so their weapons or armor remain unchanged in appearance. The target gains a +1 status bonus on Deception checks to Create a Diversion. You can Dismiss this spell. At the end of the spell's duration, the target's clothes revert to their original appearance.\n\n\n\nHeightened (+2) The status bonus increases by 1, to a maximum of +4 at 7th rank.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fated-healing",
+      "versionId": "pf2e-fated-healing-pf2e-remaster",
+      "locale": "en",
+      "name": "Fated Healing",
+      "description": "You speak about the consequences of actions people take against each other and how it's possible to break cycles of violence simply by making a different choice. The targets regain 1d4 Hit Points at the end of each of their own turns while the spell is in effect. If a target uses a hostile action against the other target, the spell ends for the target that used the hostile action.\n\nHeightened (+1) The targets regain an additional 1d4 Hit Points at the end of their own turns.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fear",
+      "versionId": "pf2e-fear-pf2e-remaster",
+      "locale": "en",
+      "name": "Fear",
+      "description": "You plant fear in the target; it must attempt a Will save.\n\n\n\nCritical Success The target is unaffected.\n\nSuccess The target is Frightened 1.\n\nFailure The target is Frightened 2.\n\nCritical Failure The target is Frightened 3 and Fleeing for 1 round.\n\n\n\nHeightened (3rd) You can target up to five creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-fishing-spot",
+      "versionId": "pf2e-fishing-spot-pf2e-remaster",
+      "locale": "en",
+      "name": "Fishing Spot",
+      "description": "You conjure a fishing rod and an extraplanar pool teeming with fish. After 10 minutes of fishing, you catch a magical fish; roll [[/r 1d8 #Fishing Spot]] to see which fish you caught and the effects gained from eating it once it's cooked. The fish must be cooked and eaten (a process that takes about 30 minutes) within 1 hour of being caught, and the listed effect lasts for 1 hour after consumption. Each fish can feed only a single creature.\nMusical trout +2 status bonus to Performance checks\nPrimordial bass +2 status bonus to Survival checks\nGhoulfish +2 status bonus to Intimidation checks\nBurbling barbel +2 status bonus to Deception and Diplomacy checks\nDashing dace +2 status bonus to Acrobatics checks\nVigocarp +2 status bonus to Athletics checks to [[/act climb]] and [[/act swim]]\nAggressive perch +2 status bonus to Athletics checks to [[/act disarm]], [[/act grapple]], [[/act reposition]], [[/act shove]], and [[/act trip]]\nScholar salmon +2 status bonus to checks to Recall Knowledge\nSpell Effect: Fishing Spot",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -6097,6 +6344,13 @@
       "name": "Pathfinder Lost Omens Shining Kingdoms",
       "publisher": "Paizo",
       "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-firebrands",
+      "name": "Pathfinder Lost Omens Firebrands",
+      "publisher": "Paizo",
+      "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
