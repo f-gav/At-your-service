@@ -300,3 +300,37 @@
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {padding-right:1.5em;}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:focus {outline:1px solid #688c76;outline-offset:-1px;background:#fff;}
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty:before {content:'·';color:#b5c3b8;pointer-events:none;}
+
+/* Compact visual hints and centered column inputs only for PF2e spell tables.
+ * Hints are CSS generated content, not text saved into character fields. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:empty::before {
+  content:attr(data-pf-spell-placeholder);
+  color:#9ba99e;
+  font-weight:400;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {
+  text-align:center;
+  overflow-wrap:normal;
+  padding-left:.25em;
+  padding-right:.25em;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:not([data-pf-spell-column]) {
+  text-align:left;
+  padding-left:1.95em;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {padding-right:.25em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty::before {
+  content:attr(data-pf-spell-placeholder);
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {
+  top:-.7em;
+  right:-.5em;
+  transform:none;
+  z-index:3;
+  border:1px solid #cad5cb;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 1px 3px #25362c16;
+}
