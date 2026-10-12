@@ -527,3 +527,160 @@
   line-height: var(--moon-type-bodyText-leading,1.35);
   text-align: var(--moon-type-bodyText-align,left);
 }
+
+/*
+ * Phone-only reading layout, separate from the desktop/print A4 template.
+ * The published portrait frame can have a large negative desktop Y offset.
+ * On phones that offset used to pull the portrait above PROJECT MOON / ДОСЬЕ.
+ * Keep the frame and independently tuned mask exactly as saved; only reset
+ * the outer frame translation on small screens so the portrait starts inside
+ * the first dossier row and the character details flow below.
+ */
+@media screen and (max-width: 660px) {
+  .moon-editor {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 12px 10px 36px;
+    box-sizing: border-box;
+  }
+  .moon-toolbar { margin-bottom: 15px; row-gap: 10px; }
+  .moon-toolbar-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+  }
+  .moon-toolbar .pf-toolbar-right {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    gap: 9px;
+  }
+  .moon-toolbar .pf-toolbar-right .button { min-height: 42px; }
+  .moon-toolbar .pf-settings-button {
+    min-width: 42px;
+    min-height: 42px;
+  }
+  .moon-sheet-scroll { width: 100%; gap: 14px; }
+  .moon-sheet-scroll .moon-paper {
+    width: 100%;
+    max-width: 100%;
+    min-height: 0; /* only print and desktop keep the original A4 minimum */
+    padding: 20px 14px 28px;
+    box-sizing: border-box;
+    scroll-margin-top: 12px;
+  }
+  .moon-page-heading {
+    min-height: 76px;
+    margin-bottom: 16px;
+    padding-right: 5px;
+  }
+  .moon-page-heading h2 {
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+
+  /* Place the full ID portrait FIRST, after the page heading, never on it.
+     Do not change the mask offset, crop, frame scale, or any desktop setting. */
+  .moon-page-dossier .moon-dossier-top {
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+    align-items: start;
+    row-gap: 17px;
+    margin: 10px 0 17px;
+  }
+  .moon-page-dossier .moon-dossier-top > .moon-portrait-host {
+    grid-column: 1;
+    grid-row: 1;
+    order: -1;
+    width: min(185px, 70%);
+    justify-self: center;
+    margin: 12px auto 4px; /* overrides desktop-only published X/Y shift */
+    transform: none;
+  }
+  .moon-page-dossier .moon-dossier-top > .moon-dossier-fields {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 12px;
+    gap: 12px;
+    box-sizing: border-box;
+  }
+  .moon-page-dossier .moon-identity-pairs {
+    grid-template-columns: minmax(0,1fr);
+    gap: 12px;
+  }
+  .moon-page-dossier .moon-identity-inner {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+  }
+  .moon-page-dossier .moon-primary-stats {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px 12px;
+    margin-top: 4px;
+  }
+  .moon-page-dossier .moon-primary-stats .moon-field { min-width: 0; }
+  .moon-page-dossier .moon-primary-stats input { width: 100%; min-width: 0; }
+
+  .moon-section { min-width: 0; }
+  .moon-section-title { flex-wrap: wrap; gap: 8px; }
+  .moon-attributes, .moon-resources {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .moon-attribute { padding: 9px; min-width: 0; }
+  .moon-resource { min-width: 0; }
+  .moon-resource-code { min-width: 32px; }
+  .moon-resource-info { padding: 5px 5px 5px 7px; }
+  .moon-resource-title { white-space: normal; overflow-wrap: anywhere; }
+  .moon-resource-controls { gap: 2px; }
+  .moon-resource-controls input { min-width: 0; }
+  .moon-resource-controls button {
+    min-width: 22px;
+    min-height: 28px;
+    opacity: 1;
+    touch-action: manipulation;
+  }
+  .moon-combat-fields { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .moon-two-columns, .moon-resistance-layout, .moon-about-duo, .moon-notes {
+    grid-template-columns: minmax(0,1fr);
+  }
+  .moon-about-info { grid-template-columns: minmax(0,1fr); }
+  .moon-about-info .moon-field:nth-child(n + 3) { width: auto; }
+  .moon-inventory .moon-long-field { min-height: 200px; }
+  .moon-note { min-height: max(180px, var(--moon-note-height,246px)); }
+
+  .moon-weapon-section-heading { flex-wrap: wrap; row-gap: 7px; }
+  .moon-weapon-pagination { margin-left: auto; }
+  .moon-weapon-pagination button {
+    min-width: 36px;
+    min-height: 36px;
+    touch-action: manipulation;
+  }
+  .moon-weapon-track > .moon-weapon-card { flex: 0 0 100%; }
+  .moon-weapon-card, .moon-card, .moon-weapon-heading { min-width: 0; }
+  .moon-weapon-title { min-width: 0; max-width: none; }
+  .moon-weapon-secondary { flex-wrap: wrap; }
+  .moon-weapon-secondary label { min-width: 100px; }
+  .moon-data-table { table-layout: fixed; }
+  .moon-data-table th, .moon-data-table td {
+    overflow-wrap: anywhere;
+    padding: 3px 2px;
+  }
+  .moon-editor .pf-settings-popover.moon-settings-popover {
+    width: min(350px, calc(100vw - 26px));
+    max-width: calc(100vw - 26px);
+    right: 0;
+  }
+}
+@media screen and (max-width: 360px) {
+  .moon-editor { padding-left: 6px; padding-right: 6px; }
+  .moon-sheet-scroll .moon-paper { padding-left: 10px; padding-right: 10px; }
+  .moon-page-dossier .moon-dossier-top > .moon-portrait-host { width: min(175px,75%); }
+  .moon-resources { grid-template-columns: minmax(0,1fr); }
+  .moon-section-title { font-size: 11px; }
+}

@@ -1,22 +1,66 @@
-# Project Moon — Patch 1
+# Project Moon — состояние веб-листа (проверено по исходникам 2026-10-12)
 
-Implementation checklist for At your service! (fourth system: **Pr. Moon**).
+Система: `prmoon`, ориентир — Project Moon TTRPG, Community Rulebook 3.x.
+В отличие от Pathfinder, веб-лист собирается из HTML/CSS-компонентов,
+а не накладывается поверх страницы PDF. Внешний вид ориентирован на согласованный PDF.
 
-## Released with Patch 1
-- Game selector, filter and badge with stable system key `prmoon`.
-- Independent HTML/CSS dossier with four navigation tabs: **Досье / Боевое досье / Обо мне / Заметки**.
-- Six attributes and character metadata, independent existing portrait editor entry point.
-- Manual HP, ST and SP; one opt-in auto-max setting with manual overrides.
-- Light current/max empty for new character; max computed from `3 + Rank` after rank entry, with override and reset.
-- Editable resource counters (direct values and ± controls), two weapon cards and six initial skill cards with unlimited extension (100-card storage guard); six editable notes and rich-text inventory.
-- Uses the existing RichField editor for expandable text, including its interactive resource/toggle capabilities.
-- Save on explicit button and before navigating home, preserving other character-detail keys.
-- Portable JSON import and export for Pr. Moon, backward compatible with Pathfinder imports.
-- Responsive paper-inspired monochrome styling, no PDF image underlays.
+## Подтверждено в реализации
 
-## Not yet in Patch 1
-- Final user-supplied Project Moon portrait frame and custom portrait mask on sheet and home cards, plus tailored crop editing (planned Patch 2).
-- Refined game-specific attack/equipment presentation and further visual fidelity improvements, mobile QA (later patches).
+- [x] Создание Pr. Moon, отдельный фильтр, подпись системы на главной,
+  имя и строка «Занятие · Организация».
+- [x] Четыре непрерывно расположенные страницы: **Досье**, **Боевое досье**,
+  **Обо мне**, **Заметки**; изменение порядка через «Страницы листа».
+- [x] Помощь в навигации, переходы к страницам, запоминание настройки навигации.
+- [x] Досье: имя, организация, занятие, район, фракция, ранг, уровень,
+  EXP, деньги, шесть характеристик, инвентарь с RichField.
+- [x] HP / ST / SP: ручное заполнение по умолчанию; единая опциональная
+  настройка авторасчёта максимумов; ручные переопределения и сброс.
+- [x] Light: максимум и текущее значение пустые, пока игрок не ввёл ранг;
+  после ввода ранга максимум = `3 + ранг`, возможен ручной override.
+- [x] Боевой лист: боевые показатели, два оружия A/B по умолчанию,
+  добавление следующих, стрелки и плавная анимация (опциональная).
+  Удаление дополнительного оружия с диалогом подтверждения. Название A/B
+  редактируется непосредственно в заголовке.
+- [x] Перевод режущего / колющего / дробящего типов урона. Таблица
+  сопротивлений и состояний, дополнительные состояния через RichField.
+- [x] Шесть боевых приёмов по умолчанию, добавление и удаление новых.
+  Текущий защитный предел — 100 элементов для оружия/приёмов.
+- [x] «Обо мне»: базовые данные, внешность, предыстория, мотивация,
+  характер. «Заметки»: шесть текстовых блоков.
+- [x] Портрет в оригинальной рамке PNG и независимая маска. Редактирование
+  обрезки; в полном листе показывается подпись-имя, на главной — обычная
+  квадратная миниатюра. У каждого слоя собственные настройки в редакторе.
+- [x] Чёрно-белое бумажное оформление, отдельные шрифтовые параметры,
+  черновик/публикация/история версий шаблона в админ-редакторе.
+- [x] Сохранение листа в `details.projectMoonSheet` Supabase;
+  сохранение вручную и при выходе назад из изменённого листа.
+- [x] **Экспорт и импорт JSON v1 для Pr. Moon** — `system: "Project Moon"`,
+  ключ `projectMoonSheet`; перенос данных и портрета (если есть)
+  через защищённый частный Storage. Старый JSON без портрета допускается.
+- [x] Мобильная компоновка четырёх страниц, одно оружие в окне карусели,
+  последовательные поля и портрет под заголовком. На телефоне внешние
+  X/Y-смещения рамки из десктопного шаблона не должны поднимать портрет
+  над заголовком; на компьютере и в печати параметры не меняются.
 
-## Required production migration
-Run `supabase/migrations/20261012_add_project_moon_system.sql` on the *At your service!* database to allow saving the new `prmoon` system key. The frontend build alone does not change PostgreSQL CHECK constraints.
+## Состояние проверки и ограничения
+
+- Сборка и регрессионные тесты выполняются в GitHub Actions. Прохождение
+  этих тестов **не заменяет визуального E2E на реальном телефоне**;
+  мобильную компоновку необходимо подтвердить после публикации.
+- Имеется автоматический `+ранг` для показателя атаки и расчётные формулы
+  HP/ST/SP. Исчерпывающая сверка **всех механик** с полным текстом Community
+  Rulebook 3.x не проводилась: это не полноценный автоматический конструктор.
+  Ручной ввод большинства показателей намеренно остаётся основным режимом.
+- Веб-версия согласно Patch 1 состоит из **четырёх** страниц.
+  Дополнительная пятая страница из отдельного PDF-макета не добавлена
+  в текущую веб-структуру: она не входила в утверждённый четырёхстраничный
+  веб-список.
+- JSON формата `at-your-service-character` версии 1 не содержит
+  опубликованный глобальный макет администратора: хранит именно значения
+  конкретного персонажа и его портрет. Детали см. `docs/CHARACTER-JSON.md`.
+
+## Миграции
+
+Ключ `prmoon` добавлен в `supabase/migrations/20261012_add_project_moon_system.sql`.
+Редактор макета использует последующие миграции Pr. Moon для отдельных
+настроек рамки/маски и текстовых блоков.
