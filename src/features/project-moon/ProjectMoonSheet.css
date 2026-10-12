@@ -684,3 +684,19 @@
   .moon-resources { grid-template-columns: minmax(0,1fr); }
   .moon-section-title { font-size: 11px; }
 }
+
+/* Temporary shell while the published Pr. Moon layout is being loaded.
+   Prevents a flash of the historical default sheet geometry. */
+.moon-layout-loading {
+  width:min(100%, 210mm);
+  margin:16px auto;
+  min-height:160px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#717980;
+  background:#fff;
+  border:1px solid #e3e4e5;
+  box-shadow:0 5px 18px #22222213;
+  font-size:13px;
+}
