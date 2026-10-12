@@ -2,7 +2,7 @@
  * Only same-origin PUBLIC assets are cached. Supabase sessions, API responses,
  * private portraits, JSON character data and OAuth callbacks are NEVER cached.
  */
-const CACHE_NAME='ays-shell-v1';
+const CACHE_NAME='ays-shell-v2';
 const SCOPE=self.registration.scope;
 const CORE=[
   SCOPE,
@@ -40,16 +40,20 @@ self.addEventListener('fetch',event=>{
     }));
     return;
   }
-  // Only immutable or public static assets; never cache application API calls.
-  const isPublicAsset=/\.(?:js|css|png|svg|webp|woff2?|ttf|ico|pdf)$/.test(url.pathname);
+  // Updated assets must be fetched from the network first. Previous versions
+  // used cache-first and could retain obsolete styles across deployments.
+  const isPublicAsset=/\\.(?:js|css|png|svg|webp|woff2?|ttf|ico|pdf)$/.test(url.pathname);
   if(!isPublicAsset)return;
-  event.respondWith(caches.match(req).then(async cached=>{
-    if(cached)return cached;
-    const response=await fetch(req);
-    if(response.ok&&response.type==='basic') {
-      const cache=await caches.open(CACHE_NAME);
-      await cache.put(req,response.clone());
+  event.respondWith((async()=>{
+    try {
+      const response=await fetch(req);
+      if(response.ok&&response.type==='basic') {
+        const cache=await caches.open(CACHE_NAME);
+        await cache.put(req,response.clone());
+      }
+      return response;
+    }catch{
+      return (await caches.match(req))||Response.error();
     }
-    return response;
-  }));
+  })());
 });
