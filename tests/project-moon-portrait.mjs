@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 const source = path => readFileSync(new URL(path,import.meta.url),'utf8');
 const app = source('../src/App.tsx');
@@ -38,6 +39,12 @@ assert.ok(!card.includes('moon-portrait-art-stage'), 'Old misaligned stage must 
 assert.ok(!card.includes('compact'), 'Home uses a normal square silhouette');
 assert.ok(cardCSS.includes('aspect-ratio:384 / 586'));
 assert.ok(cardCSS.includes('.moon-portrait-art-mask {z-index:2;}'));
+assert.ok(cardCSS.includes('.moon-portrait-art-frame {z-index:3;}'), 'Frame must overlay the portrait, never behind it');
+assert.ok(cardCSS.includes('z-index:4;'), 'Nameplate must overlay the frame');
+const knownCompleteFrame = readFileSync(new URL('../public/project-moon/portrait-frame.png',import.meta.url));
+assert.equal(createHash('sha256').update(knownCompleteFrame).digest('hex'),
+  'd3d06780da3b1bd5cedab3b86eb21759c14b983b76f9da7ea2c913bf261d0bd6',
+  'Do not replace the complete frame with a truncated or masked-down PNG');
 assert.ok(cardCSS.includes('top:18.09%'));
 assert.ok(cardCSS.includes('height:64%'));
 assert.ok(!cardCSS.includes('.moon-portrait-art-stage'), 'No second coordinate system');

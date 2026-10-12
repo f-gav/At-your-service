@@ -1,7 +1,8 @@
 /*
  * Both source PNGs are identical 384 x 586 canvases. The mask fills the
  * frame's cut-out instead of being positioned in its own coordinate system.
- * No height: auto on the layered images: that caused the displaced artwork.
+ * Both artwork files occupy the entire card. The opaque bottom plate is
+ * always above the portrait crop, so the original frame remains complete.
  */
 .moon-portrait-art {
   position:relative;
@@ -29,7 +30,7 @@
   margin:0;
   padding:0;
 }
-.moon-portrait-art-frame {z-index:1;}
+.moon-portrait-art-frame {z-index:3;}
 .moon-portrait-art-mask {z-index:2;}
 .moon-portrait-art-window {
   position:absolute;
@@ -51,7 +52,7 @@
 }
 .moon-portrait-art-caption {
   position:absolute;
-  z-index:3;
+  z-index:4;
   bottom:6%;
   left:5%;
   width:90%;
@@ -66,7 +67,7 @@
 }
 .moon-portrait-art-trigger {
   position:absolute;
-  z-index:4;
+  z-index:5;
   left:3.65%;
   top:18.09%;
   width:92.7%;

@@ -15,6 +15,8 @@ export const DEFAULT_MOON_LAYOUT = {
 };
 export type MoonLayout = typeof DEFAULT_MOON_LAYOUT;
 export type MoonLayoutKey = keyof MoonLayout;
+export const isMoonPortraitShift = (key: MoonLayoutKey): boolean =>
+  key === 'portraitShiftX' || key === 'portraitShiftY';
 export const MOON_LAYOUT_CONTROLS: { key: MoonLayoutKey; title: string; min?: number; max?: number; step?: number; unit?: string }[] = [
   { key: 'pagePadding', title: 'Поля страницы', min: 7, max: 22, step: 1, unit: 'мм' },
   { key: 'sectionGap', title: 'Отступ между разделами', min: 6, max: 45, step: 1, unit: 'px' },
@@ -44,7 +46,7 @@ export function parseMoonLayout(raw: unknown): MoonLayout {
     const input = entries.get(control.key);
     if (typeof DEFAULT_MOON_LAYOUT[control.key] === 'number') {
       if (typeof input !== 'number' || !Number.isFinite(input)) continue;
-      const value = Math.max(control.min ?? input, Math.min(control.max ?? input, input));
+      const value = isMoonPortraitShift(control.key) ? input : Math.max(control.min ?? input, Math.min(control.max ?? input, input));
       // All numeric settings are integers; validated client-side and on read.
       (safe as Record<string, string | number>)[control.key] = Math.round(value);
     } else if (typeof input === 'string' && /^#[0-9a-fA-F]{6}$/.test(input)) {

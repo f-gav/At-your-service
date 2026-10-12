@@ -6,7 +6,7 @@ import ProjectMoonSheet from './ProjectMoonSheet';
 import { emptyMoonSheet } from './model';
 import {
   DEFAULT_MOON_LAYOUT, MOON_LAYOUT_CONTROLS, MOON_LAYOUT_KEY,
-  parseMoonLayout, encodeMoonLayout,
+  parseMoonLayout, encodeMoonLayout, isMoonPortraitShift,
 } from './layout-settings';
 import type { MoonLayout, MoonLayoutKey } from './layout-settings';
 import './MoonLayoutAdmin.css';
@@ -75,7 +75,8 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     }
     const number = Number(raw);
     if (!Number.isFinite(number)) return;
-    setLayout(old => ({ ...old, [key]: Math.round(Math.min(control.max!, Math.max(control.min!,number))) }));
+    setLayout(old => ({ ...old, [key]: Math.round(isMoonPortraitShift(key)
+      ? number : Math.min(control.max!, Math.max(control.min!,number)) }));
   }
 
   async function saveDraft(): Promise<boolean> {
@@ -151,10 +152,17 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
                     value={layout[option.key] as string}
                     onChange={e => change(option.key,e.target.value)}/>
                 : <span className="moon-admin-value">
-                    <input type="range" min={option.min} max={option.max} step={option.step || 1}
-                      disabled={busy || loading} value={layout[option.key] as number}
+                    <input type="range"
+                      min={isMoonPortraitShift(option.key)
+                        ? Math.min(option.min!, (layout[option.key] as number) - 100) : option.min}
+                      max={isMoonPortraitShift(option.key)
+                        ? Math.max(option.max!, (layout[option.key] as number) + 100) : option.max}
+                      step={option.step || 1} disabled={busy || loading}
+                      value={layout[option.key] as number}
                       onChange={e => change(option.key,e.target.value)}/>
-                    <input type="number" min={option.min} max={option.max} step={option.step || 1}
+                    <input type="number" min={isMoonPortraitShift(option.key) ? undefined : option.min}
+                      max={isMoonPortraitShift(option.key) ? undefined : option.max}
+                      step={option.step || 1}
                       aria-label={option.title} disabled={busy || loading} value={layout[option.key] as number}
                       onChange={e => change(option.key,e.target.value)}/>
                     <small>{option.unit}</small>
