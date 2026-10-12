@@ -43,7 +43,25 @@ export function sanitizeRichHtml(html:string):string {
       const body=el.querySelector<HTMLElement>(':scope > [data-pf-spoiler-body]');
       if(!head||!body)return Array.from(el.childNodes).map(clean).join('');
       const content=Array.from(body.childNodes).map(clean).join('') || '<div><br></div>';
-      return spoilerMarkup(title?.textContent??'',content,el.dataset.collapsed==='1');
+      const extra=Array.from(head.querySelectorAll<HTMLElement>('[data-pf-spell-column]'));
+      const base=spoilerMarkup(title?.textContent??'',content,el.dataset.collapsed==='1');
+      if(!extra.length)return base;
+      const template=document.createElement('template');
+      template.innerHTML=base;
+      const savedHead=template.content.querySelector<HTMLElement>('[data-pf-spoiler-head]');
+      if(!savedHead)return base;
+      savedHead.dataset.pfSpellColumns=String(extra.length+1);
+      for(const original of extra){
+        const cell=document.createElement('span');
+        cell.dataset.pfSpoilerTitle='1';
+        cell.dataset.pfSpellColumn=original.dataset.pfSpellColumn??'';
+        cell.contentEditable='true';
+        cell.setAttribute('role','textbox');
+        cell.setAttribute('aria-label',original.getAttribute('aria-label')??'Заголовок столбца');
+        cell.textContent=original.textContent??'';
+        savedHead.appendChild(cell);
+      }
+      return template.innerHTML;
     }
     const inner=Array.from(el.childNodes).map(clean).join('');
     if(!KEEP.has(el.tagName))return inner;
