@@ -37,14 +37,14 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('119 записей',{exact:true}).waitFor();
+  await page.getByText('143 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 119 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 143 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),119,'Third page loads final 19 cards');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 119 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),143,'Third page loads final 43 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 143 loaded: no more button');
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
     await page.setViewportSize({width,height:900});
@@ -60,7 +60,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),119,
+  assert.equal(await page.locator('.spell-result-stats').count(),143,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -87,7 +87,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'119 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'143 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
@@ -167,13 +167,15 @@ try{
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 English-only cards render');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),54,'English-only filter includes cantrips and rank 1');
+  assert.equal(await page.locator('.spell-result').count(),71,'English-only filter includes cantrips and rank 1');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
   // Quick ranks and categories use real catalog filtering, independent of expanded filters.
   await page.getByRole('button',{name:'1',exact:true}).click();
-  assert.equal(await page.locator('.spell-result').count(),48,'Rank 1 has 48 spells after wave 002');
+  assert.equal(await page.locator('.spell-result').count(),50,'Rank 1 shows its first 50 entries');
+  await page.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await page.locator('.spell-result').count(),72,'Rank 1 has 72 spells after wave 003');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Воздушный пузырь');
   assert.equal(await page.locator('.spell-result').count(),1,'Search Russian rank-one spell');
   await page.locator('.spell-result').first().click();
@@ -188,7 +190,7 @@ try{
   await page.getByText('Редкость: Редкое',{exact:false}).waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
-  assert.equal(await page.locator('.spell-result').count(),48,'Rank one restored after clearing search');
+  assert.equal(await page.locator('.spell-result').count(),50,'Rank one restored with first 50 cards after clearing search');
   await page.getByRole('button',{name:'0',exact:true}).click();
   assert.equal(await page.locator('.spell-result').count(),50,'Rank 0 shows first 50 cantrips');
   await page.getByRole('button',{name:'Показать ещё'}).click();
