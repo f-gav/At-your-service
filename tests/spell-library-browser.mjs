@@ -189,7 +189,7 @@ try{
   await preview.locator('.spell-result').first().click();
   assert.equal(await preview.locator('.spell-result').count(),55,'All 55 rows remain behind dialog');
   assert.ok(await preview.getByRole('dialog').getByText('Текст синтетического образца.').isVisible());
-  assert.ok(await preview.locator('.spell-result').first().locator('span').textContent()!=='Example Spell');
+  assert.equal(await preview.locator('.spell-result').first().locator('.spell-result-identity span').textContent(),'Заклинание 1-го круга');
   await preview.getByRole('button',{name:'Закрыть описание'}).click();
   assert.equal(await preview.locator('.spell-result').count(),55);
   await preview.close();
