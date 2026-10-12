@@ -40,6 +40,36 @@ try{
   await page.locator('.site-nav').getByRole('button',{name:'Персонажи'}).click();
   assert.ok(await page.getByRole('heading',{name:/Мои персонажи/}).isVisible());
   await page.close();
+  // Browser-only synthetic fixture validates how the platform will behave
+  // after import. Production JSON manifests remain strictly empty.
+  const preview=await browser.newPage({viewport:{width:1360,height:860}});
+  const fixture={
+    schemaVersion:1,system:'pf2e',
+    sources:[{id:'test-source',name:'Тестовый справочник'}],
+    spells:Array.from({length:55},(_,i)=>({
+      id:'fixture-'+i,system:'pf2e',slug:'fixture-'+i,kind:'spell',rank:1,
+      traditions:['arcane'],classes:[],traits:['mental'],rarity:'common',sourceId:'test-source',
+    })),
+    versions:Array.from({length:55},(_,i)=>({id:'fixture-version-'+i,spellId:'fixture-'+i,edition:'pf2e-remaster',cast:{actions:2}})),
+    translations:Array.from({length:55},(_,i)=>({
+      spellId:'fixture-'+i,versionId:'fixture-version-'+i,locale:'ru',
+      name:'Проверочное заклинание '+String(i+1).padStart(3,'0'),
+      summary:'Проверка отображения карточки',description:'Текст синтетического образца.',
+    })),
+  };
+  await preview.route('**/spell-library/pf2e.json',route=>route.fulfill({
+    status:200,contentType:'application/json',body:JSON.stringify(fixture)
+  }));
+  await preview.goto(base+'#library',{waitUntil:'networkidle'});
+  await preview.getByText('55 записей',{exact:true}).waitFor();
+  assert.equal(await preview.locator('.spell-result').count(),50,'Catalog results are paginated');
+  await preview.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await preview.locator('.spell-result').count(),55);
+  await preview.locator('.spell-result').first().click();
+  assert.ok(await preview.getByText('Текст синтетического образца.').isVisible());
+  await preview.getByRole('button',{name:'Закрыть описание'}).click();
+  assert.equal(await preview.locator('.spell-result').count(),55);
+  await preview.close();
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   mobile.on('pageerror',error=>errors.push(error.message));
   await mobile.goto(base+'#library',{waitUntil:'networkidle'});
