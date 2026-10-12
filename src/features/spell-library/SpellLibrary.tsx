@@ -1,7 +1,7 @@
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {
-  ArrowLeft,BookOpen,BookMarked,ChevronRight,Filter,RotateCcw,
+  ArrowLeft,BookOpen,ChevronRight,ChevronDown,Clock3,Ruler,Shield,Filter,RotateCcw,
   Search,ScrollText,Sparkles,X,Layers3
 } from 'lucide-react';
 import {
@@ -34,6 +34,25 @@ function rankLabel(system:SpellSystem,rank:number){
 }
 function sourceName(spell:SpellView){
   return spell.source?.name||'Источник не указан';
+}
+/** Abbreviation is visual only: full book source remains in title and popup. */
+function sourceAbbreviation(spell:SpellView){
+  const title=spell.source?.name;
+  if(!title)return '—';
+  const words=title.replace(/^Pathfinder\s+/i,'').split(/\s+/).filter(w=>!/^(of|the|and|для|и)$/i.test(w));
+  return words.map(w=>w[0]?.toUpperCase()||'').join('').slice(0,4)||'—';
+}
+function cardCasting(spell:SpellView){
+  const cast=spell.rules.cast;
+  if(typeof cast?.actions==='number')return {short:cast.actions+' д.',long:'Сотворение: '+cast.actions+' действий'};
+  const time=cast?.time||'—';
+  return {short:time==='Реакция'?'Р':time,long:'Сотворение: '+time};
+}
+function cardDefense(spell:SpellView){
+  const save=spell.rules.savingThrow||'';
+  const short=save.includes('Рефлекс')?'Рефлекс':save.includes('Стойкость')?'Стойкость':
+    save.includes('Воли')?'Воля':save.includes('КБ')?'КБ':save||'—';
+  return {short,long:'Защита: '+(save||'не указана')};
 }
 /** A compact secondary label for list rows and the popup header. */
 function spellTypeLabel(spell:SpellView):string{
@@ -219,6 +238,20 @@ export default function SpellLibrary({onBack}:Props){
   const update=<K extends keyof SpellFilters>(key:K,value:SpellFilters[K])=>{
     setFilters(old=>({...old,[key]:value}));setSelectedId(null);
   };
+  function chooseRank(rank:number|'all'){
+    setFilters(old=>({...old,rank}));
+    // Cantrips are stored at rank 0, while ordinary spells start at rank 1.
+    if((rank===0&&section==='spell')||(rank!==0&&rank!=='all'&&section==='cantrip'))
+      setSection('all');
+    setSelectedId(null);
+  }
+  function chooseCategory(kind:Section){
+    setSection(kind);
+    if((kind==='cantrip'&&filters.rank!=='all'&&filters.rank!==0)||
+       (kind==='spell'&&filters.rank===0))
+      setFilters(old=>({...old,rank:'all'}));
+    setSelectedId(null);
+  }
   function reset(){
     setFilters(DEFAULT_SPELL_FILTERS);setSourceFilter('all');setSection('all');
     setSelectedId(null);
@@ -230,9 +263,12 @@ export default function SpellLibrary({onBack}:Props){
   return <main className="page spell-library-page" id="spell-library" aria-labelledby="spell-library-heading">
     <div className="spell-library-intro">
       <div>
-        <button type="button" className="spell-back-link" onClick={onBack}><ArrowLeft size={15}/> К персонажам</button>
-        <div className="spell-intro-heading"><BookOpen size={24} strokeWidth={1.55}/><h1 id="spell-library-heading">Библиотека заклинаний</h1></div>
-        <p>Справочник магии Pathfinder и D&D: традиции, круги, дескрипторы и правила сотворения.</p>
+        <button type="button" className="spell-back-link" onClick={onBack}><ArrowLeft size={16}/> К персонажам</button>
+        <div className="spell-intro-heading"><BookOpen size={27} strokeWidth={1.55}/><h1 id="spell-library-heading">Библиотека заклинаний</h1></div>
+        <p>Pathfinder 2e и D&D 5e — быстрый поиск магии, правила сотворения и источники.</p>
+      </div>
+      <div className="spell-library-count" aria-label="Статистика каталога">
+        <strong>{loadState==='ready'?views.length:'—'}</strong><span>в каталоге</span>
       </div>
     </div>
     <div className="spell-system-tabs" role="group" aria-label="Игровая система">
@@ -243,114 +279,137 @@ export default function SpellLibrary({onBack}:Props){
       </button>)}
     </div>
 
-    <div className="spell-workspace">
-      <aside className="spell-sidebar" aria-label="Категории заклинаний">
-        <h2>Разделы</h2>
-        <nav className="spell-categories" aria-label="Раздел библиотеки">
-          {categories.map(item=><button type="button" key={item.id} aria-current={section===item.id?'page':undefined}
-            className={`spell-category${section===item.id?' is-active':''}`}
-            onClick={()=>{setSection(item.id);setSelectedId(null);}}>
-            <span>{item.label}</span><ChevronRight size={15}/>
-          </button>)}
-        </nav>
-        <div className="spell-sidebar-note"><BookMarked size={18}/><p>На листе персонажа можно будет выбирать готовые карточки или оставлять ручное заполнение.</p></div>
-      </aside>
-      <section className="spell-content" aria-label="Каталог заклинаний">
-        <div className="spell-content-heading">
-          <div><span className="spell-eyebrow">{SPELL_SYSTEMS[system].label}</span>
-            <h2>{categories.find(item=>item.id===section)?.label}</h2></div>
-          <span className="spell-total">{loadState==='ready'?shown.length:'—'} записей</span>
-        </div>
-        <div className="spell-search-row">
-          <label className="spell-search"><Search size={19} aria-hidden="true"/>
-            <input value={filters.query} onChange={e=>update('query',e.target.value)} type="search"
-              placeholder="Поиск по названию, описанию, чертам…" aria-label="Поиск заклинаний"/>
-          </label>
-          <button type="button" className="spell-filter-toggle" aria-expanded={mobileFilters}
-            onClick={()=>setMobileFilters(v=>!v)}><Filter size={17}/> Фильтры</button>
-        </div>
-        <div className={`spell-filter-panel${mobileFilters?' is-expanded':''}`}>
-          <div className="spell-filter-grid">
-            <label>Редакция
-              <select value={edition} onChange={e=>{setEdition(e.target.value);setSelectedId(null);}}>
-                {SPELL_SYSTEMS[system].editions.map(e=><option key={e} value={e}>{e==='pf2e-remaster'?'Remaster':e==='pf2e-legacy'?'Legacy':e==='dnd-2024'?'D&D 2024':'D&D 2014'}</option>)}
-              </select>
-            </label>
-            <label>{system==='pf2e'?'Круг':'Уровень'}
-              <select value={filters.rank} onChange={e=>update('rank',e.target.value==='all'?'all':Number(e.target.value))}>
-                <option value="all">Все</option>
-                {Array.from({length:SPELL_SYSTEMS[system].maxRank+1},(_,i)=><option key={i} value={i}>{rankLabel(system,i)}</option>)}
-              </select>
-            </label>
-            {system==='pf2e'&&<label>Традиция
-              <select value={filters.tradition} onChange={e=>update('tradition',e.target.value as PfTradition|'all')}>
-                <option value="all">Все традиции</option>
-                {Object.entries(PF_TRADITIONS).map(([id,name])=><option key={id} value={id}>{name}</option>)}
-              </select>
-            </label>}
-            {system==='dnd5e'&&<label>Школа магии
-              <select value={filters.school} onChange={e=>update('school',e.target.value)}>
-                <option value="all">Все школы</option>
-                {DND_SCHOOLS.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}
-              </select>
-            </label>}
-            <label>Редкость
-              <select value={filters.rarity} onChange={e=>update('rarity',e.target.value as SpellFilters['rarity'])}>
-                <option value="all">Все</option>
-                {Object.entries(RARITY_LABELS).map(([id,name])=><option key={id} value={id}>{name}</option>)}
-              </select>
-            </label>
-            <label>Язык
-              <select value={filters.locale} onChange={e=>update('locale',e.target.value as SpellFilters['locale'])}>
-                <option value="all">Все языки</option><option value="ru">Есть русский перевод</option>
-                <option value="en">Только английский</option>
-              </select>
-            </label>
-            <label>Класс
-              <select value={filters.className} onChange={e=>update('className',e.target.value)}>
-                <option value="all">Все классы</option>
-                {classOptions.map(name=><option key={name} value={name}>{name}</option>)}
-              </select>
-            </label>
-            <label>Источник
-              <select value={sourceFilter} onChange={e=>{setSourceFilter(e.target.value);setSelectedId(null);}}>
-                <option value="all">Все книги</option>
-                {sourceOptions.map(name=><option key={name} value={name}>{name}</option>)}
-              </select>
-            </label>
+    <section className="spell-content" aria-label="Каталог заклинаний">
+      <div className="spell-content-heading">
+        <div><span className="spell-eyebrow">{SPELL_SYSTEMS[system].label}</span>
+          <h2>{categories.find(item=>item.id===section)?.label}</h2></div>
+        <span className="spell-total">{loadState==='ready'?shown.length:'—'} записей</span>
+      </div>
+      <div className="spell-search-row">
+        <label className="spell-search"><Search size={20} aria-hidden="true"/>
+          <input value={filters.query} onChange={e=>update('query',e.target.value)} type="search"
+            placeholder="Поиск по названию, описанию, чертам…" aria-label="Поиск заклинаний"/>
+        </label>
+        <button type="button" className={`spell-filter-toggle${mobileFilters?' is-active':''}`}
+          aria-controls="spell-expanded-filters" aria-expanded={mobileFilters}
+          onClick={()=>setMobileFilters(v=>!v)}><Filter size={18}/> Фильтры <ChevronDown size={16}/></button>
+        <button type="button" className="spell-reset-main" onClick={reset} disabled={!hasFilters}
+          title="Сбросить поиск, категории и фильтры"><RotateCcw size={16}/> <span>Сбросить</span></button>
+      </div>
+
+      <div className="spell-quick-controls">
+        <div className="spell-quick-group" aria-label={system==='pf2e'?'Быстрый выбор круга':'Быстрый выбор уровня'}>
+          <span className="spell-quick-label">{system==='pf2e'?'Круг':'Уровень'}</span>
+          <div className="spell-chips-scroll">
+            <button type="button" className={`spell-rank-chip${filters.rank==='all'?' is-active':''}`}
+              aria-pressed={filters.rank==='all'} onClick={()=>chooseRank('all')}>Все</button>
+            {Array.from({length:SPELL_SYSTEMS[system].maxRank+1},(_,rank)=><button
+              type="button" key={rank} className={`spell-rank-chip${filters.rank===rank?' is-active':''}`}
+              title={rank===0?(system==='pf2e'?'Чары':'Заговоры'):`${rank}-й ${system==='pf2e'?'круг':'уровень'}`}
+              aria-pressed={filters.rank===rank} onClick={()=>chooseRank(rank)}>{rank}</button>)}
           </div>
-          <button className="spell-reset" type="button" onClick={reset}><RotateCcw size={14}/> Сбросить фильтры</button>
         </div>
-        {loadState==='loading'&&<div className="spell-loading" role="status">Загружаем каталог…</div>}
-        {loadState==='error'&&<div className="spell-empty" role="alert">
-          <ScrollText size={29}/><h3>Не удалось открыть каталог</h3><p>{loadError}</p>
-          <button type="button" onClick={()=>changeSystem(system==='pf2e'?'dnd5e':'pf2e')}>Открыть другую систему</button>
-        </div>}
-        {loadState==='ready'&&(shown.length>0
-            ? <div className="spell-result-list" role="list">
-              {shown.slice(0,visibleCount).map(spell=><button type="button" role="listitem" className="spell-result" key={spell.id} onClick={()=>setSelectedId(spell.id)}>
-                <div><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span></div>
-                <div><ChevronRight size={18}/></div>
-              </button>)}
-              {shown.length>visibleCount&&<div className="spell-load-more">
-                <span>Показано {Math.min(visibleCount,shown.length)} из {shown.length}</span>
-                <button type="button" onClick={()=>setVisibleCount(current=>current+RESULTS_PER_PAGE)}>Показать ещё</button>
-              </div>}
-            </div>
-            : <div className="spell-empty" role="status">
-                <span className="spell-empty-symbol"><Sparkles size={31} strokeWidth={1.2}/></span>
-                <h3>{section==='mine'?'Личные заклинания':hasFilters&&views.length>0?'Ничего не найдено':'Каталог пока пуст'}</h3>
-                <p>{section==='mine'
-                  ? 'Раздел подготовлен для будущих пользовательских заклинаний. Возможность их создания добавим отдельно.'
-                  :hasFilters&&views.length>0
-                    ? 'Попробуй изменить поисковый запрос или фильтры.'
-                    : 'Раздел пока не наполнен. Следующие партии заклинаний будут появляться постепенно.'}</p>
-                {hasFilters&&<button type="button" onClick={reset}>Показать все разделы</button>}
-                {!hasFilters&&<div className="spell-empty-footer"><Layers3 size={15}/> Основа для двух игровых систем</div>}
+        <nav className="spell-quick-group spell-kind-group" aria-label="Тип заклинаний">
+          <span className="spell-quick-label">Тип</span>
+          <div className="spell-chips-scroll">
+            {categories.map(item=><button type="button" key={item.id}
+              aria-pressed={section===item.id}
+              className={`spell-kind-chip${section===item.id?' is-active':''}`}
+              onClick={()=>chooseCategory(item.id)}>{item.label}</button>)}
+          </div>
+        </nav>
+      </div>
+
+      <div id="spell-expanded-filters" className={`spell-filter-panel${mobileFilters?' is-expanded':''}`}>
+        <div className="spell-filter-grid">
+          <label>Редакция
+            <select value={edition} onChange={e=>{setEdition(e.target.value);setSelectedId(null);}}>
+              {SPELL_SYSTEMS[system].editions.map(e=><option key={e} value={e}>{e==='pf2e-remaster'?'Remaster':e==='pf2e-legacy'?'Legacy':e==='dnd-2024'?'D&D 2024':'D&D 2014'}</option>)}
+            </select>
+          </label>
+          {system==='pf2e'&&<label>Традиция
+            <select value={filters.tradition} onChange={e=>update('tradition',e.target.value as PfTradition|'all')}>
+              <option value="all">Все традиции</option>
+              {Object.entries(PF_TRADITIONS).map(([id,name])=><option key={id} value={id}>{name}</option>)}
+            </select>
+          </label>}
+          {system==='dnd5e'&&<label>Школа магии
+            <select value={filters.school} onChange={e=>update('school',e.target.value)}>
+              <option value="all">Все школы</option>
+              {DND_SCHOOLS.map(item=><option key={item.id} value={item.id}>{item.label}</option>)}
+            </select>
+          </label>}
+          <label>Редкость
+            <select value={filters.rarity} onChange={e=>update('rarity',e.target.value as SpellFilters['rarity'])}>
+              <option value="all">Все</option>
+              {Object.entries(RARITY_LABELS).map(([id,name])=><option key={id} value={id}>{name}</option>)}
+            </select>
+          </label>
+          <label>Язык
+            <select value={filters.locale} onChange={e=>update('locale',e.target.value as SpellFilters['locale'])}>
+              <option value="all">Все языки</option><option value="ru">Есть русский перевод</option>
+              <option value="en">Только английский</option>
+            </select>
+          </label>
+          <label>Класс
+            <select value={filters.className} onChange={e=>update('className',e.target.value)}>
+              <option value="all">Все классы</option>
+              {classOptions.map(name=><option key={name} value={name}>{name}</option>)}
+            </select>
+          </label>
+          <label>Источник
+            <select value={sourceFilter} onChange={e=>{setSourceFilter(e.target.value);setSelectedId(null);}}>
+              <option value="all">Все книги</option>
+              {sourceOptions.map(name=><option key={name} value={name}>{name}</option>)}
+            </select>
+          </label>
+        </div>
+      </div>
+
+      {loadState==='loading'&&<div className="spell-loading" role="status">Загружаем каталог…</div>}
+      {loadState==='error'&&<div className="spell-empty" role="alert">
+        <ScrollText size={29}/><h3>Не удалось открыть каталог</h3><p>{loadError}</p>
+        <button type="button" onClick={()=>changeSystem(system==='pf2e'?'dnd5e':'pf2e')}>Открыть другую систему</button>
+      </div>}
+      {loadState==='ready'&&(shown.length>0
+        ? <div className="spell-result-list" role="list">
+          {shown.slice(0,visibleCount).map(spell=>{
+            const casting=cardCasting(spell);
+            const defense=cardDefense(spell);
+            const range=spell.rules.range||'—';
+            return <button type="button" role="listitem" className="spell-result" key={spell.id}
+              onClick={()=>setSelectedId(spell.id)} aria-label={`${spell.name}, ${spellTypeLabel(spell)}`}>
+              <div className="spell-result-heading">
+                <div className="spell-result-identity"><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span></div>
+                <span className="spell-source-label" title={sourceName(spell)} aria-label={`Книга: ${sourceName(spell)}`}>
+                  {sourceAbbreviation(spell)}</span>
               </div>
-        )}
-      </section>
-    </div>
+              <div className="spell-result-stats">
+                <span className="spell-mini-stat" title={casting.long}><Clock3 size={14} aria-hidden="true"/>{casting.short}</span>
+                <span className="spell-mini-stat" title={`Дистанция: ${range}`}><Ruler size={14} aria-hidden="true"/>{range}</span>
+                <span className="spell-mini-stat" title={defense.long}><Shield size={14} aria-hidden="true"/>{defense.short}</span>
+              </div>
+              <ChevronRight className="spell-open-icon" size={17} aria-hidden="true"/>
+            </button>;
+          })}
+          {shown.length>visibleCount&&<div className="spell-load-more">
+            <span>Показано {Math.min(visibleCount,shown.length)} из {shown.length}</span>
+            <button type="button" onClick={()=>setVisibleCount(current=>current+RESULTS_PER_PAGE)}>Показать ещё</button>
+          </div>}
+        </div>
+        : <div className="spell-empty" role="status">
+          <span className="spell-empty-symbol"><Sparkles size={31} strokeWidth={1.2}/></span>
+          <h3>{section==='mine'?'Личные заклинания':hasFilters&&views.length>0?'Ничего не найдено':'Каталог пока пуст'}</h3>
+          <p>{section==='mine'
+            ? 'Раздел подготовлен для будущих пользовательских заклинаний. Возможность их создания добавим отдельно.'
+            :hasFilters&&views.length>0
+              ? 'Попробуй изменить поисковый запрос или фильтры.'
+              : 'Раздел пока не наполнен. Следующие партии заклинаний будут появляться постепенно.'}</p>
+          {hasFilters&&<button type="button" onClick={reset}>Показать все разделы</button>}
+          {!hasFilters&&<div className="spell-empty-footer"><Layers3 size={15}/> Основа для двух игровых систем</div>}
+        </div>
+      )}
+    </section>
     {displayed&&<SpellModal spell={displayed} onClose={closeDetails}/>}
   </main>;
 }
