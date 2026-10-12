@@ -39,14 +39,32 @@ try{
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   await page.getByText('24 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),24);
-  // Legibility regression against the LSS-inspired size pass.
+  // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
+  for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
+    await page.setViewportSize({width,height:900});
+    const stats=await page.evaluate(()=>{
+      const tiles=Array.from(document.querySelectorAll('.spell-result')).slice(0,4);
+      const top=tiles[0]?.getBoundingClientRect().top;
+      return {columns:tiles.filter(t=>Math.abs(t.getBoundingClientRect().top-top)<2).length,
+        overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert.equal(stats.columns,columns,`Incorrect tile grid at ${width}px: ${stats.columns}`);
+    assert.ok(stats.overflow<=1,`Horizontal page overflow at ${width}px: ${stats.overflow}`);
+  }
+  await page.setViewportSize({width:1360,height:860});
+  assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
+    'Library expands beyond the old 1180px narrow page on desktop');
+  assert.equal(await page.locator('.spell-result-stats').count(),24,
+    'Compact tiles show three metadata fields');
+  // Legibility regression: open the accordion before measuring field heights.
+  await page.locator('.spell-filter-toggle').click();
   const librarySizing=await page.evaluate(()=>{
     const size=selector=>parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
     const height=selector=>document.querySelector(selector).getBoundingClientRect().height;
     return {
       title:size('.spell-intro-heading h1'),
       tab:size('.spell-system-tab span'),
-      category:size('.spell-category'),
+      category:size('.spell-kind-chip'),
       search:size('.spell-search input'),
       searchHeight:height('.spell-search'),
       filter:size('.spell-filter-grid select'),
@@ -60,11 +78,15 @@ try{
   assert.ok(librarySizing.search>=15&&librarySizing.searchHeight>=50,'Search is large and touch friendly');
   assert.ok(librarySizing.filter>=14&&librarySizing.filterHeight>=44,'Filters are not tiny');
   assert.ok(librarySizing.nav>=15,'Top navigation typography matches enlarged library');
+  await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
   assert.equal(await page.locator('.spell-total').textContent(),'24 записей');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
   assert.equal(await page.locator('.spell-result').count(),1);
+  const tile=page.locator('.spell-result').first();
+  assert.ok(await tile.locator('.spell-source-label').isVisible(),'Each tile retains a source-book badge');
+  assert.equal(await tile.locator('.spell-mini-stat').count(),3,'Each tile exposes casting/range/defense');
   const listBefore=await page.locator('.spell-result').count();
   const scrollBefore=await page.evaluate(()=>scrollY);
   await page.locator('.spell-result').first().click();
@@ -99,10 +121,20 @@ try{
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('dialog').waitFor({state:'hidden'});
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
+  // Quick ranks and categories use real catalog filtering, independent of expanded filters.
+  await page.getByRole('button',{name:'1',exact:true}).click();
+  assert.equal(await page.locator('.spell-result').count(),0,'Rank 1 has no spells in first wave');
+  await page.getByRole('button',{name:'0',exact:true}).click();
+  assert.equal(await page.locator('.spell-result').count(),24,'Rank 0 shows all imported cantrips');
   await page.getByRole('button',{name:'Чары',exact:true}).click();
   assert.ok(await page.getByRole('heading',{name:'Чары'}).isVisible());
+  await page.getByRole('button',{name:/Фильтры/}).click();
+  assert.ok(await page.locator('.spell-filter-panel').isVisible(),'Extended filters can open on desktop');
+  assert.equal(await page.getByRole('button',{name:/Фильтры/}).getAttribute('aria-expanded'),'true');
+  await page.getByRole('button',{name:/Фильтры/}).click();
+  assert.ok(!(await page.locator('.spell-filter-panel').isVisible()),'Extended filters can close on desktop');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('неизвестное');
-  await page.getByRole('button',{name:/Сбросить фильтры/}).click();
+  await page.locator('.spell-reset-main').click();
   assert.equal(await page.getByRole('searchbox',{name:'Поиск заклинаний'}).inputValue(),'');
   await page.getByRole('button',{name:/D&D 5e/}).click();
   await page.getByText('0 записей',{exact:true}).waitFor();
@@ -157,7 +189,7 @@ try{
   await preview.locator('.spell-result').first().click();
   assert.equal(await preview.locator('.spell-result').count(),55,'All 55 rows remain behind dialog');
   assert.ok(await preview.getByRole('dialog').getByText('Текст синтетического образца.').isVisible());
-  assert.ok(await preview.locator('.spell-result').first().locator('span').textContent()!=='Example Spell');
+  assert.equal(await preview.locator('.spell-result').first().locator('.spell-result-identity span').textContent(),'Заклинание 1-го круга');
   await preview.getByRole('button',{name:'Закрыть описание'}).click();
   assert.equal(await preview.locator('.spell-result').count(),55);
   await preview.close();
@@ -167,7 +199,7 @@ try{
   await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   const phoneSizing=await mobile.evaluate(()=>{
     const tab=document.querySelector('.spell-system-tab span');
-    const category=document.querySelector('.spell-category');
+    const category=document.querySelector('.spell-kind-chip');
     return {tab:parseFloat(getComputedStyle(tab).fontSize),
       category:parseFloat(getComputedStyle(category).fontSize),
       overflow:document.documentElement.scrollWidth-window.innerWidth};
