@@ -5416,7 +5416,7 @@
       "versionId": "pf2e-command-pf2e-remaster",
       "locale": "en",
       "name": "Command",
-      "description": "You shout a command that's hard to ignore. You can command the target to approach you, run away (as if it had the condition condition), release what it's holding, drop condition, or stand in place. It can't condition or take any reactions until it has obeyed your command. The effects depend on the target's Will save.\n\n\n\n\nSuccess The creature is unaffected.\n\nFailure For the first action on its next turn, the creature must use a single action to do as you command.\n\nCritical Failure The target must use all its actions on its next turn to obey your command.\n\n\n\n\nHeightened (5th) You can target up to 10 creatures.",
+      "description": "You shout a command that's hard to ignore. You can command the target to approach you, run away (as if it had the Fleeing condition), release what it's holding, drop Prone, or stand in place. It can't Delay or take any reactions until it has obeyed your command. The effects depend on the target's Will save.\n\n\n\n\nSuccess The creature is unaffected.\n\nFailure For the first action on its next turn, the creature must use a single action to do as you command.\n\nCritical Failure The target must use all its actions on its next turn to obey your command.\n\n\n\n\nHeightened (5th) You can target up to 10 creatures.",
       "translationStatus": "verified"
     },
     {
@@ -5432,7 +5432,7 @@
       "versionId": "pf2e-conductive-weapon-pf2e-remaster",
       "locale": "en",
       "name": "Conductive Weapon",
-      "description": "You channel powerful electric current through the metal of a weapon, zapping anyone the item hits. The target becomes a +1 shock weapon. If any target of an attack with the weapon is wearing metal armor or is primarily made of metal, the electricity damage die from the shock rune is 1d12.\n\ncondition",
+      "description": "You channel powerful electric current through the metal of a weapon, zapping anyone the item hits. The target becomes a +1 shock weapon. If any target of an attack with the weapon is wearing metal armor or is primarily made of metal, the electricity damage die from the shock rune is 1d12.\n\nSpell Effect: Conductive Weapon",
       "translationStatus": "verified"
     },
     {
