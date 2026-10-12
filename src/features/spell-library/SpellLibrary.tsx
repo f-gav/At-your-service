@@ -28,10 +28,6 @@ const COMMON_CATEGORIES:Category[]=[
 ];
 const DND_CATEGORIES=COMMON_CATEGORIES.filter(x=>x.id!=='focus'&&x.id!=='special');
 const RESULTS_PER_PAGE=50;
-function rankLabel(system:SpellSystem,rank:number){
-  if(rank===0)return 'Чары';
-  return system==='pf2e'?`${rank}-й круг`:`${rank}-й уровень`;
-}
 function sourceName(spell:SpellView){
   return spell.source?.name||'Источник не указан';
 }
