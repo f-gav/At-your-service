@@ -11,9 +11,9 @@ assert.deepEqual(parseSpellCatalog(dnd,'dnd5e'),emptySpellCatalog('dnd5e'),
   'D&D must remain untouched during Pathfinder waves 001–003');
 const wave=JSON.parse(source('../public/spell-library/pf2e.json'));
 parseSpellCatalog(wave,'pf2e');
-assert.equal(wave.spells.length,119,'71 cantrips + 24 rank-one spells');
+assert.equal(wave.spells.length,119,'71 cantrips + 48 rank-one spells');
 assert.equal(wave.versions.length,119);
-assert.equal(wave.translations.filter(t=>t.locale==='ru').length,62,'48 cantrips + 13 rank-one Russian cards');
+assert.equal(wave.translations.filter(t=>t.locale==='ru').length,62,'48 cantrips + 14 rank-one Russian cards');
 assert.equal(wave.translations.filter(t=>t.locale==='en').length,119,'Every spell retains a canonical English identity');
 assert.ok(wave.spells.every(s=>s.system==='pf2e'&&((s.kind==='cantrip'&&s.rank===0)||(s.kind==='spell'&&s.rank===1))));
 assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,71);
@@ -54,11 +54,8 @@ assert.equal(liveViews.length,119,'All 71 cantrips and 24 rank-one spells are se
 assert.equal(liveViews.filter(v=>v.locale==='ru').length,62);
 assert.equal(liveViews.filter(v=>v.locale==='en').length,57);
 const legacy=liveViews.filter(v=>v.rules.edition==='pf2e-legacy');
-assert.deepEqual(legacy.map(v=>v.spell.slug).sort(),[
- 'acid-splash','ancient-dust','ghost-sound','glowing-trail','healing-plaster',
- 'inside-ropes','invoke-true-name','join-pasts','ray-of-frost','torturous-trauma',
- 'admonishing-ray','airburst','animate-rope','aqueous-blast'].sort());
-assert.equal(toSpellViews(wave,'pf2e-legacy').length,14);
+assert.deepEqual(legacy.map(v=>v.spell.slug).sort(),["acid-splash","admonishing-ray","airburst","ancient-dust","animate-rope","aqueous-blast","buffeting-winds","celestial-accord","ghost-sound","glowing-trail","healing-plaster","inside-ropes","invoke-true-name","join-pasts","ray-of-frost","torturous-trauma"]);
+assert.equal(toSpellViews(wave,'pf2e-legacy').length,16);
 assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===62);
 assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===57);
 assert.ok(liveViews.every(v=>wave.sources.some(src=>src.id===v.spell.sourceId)));
@@ -90,9 +87,9 @@ assert.ok(liveViews.find(v=>v.spell.slug==='vitality-lash')?.description.include
 assert.ok(liveViews.find(v=>v.spell.slug==='root-reading')?.locale==='en');
 assert.ok(liveViews.find(v=>v.spell.slug==='wash-your-luck')?.locale==='ru');
 assert.ok(source('../docs/SPELL-WAVE-003-RU.md').includes('19 русских'));
-assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=71).length,11,
+assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=71).length,34,
   'Rank-one wave 001 has 11 new English-only cards');
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=71).length,13);
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=71).length,14);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,71);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:1}).length,48);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,kind:'spell'}).length,48);
