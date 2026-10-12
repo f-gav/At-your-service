@@ -25,7 +25,7 @@ assert.match(portraitRule,/order:\s*-1;/);
 assert.match(portraitRule,/margin:\s*12px auto 4px;/,
   'Phone portrait must ignore potentially negative desktop frame shifts');
 assert.ok(!portraitRule.includes('--moon-mask-'),
-  'Preserve the user's independent mask crop/offset settings');
+  "Preserve the user\'s independent mask crop/offset settings");
 const dossierFieldRule = css.slice(css.indexOf('.moon-page-dossier .moon-dossier-top > .moon-dossier-fields {', phoneOverride));
 assert.ok(dossierFieldRule.includes('grid-row: 2;'),
   'Phone dossier details follow the portrait, not overlay it');
