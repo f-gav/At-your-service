@@ -611,6 +611,127 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-secrets-of-magic"
+    },
+    {
+      "id": "pf2e-ignition",
+      "system": "pf2e",
+      "slug": "ignition",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cantrip",
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-illuminate",
+      "system": "pf2e",
+      "slug": "illuminate",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-infectious-enthusiasm",
+      "system": "pf2e",
+      "slug": "infectious-enthusiasm",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "emotion",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-inside-ropes",
+      "system": "pf2e",
+      "slug": "inside-ropes",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-181-zombie-feast"
+    },
+    {
+      "id": "pf2e-invoke-true-name",
+      "system": "pf2e",
+      "slug": "invoke-true-name",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "true-name"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-secrets-of-magic"
+    },
+    {
+      "id": "pf2e-join-pasts",
+      "system": "pf2e",
+      "slug": "join-pasts",
+      "kind": "cantrip",
+      "rank": 0,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cantrip",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-147-tomorrow-must-burn"
     }
   ],
   "versions": [
@@ -1016,6 +1137,84 @@
       "heightened": {
         "3": "Материал даёт применяющему его бонус предмета +1 к Медицины при оказании первой помощи или лечении ран."
       }
+    },
+    {
+      "id": "pf2e-ignition-pf2e-remaster",
+      "spellId": "pf2e-ignition",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 creature",
+      "savingThrow": "Атака заклинанием против КБ",
+      "resource": "none",
+      "heightened": {
+        "+1": "Начальный урон увеличивается на 1d4 (либо 1d6 вблизи); продолжительный урон при критическом попадании — на соответствующую кость."
+      }
+    },
+    {
+      "id": "pf2e-illuminate-pf2e-remaster",
+      "spellId": "pf2e-illuminate",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "area": "Эманация радиусом 30 футов",
+      "savingThrow": "Спасбросок Рефлекса",
+      "resource": "none",
+      "heightened": {
+        "+1": "The maximum emanation radius increases by 10 feet."
+      }
+    },
+    {
+      "id": "pf2e-infectious-enthusiasm-pf2e-remaster",
+      "spellId": "pf2e-infectious-enthusiasm",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 раунд",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-inside-ropes-pf2e-legacy",
+      "spellId": "pf2e-inside-ropes",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "10 минут",
+      "resource": "none",
+      "heightened": {
+        "3": "You gain a +1 item bonus to Athletics checks made to Climb using these entrails."
+      }
+    },
+    {
+      "id": "pf2e-invoke-true-name-pf2e-legacy",
+      "spellId": "pf2e-invoke-true-name",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 creature whose true name you know",
+      "resource": "none"
+    },
+    {
+      "id": "pf2e-join-pasts-pf2e-legacy",
+      "spellId": "pf2e-join-pasts",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "Касание",
+      "targets": "2 willing creatures",
+      "duration": "1 раунд",
+      "resource": "none",
+      "heightened": {
+        "+1": "You can include one additional willing creature; multiple companions can Aid the creature recalling knowledge."
+      }
     }
   ],
   "translations": [
@@ -1419,6 +1618,62 @@
       "description": "Вы превращаете горсть земли или грязи в целебный пластичный материал. В течение 10 минут его можно использовать вместо инструментов лекаря для проверок Медицины при оказании первой помощи или лечении ран. Если не применить материал до конца действия чар либо сотворить их ещё раз, он станет обычной землёй.",
       "translationStatus": "draft",
       "translatorCredit": "Название: Pathfinder 2E RU spell list; описание: самостоятельное изложение по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-ignition",
+      "versionId": "pf2e-ignition-pf2e-remaster",
+      "locale": "en",
+      "name": "Ignition",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ignition",
+      "versionId": "pf2e-ignition-pf2e-remaster",
+      "locale": "ru",
+      "name": "Воспламенение",
+      "description": "Вы щёлкаете пальцами, направляя искру в существо. Совершите атаку заклинанием против его КБ: при попадании цель получает 2d4 урона огнём. Если цель в пределах вашей досягаемости ближнего боя, можно атаковать в ближнем бою и использовать кости d6 вместо d4. При критическом попадании начальный урон удваивается, а цель получает 1d4 продолжительного урона огнём (для атаки вблизи — d6).",
+      "translationStatus": "draft",
+      "translatorCredit": "Название подтверждено PF2 RU; описание самостоятельно адаптировано по данным Foundry PF2e"
+    },
+    {
+      "spellId": "pf2e-illuminate",
+      "versionId": "pf2e-illuminate-pf2e-remaster",
+      "locale": "en",
+      "name": "Illuminate",
+      "description": "You ignite nonmagical fire-based light sources such as candles, torches, and oil lamps within a 30-foot emanation. You may reduce the emanation's radius as you cast. A creature holding an affected light source against its will can attempt a Reflex save to extinguish it before the new light draws attention.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-infectious-enthusiasm",
+      "versionId": "pf2e-infectious-enthusiasm-pf2e-remaster",
+      "locale": "en",
+      "name": "Infectious Enthusiasm",
+      "description": "You kindle a contagious sense of purpose, gaining a +1 status bonus to attack rolls, Will saves, or Charisma-based skill checks (choose one type when casting). An ally who watched the casting from within 30 feet may spend one action with the concentrate trait to gain your chosen bonus until the start of their next turn. The spell lasts 1 round. Casting it openly during social interaction can negate its Charisma-based benefit against a witness.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-inside-ropes",
+      "versionId": "pf2e-inside-ropes-pf2e-legacy",
+      "locale": "en",
+      "name": "Inside Ropes",
+      "description": "You draw out a harmless 50-foot length of your own magical entrails and use it as a rope for climbing. While climbing with them, you move at half your usual climbing speed (minimum 5 feet), but a DC 5 flat check can prevent a fall after a critical failure on a Climb check. Others can use the rope, but only you benefit from its uncanny grip on walls. Releasing or damaging it ends the spell.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-invoke-true-name",
+      "versionId": "pf2e-invoke-true-name-pf2e-legacy",
+      "locale": "en",
+      "name": "Invoke True Name",
+      "description": "You pronounce the true name of a creature you can see within 30 feet. Until the end of the current turn, it is off-guard against your spells and takes a –2 circumstance penalty to saving throws against them. The first time one of your spells damages it this turn, it also has weakness to that damage equal to twice the rank of Invoke True Name.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-join-pasts",
+      "versionId": "pf2e-join-pasts-pf2e-legacy",
+      "locale": "en",
+      "name": "Join Pasts",
+      "description": "You touch the foreheads of two willing creatures, joining their minds for one round. They may share memories and experiences without sending words. When one attempts Recall Knowledge, the other can Aid the check using any Lore skill, even one normally unrelated, without advance preparation.",
+      "translationStatus": "draft"
     }
   ],
   "sources": [
@@ -1495,6 +1750,20 @@
     {
       "id": "src-pathfinder-secrets-of-magic",
       "name": "Pathfinder Secrets of Magic",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-181-zombie-feast",
+      "name": "Pathfinder #181: Zombie Feast",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
+    },
+    {
+      "id": "src-pathfinder-147-tomorrow-must-burn",
+      "name": "Pathfinder #147: Tomorrow Must Burn",
       "publisher": "Paizo",
       "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/cantrip"
