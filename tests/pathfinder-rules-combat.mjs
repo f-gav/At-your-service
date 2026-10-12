@@ -140,7 +140,7 @@ assert.match(ui,/withEquipmentNumberFields\(cloneFields\(data.fields\)\)/);
 assert.match(admin,/withEquipmentNumberFields\(cloneFields\(schema\)\)/);
 assert.match(ui,/pageFields.map\(renderField\)/);
 assert.match(ui,/field.id === 'armor_class'/);
-assert.match(ui,/Object.assign\(toStore, computed\)/);
+assert.match(ui,/Object\.assign\(stored,derived\)/);
 assert.equal(calculateNativeCombat({armor_dex:'2',armor_prof:'3',armor_item:'4',shield_ac_bonus:'5'}).armor_class,'19');
 assert.equal(calculateNativeCombat({armor_dex:'-2',armor_prof:'1',armor_item:'4'}).armor_class,'13');
 assert.equal(calculateNativeCombat({armor_dex:'',armor_prof:'',armor_item:''}).armor_class,'10');

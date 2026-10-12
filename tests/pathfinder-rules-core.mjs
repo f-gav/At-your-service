@@ -88,7 +88,7 @@ const css=read('../src/features/pathfinder/PathfinderSheet.css');
 assert.match(ui,/calculateCore\(\{ \.\.\.values, \.\.\.combat \}\)/);
 assert.match(ui,/setAutomatic/);
 assert.match(ui,/RANK_FIELDS.has\(field.id\)/);
-assert.match(ui,/persistSheetValues\(character.details, toStore, cleanName\)/);
+assert.match(ui,/persistSheetValues\(character\.details,stored,cleanName\)/);
 assert.match(ui,/readOnly: computedField/);
 assert.match(rank,/option value=\{value\}/);
 assert.match(css,/\.pf-rank-mark-selected/);

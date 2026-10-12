@@ -44,7 +44,11 @@ export function useAutoSave({
   const saveNow = useCallback(async function flush():Promise<boolean> {
     if (!enabled) return true;
     if (inFlight.current) {
-      await inFlight.current;
+      const succeeded=await inFlight.current;
+      // A failed write must NOT be retried recursively: network errors can
+      // otherwise loop forever and leave the UI stuck. Keep the local draft
+      // and let the user retry or wait for a new edit / online event.
+      if(!succeeded)return false;
       // A user may have continued typing while the older request was pending.
       return flush();
     }
