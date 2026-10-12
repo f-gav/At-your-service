@@ -27,6 +27,8 @@ import {
   normalizedName,
   moveCharacterToIndex,
   systemKeys,
+  creatableSystemKeys,
+  canCreateCharacter,
 } from './lib/models';
 import type { Character, CharacterDetails, GameSystem } from './lib/models';
 import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
@@ -412,6 +414,7 @@ export default function App() {
   }
 
   function beginCreate(system: GameSystem) {
+    if (!canCreateCharacter(system)) return;
     if (!user) {
       void signIn();
       return;
@@ -424,7 +427,7 @@ export default function App() {
 
   async function createCharacter(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!supabase || !user || !createPanel || busy) return;
+    if (!supabase || !user || !createPanel || !canCreateCharacter(createPanel) || busy) return;
     const name = normalizedName(newName);
     if (!name) { setError('Укажи имя персонажа.'); return; }
     setBusy(true);
@@ -678,7 +681,7 @@ export default function App() {
                 <h2 id="create-title">Выбери игровую систему</h2>
                 <p>Для какой истории создаём персонажа?</p>
                 <div className="create-system-list">
-                  {systemKeys.map(system => <button type="button" autoFocus={system === 'dnd5e'} key={system} onClick={() => beginCreate(system)}>
+                  {creatableSystemKeys.map((system, index) => <button type="button" autoFocus={index === 0} key={system} onClick={() => beginCreate(system)}>
                     <span><strong>{GAME_SYSTEMS[system].title}</strong><small>{GAME_SYSTEMS[system].subtitle}</small></span><ArrowRight size={18} />
                   </button>)}
                 </div>
