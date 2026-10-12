@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Cloud, Files, Plus, RotateCcw, Settings2, Trash2, X } from 'lucide-react';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
-import PortraitImage from '../portrait/PortraitImage';
+import MoonPortrait from './MoonPortrait';
 import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
 import {
@@ -324,10 +324,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
             </div>
           </div>
           <button type="button" className="moon-portrait-button" onClick={onEditPortrait} aria-label="Изменить портрет">
-            <span className="moon-portrait-window">
-              {portraitUrl ? <PortraitImage url={portraitUrl} frame={portraitFrame} /> :
-                <span className="moon-portrait-empty">ПОРТРЕТ<br />Добавить изображение</span>}
-            </span>
+            <MoonPortrait url={portraitUrl} frame={portraitFrame} name={name} />
           </button>
         </div>
         <section className="moon-section">

@@ -35,6 +35,7 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
+import MoonPortrait from './features/project-moon/MoonPortrait';
 import { emptyMoonSheet, moonSubtitle } from './features/project-moon/model';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
@@ -641,13 +642,21 @@ export default function App() {
                     setActiveId(character.id); setOpenMenuId(null); setError('');
                   }} aria-label={movingId ? movingId === character.id ? `Перемещаем персонажа ${character.name}` : `Переместить выбранного персонажа на позицию ${character.name}` : `Открыть лист персонажа ${character.name}`}>
                     <span className="character-portrait" aria-hidden="true">
-                      {character.portrait_source_path && portraitUrls[character.portrait_source_path]
-                        ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
-                        : character.portrait_card_path && portraitUrls[character.portrait_card_path]
-                          ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
-                          : character.system==='pf2e'
-                            ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder-simple.png`} alt="" />
-                            : null}
+                      {character.system === 'prmoon'
+                        ? <MoonPortrait compact
+                            url={character.portrait_source_path && portraitUrls[character.portrait_source_path]
+                              ? portraitUrls[character.portrait_source_path]
+                              : character.portrait_sheet_path && portraitUrls[character.portrait_sheet_path]
+                                ? portraitUrls[character.portrait_sheet_path]
+                                : character.portrait_card_path ? portraitUrls[character.portrait_card_path] : undefined}
+                            frame={character.portrait_source_path ? character.portrait_crops?.sheet : undefined} />
+                        : character.portrait_source_path && portraitUrls[character.portrait_source_path]
+                          ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
+                          : character.portrait_card_path && portraitUrls[character.portrait_card_path]
+                            ? <img src={portraitUrls[character.portrait_card_path]} alt="" />
+                            : character.system==='pf2e'
+                              ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder-simple.png`} alt="" />
+                              : null}
                     </span>
                     <span className="character-data">
                       <strong>{character.name}</strong>
@@ -701,7 +710,7 @@ export default function App() {
         </main>
       )}
 
-      {portraitCharacter && <PortraitEditor key={portraitCharacter.id} name={portraitCharacter.name}
+      {portraitCharacter && <PortraitEditor key={portraitCharacter.id} name={portraitCharacter.name} system={portraitCharacter.system}
         existing={portraitPaths(portraitCharacter).length>0} onClose={()=>setEditingPortraitId(null)}
         onSave={savePortraitChange} onDelete={removePortraitChange}/>}
       <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ ВЕРСИЯ #1</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>

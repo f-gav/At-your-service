@@ -2,10 +2,12 @@ import { useEffect,useRef,useState } from 'react';
 import type { PointerEvent as PointerEvt,WheelEvent as WheelEvt } from 'react';
 import { cropGeometry,frameFromCrop,optimizedSourceWebp } from './crop';
 import type { CropPosition,CropSize,PortraitCrops } from './crop';
+import type { GameSystem } from '../../lib/models';
 import './PortraitEditor.css';
 
 const CARD_SIZE={width:384,height:384};
 const SHEET_SIZE={width:480,height:708};
+const MOON_SHEET_SIZE={width:480,height:506}; // Matches the mask's portrait window.
 const MAX_SOURCE=3*1024*1024;
 const init=():CropPosition=>({zoom:1,dx:0,dy:0});
 
@@ -53,12 +55,13 @@ function CropPanel({title,image,imageSize,output,crop,onChange}:{title:string;im
   </div>;
 }
 
-export default function PortraitEditor({name,existing,onClose,onSave,onDelete}:{
-  name:string;existing:boolean;onClose:()=>void;
+export default function PortraitEditor({name,existing,onClose,onSave,onDelete,system='pf2e'}:{
+  name:string;existing:boolean;system?:GameSystem;onClose:()=>void;
   onSave:(source:Blob,crops:PortraitCrops)=>Promise<void>;onDelete:()=>Promise<void>;
 }){
   const [imageUrl,setImageUrl]=useState('');
   const [imageSize,setImageSize]=useState<CropSize>({width:1,height:1});
+  const sheetOutput=system === 'prmoon' ? MOON_SHEET_SIZE : SHEET_SIZE;
   const [square,setSquare]=useState<CropPosition>(init);
   const [vertical,setVertical]=useState<CropPosition>(init);
   const [error,setError]=useState(''),[busy,setBusy]=useState(false);
@@ -119,10 +122,10 @@ export default function PortraitEditor({name,existing,onClose,onSave,onDelete}:{
         <button className="portrait-upload" disabled={busy} onClick={()=>fileRef.current?.click()}>Загрузить изображение</button>
         {existing&&<button className="portrait-delete" disabled={busy} onClick={()=>void remove()}>Удалить текущий портрет</button>}
       </div>:<>
-        <p className="portrait-hint">Выбери два кадра: квадратный для карточки и вертикальный для листа PF2e.</p>
+        <p className="portrait-hint">{system === 'prmoon' ? 'Выбери кадр для карточки и отдельный кадр для портрета Pr. Moon.' : 'Выбери два кадра: квадратный для карточки и вертикальный для листа PF2e.'}</p>
         <div className="portrait-crop-panels">
           <div ref={squarePanel} className="portrait-crop-holder"><CropPanel title="Карточка · квадрат" image={imageUrl} imageSize={imageSize} output={CARD_SIZE} crop={square} onChange={setSquare}/></div>
-          <div ref={verticalPanel} className="portrait-crop-holder"><CropPanel title="Лист · портрет" image={imageUrl} imageSize={imageSize} output={SHEET_SIZE} crop={vertical} onChange={setVertical}/></div>
+          <div ref={verticalPanel} className="portrait-crop-holder"><CropPanel title={system === 'prmoon' ? 'Pr. Moon · портрет' : 'Лист · портрет'} image={imageUrl} imageSize={imageSize} output={sheetOutput} crop={vertical} onChange={setVertical}/></div>
         </div>
         <div className="portrait-actions"><button disabled={busy} onClick={()=>fileRef.current?.click()}>Другая картинка</button><button disabled={busy} onClick={()=>{dispose();imageRef.current=null;setImageUrl('');}}>Отмена</button><button className="portrait-save" disabled={busy} onClick={()=>void save()}>{busy?'Сохраняем…':'Сохранить'}</button></div>
       </>}

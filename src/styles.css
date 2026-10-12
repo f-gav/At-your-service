@@ -432,3 +432,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   font-style: normal;
   letter-spacing: 0;
 }
+
+/* Pr. Moon thumbnails crop the ID frame before its bottom name plate. */
+.character-prmoon .character-portrait { border-color:#aeb8b8; background:#f3f4f4; }
