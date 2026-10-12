@@ -384,3 +384,30 @@
 /* The full ID frame needs its natural aspect ratio, not the old 170px portrait box. */
 .moon-portrait-button {align-self:start;overflow:visible;}
 .moon-portrait-button .moon-portrait-art-stage {height:auto;}
+
+/* One coordinate system for the complete Pr. Moon ID: outer host establishes
+ * height; the frame, mask and live portrait are overlay layers, not flex rows. */
+.moon-dossier-top {
+  grid-template-columns:minmax(0,1fr) minmax(0,var(--moon-portrait-width,210px));
+  align-items:start;
+  overflow:visible;
+}
+.moon-portrait-host {
+  display:block;
+  width:100%;
+  position:relative;
+  margin-left:var(--moon-portrait-shift-x,0px);
+  margin-top:var(--moon-portrait-shift-y,0px);
+}
+.moon-portrait-host .moon-portrait-art {
+  width:100%;
+  height:auto;
+  aspect-ratio:384 / 586;
+}
+@media(max-width:660px) {
+  .moon-dossier-top {grid-template-columns:1fr;}
+  .moon-portrait-host {width:min(185px,100%);justify-self:center;order:-1;}
+}
+@media print {
+  .moon-portrait-host {break-inside:avoid;}
+}

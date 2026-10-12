@@ -2,31 +2,33 @@ import PortraitImage from '../portrait/PortraitImage';
 import type { CropFrame } from '../portrait/crop';
 import './MoonPortrait.css';
 
-const FRAME = `${import.meta.env.BASE_URL}project-moon/portrait-frame.png`;
-const PLACEHOLDER = `${import.meta.env.BASE_URL}project-moon/portrait-placeholder.png`;
+export const MOON_PORTRAIT_FRAME = `${import.meta.env.BASE_URL}project-moon/portrait-frame.png`;
+export const MOON_PORTRAIT_MASK = `${import.meta.env.BASE_URL}project-moon/portrait-placeholder.png`;
 
 type Props = {
   url?: string;
   frame?: CropFrame | null;
   name?: string;
-  compact?: boolean;
+  onEditPortrait?: () => void;
 };
 
 /**
- * Portrait uses the user-provided Project Moon frame and placeholder mask.
- * Full dossier shows the character's name in the bottom plate; the home
- * thumbnail crops that plate away, leaving existing card metadata untouched.
+ * The frame and the goblin placeholder share exactly the same 384 x 586 canvas.
+ * The hit area is the mask's rectangular portrait window; clicking there
+ * opens the existing crop editor without changing other systems' portraits.
  */
-export default function MoonPortrait({url, frame, name = '', compact = false}: Props) {
-  return <span className={'moon-portrait-art' + (compact ? ' moon-portrait-art--compact' : '')}>
-    <span className="moon-portrait-art-stage">
-      {url
-        ? <span className="moon-portrait-art-window">
-            <PortraitImage url={url} frame={frame} alt="" />
-          </span>
-        : <img className="moon-portrait-art-placeholder" src={PLACEHOLDER} alt="" draggable={false} />}
-      <img className="moon-portrait-art-frame" src={FRAME} alt="" draggable={false} />
-      {!compact && <span className="moon-portrait-art-caption" title={name}>{name}</span>}
-    </span>
-  </span>;
+export default function MoonPortrait({url, frame, name = '', onEditPortrait}: Props) {
+  return <div className="moon-portrait-art">
+    <img className="moon-portrait-art-frame" src={MOON_PORTRAIT_FRAME} alt="" draggable={false} />
+    {url
+      ? <span className="moon-portrait-art-window">
+          <PortraitImage url={url} frame={frame} alt="" />
+        </span>
+      : <img className="moon-portrait-art-mask" src={MOON_PORTRAIT_MASK} alt="" draggable={false} />}
+    <span className="moon-portrait-art-caption" title={name}>{name}</span>
+    {onEditPortrait && <button type="button" className="moon-portrait-art-trigger"
+      aria-label={url ? 'Изменить портрет персонажа' : 'Добавить портрет персонажа'}
+      title={url ? 'Изменить портрет' : 'Добавить портрет'}
+      onClick={onEditPortrait} />}
+  </div>;
 }

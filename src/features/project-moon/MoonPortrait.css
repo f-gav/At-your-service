@@ -1,88 +1,86 @@
-/* Dimensions and windows are measured against the original 1343×2048 assets. */
+/*
+ * Both source PNGs are identical 384 x 586 canvases. The mask fills the
+ * frame's cut-out instead of being positioned in its own coordinate system.
+ * No height: auto on the layered images: that caused the displaced artwork.
+ */
 .moon-portrait-art {
+  position:relative;
   display:block;
   width:100%;
-  aspect-ratio:1343 / 2048;
-  position:relative;
-  overflow:hidden;
+  aspect-ratio:384 / 586;
+  height:auto;
   isolation:isolate;
+  overflow:visible;
   background:transparent;
 }
-.moon-portrait-art-stage {
+.moon-portrait-art-frame,
+.moon-portrait-art-mask {
   display:block;
   position:absolute;
-  inset:0;
+  top:0;
+  left:0;
   width:100%;
-  aspect-ratio:1343 / 2048;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  object-fit:fill;
+  pointer-events:none;
+  border:0;
+  margin:0;
+  padding:0;
 }
+.moon-portrait-art-frame {z-index:1;}
+.moon-portrait-art-mask {z-index:2;}
 .moon-portrait-art-window {
   position:absolute;
-  left:4%;
-  top:18.45%;
-  width:92%;
-  height:63.5%;
+  left:3.65%;
+  top:18.09%;
+  width:92.7%;
+  height:64%;
   overflow:hidden;
-  display:block;
-  background:#f5f5f5;
+  z-index:2;
+  background:#fff;
 }
 .moon-portrait-art-window > img {
   position:absolute;
-  display:block;
   width:100%;
   height:100%;
+  max-width:none;
   object-fit:cover;
-}
-.moon-portrait-art-placeholder,
-.moon-portrait-art-frame {
-  position:absolute;
-  inset:0;
   display:block;
-  width:100%;
-  height:100%;
-  object-fit:fill;
-  pointer-events:none;
 }
-.moon-portrait-art-frame { z-index:2; }
 .moon-portrait-art-caption {
   position:absolute;
   z-index:3;
-  bottom:5.7%;
-  left:6%;
-  width:88%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font-size:clamp(10px, 1.2vw, 15px);
-  font-family:'DejaVu Sans','Noto Sans',Arial,sans-serif;
-  font-weight:800;
-  line-height:1.4;
-  text-align:center;
-  color:#fff;
-  text-shadow:0 1px 1px #444a4e;
-  pointer-events:none;
-}
-.moon-portrait-art--compact {
-  aspect-ratio:1 / 1;
-  width:100%;
-  height:100%;
-  border-radius:inherit;
-  background:#eff0f1;
-}
-.moon-portrait-art--compact .moon-portrait-art-stage {
-  top:0;
+  bottom:6%;
   left:5%;
   width:90%;
-  height:auto;
+  color:#fff;
+  font:800 clamp(9px,1.12vw,15px)/1.3 'Noto Sans','DejaVu Sans',Arial,sans-serif;
+  text-align:center;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  text-shadow:0 1px 2px #30383d;
+  pointer-events:none;
 }
-.moon-portrait-art--compact .moon-portrait-art-caption { display:none; }
-
-.moon-portrait-art-stage {bottom:auto;height:auto;}
-
-/* The artwork is a full-height ID: never inherit the generic sheet img dimensions. */
-.moon-portrait-button .moon-portrait-art {width:100%;height:auto;aspect-ratio:384 / 586;overflow:visible;}
-.moon-portrait-button .moon-portrait-art-stage {position:relative;inset:auto;width:100%;height:auto;aspect-ratio:384 / 586;}
-.moon-portrait-button .moon-portrait-art-frame,
-.moon-portrait-button .moon-portrait-art-placeholder {position:absolute;inset:0;width:100%;height:100%;object-fit:fill;}
-.moon-portrait-button .moon-portrait-art-window {z-index:1;}
-.moon-portrait-button .moon-portrait-art-frame {z-index:2;}
-.moon-portrait-button .moon-portrait-art-caption {z-index:3;}
+.moon-portrait-art-trigger {
+  position:absolute;
+  z-index:4;
+  left:3.65%;
+  top:18.09%;
+  width:92.7%;
+  height:64%;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.moon-portrait-art-trigger:hover {background:rgba(23,34,42,.045);}
+.moon-portrait-art-trigger:focus-visible {
+  outline:3px solid #355e80;
+  outline-offset:-3px;
+}

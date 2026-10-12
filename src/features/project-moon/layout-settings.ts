@@ -9,6 +9,9 @@ export const DEFAULT_MOON_LAYOUT = {
   noteHeight: 246,
   lineColor: '#bfc4c8',
   inkColor: '#1c1e21',
+  portraitWidth: 210,
+  portraitShiftX: 0,
+  portraitShiftY: 0,
 };
 export type MoonLayout = typeof DEFAULT_MOON_LAYOUT;
 export type MoonLayoutKey = keyof MoonLayout;
@@ -21,6 +24,9 @@ export const MOON_LAYOUT_CONTROLS: { key: MoonLayoutKey; title: string; min?: nu
   { key: 'noteHeight', title: 'Минимальная высота заметок', min: 160, max: 520, step: 2, unit: 'px' },
   { key: 'lineColor', title: 'Цвет линий' },
   { key: 'inkColor', title: 'Цвет текста' },
+  { key: 'portraitWidth', title: 'Ширина рамки и маски', min: 155, max: 270, step: 1, unit: 'px' },
+  { key: 'portraitShiftX', title: 'Смещение рамки по горизонтали', min: -35, max: 35, step: 1, unit: 'px' },
+  { key: 'portraitShiftY', title: 'Смещение рамки по вертикали', min: -35, max: 35, step: 1, unit: 'px' },
 ];
 
 type Entry = { id: string; value: unknown };
@@ -61,6 +67,9 @@ export function moonLayoutVariables(layout: MoonLayout): Record<string, string> 
     '--moon-title-size': layout.titleFont + 'px',
     '--moon-attr-height': layout.attributeHeight + 'px',
     '--moon-note-height': layout.noteHeight + 'px',
+    '--moon-portrait-width': layout.portraitWidth + 'px',
+    '--moon-portrait-shift-x': layout.portraitShiftX + 'px',
+    '--moon-portrait-shift-y': layout.portraitShiftY + 'px',
     '--moon-line': layout.lineColor,
     '--moon-ink': layout.inkColor,
   };

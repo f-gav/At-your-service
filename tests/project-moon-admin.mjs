@@ -7,7 +7,7 @@ import {
 const load = path => readFileSync(new URL(path,import.meta.url),'utf8');
 const original = {...DEFAULT_MOON_LAYOUT};
 const payload = encodeMoonLayout(original);
-assert.equal(payload.length,8);
+assert.equal(payload.length,11);
 assert.deepEqual(parseMoonLayout(payload),original);
 assert.deepEqual(parseMoonLayout(null),original);
 assert.equal(parseMoonLayout([{id:'pagePadding',value:999}]).pagePadding,22);
@@ -20,6 +20,9 @@ const vars = moonLayoutVariables(original);
 assert.equal(vars['--moon-page-padding'],'11mm');
 assert.equal(vars['--moon-title-size'],'26px');
 assert.equal(vars['--moon-line'],'#bfc4c8');
+assert.equal(vars['--moon-portrait-width'],'210px');
+assert.equal(vars['--moon-portrait-shift-x'],'0px');
+assert.equal(parseMoonLayout([{id:'portraitWidth',value:9999}]).portraitWidth,270);
 
 const app = load('../src/App.tsx');
 const chooser = load('../src/features/sheet-admin/SheetAdmin.tsx');

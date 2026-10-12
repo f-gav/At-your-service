@@ -323,9 +323,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               {field('₳', 'money')}
             </div>
           </div>
-          <button type="button" className="moon-portrait-button" onClick={onEditPortrait} aria-label="Изменить портрет">
-            <MoonPortrait url={portraitUrl} frame={portraitFrame} name={name} />
-          </button>
+          <div className="moon-portrait-host">
+            <MoonPortrait url={portraitUrl} frame={portraitFrame} name={name}
+              onEditPortrait={previewMode ? undefined : onEditPortrait} />
+          </div>
         </div>
         <section className="moon-section">
           {sectionTitle(1, 'Характеристики')}

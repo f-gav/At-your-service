@@ -27,3 +27,35 @@
 .portrait-fineprint {color:#9ba3a0;font-size:11px;text-align:center;line-height:1.5;margin:16px 0 0}
 .portrait-error {text-align:center;color:#b94444;font-size:13px;margin:12px 0}
 @media(max-width:600px){.portrait-modal{padding:18px 14px}.portrait-modal h2{font-size:20px}.portrait-crop-panels{gap:9px}.portrait-crop-panel strong{font-size:11px}.portrait-crop-viewport{border-radius:3px}.portrait-crop-panel small{font-size:9px}}
+
+/* Full vertical Project Moon identity-card preview: the draggable photo is
+   precisely inside the transparent hole of the frame. The crop viewport is
+   still the element measured by the existing non-destructive crop logic. */
+.portrait-crop-basic-preview {width:100%;}
+.portrait-crop-frame-preview {
+  width:100%;
+  position:relative;
+  aspect-ratio:384 / 586;
+  background:#fff;
+  overflow:hidden;
+}
+.portrait-crop-frame-preview .portrait-crop-viewport {
+  position:absolute;
+  left:3.65%;
+  top:18.09%;
+  width:92.7%;
+  height:64%;
+  aspect-ratio:auto;
+  border:0;
+}
+.portrait-crop-frame-art {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  object-fit:fill;
+  pointer-events:none;
+  z-index:2;
+}
