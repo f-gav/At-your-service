@@ -219,7 +219,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     if(!Number.isFinite(layout.pagePadding)||layout.pagePadding<0||layout.pagePadding>100)problems.push('Некорректные поля страницы');
     if(!Number.isFinite(layout.portraitWidth)||layout.portraitWidth<20||layout.portraitWidth>1000)problems.push('Некорректный размер портрета');
     for(const [key,style] of Object.entries(layout.elementStyles)){
-      if(!Number.isFinite(style.size)||(style.size??12)<5||(style.size??12)>120)problems.push('Недопустимый размер текста: '+key);
+      if(typeof style.size!=='number'||!Number.isFinite(style.size)||style.size<5||style.size>120)problems.push('Недопустимый размер текста: '+key);
     }
     if(problems.length){setMessage('Публикация остановлена: '+problems.join('; '));return;}
     if (!supabase || busy || !confirm('Опубликовать оформление Pr. Moon для всех пользователей?')) return;
