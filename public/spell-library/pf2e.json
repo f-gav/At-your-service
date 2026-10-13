@@ -5720,7 +5720,7 @@
       "spellId": "pf2e-read-aura",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "range": "30 футов",
       "targets": "1 предмет",
@@ -6090,8 +6090,8 @@
         "+1": "Дробящий урон увеличивается на 2d6."
       },
       "outcomes": {
-        "criticalSuccess": "Double bludgeoning damage.",
-        "success": "Full bludgeoning damage."
+        "criticalSuccess": "Двойной дробящий урон.",
+        "success": "Полный дробящий урон."
       }
     },
     {
@@ -6146,10 +6146,10 @@
         "4": "Радиус эманации и расстояние отталкивания увеличиваются до 10 футов."
       },
       "outcomes": {
-        "criticalSuccess": "No effect.",
-        "success": "–2 status to checks during reactions until the end of your turn.",
-        "failure": "As success, and pushed 5 feet.",
-        "criticalFailure": "Pushed 5 feet and unable to react until the end of your turn."
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Штраф состояния −2 к проверкам во время реакций до конца вашего хода.",
+        "failure": "Как при успехе; дополнительно цель отталкивается на 5 футов.",
+        "criticalFailure": "Цель отталкивается на 5 футов и не может использовать реакции до конца вашего хода."
       }
     },
     {
@@ -6638,7 +6638,7 @@
       "spellId": "pf2e-curse-of-recoil",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "120 футов",
@@ -6739,7 +6739,7 @@
       "spellId": "pf2e-devils-horseshoe",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "10 minutes"
+        "time": "10 минут"
       },
       "resource": "spell-slot",
       "range": "Касание",
@@ -6755,7 +6755,7 @@
       "spellId": "pf2e-disguise-magic",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "30 футов",
@@ -6782,7 +6782,7 @@
       "spellId": "pf2e-dome-of-tranquility",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "30 футов",
@@ -6945,7 +6945,7 @@
       "spellId": "pf2e-fishing-spot",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "10 minutes"
+        "time": "10 минут"
       },
       "resource": "spell-slot"
     },
@@ -7011,7 +7011,7 @@
       "spellId": "pf2e-foraging-friends",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "10 minutes"
+        "time": "10 минут"
       },
       "resource": "spell-slot"
     },
@@ -7073,7 +7073,7 @@
       "spellId": "pf2e-gentle-landing",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "60 футов",
@@ -7233,14 +7233,14 @@
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d6."
       },
-      "requirements": "You're mostly or totally submerged in water."
+      "requirements": "Вы преимущественно или полностью погружены в воду."
     },
     {
       "id": "pf2e-horizon-thunder-sphere-pf2e-remaster",
       "spellId": "pf2e-horizon-thunder-sphere",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "2 to 2 rounds"
+        "time": "2 раунда"
       },
       "resource": "spell-slot",
       "range": "различается",
@@ -7344,7 +7344,7 @@
       "spellId": "pf2e-instant-pottery",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "10 футов",
@@ -7355,7 +7355,7 @@
       "spellId": "pf2e-interposing-earth",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "duration": "3 раунда"
@@ -7425,7 +7425,7 @@
       "spellId": "pf2e-know-location",
       "edition": "pf2e-legacy",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "1 миля",
@@ -7475,7 +7475,7 @@
       "spellId": "pf2e-lose-the-path",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "60 футов",
@@ -7511,7 +7511,7 @@
       "spellId": "pf2e-mending",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "10 minutes"
+        "time": "10 минут"
       },
       "resource": "spell-slot",
       "range": "Касание",
@@ -7525,7 +7525,7 @@
       "spellId": "pf2e-message-rune",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "5 minutes"
+        "time": "5 минут"
       },
       "resource": "spell-slot",
       "range": "Касание",
@@ -7662,7 +7662,7 @@
       "spellId": "pf2e-overselling-flourish",
       "edition": "pf2e-legacy",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "60 футов",
@@ -7879,7 +7879,7 @@
       "spellId": "pf2e-restyle",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "Касание",
@@ -7934,7 +7934,7 @@
       "range": "30 футов",
       "area": "Взрыв 5 футов",
       "savingThrow": "Простой спасбросок Рефлекса",
-      "requirements": "You worship a deity."
+      "requirements": "Вы почитаете божество."
     },
     {
       "id": "pf2e-sanctuary-pf2e-remaster",
@@ -7953,7 +7953,7 @@
       "spellId": "pf2e-schadenfreude",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "30 футов",
@@ -7994,7 +7994,7 @@
       "spellId": "pf2e-seashell-of-stolen-sound",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "reaction"
+        "time": "Реакция"
       },
       "resource": "spell-slot",
       "range": "30 футов",
@@ -8005,7 +8005,7 @@
       "spellId": "pf2e-share-lore",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "Касание",
@@ -8199,7 +8199,7 @@
       "range": "Касание",
       "targets": "1 существо или предмет",
       "duration": "1 минута",
-      "requirements": "You have a free hand"
+      "requirements": "У вас свободна одна рука."
     },
     {
       "id": "pf2e-summon-animal-pf2e-remaster",
@@ -8338,7 +8338,7 @@
       "spellId": "pf2e-temporary-tool",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "duration": "1 минута или до использования (см. описание)"
@@ -8503,7 +8503,7 @@
       "spellId": "pf2e-weave-wood",
       "edition": "pf2e-remaster",
       "cast": {
-        "time": "1 minute"
+        "time": "1 минута"
       },
       "resource": "spell-slot",
       "range": "Касание",
