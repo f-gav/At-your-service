@@ -36,7 +36,7 @@ for(const version of rankTwoVersions){
   if(typeof version.cast?.time==='string')assert.ok(!/[a-zA-Z]/.test(version.cast.time),
     'Unlocalized casting time: '+version.spellId);
   if(version.savingThrow)assert.match(version.savingThrow,
-    /^(?:Обычный )?Спасбросок (?:Рефлекса|Стойкости|Воли)$/,
+    /^(?:Обычный спасбросок|Спасбросок) (?:Рефлекса|Стойкости|Воли)$/,
     'Noncanonical rank-two saving throw: '+version.spellId);
 }
 const rankTwoRules=slug=>wave.versions.find(v=>v.spellId==='pf2e-'+slug);
