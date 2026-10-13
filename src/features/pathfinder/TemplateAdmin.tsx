@@ -84,13 +84,14 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   },[dirty]);
   useEffect(()=>{
     if(loading||busy||!dirty||!supabase||!validFields(fields))return;
+    const client=supabase;
     const timer=window.setTimeout(async()=>{
       const snapshot=JSON.stringify(fields);
-      const {error}=await supabase.from('sheet_template_drafts').upsert({
+      const {error}=await client.from('sheet_template_drafts').upsert({
         template_key:TEMPLATE_KEY,fields,updated_by:userId,updated_at:new Date().toISOString()
       },{onConflict:'template_key'});
       if(!error && latestFieldsRef.current===snapshot)setDirty(false);
-      else setStatus('Автосохранение: '+error.message);
+      else if(error)setStatus('Автосохранение: '+error.message);
     },2200);
     return ()=>window.clearTimeout(timer);
   },[fields,dirty,loading,busy,userId]);
