@@ -5396,10 +5396,10 @@
       "duration": "до начала вашего следующего хода",
       "resource": "none",
       "heightened": {
-        "3": "Hardness 4; shattering damage 3d4.",
-        "5": "Hardness 7; shattering damage 4d4.",
-        "7": "Hardness 10; shattering damage 5d4.",
-        "9": "Hardness 12; shattering damage 6d4."
+        "3": "Твёрдость 4; урон при разрушении 3d4.",
+        "5": "Твёрдость 7; урон при разрушении 4d4.",
+        "7": "Твёрдость 10; урон при разрушении 5d4.",
+        "9": "Твёрдость 12; урон при разрушении 6d4."
       }
     },
     {
@@ -5412,10 +5412,10 @@
       "duration": "1 час",
       "resource": "none",
       "heightened": {
-        "3": "The trail lasts for 1 day.",
-        "5": "The trail lasts for 1 week.",
-        "7": "The trail lasts for 1 month.",
-        "9": "The trail lasts for 1 year."
+        "3": "След сохраняется 1 день.",
+        "5": "След сохраняется 1 неделю.",
+        "7": "След сохраняется 1 месяц.",
+        "9": "След сохраняется 1 год."
       }
     },
     {
@@ -5500,7 +5500,7 @@
       "savingThrow": "Спасбросок Рефлекса",
       "resource": "none",
       "heightened": {
-        "+1": "The maximum emanation radius increases by 10 feet."
+        "+1": "Максимальный радиус эманации увеличивается на 10 футов."
       }
     },
     {
@@ -5523,7 +5523,7 @@
       "duration": "10 минут",
       "resource": "none",
       "heightened": {
-        "3": "You gain a +1 item bonus to Athletics checks made to Climb using these entrails."
+        "3": "Вы получаете бонус предмета +1 к проверкам Атлетики при Карабканье по этим внутренностям."
       }
     },
     {
@@ -5549,7 +5549,7 @@
       "duration": "1 раунд",
       "resource": "none",
       "heightened": {
-        "+1": "You can include one additional willing creature; multiple companions can Aid the creature recalling knowledge."
+        "+1": "Можно включить ещё одно согласное существо; несколько союзников могут Помогать существу, вспоминающему знания."
       }
     },
     {
@@ -5561,8 +5561,8 @@
       },
       "resource": "none",
       "heightened": {
-        "3": "You can choose a location visited within the past week.",
-        "7": "You can choose a previously visited location no matter how long ago the visit occurred."
+        "3": "Можно выбрать место, посещённое за последнюю неделю.",
+        "7": "Можно выбрать ранее посещённое место независимо от давности посещения."
       }
     },
     {
@@ -5591,7 +5591,7 @@
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
-        "+2": "Slashing damage, initial electricity damage, and persistent electricity damage on a critical hit each increase by 1d4."
+        "+2": "Рубящий урон, начальный урон электричеством и продолжительный урон электричеством при критическом попадании увеличиваются каждый на 1d4."
       }
     },
     {
@@ -5619,7 +5619,7 @@
       "duration": "1 минута",
       "resource": "none",
       "heightened": {
-        "2": "Duration increases to 10 minutes."
+        "2": "Длительность увеличивается до 10 минут."
       }
     },
     {
@@ -5958,7 +5958,7 @@
       "savingThrow": "Простой спасбросок Рефлекса",
       "resource": "none",
       "heightened": {
-        "+1": "Increase the bludgeoning damage by 1d4."
+        "+1": "Дробящий урон увеличивается на 1d4."
       }
     },
     {
@@ -5982,7 +5982,7 @@
       "savingThrow": "Простой спасбросок Стойкости",
       "resource": "none",
       "heightened": {
-        "+1": "Bludgeoning damage increases by 1d4."
+        "+1": "Дробящий урон увеличивается на 1d4."
       }
     },
     {
@@ -6087,7 +6087,7 @@
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "spell-slot",
       "heightened": {
-        "+1": "Increase bludgeoning damage by 2d6."
+        "+1": "Дробящий урон увеличивается на 2d6."
       },
       "outcomes": {
         "criticalSuccess": "Double bludgeoning damage.",
@@ -6143,7 +6143,7 @@
       "savingThrow": "Спасбросок Стойкости",
       "resource": "spell-slot",
       "heightened": {
-        "4": "The emanation increases to 10 feet and the push distance increases to 10 feet."
+        "4": "Радиус эманации и расстояние отталкивания увеличиваются до 10 футов."
       },
       "outcomes": {
         "criticalSuccess": "No effect.",
@@ -6238,7 +6238,7 @@
       "duration": "До конца вашего хода",
       "resource": "spell-slot",
       "heightened": {
-        "+1": "The water blast's bludgeoning damage increases by 1d8."
+        "+1": "Дробящий урон водяного потока увеличивается на 1d8."
       }
     },
     {
@@ -6252,7 +6252,7 @@
       "duration": "1 минута",
       "resource": "spell-slot",
       "heightened": {
-        "+2": "Piercing contact damage increases by 2; persistent bleed damage increases by 1d4."
+        "+2": "Контактный колющий урон увеличивается на 2; продолжительный урон кровотечением — на 1d4."
       }
     },
     {
@@ -6312,8 +6312,8 @@
       "duration": "10 minutes",
       "resource": "spell-slot",
       "heightened": {
-        "4": "Status bonus increases to +2.",
-        "7": "Status bonus increases to +3."
+        "4": "Бонус состояния увеличивается до +2.",
+        "7": "Бонус состояния увеличивается до +3."
       }
     },
     {
@@ -6358,7 +6358,7 @@
       "duration": "3 раунда",
       "resource": "spell-slot",
       "heightened": {
-        "+1": "Fast healing increases by 3."
+        "+1": "Быстрое исцеление увеличивается на 3."
       }
     },
     {
@@ -6373,7 +6373,7 @@
       "resource": "spell-slot",
       "requirements": "Требуется свободная рука для создания щита.",
       "heightened": {
-        "+2": "Shield Hardness increases by 3."
+        "+2": "Твёрдость щита увеличивается на 3."
       }
     },
     {
@@ -6404,7 +6404,7 @@
       "savingThrow": "Простой спасбросок Рефлекса",
       "resource": "spell-slot",
       "heightened": {
-        "+1": "Fire damage increases by 2d6."
+        "+1": "Урон огнём увеличивается на 2d6."
       }
     },
     {
@@ -6420,7 +6420,7 @@
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "spell-slot",
       "heightened": {
-        "+1": "Damage increases by 2d6 per normal hit."
+        "+1": "Урон при обычном попадании увеличивается на 2d6."
       },
       "outcomes": {
         "success": "2d6 дробящего урона и слепота на 1 раунд; Взаимодействие снимает слепоту.",
@@ -6439,7 +6439,7 @@
       "area": "cone: 15 feet",
       "savingThrow": "Basic reflex save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d4."
+        "rules": "(+1) Урон увеличивается на 2d4."
       }
     },
     {
@@ -6466,7 +6466,7 @@
       "resource": "spell-slot",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d6, and the persistent damage on a critical hit is increased by 1."
+        "rules": "(+1) Урон увеличивается на 1d6, а продолжительный урон при критическом попадании — на 1."
       }
     },
     {
@@ -6507,7 +6507,7 @@
       "duration": "1 hour",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (4th) The duration lasts until the next time you make your daily preparations.\n\nHeightened (8th) The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures."
+        "rules": "(4-й круг) Длительность — до следующей ежедневной подготовки.\n\n(8-й круг) Длительность — до следующей ежедневной подготовки; можно выбрать до 10 существ."
       },
       "targets": "1 creature"
     },
@@ -6523,7 +6523,7 @@
       "area": "cone: 15 feet",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d4."
+        "rules": "(+1) Урон увеличивается на 2d4."
       }
     },
     {
@@ -6564,7 +6564,7 @@
       "duration": "until the end of the target's next turn",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (5th) You can target up to 10 creatures."
+        "rules": "(5-й круг) Можно выбрать до 10 существ."
       },
       "targets": "1 creature"
     },
@@ -6579,7 +6579,7 @@
       "range": "30 feet",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d4 for the 1-action version, or 2d4 for the other versions."
+        "rules": "(+1) Урон версии за 1 действие увеличивается на 1d4, остальных версий — на 2d4."
       },
       "targets": "varies"
     },
@@ -6673,7 +6673,7 @@
       "duration": "1 minute",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (+1) The mental damage increases by 1d4."
+        "rules": "(+1) Ментальный урон увеличивается на 1d4."
       },
       "targets": "1 creature"
     },
@@ -6701,7 +6701,7 @@
       "range": "30 feet",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+2) The damage increases by 1d6."
+        "rules": "(+2) Урон увеличивается на 1d6."
       },
       "targets": "1 ally and 1 enemy"
     },
@@ -6719,7 +6719,7 @@
       "duration": "1 minute",
       "savingThrow": "fortitude save",
       "heightened": {
-        "rules": " (+2) The range increases by 10 feet, the burst increases by 5 feet, and the persistent fire damage increases by 3d6."
+        "rules": "(+2) Дистанция увеличивается на 10 футов, радиус взрыва — на 5 футов, а продолжительный урон огнём — на 3d6."
       }
     },
     {
@@ -6746,7 +6746,7 @@
       "duration": "8 hours",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d6."
+        "rules": "(+1) Урон увеличивается на 2d6."
       },
       "targets": "one door or similar opening"
     },
@@ -6761,7 +6761,7 @@
       "range": "30 feet",
       "duration": "until your next daily preparations",
       "heightened": {
-        "rules": " (2nd) You can Cast this Spell on a creature, disguising all items and spell effects on it."
+        "rules": "(2-й круг) Заклинание можно сотворить на существо, замаскировав все его предметы и эффекты заклинаний."
       },
       "targets": "1 item or spell effect"
     },
@@ -6802,7 +6802,7 @@
       "duration": "1 minute",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d10."
+        "rules": "(+1) Урон увеличивается на 1d10."
       }
     },
     {
@@ -6855,7 +6855,7 @@
       "targets": "1 creature",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+1) The temporary Hit Points increase by 5.\n\nSpell Effect: Endure"
+        "rules": "(+1) Количество временных ПЗ увеличивается на 5."
       }
     },
     {
@@ -6921,7 +6921,7 @@
       "targets": "2 creatures who are hostile toward each other",
       "duration": "5 rounds",
       "heightened": {
-        "rules": " (+1) The targets regain an additional 1d4 Hit Points at the end of their own turns."
+        "rules": "(+1) Цели восстанавливают ещё 1d4 ПЗ в конце собственного хода."
       }
     },
     {
@@ -6937,7 +6937,7 @@
       "duration": "varies",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (3rd) You can target up to five creatures."
+        "rules": "(3-й круг) Можно выбрать до пяти существ."
       }
     },
     {
@@ -6979,7 +6979,7 @@
       "range": "touch",
       "targets": "1 creature or corpse",
       "heightened": {
-        "rules": " (+1) The slashing damage to living and undead creatures increases by 2d6, and the persistent bleed damage to living creatures increases by 1d4."
+        "rules": "(+1) Рубящий урон живым существам и нежити увеличивается на 2d6, продолжительный урон кровотечением живым существам — на 1d4."
       }
     },
     {
@@ -7039,7 +7039,7 @@
       "duration": "varies",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (4th) The range increases to 100 feet, and you can target up to 8 creatures."
+        "rules": "(4-й круг) Дистанция увеличивается до 100 футов, можно выбрать до 8 существ."
       }
     },
     {
@@ -7054,7 +7054,7 @@
       "targets": "1 creature or unattended metal object",
       "savingThrow": "fortitude save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d6, and the weakness on a critical failure increases by 2.\n\nSpell Effect: Forge (Critical Failure)"
+        "rules": "(+1) Урон увеличивается на 2d6, а слабость при критическом провале — на 2."
       }
     },
     {
@@ -7138,7 +7138,7 @@
       "area": "line: 30 feet",
       "savingThrow": "fortitude save",
       "heightened": {
-        "rules": " (+1) The void damage increases by 2d4, and the persistent bleed damage increases by 1."
+        "rules": "(+1) Урон пустотой увеличивается на 2d4, продолжительный урон кровотечением — на 1."
       }
     },
     {
@@ -7152,7 +7152,7 @@
       "area": "cone: 15 feet",
       "savingThrow": "fortitude save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d4."
+        "rules": "(+1) Урон увеличивается на 2d4."
       }
     },
     {
@@ -7191,7 +7191,7 @@
       "targets": "1 living creature or 1 willing undead creature",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "rules": " (+1) The amount of healing or damage increases by 1d8, and the extra healing for the 2-action version increases by 8."
+        "rules": "(+1) Исцеление или урон увеличивается на 1d8, дополнительное исцеление версии за 2 действия — на 8."
       }
     },
     {
@@ -7206,7 +7206,7 @@
       "targets": "1 willing living creature or 1 undead",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "rules": " (+1) The amount of healing or damage increases by 1d8, and the extra healing for the 2-action version increases by 8."
+        "rules": "(+1) Исцеление или урон увеличивается на 1d8, дополнительное исцеление версии за 2 действия — на 8."
       }
     },
     {
@@ -7231,7 +7231,7 @@
       "range": "10 feet",
       "targets": "1 creature",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d6."
+        "rules": "(+1) Урон увеличивается на 1d6."
       },
       "requirements": "You're mostly or totally submerged in water."
     },
@@ -7246,7 +7246,7 @@
       "range": "varies",
       "targets": "1 creature",
       "heightened": {
-        "rules": " (+1) The initial damage on a hit, as well as the burst damage for 2-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."
+        "rules": "(+1) Начальный урон при попадании и урон взрыва при сотворении за 2 раунда увеличиваются каждый на 2d6; урон существам, которые захватывают или ударяют вас в состоянии электрического заряда, увеличивается на 1."
       }
     },
     {
@@ -7260,7 +7260,7 @@
       "range": "60 feet",
       "targets": "1 creature or unattended object",
       "heightened": {
-        "rules": " (+1) The bludgeoning damage increases by 2d6."
+        "rules": "(+1) Дробящий урон увеличивается на 2d6."
       }
     },
     {
@@ -7323,7 +7323,7 @@
       "targets": "1 to 3 willing creatures",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (3rd) The damage increases to 2d4 damage.\n\n\nHeightened (5th) The damage increases to 3d4 damage.\n\n\nSpell Effect: Infuse Vitality"
+        "rules": "(3-й круг) Урон увеличивается до 2d4.\n\n(5-й круг) Урон увеличивается до 3d4."
       }
     },
     {
@@ -7336,7 +7336,7 @@
       "resource": "spell-slot",
       "range": "30 feet",
       "heightened": {
-        "rules": " (+1) Increase the base poison damage by 2d6."
+        "rules": "(+1) Основной урон ядом увеличивается на 2d6."
       }
     },
     {
@@ -7393,7 +7393,7 @@
       },
       "resource": "spell-slot",
       "heightened": {
-        "rules": " (3rd) The range becomes touch, the target changes to one touched creature, and the duration becomes 1 minute, allowing the target to jump as described whenever it takes the Leap action."
+        "rules": "(3-й круг) Дистанция становится «касание», целью — одно существо, которого вы касаетесь, а длительность — 1 минута. Цель может прыгать указанным способом при использовании действия Прыжок."
       }
     },
     {
@@ -7431,7 +7431,7 @@
       "range": "1 mile",
       "duration": "until the next time you make your daily preparations",
       "heightened": {
-        "rules": " (3rd) The range is 10 miles.\n\n\nHeightened (5th) The range is 100 miles.\n\n\nHeightened (7th) The range is planetary and you can create an anchor at a location you've viewed with scrying or similar effects."
+        "rules": "(3-й круг) Дистанция — 10 миль.\n\n(5-й круг) Дистанция — 100 миль.\n\n(7-й круг) Дистанция охватывает планету; можно создать якорь в месте, которое вы видели посредством прорицания или сходного эффекта."
       }
     },
     {
@@ -7517,7 +7517,7 @@
       "range": "touch",
       "targets": "non-magical object of light Bulk or less",
       "heightened": {
-        "rules": " (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less."
+        "rules": "(2-й круг) Можно выбрать немагический предмет массой до 1 единицы.\n\n(3-й круг) Можно выбрать немагический предмет массой до 2 единиц либо магический предмет массой до 1 единицы."
       }
     },
     {
@@ -7588,7 +7588,7 @@
       "targets": "1 undead minion you control",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+1) The amount of healing increases by 1d8+4."
+        "rules": "(+1) Исцеление увеличивается на 1d8+4."
       }
     },
     {
@@ -7603,7 +7603,7 @@
       "targets": "1 willing creature",
       "duration": "1 hour",
       "heightened": {
-        "rules": " (5th) The range increases to 30 feet, and you can target up to 10 creatures."
+        "rules": "(5-й круг) Дистанция увеличивается до 30 футов, можно выбрать до 10 существ."
       }
     },
     {
@@ -7618,7 +7618,7 @@
       "targets": "self",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d4."
+        "rules": "(+1) Урон увеличивается на 1d4."
       }
     },
     {
@@ -7633,7 +7633,7 @@
       "duration": "1 round",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d6"
+        "rules": "(+1) Урон увеличивается на 1d6."
       }
     },
     {
@@ -7740,7 +7740,7 @@
       "duration": "1 minute",
       "savingThrow": "will save",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d4 and the persistent damage by 1d4."
+        "rules": "(+1) Урон увеличивается на 2d4, продолжительный урон — на 1d4."
       }
     },
     {
@@ -7765,7 +7765,7 @@
       "targets": "1 creature",
       "duration": "until the end of your next turn",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d6."
+        "rules": "(+1) Урон увеличивается на 2d6."
       }
     },
     {
@@ -7802,7 +7802,7 @@
       "area": "cone: 15 feet",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (+1) Increase the damage by 2d4."
+        "rules": "(+1) Урон увеличивается на 2d4."
       }
     },
     {
@@ -7816,7 +7816,7 @@
       "range": "60 feet",
       "targets": "1 creature",
       "heightened": {
-        "rules": " (+1) The piercing damage and cold damage each increase by 1d6. The vitality damage increases by 1d4."
+        "rules": "(+1) Колющий урон и урон холодом увеличиваются каждый на 1d6, урон жизненной энергией — на 1d4."
       }
     },
     {
@@ -7830,7 +7830,7 @@
       "range": "touch",
       "targets": "1 cubic foot of clean food or water",
       "heightened": {
-        "rules": " (2nd) You can target an alchemical elixir with this spell, attempting a counteract check against it. If you succeed, the elixir spoils and becomes a mundane item.\n\n\nHeightened (3rd) You can target a potion or alchemical elixir with this spell, attempting a counteract check against it. If you succeed, the elixir or potion spoils and becomes a mundane item."
+        "rules": "(2-й круг) Можно выбрать алхимический эликсир и совершить против него проверку противодействия. При успехе эликсир портится и становится обычным предметом.\n\n(3-й круг) Можно выбрать зелье или алхимический эликсир и совершить проверку противодействия. При успехе предмет портится и становится обычным."
       }
     },
     {
@@ -7845,7 +7845,7 @@
       "targets": "up to 200 unattended objects in range, each of light Bulk or less",
       "duration": "up to 1 minute",
       "heightened": {
-        "rules": " (3rd) The spell can sort up to 500 objects in a minute, or 75 objects in a round."
+        "rules": "(3-й круг) Заклинание сортирует до 500 предметов за минуту или 75 за раунд."
       }
     },
     {
@@ -7861,7 +7861,7 @@
       "duration": "1 minute",
       "savingThrow": "Basic fortitude save",
       "heightened": {
-        "rules": " (+2) The damage increases by 2d4, the duration of the dazzled condition on a failed save increases by 1 round, and the maximum distance an ally can use the rainbow to teleport increases by 10 feet."
+        "rules": "(+2) Урон увеличивается на 2d4, длительность состояния «Ослеплён» при провале — на 1 раунд, а максимальное расстояние телепортации союзника по радуге — на 10 футов."
       }
     },
     {
@@ -7970,7 +7970,7 @@
       "resource": "spell-slot",
       "duration": "until the end of your turn",
       "heightened": {
-        "rules": " (+1) The base damage increases by 1d8 and the persistent fire damage on a critical hit increases by 2."
+        "rules": "(+1) Основной урон увеличивается на 1d8, продолжительный урон огнём при критическом попадании — на 2."
       }
     },
     {
@@ -7986,7 +7986,7 @@
       "duration": "1 minute",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (3rd) Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.\n\n\nHeightened (6th) As the 3rd-rank version, except the range is 120 feet and the area is a 20-foot burst."
+        "rules": "(3-й круг) Раз в раунд при поддержании заклинания можно переместить центр взрыва в точку в пределах дистанции.\n\n(6-й круг) Как в версии 3-го круга, но дистанция — 120 футов, а область — взрыв радиусом 20 футов."
       }
     },
     {
