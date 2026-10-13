@@ -7534,6 +7534,105 @@
       "name": "Invisible Item",
       "description": "You make the object Invisible. This makes it Undetected to all creatures, though the creatures can attempt to find the target, making it Hidden to them instead if they succeed. If the item is used as part of a hostile action, the spell ends after that hostile action is completed. Making a weapon invisible typically doesn't give any advantage to the attack, except that an invisible thrown weapon or piece of ammunition can be used for an attack without necessarily giving information about the attacker's hiding place unless the weapon returns to the attacker.\n\n\n\nHeightened (3rd) The duration is until the next time you make your daily preparations.\n\n\nHeightened (7th) The duration is unlimited.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-goblin-pox",
+      "versionId": "pf2e-goblin-pox-pf2e-remaster",
+      "locale": "ru",
+      "name": "Гоблинская оспа",
+      "description": "Ваше прикосновение заражает цель гоблинской оспой. Она совершает спасбросок Стойкости. Заболевание вызывает тошноту и может замедлить существо на поздних стадиях; гоблины и гоблинские псы обладают иммунитетом. Подробные стадии, исходы спасброска и сроки болезни приведены в оригинальном описании.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-grease",
+      "versionId": "pf2e-grease-pf2e-remaster",
+      "locale": "ru",
+      "name": "Масло",
+      "description": "Вы создаёте скользкое масло на четырёх смежных клетках размером 5 футов либо на выбранном объекте. Существа на покрытой земле должны пройти спасбросок Рефлекса или проверку Акробатики против вашей СЛ заклинания, иначе падают ничком. Движение по покрытой маслом поверхности также требует проверок. Эффект нанесения на предмет зависит от попыток удержать его.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-grim-tendrils",
+      "versionId": "pf2e-grim-tendrils-pf2e-remaster",
+      "locale": "ru",
+      "name": "Мрачные щупальцы",
+      "description": "Из ваших пальцев вырываются тёмные щупальца. Живые существа на линии получают 2d4 урона пустотой и продолжительный урон кровотечением, совершая спасбросок Стойкости. Критический успех отменяет эффект; при успехе урон пустотой уменьшается вдвое и кровотечения нет. На провале наносится полный урон, а на критическом провале эффект усиливается. Урон увеличивается при усилении заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-gust-of-wind",
+      "versionId": "pf2e-gust-of-wind-pf2e-remaster",
+      "locale": "ru",
+      "name": "Порыв ветра",
+      "description": "Из вашей ладони вырывается сильный ветер вдоль линии. Он тушит небольшие немагические огни, рассеивает туман, сдувает лёгкие предметы и толкает более тяжёлые. Существа не более Большого размера в области должны совершить спасбросок Стойкости; входя в поток позже, они также проверяют сопротивление порыву. Последствия зависят от степени успеха.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-harm",
+      "versionId": "pf2e-harm-pf2e-remaster",
+      "locale": "ru",
+      "name": "Нанесение ран",
+      "description": "Вы направляете энергию пустоты: живые существа получают 1d8 урона пустотой с простым спасброском Стойкости, а согласная нежить восстанавливает столько же ОЗ. За 1 действие дальность — касание; за 2 действия — 30 футов и при исцелении либо повреждении одной цели добавляется соответствующий модификатор; за 3 действия эффект распространяется на существ в эманации. Усиление (+1 круг) увеличивает исходный урон или исцеление на 1d8.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-heal",
+      "versionId": "pf2e-heal-pf2e-remaster",
+      "locale": "ru",
+      "name": "Исцеление",
+      "description": "Вы направляете жизненную энергию: согласное живое существо восстанавливает 1d8 ОЗ, а нежить получает 1d8 урона жизненной энергией с простым спасброском Стойкости. За 1 действие дальность — касание; за 2 действия — 30 футов с дополнительным исцелением одной цели; за 3 действия эффект действует на существ в эманации. Усиление (+1 круг) увеличивает исходное исцеление или урон на 1d8.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-horizon-thunder-sphere",
+      "versionId": "pf2e-horizon-thunder-sphere-pf2e-remaster",
+      "locale": "ru",
+      "name": "Диапазонная грозовая сфера",
+      "description": "Вы создаёте сферу электричества и совершаете дистанционную атаку заклинанием против КД цели. При попадании она получает 3d6 урона электричеством; при критическом попадании — двойной урон и состояние ослепления сиянием на 1 раунд. Дополнительные действия при сотворении увеличивают дальность или изменяют эффект; длительное двухраундовое сотворение создаёт особый усиленный разряд. Подробные варианты указаны в исходных правилах.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-hydraulic-push",
+      "versionId": "pf2e-hydraulic-push-pf2e-remaster",
+      "locale": "ru",
+      "name": "Водный толчок",
+      "description": "Мощная струя воды ударяет цель. Совершите дистанционную атаку заклинанием. При успехе цель получает 3d6 дробящего урона и отталкивается на 5 футов; при критическом успехе получает 6d6 дробящего урона и отталкивается на 10 футов. Усиление (+1 круг): урон увеличивается на 2d6.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-ill-omen",
+      "versionId": "pf2e-ill-omen-pf2e-remaster",
+      "locale": "ru",
+      "name": "Дурная примета",
+      "description": "Неудача преследует цель, которая совершает спасбросок Воли. При успехе заклинание не действует. При провале, когда цель впервые за длительность совершает атаку или проверку навыка, она бросает кубик дважды и использует худший результат. При критическом провале эта неудача действует на каждую атаку и проверку навыка в течение длительности.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-illusory-disguise",
+      "versionId": "pf2e-illusory-disguise-pf2e-remaster",
+      "locale": "ru",
+      "name": "Иллюзорная маскировка",
+      "description": "Вы изменяете иллюзорный облик цели, делая её похожей на другое существо той же формы тела, примерно такого же роста и веса. Можно изменить голос, одежду и внешний вид предметов, но не манеры поведения. Эффект обычно скрывает личность, однако не гарантирует убедительного подражания конкретному существу. Правила распознавания и усиления определяются исходным описанием.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-illusory-object",
+      "versionId": "pf2e-illusory-object-pf2e-remaster",
+      "locale": "ru",
+      "name": "Иллюзорный объект",
+      "description": "Вы создаёте неподвижный иллюзорный объект, целиком помещающийся в область действия. Он выглядит естественно, но изначально не издаёт звуков и запахов. При прикосновении или действии «Поиск» существо может попытаться распознать иллюзию. Усиление изменяет продолжительность и реалистичность объекта.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
     }
   ],
   "sources": [
