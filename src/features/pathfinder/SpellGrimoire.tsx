@@ -9,6 +9,19 @@ export type SavedSpell={id:string;prepared:boolean};
 export const PF_SPELL_MODE='pf_spell_display_mode';
 export const PF_SPELL_SELECTION='pf_spell_library_selection';
 export const PF_SPELL_TRADITIONS='pf_spell_available_traditions';
+export const PF_SPELL_CLASSES='pf_spell_available_classes';
+export const PF_CLASS_LIST=[
+ ['bard','Бард','occult'],['cleric','Жрец','divine'],['druid','Друид','primal'],
+ ['wizard','Волшебник','arcane'],['magus','Магус','arcane'],['oracle','Оракул','divine'],
+ ['psychic','Экстрасенс','occult'],['witch','Ведьма',''],['sorcerer','Чародей',''],
+ ['summoner','Призыватель','']
+] as const;
+export function selectedClasses(raw:unknown):string[]{
+ try{const list=JSON.parse(String(raw||'[]'));return Array.isArray(list)?
+ list.filter((v):v is string=>typeof v==='string'&&PF_CLASS_LIST.some(([id])=>id===v)):[];}
+ catch{return [];}
+}
+
 export function readSavedSpells(raw:unknown):SavedSpell[]{
   try{const items=JSON.parse(String(raw||'[]'));return Array.isArray(items)?
     items.filter((v):v is SavedSpell=>!!v&&typeof v.id==='string'&&typeof v.prepared==='boolean')
@@ -50,9 +63,9 @@ export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
 }
 const GROUPS=[['arcane','Мистическая'],['divine','Сакральная'],['occult','Оккультная'],['primal','Первобытная']] as const;
 type Props={
-  selection:SavedSpell[];traditions:string[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
+  selection:SavedSpell[];traditions:string[];classes:string[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
 };
-export default function SpellGrimoire({selection,traditions,onSelection,onClose}:Props){
+export default function SpellGrimoire({selection,traditions,classes,onSelection,onClose}:Props){
   const [spells,setSpells]=useState<SpellView[]>([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState('');
@@ -66,7 +79,12 @@ export default function SpellGrimoire({selection,traditions,onSelection,onClose}
     return()=>controller.abort();},[]);
   useEffect(()=>{const handler=(e:KeyboardEvent)=>{if(e.key==='Escape'){if(details)setDetails(null);else onClose();}};
     window.addEventListener('keydown',handler);return()=>window.removeEventListener('keydown',handler);},[details,onClose]);
-  const allowed=useMemo(()=>spells.filter(s=>!traditions.length||s.spell.traditions.some(t=>traditions.includes(t))),[spells,traditions]);
+  const allowed=useMemo(()=>{
+    const effective=new Set([...traditions,...PF_CLASS_LIST.filter(([id])=>classes.includes(id))
+      .map(([, ,tradition])=>tradition).filter(Boolean)]);
+    return spells.filter(s=>!effective.size||s.spell.traditions.some(t=>effective.has(t))||
+      s.spell.classes.some(c=>classes.includes(c.toLowerCase())));
+  },[spells,traditions,classes]);
   const results=useMemo(()=>allowed.filter(s=>(rank==='all'||s.spell.rank===rank)&&
     (show==='all'||selection.some(x=>x.id===s.id&&x.prepared))&&
     (!search||[s.name,s.englishName].some(name=>name.toLowerCase().includes(search.toLowerCase())))),[allowed,rank,show,search,selection]);
@@ -87,7 +105,7 @@ export default function SpellGrimoire({selection,traditions,onSelection,onClose}
           <option value="all">Все круги</option>{Array.from({length:11},(_,i)=><option key={i} value={i}>{i===0?'Чары':i+'-й круг'}</option>)}
         </select>
       </div>
-      <div className="pf-grimoire-traditions">Доступные традиции: {traditions.length?GROUPS.filter(([id])=>traditions.includes(id)).map(([,label])=>label).join(', '):'все (настройте в параметрах заклинаний)'}</div>
+      <div className="pf-grimoire-traditions">Выбранные классы: {classes.length?PF_CLASS_LIST.filter(([id])=>classes.includes(id)).map(([,label])=>label).join(', '):'не указаны'} · Доступные традиции: {traditions.length?GROUPS.filter(([id])=>traditions.includes(id)).map(([,label])=>label).join(', '):'все (настройте в параметрах заклинаний)'}</div>
       {loading?<p>Загружаем библиотеку…</p>:error?<p role="alert">{error}</p>:
         <div className="pf-grimoire-scroll">{Array.from({length:11},(_,level)=>{
           const group=results.filter(s=>s.spell.rank===level);
