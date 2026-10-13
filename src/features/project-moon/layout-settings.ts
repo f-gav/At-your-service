@@ -129,7 +129,7 @@ export function normalizeMoonTextStyle(input: unknown, original: MoonTextStyle):
 }
 
 export function parseMoonLayout(raw: unknown): MoonLayout {
-  const safe: MoonLayout = { ...DEFAULT_MOON_LAYOUT, textStyles: cloneMoonTextStyles() };
+  const safe: MoonLayout = { ...DEFAULT_MOON_LAYOUT, textStyles: cloneMoonTextStyles(), elementStyles: {} };
   if (!Array.isArray(raw)) return safe;
   const entries = new Map<string, unknown>();
   for (const item of raw) {
