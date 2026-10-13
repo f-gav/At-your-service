@@ -157,7 +157,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
         updated_by:userId,updated_at:new Date().toISOString(),
       },{onConflict:'template_key'});
       if(!error && latestLayoutRef.current===snapshot)setSaved(snapshot);
-      else setMessage('Ошибка автосохранения: '+error.message);
+      else if(error)setMessage('Ошибка автосохранения: '+error.message);
       setAutoSaving(false);
     },1800);
     return ()=>window.clearTimeout(timer);
