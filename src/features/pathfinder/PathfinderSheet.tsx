@@ -24,7 +24,7 @@ import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeA
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
-import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,readSavedSpells,selectedTraditions,loadPfSpellViews,spellCast} from './SpellGrimoire';
+import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
@@ -145,6 +145,7 @@ export default function PathfinderSheet({
   const spellMode=values[PF_SPELL_MODE]==='text'?'text':'library';
   const savedSpells=useMemo(()=>readSavedSpells(values[PF_SPELL_SELECTION]),[values[PF_SPELL_SELECTION]]);
   const availableTraditions=useMemo(()=>selectedTraditions(values[PF_SPELL_TRADITIONS]),[values[PF_SPELL_TRADITIONS]]);
+  const availableClasses=useMemo(()=>selectedClasses(values[PF_SPELL_CLASSES]),[values[PF_SPELL_CLASSES]]);
   useEffect(()=>{
     if(spellMode!=='library')return;
     const controller=new AbortController();
@@ -518,7 +519,7 @@ export default function PathfinderSheet({
       onRankChange={changeSpellRank}
       onClose={()=>setSpellSettingsOpen(false)}
       onOpenGrimoire={()=>{setSpellSettingsOpen(false);setGrimoireOpen(true);}}/>}
-    {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions}
+    {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
