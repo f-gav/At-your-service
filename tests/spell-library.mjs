@@ -13,7 +13,7 @@ const wave=JSON.parse(source('../public/spell-library/pf2e.json'));
 parseSpellCatalog(wave,'pf2e');
 assert.equal(wave.spells.length,259,'71 cantrips + 188 rank-one spells');
 assert.equal(wave.versions.length,259);
-assert.equal(wave.translations.filter(t=>t.locale==='ru').length,204,'One original AYS Russian card after 78 sourced translations');
+assert.equal(wave.translations.filter(t=>t.locale==='ru').length,213,'9 AYS cantrip translations + Briny Bolt + 203 previously translated cards');
 assert.equal(wave.translations.filter(t=>t.locale==='en').length,259,'Every spell retains a canonical English identity');
 assert.ok(wave.spells.every(s=>s.system==='pf2e'&&((s.kind==='cantrip'&&s.rank===0)||(s.kind==='spell'&&s.rank===1))));
 assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,71);
@@ -186,13 +186,13 @@ for(const t of wave.translations){
 }
 const liveViews=toSpellViews(wave,'pf2e-remaster');
 assert.equal(liveViews.length,259,'All 71 cantrips and 188 rank-one spells are searchable');
-assert.equal(liveViews.filter(v=>v.locale==='ru').length,204);
-assert.equal(liveViews.filter(v=>v.locale==='en').length,55);
+assert.equal(liveViews.filter(v=>v.locale==='ru').length,213);
+assert.equal(liveViews.filter(v=>v.locale==='en').length,46);
 const legacy=liveViews.filter(v=>v.rules.edition==='pf2e-legacy');
 assert.deepEqual(legacy.map(v=>v.spell.slug).sort(),["acid-splash","admonishing-ray","airburst","ancient-dust","animate-rope","aqueous-blast","buffeting-winds","celestial-accord","draw-ire","elysian-whimsy","exchange-image","fashionista","flashy-disappearance","flense","forge","friendfetch","ghost-sound","glowing-trail","gritty-wheeze","healing-plaster","helpful-steps","inkshot","inside-ropes","invoke-true-name","join-pasts","know-location","magic-stone","negate-aroma","nettleskin","overselling-flourish","personal-rain-cloud","purifying-icicle","putrefy-food-and-drink","ray-of-frost","scorching-blast","scouring-sand","shillelagh","shocking-grasp","snowball","swampcall","synchronize-steps","torturous-trauma","verdant-sprout","verminous-lure"]);
 assert.equal(toSpellViews(wave,'pf2e-legacy').length,44);
-assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===204);
-assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===55);
+assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===213);
+assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===46);
 assert.ok(liveViews.every(v=>wave.sources.some(src=>src.id===v.spell.sourceId)));
 const electric=liveViews.find(v=>v.spell.slug==='electric-arc');
 assert.ok(electric?.description.includes('2d4'),'Remaster electric arc has 2d4 base damage');
@@ -210,8 +210,8 @@ assert.ok(manifest.includes('10 с английскими названиями')
 
 assert.equal(englishOnly.filter(slug=>{const i=wave.spells.findIndex(s=>s.slug===slug);return i>=24&&i<48;}).length,10,
  'Wave 002 adds ten English-only cantrips');
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=24&&wave.spells.findIndex(s=>s.id===t.spellId)<48).length,20);
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=48&&wave.spells.findIndex(s=>s.id===t.spellId)<71).length,22,'Cantrip wave 003 now has 22 Russian entries');
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=24&&wave.spells.findIndex(s=>s.id===t.spellId)<48).length,24);
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=48&&wave.spells.findIndex(s=>s.id===t.spellId)<71).length,23,'Every cantrip is now translated');
 assert.equal(englishOnly.filter(slug=>{const n=wave.spells.findIndex(s=>s.slug===slug);return n>=48&&n<71;}).length,4,'Cantrip Wave 003 has four English-only entries');
 assert.equal(liveViews.find(v=>v.spell.slug==='summon-instrument')?.rules.cast.actions,3);
 assert.ok(liveViews.find(v=>v.spell.slug==='shield')?.description.includes('Твёрдостью 5'));
@@ -264,8 +264,38 @@ assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('растерянно
 assert.ok(briny?.rules.outcomes?.success?.includes('слепоту на 1 раунд'));
 assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('но не от растерянности'));
 assert.equal(briny?.rules.heightened?.['+1'],'Урон увеличивается на 2d6.');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,1,
-  'Only original AYS localizations should display the author badge');
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,10,
+  'Briny Bolt and nine original cantrips must have first-party attribution');
+const wave1Names={
+  'ancient-dust':'Древний прах',
+  'artistic-recollection':'Художественное воспоминание',
+  'bramble-bush':'Колючий куст',
+  'create-earthen-facsimile':'Создание земляного подобия',
+  'glowing-trail':'Светящийся след',
+  'inside-ropes':'Верёвка из внутренностей',
+  'join-pasts':'Связь воспоминаний',
+  'musical-accompaniment':'Музыкальное сопровождение',
+  'torturous-trauma':'Мучительная травма',
+};
+for(const [slug,name] of Object.entries(wave1Names)){
+  const entry=liveViews.find(v=>v.spell.slug===slug);
+  assert.equal(entry?.name,name,'Authored Russian spell title: '+slug);
+  assert.equal(entry?.locale,'ru','Wave 1 must no longer fall back to English: '+slug);
+  assert.equal(entry?.translationOrigin,'at-your-service','Every original translation is credited: '+slug);
+  assert.ok(entry?.description.length>150,'Translate full mechanical text, not a placeholder: '+slug);
+}
+assert.equal(liveViews.filter(v=>v.spell.kind==='cantrip'&&v.locale==='en').length,0,
+  'All 71 cantrips must be available in Russian');
+assert.ok(liveViews.find(v=>v.spell.slug==='ancient-dust')?.rules.outcomes?.criticalFailure?.includes('двойной'));
+assert.equal(liveViews.find(v=>v.spell.slug==='ancient-dust')?.rules.heightened?.['+2'],
+  'Начальный урон пустотой увеличивается на 1d6, а продолжительный урон — на 1.');
+assert.ok(liveViews.find(v=>v.spell.slug==='bramble-bush')?.description.includes('опасной местностью'));
+assert.ok(liveViews.find(v=>v.spell.slug==='bramble-bush')?.rules.heightened?.['+2']?.includes('1d4'));
+assert.ok(liveViews.find(v=>v.spell.slug==='inside-ropes')?.description.includes('чистую проверку со СЛ 5'));
+assert.ok(liveViews.find(v=>v.spell.slug==='glowing-trail')?.description.includes('10 минут'));
+assert.ok(liveViews.find(v=>v.spell.slug==='musical-accompaniment')?.description.includes('штраф −4'));
+assert.ok(liveViews.find(v=>v.spell.slug==='torturous-trauma')?.description.includes('внутренних органов'));
+
 assert.ok(liveViews.every(v=>Boolean(v.source?.name)),'Each spell has a credited source book');
 assert.equal(SPELL_SYSTEMS.pf2e.maxRank,10);
 assert.equal(SPELL_SYSTEMS.dnd5e.maxRank,9);
@@ -306,4 +336,4 @@ assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
-console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (204 RU/55 EN), tracker, Legacy, D&D untouched');
+console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (213 RU/46 EN), tracker, Legacy, D&D untouched');
