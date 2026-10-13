@@ -3411,6 +3411,121 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-liberating-command",
+      "system": "pf2e",
+      "slug": "liberating-command",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-lock",
+      "system": "pf2e",
+      "slug": "lock",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-lose-the-path",
+      "system": "pf2e",
+      "slug": "lose-the-path",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "illusion",
+        "manipulate",
+        "mental",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-magic-stone",
+      "system": "pf2e",
+      "slug": "magic-stone",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "vitality"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-advanced-player-s-guide"
+    },
+    {
+      "id": "pf2e-malediction",
+      "system": "pf2e",
+      "slug": "malediction",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "aura",
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-mending",
+      "system": "pf2e",
+      "slug": "mending",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -5789,6 +5904,79 @@
       "targets": "1 creature",
       "duration": "1 minute",
       "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-liberating-command-pf2e-remaster",
+      "spellId": "pf2e-liberating-command",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "1 creature"
+    },
+    {
+      "id": "pf2e-lock-pf2e-remaster",
+      "spellId": "pf2e-lock",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 lock, or a door or container with a latch",
+      "duration": "until your next daily preparations"
+    },
+    {
+      "id": "pf2e-lose-the-path-pf2e-remaster",
+      "spellId": "pf2e-lose-the-path",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "the triggering creature",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-magic-stone-pf2e-legacy",
+      "spellId": "pf2e-magic-stone",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 to 3 non-magical stones or sling bullets",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-malediction-pf2e-remaster",
+      "spellId": "pf2e-malediction",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "emanation: 10 feet",
+      "duration": "1 minute",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-mending-pf2e-remaster",
+      "spellId": "pf2e-mending",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "10 minutes"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "non-magical object of light Bulk or less",
+      "heightened": {
+        "rules": " (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less."
+      }
     }
   ],
   "translations": [
@@ -7869,6 +8057,54 @@
       "locale": "en",
       "name": "Leaden Steps",
       "description": "You partially transform a foe's feet into unwieldy slabs of metal, slowing their steps. The target attempts a Fortitude saving throw.\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target is Encumbered and has weakness 2 to electricity until the end of your next turn. The spell can't be sustained.\n\n\nFailure The target is encumbered and has weakness 2 to electricity.\n\n\nCritical Failure The target is encumbered and has weakness 3 to electricity.\n\n\nSpell Effect: Leaden Steps\n\n\n\nHeightened (+1) The weakness increases by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-liberating-command",
+      "versionId": "pf2e-liberating-command-pf2e-remaster",
+      "locale": "en",
+      "name": "Liberating Command",
+      "description": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place. If the target is Grabbed, Immobilized, or Restrained, it can immediately use a reaction to attempt to [[/act escape]].",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-lock",
+      "versionId": "pf2e-lock-pf2e-remaster",
+      "locale": "en",
+      "name": "Lock",
+      "description": "The target's latch mechanism clinks shut, held fast by unseen magical wards. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door. If the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.\n\n\n\n\n\nHeightened (2nd) The duration is unlimited, but you must expend 6 gp worth of precious metals as an additional cost.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-lose-the-path",
+      "versionId": "pf2e-lose-the-path-pf2e-remaster",
+      "locale": "en",
+      "name": "Lose the Path",
+      "description": "Trigger A creature in range Strides\n\n\n\nYou surround a moving creature with lifelike illusions, shifting their perception of the terrain to subtly lead them off course. The target must attempt a Will save. Regardless of the result, the creature is immune to lose the path for 1 hour.\n\n\n\nSuccess The creature is unaffected.\n\n\nFailure The creature treats all squares as difficult terrain for its Stride.\n\n\nCritical Failure As failure, except that you determine where the target moves during the Stride, though you can't move it into hazardous terrain or to a place it can't stand.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-magic-stone",
+      "versionId": "pf2e-magic-stone-pf2e-legacy",
+      "locale": "en",
+      "name": "Magic Stone",
+      "description": "You pour vitality energy into ordinary stones, granting them temporary magical properties. You can target 1 non-magical stone or sling bullet for every action you use Casting this Spell. The stones must be unattended or carried by you or a willing ally. The stones become +1 striking disrupting Sling Bullets. Each stone can be used only once, after which it crumbles to dust.\n\n\nSpell Effect: Magic Stone",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-malediction",
+      "versionId": "pf2e-malediction-pf2e-remaster",
+      "locale": "en",
+      "name": "Malediction",
+      "description": "You incite distress in the minds of your enemies, making it more difficult for them to defend themselves. Enemies in the area must succeed at a Will save or take a –1 status penalty to AC as long as they're in the area.\n\n\nOnce per round on subsequent turns, you can Sustain the spell to increase the emanation's radius by 10 feet and force enemies in the area that weren't yet affected to attempt a saving throw.\n\n\nMalediction can counteract benediction.\n\n\nSpell Effect: Malediction",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-mending",
+      "versionId": "pf2e-mending-pf2e-remaster",
+      "locale": "en",
+      "name": "Mending",
+      "description": "You repair the target item. You restore 5 Hit Points per spell rank to the target, potentially removing the Broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.\n\n\n\n\n\nHeightened (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less.",
       "translationStatus": "verified"
     }
   ],
