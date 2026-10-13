@@ -3,7 +3,7 @@ import type { CropFrame } from '../portrait/crop';
 import './MoonPortrait.css';
 
 export const MOON_PORTRAIT_FRAME = `${import.meta.env.BASE_URL}project-moon/portrait-frame.png?v=2`;
-export const MOON_PORTRAIT_MASK = `${import.meta.env.BASE_URL}project-moon/portrait-placeholder.png`;
+export const MOON_PORTRAIT_MASK = `${import.meta.env.BASE_URL}project-moon/character-icon.png`;
 
 type Props = {
   url?: string;
@@ -25,7 +25,7 @@ export default function MoonPortrait({url, frame, name = '', onEditPortrait}: Pr
         ? <span className="moon-portrait-art-window">
             <PortraitImage url={url} frame={frame} alt="" />
           </span>
-        : <img className="moon-portrait-art-mask" src={MOON_PORTRAIT_MASK} alt="" draggable={false} />}
+        : <span className="moon-portrait-art-window"><img className="moon-portrait-art-mask" src={MOON_PORTRAIT_MASK} alt="" draggable={false} /></span>}
       {onEditPortrait && <button type="button" className="moon-portrait-art-trigger"
         aria-label={url ? 'Изменить портрет персонажа' : 'Добавить портрет персонажа'}
         title={url ? 'Изменить портрет' : 'Добавить портрет'}
