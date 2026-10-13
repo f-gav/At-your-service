@@ -188,6 +188,38 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   // The administration preview can still supply an explicit layoutOverride.
   // Never swap geometry asynchronously after the sheet becomes visible.
   // Cloud autosaves are serialized; players can continue editing during them.
+  // Individual text overrides are scoped to stable page/element selectors.
+  // The DOM index is local to a single page and text category.
+  useEffect(()=>{
+    const root=pdfRoot.current;
+    if(!root)return;
+    const selectors:Record<string,string>={
+      pageKicker:'.moon-page-heading > span',pageTitle:'.moon-page-heading > h2',
+      sectionTitle:'.moon-section-title',fieldLabel:'.moon-field > span',
+      characterName:'.moon-name input',attributeLabel:'.moon-attribute-label',
+      resourceTitle:'.moon-resource-title',cardTitle:'.moon-weapon-title',
+      noteTitle:'.moon-notes-title',bodyText:'.moon-note textarea',
+    };
+    const layout=layoutOverride ?? DEFAULT_MOON_LAYOUT;
+    for(const page of ['dossier','combat','about','notes']){
+      const paper=root.querySelector('.moon-page-'+page);
+      if(!paper)continue;
+      for(const [group,selector] of Object.entries(selectors)){
+        const nodes=paper.querySelectorAll<HTMLElement>(selector);
+        nodes.forEach((node,index)=>{
+          const override=layout.elementStyles?.[`moon-page-${page}|${group}:${index}`];
+          if(!override)return;
+          node.style.fontSize=override.size!==undefined?override.size+'px':'';
+          node.style.fontWeight=override.weight!==undefined?String(override.weight):'';
+          node.style.fontStyle=override.italic?'italic':'normal';
+          node.style.letterSpacing=override.letterSpacing!==undefined?override.letterSpacing+'px':'';
+          node.style.lineHeight=override.lineHeight!==undefined?String(override.lineHeight):'';
+          node.style.textAlign=override.align??'';
+          node.style.fontFamily=override.family==='serif'?'Georgia,serif':override.family==='mono'?'monospace':'';
+        });
+      }
+    }
+  },[layoutOverride]);
   const editLocked=previewMode;
   const auto=useAutoSave({
     snapshot:JSON.stringify([name,sheet]),initialSnapshot:serverBaseline,
