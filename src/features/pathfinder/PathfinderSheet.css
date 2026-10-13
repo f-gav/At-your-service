@@ -339,7 +339,7 @@
 .pf-settings-pages-button:hover {color:#1e3425;}
 .pf-settings-pages-button:focus-visible {outline:2px solid #567d5d;outline-offset:2px;}
 
-.pf-spell-grimoire-trigger{position:absolute;z-index:8;top:1.8%;left:8.3%;width:2.2%;height:2.6%;display:flex;align-items:center;justify-content:center;padding:2px;border:1px solid #bec4c9;border-radius:5px;color:#426457;background:#f7f9f7;cursor:pointer}
+.pf-spell-grimoire-trigger{position:absolute;z-index:12;top:8.05%;left:29.8%;width:2.85%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:2px;border:1px solid #bec4c9;border-radius:5px;color:#426457;background:#f7f9f7;cursor:pointer}
 .pf-spell-grimoire-trigger:disabled{opacity:.28;cursor:not-allowed;filter:grayscale(1)}
 .pf-spell-grimoire-trigger:hover:not(:disabled){background:#e8efe9}
 .pf-spell-library-field{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;border:0;background:transparent;color:#275ba3;text-align:left;cursor:pointer;white-space:nowrap;line-height:1.5;padding:0;font-size:clamp(6px,.86cqw,12px);font-family:inherit}
