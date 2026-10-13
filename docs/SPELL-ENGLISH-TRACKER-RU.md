@@ -1,25 +1,21 @@
 # Pathfinder 2e — текущий реестр карточек без русского перевода
 
-Обновлено: 13 октября 2026. **259 всего: 245 RU / 14 EN** (включая 71 чары и 188 заклинаний 1-го круга).
+Обновлено: 13 октября 2026. **259 всего: 253 RU / 6 EN** (включая 71 чары и 188 заклинаний 1-го круга).
 
 Это **актуальный** список, полученный автоматически по локальным записям без `locale=ru`. Исторический перечень исходных 134 английских карточек сохранён в [архиве](./SPELL-ENGLISH-TRACKER-INITIAL-2026-10-13-RU.md).
 
-## Оставшиеся 14 карточек
+## Оставшиеся 6 карточек
 
-1. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
-2. **Personal Rain Cloud** — `personal-rain-cloud` · Legacy · Pathfinder #151: The Show Must Go On
-3. **Propelling Air Stream** — `propelling-air-stream` · Remaster · Pathfinder Impossible Magic
-4. **Purifying Icicle** — `purifying-icicle` · Legacy · Pathfinder Lost Omens Knights of Lastwall
-5. **Putrefy Food and Drink** — `putrefy-food-and-drink` · Legacy · Pathfinder #158: Sixty Feet Under
-6. **Reed Whistle** — `reed-whistle` · Remaster · Pathfinder #203: Shepherd of Decay
-7. **Rude Awakening** — `rude-awakening` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-8. **Scouring Sand** — `scouring-sand` · Legacy · Pathfinder #151: The Show Must Go On
-9. **Sky Sight** — `sky-sight` · Remaster · Pathfinder Impossible Magic
-10. **Spirit Ward** — `spirit-ward` · Remaster · Pathfinder Lost Omens Shining Kingdoms
-11. **Stick On** — `stick-on` · Remaster · Pathfinder Impossible Magic
-12. **Synchronize Steps** — `synchronize-steps` · Legacy · Pathfinder Lost Omens Knights of Lastwall
-13. **Turnip Lantern** — `turnip-lantern` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-14. **Verminous Lure** — `verminous-lure` · Legacy · Pathfinder #169: Kindled Magic
+1. **Sky Sight** — `sky-sight`
+2. **Spirit Ward** — `spirit-ward`
+3. **Stick On** — `stick-on`
+4. **Synchronize Steps** — `synchronize-steps`
+5. **Turnip Lantern** — `turnip-lantern`
+6. **Verminous Lure** — `verminous-lure`
+
+## Шестая волна — выполнена
+
+Опубликованы 8 самостоятельных переводов от Overselling Flourish до Scouring Sand. Сохранены английские оригиналы, Legacy/Remaster, результаты и усиление.
 
 ## Второй цикл локализации — выполнен (волны 4 и 5)
 
