@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Settings2, X, Files, FileDown } from 'lucide-react';
+import { ArrowLeft, Settings2, BookOpen, X, Files, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
 import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
@@ -24,6 +24,8 @@ import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeA
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
+import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,readSavedSpells,selectedTraditions,loadPfSpellViews,spellCast} from './SpellGrimoire';
+import type {SpellView} from '../spell-library/catalog';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
 import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
@@ -138,6 +140,26 @@ export default function PathfinderSheet({
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [pageSettingsOpen,setPageSettingsOpen] = useState(false);
   const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
+  const [grimoireOpen,setGrimoireOpen]=useState(false);
+  const [spellViews,setSpellViews]=useState<SpellView[]>([]);
+  const spellMode=values[PF_SPELL_MODE]==='text'?'text':'library';
+  const savedSpells=useMemo(()=>readSavedSpells(values[PF_SPELL_SELECTION]),[values[PF_SPELL_SELECTION]]);
+  const availableTraditions=useMemo(()=>selectedTraditions(values[PF_SPELL_TRADITIONS]),[values[PF_SPELL_TRADITIONS]]);
+  useEffect(()=>{
+    if(spellMode!=='library')return;
+    const controller=new AbortController();
+    void loadPfSpellViews(controller.signal).then(setSpellViews).catch(()=>{});
+    return()=>controller.abort();
+  },[spellMode]);
+  const grimoireColumns=useMemo(()=>{
+    const prepared=savedSpells.filter(x=>x.prepared).map(x=>spellViews.find(v=>v.id===x.id)).filter((x):x is SpellView=>!!x);
+    const cantrips=prepared.filter(x=>x.spell.rank===0&&x.spell.kind==='cantrip');
+    const focus=prepared.filter(x=>x.spell.kind==='focus');
+    const rituals=prepared.filter(x=>x.spell.kind==='ritual');
+    const innate=prepared.filter(x=>x.spell.kind==='special');
+    const regular=prepared.filter(x=>x.spell.rank>0&&!['focus','ritual','special'].includes(x.spell.kind));
+    return {cantrips,focus,rituals,innate,left:regular.filter((_,i)=>i%2===0),right:regular.filter((_,i)=>i%2===1)};
+  },[savedSpells,spellViews]);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
     try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
     catch{return false;}
@@ -337,6 +359,26 @@ export default function PathfinderSheet({
     }
     const narrow = field.w < 40 ? ' pf-field-narrow' : '';
     const tiny = field.w < 20 ? ' pf-field-tiny' : '';
+    const spellColumns=/^(cantrip_(names|actions|prepared)|spellbook_(left|right)_(names|actions|ranks|prepared)|focus_(spells|actions)|innate_(spells|actions|frequency)|rituals_(left|right)_(name|rank|cost))$/.test(field.id);
+    if(field.kind==='long'&&spellColumns&&spellMode==='library'){
+      const fieldId=field.id;
+      const list:SpellView[]=fieldId.startsWith('cantrip_')?grimoireColumns.cantrips:
+        fieldId.startsWith('spellbook_left_')?grimoireColumns.left:
+        fieldId.startsWith('spellbook_right_')?grimoireColumns.right:
+        fieldId.startsWith('focus_')?grimoireColumns.focus:
+        fieldId.startsWith('innate_')?grimoireColumns.innate:
+        fieldId.startsWith('rituals_left_')?grimoireColumns.rituals.filter((_,i)=>i%2===0):
+        grimoireColumns.rituals.filter((_,i)=>i%2===1);
+      const text=(spell:SpellView)=>fieldId.endsWith('_actions')?spellCast(spell):
+        fieldId.endsWith('_ranks')||fieldId.endsWith('_rank')?String(spell.spell.rank):
+        fieldId.endsWith('_prepared')?'✓':
+        fieldId.endsWith('_frequency')||fieldId.endsWith('_cost')?'—':spell.name;
+      return <button key={fieldId} type="button" className="pf-spell-library-field pf-field"
+        style={style} disabled={editLocked} onClick={()=>setGrimoireOpen(true)}
+        title="Открыть гримуар для выбора заклинаний" aria-label={field.label+', выбрать заклинания'}>
+        {list.map(spell=><span key={spell.id}>{text(spell)}</span>)}
+      </button>;
+    }
     if (field.kind === 'long') {
       const tableSpan = spellTableSpan(field, templateFields);
       const richStyle = tableSpan ? {
@@ -390,6 +432,9 @@ export default function PathfinderSheet({
             frame={portraitUrl?portraitFrame:undefined} />
         </button>}
       {pageFields.map(renderField)}
+      {page===4&&<button type="button" className="pf-spell-grimoire-trigger"
+        disabled={editLocked||spellMode==='text'} onClick={()=>setGrimoireOpen(true)}
+        aria-label="Открыть гримуар" title={spellMode==='text'?'Недоступно в режиме текста':'Выбор заклинаний'}><BookOpen size={15}/></button>}
       {page===4&&<button type="button" className="pf-spell-settings-trigger"
         disabled={editLocked} onClick={()=>setSpellSettingsOpen(true)}
         aria-label="Настройки заклинаний" title="Настройки заклинаний">
@@ -471,7 +516,11 @@ export default function PathfinderSheet({
     {spellSettingsOpen&&<SpellcastingDialog values={values} disabled={editLocked}
       onChange={(id,value)=>change(id,value)}
       onRankChange={changeSpellRank}
-      onClose={()=>setSpellSettingsOpen(false)}/>}
+      onClose={()=>setSpellSettingsOpen(false)}
+      onOpenGrimoire={()=>{setSpellSettingsOpen(false);setGrimoireOpen(true);}}/>}
+    {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions}
+      onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
+      onClose={()=>setGrimoireOpen(false)}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">
         <span>Страницы</span>
