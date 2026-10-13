@@ -4778,6 +4778,104 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-tether",
+      "system": "pf2e",
+      "slug": "tether",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-thicket-of-knives",
+      "system": "pf2e",
+      "slug": "thicket-of-knives",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-thoughtful-gift",
+      "system": "pf2e",
+      "slug": "thoughtful-gift",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "manipulate",
+        "teleportation"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-threefold-limb",
+      "system": "pf2e",
+      "slug": "threefold-limb",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "morph",
+        "water"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-rival-academies"
+    },
+    {
+      "id": "pf2e-thunderstrike",
+      "system": "pf2e",
+      "slug": "thunderstrike",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "electricity",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -8052,6 +8150,69 @@
       },
       "resource": "spell-slot",
       "duration": "1 minute or until used (see text)"
+    },
+    {
+      "id": "pf2e-tether-pf2e-remaster",
+      "spellId": "pf2e-tether",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-thicket-of-knives-pf2e-remaster",
+      "spellId": "pf2e-thicket-of-knives",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-thoughtful-gift-pf2e-remaster",
+      "spellId": "pf2e-thoughtful-gift",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "range": "120 feet",
+      "targets": "1 willing creature",
+      "heightened": {
+        "rules": " (3rd) The spell's range increases to 500 feet.\n\nHeightened (5th) As 3rd rank, and the object's maximum Bulk increases to 1. You can Cast the Spell with 3 actions instead of 1; doing so increases the range to 1 mile, and you don't need line of sight to the target, but you must be extremely familiar with the target."
+      }
+    },
+    {
+      "id": "pf2e-threefold-limb-pf2e-remaster",
+      "spellId": "pf2e-threefold-limb",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature"
+    },
+    {
+      "id": "pf2e-thunderstrike-pf2e-remaster",
+      "spellId": "pf2e-thunderstrike",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "120 feet",
+      "targets": "1 creature",
+      "savingThrow": "Basic reflex save",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d12 electricity and 1d4 sonic."
+      }
     }
   ],
   "translations": [
@@ -10997,6 +11158,46 @@
       "locale": "en",
       "name": "Temporary Tool",
       "description": "You conjure a temporary simple tool, such as a shovel or rope into your hands. It lasts until it's used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured and thus can't be sold or passed off as a genuine item.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-tether",
+      "versionId": "pf2e-tether-pf2e-remaster",
+      "locale": "en",
+      "name": "Tether",
+      "description": "You use magical chains, vines, or other tethers to bind your target to you. The creature can still try to Escape, and it or others can break the tethers by attacking them (the tethers have AC 15 and 10 Hit Points). You must stay within 30 feet of the target while it's tethered; moving more than 30 feet away from your target ends the spell. The target must attempt a Reflex save. You can Dismiss the spell.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes a –5-foot circumstance penalty to its Speed as long as it's within 30 feet of you.\n\nFailure The target takes a –10-foot circumstance penalty to its Speed and can't move more than 30 feet away from you until it Escapes or the spell ends.\n\nCritical Failure The target is Immobilized until it Escapes or the spell ends.\n\nHeightened (+1) The tethers' AC increases by 3, and their Hit Points increase by 10.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-thicket-of-knives",
+      "versionId": "pf2e-thicket-of-knives-pf2e-remaster",
+      "locale": "en",
+      "name": "Thicket of Knives",
+      "description": "You create numerous phantom copies of your weapon arm, hiding your true movements and rendering your attacks unpredictable. You gain a +2 status bonus to Deception checks. If you're untrained in Deception, you can use the [[/act feint]] action anyway as well as add your level as your proficiency bonus despite being untrained.\n\nSpell Effect: Thicket of Knives",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-thoughtful-gift",
+      "versionId": "pf2e-thoughtful-gift-pf2e-remaster",
+      "locale": "en",
+      "name": "Thoughtful Gift",
+      "description": "You teleport one object of light or negligible Bulk held in your hand to the target. The object appears instantly in the target's hand if they have a free hand, or at their feet if they don't. The target knows what object you're attempting to send them. If the target is Unconscious or refuses to accept your gift, or if the spell would teleport a creature (even if the creature is inside an extradimensional container), the spell fails.\n\nHeightened (3rd) The spell's range increases to 500 feet.\n\nHeightened (5th) As 3rd rank, and the object's maximum Bulk increases to 1. You can Cast the Spell with 3 actions instead of 1; doing so increases the range to 1 mile, and you don't need line of sight to the target, but you must be extremely familiar with the target.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-threefold-limb",
+      "versionId": "pf2e-threefold-limb-pf2e-remaster",
+      "locale": "en",
+      "name": "Threefold Limb",
+      "description": "You temporarily transform one of your limbs into water, taking the form of ice, liquid water, or steam as you desire. Make a melee spell attack roll. On a hit, the target takes 2d6 damage; the type of damage dealt and any additional effect depends on the form you choose. On a critical hit, double the damage.\n\nIce The limb deals cold damage, and the target takes a –10-foot status penalty to its Speeds until the start of your next turn. This spell gains the cold trait.\n\nSpell Effect: Threefold Limb (Ice)\n\nLiquid Water The limb deals bludgeoning damage and you can Reposition the target up to 10 feet.\n\nSteam The limb deals fire damage and steam clings to the target, making all creatures Concealed to them until the start of your next turn or they perform an Interact action to wave the steam away. This spell gains the fire trait.\n\nHeightened (+1) The damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-thunderstrike",
+      "versionId": "pf2e-thunderstrike-pf2e-remaster",
+      "locale": "en",
+      "name": "Thunderstrike",
+      "description": "You call down a tendril of lightning that cracks with thunder, dealing 1d12 electricity damage and 1d4 sonic damage to the target with a basic Reflex save. A target wearing metal armor or made of metal takes a –1 circumstance bonus to its save, and if damaged by the spell is Clumsy 1 for 1 round.\n\nHeightened (+1) The damage increases by 1d12 electricity and 1d4 sonic.",
       "translationStatus": "verified"
     }
   ],
