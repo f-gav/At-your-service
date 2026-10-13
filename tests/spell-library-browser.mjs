@@ -97,7 +97,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'351 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'373 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
