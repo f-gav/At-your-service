@@ -10,40 +10,40 @@
 
 **Обработано:** **224 / 224** исходных записей (все 10 волн). Из них **223** действительно 2-го ранга и Funeral Flames — 1-го ранга.
 
-**Английских карточек, ожидающих перевода:** **35** (после авторской локализации первой половины).
+**Английских карточек, ожидающих перевода:** **0**. Переведены обе партии по 35 карточек; дальнейшая проверка точности механики остаётся открытой.
 
-**Русских карточек второго круга:** **188** (154 ранее + 34 новых второго ранга; Funeral Flames отдельно — 1-й ранг) (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09 и 12 из волны 10). Часть русских названий сверена по русским источникам; авторские черновики волн 07 и 09 требуют дополнительной терминологической проверки; названия RU волны 10 непосредственно найдены в DoctorWater. Авторские описания подписаны «Перевод от At your service!».
+**Русских карточек второго круга:** **223** (154 ранее + 34 новых второго ранга; Funeral Flames отдельно — 1-й ранг) (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09 и 12 из волны 10). Часть русских названий сверена по русским источникам; авторские черновики волн 07 и 09 требуют дополнительной терминологической проверки; названия RU волны 10 непосредственно найдены в DoctorWater. Авторские описания подписаны «Перевод от At your service!».
 
 Источник сверки: https://github.com/DoctorWater/pf2ru-translation/blob/master/generated/data/community/pf2e/packs/pf2e.spells-srd.json
 
 ## Реестр EN
 
-| 204 | 10 | Tracing Bond | `tracing-bond` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 208 | 10 | Umbral Mindtheft | `umbral-mindtheft` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 209 | 10 | Uncover Device | `uncover-device` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 210 | 10 | Unrelenting Gravity | `unrelenting-gravity` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 211 | 10 | Vanish Weapon | `vanish-weapon` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 212 | 10 | Veil of Spirits | `veil-of-spirits` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 213 | 10 | Vicious Jealousy | `vicious-jealousy` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 216 | 10 | Warping Pull | `warping-pull` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 218 | 10 | Watchdog | `watchdog` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
-| 223 | 10 | With Friends like These | `with-friends-like-these` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 204 | 10 | Tracing Bond | `tracing-bond` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 208 | 10 | Umbral Mindtheft | `umbral-mindtheft` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 209 | 10 | Uncover Device | `uncover-device` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 210 | 10 | Unrelenting Gravity | `unrelenting-gravity` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 211 | 10 | Vanish Weapon | `vanish-weapon` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 212 | 10 | Veil of Spirits | `veil-of-spirits` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 213 | 10 | Vicious Jealousy | `vicious-jealousy` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 216 | 10 | Warping Pull | `warping-pull` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 218 | 10 | Watchdog | `watchdog` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 223 | 10 | With Friends like These | `with-friends-like-these` | RU — авторский перевод At your service!| Foundry v14-dev |
 
-| 182 | 09 | Spy's Mark | `spys-mark` | EN — ждёт локализации | Foundry v14-dev |
-| 184 | 09 | Steel Fortifications | `steel-fortifications` | EN — ждёт локализации | Foundry v14-dev |
-| 190 | 09 | Summoner's Precaution | `summoners-precaution` | EN — ждёт локализации | Foundry v14-dev |
-| 191 | 09 | Summoner's Visage | `summoners-visage` | EN — ждёт локализации | Foundry v14-dev |
-| 197 | 09 | The Parrot's Whisper | `the-parrots-whisper` | EN — ждёт локализации | Foundry v14-dev |
-| 201 | 09 | Thundering Dominance | `thundering-dominance` | EN — ждёт локализации | Foundry v14-dev |
+| 182 | 09 | Spy's Mark | `spys-mark` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 184 | 09 | Steel Fortifications | `steel-fortifications` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 190 | 09 | Summoner's Precaution | `summoners-precaution` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 191 | 09 | Summoner's Visage | `summoners-visage` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 197 | 09 | The Parrot's Whisper | `the-parrots-whisper` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 201 | 09 | Thundering Dominance | `thundering-dominance` | RU — авторский перевод At your service!| Foundry v14-dev |
 
 
-| 139 | 07 | One with Plants | `one-with-plants` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 140 | 07 | Osseous Cage | `osseous-cage` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 142 | 07 | Palm-Held Sun | `palm-held-sun` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 146 | 07 | Penumbral Disguise | `penumbral-disguise` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 147 | 07 | Persistent Servant | `persistent-servant` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 148 | 07 | Phantasmal Treasure | `phantasmal-treasure` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
-| 153 | 07 | Quench | `quench` | EN — ожидает подтверждённого русского перевода | Foundry v14-dev |
+| 139 | 07 | One with Plants | `one-with-plants` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 140 | 07 | Osseous Cage | `osseous-cage` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 142 | 07 | Palm-Held Sun | `palm-held-sun` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 146 | 07 | Penumbral Disguise | `penumbral-disguise` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 147 | 07 | Persistent Servant | `persistent-servant` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 148 | 07 | Phantasmal Treasure | `phantasmal-treasure` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 153 | 07 | Quench | `quench` | RU — авторский перевод At your service!| Foundry v14-dev |
 
 
 | № в каталоге | Волна | Английское название | Slug исходника | Статус | Примечание |
@@ -86,20 +86,20 @@
 | 110 | 05 | Impart Empathy | `impart-empathy` | RU — Пробуждение эмпатии; перевод от At your service!| Foundry v14-dev |
 | 111 | 05 | Impeccable Flow | `impeccable-flow` | RU — Безупречный поток; перевод от At your service!| Foundry v14-dev |
 | 112 | 05 | Imprinting Hand | `imprinting-hand` | RU — Запечатлевающая ладонь; перевод от At your service!| Foundry v14-dev |
-| 113 | 05 | Infernal Supervision | `infernal-supervision` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 113 | 05 | Infernal Supervision | `infernal-supervision` | RU — авторский перевод At your service!| Foundry v14-dev |
 
-| 126 | 06 | Manifestation of Spirits | `manifestation-of-spirits` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 127 | 06 | Mark of Blood | `mark-of-blood` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 130 | 06 | Metal Reverberation | `metal-reverberation` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 132 | 06 | Mind Games | `mind-games` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 134 | 06 | Mist Sight | `mist-sight` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 126 | 06 | Manifestation of Spirits | `manifestation-of-spirits` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 127 | 06 | Mark of Blood | `mark-of-blood` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 130 | 06 | Metal Reverberation | `metal-reverberation` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 132 | 06 | Mind Games | `mind-games` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 134 | 06 | Mist Sight | `mist-sight` | RU — авторский перевод At your service!| Foundry v14-dev |
 
-| 159 | 08 | Retrieving Hook | `retrieving-hook` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 161 | 08 | Rime Slick | `rime-slick` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 163 | 08 | Saturate | `saturate` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 164 | 08 | Sea Surge | `sea-surge` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 166 | 08 | Shadow Zombie | `shadow-zombie` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 170 | 08 | Shift Perspective | `shift-perspective` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 159 | 08 | Retrieving Hook | `retrieving-hook` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 161 | 08 | Rime Slick | `rime-slick` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 163 | 08 | Saturate | `saturate` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 164 | 08 | Sea Surge | `sea-surge` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 166 | 08 | Shadow Zombie | `shadow-zombie` | RU — авторский перевод At your service!| Foundry v14-dev |
+| 170 | 08 | Shift Perspective | `shift-perspective` | RU — авторский перевод At your service!| Foundry v14-dev |
 
 ## Правила ведения
 
@@ -313,3 +313,44 @@ JSON находится в папке `spells/rank-2`, но `system.level.value`
 | 33 | Impart Empathy | Пробуждение эмпатии |
 | 34 | Impeccable Flow | Безупречный поток |
 | 35 | Imprinting Hand | Запечатлевающая ладонь |
+
+
+## Вторая партия авторской локализации — 13 октября 2026
+
+Добавлены 35 русских карточек второго ранга. Автор: **«Перевод от At your service!»**; статус черновой. Оригинальные английские названия сохраняются. Файл: `public/spell-library/pf2e-ays-rank2-cycle2.json`.
+
+36. Infernal Supervision
+37. Manifestation of Spirits
+38. Mark of Blood
+39. Metal Reverberation
+40. Mind Games
+41. Mist Sight
+42. One with Plants
+43. Osseous Cage
+44. Palm-Held Sun
+45. Penumbral Disguise
+46. Persistent Servant
+47. Phantasmal Treasure
+48. Quench
+49. Retrieving Hook
+50. Rime Slick
+51. Saturate
+52. Sea Surge
+53. Shadow Zombie
+54. Shift Perspective
+55. Spy's Mark
+56. Steel Fortifications
+57. Summoner's Precaution
+58. Summoner's Visage
+59. The Parrot's Whisper
+60. Thundering Dominance
+61. Tracing Bond
+62. Umbral Mindtheft
+63. Uncover Device
+64. Unrelenting Gravity
+65. Vanish Weapon
+66. Veil of Spirits
+67. Vicious Jealousy
+68. Warping Pull
+69. Watchdog
+70. With Friends like These
