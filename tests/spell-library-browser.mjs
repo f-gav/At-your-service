@@ -122,7 +122,7 @@ try{
   await noise.getByText('10-футовый взрыв',{exact:true}).waitFor();
   await noise.getByText('Спасбросок Стойкости',{exact:true}).waitFor();
   assert.equal(await noise.getByText('fortitude',{exact:true}).count(),0);
-  assert.equal(await noise.locator('.spell-stat-grid').getByText(/\\{"type"/).count(),0);
+  assert.ok(!(await noise.locator('.spell-stat-grid').textContent()).includes('{"type"'),'Foundry area JSON leaked to user-facing card');
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Паранойя');
   await page.locator('.spell-result').first().click();
