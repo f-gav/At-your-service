@@ -8,11 +8,11 @@
 
 **Запланировано:** 224 заклинания в [10 волнах](./SPELL-RANK2-IMPORT-WAVES-RU.md).
 
-**Импортировано:** **46 / 224**.
+**Импортировано:** **69 / 224**.
 
-**Английских карточек, ожидающих перевода:** **13** (8 в волне 01 и 5 в волне 02).
+**Английских карточек, ожидающих перевода:** **21** (8 в волне 01, 5 в волне 02, 8 в волне 03).
 
-**Русских карточек второго круга:** **33** (15 из волны 01 и 18 из волны 02). Названия сверены по русским источникам, описания локализованы самостоятельно и подписаны «Перевод от At your service!».
+**Русских карточек второго круга:** **48** (15 из волны 01, 18 из волны 02, 15 из волны 03). Названия сверены по русским источникам, описания локализованы самостоятельно и подписаны «Перевод от At your service!».
 
 Источник сверки: https://github.com/DoctorWater/pf2ru-translation/blob/master/generated/data/community/pf2e/packs/pf2e.spells-srd.json
 
@@ -34,6 +34,15 @@
 | 30 | 02 | Breath of Drought | `breath-of-drought` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 | 35 | 02 | Carrion Mire | `carrion-mire` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 | 45 | 02 | Confetti Cloud | `confetti-cloud` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+
+| 47 | 03 | Cutting Insult | `cutting-insult` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 53 | 03 | Dimensional Drop | `dimensional-drop` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 54 | 03 | Disintegrating Puddle | `disintegrating-puddle` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 56 | 03 | Disorienting Flash | `disorienting-flash` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 58 | 03 | Draw Blood | `draw-blood` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 59 | 03 | Electrostatic Glider | `electrostatic-glider` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 62 | 03 | Empathic Link | `empathic-link` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 68 | 03 | Erase Trail | `erase-trail` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 
 ## Правила ведения
 
@@ -85,3 +94,25 @@
 | 46 | Create Food | Создание еды | PF2.ru-совместимый модуль DoctorWater |
 
 Для этих 18 записей подготовлены авторские русские описания и явно указана метка «Перевод от At your service!». Английский оригинал механики сохранён. Названия сверены с указанными источниками, но финальная редакторская вычитка полного механического текста остаётся частью общего аудита.
+
+## Волна 03: подтверждённые русские названия (15)
+
+| № | Оригинал | Русское название | Источник |
+|---:|---|---|---|
+| 48 | Dancing Shield | Танцующий щит | PF2.ru-совместимый модуль DoctorWater |
+| 49 | Darkness | Тьма | PF2.ru-совместимый модуль DoctorWater |
+| 50 | Darkvision | Ночное зрение | PF2.ru-совместимый модуль DoctorWater |
+| 51 | Deafness | Глухота | PF2.ru-совместимый модуль DoctorWater |
+| 52 | Death Knell | Погребальный звон | PF2.ru-совместимый модуль DoctorWater |
+| 55 | Dismantle | Деконструкция | PF2.ru-совместимый модуль DoctorWater |
+| 57 | Dispel Magic | Рассеивание магии | PF2.ru-совместимый модуль DoctorWater |
+| 60 | Elemental Zone | Зона стихии | Исторический русский справочник PF2e 1.12 |
+| 61 | Embed Message | Начертание послания | PF2.ru-совместимый модуль DoctorWater |
+| 63 | Empty Pack | Пустой мешок | PF2.ru-совместимый модуль DoctorWater |
+| 64 | Enhance Victuals | Улучшение провизии | PF2.ru-совместимый модуль DoctorWater |
+| 65 | Enlarge | Увеличение | PF2.ru-совместимый модуль DoctorWater |
+| 66 | Entangling Flora | Опутывание | PF2.ru-совместимый модуль DoctorWater |
+| 67 | Environmental Endurance | Защита от непогоды | PF2.ru-совместимый модуль DoctorWater |
+| 69 | Everlight | Вечный свет | PF2.ru-совместимый модуль DoctorWater |
+
+Собственные русские описания подписаны «Перевод от At your service!»; исходные английские тексты сохранены.
