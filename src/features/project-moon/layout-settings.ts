@@ -68,10 +68,11 @@ export const DEFAULT_MOON_LAYOUT = {
   maskShiftX: -2,
   maskShiftY: 2,
   textStyles: cloneMoonTextStyles(),
+  elementStyles: {} as Record<string, Partial<MoonTextStyle>>,
 };
 export type MoonLayout = typeof DEFAULT_MOON_LAYOUT;
 export type MoonLayoutKey = keyof MoonLayout;
-export type MoonNumericColorKey = Exclude<MoonLayoutKey, 'textStyles'>;
+export type MoonNumericColorKey = Exclude<MoonLayoutKey, 'textStyles' | 'elementStyles'>;
 export const isMoonPortraitShift = (key: MoonLayoutKey): boolean =>
   key === 'portraitShiftX' || key === 'portraitShiftY' ||
   key === 'maskShiftX' || key === 'maskShiftY';
@@ -150,6 +151,12 @@ export function parseMoonLayout(raw: unknown): MoonLayout {
     for (const {key} of MOON_TEXT_GROUPS)
       safe.textStyles[key] = normalizeMoonTextStyle(styles[key], safe.textStyles[key]);
   }
+  const individual = entries.get('elementStyles');
+  if(isRecord(individual))for(const [key,value] of Object.entries(individual)){
+    if(!/^moon-page-(dossier|combat|about|notes)\\|[a-zA-Z0-9_:|.-]{1,120}$/.test(key))continue;
+    if(!isRecord(value))continue;
+    safe.elementStyles[key] = normalizeMoonTextStyle(value,DEFAULT_MOON_TEXT_STYLES.fieldLabel);
+  }
   // Existing title-size setting remains canonical for backward compatibility.
   safe.textStyles.pageTitle.size = safe.titleFont;
   return safe;
@@ -158,6 +165,7 @@ export function parseMoonLayout(raw: unknown): MoonLayout {
 export function encodeMoonLayout(layout: MoonLayout): Entry[] {
   return [
     ...MOON_LAYOUT_CONTROLS.map(({key}) => ({ id: key, value: layout[key] })),
+    { id:'elementStyles',value:layout.elementStyles },
     { id:'textStyles', value:{
       ...layout.textStyles,
       pageTitle:{...layout.textStyles.pageTitle,size:layout.titleFont},
