@@ -63,9 +63,9 @@ export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
 }
 const GROUPS=[['arcane','Мистическая'],['divine','Сакральная'],['occult','Оккультная'],['primal','Первобытная']] as const;
 type Props={
-  selection:SavedSpell[];traditions:string[];classes:string[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
+  selection:SavedSpell[];traditions:string[];classes:string[];slotCounts:number[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
 };
-export default function SpellGrimoire({selection,traditions,classes,onSelection,onClose}:Props){
+export default function SpellGrimoire({selection,traditions,classes,slotCounts,onSelection,onClose}:Props){
   const [spells,setSpells]=useState<SpellView[]>([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState('');
@@ -88,12 +88,14 @@ export default function SpellGrimoire({selection,traditions,classes,onSelection,
   const results=useMemo(()=>allowed.filter(s=>(rank==='all'||s.spell.rank===rank)&&
     (show==='all'||selection.some(x=>x.id===s.id&&x.prepared))&&
     (!search||[s.name,s.englishName].some(name=>name.toLowerCase().includes(search.toLowerCase())))),[allowed,rank,show,search,selection]);
+  const preparedCount=selection.filter(x=>x.prepared&&spells.some(v=>v.id===x.id&&v.spell.rank>0&&v.spell.kind==='spell')).length;
+  const availableSlots=slotCounts.reduce((sum,n)=>sum+n,0);
   const update=(spell:SpellView)=>{const old=selection.find(x=>x.id===spell.id);
     onSelection(old?selection.map(x=>x.id===spell.id?{...x,prepared:!x.prepared}:x):[...selection,{id:spell.id,prepared:true}]);};
   const remove=(id:string)=>onSelection(selection.filter(x=>x.id!==id));
   return createPortal(<div className="pf-grimoire-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)onClose();}}>
     <section className="pf-grimoire" role="dialog" aria-modal="true" aria-label="Гримуар заклинаний">
-      <header><h2>Гримуар</h2><span>Подготовлено: {selection.filter(x=>x.prepared).length} · Изучено: {selection.length}</span>
+      <header><h2>Гримуар</h2><span style={{color:availableSlots>0&&preparedCount>availableSlots?'#b54b4b':undefined}}>Подготовлено: {preparedCount}{availableSlots>0?'/'+availableSlots:''} · Добавлено: {selection.length}</span>
         <button type="button" aria-label="Закрыть гримуар" onClick={onClose}><X size={20}/></button></header>
       <div className="pf-grimoire-tabs">
         <button className={show==='all'?'active':''} onClick={()=>setShow('all')}>Все доступные ({allowed.length})</button>
