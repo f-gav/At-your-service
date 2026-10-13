@@ -323,11 +323,10 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
           <div className="ta-cols4">{(['x','y','w','h'] as const).map(k=><label key={k}>{k.toUpperCase()}<input type="number" step=".5" value={active[k]} onChange={e=>prop(k,Number(e.target.value))}/></label>)}</div>
           <label>Шрифт<select value={active.fontFamily||'Arial'} onChange={e=>prop('fontFamily',e.target.value)}>{['Arial','Georgia','Verdana','Times New Roman','Courier New'].map(font=><option key={font}>{font}</option>)}</select></label>
           <div className="ta-cols2"><label>Размер (pt)<input type="number" min="5" max="40" step=".5" value={active.fontSize??12} onChange={e=>prop('fontSize',Number(e.target.value))}/></label><label>Жирность<select value={active.fontWeight??500} onChange={e=>prop('fontWeight',Number(e.target.value))}>{[400,500,600,700,800].map(w=><option key={w} value={w}>{w}</option>)}</select></label></div>
-          {active.kind!=='toggle'&&<div className="ta-text-style" role="group" aria-label="Форматирование вводимого текста">
-            <label><input type="checkbox" checked={active.fontStyle==='italic'}
-              onChange={e=>update(active.id,{fontStyle:e.target.checked?'italic':'normal'})}/> <em>Курсив</em></label>
-            <label><input type="checkbox" checked={active.textUnderline===true}
-              onChange={e=>update(active.id,{textUnderline:e.target.checked})}/> <u>Подчёркнутый текст</u></label>
+          {active.kind!=='toggle'&&<div className="ta-text-style ta-format-buttons" role="group" aria-label="Форматирование текста">
+            <button type="button" aria-label="Жирный" aria-pressed={(active.fontWeight??500)>=700} onClick={()=>update(active.id,{fontWeight:(active.fontWeight??500)>=700?500:700})}><b>Ж</b></button>
+            <button type="button" aria-label="Курсив" aria-pressed={active.fontStyle==='italic'} onClick={()=>update(active.id,{fontStyle:active.fontStyle==='italic'?'normal':'italic'})}><i>К</i></button>
+            <button type="button" aria-label="Подчёркнутый" aria-pressed={active.textUnderline===true} onClick={()=>update(active.id,{textUnderline:!active.textUnderline})}><u>Ч</u></button>
           </div>}
           <div className="ta-cols2"><label>Выравнивание<select value={active.textAlign||'left'} onChange={e=>prop('textAlign',e.target.value)}><option value="left">Слева</option><option value="center">Центр</option><option value="right">Справа</option></select></label><label>Цвет<input type="color" value={active.color||'#303030'} onChange={e=>prop('color',e.target.value)}/></label></div>
           <div className="ta-cols2"><label>Отступ X<input type="number" min="0" max="20" value={active.paddingX??2} onChange={e=>prop('paddingX',Number(e.target.value))}/></label><label>Отступ Y<input type="number" min="0" max="20" value={active.paddingY??0} onChange={e=>prop('paddingY',Number(e.target.value))}/></label></div>
