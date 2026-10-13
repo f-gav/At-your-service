@@ -3526,6 +3526,125 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-message-rune",
+      "system": "pf2e",
+      "slug": "message-rune",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "linguistic",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-metal-merged",
+      "system": "pf2e",
+      "slug": "metal-merged",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "metal",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-mindlink",
+      "system": "pf2e",
+      "slug": "mindlink",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-mud-pit",
+      "system": "pf2e",
+      "slug": "mud-pit",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-mystic-armor",
+      "system": "pf2e",
+      "slug": "mystic-armor",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-necromancers-generosity",
+      "system": "pf2e",
+      "slug": "necromancers-generosity",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "void"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
     }
   ],
   "versions": [
@@ -5977,6 +6096,77 @@
       "heightened": {
         "rules": " (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less."
       }
+    },
+    {
+      "id": "pf2e-message-rune-pf2e-remaster",
+      "spellId": "pf2e-message-rune",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "5 minutes"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 flat unattended surface or non-magical object of light Bulk",
+      "duration": "1 day"
+    },
+    {
+      "id": "pf2e-metal-merged-pf2e-remaster",
+      "spellId": "pf2e-metal-merged",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "targets": "1 metal weapon you are wielding",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-mindlink-pf2e-remaster",
+      "spellId": "pf2e-mindlink",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature"
+    },
+    {
+      "id": "pf2e-mud-pit-pf2e-remaster",
+      "spellId": "pf2e-mud-pit",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "area": "burst: 15 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-mystic-armor-pf2e-remaster",
+      "spellId": "pf2e-mystic-armor",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "until your next daily preparations"
+    },
+    {
+      "id": "pf2e-necromancers-generosity-pf2e-remaster",
+      "spellId": "pf2e-necromancers-generosity",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 undead minion you control",
+      "duration": "1 minute",
+      "heightened": {
+        "rules": " (+1) The amount of healing increases by 1d8+4."
+      }
     }
   ],
   "translations": [
@@ -8105,6 +8295,54 @@
       "locale": "en",
       "name": "Mending",
       "description": "You repair the target item. You restore 5 Hit Points per spell rank to the target, potentially removing the Broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.\n\n\n\n\n\nHeightened (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-message-rune",
+      "versionId": "pf2e-message-rune-pf2e-remaster",
+      "locale": "en",
+      "name": "Message Rune",
+      "description": "You record a message up to 5 minutes long and inscribe a special rune on any flat unattended surface or small object within reach. The nature of the rune's appearance is up to you, but it's visible to everyone, and it must be no smaller than 2 inches in diameter. You also specify a trigger that creatures must meet to activate the rune.\n\n\nFor the duration of the spell, creatures that meet the criteria of the trigger can touch the rune to hear the recorded message in their head as though you were speaking to them telepathically. You know when someone is listening to the message, but you don't know who's listening to it. You can Dismiss the spell.\n\n\n\nHeightened (+2) The duration increases for every 2 ranks, becoming 1 week, 1 month, 1 year, or unlimited respectively.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-metal-merged",
+      "versionId": "pf2e-metal-merged-pf2e-remaster",
+      "locale": "en",
+      "name": "Metal Merged",
+      "description": "You call forth the metal that flows through your veins, welding it together with the weapon you wield. For the duration of this spell, you can't drop your weapon, and you gain a +4 circumstance bonus to your Reflex DC against attempts to Disarm you.\n\n\nSpell Effect: Metal Merged",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-mindlink",
+      "versionId": "pf2e-mindlink-pf2e-remaster",
+      "locale": "en",
+      "name": "Mindlink",
+      "description": "You link your mind to the target's mind and mentally impart to that target an amount of information in an instant that could otherwise be communicated in 10 minutes.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-mud-pit",
+      "versionId": "pf2e-mud-pit-pf2e-remaster",
+      "locale": "en",
+      "name": "Mud Pit",
+      "description": "Thick, clinging mud covers the ground, 1 foot deep. The mud is difficult terrain.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-mystic-armor",
+      "versionId": "pf2e-mystic-armor-pf2e-remaster",
+      "locale": "en",
+      "name": "Mystic Armor",
+      "description": "You ward yourself with shimmering magical energy, gaining a +1 item bonus to AC and a maximum Dexterity modifier of +5. While wearing mystic armor, you use your unarmored proficiency to calculate your AC.\n\n\nSpell Effect: Mystic Armor\n\n\n\n\n\nHeightened (4th) You gain a +1 item bonus to saving throws.\n\n\nHeightened (6th) The item bonus to AC increases to +2, and you gain a +1 item bonus to saving throws.\n\n\nHeightened (8th) The item bonus to AC increases to +2, and you gain a +2 item bonus to saving throws.\n\n\nHeightened (10th) The item bonus to AC increases to +3, and you gain a +3 item bonus to saving throws.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancers-generosity",
+      "versionId": "pf2e-necromancers-generosity-pf2e-remaster",
+      "locale": "en",
+      "name": "Necromancer's Generosity",
+      "description": "You channel void energy through your magical connection to your undead minion to strengthen the creature. The target regains 1d8+4 Hit Points when you Cast the Spell, and it gains a +2 status bonus to saves against vitality effects for the duration.\n\n\nSpell Effect: Necromancer's Generosity\n\n\n\nHeightened (+1) The amount of healing increases by 1d8+4.",
       "translationStatus": "verified"
     }
   ],
