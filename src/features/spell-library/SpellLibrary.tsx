@@ -175,8 +175,26 @@ const PF_TRAIT_LABELS:Record<string,string>={
   evil:'Зло',unholy:'Нечестивый',contingency:'Условный',revelation:'Откровение',scrying:'Наблюдение',
 };
 const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition==='pf2e-remaster'?'Remaster':edition;
+/** Keep author translations in the same structured layout as first-rank cards. */
+function splitAuthorSpellText(description:string){
+  const outcomes:Record<string,string>={};
+  const heightened:Array<{label:string;text:string}>=[];
+  const body:string[]=[];
+  const outcomeKeys:Record<string,string>={'Критический успех':'criticalSuccess','Успех':'success','Провал':'failure','Критический провал':'criticalFailure'};
+  for(const line of description.split(/\n/)){
+    const trimmed=line.trim().replace(/^-\s*/,'').replace(/^\*\*(.*?)\*\*:/,'$1:');
+    const match=trimmed.match(/^(Критический успех|Успех|Провал|Критический провал):\s*(.*)$/);
+    const raised=trimmed.match(/^Повышение\s*\(([^)]+)\):\s*(.*)$/);
+    if(match)outcomes[outcomeKeys[match[1]]]=match[2];
+    else if(raised)heightened.push({label:raised[1],text:raised[2]});
+    else body.push(line);
+  }
+  return {body:body.join('\n').replace(/\n{3,}/g,'\n\n').trim(),outcomes,heightened};
+}
+
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
   const entry=spell.spell,rules=spell.rules;
+  const author=spell.translationOrigin==='at-your-service'?splitAuthorSpellText(spell.description):null;
   const values=[
     ['Сотворение',rules.cast?.actions===undefined?(localizeRuleValue(rules.cast?.time||'—','time')):`${rules.cast.actions} действ.`],
     ['Дистанция',localizeRuleValue(rules.range||'—','range')],
@@ -216,16 +234,16 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
     <section className="spell-description" aria-label="Описание и эффекты">
       {spell.summary&&<p className="spell-summary">{spell.summary}</p>}
       {spell.description
-        ? <p className="spell-body-text">{spell.description}</p>
+        ? <p className="spell-body-text">{author?author.body:spell.description}</p>
         : <p className="spell-missing-description">Описание пока не добавлено.</p>}
-      {spell.translationOrigin!=='at-your-service'&&rules.outcomes&&Object.entries(rules.outcomes).length>0&&<div className="spell-outcomes">
-        {Object.entries(rules.outcomes).map(([key,value])=><p key={key}><b>{({
+      {(author?Object.keys(author.outcomes).length>0:Boolean(rules.outcomes&&Object.keys(rules.outcomes).length>0))&&<div className="spell-outcomes">
+        {Object.entries(author?author.outcomes:rules.outcomes||{}).map(([key,value])=><p key={key}><b>{({
           criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'
         } as Record<string,string>)[key]||key}:</b> {value}</p>)}
       </div>}
-      {spell.translationOrigin!=='at-your-service'&&rules.heightened&&Object.keys(rules.heightened).length>0&&<section className="spell-heightened">
+      {(author?author.heightened.length>0:Boolean(rules.heightened&&Object.keys(rules.heightened).length>0))&&<section className="spell-heightened">
         <h3>{spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
-        {Object.entries(rules.heightened).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
+        {author?author.heightened.map(({label,text})=><p key={label}><b>{label}:</b> {text}</p>):Object.entries(rules.heightened||{}).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
     </section>
     <section className="spell-availability" aria-label="Доступность заклинания">
