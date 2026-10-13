@@ -391,7 +391,15 @@ export default function App() {
         if (cancelled) return;
         setLoadingCharacters(false);
         if (loadError) setError(messageFromError(loadError));
-        else setCharacters((data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[]);
+        else {
+          const owned=(data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[];
+          setCharacters(owned);
+          const route=parseSiteRoute(window.location.hash);
+          if(route.kind==='character') {
+            if(owned.some(character=>character.id===route.id))setActiveId(route.id);
+            else {setActiveId(null);setError('Персонаж не найден в твоём аккаунте или доступ к нему отсутствует.');}
+          }
+        }
       });
     return () => { cancelled = true; };
   }, [user?.id]);
