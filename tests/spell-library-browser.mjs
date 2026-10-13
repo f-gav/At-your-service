@@ -249,7 +249,7 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),150,'Third rank-one page loads 50 entries');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),188,'Rank 1 has 189 spells after Funeral Flames import');
+  assert.equal(await page.locator('.spell-result').count(),189,'Rank 1 has 189 spells after Funeral Flames import');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Воздушный пузырь');
   assert.equal(await page.locator('.spell-result').count(),1,'Search Russian rank-one spell');
   await page.locator('.spell-result').first().click();
