@@ -618,12 +618,6 @@ export default function App() {
               disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы открыть библиотеку':undefined} onClick={()=>navigateTo('library')}>Библиотека</button>
           </nav>
           <div className="header-links">
-            {canInstall && <button type="button" className="header-project-link pwa-install-link"
-              onClick={()=>void install()} title="Установить сайт как приложение">
-              <Download size={15}/> Установить
-            </button>}
-            <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
-            {isTemplateAdmin && user && <button type="button" className="button button-header admin-entry-button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={16}/> Редактор листов</button>}
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
                 <span className="account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
@@ -633,9 +627,9 @@ export default function App() {
               </div>
             ) : <button className="button button-header" type="button" onClick={() => void signIn()}><LogIn size={16} /> Войти через Google</button>}
           </div>
-          <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
+          <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} aria-controls="ays-header-menu" onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
-        {mobileMenu && <div className="mobile-menu-panel">
+        {mobileMenu && <div className="mobile-menu-panel" id="ays-header-menu">
           <div className="mobile-account-row">
             {user ? <>
               <span className="mobile-account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
@@ -645,9 +639,11 @@ export default function App() {
               <button type="button" className="mobile-signout" onClick={() => {setMobileMenu(false);void signOut();}}><LogOut size={16}/> Выйти из аккаунта</button>
             </> : <button type="button" onClick={() => {setMobileMenu(false);void signIn();}}><LogIn size={16}/> Войти через Google</button>}
           </div>
-          {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}><Download size={17}/> Установить приложение</button>}
-          {isTemplateAdmin && user && <button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={17}/> Редактор листов</button>}
-          <a className="mobile-menu-action" href={WRECKTRACK_URL} target="_blank" rel="noreferrer"><ArrowRight size={17}/> WreckTrack ↗</a>
+          <div className="mobile-menu-links">
+            {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}><Download size={17}/> Установить приложение</button>}
+            {isTemplateAdmin && user && <button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={17}/> Редактор листов</button>}
+            <a className="mobile-menu-action" href={WRECKTRACK_URL} target="_blank" rel="noreferrer" onClick={()=>setMobileMenu(false)}><ArrowRight size={17}/> WreckTrack ↗</a>
+          </div>
         </div>}
         <nav className="site-tabs-mobile" aria-label="Основные разделы">
           <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
