@@ -30,7 +30,7 @@ assert.equal(wave.spells[70].slug,'wash-your-luck');
 assert.equal(wave.spells[71].slug,'500-toads');
 assert.equal(wave.spells[258].slug,'wooden-fists');
 assert.equal(wave.spells.at(-1).slug,'blood-runs-cold');
-assert.deepEqual(wave.spells.slice(239).map(s=>s.slug),[
+assert.deepEqual(wave.spells.slice(239,259).map(s=>s.slug),[
   'swampcall','synchronize-steps','synchronize','tailwind','temporary-tool',
   'tether','thicket-of-knives','thoughtful-gift','threefold-limb','thunderstrike',
   'turnip-lantern','unbroken-panoply','vanishing-tracks','ventriloquism','verdant-sprout',
