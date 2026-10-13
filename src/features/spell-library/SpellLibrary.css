@@ -162,6 +162,7 @@
 .spell-edition-line {display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:14px 0 0;font-size:12px;color:#84958a;}
 .spell-edition-line span + span {padding-left:9px;border-left:1px solid #d8e2d9;}
 .spell-edition-line .spell-legacy-note {color:#a16c3f;}
+.spell-edition-line .spell-translation-origin {color:#416f4e;font-weight:650;}
 .spell-parameters {margin-top:20px;padding:19px 21px;background:#f0f3ef;border-radius:8px;}
 .spell-parameters .spell-stat-grid {border:0;padding:0;margin:0;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 20px;}
 .spell-parameters .spell-stat-grid dt {font-size:13px;color:#677e70;font-weight:600;}
