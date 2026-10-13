@@ -534,7 +534,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* Shared navigation menu: desktop uses the same three-line button as mobile.
    Google account controls stay in the desktop header, outside this menu. */
-.site-header{position:relative;}
+.site-header{position:sticky;}
 .site-header .mobile-menu-button{display:inline-flex;flex:none;width:36px;height:36px;cursor:pointer;}
 .site-header .mobile-menu-panel{
   display:flex;position:absolute;z-index:60;top:calc(100% - 1px);right:max(20px,calc((100vw - 1200px)/2));
