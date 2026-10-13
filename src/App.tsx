@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import AutoSaveStatus from './lib/AutoSaveStatus';
+import {parseSiteRoute,siteRouteHash} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
@@ -219,7 +220,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
-  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>window.location.hash==='#library'?'library':'characters');
+  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>parseSiteRoute(window.location.hash).kind==='library'?'library':'characters');
   // Reset the new page position before paint. Scrolling the old page inside
   // navigateTo could visibly move the header when content height changes.
   useLayoutEffect(()=>{
@@ -250,17 +251,31 @@ export default function App() {
   const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
   const [portraitUrls,setPortraitUrls] = useState<Record<string,string>>({});
   const {canInstall,install}=usePwaInstall();
+  // Hash routes are bookmarkable and survive reloads, back/forward and OAuth redirects.
   useEffect(()=>{
-    const sync=()=>{if(!activeId&&!showTemplateAdmin)setMainTab(window.location.hash==='#library'?'library':'characters');};
+    const sync=()=>{
+      const route=parseSiteRoute(window.location.hash);
+      setShowTemplateAdmin(false);
+      setMainTab(route.kind==='library'?'library':'characters');
+      setActiveId(route.kind==='character'?route.id:null);
+      setMobileMenu(false);
+    };
     window.addEventListener('hashchange',sync);
     return()=>window.removeEventListener('hashchange',sync);
-  },[activeId,showTemplateAdmin]);
+  },[]);
   function navigateTo(tab:'characters'|'library'){
-    if(activeId||showTemplateAdmin)return; // Never unmount an unsaved sheet.
-    setMainTab(tab);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
+    if(showTemplateAdmin)setShowTemplateAdmin(false);
+    setMainTab(tab);setActiveId(null);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
     closeCreate();
-    const hash=tab==='library'?'#library':'';
-    window.history.replaceState(null,'',window.location.pathname+window.location.search+hash);
+    window.location.hash=siteRouteHash({kind:tab});
+  }
+  function openCharacter(id:string){
+    setMainTab('characters');setActiveId(id);setOpenMenuId(null);setError('');
+    window.location.hash=siteRouteHash({kind:'character',id});
+  }
+  function closeCharacter(){
+    setActiveId(null);setFilter('all');
+    window.location.hash=siteRouteHash({kind:'characters'});
   }
 
   const user = session?.user;
@@ -461,7 +476,7 @@ export default function App() {
     setCharacters(current => [...current, created]);
     setCreatePanel(null);
     setShowSystemPicker(false);
-    setActiveId(created.id);
+    openCharacter(created.id);
   }
 
   async function saveCharacter(id: string, name: string, details: CharacterDetails): Promise<boolean> {
@@ -551,7 +566,7 @@ export default function App() {
     if(busy)return;
     setOpenMenuId(null);setError('');
     setExportPdfId(character.id);
-    setActiveId(character.id);
+    openCharacter(character.id);
   }
 
   function beginMove(id: string) {
@@ -608,12 +623,12 @@ export default function App() {
     <div className="site-shell">
       <header className="site-header">
         <div className="header-inner">
-          <button type="button" className="brand-button" onClick={() => { if (!activeId&&!showTemplateAdmin) { navigateTo('characters'); setFilter('all'); } }} aria-label="На главную">
+          <button type="button" className="brand-button" onClick={() => { if (!showTemplateAdmin) { navigateTo('characters'); setFilter('all'); } }} aria-label="На главную">
             <SiteLogo />
           </button>
           <nav className="site-nav" aria-label="Основные разделы">
             <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
-              disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы сменить раздел':undefined} onClick={()=>navigateTo('characters')}>Персонажи</button>
+              disabled={showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
             <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
               disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы открыть библиотеку':undefined} onClick={()=>navigateTo('library')}>Библиотека</button>
           </nav>
@@ -647,7 +662,7 @@ export default function App() {
         </div>}
         <nav className="site-tabs-mobile" aria-label="Основные разделы">
           <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
-            disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
+            disabled={showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
           <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
             disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('library')}>Библиотека</button>
         </nav>
@@ -661,15 +676,15 @@ export default function App() {
             portraitUrl={active.portrait_source_path?portraitUrls[active.portrait_source_path]:active.portrait_sheet_path?portraitUrls[active.portrait_sheet_path]:undefined}
             portraitFrame={active.portrait_source_path?active.portrait_crops?.sheet:undefined}
             onEditPortrait={()=>setEditingPortraitId(active.id)}
-            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
+            onSave={saveCharacter} onClose={closeCharacter} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
         ) : active.system === 'prmoon' ? (
           <ProjectMoonSheet key={active.id} character={active}
             portraitUrl={active.portrait_source_path ? portraitUrls[active.portrait_source_path] : active.portrait_sheet_path ? portraitUrls[active.portrait_sheet_path] : undefined}
             portraitFrame={active.portrait_source_path ? active.portrait_crops?.sheet : undefined}
             onEditPortrait={() => setEditingPortraitId(active.id)}
-            onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
+            onSave={saveCharacter} onClose={closeCharacter} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
         ) : (
-          <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={() => { setActiveId(null); setFilter('all'); }} />
+          <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={closeCharacter} />
         )
       ) : mainTab==='library' ? (
         <SpellLibrary onBack={()=>navigateTo('characters')} />
@@ -722,7 +737,7 @@ export default function App() {
                 <article className={`character-card character-${character.system}${movingId === character.id ? ' is-moving' : movingId ? ' is-move-target' : ''}`} key={character.id} aria-label={`Персонаж ${character.name}`}>
                   <button type="button" className="character-open" disabled={busy && !!movingId} onClick={() => {
                     if (movingId) { void moveCharacter(characters.findIndex(c => c.id === character.id)); return; }
-                    setActiveId(character.id); setOpenMenuId(null); setError('');
+                    openCharacter(character.id);
                   }} aria-label={movingId ? movingId === character.id ? `Перемещаем персонажа ${character.name}` : `Переместить выбранного персонажа на позицию ${character.name}` : `Открыть лист персонажа ${character.name}`}>
                     <span className="character-portrait" aria-hidden="true">
                       {character.system === 'prmoon'
