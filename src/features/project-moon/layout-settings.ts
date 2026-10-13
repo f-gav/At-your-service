@@ -152,7 +152,7 @@ export function parseMoonLayout(raw: unknown): MoonLayout {
   }
   const individual = entries.get('elementStyles');
   if(isRecord(individual))for(const [key,value] of Object.entries(individual)){
-    if(!/^moon-page-(dossier|combat|about|notes)\\|[a-zA-Z0-9_:|.-]{1,120}$/.test(key))continue;
+    if(!/^moon-page-(dossier|combat|about|notes)\|[a-zA-Z0-9_:|.-]{1,120}$/.test(key))continue;
     if(!isRecord(value))continue;
     safe.elementStyles[key] = normalizeMoonTextStyle(value,DEFAULT_MOON_TEXT_STYLES.fieldLabel);
   }
