@@ -37,7 +37,7 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('191 запись',{exact:true}).waitFor();
+  await page.getByText('191 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
   assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 191 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -89,7 +89,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'191 запись');
+  assert.equal(await page.locator('.spell-total').textContent(),'191 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
