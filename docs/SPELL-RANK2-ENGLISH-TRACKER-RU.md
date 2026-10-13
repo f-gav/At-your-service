@@ -8,11 +8,11 @@
 
 **Запланировано:** 224 заклинания в [10 волнах](./SPELL-RANK2-IMPORT-WAVES-RU.md).
 
-**Обработано:** **92 / 224** исходных записей; 91 из них действительно 2-го ранга, 1 — 1-го ранга.
+**Обработано:** **114 / 224** исходных записей; 113 действительно 2-го ранга, одна (Funeral Flames) — 1-го ранга.
 
-**Английских карточек, ожидающих перевода:** **26** (21 в волнах 01–03, ещё 4 заклинания 2-го ранга и 1 заклинание 1-го ранга в волне 04).
+**Английских карточек, ожидающих перевода:** **36** (35 второго ранга и 1 первого); в пятой волне добавлено ещё 10 EN.
 
-**Русских карточек второго круга:** **66** (15 + 18 + 15 + 18 в волнах 01–04). Названия сверены по русским источникам, описания локализованы самостоятельно и подписаны «Перевод от At your service!».
+**Русских карточек второго круга:** **78** (15 + 18 + 15 + 18 + 12 в волнах 01–05). Названия сверены по русским источникам, описания локализованы самостоятельно и подписаны «Перевод от At your service!».
 
 Источник сверки: https://github.com/DoctorWater/pf2ru-translation/blob/master/generated/data/community/pf2e/packs/pf2e.spells-srd.json
 
@@ -48,6 +48,17 @@
 | 77 | 04 | Familiar's Resurrection | `familiars-resurrection` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 | 86 | 04 | Floating Harness | `floating-harness` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 | 88 | 04 | Frozen Lungs | `frozen-lungs` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+
+| 96 | 05 | Glacial Causeway | `glacial-causeway` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 97 | 05 | Grave Impressions | `grave-impressions` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 101 | 05 | Helpful Scribe | `helpful-scribe` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 104 | 05 | Horrifying Blood Loss | `horrifying-blood-loss` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 108 | 05 | Illusory Shroud | `illusory-shroud` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 109 | 05 | Imp Sting | `imp-sting` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 110 | 05 | Impart Empathy | `impart-empathy` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 111 | 05 | Impeccable Flow | `impeccable-flow` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 112 | 05 | Imprinting Hand | `imprinting-hand` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 113 | 05 | Infernal Supervision | `infernal-supervision` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 
 ## Правила ведения
 
@@ -151,4 +162,23 @@
 |---:|---:|---|---:|---|
 | 89 | 04 | Funeral Flames (`funeral-flames`) | **1** | EN — ожидает перевода; опубликовано в 1-м ранге |
 
-JSON находится в папке `spells/rank-2`, но `system.level.value` равен **1**. Карточка опубликована с действительным рангом. В реестре 25 английских заклинаний второго ранга и одно первого. Все оригинальные английские тексты сохранены.
+JSON находится в папке `spells/rank-2`, но `system.level.value` равен **1**. Карточка опубликована с действительным рангом. В реестре 35 английских заклинаний второго ранга и одно первого. Все оригинальные английские тексты сохранены.
+
+## Волна 05 — новые подтверждённые русские имена (12)
+
+| Оригинал | Перевод | Сверка |
+|---|---|---|
+| Gentle Breeze | Нежный бриз | PF2.ru-совместимый модуль DoctorWater |
+| Ghostly Carrier | Призрачная фигура | PF2.ru-совместимый модуль DoctorWater |
+| Ghoulish Cravings | Голод упыря | PF2.ru-совместимый модуль DoctorWater |
+| Guiding Star | Путеводная звезда | PF2.ru-совместимый модуль DoctorWater |
+| Heat Metal | Раскалённый металл | PF2.ru-совместимый модуль DoctorWater |
+| Helpful Reload | Вспомогательная перезарядка | PF2.ru-совместимый модуль DoctorWater |
+| Helpful Wood Spirits | Помощь древесных духов | PF2.ru-совместимый модуль DoctorWater |
+| Hidebound | Покрыть шкурой | PF2.ru-совместимый модуль DoctorWater |
+| Humanoid Form | Форма гуманоида | PF2.ru-совместимый модуль DoctorWater |
+| Ignite Fireworks | Поджечь фейерверк | Исторический справочник PF2e 1.12 |
+| Illusory Creature | Иллюзорное существо | PF2.ru-совместимый модуль DoctorWater |
+| Inner Radiance Torrent | Поток внутреннего сияния | PF2.ru-совместимый модуль DoctorWater |
+
+Русские механические описания написаны самостоятельно по Foundry PF2e v14-dev; на карточках показана отметка «Перевод от At your service!». Английские оригиналы сохранены.

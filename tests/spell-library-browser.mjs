@@ -37,9 +37,9 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('351 записей',{exact:true}).waitFor();
+  await page.getByText('373 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 351 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 373 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -53,8 +53,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),350,'Seventh page loads 50 cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),351,'Eighth page loads final card');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 351 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),373,'Eighth page loads final 23 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 373 loaded: no more button');
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
     await page.setViewportSize({width,height:900});
@@ -70,7 +70,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),351,
+  assert.equal(await page.locator('.spell-result-stats').count(),373,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -231,13 +231,27 @@ try{
   await funeral.waitFor();
   await funeral.getByText('Заклинание 1-го круга').waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
+
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Поток внутреннего сияния');
+  assert.equal(await page.locator('.spell-result').count(),1,'Wave-05 Russian name searchable');
+  await page.locator('.spell-result').first().click();
+  const torrent=page.getByRole('dialog',{name:'Поток внутреннего сияния [Inner Radiance Torrent]'});
+  await torrent.waitFor();
+  await torrent.getByText('Перевод от At your service!',{exact:true}).waitFor();
+  await torrent.getByText('2 или 3 действия / 2 раунда',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Helpful Scribe');
+  assert.equal(await page.locator('.spell-result').count(),1,'Wave-05 English spell searchable');
+  await page.locator('.spell-result').first().click();
+  await page.getByRole('dialog',{name:'Helpful Scribe'}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
-  assert.equal(await page.locator('.spell-result').count(),26,
-    'Twenty-five untranslated rank-two spells plus Funeral Flames rank one');
+  assert.equal(await page.locator('.spell-result').count(),36,
+    'Thirty-five untranslated rank-two spells plus Funeral Flames rank one');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,
-    'Twenty-six untranslated spells fit on a single page');
+    'Thirty-six untranslated spells fit on a single page');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
