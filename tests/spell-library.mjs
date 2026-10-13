@@ -19,7 +19,7 @@ assert.ok(wave.spells.every(s=>s.system==='pf2e'&&((s.kind==='cantrip'&&s.rank==
 assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,71);
 assert.equal(wave.spells.filter(s=>s.kind==='spell'&&s.rank===1).length,188);
 assert.equal(wave.spells.filter(s=>s.kind==='spell'&&s.rank===2).length,46);
-assert.equal(wave.translations.filter(t=>t.locale==='en'&&wave.spells.find(s=>s.id===t.spellId)?.rank===2).length,23);
+assert.equal(wave.translations.filter(t=>t.locale==='en'&&wave.spells.find(s=>s.id===t.spellId)?.rank===2).length,46);
 assert.equal(new Set(wave.spells.map(s=>s.id)).size,305,'Unique spell IDs');
 assert.deepEqual(wave.spells.map(s=>s.slug).slice(0,3),['acid-splash','ancient-dust','approximate']);
 assert.equal(wave.spells[23].slug,'glamorize');
