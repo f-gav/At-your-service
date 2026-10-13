@@ -252,7 +252,7 @@ assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.in
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('Pathfinder 2E RU Translation (Legacy')).length,1);
 assert.ok(liveViews.find(v=>v.spell.slug==='mystic-armor')?.name==='Магический доспех');
 assert.ok(liveViews.find(v=>v.spell.slug==='invoke-true-name')?.name==='Призыв истинного имени');
-assert.ok(liveViews.find(v=>v.spell.slug==='ancient-dust')?.locale==='en');
+assert.ok(liveViews.find(v=>v.spell.slug==='ancient-dust')?.locale==='ru');
 const briny=liveViews.find(v=>v.spell.slug==='briny-bolt');
 assert.equal(briny?.name,'Солёный снаряд');
 assert.equal(briny?.englishName,'Briny Bolt');
