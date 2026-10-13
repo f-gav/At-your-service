@@ -8012,7 +8012,7 @@
       "targets": "up to 3 creatures",
       "duration": "10 minutes",
       "heightened": {
-        "rules": " (3rd) The duration of the spell is 1 hour, and you can target up to five creatures.\n\n\nHeightened (5th) The duration of the spell is 8 hours, you can target up to five creatures, and you can share up to two Lore skills in which you're trained."
+        "rules": "(3-й круг) Длительность — 1 час, можно выбрать до пяти существ.\n\n(5-й круг) Длительность — 8 часов, можно выбрать до пяти существ и передать до двух навыков Знаний, которыми вы владеете."
       }
     },
     {
@@ -8028,7 +8028,7 @@
       "duration": "1 minute",
       "savingThrow": "Basic reflex save",
       "heightened": {
-        "rules": " (+1) The gem has 5 additional Hit Points, and the damage dealt by its detonation increases by 1d8."
+        "rules": "(+1) Драгоценный камень получает ещё 5 ПЗ, урон его взрыва увеличивается на 1d8."
       }
     },
     {
@@ -8066,7 +8066,7 @@
       "range": "touch",
       "targets": "1 creature",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d12, and the persistent electricity damage increases by 1."
+        "rules": "(+1) Урон увеличивается на 1d12, продолжительный урон электричеством — на 1."
       }
     },
     {
@@ -8080,7 +8080,7 @@
       "area": "cone: 15 feet",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (+1) The area increases by 5 feet (to a 20-foot cone at 2nd rank, and so on)."
+        "rules": "(+1) Область увеличивается на 5 футов (конус 20 футов на 2-м круге и так далее)."
       }
     },
     {
@@ -8095,7 +8095,7 @@
       "area": "burst: 30 feet",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (+1) The sonic damage increases by 1d10."
+        "rules": "(+1) Звуковой урон увеличивается на 1d10."
       }
     },
     {
@@ -8131,7 +8131,7 @@
       "range": "30 feet",
       "targets": "1 creature",
       "heightened": {
-        "rules": " (+1) The damage increases by 2d4."
+        "rules": "(+1) Урон увеличивается на 2d4."
       }
     },
     {
@@ -8146,7 +8146,7 @@
       "targets": "1 willing creature",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (+1) The amount of healing increases by 1d10+4."
+        "rules": "(+1) Исцеление увеличивается на 1d10+4."
       }
     },
     {
@@ -8173,7 +8173,7 @@
       "targets": "1 willing creature",
       "duration": "10 minutes",
       "heightened": {
-        "rules": " (+1) The number of Hit Points transferred each time increases by 2."
+        "rules": "(+1) Количество ПЗ, передаваемых за один раз, увеличивается на 2."
       }
     },
     {
@@ -8290,7 +8290,7 @@
       "duration": "1 minute",
       "savingThrow": "reflex save",
       "heightened": {
-        "rules": " (3rd) The range increases to 60 feet, and the area increases to a 20-foot burst."
+        "rules": "(3-й круг) Дистанция увеличивается до 60 футов, область — до взрыва радиусом 20 футов."
       }
     },
     {
@@ -8305,7 +8305,7 @@
       "targets": "2 willing creatures",
       "duration": "1 minute",
       "heightened": {
-        "rules": " (5th) The range increases to 60 feet, and you can target up to 10 willing creatures."
+        "rules": "(5-й круг) Дистанция увеличивается до 60 футов, можно выбрать до 10 согласных существ."
       }
     },
     {
@@ -8320,7 +8320,7 @@
       "targets": "up to 5 willing creatures",
       "duration": "up to 24 hours",
       "heightened": {
-        "rules": " (2nd) The spell can target up to 20 willing creatures."
+        "rules": "(2-й круг) Можно выбрать до 20 согласных существ."
       }
     },
     {
@@ -8377,7 +8377,7 @@
       "range": "120 feet",
       "targets": "1 willing creature",
       "heightened": {
-        "rules": " (3rd) The spell's range increases to 500 feet.\n\nHeightened (5th) As 3rd rank, and the object's maximum Bulk increases to 1. You can Cast the Spell with 3 actions instead of 1; doing so increases the range to 1 mile, and you don't need line of sight to the target, but you must be extremely familiar with the target."
+        "rules": "(3-й круг) Дистанция увеличивается до 500 футов.\n\n(5-й круг) Как на 3-м круге, но максимальная масса предмета увеличивается до 1 единицы. Можно сотворить заклинание за 3 действия вместо 1: дистанция увеличивается до 1 мили, линия видимости до цели не требуется, однако вы должны очень хорошо знать цель."
       }
     },
     {
@@ -8403,7 +8403,7 @@
       "targets": "1 creature",
       "savingThrow": "Basic reflex save",
       "heightened": {
-        "rules": " (+1) The damage increases by 1d12 electricity and 1d4 sonic."
+        "rules": "(+1) Урон электричеством увеличивается на 1d12, а звуковой урон — на 1d4."
       }
     },
     {
@@ -8438,7 +8438,7 @@
       "resource": "spell-slot",
       "duration": "1 hour",
       "heightened": {
-        "rules": " (2nd) The duration increases to 8 hours.\n\nHeightened (4th) The duration increases to 8 hours. The spell has a range of 20 feet and targets up to 10 creatures."
+        "rules": "(2-й круг) Длительность увеличивается до 8 часов.\n\n(4-й круг) Длительность увеличивается до 8 часов, дистанция становится 20 футов, можно выбрать до 10 существ."
       }
     },
     {
