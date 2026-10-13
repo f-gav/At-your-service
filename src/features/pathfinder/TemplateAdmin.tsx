@@ -80,6 +80,17 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
     window.addEventListener('beforeunload',warn);
     return()=>window.removeEventListener('beforeunload',warn);
   },[dirty]);
+  useEffect(()=>{
+    if(loading||busy||!dirty||!supabase||!validFields(fields))return;
+    const timer=window.setTimeout(async()=>{
+      const {error}=await supabase.from('sheet_template_drafts').upsert({
+        template_key:TEMPLATE_KEY,fields,updated_by:userId,updated_at:new Date().toISOString()
+      },{onConflict:'template_key'});
+      if(!error)setDirty(false);
+      else setStatus('Автосохранение: '+error.message);
+    },2200);
+    return ()=>window.clearTimeout(timer);
+  },[fields,dirty,loading,busy,userId]);
   function checkpoint(){setUndo(old=>[...old.slice(-39),cloneFields(fields)]);setRedo([]);setDirty(true);}
   function update(id:string,values:Change,record=true){
     if(lockedIds.includes(id))return;
