@@ -123,7 +123,7 @@
 13. **Invisible Item** — `invisible-item` · Remaster · Pathfinder Player Core 2
 
 
-## Заклинания 1-го круга — волна 005 (14 английских)
+## Заклинания 1-го круга — волна 005 (13 английских)
 
 1. **Juvenile Companion** — `juvenile-companion` · Remaster · Pathfinder Impossible Magic
 2. **Kinetic Ram** — `kinetic-ram` · Remaster · Pathfinder Dark Archive (Remastered)
@@ -136,9 +136,8 @@
 9. **Negate Aroma** — `negate-aroma` · Legacy · Pathfinder Core Rulebook
 10. **Nettleskin** — `nettleskin` · Legacy · Pathfinder Adventure: Threshold of Knowledge
 11. **Noxious Vapors** — `noxious-vapors` · Remaster · Pathfinder Player Core 2
-12. **Nudge the Odds** — `nudge-the-odds` · Remaster · Pathfinder Impossible Magic
-13. **Object Reading** — `object-reading` · Remaster · Pathfinder Player Core 2
-14. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
+12. **Object Reading** — `object-reading` · Remaster · Pathfinder Player Core 2
+13. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
 
 
 ## Заклинания 1-го круга — волна 006 (16 английских)
