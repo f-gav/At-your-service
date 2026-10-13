@@ -146,10 +146,11 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   };
   useEffect(()=>{
     if(loading||busy||!dirty||!supabase)return;
+    const client=supabase;
     const timer=window.setTimeout(async()=>{
       setAutoSaving(true);
       const snapshot=JSON.stringify(layout);
-      const {error}=await supabase.from('sheet_template_drafts').upsert({
+      const {error}=await client.from('sheet_template_drafts').upsert({
         template_key:MOON_LAYOUT_KEY,fields:encodeMoonLayout(layout),
         updated_by:userId,updated_at:new Date().toISOString(),
       },{onConflict:'template_key'});
