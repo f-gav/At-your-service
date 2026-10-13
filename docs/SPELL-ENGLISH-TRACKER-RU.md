@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 96 заклинаний 1-го круга (167 записей). **На русском:** 83, **только на английском:** 84.
+**Импортировано:** 71 чары и 120 заклинаний 1-го круга (191 запись). **На русском:** 93, **только на английском:** 98.
 
 ## Волна 001 — 9 английских
 
@@ -121,3 +121,21 @@
 11. **Instant Pottery** — `instant-pottery` · Remaster · Pathfinder Rage of Elements
 12. **Interposing Earth** — `interposing-earth` · Remaster · Pathfinder Rage of Elements
 13. **Invisible Item** — `invisible-item` · Remaster · Pathfinder Player Core 2
+
+
+## Заклинания 1-го круга — волна 005 (14 английских)
+
+1. **Juvenile Companion** — `juvenile-companion` · Remaster · Pathfinder Impossible Magic
+2. **Kinetic Ram** — `kinetic-ram` · Remaster · Pathfinder Dark Archive (Remastered)
+3. **Know Location** — `know-location` · Legacy · Pathfinder #194: Cult of the Cave Worm
+4. **Leaden Steps** — `leaden-steps` · Remaster · Pathfinder Player Core 2
+5. **Malediction** — `malediction` · Remaster · Pathfinder Lost Omens Divine Mysteries
+6. **Message Rune** — `message-rune` · Remaster · Pathfinder Lost Omens Divine Mysteries
+7. **Metal Merged** — `metal-merged` · Remaster · Pathfinder Impossible Magic
+8. **Mystic Armor** — `mystic-armor` · Remaster · Pathfinder Player Core
+9. **Negate Aroma** — `negate-aroma` · Legacy · Pathfinder Core Rulebook
+10. **Nettleskin** — `nettleskin` · Legacy · Pathfinder Adventure: Threshold of Knowledge
+11. **Noxious Vapors** — `noxious-vapors` · Remaster · Pathfinder Player Core 2
+12. **Nudge the Odds** — `nudge-the-odds` · Remaster · Pathfinder Impossible Magic
+13. **Object Reading** — `object-reading` · Remaster · Pathfinder Player Core 2
+14. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
