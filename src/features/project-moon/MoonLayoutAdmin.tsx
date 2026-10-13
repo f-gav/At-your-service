@@ -41,12 +41,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   const [zoom,setZoom]=useState(100);
   const [undo,setUndo]=useState<MoonLayout[]>([]);
   const [redo,setRedo]=useState<MoonLayout[]>([]);
-  const [numericDrafts,setNumericDrafts]=useState<Record<string,string>>({});
-  const recordChange=(next:MoonLayout)=>{
-    setUndo(old=>[...old.slice(-49),layout]);
-    setRedo([]);
-    setLayout(next);
-  };
+  const checkpoint=()=>{setUndo(old=>[...old.slice(-49),layout]);setRedo([]);};
   const undoOnce=()=>{
     if(!undo.length)return;
     setRedo(old=>[...old,layout]);
@@ -99,6 +94,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   }, [dirty]);
 
   function change(key: MoonLayoutKey, raw: string) {
+    if(!raw.trim())return;
     const control = MOON_LAYOUT_CONTROLS.find(item => item.key === key);
     if (!control) return;
     if (control.min === undefined) {
@@ -107,6 +103,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     }
     const number = Number(raw);
     if (!Number.isFinite(number)) return;
+    checkpoint();
     const bounded = number;
     setLayout(old => {
       if (key === 'titleFont') {
@@ -120,6 +117,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   }
 
   function changeTextStyle<K extends keyof MoonTextStyle>(field: K, value: MoonTextStyle[K]) {
+    checkpoint();
     setLayout(old => {
       const before = old.textStyles[selectedTextGroup];
       const updated = normalizeMoonTextStyle({...before,[field]:value}, before);
@@ -250,9 +248,9 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
           <p>Отдельные ширина, высота и смещения. При изменении маски портрет и область нажатия перемещаются вместе с ней.</p>
           <div className="moon-admin-controls">{maskControls.map(renderControl)}</div>
           <button type="button" className="moon-admin-reset-mask" disabled={busy || loading}
-            onClick={()=>setLayout(old=>({...old,
+            onClick={()=>{checkpoint();setLayout(old=>({...old,
               maskWidth:100,maskHeight:100,maskShiftX:0,maskShiftY:0,
-            }))}>Сбросить только маску</button>
+            }));}}>Сбросить только маску</button>
         </section>
 
         <section className="moon-admin-typography" aria-label="Оформление текстовых блоков">
@@ -343,18 +341,18 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
             </div>
             <button type="button" className="moon-admin-reset-typography"
               disabled={loading || busy}
-              onClick={()=>setLayout(old=>{
+              onClick={()=>{checkpoint();setLayout(old=>{
                 const defaults = cloneMoonTextStyles()[selectedTextGroup];
                 return {
                   ...old,
                   ...(selectedTextGroup === 'pageTitle' ? {titleFont:26}:{}),
                   textStyles:{...old.textStyles,[selectedTextGroup]:defaults},
                 };
-              })}>Сбросить оформление выбранного типа</button>
+              });}}>Сбросить оформление выбранного типа</button>
           </div>
         </section>
         <button type="button" className="moon-admin-reset" disabled={busy || loading}
-          onClick={() => {if (confirm('Вернуть исходные размеры, шрифты и цвета листа?')) setLayout({...DEFAULT_MOON_LAYOUT,textStyles:cloneMoonTextStyles()});}}>
+          onClick={() => {if (confirm('Вернуть исходные размеры, шрифты и цвета листа?')) {checkpoint();setLayout({...DEFAULT_MOON_LAYOUT,textStyles:cloneMoonTextStyles()});}}}>
           <RotateCcw size={15}/> Исходное оформление
         </button>
         <hr/>
