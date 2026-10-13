@@ -3754,6 +3754,123 @@
       ],
       "rarity": "uncommon",
       "sourceId": "src-pathfinder-lost-omens-firebrands"
+    },
+    {
+      "id": "pf2e-penumbral-shroud",
+      "system": "pf2e",
+      "slug": "penumbral-shroud",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "darkness",
+        "manipulate",
+        "shadow"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-personal-rain-cloud",
+      "system": "pf2e",
+      "slug": "personal-rain-cloud",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-151-the-show-must-go-on"
+    },
+    {
+      "id": "pf2e-pest-form",
+      "system": "pf2e",
+      "slug": "pest-form",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "polymorph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-pet-cache",
+      "system": "pf2e",
+      "slug": "pet-cache",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "extradimensional",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-phantasmal-minion",
+      "system": "pf2e",
+      "slug": "phantasmal-minion",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-phantom-pain",
+      "system": "pf2e",
+      "slug": "phantom-pain",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -6354,6 +6471,80 @@
       "range": "60 feet",
       "targets": "the triggering creature",
       "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-penumbral-shroud-pf2e-remaster",
+      "spellId": "pf2e-penumbral-shroud",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "10 minutes",
+      "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-personal-rain-cloud-pf2e-legacy",
+      "spellId": "pf2e-personal-rain-cloud",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-pest-form-pf2e-remaster",
+      "spellId": "pf2e-pest-form",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "10 minutes"
+    },
+    {
+      "id": "pf2e-pet-cache-pf2e-remaster",
+      "spellId": "pf2e-pet-cache",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature that is your companion",
+      "duration": "8 hours"
+    },
+    {
+      "id": "pf2e-phantasmal-minion-pf2e-remaster",
+      "spellId": "pf2e-phantasmal-minion",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "60 feet"
+    },
+    {
+      "id": "pf2e-phantom-pain-pf2e-remaster",
+      "spellId": "pf2e-phantom-pain",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "will save",
+      "heightened": {
+        "rules": " (+1) The damage increases by 2d4 and the persistent damage by 1d4."
+      }
     }
   ],
   "translations": [
@@ -8669,6 +8860,54 @@
       "description": "Вы направляете энергию пустоты своему прислужнику-нежити. Существо восстанавливает 1d8+4 ОЗ и получает бонус состояния +2 к спасброскам против эффектов жизненной энергии на время действия заклинания. Усиление (+1 круг): исцеление увеличивается на 1d8+4.",
       "translationStatus": "draft",
       "translatorCredit": "Название: pf2e-ru-translation; описание — самостоятельный пересказ механик Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-penumbral-shroud",
+      "versionId": "pf2e-penumbral-shroud-pf2e-remaster",
+      "locale": "en",
+      "name": "Penumbral Shroud",
+      "description": "You envelop the target in a shroud of shadow. The target perceives light as one step lower than it actually is (bright light becomes dim light, for example), affecting their ability to sense creatures and objects accordingly.\n\n\nThe shroud also provides the target a +1 status bonus to saving throws against light effects. This effect is helpful to creatures sensitive to light, and a creature can willingly choose to be subject to the failure effect of the spell.\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The effect lasts for 1 round.\n\n\nFailure The effect lasts its normal duration.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-personal-rain-cloud",
+      "versionId": "pf2e-personal-rain-cloud-pf2e-legacy",
+      "locale": "en",
+      "name": "Personal Rain Cloud",
+      "description": "You conjure a 5-foot-wide rain cloud that follows the target wherever it goes. It stays roughly an arm's length overhead, unless it must drift lower to fit under a ceiling. The cloud rains constantly on the target, keeping it wet and dampening the ground in the wake of any movement. The rain extinguishes non-magical flames. The target gains fire resistance 2. Creatures with weakness to water take damage equal to their weakness at the end of each of their turns. Creatures can attempt a Reflex save to avoid the cloud.\n\n\n\n\n\nHeightened (+1) The amount of fire resistance increases by 2.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-pest-form",
+      "versionId": "pf2e-pest-form-pf2e-remaster",
+      "locale": "en",
+      "name": "Pest Form",
+      "description": "You transform into the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait and you can't make Strikes. You can Dismiss the spell.\n\n\nYou gain the following statistics and abilities:\n\n\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 20 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-light vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.\n\n\n\n\nHeightened (4th) You can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet.\n\n\nSpell Effect: Pest Form",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-pet-cache",
+      "versionId": "pf2e-pet-cache-pf2e-remaster",
+      "locale": "en",
+      "name": "Pet Cache",
+      "description": "You open your cloak or create a gap with your hands, drawing the target into a pocket dimension just large enough for its basic comfort. No other creature can enter this extradimensional space, and the target can bring along objects only if they were designed to be worn by a creature of its kind. The space has enough air, food, and water to sustain the target for the duration.\n\n\nYou can Dismiss the spell. The spell also ends if you die or enter an extradimensional space. When the spell ends, the target reappears in the nearest unoccupied space (outside of any extradimensional space you may have entered).",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-phantasmal-minion",
+      "versionId": "pf2e-phantasmal-minion-pf2e-remaster",
+      "locale": "en",
+      "name": "Phantasmal Minion",
+      "description": "You summon a Phantasmal Minion. The minion is roughly the shape of a humanoid. You can choose to have it be Invisible or have an ephemeral appearance, but it's obviously a magical effect, not a real creature.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-phantom-pain",
+      "versionId": "pf2e-phantom-pain-pf2e-remaster",
+      "locale": "en",
+      "name": "Phantom Pain",
+      "description": "Illusory pain wracks the target, dealing 2d4 mental damage and Damage ((@item.level)d4[persistent,mental)] damage. The target must attempt a Will save.\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target takes full initial damage but no persistent damage, and the spell ends immediately.\n\n\nFailure The target takes full initial and persistent damage, and the target is Sickened 1. If the target recovers from being Sickened, the persistent damage ends and the spell ends.\n\n\nCritical Failure As failure, but the target is Sickened 2.\n\n\n\nHeightened (+1) The damage increases by 2d4 and the persistent damage by 1d4.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -8899,6 +9138,13 @@
     {
       "id": "src-pathfinder-adventure-threshold-of-knowledge",
       "name": "Pathfinder Adventure: Threshold of Knowledge",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-151-the-show-must-go-on",
+      "name": "Pathfinder #151: The Show Must Go On",
       "publisher": "Paizo",
       "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
