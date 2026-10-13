@@ -41,7 +41,7 @@
   z-index:4;
   overflow:visible;
 }
-.moon-portrait-art-mask {z-index:1;}
+.moon-portrait-art-mask {z-index:1;object-fit:cover;}
 .moon-portrait-art-window {
   position:absolute;
   /* Align the photo with the full, unmodified PNG frame. */
