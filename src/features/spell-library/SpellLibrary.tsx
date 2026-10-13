@@ -218,12 +218,12 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       {spell.description
         ? <p className="spell-body-text">{spell.description}</p>
         : <p className="spell-missing-description">Описание пока не добавлено.</p>}
-      {rules.outcomes&&Object.entries(rules.outcomes).length>0&&<div className="spell-outcomes">
+      {spell.translationOrigin!=='at-your-service'&&rules.outcomes&&Object.entries(rules.outcomes).length>0&&<div className="spell-outcomes">
         {Object.entries(rules.outcomes).map(([key,value])=><p key={key}><b>{({
           criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'
         } as Record<string,string>)[key]||key}:</b> {value}</p>)}
       </div>}
-      {rules.heightened&&Object.keys(rules.heightened).length>0&&<section className="spell-heightened">
+      {spell.translationOrigin!=='at-your-service'&&rules.heightened&&Object.keys(rules.heightened).length>0&&<section className="spell-heightened">
         <h3>{spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
         {Object.entries(rules.heightened).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
