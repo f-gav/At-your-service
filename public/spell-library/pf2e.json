@@ -5249,7 +5249,7 @@
         "actions": 2
       },
       "range": "10 футов",
-      "targets": "1 object",
+      "targets": "1 предмет",
       "resource": "none"
     },
     {
@@ -5426,7 +5426,7 @@
         "actions": 2
       },
       "range": "Касание",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5441,7 +5441,7 @@
         "actions": 1
       },
       "range": "30 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "duration": "до начала вашего следующего хода",
       "resource": "none"
     },
@@ -5467,7 +5467,7 @@
         "actions": 1
       },
       "range": "5 футов",
-      "targets": "a handful of dirt or mud",
+      "targets": "горсть земли или грязи",
       "duration": "10 минут",
       "resource": "none",
       "heightened": {
@@ -5482,7 +5482,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5534,7 +5534,7 @@
         "actions": 1
       },
       "range": "30 футов",
-      "targets": "1 creature whose true name you know",
+      "targets": "1 существо, истинное имя которого вам известно",
       "resource": "none"
     },
     {
@@ -5545,7 +5545,7 @@
         "actions": 1
       },
       "range": "Касание",
-      "targets": "2 willing creatures",
+      "targets": "2 согласных существа",
       "duration": "1 раунд",
       "resource": "none",
       "heightened": {
@@ -5587,7 +5587,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5602,7 +5602,7 @@
         "actions": 1
       },
       "range": "120 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "duration": "см. описание",
       "resource": "none",
       "heightened": {
@@ -5630,7 +5630,7 @@
         "actions": 2
       },
       "range": "60 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5645,7 +5645,7 @@
         "actions": 2
       },
       "range": "60 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5660,7 +5660,7 @@
         "actions": 2
       },
       "range": "10 футов",
-      "targets": "1 object (cook, lift, or tidy only)",
+      "targets": "1 предмет (только готовить, поднимать или прибирать)",
       "duration": "Поддерживаемое",
       "resource": "none"
     },
@@ -5672,7 +5672,7 @@
         "actions": 1
       },
       "range": "30 футов",
-      "targets": "your eidolon, or a creature with the minion trait under your control",
+      "targets": "ваш эйдолон или подконтрольное существо с признаком «миньон»",
       "duration": "до начала вашего следующего хода",
       "resource": "none",
       "heightened": {
@@ -5687,7 +5687,7 @@
         "actions": 2
       },
       "range": "10 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Спасбросок Стойкости",
       "resource": "none",
       "heightened": {
@@ -5708,7 +5708,7 @@
         "actions": 2
       },
       "range": "120 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5723,7 +5723,7 @@
         "time": "1 minute"
       },
       "range": "30 футов",
-      "targets": "1 object",
+      "targets": "1 предмет",
       "resource": "none",
       "heightened": {
         "3": "Можно выбрать до 10 предметов.",
@@ -5758,7 +5758,7 @@
         "actions": 2
       },
       "range": "60 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "resource": "none",
       "heightened": {
         "+1": "Количество временных ОЗ увеличивается на 1d4."
@@ -5801,7 +5801,7 @@
         "actions": 2
       },
       "range": "Касание",
-      "targets": "1 creature or object",
+      "targets": "1 существо или предмет",
       "duration": "Неограниченно",
       "resource": "none",
       "heightened": {
@@ -5818,7 +5818,7 @@
         "actions": 2
       },
       "range": "60 футов",
-      "targets": "1 or 2 creatures",
+      "targets": "1 или 2 существа",
       "savingThrow": "Атака заклинанием против КБ",
       "requirements": "У вас свободна хотя бы одна рука.",
       "resource": "none",
@@ -5849,7 +5849,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 dying creature",
+      "targets": "1 умирающее существо",
       "resource": "none"
     },
     {
@@ -5873,7 +5873,7 @@
         "actions": 1
       },
       "range": "30 футов",
-      "targets": "1 willing creature",
+      "targets": "1 согласное существо",
       "duration": "1 раунд",
       "resource": "none"
     },
@@ -5885,7 +5885,7 @@
         "actions": 2
       },
       "range": "10 футов",
-      "targets": "1 non-hostile domesticated animal",
+      "targets": "1 неагрессивное домашнее животное",
       "savingThrow": "Спасбросок Воли",
       "duration": "1 минута",
       "resource": "none",
@@ -5902,7 +5902,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5923,7 +5923,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 unattended object of light Bulk or less",
+      "targets": "1 бесхозный предмет лёгкой массы или меньше",
       "duration": "Поддерживаемое",
       "resource": "none",
       "heightened": {
@@ -5940,7 +5940,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "savingThrow": "Атака заклинанием против КБ",
       "resource": "none",
       "heightened": {
@@ -5978,7 +5978,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 living creature",
+      "targets": "1 живое существо",
       "savingThrow": "Простой спасбросок Стойкости",
       "resource": "none",
       "heightened": {
@@ -5993,7 +5993,7 @@
         "actions": 1
       },
       "range": "120 футов",
-      "targets": "1 creature",
+      "targets": "1 существо",
       "resource": "none",
       "heightened": {
         "4": "Можно выбрать до 5 существ."
@@ -6007,7 +6007,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 creature that is undead or otherwise has void healing",
+      "targets": "1 нежить или существо с исцелением пустотой",
       "savingThrow": "Простой спасбросок Стойкости",
       "resource": "none",
       "heightened": {
@@ -6022,7 +6022,7 @@
         "actions": 2
       },
       "range": "30 футов",
-      "targets": "1 living creature",
+      "targets": "1 живое существо",
       "savingThrow": "Простой спасбросок Стойкости",
       "resource": "none",
       "heightened": {
@@ -6279,7 +6279,7 @@
       "targets": "1 существо",
       "area": null,
       "savingThrow": "Спасбросок Воли",
-      "duration": "1 round",
+      "duration": "1 раунд",
       "resource": "spell-slot",
       "outcomes": {
         "criticalSuccess": "Нет эффекта.",
@@ -6309,7 +6309,7 @@
       "range": "30 футов",
       "targets": "1 существо, кроме вас",
       "area": null,
-      "duration": "10 minutes",
+      "duration": "10 минут",
       "resource": "spell-slot",
       "heightened": {
         "4": "Бонус состояния увеличивается до +2.",
@@ -6436,8 +6436,8 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "savingThrow": "Basic reflex save",
+      "area": "Конус 15 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4."
       }
@@ -6451,9 +6451,9 @@
         "time": "1"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute",
-      "targets": "1 creature"
+      "range": "30 футов",
+      "duration": "1 минута",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-camel-spit-pf2e-remaster",
@@ -6464,7 +6464,7 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "duration": "1 minute",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d6, а продолжительный урон при критическом попадании — на 1."
       }
@@ -6478,7 +6478,7 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "duration": "8 hours"
+      "duration": "8 часов"
     },
     {
       "id": "pf2e-celestial-accord-pf2e-legacy",
@@ -6489,10 +6489,10 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute",
-      "savingThrow": "will save",
-      "targets": "2 creatures that each have an unfriendly or worse attitude toward the other"
+      "range": "30 футов",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Воли",
+      "targets": "2 существа, недружелюбно или хуже относящиеся друг к другу"
     },
     {
       "id": "pf2e-charm-pf2e-remaster",
@@ -6503,13 +6503,13 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 hour",
-      "savingThrow": "will save",
+      "range": "30 футов",
+      "duration": "1 час",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(4-й круг) Длительность — до следующей ежедневной подготовки.\n\n(8-й круг) Длительность — до следующей ежедневной подготовки; можно выбрать до 10 существ."
       },
-      "targets": "1 creature"
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-chilling-spray-pf2e-remaster",
@@ -6520,8 +6520,8 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "savingThrow": "reflex save",
+      "area": "Конус 15 футов",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4."
       }
@@ -6535,9 +6535,9 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "duration": "24 hours",
-      "targets": "one object (see below)"
+      "range": "Касание",
+      "duration": "24 часа",
+      "targets": "1 предмет (см. описание)"
     },
     {
       "id": "pf2e-cleanse-cuisine-pf2e-remaster",
@@ -6548,8 +6548,8 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "10 feet",
-      "targets": "1 cubic foot"
+      "range": "10 футов",
+      "targets": "1 кубический фут"
     },
     {
       "id": "pf2e-command-pf2e-remaster",
@@ -6560,13 +6560,13 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "until the end of the target's next turn",
-      "savingThrow": "will save",
+      "range": "30 футов",
+      "duration": "до конца следующего хода цели",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(5-й круг) Можно выбрать до 10 существ."
       },
-      "targets": "1 creature"
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-concordant-choir-pf2e-remaster",
@@ -6576,12 +6576,12 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "savingThrow": "Basic fortitude save",
+      "range": "30 футов",
+      "savingThrow": "Простой спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Урон версии за 1 действие увеличивается на 1d4, остальных версий — на 2d4."
       },
-      "targets": "varies"
+      "targets": "различается"
     },
     {
       "id": "pf2e-conductive-weapon-pf2e-remaster",
@@ -6592,9 +6592,9 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "duration": "1 minute",
-      "targets": "1 metal weapon that is unattended or is wielded by you or a willing ally"
+      "range": "Касание",
+      "duration": "1 минута",
+      "targets": "1 бесхозное металлическое оружие либо оружие в руках вас или согласного союзника"
     },
     {
       "id": "pf2e-connective-current-pf2e-remaster",
@@ -6605,9 +6605,9 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute",
-      "targets": "1 enemy"
+      "range": "30 футов",
+      "duration": "1 минута",
+      "targets": "1 враг"
     },
     {
       "id": "pf2e-cradle-aloft-pf2e-remaster",
@@ -6618,9 +6618,9 @@
         "time": "1"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "duration": "1 minute",
-      "targets": "1 held object of 2 Bulk or less"
+      "range": "Касание",
+      "duration": "1 минута",
+      "targets": "1 удерживаемый предмет массой не более 2 единиц"
     },
     {
       "id": "pf2e-create-water-pf2e-remaster",
@@ -6631,7 +6631,7 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "0 feet"
+      "range": "0 футов"
     },
     {
       "id": "pf2e-curse-of-recoil-pf2e-remaster",
@@ -6641,10 +6641,10 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "duration": "1 round",
-      "savingThrow": "will save",
-      "targets": "1 creature"
+      "range": "120 футов",
+      "duration": "1 раунд",
+      "savingThrow": "Спасбросок Воли",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-curse-of-slippery-steps-pf2e-remaster",
@@ -6655,10 +6655,10 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "varies",
-      "savingThrow": "reflex save",
-      "targets": "1 creature"
+      "range": "30 футов",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Рефлекса",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-cycle-of-retribution-pf2e-remaster",
@@ -6669,13 +6669,13 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "duration": "1 minute",
-      "savingThrow": "will save",
+      "range": "Касание",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(+1) Ментальный урон увеличивается на 1d4."
       },
-      "targets": "1 creature"
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-decompose-pf2e-remaster",
@@ -6686,8 +6686,8 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 Large or smaller corpse"
+      "range": "Касание",
+      "targets": "1 труп размера Большой или меньше"
     },
     {
       "id": "pf2e-defended-by-spirits-pf2e-remaster",
@@ -6698,12 +6698,12 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute",
+      "range": "30 футов",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+2) Урон увеличивается на 1d6."
       },
-      "targets": "1 ally and 1 enemy"
+      "targets": "1 союзник и 1 враг"
     },
     {
       "id": "pf2e-dehydrate-pf2e-remaster",
@@ -6714,10 +6714,10 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 5 feet",
-      "duration": "1 minute",
-      "savingThrow": "fortitude save",
+      "range": "30 футов",
+      "area": "Взрыв 5 футов",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Стойкости",
       "heightened": {
         "rules": "(+2) Дистанция увеличивается на 10 футов, радиус взрыва — на 5 футов, а продолжительный урон огнём — на 3d6."
       }
@@ -6731,8 +6731,8 @@
         "time": "2"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 object or creature"
+      "range": "30 футов",
+      "targets": "1 предмет или существо"
     },
     {
       "id": "pf2e-devils-horseshoe-pf2e-remaster",
@@ -6742,13 +6742,13 @@
         "time": "10 minutes"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "duration": "8 hours",
-      "savingThrow": "will save",
+      "range": "Касание",
+      "duration": "8 часов",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d6."
       },
-      "targets": "one door or similar opening"
+      "targets": "1 дверь или аналогичный проём"
     },
     {
       "id": "pf2e-disguise-magic-pf2e-remaster",
@@ -6758,12 +6758,12 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "until your next daily preparations",
+      "range": "30 футов",
+      "duration": "до следующей ежедневной подготовки",
       "heightened": {
         "rules": "(2-й круг) Заклинание можно сотворить на существо, замаскировав все его предметы и эффекты заклинаний."
       },
-      "targets": "1 item or spell effect"
+      "targets": "1 предмет или эффект заклинания"
     },
     {
       "id": "pf2e-dizzying-colors-pf2e-remaster",
@@ -6773,9 +6773,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "duration": "1 or more rounds (see below)",
-      "savingThrow": "will save"
+      "area": "Конус 15 футов",
+      "duration": "1 или более раундов (см. описание)",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-dome-of-tranquility-pf2e-remaster",
@@ -6785,9 +6785,9 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 30 feet",
-      "duration": "1 hour"
+      "range": "30 футов",
+      "area": "Взрыв 30 футов",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-draw-ire-pf2e-legacy",
@@ -6797,10 +6797,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "will save",
+      "range": "120 футов",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d10."
       }
@@ -6813,10 +6813,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "100 feet",
-      "targets": "1 creature",
-      "duration": "2 rounds",
-      "savingThrow": "will save"
+      "range": "100 футов",
+      "targets": "1 существо",
+      "duration": "2 раунда",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-echoing-weapon-pf2e-remaster",
@@ -6826,9 +6826,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 weapon",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 оружие",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-elysian-whimsy-pf2e-legacy",
@@ -6838,10 +6838,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "varies",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-endure-pf2e-remaster",
@@ -6851,9 +6851,9 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
-      "duration": "1 minute",
+      "range": "Касание",
+      "targets": "1 существо",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+1) Количество временных ПЗ увеличивается на 5."
       }
@@ -6866,10 +6866,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "varies",
-      "savingThrow": "fortitude save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-equal-footing-pf2e-remaster",
@@ -6879,10 +6879,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature with a land Speed greater than yours",
-      "duration": "varies",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "targets": "1 существо со Скоростью по земле выше вашей",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-exchange-image-pf2e-legacy",
@@ -6892,10 +6892,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "you and 1 other humanoid",
-      "duration": "varies",
-      "savingThrow": "will save"
+      "range": "Касание",
+      "targets": "вы и ещё один гуманоид",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-fashionista-pf2e-legacy",
@@ -6905,9 +6905,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 willing creature",
-      "duration": "1 hour"
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-fated-healing-pf2e-remaster",
@@ -6917,9 +6917,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "2 creatures who are hostile toward each other",
-      "duration": "5 rounds",
+      "range": "30 футов",
+      "targets": "2 враждебных друг другу существа",
+      "duration": "5 раундов",
       "heightened": {
         "rules": "(+1) Цели восстанавливают ещё 1d4 ПЗ в конце собственного хода."
       }
@@ -6932,10 +6932,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "varies",
-      "savingThrow": "will save",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(3-й круг) Можно выбрать до пяти существ."
       }
@@ -6966,7 +6966,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 minute"
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-flense-pf2e-legacy",
@@ -6976,8 +6976,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature or corpse",
+      "range": "Касание",
+      "targets": "1 существо или труп",
       "heightened": {
         "rules": "(+1) Рубящий урон живым существам и нежити увеличивается на 2d6, продолжительный урон кровотечением живым существам — на 1d4."
       }
@@ -6990,9 +6990,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 5 feet",
-      "savingThrow": "Basic reflex save"
+      "range": "30 футов",
+      "area": "Взрыв 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса"
     },
     {
       "id": "pf2e-fold-metal-pf2e-remaster",
@@ -7002,9 +7002,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 unattended metallic object up to 5 Bulk",
-      "duration": "10 minutes"
+      "range": "Касание",
+      "targets": "1 бесхозный металлический предмет массой до 5 единиц",
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-foraging-friends-pf2e-remaster",
@@ -7023,8 +7023,8 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "targets": "1 creature"
+      "range": "120 футов",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-forced-mercy-pf2e-remaster",
@@ -7034,10 +7034,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "varies",
-      "savingThrow": "will save",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "различается",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(4-й круг) Дистанция увеличивается до 100 футов, можно выбрать до 8 существ."
       }
@@ -7050,9 +7050,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature or unattended metal object",
-      "savingThrow": "fortitude save",
+      "range": "30 футов",
+      "targets": "1 существо или бесхозный металлический предмет",
+      "savingThrow": "Спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d6, а слабость при критическом провале — на 2."
       }
@@ -7065,8 +7065,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 or 2 willing creatures"
+      "range": "30 футов",
+      "targets": "1 или 2 согласных существа"
     },
     {
       "id": "pf2e-gentle-landing-pf2e-remaster",
@@ -7076,9 +7076,9 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "1 falling creature",
-      "duration": "1 minute"
+      "range": "60 футов",
+      "targets": "1 падающее существо",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-gloom-mantle-pf2e-remaster",
@@ -7088,7 +7088,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 minute"
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-goblin-pox-pf2e-remaster",
@@ -7098,9 +7098,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
-      "savingThrow": "fortitude save"
+      "range": "Касание",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-gravitational-pull-pf2e-remaster",
@@ -7110,9 +7110,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "savingThrow": "fortitude save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-grease-pf2e-remaster",
@@ -7122,10 +7122,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 object of Bulk 1 or less",
-      "duration": "1 minute",
-      "savingThrow": "reflex save"
+      "range": "30 футов",
+      "targets": "1 предмет массой не более 1 единицы",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса"
     },
     {
       "id": "pf2e-grim-tendrils-pf2e-remaster",
@@ -7135,8 +7135,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "line: 30 feet",
-      "savingThrow": "fortitude save",
+      "area": "Линия 30 футов",
+      "savingThrow": "Спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Урон пустотой увеличивается на 2d4, продолжительный урон кровотечением — на 1."
       }
@@ -7149,8 +7149,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "savingThrow": "fortitude save",
+      "area": "Конус 15 футов",
+      "savingThrow": "Спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4."
       }
@@ -7163,9 +7163,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "your companion or eidolon",
-      "duration": "8 hours"
+      "range": "Касание",
+      "targets": "ваш компаньон или эйдолон",
+      "duration": "8 часов"
     },
     {
       "id": "pf2e-gust-of-wind-pf2e-remaster",
@@ -7175,9 +7175,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "line: 60 feet",
-      "duration": "until the start of your next turn",
-      "savingThrow": "fortitude save"
+      "area": "Линия 60 футов",
+      "duration": "до начала вашего следующего хода",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-harm-pf2e-remaster",
@@ -7187,9 +7187,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "varies",
-      "targets": "1 living creature or 1 willing undead creature",
-      "savingThrow": "Basic fortitude save",
+      "range": "различается",
+      "targets": "1 живое существо или 1 согласная нежить",
+      "savingThrow": "Простой спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Исцеление или урон увеличивается на 1d8, дополнительное исцеление версии за 2 действия — на 8."
       }
@@ -7202,9 +7202,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "varies",
-      "targets": "1 willing living creature or 1 undead",
-      "savingThrow": "Basic fortitude save",
+      "range": "различается",
+      "targets": "1 согласное живое существо или 1 нежить",
+      "savingThrow": "Простой спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Исцеление или урон увеличивается на 1d8, дополнительное исцеление версии за 2 действия — на 8."
       }
@@ -7217,8 +7217,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "duration": "10 minutes"
+      "range": "60 футов",
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-hippocampus-retreat-pf2e-remaster",
@@ -7228,8 +7228,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "10 feet",
-      "targets": "1 creature",
+      "range": "10 футов",
+      "targets": "1 существо",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d6."
       },
@@ -7243,8 +7243,8 @@
         "time": "2 to 2 rounds"
       },
       "resource": "spell-slot",
-      "range": "varies",
-      "targets": "1 creature",
+      "range": "различается",
+      "targets": "1 существо",
       "heightened": {
         "rules": "(+1) Начальный урон при попадании и урон взрыва при сотворении за 2 раунда увеличиваются каждый на 2d6; урон существам, которые захватывают или ударяют вас в состоянии электрического заряда, увеличивается на 1."
       }
@@ -7257,8 +7257,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "1 creature or unattended object",
+      "range": "60 футов",
+      "targets": "1 существо или бесхозный предмет",
       "heightened": {
         "rules": "(+1) Дробящий урон увеличивается на 2d6."
       }
@@ -7271,10 +7271,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "1 round",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "1 раунд",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-illusory-disguise-pf2e-remaster",
@@ -7284,9 +7284,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 willing creature",
-      "duration": "1 hour"
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-illusory-object-pf2e-remaster",
@@ -7296,9 +7296,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "500 feet",
-      "area": "burst: 20 feet",
-      "duration": "10 minutes"
+      "range": "500 футов",
+      "area": "Взрыв 20 футов",
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-imprint-message-pf2e-remaster",
@@ -7308,8 +7308,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 object"
+      "range": "Касание",
+      "targets": "1 предмет"
     },
     {
       "id": "pf2e-infuse-vitality-pf2e-remaster",
@@ -7319,9 +7319,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 to 3 willing creatures",
-      "duration": "1 minute",
+      "range": "30 футов",
+      "targets": "от 1 до 3 согласных существ",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(3-й круг) Урон увеличивается до 2d4.\n\n(5-й круг) Урон увеличивается до 3d4."
       }
@@ -7334,7 +7334,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
+      "range": "30 футов",
       "heightened": {
         "rules": "(+1) Основной урон ядом увеличивается на 2d6."
       }
@@ -7347,8 +7347,8 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "10 feet",
-      "duration": "1 hour"
+      "range": "10 футов",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-interposing-earth-pf2e-remaster",
@@ -7358,7 +7358,7 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "duration": "3 rounds"
+      "duration": "3 раунда"
     },
     {
       "id": "pf2e-invisible-item-pf2e-remaster",
@@ -7368,9 +7368,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 object",
-      "duration": "1 hour"
+      "range": "Касание",
+      "targets": "1 предмет",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-item-facade-pf2e-remaster",
@@ -7380,9 +7380,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 object no more than 10 feet by 10 feet by 10 feet",
-      "duration": "1 hour"
+      "range": "Касание",
+      "targets": "1 предмет размером не более 10 × 10 × 10 футов",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-jump-pf2e-remaster",
@@ -7404,9 +7404,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "your companion",
-      "duration": "10 minutes"
+      "range": "Касание",
+      "targets": "ваш компаньон",
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-kinetic-ram-pf2e-remaster",
@@ -7416,9 +7416,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "varies",
-      "targets": "1 or more creatures",
-      "savingThrow": "fortitude save"
+      "range": "различается",
+      "targets": "одно или несколько существ",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-know-location-pf2e-legacy",
@@ -7428,8 +7428,8 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "1 mile",
-      "duration": "until the next time you make your daily preparations",
+      "range": "1 миля",
+      "duration": "до следующей ежедневной подготовки",
       "heightened": {
         "rules": "(3-й круг) Дистанция — 10 миль.\n\n(5-й круг) Дистанция — 100 миль.\n\n(7-й круг) Дистанция охватывает планету; можно создать якорь в месте, которое вы видели посредством прорицания или сходного эффекта."
       }
@@ -7442,10 +7442,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "fortitude save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-liberating-command-pf2e-remaster",
@@ -7455,8 +7455,8 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "1 creature"
+      "range": "60 футов",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-lock-pf2e-remaster",
@@ -7466,9 +7466,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 lock, or a door or container with a latch",
-      "duration": "until your next daily preparations"
+      "range": "Касание",
+      "targets": "1 замок, дверь или контейнер с защёлкой",
+      "duration": "до следующей ежедневной подготовки"
     },
     {
       "id": "pf2e-lose-the-path-pf2e-remaster",
@@ -7478,9 +7478,9 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "the triggering creature",
-      "savingThrow": "will save"
+      "range": "60 футов",
+      "targets": "существо, вызвавшее реакцию",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-magic-stone-pf2e-legacy",
@@ -7490,9 +7490,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 to 3 non-magical stones or sling bullets",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "от 1 до 3 немагических камней или пуль для пращи",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-malediction-pf2e-remaster",
@@ -7502,9 +7502,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "emanation: 10 feet",
-      "duration": "1 minute",
-      "savingThrow": "will save"
+      "area": "Эманация 10 футов",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-mending-pf2e-remaster",
@@ -7514,8 +7514,8 @@
         "time": "10 minutes"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "non-magical object of light Bulk or less",
+      "range": "Касание",
+      "targets": "немагический предмет лёгкой массы или меньше",
       "heightened": {
         "rules": "(2-й круг) Можно выбрать немагический предмет массой до 1 единицы.\n\n(3-й круг) Можно выбрать немагический предмет массой до 2 единиц либо магический предмет массой до 1 единицы."
       }
@@ -7528,9 +7528,9 @@
         "time": "5 minutes"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 flat unattended surface or non-magical object of light Bulk",
-      "duration": "1 day"
+      "range": "Касание",
+      "targets": "1 ровная бесхозная поверхность или немагический предмет лёгкой массы",
+      "duration": "1 день"
     },
     {
       "id": "pf2e-metal-merged-pf2e-remaster",
@@ -7540,8 +7540,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "targets": "1 metal weapon you are wielding",
-      "duration": "1 minute"
+      "targets": "1 металлическое оружие, которым вы владеете",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-mindlink-pf2e-remaster",
@@ -7551,8 +7551,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature"
+      "range": "Касание",
+      "targets": "1 согласное существо"
     },
     {
       "id": "pf2e-mud-pit-pf2e-remaster",
@@ -7562,9 +7562,9 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "area": "burst: 15 feet",
-      "duration": "1 minute"
+      "range": "60 футов",
+      "area": "Взрыв 15 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-mystic-armor-pf2e-remaster",
@@ -7574,7 +7574,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "until your next daily preparations"
+      "duration": "до следующей ежедневной подготовки"
     },
     {
       "id": "pf2e-necromancers-generosity-pf2e-remaster",
@@ -7584,9 +7584,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 undead minion you control",
-      "duration": "1 minute",
+      "range": "30 футов",
+      "targets": "1 подконтрольная вам нежить-миньон",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+1) Исцеление увеличивается на 1d8+4."
       }
@@ -7599,9 +7599,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature",
-      "duration": "1 hour",
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "duration": "1 час",
       "heightened": {
         "rules": "(5-й круг) Дистанция увеличивается до 30 футов, можно выбрать до 10 существ."
       }
@@ -7614,9 +7614,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "self",
-      "targets": "self",
-      "duration": "1 minute",
+      "range": "вы сами",
+      "targets": "вы сами",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d4."
       }
@@ -7629,9 +7629,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "emanation: 10 feet",
-      "duration": "1 round",
-      "savingThrow": "Basic fortitude save",
+      "area": "Эманация 10 футов",
+      "duration": "1 раунд",
+      "savingThrow": "Простой спасбросок Стойкости",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d6."
       }
@@ -7644,7 +7644,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 hour"
+      "duration": "1 час"
     },
     {
       "id": "pf2e-object-reading-pf2e-remaster",
@@ -7654,8 +7654,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 object"
+      "range": "Касание",
+      "targets": "1 предмет"
     },
     {
       "id": "pf2e-overselling-flourish-pf2e-legacy",
@@ -7665,9 +7665,9 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "the triggering creature",
-      "savingThrow": "will save"
+      "range": "60 футов",
+      "targets": "существо, вызвавшее реакцию",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-penumbral-shroud-pf2e-remaster",
@@ -7677,10 +7677,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "10 minutes",
-      "savingThrow": "reflex save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "10 минут",
+      "savingThrow": "Спасбросок Рефлекса"
     },
     {
       "id": "pf2e-personal-rain-cloud-pf2e-legacy",
@@ -7690,10 +7690,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "reflex save"
+      "range": "60 футов",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса"
     },
     {
       "id": "pf2e-pest-form-pf2e-remaster",
@@ -7703,7 +7703,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "10 minutes"
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-pet-cache-pf2e-remaster",
@@ -7713,9 +7713,9 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature that is your companion",
-      "duration": "8 hours"
+      "range": "Касание",
+      "targets": "1 согласное существо — ваш компаньон",
+      "duration": "8 часов"
     },
     {
       "id": "pf2e-phantasmal-minion-pf2e-remaster",
@@ -7725,7 +7725,7 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "60 feet"
+      "range": "60 футов"
     },
     {
       "id": "pf2e-phantom-pain-pf2e-remaster",
@@ -7735,10 +7735,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "will save",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Воли",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4, продолжительный урон — на 1d4."
       }
@@ -7751,7 +7751,7 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "duration": "24 hours"
+      "duration": "24 часа"
     },
     {
       "id": "pf2e-propelling-air-stream-pf2e-remaster",
@@ -7761,9 +7761,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "until the end of your next turn",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "до конца вашего следующего хода",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d6."
       }
@@ -7776,9 +7776,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-protector-tree-pf2e-remaster",
@@ -7788,8 +7788,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-pummeling-rubble-pf2e-remaster",
@@ -7799,8 +7799,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "savingThrow": "reflex save",
+      "area": "Конус 15 футов",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4."
       }
@@ -7813,8 +7813,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "targets": "1 creature",
+      "range": "60 футов",
+      "targets": "1 существо",
       "heightened": {
         "rules": "(+1) Колющий урон и урон холодом увеличиваются каждый на 1d6, урон жизненной энергией — на 1d4."
       }
@@ -7827,8 +7827,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 cubic foot of clean food or water",
+      "range": "Касание",
+      "targets": "1 кубический фут чистой еды или воды",
       "heightened": {
         "rules": "(2-й круг) Можно выбрать алхимический эликсир и совершить против него проверку противодействия. При успехе эликсир портится и становится обычным предметом.\n\n(3-й круг) Можно выбрать зелье или алхимический эликсир и совершить проверку противодействия. При успехе предмет портится и становится обычным."
       }
@@ -7841,9 +7841,9 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "10 feet",
-      "targets": "up to 200 unattended objects in range, each of light Bulk or less",
-      "duration": "up to 1 minute",
+      "range": "10 футов",
+      "targets": "до 200 бесхозных предметов в пределах дистанции, каждый лёгкой массы или меньше",
+      "duration": "до 1 минуты",
       "heightened": {
         "rules": "(3-й круг) Заклинание сортирует до 500 предметов за минуту или 75 за раунд."
       }
@@ -7856,10 +7856,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "area": "burst: 10 feet",
-      "duration": "1 minute",
-      "savingThrow": "Basic fortitude save",
+      "range": "60 футов",
+      "area": "Взрыв 10 футов",
+      "duration": "1 минута",
+      "savingThrow": "Простой спасбросок Стойкости",
       "heightened": {
         "rules": "(+2) Урон увеличивается на 2d4, длительность состояния «Ослеплён» при провале — на 1 раунд, а максимальное расстояние телепортации союзника по радуге — на 10 футов."
       }
@@ -7872,7 +7872,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 hour or until expended"
+      "duration": "1 час или до расходования"
     },
     {
       "id": "pf2e-restyle-pf2e-remaster",
@@ -7882,9 +7882,9 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 piece of clothing currently worn by you or an ally",
-      "duration": "unlimited"
+      "range": "Касание",
+      "targets": "1 предмет одежды, надетый на вас или союзника",
+      "duration": "неограниченно"
     },
     {
       "id": "pf2e-rude-awakening-pf2e-remaster",
@@ -7894,10 +7894,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 allied creature",
-      "duration": "1 minute",
-      "savingThrow": "reflex save"
+      "range": "30 футов",
+      "targets": "1 союзное существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса"
     },
     {
       "id": "pf2e-runic-body-pf2e-remaster",
@@ -7907,9 +7907,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-runic-weapon-pf2e-remaster",
@@ -7919,9 +7919,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 weapon that is unattended or wielded by a willing creature",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 бесхозное оружие или оружие согласного существа",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-sacred-beasts-pf2e-remaster",
@@ -7931,9 +7931,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 5 feet",
-      "savingThrow": "Basic reflex save",
+      "range": "30 футов",
+      "area": "Взрыв 5 футов",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "requirements": "You worship a deity."
     },
     {
@@ -7944,9 +7944,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 существо",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-schadenfreude-pf2e-remaster",
@@ -7956,9 +7956,9 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "the triggering foe",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "targets": "противник, вызвавший реакцию",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-scorching-blast-pf2e-legacy",
@@ -7968,7 +7968,7 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "duration": "until the end of your turn",
+      "duration": "до конца вашего хода",
       "heightened": {
         "rules": "(+1) Основной урон увеличивается на 1d8, продолжительный урон огнём при критическом попадании — на 2."
       }
@@ -7981,10 +7981,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "60 feet",
-      "area": "burst: 10 feet",
-      "duration": "1 minute",
-      "savingThrow": "reflex save",
+      "range": "60 футов",
+      "area": "Взрыв 10 футов",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(3-й круг) Раз в раунд при поддержании заклинания можно переместить центр взрыва в точку в пределах дистанции.\n\n(6-й круг) Как в версии 3-го круга, но дистанция — 120 футов, а область — взрыв радиусом 20 футов."
       }
@@ -7997,8 +7997,8 @@
         "time": "reaction"
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "until your next daily preparations"
+      "range": "30 футов",
+      "duration": "до следующей ежедневной подготовки"
     },
     {
       "id": "pf2e-share-lore-pf2e-remaster",
@@ -8008,9 +8008,9 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "up to 3 creatures",
-      "duration": "10 minutes",
+      "range": "Касание",
+      "targets": "до 3 существ",
+      "duration": "10 минут",
       "heightened": {
         "rules": "(3-й круг) Длительность — 1 час, можно выбрать до пяти существ.\n\n(5-й круг) Длительность — 8 часов, можно выбрать до пяти существ и передать до двух навыков Знаний, которыми вы владеете."
       }
@@ -8023,10 +8023,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "Basic reflex save",
+      "range": "Касание",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Драгоценный камень получает ещё 5 ПЗ, урон его взрыва увеличивается на 1d8."
       }
@@ -8039,9 +8039,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 willing creature",
-      "duration": "1 minute or until expended"
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "duration": "1 минута или до расходования"
     },
     {
       "id": "pf2e-shillelagh-pf2e-legacy",
@@ -8051,9 +8051,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 club or staff you hold",
-      "duration": "1 minute"
+      "range": "Касание",
+      "targets": "1 дубинка или посох в вашей руке",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-shocking-grasp-pf2e-legacy",
@@ -8063,8 +8063,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
+      "range": "Касание",
+      "targets": "1 существо",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 1d12, продолжительный урон электричеством — на 1."
       }
@@ -8077,8 +8077,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "area": "cone: 15 feet",
-      "savingThrow": "reflex save",
+      "area": "Конус 15 футов",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Область увеличивается на 5 футов (конус 20 футов на 2-м круге и так далее)."
       }
@@ -8091,9 +8091,9 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "1,000 feet",
-      "area": "burst: 30 feet",
-      "savingThrow": "reflex save",
+      "range": "1,000 футов",
+      "area": "Взрыв 30 футов",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Звуковой урон увеличивается на 1d10."
       }
@@ -8106,7 +8106,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 hour"
+      "duration": "1 час"
     },
     {
       "id": "pf2e-sleep-pf2e-remaster",
@@ -8116,9 +8116,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 5 feet",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "area": "Взрыв 5 футов",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-snowball-pf2e-legacy",
@@ -8128,8 +8128,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
+      "range": "30 футов",
+      "targets": "1 существо",
       "heightened": {
         "rules": "(+1) Урон увеличивается на 2d4."
       }
@@ -8142,9 +8142,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 willing creature",
-      "duration": "1 minute",
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(+1) Исцеление увеличивается на 1d10+4."
       }
@@ -8157,9 +8157,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature",
-      "savingThrow": "fortitude save"
+      "range": "Касание",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-spirit-link-pf2e-remaster",
@@ -8169,9 +8169,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 willing creature",
-      "duration": "10 minutes",
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "10 минут",
       "heightened": {
         "rules": "(+1) Количество ПЗ, передаваемых за один раз, увеличивается на 2."
       }
@@ -8184,9 +8184,9 @@
         "time": "1 to 3"
       },
       "resource": "spell-slot",
-      "range": "varies",
-      "targets": "1 creature",
-      "duration": "1 minute"
+      "range": "различается",
+      "targets": "1 существо",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-stick-on-pf2e-remaster",
@@ -8196,9 +8196,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature or object",
-      "duration": "1 minute",
+      "range": "Касание",
+      "targets": "1 существо или предмет",
+      "duration": "1 минута",
       "requirements": "You have a free hand"
     },
     {
@@ -8209,8 +8209,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-summon-construct-pf2e-remaster",
@@ -8220,8 +8220,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-summon-fey-pf2e-remaster",
@@ -8231,8 +8231,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-summon-lesser-servitor-pf2e-remaster",
@@ -8242,8 +8242,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-summon-plant-or-fungus-pf2e-remaster",
@@ -8253,8 +8253,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-summon-undead-pf2e-remaster",
@@ -8264,8 +8264,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "duration": "1 minute"
+      "range": "30 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-sure-strike-pf2e-remaster",
@@ -8275,7 +8275,7 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "duration": "until the end of your turn"
+      "duration": "до конца вашего хода"
     },
     {
       "id": "pf2e-swampcall-pf2e-legacy",
@@ -8285,10 +8285,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "area": "burst: 10 feet",
-      "duration": "1 minute",
-      "savingThrow": "reflex save",
+      "range": "30 футов",
+      "area": "Взрыв 10 футов",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса",
       "heightened": {
         "rules": "(3-й круг) Дистанция увеличивается до 60 футов, область — до взрыва радиусом 20 футов."
       }
@@ -8301,9 +8301,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "2 willing creatures",
-      "duration": "1 minute",
+      "range": "30 футов",
+      "targets": "2 согласных существа",
+      "duration": "1 минута",
       "heightened": {
         "rules": "(5-й круг) Дистанция увеличивается до 60 футов, можно выбрать до 10 согласных существ."
       }
@@ -8316,9 +8316,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "up to 5 willing creatures",
-      "duration": "up to 24 hours",
+      "range": "Касание",
+      "targets": "до 5 согласных существ",
+      "duration": "до 24 часов",
       "heightened": {
         "rules": "(2-й круг) Можно выбрать до 20 согласных существ."
       }
@@ -8331,7 +8331,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 hour"
+      "duration": "1 час"
     },
     {
       "id": "pf2e-temporary-tool-pf2e-remaster",
@@ -8341,7 +8341,7 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "duration": "1 minute or until used (see text)"
+      "duration": "1 минута или до использования (см. описание)"
     },
     {
       "id": "pf2e-tether-pf2e-remaster",
@@ -8351,10 +8351,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature",
-      "duration": "1 minute",
-      "savingThrow": "reflex save"
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Рефлекса"
     },
     {
       "id": "pf2e-thicket-of-knives-pf2e-remaster",
@@ -8364,7 +8364,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 minute"
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-thoughtful-gift-pf2e-remaster",
@@ -8374,8 +8374,8 @@
         "actions": 1
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "targets": "1 willing creature",
+      "range": "120 футов",
+      "targets": "1 согласное существо",
       "heightened": {
         "rules": "(3-й круг) Дистанция увеличивается до 500 футов.\n\n(5-й круг) Как на 3-м круге, но максимальная масса предмета увеличивается до 1 единицы. Можно сотворить заклинание за 3 действия вместо 1: дистанция увеличивается до 1 мили, линия видимости до цели не требуется, однако вы должны очень хорошо знать цель."
       }
@@ -8388,8 +8388,8 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature"
+      "range": "Касание",
+      "targets": "1 существо"
     },
     {
       "id": "pf2e-thunderstrike-pf2e-remaster",
@@ -8399,9 +8399,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "targets": "1 creature",
-      "savingThrow": "Basic reflex save",
+      "range": "120 футов",
+      "targets": "1 существо",
+      "savingThrow": "Простой спасбросок Рефлекса",
       "heightened": {
         "rules": "(+1) Урон электричеством увеличивается на 1d12, а звуковой урон — на 1d4."
       }
@@ -8414,7 +8414,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 minute"
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-unbroken-panoply-pf2e-remaster",
@@ -8424,9 +8424,9 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 broken weapon that is unattended or held by a willing creature",
-      "duration": "1 hour"
+      "range": "Касание",
+      "targets": "1 сломанное бесхозное оружие или оружие согласного существа",
+      "duration": "1 час"
     },
     {
       "id": "pf2e-vanishing-tracks-pf2e-remaster",
@@ -8436,7 +8436,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 hour",
+      "duration": "1 час",
       "heightened": {
         "rules": "(2-й круг) Длительность увеличивается до 8 часов.\n\n(4-й круг) Длительность увеличивается до 8 часов, дистанция становится 20 футов, можно выбрать до 10 существ."
       }
@@ -8449,7 +8449,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "10 minutes"
+      "duration": "10 минут"
     },
     {
       "id": "pf2e-verdant-sprout-pf2e-legacy",
@@ -8459,7 +8459,7 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "30 feet"
+      "range": "30 футов"
     },
     {
       "id": "pf2e-verminous-lure-pf2e-legacy",
@@ -8469,10 +8469,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "30 feet",
-      "targets": "1 creature or object",
-      "duration": "10 minutes",
-      "savingThrow": "will save"
+      "range": "30 футов",
+      "targets": "1 существо или предмет",
+      "duration": "10 минут",
+      "savingThrow": "Спасбросок Воли"
     },
     {
       "id": "pf2e-wall-of-shrubs-pf2e-remaster",
@@ -8482,8 +8482,8 @@
         "actions": 3
       },
       "resource": "spell-slot",
-      "range": "120 feet",
-      "duration": "1 minute"
+      "range": "120 футов",
+      "duration": "1 минута"
     },
     {
       "id": "pf2e-weaken-earth-pf2e-remaster",
@@ -8493,10 +8493,10 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 creature, unattended object, or hazard or structure made of stone or earth",
-      "duration": "1 minute",
-      "savingThrow": "fortitude save"
+      "range": "Касание",
+      "targets": "1 существо, бесхозный предмет, опасность или сооружение из камня или земли",
+      "duration": "1 минута",
+      "savingThrow": "Спасбросок Стойкости"
     },
     {
       "id": "pf2e-weave-wood-pf2e-remaster",
@@ -8506,8 +8506,8 @@
         "time": "1 minute"
       },
       "resource": "spell-slot",
-      "range": "touch",
-      "targets": "1 piece of unprocessed wood, reeds, or plant fiber of 1 Bulk or less"
+      "range": "Касание",
+      "targets": "1 кусок необработанного дерева, тростника или растительного волокна массой не более 1 единицы"
     },
     {
       "id": "pf2e-wooden-fists-pf2e-remaster",
@@ -8517,7 +8517,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "duration": "1 minute"
+      "duration": "1 минута"
     }
   ],
   "translations": [
