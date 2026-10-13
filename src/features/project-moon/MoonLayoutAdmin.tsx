@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { MouseEvent } from 'react';
 import { ArrowLeft, Check, RotateCcw, Save, UploadCloud, Bold, Italic, AlignLeft, AlignCenter, AlignRight, Undo2, Redo2, ZoomIn, ZoomOut } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
@@ -38,6 +38,8 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   const [device,setDevice]=useState<'desktop'|'tablet'|'mobile'>('desktop');
   const [publishedLayout,setPublishedLayout]=useState<MoonLayout|null>(null);
   const [autoSaving,setAutoSaving]=useState(false);
+  const latestLayoutRef=useRef('');
+  latestLayoutRef.current=JSON.stringify(layout);
   const [saved, setSaved] = useState(JSON.stringify(DEFAULT_MOON_LAYOUT));
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -154,7 +156,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
         template_key:MOON_LAYOUT_KEY,fields:encodeMoonLayout(layout),
         updated_by:userId,updated_at:new Date().toISOString(),
       },{onConflict:'template_key'});
-      if(!error)setSaved(snapshot);
+      if(!error && latestLayoutRef.current===snapshot)setSaved(snapshot);
       else setMessage('Ошибка автосохранения: '+error.message);
       setAutoSaving(false);
     },1800);
