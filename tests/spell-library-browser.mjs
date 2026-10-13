@@ -37,9 +37,9 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('417 записей',{exact:true}).waitFor();
+  await page.getByText('439 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 417 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 439 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -55,8 +55,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),400,'Eighth page loads 50 cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),417,'Ninth page loads final 17 cards');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 417 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),439,'Ninth page loads final 39 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 439 loaded: no more button');
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
     await page.setViewportSize({width,height:900});
@@ -72,7 +72,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),417,
+  assert.equal(await page.locator('.spell-result-stats').count(),439,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -99,7 +99,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'417 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'439 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
