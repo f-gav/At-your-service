@@ -192,8 +192,8 @@ assert.equal(liveViews.length,282,'All 259 initial and 23 rank-two spells are se
 assert.equal(liveViews.filter(v=>v.locale==='ru').length,259);
 assert.equal(liveViews.filter(v=>v.locale==='en').length,23);
 const legacy=liveViews.filter(v=>v.rules.edition==='pf2e-legacy');
-assert.deepEqual(legacy.map(v=>v.spell.slug).sort(),["acid-splash","admonishing-ray","airburst","ancient-dust","animate-rope","aqueous-blast","buffeting-winds","celestial-accord","draw-ire","elysian-whimsy","exchange-image","fashionista","flashy-disappearance","flense","forge","friendfetch","ghost-sound","glowing-trail","gritty-wheeze","healing-plaster","helpful-steps","inkshot","inside-ropes","invoke-true-name","join-pasts","know-location","magic-stone","negate-aroma","nettleskin","overselling-flourish","personal-rain-cloud","purifying-icicle","putrefy-food-and-drink","ray-of-frost","scorching-blast","scouring-sand","shillelagh","shocking-grasp","snowball","swampcall","synchronize-steps","torturous-trauma","verdant-sprout","verminous-lure"]);
-assert.equal(toSpellViews(wave,'pf2e-legacy').length,44);
+assert.deepEqual(legacy.filter(v=>v.spell.rank<=1).map(v=>v.spell.slug).sort(),["acid-splash","admonishing-ray","airburst","ancient-dust","animate-rope","aqueous-blast","buffeting-winds","celestial-accord","draw-ire","elysian-whimsy","exchange-image","fashionista","flashy-disappearance","flense","forge","friendfetch","ghost-sound","glowing-trail","gritty-wheeze","healing-plaster","helpful-steps","inkshot","inside-ropes","invoke-true-name","join-pasts","know-location","magic-stone","negate-aroma","nettleskin","overselling-flourish","personal-rain-cloud","purifying-icicle","putrefy-food-and-drink","ray-of-frost","scorching-blast","scouring-sand","shillelagh","shocking-grasp","snowball","swampcall","synchronize-steps","torturous-trauma","verdant-sprout","verminous-lure"]);
+assert.equal(toSpellViews(wave,'pf2e-legacy').filter(v=>v.spell.rank<=1).length,44);
 assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===259);
 assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===23);
 assert.ok(liveViews.every(v=>wave.sources.some(src=>src.id===v.spell.sourceId)));
@@ -204,7 +204,9 @@ assert.equal(liveViews.find(v=>v.spell.slug==='elemental-counter')?.rules.resour
 assert.equal(englishOnly.length,134,'Historical pre-translation English-only list contains 134 entries');
 const tracker=source('../docs/SPELL-ENGLISH-TRACKER-RU.md');
 const trackedNames=[...tracker.matchAll(/^\d+\. \*\*([^*]+)\*\*/gm)].map(m=>m[1]).sort();
-const actualEnglishNames=liveViews.filter(v=>v.locale==='en').map(v=>v.englishName).sort();
+const actualEnglishNames=liveViews.filter(v=>v.locale==='en'&&v.spell.rank<=1).map(v=>v.englishName).sort();
+const rankTwoTracker=source('../docs/SPELL-RANK2-ENGLISH-TRACKER-RU.md');
+for(const v of liveViews.filter(v=>v.locale==='en'&&v.spell.rank===2)) assert.ok(rankTwoTracker.includes('| '+v.englishName+' |'),'Rank-two English backlog must include '+v.englishName);
 assert.deepEqual(trackedNames,actualEnglishNames,
   'Live English-only tracker must exactly match untranslated site cards');
 const manifest=source('../docs/SPELL-WAVE-002-RU.md');
