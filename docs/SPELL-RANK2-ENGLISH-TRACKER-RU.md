@@ -10,9 +10,9 @@
 
 **Обработано:** **224 / 224** исходных записей (все 10 волн). Из них **223** действительно 2-го ранга и Funeral Flames — 1-го ранга.
 
-**Английских карточек, ожидающих перевода:** **70** (69 второго ранга и 1 первого); десятая волна добавила 10 EN.
+**Английских карточек, ожидающих перевода:** **35** (после авторской локализации первой половины).
 
-**Русских карточек второго круга:** **154** (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09 и 12 из волны 10). Часть русских названий сверена по русским источникам; авторские черновики волн 07 и 09 требуют дополнительной терминологической проверки; названия RU волны 10 непосредственно найдены в DoctorWater. Авторские описания подписаны «Перевод от At your service!».
+**Русских карточек второго круга:** **188** (154 ранее + 34 новых второго ранга; Funeral Flames отдельно — 1-й ранг) (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09 и 12 из волны 10). Часть русских названий сверена по русским источникам; авторские черновики волн 07 и 09 требуют дополнительной терминологической проверки; названия RU волны 10 непосредственно найдены в DoctorWater. Авторские описания подписаны «Перевод от At your service!».
 
 Источник сверки: https://github.com/DoctorWater/pf2ru-translation/blob/master/generated/data/community/pf2e/packs/pf2e.spells-srd.json
 
@@ -48,44 +48,44 @@
 
 | № в каталоге | Волна | Английское название | Slug исходника | Статус | Примечание |
 |---:|---:|---|---|---|---|
-| 3 | 01 | Advanced Scurvy | `advanced-scurvy` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 5 | 01 | Allfood | `allfood` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 12 | 01 | Avenging Wildwood | `avenging-wildwood` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 14 | 01 | Bee-Man's Summons | `bee-man-s-summons` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 16 | 01 | Binding Muzzle | `binding-muzzle` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 17 | 01 | Blast of the Bellows | `blast-of-the-bellows` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 22 | 01 | Blood Duplicate | `blood-duplicate` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 23 | 01 | Blood Runs Cold | `blood-runs-cold` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 3 | 01 | Advanced Scurvy | `advanced-scurvy` | RU — Запущенная цинга; перевод от At your service!| Foundry v14-dev |
+| 5 | 01 | Allfood | `allfood` | RU — Всё в пищу; перевод от At your service!| Foundry v14-dev |
+| 12 | 01 | Avenging Wildwood | `avenging-wildwood` | RU — Мстящий лес; перевод от At your service!| Foundry v14-dev |
+| 14 | 01 | Bee-Man's Summons | `bee-man-s-summons` | RU — Зов Пчеловека; перевод от At your service!| Foundry v14-dev |
+| 16 | 01 | Binding Muzzle | `binding-muzzle` | RU — Сковывающий намордник; перевод от At your service!| Foundry v14-dev |
+| 17 | 01 | Blast of the Bellows | `blast-of-the-bellows` | RU — Порыв кузнечных мехов; перевод от At your service!| Foundry v14-dev |
+| 22 | 01 | Blood Duplicate | `blood-duplicate` | RU — Кровавая копия; перевод от At your service!| Foundry v14-dev |
+| 23 | 01 | Blood Runs Cold | `blood-runs-cold` | RU — Стынущая кровь; перевод от At your service!| Foundry v14-dev |
 
-| 26 | 02 | Bone Spray | `bone-spray` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 28 | 02 | Bralani Referendum | `bralani-referendum` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 30 | 02 | Breath of Drought | `breath-of-drought` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 35 | 02 | Carrion Mire | `carrion-mire` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 45 | 02 | Confetti Cloud | `confetti-cloud` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 26 | 02 | Bone Spray | `bone-spray` | RU — Костяная картечь; перевод от At your service!| Foundry v14-dev |
+| 28 | 02 | Bralani Referendum | `bralani-referendum` | RU — Референдум бралиани; перевод от At your service!| Foundry v14-dev |
+| 30 | 02 | Breath of Drought | `breath-of-drought` | RU — Дыхание засухи; перевод от At your service!| Foundry v14-dev |
+| 35 | 02 | Carrion Mire | `carrion-mire` | RU — Трясина мертвечины; перевод от At your service!| Foundry v14-dev |
+| 45 | 02 | Confetti Cloud | `confetti-cloud` | RU — Облако конфетти; перевод от At your service!| Foundry v14-dev |
 
-| 47 | 03 | Cutting Insult | `cutting-insult` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 53 | 03 | Dimensional Drop | `dimensional-drop` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 54 | 03 | Disintegrating Puddle | `disintegrating-puddle` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 56 | 03 | Disorienting Flash | `disorienting-flash` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 58 | 03 | Draw Blood | `draw-blood` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 59 | 03 | Electrostatic Glider | `electrostatic-glider` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 62 | 03 | Empathic Link | `empathic-link` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 68 | 03 | Erase Trail | `erase-trail` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 47 | 03 | Cutting Insult | `cutting-insult` | RU — Язвительное оскорбление; перевод от At your service!| Foundry v14-dev |
+| 53 | 03 | Dimensional Drop | `dimensional-drop` | RU — Межпространственное падение; перевод от At your service!| Foundry v14-dev |
+| 54 | 03 | Disintegrating Puddle | `disintegrating-puddle` | RU — Разъедающая лужа; перевод от At your service!| Foundry v14-dev |
+| 56 | 03 | Disorienting Flash | `disorienting-flash` | RU — Дезориентирующая вспышка; перевод от At your service!| Foundry v14-dev |
+| 58 | 03 | Draw Blood | `draw-blood` | RU — Кровопускание; перевод от At your service!| Foundry v14-dev |
+| 59 | 03 | Electrostatic Glider | `electrostatic-glider` | RU — Электростатический планёр; перевод от At your service!| Foundry v14-dev |
+| 62 | 03 | Empathic Link | `empathic-link` | RU — Эмпатическая связь; перевод от At your service!| Foundry v14-dev |
+| 68 | 03 | Erase Trail | `erase-trail` | RU — Стирание следов; перевод от At your service!| Foundry v14-dev |
 
-| 72 | 04 | Explosive Dust | `explosive-dust` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 77 | 04 | Familiar's Resurrection | `familiars-resurrection` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 86 | 04 | Floating Harness | `floating-harness` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 88 | 04 | Frozen Lungs | `frozen-lungs` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 72 | 04 | Explosive Dust | `explosive-dust` | RU — Взрывоопасная пыль; перевод от At your service!| Foundry v14-dev |
+| 77 | 04 | Familiar's Resurrection | `familiars-resurrection` | RU — Воскрешение фамильяра; перевод от At your service!| Foundry v14-dev |
+| 86 | 04 | Floating Harness | `floating-harness` | RU — Парящая упряжь; перевод от At your service!| Foundry v14-dev |
+| 88 | 04 | Frozen Lungs | `frozen-lungs` | RU — Ледяные лёгкие; перевод от At your service!| Foundry v14-dev |
 
-| 96 | 05 | Glacial Causeway | `glacial-causeway` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 97 | 05 | Grave Impressions | `grave-impressions` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 101 | 05 | Helpful Scribe | `helpful-scribe` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 104 | 05 | Horrifying Blood Loss | `horrifying-blood-loss` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 108 | 05 | Illusory Shroud | `illusory-shroud` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 109 | 05 | Imp Sting | `imp-sting` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 110 | 05 | Impart Empathy | `impart-empathy` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 111 | 05 | Impeccable Flow | `impeccable-flow` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
-| 112 | 05 | Imprinting Hand | `imprinting-hand` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
+| 96 | 05 | Glacial Causeway | `glacial-causeway` | RU — Ледяная переправа; перевод от At your service!| Foundry v14-dev |
+| 97 | 05 | Grave Impressions | `grave-impressions` | RU — Могильные отголоски; перевод от At your service!| Foundry v14-dev |
+| 101 | 05 | Helpful Scribe | `helpful-scribe` | RU — Услужливый писец; перевод от At your service!| Foundry v14-dev |
+| 104 | 05 | Horrifying Blood Loss | `horrifying-blood-loss` | RU — Ужас кровопотери; перевод от At your service!| Foundry v14-dev |
+| 108 | 05 | Illusory Shroud | `illusory-shroud` | RU — Иллюзорный покров; перевод от At your service!| Foundry v14-dev |
+| 109 | 05 | Imp Sting | `imp-sting` | RU — Жало бесёнка; перевод от At your service!| Foundry v14-dev |
+| 110 | 05 | Impart Empathy | `impart-empathy` | RU — Пробуждение эмпатии; перевод от At your service!| Foundry v14-dev |
+| 111 | 05 | Impeccable Flow | `impeccable-flow` | RU — Безупречный поток; перевод от At your service!| Foundry v14-dev |
+| 112 | 05 | Imprinting Hand | `imprinting-hand` | RU — Запечатлевающая ладонь; перевод от At your service!| Foundry v14-dev |
 | 113 | 05 | Infernal Supervision | `infernal-supervision` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
 
 | 126 | 06 | Manifestation of Spirits | `manifestation-of-spirits` | EN — ждёт отдельного цикла перевода | Foundry v14-dev |
@@ -270,3 +270,46 @@ JSON находится в папке `spells/rank-2`, но `system.level.value`
 | 180 | Splinter Volley | Град щепок | Remaster |
 
 **Особенность:** Spiritual Armament (Remaster) и Spiritual Weapon (Legacy) имеют почти одинаковые подтверждённые русские названия, но остаются разными заклинаниями со своими правилами. **Все 10 волн импортированы.**
+
+
+## Авторская локализация 13 октября 2026 — первый цикл (35 карточек)
+
+Тексты всех 35 переведённых карточек хранятся в отдельном файле локализации и накладываются на библиотеку. Оригинальные английские записи и источники сохранены. Метка: **«Перевод от At your service!»**. Funeral Flames остаётся 1-го ранга.
+
+| № | Английский оригинал | Авторский перевод |
+|---:|---|---|
+| 1 | Advanced Scurvy | Запущенная цинга |
+| 2 | Allfood | Всё в пищу |
+| 3 | Avenging Wildwood | Мстящий лес |
+| 4 | Bee-Man's Summons | Зов Пчеловека |
+| 5 | Binding Muzzle | Сковывающий намордник |
+| 6 | Blast of the Bellows | Порыв кузнечных мехов |
+| 7 | Blood Duplicate | Кровавая копия |
+| 8 | Blood Runs Cold | Стынущая кровь |
+| 9 | Bone Spray | Костяная картечь |
+| 10 | Bralani Referendum | Референдум бралиани |
+| 11 | Breath of Drought | Дыхание засухи |
+| 12 | Carrion Mire | Трясина мертвечины |
+| 13 | Confetti Cloud | Облако конфетти |
+| 14 | Cutting Insult | Язвительное оскорбление |
+| 15 | Dimensional Drop | Межпространственное падение |
+| 16 | Disintegrating Puddle | Разъедающая лужа |
+| 17 | Disorienting Flash | Дезориентирующая вспышка |
+| 18 | Draw Blood | Кровопускание |
+| 19 | Electrostatic Glider | Электростатический планёр |
+| 20 | Empathic Link | Эмпатическая связь |
+| 21 | Erase Trail | Стирание следов |
+| 22 | Explosive Dust | Взрывоопасная пыль |
+| 23 | Familiar's Resurrection | Воскрешение фамильяра |
+| 24 | Floating Harness | Парящая упряжь |
+| 25 | Frozen Lungs | Ледяные лёгкие |
+| 26 | Funeral Flames | Погребальное пламя |
+| 27 | Glacial Causeway | Ледяная переправа |
+| 28 | Grave Impressions | Могильные отголоски |
+| 29 | Helpful Scribe | Услужливый писец |
+| 30 | Horrifying Blood Loss | Ужас кровопотери |
+| 31 | Illusory Shroud | Иллюзорный покров |
+| 32 | Imp Sting | Жало бесёнка |
+| 33 | Impart Empathy | Пробуждение эмпатии |
+| 34 | Impeccable Flow | Безупречный поток |
+| 35 | Imprinting Hand | Запечатлевающая ладонь |
