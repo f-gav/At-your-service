@@ -127,7 +127,14 @@ const PF_TRAIT_LABELS:Record<string,string>={
   plant:'Растение',sanctified:'Освящённый',spirit:'Духовный',
   subtle:'Незаметный',void:'Пустота',water:'Вода',wood:'Дерево',
   aura:'Аура',emotion:'Эмоция',linguistic:'Языковой',sonic:'Звук',
-  morph:'Трансформация',healing:'Исцеление',fortune:'Удача',
+  morph:'Изменение формы',healing:'Исцеление',fortune:'Удача',
+  'true-name':'Истинное имя',light:'Свет',poison:'Яд',force:'Сила',
+  vitality:'Жизненная энергия',good:'Добро',incapacitation:'Недееспособность',
+  curse:'Проклятие',visual:'Визуальный',fear:'Страх',darkness:'Тьма',
+  shadow:'Тень',disease:'Болезнь',misfortune:'Неудача',move:'Движение',
+  polymorph:'Полиморф',extradimensional:'Внепространственный',
+  summon:'Призыв',mythic:'Мифический',sleep:'Сон',
+  teleportation:'Телепортация',olfactory:'Обонятельный',
 };
 const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition==='pf2e-remaster'?'Remaster':edition;
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
