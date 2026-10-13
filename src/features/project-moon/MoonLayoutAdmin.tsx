@@ -365,6 +365,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
             </select>
           </label>
           <div className="moon-admin-text-controls">
+            {selectedElement&&<p className="moon-admin-element-hint">Размеры меняются только у выбранного блока. «Сбросить выбранный» возвращает исходный размер.</p>}
             <label>Размер шрифта
               <span className="moon-admin-value">
                 <input type="range" min={selectedTextGroup === 'pageTitle' ? 20 : 7}
@@ -380,6 +381,30 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
                 <small>px</small>
               </span>
             </label>
+            {selectedElement&&<>
+              <label>Ширина текстового блока
+                <span className="moon-admin-value">
+                  <button type="button" aria-label="Уменьшить ширину блока" onClick={()=>changeTextStyle('boxWidth',Math.max(40,(currentTextStyle.boxWidth??300)-10))}>−</button>
+                  <input type="number" min={40} max={1000} step={10}
+                    value={currentTextStyle.boxWidth??''} placeholder="Авто"
+                    disabled={loading||busy}
+                    onChange={e=>changeTextStyle('boxWidth',Number(e.target.value))}/>
+                  <button type="button" aria-label="Увеличить ширину блока" onClick={()=>changeTextStyle('boxWidth',Math.min(1000,(currentTextStyle.boxWidth??300)+10))}>+</button>
+                  <small>px</small>
+                </span>
+              </label>
+              <label>Высота текстового блока
+                <span className="moon-admin-value">
+                  <button type="button" aria-label="Уменьшить высоту блока" onClick={()=>changeTextStyle('boxHeight',Math.max(20,(currentTextStyle.boxHeight??80)-10))}>−</button>
+                  <input type="number" min={20} max={900} step={10}
+                    value={currentTextStyle.boxHeight??''} placeholder="Авто"
+                    disabled={loading||busy}
+                    onChange={e=>changeTextStyle('boxHeight',Number(e.target.value))}/>
+                  <button type="button" aria-label="Увеличить высоту блока" onClick={()=>changeTextStyle('boxHeight',Math.min(900,(currentTextStyle.boxHeight??80)+10))}>+</button>
+                  <small>px</small>
+                </span>
+              </label>
+            </>}
             <label>Жирность
               <select value={currentTextStyle.weight}
                 disabled={loading || busy}
