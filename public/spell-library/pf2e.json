@@ -3871,6 +3871,122 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-pocket-library",
+      "system": "pf2e",
+      "slug": "pocket-library",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "extradimensional",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-lost-omens-rival-academies"
+    },
+    {
+      "id": "pf2e-propelling-air-stream",
+      "system": "pf2e",
+      "slug": "propelling-air-stream",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "attack",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-protection",
+      "system": "pf2e",
+      "slug": "protection",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-protector-tree",
+      "system": "pf2e",
+      "slug": "protector-tree",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-pummeling-rubble",
+      "system": "pf2e",
+      "slug": "pummeling-rubble",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-purifying-icicle",
+      "system": "pf2e",
+      "slug": "purifying-icicle",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cold",
+        "concentrate",
+        "manipulate",
+        "vitality"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-knights-of-lastwall"
     }
   ],
   "versions": [
@@ -6545,6 +6661,82 @@
       "heightened": {
         "rules": " (+1) The damage increases by 2d4 and the persistent damage by 1d4."
       }
+    },
+    {
+      "id": "pf2e-pocket-library-pf2e-remaster",
+      "spellId": "pf2e-pocket-library",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "duration": "24 hours"
+    },
+    {
+      "id": "pf2e-propelling-air-stream-pf2e-remaster",
+      "spellId": "pf2e-propelling-air-stream",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "until the end of your next turn",
+      "heightened": {
+        "rules": " (+1) The damage increases by 2d6."
+      }
+    },
+    {
+      "id": "pf2e-protection-pf2e-remaster",
+      "spellId": "pf2e-protection",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-protector-tree-pf2e-remaster",
+      "spellId": "pf2e-protector-tree",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-pummeling-rubble-pf2e-remaster",
+      "spellId": "pf2e-pummeling-rubble",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "cone: 15 feet",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "rules": " (+1) Increase the damage by 2d4."
+      }
+    },
+    {
+      "id": "pf2e-purifying-icicle-pf2e-legacy",
+      "spellId": "pf2e-purifying-icicle",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "1 creature",
+      "heightened": {
+        "rules": " (+1) The piercing damage and cold damage each increase by 1d6. The vitality damage increases by 1d4."
+      }
     }
   ],
   "translations": [
@@ -8907,6 +9099,54 @@
       "locale": "en",
       "name": "Phantom Pain",
       "description": "Illusory pain wracks the target, dealing 2d4 mental damage and Damage ((@item.level)d4[persistent,mental)] damage. The target must attempt a Will save.\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target takes full initial damage but no persistent damage, and the spell ends immediately.\n\n\nFailure The target takes full initial and persistent damage, and the target is Sickened 1. If the target recovers from being Sickened, the persistent damage ends and the spell ends.\n\n\nCritical Failure As failure, but the target is Sickened 2.\n\n\n\nHeightened (+1) The damage increases by 2d4 and the persistent damage by 1d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-pocket-library",
+      "versionId": "pf2e-pocket-library-pf2e-remaster",
+      "locale": "en",
+      "name": "Pocket Library",
+      "description": "Like Vil Seral, you collect information from all around you and store it in book form in an extradimensional library. When you Cast this Spell, choose any skill in which you are at least trained that has the Recall Knowledge action.\n\n\nDuring the duration of this spell, you can call forth a tome from the extradimensional library when attempting a Recall Knowledge check using your chosen skill. This is part of the action to Recall Knowledge. You must have a hand free to do so. The tome appears in your hand, open to an appropriate page. This grants you a +1 status bonus to the Recall Knowledge check. If you roll a critical failure on this check, you get a failure instead. If the roll is successful and the subject is a creature, you gain additional information or context about the creature. Once you reference a book from your pocket library, the spell ends.\n\n\nSpell Effect: Pocket Library\n\n\n\nHeightened (3rd) The status bonus increases to +2 and you can reference your pocket library twice before the spell ends.\n\n\nHeightened (6th) The status bonus increases to +3 and you can reference your pocket library three times before the spell ends.\n\n\nHeightened (9th) The status bonus increases to +4 and you can reference your pocket library four times before the spell ends.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-propelling-air-stream",
+      "versionId": "pf2e-propelling-air-stream-pf2e-remaster",
+      "locale": "en",
+      "name": "Propelling Air Stream",
+      "description": "You shoot out a high-speed blast of air that propels you into the air. Make a ranged spell attack against a target's AC. On a success, the target takes 2d6 bludgeoning damage (or double damage on a critical hit). Regardless of whether you hit, you gain a fly Speed of 15 feet until the end of your next turn.\n\n\nSpell Effect: Propelling Air Stream\n\n\n\nHeightened (+1) The damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-protection",
+      "versionId": "pf2e-protection-pf2e-remaster",
+      "locale": "en",
+      "name": "Protection",
+      "description": "You ward a creature against harm. The target gains a +1 status bonus to Armor Class and saving throws.\n\n\n\n\n\nHeightened (3rd) You can choose to have the benefits also affect all your allies in a @Template[emanation|distance:10] around the target.\n\n\nSpell Effect: Protection",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-protector-tree",
+      "versionId": "pf2e-protector-tree-pf2e-remaster",
+      "locale": "en",
+      "name": "Protector Tree",
+      "description": "A Medium tree suddenly grows in an unoccupied square within range. The tree has AC 10 and 10 Hit Points. Whenever an ally adjacent to the tree is hit by a Strike, the tree interposes its branches and takes the damage first. Any additional damage beyond what it takes to reduce the tree to 0 Hit Points is dealt to the original target. The tree isn't large enough to impede movement through its square. If the tree is in soil and survives to the end of the spell's duration, it remains as an ordinary, non-magical tree and continues to grow and thrive. The GM might determine that the tree disappears immediately in certain inhospitable situations.\n\n\n\nHeightened (+1) The tree has an additional 10 Hit Points.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-pummeling-rubble",
+      "versionId": "pf2e-pummeling-rubble-pf2e-remaster",
+      "locale": "en",
+      "name": "Pummeling Rubble",
+      "description": "A spray of heavy rocks flies through the air in front of you. The rubble deals 2d4 bludgeoning damage to each creature in the area. Each creature must attempt a Reflex save.\n\n\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature takes half damage.\n\n\nFailure The creature takes full damage and is pushed 5 feet away from you.\n\n\nCritical Failure The creature takes double damage and is pushed 10 feet away from you.\n\n\n\n\n\nHeightened (+1) Increase the damage by 2d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-purifying-icicle",
+      "versionId": "pf2e-purifying-icicle-pf2e-legacy",
+      "locale": "en",
+      "name": "Purifying Icicle",
+      "description": "You evoke life essence into the form of water and freeze it, then launch the icicle at a foe. Make a spell attack roll. On a success, the icicle deals 2d6 piercing damage and 1d6 cold damage, and if the target is undead, the icicle deals an additional 1d4 vitality damage. On a critical success, the target takes double damage and takes a –10-foot circumstance penalty to its Speeds for 1 round as the icicle lodges inside them before melting away.\n\n\n\n\n\nHeightened (+1) The piercing damage and cold damage each increase by 1d6. The vitality damage increases by 1d4.",
       "translationStatus": "verified"
     }
   ],
