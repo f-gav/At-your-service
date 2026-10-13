@@ -198,7 +198,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       sectionTitle:'.moon-section-title',fieldLabel:'.moon-field > span',fieldValue:'.moon-field input',
       characterName:'.moon-name input',attributeLabel:'.moon-attribute-label',
       resourceTitle:'.moon-resource-title',cardTitle:'.moon-weapon-title',
-      noteTitle:'.moon-notes-title',bodyText:'.moon-note textarea',
+      noteTitle:'.moon-notes-title',bodyText:'.moon-long-field .pf-rich-editable, .moon-rich-group .pf-rich-editable, .moon-note .pf-rich-editable, .moon-conditions-extra .pf-rich-editable',
     };
     const layout=layoutOverride ?? DEFAULT_MOON_LAYOUT;
     for(const page of ['dossier','combat','about','notes']){
