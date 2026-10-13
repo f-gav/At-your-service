@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 144 заклинания 1-го круга (215 записей). **На русском:** 101, **только на английском:** 114.
+**Импортировано:** 71 чары и 168 заклинаний 1-го круга (239 записей). **На русском:** 116, **только на английском:** 123.
 
 ## Волна 001 — 9 английских
 
@@ -159,3 +159,16 @@
 15. **Runic Weapon** — `runic-weapon` · Remaster · Pathfinder Player Core
 16. **Sacred Beasts** — `sacred-beasts` · Remaster · Pathfinder Howl of the Wild
 17. **Scorching Blast** — `scorching-blast` · Legacy · Pathfinder Kingmaker
+
+
+## Заклинания 1-го круга — волна 007 (9 английских)
+
+1. **Scouring Sand** — `scouring-sand` · Legacy · Pathfinder #151: The Show Must Go On
+2. **Seashell of Stolen Sound** — `seashell-of-stolen-sound` · Remaster · Pathfinder Impossible Magic
+3. **Shielded Arm** — `shielded-arm` · Remaster · Pathfinder Rage of Elements
+4. **Signal Skyrocket** — `signal-skyrocket` · Remaster · Pathfinder Rage of Elements
+5. **Sky Sight** — `sky-sight` · Remaster · Pathfinder Impossible Magic
+6. **Spirit Ward** — `spirit-ward` · Remaster · Pathfinder Lost Omens Shining Kingdoms
+7. **Stick On** — `stick-on` · Remaster · Pathfinder Impossible Magic
+8. **Summon Lesser Servitor** — `summon-lesser-servitor` · Remaster · Pathfinder Player Core 2
+9. **Summon Undead** — `summon-undead` · Remaster · Pathfinder Player Core
