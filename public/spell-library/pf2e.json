@@ -4109,6 +4109,122 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-cheliax-infernal-inheritance"
+    },
+    {
+      "id": "pf2e-runic-body",
+      "system": "pf2e",
+      "slug": "runic-body",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-runic-weapon",
+      "system": "pf2e",
+      "slug": "runic-weapon",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-sacred-beasts",
+      "system": "pf2e",
+      "slug": "sacred-beasts",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-howl-of-the-wild"
+    },
+    {
+      "id": "pf2e-sanctuary",
+      "system": "pf2e",
+      "slug": "sanctuary",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-schadenfreude",
+      "system": "pf2e",
+      "slug": "schadenfreude",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-scorching-blast",
+      "system": "pf2e",
+      "slug": "scorching-blast",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-kingmaker"
     }
   ],
   "versions": [
@@ -6939,6 +7055,80 @@
       "targets": "1 allied creature",
       "duration": "1 minute",
       "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-runic-body-pf2e-remaster",
+      "spellId": "pf2e-runic-body",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-runic-weapon-pf2e-remaster",
+      "spellId": "pf2e-runic-weapon",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 weapon that is unattended or wielded by a willing creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-sacred-beasts-pf2e-remaster",
+      "spellId": "pf2e-sacred-beasts",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 5 feet",
+      "savingThrow": "Basic reflex save",
+      "requirements": "You worship a deity."
+    },
+    {
+      "id": "pf2e-sanctuary-pf2e-remaster",
+      "spellId": "pf2e-sanctuary",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-schadenfreude-pf2e-remaster",
+      "spellId": "pf2e-schadenfreude",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "the triggering foe",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-scorching-blast-pf2e-legacy",
+      "spellId": "pf2e-scorching-blast",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "duration": "until the end of your turn",
+      "heightened": {
+        "rules": " (+1) The base damage increases by 1d8 and the persistent fire damage on a critical hit increases by 2."
+      }
     }
   ],
   "translations": [
@@ -9397,6 +9587,54 @@
       "locale": "en",
       "name": "Rude Awakening",
       "description": "You conjure frigid water and douse an ally, fortifying their resolve. The target can immediately attempt a Will save with a +2 circumstance bonus against an ongoing emotion effect or against the frightened or stupefied condition, suppressing the effect or condition for the duration on a success. In addition, the target gains a +1 status bonus to all saving throws for the duration, which increases to a +2 status bonus to saving throws against emotion effects.\n\n\nSpell Effect: Rude Awakening",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-runic-body",
+      "versionId": "pf2e-runic-body-pf2e-remaster",
+      "locale": "en",
+      "name": "Runic Body",
+      "description": "Glowing runes appear on the target's body. All its unarmed attacks become +1 striking unarmed attacks, gaining a +1 item bonus to attack rolls and increasing the number of damage dice to two.\n\n\n\n\n\nHeightened (6th) The unarmed attacks are +2 greater striking.\n\n\nHeightened (9th) The unarmed attacks are +3 major striking.\n\n\nSpell Effect: Runic Body",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-runic-weapon",
+      "versionId": "pf2e-runic-weapon-pf2e-remaster",
+      "locale": "en",
+      "name": "Runic Weapon",
+      "description": "The weapon glimmers with magic as temporary runes carve down its length. The target becomes a +1 striking weapon, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two.\n\n\n\n\n\nHeightened (6th) The weapon is +2 greater striking.\n\n\nHeightened (9th) The weapon is +3 major striking.\n\n\nSpell Effect: Runic Weapon",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sacred-beasts",
+      "versionId": "pf2e-sacred-beasts-pf2e-remaster",
+      "locale": "en",
+      "name": "Sacred Beasts",
+      "description": "Requirements You worship a deity.\n\n\n\n\n\nYou call out to the creatures of the wild favored by your deity. You quickly summon your deity's sacred animal (or a small swarm of them if the animal is usually Tiny). For example, you would call forth a lion if you worship Iomedae or a swarm of spiders if you worship Norgorber. If your deity doesn't have a known sacred animal, work with the GM to find a thematic one. The animal or swarm assaults all creatures in the area, dealing 2d6 damage. The damage is either bludgeoning, piercing, or slashing based on the animal that was conjured, as determined by the GM. After their attacks, the animals return to your deity's plane.\n\n\n\n\n\nHeightened (+1) The damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sanctuary",
+      "versionId": "pf2e-sanctuary-pf2e-remaster",
+      "locale": "en",
+      "name": "Sanctuary",
+      "description": "You ward a creature with protective energy that deters attacks. Creatures attempting to attack the target must attempt a Will save each time. If the target uses a hostile action, the spell ends.\n\n\n\n\n\nCritical Success Sanctuary ends.\n\n\nSuccess The creature can attempt its attack and any other attacks against the target this turn.\n\n\nFailure The creature can't attack the target and wastes the action. It can't attempt further attacks against the target this turn.\n\n\nCritical Failure The creature wastes the action and can't attempt to attack the target for the rest of sanctuary's duration.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-schadenfreude",
+      "versionId": "pf2e-schadenfreude-pf2e-remaster",
+      "locale": "en",
+      "name": "Schadenfreude",
+      "description": "Trigger You critically fail a saving throw against a foe's effect.\n\n\n\nYou distract your enemy with their feeling of smug pleasure when you fail catastrophically. They must attempt a Will save.\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature is distracted by its amusement and takes a -1 status penalty on Perception checks and Will saves for 1 round. Spell Effect: Schadenfreude (Success)\n\n\nFailure The creature is overcome by its amusement and is Stupefied 1 for 1 round.\n\n\nCritical Failure The creature is lost in its amusement and is Stupefied 2 for 1 round and Stunned 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-scorching-blast",
+      "versionId": "pf2e-scorching-blast-pf2e-legacy",
+      "locale": "en",
+      "name": "Scorching Blast",
+      "description": "You evoke a mass of fire into the air around your outstretched fist. For the remainder of your turn, you can blast targets within 30 feet with this fire by spending a single action which has the attack and concentrate traits. When you do so, attempt a ranged spell attack roll. If you hit, you inflict 2d8 fire damage. On a critical hit, the target takes Damage ((1d6+((@item.rank -1)*2))[persistent,fire)] damage.\n\n\n\nHeightened (+1) The base damage increases by 1d8 and the persistent fire damage on a critical hit increases by 2.",
       "translationStatus": "verified"
     }
   ],
