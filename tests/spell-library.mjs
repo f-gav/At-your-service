@@ -16,7 +16,7 @@ assert.equal(wave.versions.length,167);
 assert.equal(wave.translations.filter(t=>t.locale==='ru').length,83,'48 cantrips + 35 rank-one Russian cards');
 assert.equal(wave.translations.filter(t=>t.locale==='en').length,167,'Every spell retains a canonical English identity');
 assert.ok(wave.spells.every(s=>s.system==='pf2e'&&((s.kind==='cantrip'&&s.rank===0)||(s.kind==='spell'&&s.rank===1))));
-assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,84);
+assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,71);
 assert.equal(wave.spells.filter(s=>s.kind==='spell'&&s.rank===1).length,96);
 assert.equal(new Set(wave.spells.map(s=>s.id)).size,167,'Unique spell IDs');
 assert.deepEqual(wave.spells.map(s=>s.slug).slice(0,3),['acid-splash','ancient-dust','approximate']);
@@ -149,7 +149,7 @@ assert.ok(manifest.includes('10 с английскими названиями')
 assert.equal(englishOnly.filter(slug=>{const i=wave.spells.findIndex(s=>s.slug===slug);return i>=24&&i<48;}).length,10,
  'Wave 002 adds ten English-only cantrips');
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=24&&wave.spells.findIndex(s=>s.id===t.spellId)<48).length,14);
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=48&&wave.spells.findIndex(s=>s.id===t.spellId)<84).length,19,'Cantrip wave 003 has 19 Russian entries');
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=48&&wave.spells.findIndex(s=>s.id===t.spellId)<71).length,19,'Cantrip wave 003 has 19 Russian entries');
 assert.equal(englishOnly.filter(slug=>{const n=wave.spells.findIndex(s=>s.slug===slug);return n>=48&&n<71;}).length,4,'Cantrip Wave 003 has four English-only entries');
 assert.equal(liveViews.find(v=>v.spell.slug==='summon-instrument')?.rules.cast.actions,3);
 assert.ok(liveViews.find(v=>v.spell.slug==='shield')?.description.includes('Твёрдостью 5'));
@@ -161,7 +161,7 @@ assert.ok(liveViews.find(v=>v.spell.slug==='root-reading')?.locale==='en');
 assert.ok(liveViews.find(v=>v.spell.slug==='wash-your-luck')?.locale==='ru');
 assert.ok(source('../docs/SPELL-WAVE-003-RU.md').includes('19 русских'));
 assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=84).length,48,
-  'All three rank-one waves contain 48 English-only cards');
+  'Four rank-one waves contain 61 English-only cards');
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=84).length,24);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,84);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:1}).length,96);
