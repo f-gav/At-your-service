@@ -340,7 +340,6 @@ export default function SpellLibrary({onBack}:Props){
             description:translated.description,translationOrigin:'at-your-service' as const,
             translationStatus:'draft' as const,translatorCredit:'Перевод от At your service!'};
           if(old>=0)base.translations[old]=ru;else base.translations.push(ru);
-          const rule=base.versions.find(v=>v.id===en.versionId);
           // Author translation contains complete mechanics, including outcomes and heightened text.
           // Do not mutate the original English version metadata.
         }
