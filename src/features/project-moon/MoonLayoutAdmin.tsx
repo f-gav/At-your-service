@@ -215,6 +215,13 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     } finally { setBusy(false); }
   }
   async function publish() {
+    const problems:string[]=[];
+    if(!Number.isFinite(layout.pagePadding)||layout.pagePadding<0||layout.pagePadding>100)problems.push('Некорректные поля страницы');
+    if(!Number.isFinite(layout.portraitWidth)||layout.portraitWidth<20||layout.portraitWidth>1000)problems.push('Некорректный размер портрета');
+    for(const [key,style] of Object.entries(layout.elementStyles)){
+      if(!Number.isFinite(style.size)||(style.size??12)<5||(style.size??12)>120)problems.push('Недопустимый размер текста: '+key);
+    }
+    if(problems.length){setMessage('Публикация остановлена: '+problems.join('; '));return;}
     if (!supabase || busy || !confirm('Опубликовать оформление Pr. Moon для всех пользователей?')) return;
     if (!(await saveDraft())) return;
     setBusy(true);
@@ -359,19 +366,19 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
               <span className="moon-admin-value">
                 <input type="range" min={selectedTextGroup === 'pageTitle' ? 20 : 7}
                   max={selectedTextGroup === 'pageTitle' ? 42 : 48} step={1}
-                  value={layout.textStyles[selectedTextGroup].size}
+                  value={currentTextStyle.size}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('size',Number(e.target.value))}/>
                 <input type="number" min={selectedTextGroup === 'pageTitle' ? 20 : 7}
                   max={selectedTextGroup === 'pageTitle' ? 42 : 48} step={1}
-                  value={layout.textStyles[selectedTextGroup].size}
+                  value={currentTextStyle.size}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('size',Number(e.target.value))}/>
                 <small>px</small>
               </span>
             </label>
             <label>Жирность
-              <select value={layout.textStyles[selectedTextGroup].weight}
+              <select value={currentTextStyle.weight}
                 disabled={loading || busy}
                 onChange={e=>changeTextStyle('weight',Number(e.target.value))}>
                 {[100,200,300,400,500,600,700,800,900].map(weight=>
@@ -379,7 +386,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
               </select>
             </label>
             <label>Шрифт
-              <select value={layout.textStyles[selectedTextGroup].family}
+              <select value={currentTextStyle.family}
                 disabled={loading || busy}
                 onChange={e=>changeTextStyle('family',e.target.value as MoonTextStyle['family'])}>
                 <option value="sans">Без засечек (как в PDF)</option>
@@ -388,7 +395,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
               </select>
             </label>
             <label>Выравнивание
-              <select value={layout.textStyles[selectedTextGroup].align}
+              <select value={currentTextStyle.align}
                 disabled={loading || busy}
                 onChange={e=>changeTextStyle('align',e.target.value as MoonTextStyle['align'])}>
                 <option value="left">Слева</option>
@@ -399,11 +406,11 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
             <label>Межбуквенный интервал
               <span className="moon-admin-value">
                 <input type="range" min={-2} max={6} step={0.1}
-                  value={layout.textStyles[selectedTextGroup].letterSpacing}
+                  value={currentTextStyle.letterSpacing}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('letterSpacing',Number(e.target.value))}/>
                 <input type="number" min={-2} max={6} step={0.1}
-                  value={layout.textStyles[selectedTextGroup].letterSpacing}
+                  value={currentTextStyle.letterSpacing}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('letterSpacing',Number(e.target.value))}/>
                 <small>px</small>
@@ -412,22 +419,22 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
             <label>Межстрочный интервал
               <span className="moon-admin-value">
                 <input type="range" min={1} max={2.5} step={0.05}
-                  value={layout.textStyles[selectedTextGroup].lineHeight}
+                  value={currentTextStyle.lineHeight}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('lineHeight',Number(e.target.value))}/>
                 <input type="number" min={1} max={2.5} step={0.05}
-                  value={layout.textStyles[selectedTextGroup].lineHeight}
+                  value={currentTextStyle.lineHeight}
                   disabled={loading || busy}
                   onChange={e=>changeTextStyle('lineHeight',Number(e.target.value))}/>
               </span>
             </label>
             <div className="moon-admin-format-buttons" role="group" aria-label="Быстрое форматирование">
-              <button type="button" aria-label="Жирный" title="Жирный" aria-pressed={layout.textStyles[selectedTextGroup].weight>=700}
-                disabled={loading||busy} onClick={()=>changeTextStyle('weight',layout.textStyles[selectedTextGroup].weight>=700?400:700)}><Bold size={17}/></button>
-              <button type="button" aria-label="Курсив" title="Курсив" aria-pressed={layout.textStyles[selectedTextGroup].italic}
-                disabled={loading||busy} onClick={()=>changeTextStyle('italic',!layout.textStyles[selectedTextGroup].italic)}><Italic size={17}/></button>
+              <button type="button" aria-label="Жирный" title="Жирный" aria-pressed={currentTextStyle.weight>=700}
+                disabled={loading||busy} onClick={()=>changeTextStyle('weight',currentTextStyle.weight>=700?400:700)}><Bold size={17}/></button>
+              <button type="button" aria-label="Курсив" title="Курсив" aria-pressed={currentTextStyle.italic}
+                disabled={loading||busy} onClick={()=>changeTextStyle('italic',!currentTextStyle.italic)}><Italic size={17}/></button>
               {([{align:'left',Icon:AlignLeft},{align:'center',Icon:AlignCenter},{align:'right',Icon:AlignRight}] as const).map(({align,Icon})=>
-                <button key={align} type="button" aria-label={align} aria-pressed={layout.textStyles[selectedTextGroup].align===align}
+                <button key={align} type="button" aria-label={align} aria-pressed={currentTextStyle.align===align}
                   disabled={loading||busy} onClick={()=>changeTextStyle('align',align)}><Icon size={17}/></button>)}
             </div>
             <button type="button" className="moon-admin-reset-typography"
