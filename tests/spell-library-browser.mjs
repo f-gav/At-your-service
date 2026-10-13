@@ -112,6 +112,31 @@ try{
   assert.equal(await aura.getByText('1 minute',{exact:true}).count(),0);
   assert.equal(await aura.getByText('1 object',{exact:true}).count(),0);
   await page.getByRole('button',{name:'Закрыть описание'}).click();
+  // Rank-two metadata regression: Foundry areas and saves must be Russian,
+  // including ordinary (basic) saves and reaction triggers.
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Звуковой взрыв');
+  assert.equal(await page.locator('.spell-result').count(),1);
+  await page.locator('.spell-result').first().click();
+  const noise=page.getByRole('dialog',{name:'Звуковой взрыв [Noise Blast]'});
+  await noise.waitFor();
+  await noise.getByText('10-футовый взрыв',{exact:true}).waitFor();
+  await noise.getByText('Спасбросок Стойкости',{exact:true}).waitFor();
+  assert.equal(await noise.getByText('fortitude',{exact:true}).count(),0);
+  assert.equal(await noise.locator('.spell-stat-grid').getByText(/\\{"type"/).count(),0);
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Паранойя');
+  await page.locator('.spell-result').first().click();
+  const paranoia=page.getByRole('dialog',{name:'Паранойя [Paranoia]'});
+  await paranoia.waitFor();
+  await paranoia.getByText('Спасбросок Воли',{exact:true}).waitFor();
+  assert.equal(await paranoia.getByText('will',{exact:true}).count(),0);
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Sudden Bolt');
+  await page.locator('.spell-result').first().click();
+  const bolt=page.getByRole('dialog',{name:'Внезапная молния [Sudden Bolt]'});
+  await bolt.waitFor();
+  await bolt.getByText('Обычный спасбросок Рефлекса',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Электрическая дуга');
   assert.equal(await page.locator('.spell-result').count(),1);
   const tile=page.locator('.spell-result').first();
