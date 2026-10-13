@@ -468,7 +468,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                     onChange={()=>updateWeaponById(weapon.id,{kind:value})}/>{value}</label>)}
                 </div>
                 <div className="moon-choice-row"><span>Урон:</span>
-                  {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'}]
+                  {[{value:'Slash',label:'Режущий'},{value:'Pierce',label:'Колющий'},{value:'Blunt',label:'Дробящий'},{value:'Other',label:'Иной'}]
                     .map(({value,label})=><label key={value}><input type="radio" disabled={editLocked}
                     name={'moon-weapon-damage-' + weapon.id} checked={(weapon.damage ?? '')===value}
                     onChange={()=>updateWeaponById(weapon.id,{damage:value})}/>{label}</label>)}
