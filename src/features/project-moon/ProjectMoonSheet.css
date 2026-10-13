@@ -156,9 +156,11 @@
 .moon-long-field { padding: 8px 11px; border: 1px solid var(--moon-line); min-width: 0; }
 .moon-lined .pf-rich-host { padding: 5px 1px; }
 .moon-lined .pf-rich-editable, .moon-note .pf-rich-editable {
-  line-height: 25px; min-height: inherit;
-  background-image: repeating-linear-gradient(to bottom,transparent 0,transparent 24px,#c1c6ca 24px,#c1c6ca 25px);
-  background-origin: content-box; background-size: 100% 25px;
+  min-height: inherit;
+  /* The rule spacing follows the rendered text line box, even with individual font overrides. */
+  background-image: repeating-linear-gradient(to bottom,transparent 0,transparent calc(1lh - 1px),#c1c6ca calc(1lh - 1px),#c1c6ca 1lh);
+  background-origin: content-box;
+  background-size: 100% 1lh;
 }
 .moon-long-field .pf-rich-host { min-height: 145px; font-size: 12px; }
 .moon-long-field .pf-rich-editable { padding: 4px 1px; }
