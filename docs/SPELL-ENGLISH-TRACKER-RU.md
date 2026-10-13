@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 72 заклинания 1-го круга (143 записи). **На русском:** 72, **только на английском:** 71.
+**Импортировано:** 71 чары и 96 заклинаний 1-го круга (167 записей). **На русском:** 83, **только на английском:** 84.
 
 ## Волна 001 — 9 английских
 
@@ -104,3 +104,20 @@
 15. **Forced Mercy** — `forced-mercy` · Remaster · Pathfinder Battlecry!
 16. **Forge** — `forge` · Legacy · Pathfinder Lost Omens Highhelm
 17. **Friendfetch** — `friendfetch` · Legacy · Pathfinder #169: Kindled Magic
+
+
+## Заклинания 1-го круга — волна 004 (13 английских)
+
+1. **Gentle Landing** — `gentle-landing` · Remaster · Pathfinder Player Core
+2. **Gloom Mantle** — `gloom-mantle` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+3. **Gravitational Pull** — `gravitational-pull` · Remaster · Pathfinder Impossible Magic
+4. **Gritty Wheeze** — `gritty-wheeze` · Legacy · Pathfinder Adventure: Threshold of Knowledge
+5. **Groom Companion** — `groom-companion` · Remaster · Pathfinder Impossible Magic
+6. **Helpful Steps** — `helpful-steps` · Legacy · Pathfinder Lost Omens Firebrands
+7. **Hippocampus Retreat** — `hippocampus-retreat` · Remaster · Pathfinder Howl of the Wild
+8. **Imprint Message** — `imprint-message` · Remaster · Pathfinder Player Core 2
+9. **Infuse Vitality** — `infuse-vitality` · Remaster · Pathfinder Player Core
+10. **Inkshot** — `inkshot` · Legacy · Pathfinder Kingmaker
+11. **Instant Pottery** — `instant-pottery` · Remaster · Pathfinder Rage of Elements
+12. **Interposing Earth** — `interposing-earth` · Remaster · Pathfinder Rage of Elements
+13. **Invisible Item** — `invisible-item` · Remaster · Pathfinder Player Core 2
