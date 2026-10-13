@@ -111,3 +111,7 @@
 .moon-admin-device-controls button[aria-pressed="true"]{background:#24372b;color:white;}
 .moon-admin-autosave{font-size:12px;color:#5b7661;}
 .moon-admin-preview{overscroll-behavior:contain;}
+
+.moon-admin-text-controls .moon-admin-value button{width:30px;height:30px;border:1px solid #cbd6cd;border-radius:6px;background:#fff;cursor:pointer;font-size:18px;line-height:1}
+.moon-admin-element-hint{font-size:12px;color:#536b59}
+.moon-admin-preview .moon-paper input:focus,.moon-admin-preview .moon-paper textarea:focus{outline:2px solid #5b8f73;outline-offset:1px}
