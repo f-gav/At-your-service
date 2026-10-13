@@ -4340,6 +4340,127 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-shocking-grasp",
+      "system": "pf2e",
+      "slug": "shocking-grasp",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "electricity",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-shockwave",
+      "system": "pf2e",
+      "slug": "shockwave",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-signal-skyrocket",
+      "system": "pf2e",
+      "slug": "signal-skyrocket",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "fire",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-sky-sight",
+      "system": "pf2e",
+      "slug": "sky-sight",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-sleep",
+      "system": "pf2e",
+      "slug": "sleep",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "incapacitation",
+        "manipulate",
+        "mental",
+        "sleep"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-snowball",
+      "system": "pf2e",
+      "slug": "snowball",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "cold",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-world-guide"
     }
   ],
   "versions": [
@@ -7326,6 +7447,85 @@
       "range": "touch",
       "targets": "1 club or staff you hold",
       "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-shocking-grasp-pf2e-legacy",
+      "spellId": "pf2e-shocking-grasp",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d12, and the persistent electricity damage increases by 1."
+      }
+    },
+    {
+      "id": "pf2e-shockwave-pf2e-remaster",
+      "spellId": "pf2e-shockwave",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "cone: 15 feet",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "rules": " (+1) The area increases by 5 feet (to a 20-foot cone at 2nd rank, and so on)."
+      }
+    },
+    {
+      "id": "pf2e-signal-skyrocket-pf2e-remaster",
+      "spellId": "pf2e-signal-skyrocket",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "1,000 feet",
+      "area": "burst: 30 feet",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "rules": " (+1) The sonic damage increases by 1d10."
+      }
+    },
+    {
+      "id": "pf2e-sky-sight-pf2e-remaster",
+      "spellId": "pf2e-sky-sight",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-sleep-pf2e-remaster",
+      "spellId": "pf2e-sleep",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 5 feet",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-snowball-pf2e-legacy",
+      "spellId": "pf2e-snowball",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "heightened": {
+        "rules": " (+1) The damage increases by 2d4."
+      }
     }
   ],
   "translations": [
@@ -9953,6 +10153,54 @@
       "name": "Shillelagh",
       "description": "The target grows vines and leaves, brimming with primal energy. The target becomes a +1 striking weapon while in your hands, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two. Additionally, as long as you are on your home plane, attacks you make with the target against aberrations, extraplanar creatures, and undead increase the number of weapon damage dice to three.\n\n\nSpell Effect: Shillelagh",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shocking-grasp",
+      "versionId": "pf2e-shocking-grasp-pf2e-legacy",
+      "locale": "en",
+      "name": "Shocking Grasp",
+      "description": "You shroud your hands in a crackling field of lightning. Make a melee spell attack roll. On a hit, the target takes 2d12 electricity damage. If the target is wearing metal armor or is made of metal, you gain a +1 circumstance bonus to your attack roll with shocking grasp, and the target also takes Damage ((1d4+((@item.level)-1))[persistent,electricity)] damage on a hit. On a critical hit, double the initial damage, but not the persistent damage.\n\n\n\nHeightened (+1) The damage increases by 1d12, and the persistent electricity damage increases by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shockwave",
+      "versionId": "pf2e-shockwave-pf2e-remaster",
+      "locale": "en",
+      "name": "Shockwave",
+      "description": "You create a wave of energy that ripples through the earth. Terrestrial creatures in the affected area must attempt a Reflex save to avoid stumbling as the shockwave shakes the ground.\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature is Off-Guard until the start of its next turn.\n\n\nFailure The creature falls Prone.\n\n\nCritical Failure As failure, plus the creature takes 1d6 bludgeoning damage.\n\n\n\nHeightened (+1) The area increases by 5 feet (to a 20-foot cone at 2nd rank, and so on).",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-signal-skyrocket",
+      "versionId": "pf2e-signal-skyrocket-pf2e-remaster",
+      "locale": "en",
+      "name": "Signal Skyrocket",
+      "description": "With a pinch of metallic powder and gunpowder, you call forth blistering red energy that shoots straight upward into the air and explodes, unleashing a crackling boom. Over time, you might even customize your own pattern and color for the skyrocket as you refine the spell.\n\n\nYou can't change the direction or distance of the rocket-it must go straight up, continuing up to the maximum range if possible. If the rocket explodes at its maximum height, the bright light can be seen up to 10 miles away, and the sound of the explosion can be heard up to 1 mile away under clear weather conditions.\n\n\nIf the rocket explodes in an enclosed space smaller than the full size of the burst, each creature in the area takes 1d10 sonic damage depending on the result of its Reflex save.\n\n\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature takes half damage.\n\n\nFailure The creature takes full damage and is Dazzled for 1 round.\n\n\nCritical Failure The creature takes double damage and is Blinded for 1 round.\n\n\n\n\n\nHeightened (+1) The sonic damage increases by 1d10.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sky-sight",
+      "versionId": "pf2e-sky-sight-pf2e-remaster",
+      "locale": "en",
+      "name": "Sky Sight",
+      "description": "You gaze up and see the sky clearly despite environmental conditions. You can see through weather and physical obstructions such as a forest canopy, building material, and cave walls. This can be used to spot flying creatures or navigate by the stars even when you otherwise couldn't see them.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sleep",
+      "versionId": "pf2e-sleep-pf2e-remaster",
+      "locale": "en",
+      "name": "Sleep",
+      "description": "Each creature in the area becomes drowsy, possibly nodding off. A creature that falls Unconscious from this spell doesn't fall Prone or release what it's holding. This spell doesn't prevent creatures from waking up due to a successful Perception check, limiting its utility in combat.\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature takes a –1 status penalty to Perception checks for 1 round.\n\n\nFailure The creature falls unconscious. If it's still unconscious after 1 minute, it wakes up automatically.\n\n\nCritical Failure The creature falls unconscious. If it's still unconscious after 1 hour, it wakes up automatically.\n\n\n\nHeightened (4th) The creatures fall unconscious for 1 round on a failure or 1 minute on a critical failure. They fall prone and release what they're holding, and they can't attempt Perception checks to wake up. When the duration ends, the creature is sleeping normally instead of automatically waking up.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-snowball",
+      "versionId": "pf2e-snowball-pf2e-legacy",
+      "locale": "en",
+      "name": "Snowball",
+      "description": "You throw a magically propelled and chilled ball of dense snow. The target takes 2d4 cold damage and potentially other effects, depending on the result of your spell attack roll.\n\n\n\n\n\nCritical Success The target takes double damage and a –10-foot status penalty to its Speeds for 1 round.\n\n\nSuccess The target takes full damage and a –5-foot status penalty to its Speeds for 1 round.\n\n\nFailure No effect.\n\n\n\n\n\nHeightened (+1) The damage increases by 2d4.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -10199,6 +10447,13 @@
       "name": "Pathfinder War of Immortals",
       "publisher": "Paizo",
       "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-lost-omens-world-guide",
+      "name": "Pathfinder Lost Omens World Guide",
+      "publisher": "Paizo",
+      "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
     }
   ]
