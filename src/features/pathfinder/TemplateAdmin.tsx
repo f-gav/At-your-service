@@ -51,6 +51,8 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   const [styleClipboard,setStyleClipboard]=useState<Partial<EditableField>|null>(null);
   const [lockedIds,setLockedIds]=useState<string[]>([]);
   const pageRef=useRef<HTMLDivElement>(null),drag=useRef<Drag|null>(null);
+  const latestFieldsRef=useRef('');
+  latestFieldsRef.current=JSON.stringify(fields);
   const active=fields.find(f=>f.id===selected);
   useEffect(()=>{
     if(!supabase)return;
@@ -83,10 +85,11 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   useEffect(()=>{
     if(loading||busy||!dirty||!supabase||!validFields(fields))return;
     const timer=window.setTimeout(async()=>{
+      const snapshot=JSON.stringify(fields);
       const {error}=await supabase.from('sheet_template_drafts').upsert({
         template_key:TEMPLATE_KEY,fields,updated_by:userId,updated_at:new Date().toISOString()
       },{onConflict:'template_key'});
-      if(!error)setDirty(false);
+      if(!error && latestFieldsRef.current===snapshot)setDirty(false);
       else setStatus('Автосохранение: '+error.message);
     },2200);
     return ()=>window.clearTimeout(timer);
