@@ -4461,6 +4461,121 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-world-guide"
+    },
+    {
+      "id": "pf2e-soothe",
+      "system": "pf2e",
+      "slug": "soothe",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "emotion",
+        "healing",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-spider-sting",
+      "system": "pf2e",
+      "slug": "spider-sting",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "poison"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-spirit-link",
+      "system": "pf2e",
+      "slug": "spirit-link",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "healing",
+        "manipulate",
+        "spirit"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-spirit-ward",
+      "system": "pf2e",
+      "slug": "spirit-ward",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-shining-kingdoms"
+    },
+    {
+      "id": "pf2e-stick-on",
+      "system": "pf2e",
+      "slug": "stick-on",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-summon-animal",
+      "system": "pf2e",
+      "slug": "summon-animal",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -7526,6 +7641,84 @@
       "heightened": {
         "rules": " (+1) The damage increases by 2d4."
       }
+    },
+    {
+      "id": "pf2e-soothe-pf2e-remaster",
+      "spellId": "pf2e-soothe",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 willing creature",
+      "duration": "1 minute",
+      "heightened": {
+        "rules": " (+1) The amount of healing increases by 1d10+4."
+      }
+    },
+    {
+      "id": "pf2e-spider-sting-pf2e-remaster",
+      "spellId": "pf2e-spider-sting",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-spirit-link-pf2e-remaster",
+      "spellId": "pf2e-spirit-link",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 willing creature",
+      "duration": "10 minutes",
+      "heightened": {
+        "rules": " (+1) The number of Hit Points transferred each time increases by 2."
+      }
+    },
+    {
+      "id": "pf2e-spirit-ward-pf2e-remaster",
+      "spellId": "pf2e-spirit-ward",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "resource": "spell-slot",
+      "range": "varies",
+      "targets": "1 creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-stick-on-pf2e-remaster",
+      "spellId": "pf2e-stick-on",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature or object",
+      "duration": "1 minute",
+      "requirements": "You have a free hand"
+    },
+    {
+      "id": "pf2e-summon-animal-pf2e-remaster",
+      "spellId": "pf2e-summon-animal",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
     }
   ],
   "translations": [
@@ -10200,6 +10393,54 @@
       "locale": "en",
       "name": "Snowball",
       "description": "You throw a magically propelled and chilled ball of dense snow. The target takes 2d4 cold damage and potentially other effects, depending on the result of your spell attack roll.\n\n\n\n\n\nCritical Success The target takes double damage and a –10-foot status penalty to its Speeds for 1 round.\n\n\nSuccess The target takes full damage and a –5-foot status penalty to its Speeds for 1 round.\n\n\nFailure No effect.\n\n\n\n\n\nHeightened (+1) The damage increases by 2d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-soothe",
+      "versionId": "pf2e-soothe-pf2e-remaster",
+      "locale": "en",
+      "name": "Soothe",
+      "description": "You grace the target's mind, boosting its mental defenses and healing its wounds. The target regains 1d10+4 Hit Points when you Cast the Spell and gains a +2 status bonus to saves against mental effects for the duration.\n\n\nSpell Effect: Soothe\n\n\n\n\n\nHeightened (+1) The amount of healing increases by 1d10+4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-spider-sting",
+      "versionId": "pf2e-spider-sting-pf2e-remaster",
+      "locale": "en",
+      "name": "Spider Sting",
+      "description": "You magically duplicate a spider's venomous sting. You deal 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target takes Damage (1d4[poison)] damage.\n\n\nFailure The target is afflicted with spider venom at stage 1.\n\n\nCritical Failure The target is afflicted with spider venom at stage 2.\n\n\n\n\n\nSpider Venom (poison)\n\n\nLevel 1\n\n\nMaximum Duration 4 rounds\n\n\nStage 1 1d4 poison damage and Enfeebled 1 (1 round)\n\n\nStage 2 1d4 poison damage and Enfeebled 2 (1 round)",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-spirit-link",
+      "versionId": "pf2e-spirit-link-pf2e-remaster",
+      "locale": "en",
+      "name": "Spirit Link",
+      "description": "You form a spiritual link with another creature, taking in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains 2 Hit Points (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve vitality or void energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.\n\n\n\n\n\nHeightened (+1) The number of Hit Points transferred each time increases by 2.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-spirit-ward",
+      "versionId": "pf2e-spirit-ward-pf2e-remaster",
+      "locale": "en",
+      "name": "Spirit Ward",
+      "description": "You draw on nearby spiritual energy or on echoes of the spirits you've invoked throughout your life to temporarily ward living flesh against dangerous spirits. You grant the target a +1 status bonus to saving throws against spells and effects caused by creatures that have the spirit trait and haunts. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n\n1 The spell has a range of touch.\n\n\n2 (concentrate) The spell has a range of 30 feet. If you target a living creature, the bonus increases to +2.\n\n\n3 (concentrate) You create a ward in a @Template[type:emanation|distance:30]. This targets you and all your allies in the burst.\n\n\nSpell Effect: Spirit Ward",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-stick-on",
+      "versionId": "pf2e-stick-on-pf2e-remaster",
+      "locale": "en",
+      "name": "Stick On",
+      "description": "The skin on your hand begins to ooze a strange adhesive that causes it to stick to a target. You and the target become inseparable for the spell's duration or until the target [[/act escape]]{Escapes}. If the creature is smaller than you, it's Immobilized and pulled along with you as you move. If the target is the same size as you, you're both pulled along with each other as either moves, but you both treat all spaces as difficult terrain. If the target is larger than you, you're immobilized and pulled along as the target moves. You can Dismiss this spell.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-animal",
+      "versionId": "pf2e-summon-animal-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Animal",
+      "description": "You summon a creature that has the animal trait and whose level is –1 to fight for you.\n\n\n\nHeightened As listed in the summon trait.",
       "translationStatus": "verified"
     }
   ],
