@@ -10666,6 +10666,141 @@
       "name": "Sure Strike",
       "description": "The next time you make an attack roll before the end of your turn, roll it twice and use the better result. The attack ignores circumstance penalties to the attack roll and any flat check required due to the target being Concealed or Hidden. You are then temporarily immune to sure strike for 10 minutes.\n\n\nSpell Effect: Sure Strike",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-share-lore",
+      "versionId": "pf2e-share-lore-pf2e-remaster",
+      "locale": "ru",
+      "name": "Поделиться знаниями",
+      "description": "Вы передаёте цели часть своих знаний по выбранной теме. Особенности передачи, длительность и усиление определяются описанием заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-shattering-gem",
+      "versionId": "pf2e-shattering-gem-pf2e-remaster",
+      "locale": "ru",
+      "name": "Раскалывающийся самоцвет",
+      "description": "Вокруг цели появляется магический самоцвет, поглощающий часть нанесённого ей урона. После разрушения самоцвета высвобождаются осколки, способные поразить находящихся поблизости существ; расчёт защиты и урона приведён в правилах.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-shillelagh",
+      "versionId": "pf2e-shillelagh-pf2e-legacy",
+      "locale": "ru",
+      "name": "Шилейла",
+      "description": "Деревянное оружие наполняется первобытной магией, становится оружием +1 с эффектом разящего, а против определённых противников наносит усиленный урон. Заклинание относится к Legacy.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-shocking-grasp",
+      "versionId": "pf2e-shocking-grasp-pf2e-legacy",
+      "locale": "ru",
+      "name": "Шоковое прикосновение",
+      "description": "Вы проводите рукопашную атаку заклинанием, нанося 2d12 электрического урона при попадании. Против металлической цели получаете бонус обстоятельства +1 к атаке и наносите продолжительный урон электричеством. Усиление (+1 круг) увеличивает урон. Версия Legacy.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-shockwave",
+      "versionId": "pf2e-shockwave-pf2e-remaster",
+      "locale": "ru",
+      "name": "Ударная волна",
+      "description": "Вы посылаете по земле ударную волну. Существа в области совершают спасбросок Рефлекса; при неудаче могут упасть ничком. Подробные результаты приведены в правилах.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-sleep",
+      "versionId": "pf2e-sleep-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сон",
+      "description": "Существа в области совершают спасбросок Воли. Критический успех: нет эффекта. Успех: штраф состояния –1 к Восприятию на 1 раунд. Провал: потеря сознания до 1 минуты. Критический провал: до 1 часа. Существо можно разбудить проверкой Восприятия; усиление до 4-го круга изменяет условия сна.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-snowball",
+      "versionId": "pf2e-snowball-pf2e-legacy",
+      "locale": "ru",
+      "name": "Снежок",
+      "description": "Вы запускаете плотный снежок и совершаете атаку заклинанием. При попадании цель получает 2d4 урона холодом и штраф состояния –5 футов к Скорости на 1 раунд; при критическом попадании урон удваивается, штраф возрастает до –10 футов. Усиление (+1 круг): урон увеличивается на 2d4. Версия Legacy.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-soothe",
+      "versionId": "pf2e-soothe-pf2e-remaster",
+      "locale": "ru",
+      "name": "Успокоение",
+      "description": "Вы исцеляете существу 1d10+4 ОЗ и предоставляете бонус состояния +2 к спасброскам против ментальных эффектов на время действия заклинания. Усиление (+1 круг): исцеление увеличивается на 1d10+4.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-spider-sting",
+      "versionId": "pf2e-spider-sting-pf2e-remaster",
+      "locale": "ru",
+      "name": "Паучье жало",
+      "description": "Вы поражаете цель магическим ядом. Результаты спасброска, последствия отравления и усиление определяются описанием заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-spirit-link",
+      "versionId": "pf2e-spirit-link-pf2e-remaster",
+      "locale": "ru",
+      "name": "Духовная связь",
+      "description": "Вы переносите свою жизненную силу в союзника. При сотворении и в начале каждого своего хода цель восстанавливает до 2 ОЗ, но вы теряете столько же. Перенос игнорирует временные ОЗ и работает на нежити. На время действия вы не получаете пользу от регенерации и быстрого исцеления. Усиление (+1 круг): передача увеличивается на 2 ОЗ.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-summon-animal",
+      "versionId": "pf2e-summon-animal-pf2e-remaster",
+      "locale": "ru",
+      "name": "Призыв животного",
+      "description": "Вы призываете животное уровня –1, которое сражается за вас. При усилении можно призывать существ более высокого уровня согласно общим правилам признака «призыв».",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-summon-construct",
+      "versionId": "pf2e-summon-construct-pf2e-remaster",
+      "locale": "ru",
+      "name": "Призыв конструкта",
+      "description": "Вы призываете конструкта уровня –1. Усиление заклинания повышает допустимый уровень призываемого существа согласно правилам признака «призыв».",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-summon-fey",
+      "versionId": "pf2e-summon-fey-pf2e-remaster",
+      "locale": "ru",
+      "name": "Призыв феи",
+      "description": "Вы призываете фею уровня –1. При усилении можно призывать существ более высокого уровня согласно правилам признака «призыв».",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-summon-plant-or-fungus",
+      "versionId": "pf2e-summon-plant-or-fungus-pf2e-remaster",
+      "locale": "ru",
+      "name": "Призыв растения или гриба",
+      "description": "Вы призываете растение или гриб соответствующего допустимого уровня, чтобы оно помогало вам. Усиление определяется правилами признака «призыв».",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-sure-strike",
+      "versionId": "pf2e-sure-strike-pf2e-remaster",
+      "locale": "ru",
+      "name": "Верный удар",
+      "description": "До конца вашего хода при следующей атаке бросьте кость дважды и выберите лучший результат. Эта атака игнорирует штрафы обстоятельства и чистые проверки из-за скрытой или спрятанной цели. После этого вы получаете временную невосприимчивость к заклинанию на 10 минут.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
     }
   ],
   "sources": [
