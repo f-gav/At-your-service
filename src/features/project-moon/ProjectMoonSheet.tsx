@@ -195,7 +195,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     if(!root)return;
     const selectors:Record<string,string>={
       pageKicker:'.moon-page-heading > span',pageTitle:'.moon-page-heading > h2',
-      sectionTitle:'.moon-section-title',fieldLabel:'.moon-field > span',
+      sectionTitle:'.moon-section-title',fieldLabel:'.moon-field > span',fieldValue:'.moon-field input',
       characterName:'.moon-name input',attributeLabel:'.moon-attribute-label',
       resourceTitle:'.moon-resource-title',cardTitle:'.moon-weapon-title',
       noteTitle:'.moon-notes-title',bodyText:'.moon-note textarea',
@@ -208,7 +208,11 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
         const nodes=paper.querySelectorAll<HTMLElement>(selector);
         nodes.forEach((node,index)=>{
           const override=layout.elementStyles?.[`moon-page-${page}|${group}:${index}`];
-          if(!override)return;
+          if(!override){
+            node.style.fontSize='';node.style.fontWeight='';node.style.fontStyle='';
+            node.style.letterSpacing='';node.style.lineHeight='';node.style.textAlign='';node.style.fontFamily='';
+            return;
+          }
           node.style.fontSize=override.size!==undefined?override.size+'px':'';
           node.style.fontWeight=override.weight!==undefined?String(override.weight):'';
           node.style.fontStyle=override.italic?'italic':'normal';
