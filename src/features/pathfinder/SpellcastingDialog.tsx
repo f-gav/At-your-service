@@ -7,6 +7,7 @@ import {
   SPELLCASTING_ABILITIES,SPELL_SLOT_RANKS,spellcastingTotals,
   spellAttackDisplay,spellSlotCountText,
 } from './rules-spellcasting';
+import {PF_SPELL_MODE,PF_SPELL_TRADITIONS,selectedTraditions} from './SpellGrimoire';
 import './SpellcastingDialog.css';
 
 type Props={
@@ -15,9 +16,12 @@ type Props={
   onRankChange:(rank:number)=>void;
   onClose:()=>void;
   disabled?:boolean;
+  onOpenGrimoire:()=>void;
 };
-export default function SpellcastingDialog({values,onChange,onRankChange,onClose,disabled=false}:Props){
+export default function SpellcastingDialog({values,onChange,onRankChange,onClose,onOpenGrimoire,disabled=false}:Props){
   const totals=spellcastingTotals(values);
+  const mode=values[PF_SPELL_MODE]==='text'?'text':'library';
+  const traditions=selectedTraditions(values[PF_SPELL_TRADITIONS]);
   const main=useRef<HTMLDivElement>(null);
   const closeCallback=useRef(onClose);
   closeCallback.current=onClose;
@@ -85,6 +89,21 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
           <p className="pf-spell-dialog-warning" role="status">
             Для полного расчёта выбери характеристику, умение и заполни уровень и модификатор характеристики на первой странице.
           </p>}
+        <h3>Режим заклинаний</h3>
+        <div className="pf-spell-mode-options" role="group" aria-label="Режим заклинаний">
+          <button type="button" aria-pressed={mode==='library'} disabled={disabled}
+            onClick={()=>onChange(PF_SPELL_MODE,'library')}>Библиотека</button>
+          <button type="button" aria-pressed={mode==='text'} disabled={disabled}
+            onClick={()=>onChange(PF_SPELL_MODE,'text')}>Текст</button>
+          <button type="button" disabled={disabled||mode==='text'} onClick={onOpenGrimoire}>Открыть гримуар</button>
+        </div>
+        <p className="pf-spell-dialog-footnote">В текстовом режиме выбранные заклинания скрыты на листе, но сохраняются в гримуаре. Ручные записи также сохраняются при переключении.</p>
+        <h3>Доступные магические традиции</h3>
+        <div className="pf-spell-traditions">
+          {([['arcane','Мистическая'],['divine','Сакральная'],['occult','Оккультная'],['primal','Первобытная']] as const).map(([id,label])=>
+            <label key={id}><input type="checkbox" disabled={disabled} checked={traditions.includes(id)}
+              onChange={e=>onChange(PF_SPELL_TRADITIONS,JSON.stringify(e.target.checked?[...traditions,id]:traditions.filter(v=>v!==id)))}/>{label}</label>)}
+        </div>
         <h3>Количество ячеек заклинаний</h3>
         <div className="pf-spell-dialog-slots">
           {Array.from({length:SPELL_SLOT_RANKS},(_,i)=>{
@@ -102,7 +121,7 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
         </div>
         <p className="pf-spell-dialog-footnote">
           Ячейки изменяются и на самом листе. Десятый круг включён отдельно, потому что в Pathfinder 2e он существует.
-          Режим карточек и библиотеку заклинаний добавим позже.
+          Режим библиотеки использует каталог Pathfinder 2e. Чары не расходуют ячейки заклинаний.
         </p>
       </div>
     </div>,document.body
