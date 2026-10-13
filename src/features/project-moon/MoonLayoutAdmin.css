@@ -94,3 +94,20 @@
 .moon-admin-format-buttons button[aria-pressed="true"]{background:#24372b;color:#fff;border-color:#24372b;}
 .moon-admin-quick-actions span{font-size:12px;min-width:40px;text-align:center;font-variant-numeric:tabular-nums;color:#53625a;}
 .moon-admin-preview-scale{transform-origin:top left;}
+
+/* Visual inspector: select text directly on the sheet, then edit it in the sidebar. */
+.moon-admin-preview .moon-page-heading > span,.moon-admin-preview .moon-page-heading > h2,
+.moon-admin-preview .moon-section-title,.moon-admin-preview .moon-field > span,
+.moon-admin-preview .moon-resource-title,.moon-admin-preview .moon-name input,
+.moon-admin-preview .moon-attribute-label,.moon-admin-preview .moon-weapon-title,
+.moon-admin-preview .moon-notes-title,.moon-admin-preview .moon-note textarea{cursor:crosshair;}
+.moon-admin-preview .moon-section-title:hover,.moon-admin-preview .moon-field > span:hover,
+.moon-admin-preview .moon-page-heading > h2:hover{outline:2px dashed #749780;outline-offset:3px;}
+.moon-admin-selection{border:1px solid #dce5de;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:9px;background:#f8faf8;margin:12px 0;}
+.moon-admin-selection strong{font-size:13px;color:#293b30;}
+.moon-admin-selection>div{display:flex;gap:8px;flex-wrap:wrap;}
+.moon-admin-selection button,.moon-admin-device-controls button{border:1px solid #ccd7cd;background:#fff;color:#263b2e;border-radius:8px;padding:7px 10px;font-size:12px;cursor:pointer;}
+.moon-admin-device-controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.moon-admin-device-controls button[aria-pressed="true"]{background:#24372b;color:white;}
+.moon-admin-autosave{font-size:12px;color:#5b7661;}
+.moon-admin-preview{overscroll-behavior:contain;}
