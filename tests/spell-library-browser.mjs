@@ -448,6 +448,9 @@ try{
   await preview.route('**/spell-library/pf2e.json',route=>route.fulfill({
     status:200,contentType:'application/json',body:JSON.stringify(fixture)
   }));
+  await preview.route('**/spell-library/pf2e-ays-rank2-cycle*.json',route=>route.fulfill({
+    status:200,contentType:'application/json',body:JSON.stringify({entries:[]})
+  }));
   await preview.goto(base+'#library',{waitUntil:'networkidle'});
   await preview.getByText('55 записей',{exact:true}).waitFor();
   assert.equal(await preview.locator('.spell-result').count(),50,'Catalog results are paginated');
