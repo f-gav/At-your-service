@@ -8579,6 +8579,96 @@
       "name": "Overselling Flourish",
       "description": "Trigger A creature damages you.\n\n\nYou make a grand spectacle out of getting hit. Enhanced by magic, this spectacle features sprays of blood, anguished screams, or other theatrics that appear to result from your foe's attack. The triggering creature must attempt a Will saving throw.\n\n\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature is thrown off by your display. The creature becomes Dazzled until the start of your turn.\n\n\nFailure The creature fully believes your performance, leaving itself open. The creature becomes dazzled and Off-Guard until the start of your turn.\n\n\nCritical Failure The creature is enraptured by the display. The creature uses its remaining actions to watch you in awe. It then remains dazzled and off-guard until the start of your turn.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-item-facade",
+      "versionId": "pf2e-item-facade-pf2e-remaster",
+      "locale": "ru",
+      "name": "Внешний вид предмета",
+      "description": "You make the target object look and feel as though it were in much better or worse physical condition. When you cast this spell, decide whether you want to make the object look decrepit or perfect. An item made to look decrepit appears Broken and shoddy. An intact item made to look better appears as though it's brand new and highly polished or well maintained. A Broken item appears to be intact and functional. Destroyed items can't be affected by this spell. A creature that Interacts with the item can attempt to disbelieve the illusion.\n\n\n\n\n\nHeightened (2nd) The duration is 24 hours.\n\n\nHeightened (3rd) The duration is unlimited.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-jump",
+      "versionId": "pf2e-jump-pf2e-remaster",
+      "locale": "ru",
+      "name": "Прыжок",
+      "description": "Your legs surge with strength, ready to leap high and far. You jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.\n\n\n\n\n\nHeightened (3rd) The range becomes touch, the target changes to one touched creature, and the duration becomes 1 minute, allowing the target to jump as described whenever it takes the Leap action.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-liberating-command",
+      "versionId": "pf2e-liberating-command-pf2e-remaster",
+      "locale": "ru",
+      "name": "Освобождающая команда",
+      "description": "You call out a liberating cry, urging an ally to break free of an effect that holds them in place. If the target is Grabbed, Immobilized, or Restrained, it can immediately use a reaction to attempt to [[/act escape]].",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-lock",
+      "versionId": "pf2e-lock-pf2e-remaster",
+      "locale": "ru",
+      "name": "Замок",
+      "description": "The target's latch mechanism clinks shut, held fast by unseen magical wards. When you magically lock a target, you set an Athletics and Thievery DC to open it equal to your spell DC or the base lock DC with a +4 status bonus, whichever is higher. Any key or combination that once opened a lock affected by this spell does not do so for the duration of the spell, though the key or combination does grant a +4 circumstance bonus to checks to open the door. If the target is opened, the spell ends. Assuming the target is not barred or locked in some additional way, you can unlock and open it with an Interact action during which you touch the target. This does not end the spell. You can Dismiss this spell at any time and from any distance.\n\n\n\n\n\nHeightened (2nd) The duration is unlimited, but you must expend 6 gp worth of precious metals as an additional cost.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-lose-the-path",
+      "versionId": "pf2e-lose-the-path-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сбить с пути",
+      "description": "Trigger A creature in range Strides\n\n\n\nYou surround a moving creature with lifelike illusions, shifting their perception of the terrain to subtly lead them off course. The target must attempt a Will save. Regardless of the result, the creature is immune to lose the path for 1 hour.\n\n\n\nSuccess The creature is unaffected.\n\n\nFailure The creature treats all squares as difficult terrain for its Stride.\n\n\nCritical Failure As failure, except that you determine where the target moves during the Stride, though you can't move it into hazardous terrain or to a place it can't stand.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-magic-stone",
+      "versionId": "pf2e-magic-stone-pf2e-legacy",
+      "locale": "ru",
+      "name": "Магический камень",
+      "description": "You pour vitality energy into ordinary stones, granting them temporary magical properties. You can target 1 non-magical stone or sling bullet for every action you use Casting this Spell. The stones must be unattended or carried by you or a willing ally. The stones become +1 striking disrupting Sling Bullets. Each stone can be used only once, after which it crumbles to dust.\n\n\nSpell Effect: Magic Stone",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-mending",
+      "versionId": "pf2e-mending-pf2e-remaster",
+      "locale": "ru",
+      "name": "Починка",
+      "description": "You repair the target item. You restore 5 Hit Points per spell rank to the target, potentially removing the Broken condition if this repairs it past the item's Broken Threshold. You can't replace lost pieces or repair an object that's been completely destroyed.\n\n\n\n\n\nHeightened (2nd) You can target a non-magical object of 1 Bulk or less.\n\n\nHeightened (3rd) You can target a non-magical object of 2 Bulk or less, or a magical object of 1 Bulk or less.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-mindlink",
+      "versionId": "pf2e-mindlink-pf2e-remaster",
+      "locale": "ru",
+      "name": "Мысленная связь",
+      "description": "You link your mind to the target's mind and mentally impart to that target an amount of information in an instant that could otherwise be communicated in 10 minutes.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-mud-pit",
+      "versionId": "pf2e-mud-pit-pf2e-remaster",
+      "locale": "ru",
+      "name": "Грязевая яма",
+      "description": "Thick, clinging mud covers the ground, 1 foot deep. The mud is difficult terrain.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
+    },
+    {
+      "spellId": "pf2e-necromancers-generosity",
+      "versionId": "pf2e-necromancers-generosity-pf2e-remaster",
+      "locale": "ru",
+      "name": "Щедрость некроманта",
+      "description": "You channel void energy through your magical connection to your undead minion to strengthen the creature. The target regains 1d8+4 Hit Points when you Cast the Spell, and it gains a +2 status bonus to saves against vitality effects for the duration.\n\n\nSpell Effect: Necromancer's Generosity\n\n\n\nHeightened (+1) The amount of healing increases by 1d8+4.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено по pf2e-ru-translation; описание временно сохранено на английском до отдельной русской адаптации."
     }
   ],
   "sources": [
