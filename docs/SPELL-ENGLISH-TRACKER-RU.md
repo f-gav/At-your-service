@@ -1,63 +1,51 @@
 # Pathfinder 2e — текущий реестр карточек без русского перевода
 
-Обновлено: 13 октября 2026. **259 всего: 213 RU / 46 EN** (включая 71 чары и 188 заклинаний 1-го круга).
+Обновлено: 13 октября 2026. **259 всего: 229 RU / 30 EN** (включая 71 чары и 188 заклинаний 1-го круга).
 
 Это **актуальный** список, полученный автоматически по локальным записям без `locale=ru`. Исторический перечень исходных 134 английских карточек сохранён в [архиве](./SPELL-ENGLISH-TRACKER-INITIAL-2026-10-13-RU.md).
 
-## Оставшиеся 46 карточек
+## Оставшиеся 30 карточек
 
-1. **Admonishing Ray** — `admonishing-ray` · Legacy · Pathfinder #158: Sixty Feet Under
-2. **Airburst** — `airburst` · Legacy · Pathfinder #169: Kindled Magic
-3. **Blessing of Vigor** — `blessing-of-vigor` · Remaster · Pathfinder Impossible Magic
-4. **Bone Shield** — `bone-shield` · Remaster · Pathfinder Impossible Magic
-5. **Buffeting Winds** — `buffeting-winds` · Legacy · Pathfinder Lost Omens Knights of Lastwall
-6. **Celestial Accord** — `celestial-accord` · Legacy · Pathfinder #183: Field of Maidens
-7. **Cinder Scribe** — `cinder-scribe` · Remaster · Pathfinder Impossible Magic
-8. **Connective Current** — `connective-current` · Remaster · Pathfinder Lost Omens High Seas
-9. **Cradle Aloft** — `cradle-aloft` · Remaster · Pathfinder Impossible Magic
-10. **Curse of Slippery Steps** — `curse-of-slippery-steps` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-11. **Cycle of Retribution** — `cycle-of-retribution` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
-12. **Decompose** — `decompose` · Remaster · Pathfinder Impossible Magic
-13. **Defended by Spirits** — `defended-by-spirits` · Remaster · Pathfinder Lost Omens Shining Kingdoms
-14. **Devil's Horseshoe** — `devils-horseshoe` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-15. **Dome of Tranquility** — `dome-of-tranquility` · Remaster · Pathfinder Impossible Magic
-16. **Elysian Whimsy** — `elysian-whimsy` · Legacy · Pathfinder #183: Field of Maidens
-17. **Equal Footing** — `equal-footing` · Remaster · Pathfinder Lost Omens Shining Kingdoms
-18. **Exchange Image** — `exchange-image` · Legacy · Pathfinder #147: Tomorrow Must Burn
-19. **Fashionista** — `fashionista` · Legacy · Pathfinder Lost Omens Firebrands
-20. **Fated Healing** — `fated-healing` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
-21. **Fishing Spot** — `fishing-spot` · Remaster · Pathfinder Impossible Magic
-22. **Flashy Disappearance** — `flashy-disappearance` · Legacy · Pathfinder Lost Omens Firebrands
-23. **Flense** — `flense` · Legacy · Pathfinder #186: Ghost King's Rage
-24. **Forge** — `forge` · Legacy · Pathfinder Lost Omens Highhelm
-25. **Friendfetch** — `friendfetch` · Legacy · Pathfinder #169: Kindled Magic
-26. **Gloom Mantle** — `gloom-mantle` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-27. **Gritty Wheeze** — `gritty-wheeze` · Legacy · Pathfinder Adventure: Threshold of Knowledge
-28. **Groom Companion** — `groom-companion` · Remaster · Pathfinder Impossible Magic
-29. **Helpful Steps** — `helpful-steps` · Legacy · Pathfinder Lost Omens Firebrands
-30. **Know Location** — `know-location` · Legacy · Pathfinder #194: Cult of the Cave Worm
-31. **Metal Merged** — `metal-merged` · Remaster · Pathfinder Impossible Magic
-32. **Nettleskin** — `nettleskin` · Legacy · Pathfinder Adventure: Threshold of Knowledge
-33. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
-34. **Personal Rain Cloud** — `personal-rain-cloud` · Legacy · Pathfinder #151: The Show Must Go On
-35. **Propelling Air Stream** — `propelling-air-stream` · Remaster · Pathfinder Impossible Magic
-36. **Purifying Icicle** — `purifying-icicle` · Legacy · Pathfinder Lost Omens Knights of Lastwall
-37. **Putrefy Food and Drink** — `putrefy-food-and-drink` · Legacy · Pathfinder #158: Sixty Feet Under
-38. **Reed Whistle** — `reed-whistle` · Remaster · Pathfinder #203: Shepherd of Decay
-39. **Rude Awakening** — `rude-awakening` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-40. **Scouring Sand** — `scouring-sand` · Legacy · Pathfinder #151: The Show Must Go On
-41. **Sky Sight** — `sky-sight` · Remaster · Pathfinder Impossible Magic
-42. **Spirit Ward** — `spirit-ward` · Remaster · Pathfinder Lost Omens Shining Kingdoms
-43. **Stick On** — `stick-on` · Remaster · Pathfinder Impossible Magic
-44. **Synchronize Steps** — `synchronize-steps` · Legacy · Pathfinder Lost Omens Knights of Lastwall
-45. **Turnip Lantern** — `turnip-lantern` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
-46. **Verminous Lure** — `verminous-lure` · Legacy · Pathfinder #169: Kindled Magic
+1. **Equal Footing** — `equal-footing` · Remaster · Pathfinder Lost Omens Shining Kingdoms
+2. **Exchange Image** — `exchange-image` · Legacy · Pathfinder #147: Tomorrow Must Burn
+3. **Fashionista** — `fashionista` · Legacy · Pathfinder Lost Omens Firebrands
+4. **Fated Healing** — `fated-healing` · Remaster · Pathfinder Season of Ghosts Hardcover Compilation
+5. **Fishing Spot** — `fishing-spot` · Remaster · Pathfinder Impossible Magic
+6. **Flashy Disappearance** — `flashy-disappearance` · Legacy · Pathfinder Lost Omens Firebrands
+7. **Flense** — `flense` · Legacy · Pathfinder #186: Ghost King's Rage
+8. **Forge** — `forge` · Legacy · Pathfinder Lost Omens Highhelm
+9. **Friendfetch** — `friendfetch` · Legacy · Pathfinder #169: Kindled Magic
+10. **Gloom Mantle** — `gloom-mantle` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+11. **Gritty Wheeze** — `gritty-wheeze` · Legacy · Pathfinder Adventure: Threshold of Knowledge
+12. **Groom Companion** — `groom-companion` · Remaster · Pathfinder Impossible Magic
+13. **Helpful Steps** — `helpful-steps` · Legacy · Pathfinder Lost Omens Firebrands
+14. **Know Location** — `know-location` · Legacy · Pathfinder #194: Cult of the Cave Worm
+15. **Metal Merged** — `metal-merged` · Remaster · Pathfinder Impossible Magic
+16. **Nettleskin** — `nettleskin` · Legacy · Pathfinder Adventure: Threshold of Knowledge
+17. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
+18. **Personal Rain Cloud** — `personal-rain-cloud` · Legacy · Pathfinder #151: The Show Must Go On
+19. **Propelling Air Stream** — `propelling-air-stream` · Remaster · Pathfinder Impossible Magic
+20. **Purifying Icicle** — `purifying-icicle` · Legacy · Pathfinder Lost Omens Knights of Lastwall
+21. **Putrefy Food and Drink** — `putrefy-food-and-drink` · Legacy · Pathfinder #158: Sixty Feet Under
+22. **Reed Whistle** — `reed-whistle` · Remaster · Pathfinder #203: Shepherd of Decay
+23. **Rude Awakening** — `rude-awakening` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+24. **Scouring Sand** — `scouring-sand` · Legacy · Pathfinder #151: The Show Must Go On
+25. **Sky Sight** — `sky-sight` · Remaster · Pathfinder Impossible Magic
+26. **Spirit Ward** — `spirit-ward` · Remaster · Pathfinder Lost Omens Shining Kingdoms
+27. **Stick On** — `stick-on` · Remaster · Pathfinder Impossible Magic
+28. **Synchronize Steps** — `synchronize-steps` · Legacy · Pathfinder Lost Omens Knights of Lastwall
+29. **Turnip Lantern** — `turnip-lantern` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+30. **Verminous Lure** — `verminous-lure` · Legacy · Pathfinder #169: Kindled Magic
 
 ## Первая волна авторской локализации — выполнена
 
 Переведены все оставшиеся **9 чар**: Ancient Dust, Artistic Recollection, Bramble Bush, Create Earthen Facsimile, Glowing Trail, Inside Ropes, Join Pasts, Musical Accompaniment, Torturous Trauma. Все они получили самостоятельное русское описание и отдельную метку **«Перевод от At your service!»**. Оригинальные английские названия и книги сохранены.
 
 [План семи волн](./SPELL-AYS-LOCALIZATION-WAVES-RU.md) · [Результаты первой волны](./SPELL-AYS-WAVE-01-RU.md).
+
+## Первый цикл локализации — выполнен (волны 2 и 3)
+
+Добавлены **16 авторских переводов** заклинаний 1-го круга, от **Admonishing Ray → «Вразумляющий луч»** до **Elysian Whimsy → «Причуда Элизиума»**. Все получили пометку **«Перевод от At your service!»**, отдельные русские описания и сохранённые английские оригиналы. Проверены результаты атаки, повышение круга и поддерживаемая длительность. [Отчёт о первом цикле](./SPELL-AYS-WAVES-02-03-RU.md).
 
 ## Проверка дополнительных источников (13 октября 2026)
 
