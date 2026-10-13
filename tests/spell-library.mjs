@@ -382,7 +382,7 @@ const app=source('../src/App.tsx');
 const page=source('../src/features/spell-library/SpellLibrary.tsx');
 assert.ok(app.includes('Персонажи</button>')&&app.includes('Библиотека</button>'));
 assert.ok(app.includes("<SpellLibrary onBack="));
-assert.ok(app.includes("window.location.hash==='#library'"),'Library supports direct hash links');
+assert.ok(app.includes("parseSiteRoute(window.location.hash)") && app.includes("siteRouteHash({kind:tab})"),'Library supports direct hash links');
 assert.ok(page.includes('spell-library/pf2e')===false,'System catalogs use independent dynamic paths');
 assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
