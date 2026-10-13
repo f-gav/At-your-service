@@ -236,14 +236,14 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       {spell.description
         ? <p className="spell-body-text">{author?author.body:spell.description}</p>
         : <p className="spell-missing-description">Описание пока не добавлено.</p>}
-      {(author?Object.keys(author.outcomes).length>0:Boolean(rules.outcomes&&Object.keys(rules.outcomes).length>0))&&<div className="spell-outcomes">
-        {Object.entries(author?author.outcomes:rules.outcomes||{}).map(([key,value])=><p key={key}><b>{({
+      {(author&&Object.keys(author.outcomes).length>0||Boolean(rules.outcomes&&Object.keys(rules.outcomes).length>0))&&<div className="spell-outcomes">
+        {Object.entries(author&&Object.keys(author.outcomes).length>0?author.outcomes:rules.outcomes||{}).map(([key,value])=><p key={key}><b>{({
           criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'
         } as Record<string,string>)[key]||key}:</b> {value}</p>)}
       </div>}
-      {(author?author.heightened.length>0:Boolean(rules.heightened&&Object.keys(rules.heightened).length>0))&&<section className="spell-heightened">
+      {(Boolean(author?.heightened.length)||Boolean(rules.heightened&&Object.keys(rules.heightened).length>0))&&<section className="spell-heightened">
         <h3>{spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
-        {author?author.heightened.map(({label,text})=><p key={label}><b>{label}:</b> {text}</p>):Object.entries(rules.heightened||{}).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
+        {author?.heightened.length?author.heightened.map(({label,text})=><p key={label}><b>{label}:</b> {text}</p>):Object.entries(rules.heightened||{}).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
     </section>
     <section className="spell-availability" aria-label="Доступность заклинания">
