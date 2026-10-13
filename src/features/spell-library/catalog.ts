@@ -52,6 +52,8 @@ export type SpellTranslation = {
   description?:string;
   aliases?:string[];
   translationStatus?:'verified'|'draft'|'missing';
+  /** Provenance for self-authored localizations, distinct from review status. */
+  translationOrigin?:'at-your-service';
   translatorCredit?:string;
 };
 export type SpellSource = {
@@ -91,6 +93,7 @@ export type SpellView = {
   locale:'ru'|'en';
   translated:boolean;
   translationStatus?:'verified'|'draft'|'missing';
+  translationOrigin?:'at-your-service';
   spell:SpellIdentity;
   rules:SpellRulesVersion;
   source?:SpellSource;
@@ -190,6 +193,7 @@ export function toSpellViews(catalog:SpellCatalog,edition:string):SpellView[]{
       englishName:english?.name||spell.slug,
       summary:selected?.summary||'',description:selected?.description||'',
       locale:selected?.locale||'en',translated:Boolean(russian),translationStatus:selected?.translationStatus,
+      translationOrigin:selected?.translationOrigin,
       source:sources.get(rules.sourceId??spell.sourceId),
     }];
   });
