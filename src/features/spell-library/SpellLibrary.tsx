@@ -66,6 +66,9 @@ function localizeRuleValue(value:string,_field:'time'|'range'|'targets'|'area'|'
     'until your next daily preparations':'до следующей ежедневной подготовки',
     "until the end of the target's next turn":'до конца следующего хода цели',
     '1 cubic foot':'1 кубический фут',
+    '1 to 3':'1–3 действия',
+    '1 or more rounds (see below)':'1 или более раундов (см. описание)',
+    '1 unattended metallic object up to 5 Bulk':'1 бесхозный металлический предмет массой до 5 единиц',
   };
   if(exact[source])return exact[source];
   const timeMatch=source.match(/^(\d+)\s+(minute|minutes|hour|hours|round|rounds|day|days)$/i);
