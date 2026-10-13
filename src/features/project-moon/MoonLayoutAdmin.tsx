@@ -39,6 +39,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   const [restore, setRestore] = useState('');
   const dirty = saved !== JSON.stringify(layout);
   const [zoom,setZoom]=useState(100);
+  const [numberDrafts,setNumberDrafts]=useState<Record<string,string>>({});
   const [undo,setUndo]=useState<MoonLayout[]>([]);
   const [redo,setRedo]=useState<MoonLayout[]>([]);
   const checkpoint=()=>{setUndo(old=>[...old.slice(-49),layout]);setRedo([]);};
@@ -198,8 +199,15 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
                     <input type="number" min={isMoonPortraitShift(option.key) ? undefined : option.min}
                       max={isMoonPortraitShift(option.key) ? undefined : option.max}
                       step={option.step || 1}
-                      aria-label={option.title} disabled={busy || loading} value={layout[option.key] as number}
-                      onChange={e => change(option.key,e.target.value)}/>
+                      aria-label={option.title} disabled={busy || loading}
+                      value={numberDrafts[option.key] ?? String(layout[option.key])}
+                      onChange={e => setNumberDrafts(old=>({...old,[option.key]:e.target.value}))}
+                      onBlur={()=>{
+                        const raw=numberDrafts[option.key];
+                        if(raw!==undefined && raw.trim() && Number.isFinite(Number(raw)))change(option.key,raw);
+                        setNumberDrafts(old=>{const next={...old};delete next[option.key];return next;});
+                      }}
+                      onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}}/>
                     <small>{option.unit}</small>
                   </span>}
         </label>
