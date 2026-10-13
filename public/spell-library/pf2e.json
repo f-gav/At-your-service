@@ -4225,6 +4225,121 @@
       ],
       "rarity": "rare",
       "sourceId": "src-pathfinder-kingmaker"
+    },
+    {
+      "id": "pf2e-scouring-sand",
+      "system": "pf2e",
+      "slug": "scouring-sand",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-151-the-show-must-go-on"
+    },
+    {
+      "id": "pf2e-seashell-of-stolen-sound",
+      "system": "pf2e",
+      "slug": "seashell-of-stolen-sound",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "sonic"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-share-lore",
+      "system": "pf2e",
+      "slug": "share-lore",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-shattering-gem",
+      "system": "pf2e",
+      "slug": "shattering-gem",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-shielded-arm",
+      "system": "pf2e",
+      "slug": "shielded-arm",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "metal"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-shillelagh",
+      "system": "pf2e",
+      "slug": "shillelagh",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "plant"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
     }
   ],
   "versions": [
@@ -7129,6 +7244,88 @@
       "heightened": {
         "rules": " (+1) The base damage increases by 1d8 and the persistent fire damage on a critical hit increases by 2."
       }
+    },
+    {
+      "id": "pf2e-scouring-sand-pf2e-legacy",
+      "spellId": "pf2e-scouring-sand",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "area": "burst: 10 feet",
+      "duration": "1 minute",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "rules": " (3rd) Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.\n\n\nHeightened (6th) As the 3rd-rank version, except the range is 120 feet and the area is a 20-foot burst."
+      }
+    },
+    {
+      "id": "pf2e-seashell-of-stolen-sound-pf2e-remaster",
+      "spellId": "pf2e-seashell-of-stolen-sound",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "until your next daily preparations"
+    },
+    {
+      "id": "pf2e-share-lore-pf2e-remaster",
+      "spellId": "pf2e-share-lore",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 minute"
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "up to 3 creatures",
+      "duration": "10 minutes",
+      "heightened": {
+        "rules": " (3rd) The duration of the spell is 1 hour, and you can target up to five creatures.\n\n\nHeightened (5th) The duration of the spell is 8 hours, you can target up to five creatures, and you can share up to two Lore skills in which you're trained."
+      }
+    },
+    {
+      "id": "pf2e-shattering-gem-pf2e-remaster",
+      "spellId": "pf2e-shattering-gem",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "Basic reflex save",
+      "heightened": {
+        "rules": " (+1) The gem has 5 additional Hit Points, and the damage dealt by its detonation increases by 1d8."
+      }
+    },
+    {
+      "id": "pf2e-shielded-arm-pf2e-remaster",
+      "spellId": "pf2e-shielded-arm",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature",
+      "duration": "1 minute or until expended"
+    },
+    {
+      "id": "pf2e-shillelagh-pf2e-legacy",
+      "spellId": "pf2e-shillelagh",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 club or staff you hold",
+      "duration": "1 minute"
     }
   ],
   "translations": [
@@ -9708,6 +9905,54 @@
       "description": "Заклинание слегка склоняет удачу в вашу пользу при азартной игре. Его возможности и ограничения определяются оригинальными правилами.",
       "translationStatus": "draft",
       "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-scouring-sand",
+      "versionId": "pf2e-scouring-sand-pf2e-legacy",
+      "locale": "en",
+      "name": "Scouring Sand",
+      "description": "You blast the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract Entangling Flora and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n\n\n\n\nSuccess The creature is unaffected.\n\n\nFailure The creature is Dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n\n\nCritical Failure As failure, but the creature is also Blinded for its next action.\n\n\n\n\n\nHeightened (3rd) Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.\n\n\nHeightened (6th) As the 3rd-rank version, except the range is 120 feet and the area is a 20-foot burst.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-seashell-of-stolen-sound",
+      "versionId": "pf2e-seashell-of-stolen-sound-pf2e-remaster",
+      "locale": "en",
+      "name": "Seashell of Stolen Sound",
+      "description": "Trigger A creature within range begins to make a sound.\n\n\nYou store a sound in a seashell to use as you will: the last words of a loved one, a dragon's mighty roar, the compromising conversation between two powerful diplomats, or even something stranger and secret. As part of Casting this Spell, you must present an unbroken seashell. When you Cast the Spell, magic swirls around the triggering creature, copying the sounds it makes, as well as any background noise, for the next minute and storing them in the seashell.\n\n\nYou or another creature can then play the sound back from the seashell during the spell's duration by Interacting with the seashell, but once the sounds have been played back, the seashell shatters, and the spell ends.\n\n\nAs normal for spells with a duration until your next daily preparations, you can choose to continue expending the spell slot to prolong the duration of an existing seashell of stolen sound for another day. While the spell faithfully copies the sounds around the target, it doesn't reproduce any special auditory or sonic effects of the sound.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-share-lore",
+      "versionId": "pf2e-share-lore-pf2e-remaster",
+      "locale": "en",
+      "name": "Share Lore",
+      "description": "You share your knowledge with the touched creatures. Choose one Lore skill in which you're trained. The targets become trained in that Lore skill for the duration of the spell.\n\n\n\nHeightened (3rd) The duration of the spell is 1 hour, and you can target up to five creatures.\n\n\nHeightened (5th) The duration of the spell is 8 hours, you can target up to five creatures, and you can share up to two Lore skills in which you're trained.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shattering-gem",
+      "versionId": "pf2e-shattering-gem-pf2e-remaster",
+      "locale": "en",
+      "name": "Shattering Gem",
+      "description": "A large gem floats around the target in an erratic pattern. The gem has 5 Hit Points. Each time a creature Strikes the target, the target attempts a @Check[flat|dc:11|showDC:all]. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to the target. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing 1d8 slashing damage (basic Reflex save) to the creature that destroyed it, as long as that creature is within 10 feet of the target.\n\n\n\nHeightened (+1) The gem has 5 additional Hit Points, and the damage dealt by its detonation increases by 1d8.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shielded-arm",
+      "versionId": "pf2e-shielded-arm-pf2e-remaster",
+      "locale": "en",
+      "name": "Shielded Arm",
+      "description": "Reinforcing veins of ore run through the target's arm, letting it ward off blows with its bare skin. It can use the Raise a Shield action to instead raise its arm, gaining a +2 circumstance bonus to AC. It can Shield Block with its Raised arm as well; when it does, the target reduces the damage as if it had a shield with Hardness 4 and 15 Hit Points. This shield doesn't have a Broken Threshold, and the spell ends if the shield's Hit Points are expended.\n\n\nThis spell doesn't modify the target's unarmed attacks and can't be used to make a shield bash Strike. Casting or coming under the effects of this spell also counts as using a metallic item with regards to anathema.\n\n\n\n\n\nHeightened (+2) The Hardness increases by 4, and the Hit Points increase by 15.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-shillelagh",
+      "versionId": "pf2e-shillelagh-pf2e-legacy",
+      "locale": "en",
+      "name": "Shillelagh",
+      "description": "The target grows vines and leaves, brimming with primal energy. The target becomes a +1 striking weapon while in your hands, gaining a +1 item bonus to attack rolls and increasing the number of weapon damage dice to two. Additionally, as long as you are on your home plane, attacks you make with the target against aberrations, extraplanar creatures, and undead increase the number of weapon damage dice to three.\n\n\nSpell Effect: Shillelagh",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
