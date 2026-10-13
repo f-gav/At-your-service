@@ -186,8 +186,10 @@ try{
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
-  assert.equal(await page.locator('.spell-result').count(),23,'All 23 rank-two spell cards await Russian translations');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'No untranslated spells remain, so pagination is absent');
+  assert.equal(await page.locator('.spell-result').count(),8,
+    'Only the eight rank-two spells without verified Russian translations remain in the English filter');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,
+    'Eight untranslated rank-two spells fit on a single page');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
