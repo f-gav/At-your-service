@@ -173,7 +173,7 @@ try{
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 English-only cards render');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),56,'Remaining English-only filter includes cantrips and rank 1');
+  assert.equal(await page.locator('.spell-result').count(),55,'Remaining English-only filter includes cantrips and rank 1');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
@@ -198,6 +198,17 @@ try{
   await page.locator('.spell-result').first().click();
   await page.getByRole('dialog',{name:'500 жаб [500 Toads]'}).waitFor();
   await page.getByText('Редкость: Редкое',{exact:false}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Briny Bolt');
+  assert.equal(await page.locator('.spell-result').count(),1,'English original still finds the translated card');
+  await page.locator('.spell-result').first().click();
+  const brinyPopup=page.getByRole('dialog',{name:'Солёный снаряд [Briny Bolt]'});
+  await brinyPopup.waitFor();
+  await brinyPopup.getByText('Перевод от At your service!',{exact:true}).waitFor();
+  await brinyPopup.getByText('Критический успех:',{exact:true}).waitFor();
+  await brinyPopup.getByText('Повышенное',{exact:true}).waitFor();
+  assert.ok(await brinyPopup.getByText('растерянность на 1 минуту',{exact:false}).isVisible(),
+    'Localized Dazzled is correctly distinguished from Blinded');
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   assert.equal(await page.locator('.spell-result').count(),50,'Rank one restored with first 50 cards after clearing search');
