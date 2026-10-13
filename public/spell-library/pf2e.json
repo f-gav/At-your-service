@@ -13933,6 +13933,126 @@
       "name": "Blood Runs Cold",
       "description": "You chill the blood in the target's veins. The target takes 1d6 persistent cold damage with a Fortitude save.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half the persistent cold damage.\n\nFailure The target takes the full persistent cold damage and is @UUID[Compendium.pf2e.conditionitems.Item.Slowed]{Slowed 1} for 1 round.\n\nCritical Failure The target takes double the persistent cold damage and is slowed 1 until the persistent cold damage ends.\n\nHeightened (+2) Increase the persistent cold damage by 1d6.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-acid-arrow",
+      "versionId": "pf2e-acid-arrow-pf2e-legacy",
+      "locale": "ru",
+      "name": "Кислотная Стрела",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-acid-grip",
+      "versionId": "pf2e-acid-grip-pf2e-remaster",
+      "locale": "ru",
+      "name": "Кислотная хватка",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-albatross-curse",
+      "versionId": "pf2e-albatross-curse-pf2e-remaster",
+      "locale": "ru",
+      "name": "Проклятие альбатроса",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-animal-form",
+      "versionId": "pf2e-animal-form-pf2e-remaster",
+      "locale": "ru",
+      "name": "Форма животного",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-animal-messenger",
+      "versionId": "pf2e-animal-messenger-pf2e-remaster",
+      "locale": "ru",
+      "name": "Животное-посланник",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-animated-assault",
+      "versionId": "pf2e-animated-assault-pf2e-remaster",
+      "locale": "ru",
+      "name": "Телекинетический шторм",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-animus-mine",
+      "versionId": "pf2e-animus-mine-pf2e-remaster",
+      "locale": "ru",
+      "name": "Ментальная мина",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-ash-cloud",
+      "versionId": "pf2e-ash-cloud-pf2e-remaster",
+      "locale": "ru",
+      "name": "Пепельное облако",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-augury",
+      "versionId": "pf2e-augury-pf2e-remaster",
+      "locale": "ru",
+      "name": "Гадание",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-banishing-touch",
+      "versionId": "pf2e-banishing-touch-pf2e-remaster",
+      "locale": "ru",
+      "name": "Изгоняющее касание",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-befitting-attire",
+      "versionId": "pf2e-befitting-attire-pf2e-remaster",
+      "locale": "ru",
+      "name": "Подходящий наряд",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-blazing-armory",
+      "versionId": "pf2e-blazing-armory-pf2e-remaster",
+      "locale": "ru",
+      "name": "Пылающий арсенал",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-blazing-blade",
+      "versionId": "pf2e-blazing-blade-pf2e-legacy",
+      "locale": "ru",
+      "name": "Пылающий клинок",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-blazing-bolt",
+      "versionId": "pf2e-blazing-bolt-pf2e-remaster",
+      "locale": "ru",
+      "name": "Всполох пламени",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
+    },
+    {
+      "spellId": "pf2e-blistering-invective",
+      "versionId": "pf2e-blistering-invective-pf2e-remaster",
+      "locale": "ru",
+      "name": "Обжигающее сквернословие",
+      "summary": "Русское название сверено с модулем PF2.ru для Foundry; описание пока доступно в английском оригинале.",
+      "translationStatus": "draft"
     }
   ],
   "sources": [
