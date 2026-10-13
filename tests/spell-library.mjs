@@ -246,7 +246,7 @@ assert.equal(liveViews.find(v=>v.spell.slug==='gouging-claw')?.rules.edition,'pf
 assert.ok(liveViews.find(v=>v.spell.slug==='gouging-claw')?.description.includes('2d6'));
 assert.ok(liveViews.find(v=>v.spell.slug==='live-wire')?.description.includes('электрический'));
 assert.ok(liveViews.find(v=>v.spell.slug==='ray-of-frost')?.rules.edition==='pf2e-legacy');
-assert.equal(liveViews.find(v=>v.spell.slug==='read-aura')?.rules.cast?.time,'1 minute');
+assert.equal(liveViews.find(v=>v.spell.slug==='read-aura')?.rules.cast?.time,'1 минута');
 assert.ok(liveViews.every(v=>v.description.length>50),'Every card retains an original or independent Russian rules summary');
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('PF2.ru, найдено через модуль')).length,77);
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('Pathfinder 2E RU Translation (Legacy')).length,1);
@@ -293,4 +293,4 @@ assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
-console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (125 RU/134 EN), tracker, Legacy, D&D untouched');
+console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (203 RU/56 EN), tracker, Legacy, D&D untouched');
