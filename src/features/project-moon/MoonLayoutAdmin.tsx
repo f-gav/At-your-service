@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
 import { ArrowLeft, Check, RotateCcw, Save, UploadCloud, Bold, Italic, AlignLeft, AlignCenter, AlignRight, Undo2, Redo2, ZoomIn, ZoomOut } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import type { Character } from '../../lib/models';
@@ -103,9 +104,9 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   }, [dirty]);
 
   const currentTextStyle = selectedElement
-    ? {...currentTextStyle,...layout.elementStyles[selectedElement]}
+    ? {...layout.textStyles[selectedTextGroup],...layout.elementStyles[selectedElement]}
     : layout.textStyles[selectedTextGroup];
-  const pickElement=(event:React.MouseEvent<HTMLDivElement>)=>{
+  const pickElement=(event:MouseEvent<HTMLDivElement>)=>{
     const target=event.target as HTMLElement;
     const paper=target.closest<HTMLElement>('.moon-paper');
     if(!paper)return;
@@ -348,7 +349,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
           <p>Выбери тип текста на листе и настрой его внешний вид. Изменения сразу видны в предпросмотре и не меняют содержимое персонажей.</p>
           <label>Какой текст редактировать?
             <select value={selectedTextGroup}
-              onChange={e=>setSelectedTextGroup(e.target.value as MoonTextGroup)}
+              onChange={e=>{setSelectedElement('');setSelectedTextGroup(e.target.value as MoonTextGroup);}}
               disabled={loading || busy}>
               {MOON_TEXT_GROUPS.map(group=><option key={group.key} value={group.key}>{group.title}</option>)}
             </select>
