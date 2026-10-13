@@ -68,7 +68,7 @@ function localizeRuleValue(value:string,field:'time|'range'|'targets'|'area'|'sa
       const key=match[2].toLowerCase();
       const name=key.startsWith('reflex')||key.startsWith('рефлекс')?'Рефлекса':
         key.startsWith('fortitude')||key.startsWith('стойкост')?'Стойкости':'Воли';
-      return (match[1]?'Обычный ':'')+'спасбросок '+name;
+      return (match[1]?'Обычный спасбросок ':'Спасбросок ')+name;
     }
   }
   const exact:Record<string,string>={
@@ -140,7 +140,7 @@ function cardCasting(spell:SpellView){
 }
 function cardDefense(spell:SpellView){
   const save=localizeRuleValue(spell.rules.savingThrow||'','savingThrow');
-  const short=save.includes('Рефлекс')?'Рефлекс':save.includes('Стойкость')?'Стойкость':
+  const short=save.includes('Рефлекс')?'Рефлекс':save.includes('Стойкост')?'Стойкость':
     save.includes('Воли')?'Воля':save.includes('КБ')?'КБ':save||'—';
   return {short,long:'Защита: '+(save||'не указана')};
 }
