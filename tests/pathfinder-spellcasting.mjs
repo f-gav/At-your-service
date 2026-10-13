@@ -72,6 +72,23 @@ assert.equal(reloaded.spellcasting_key_ability,'int');
 assert.equal(reloaded.spell_slots_2,'3');
 assert.equal(reloaded.spell_slots_10,'1');
 assert.equal(reloaded.old_custom_key,'still-here');
+const spellSelections=JSON.stringify([{id:'original-spell',prepared:true},{id:'extra-spell',prepared:false}]);
+const withLibrary=initialSheetValues(persistSheetValues(before,{
+  ...loaded,pf_spell_display_mode:'library',pf_spell_library_selection:spellSelections,
+  pf_spell_available_classes:'["cleric","druid"]',
+  pf_spell_available_traditions:'["divine","primal"]',
+},'Грацин'),'Грацин');
+assert.equal(withLibrary.pf_spell_library_selection,spellSelections,
+  'Library spell selections survive a sheet save and reload');
+assert.equal(withLibrary.pf_spell_available_classes,'["cleric","druid"]');
+assert.equal(withLibrary.pf_spell_available_traditions,'["divine","primal"]');
+const textMode=initialSheetValues(persistSheetValues(before,{
+  ...withLibrary,pf_spell_display_mode:'text',
+},'Грацин'),'Грацин');
+assert.equal(textMode.pf_spell_library_selection,spellSelections,
+  'Text mode hides library spells without deleting their selections');
+assert.equal(textMode.pf_spell_display_mode,'text');
+
 assert.equal(stored.other,'keep');
 const oldManual=initialSheetValues({pathfinderSheet:{spell_attack:'+7',spell_dc:'17'}},'Old');
 assert.deepEqual(calculateSpellcasting(oldManual),{},'Old manual sheet unaffected until a key ability is selected');
