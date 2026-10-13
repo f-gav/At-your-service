@@ -514,3 +514,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .site-tabs-mobile button.is-active::after {content:'';position:absolute;height:2px;bottom:0;left:0;right:0;background:#345b40;}
   .site-tabs-mobile button:disabled {opacity:.45;}
 }
+
+/* Owner-only editor shortcut and compact, consistent mobile menu */
+.admin-entry-button {display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-size:12px;padding:0 13px;}
+@media(max-width:650px){
+  .mobile-menu-panel{gap:10px;padding:16px max(17px,calc((100vw - 600px)/2));box-shadow:0 14px 30px #18211c16;}
+  .mobile-menu-panel button,.mobile-menu-panel .mobile-menu-action{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;min-height:45px;padding:11px 14px;border:0;border-radius:9px;
+    background:#202627;color:white;font:600 13px inherit;text-decoration:none;
+    text-align:center;box-sizing:border-box;
+  }
+  .mobile-menu-panel .mobile-menu-action{font-size:13px;font-weight:600;}
+  .mobile-account-row{display:flex;align-items:center;gap:11px;min-height:45px;}
+  .mobile-account-row .mobile-account-identity{flex:none;}
+  .mobile-account-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:#4a5751;}
+  .mobile-menu-panel .mobile-signout{width:auto;min-height:40px;padding:9px 12px;flex:none;}
+}
