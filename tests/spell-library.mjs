@@ -270,8 +270,21 @@ assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('растерянно
 assert.ok(briny?.rules.outcomes?.success?.includes('слепоту на 1 раунд'));
 assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('но не от растерянности'));
 assert.equal(briny?.rules.heightened?.['+1'],'Урон увеличивается на 2d6.');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,56,
-  'All 56 independently translated cards must retain first-party attribution');
+const authoredRankOne=liveViews.filter(v=>v.spell.rank<=1&&v.translationOrigin==='at-your-service');
+const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
+assert.equal(authoredRankOne.length,56,
+  'All 56 independently translated cantrips and rank-one cards retain AYS attribution');
+assert.equal(authoredRankTwo.length,15,
+  'All 15 fully localized rank-two cards retain AYS attribution');
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,71,
+  'The first-party translation total includes both the original and rank-two waves');
+for(const card of authoredRankTwo){
+  assert.equal(card.locale,'ru','Authored rank-two card must be in Russian: '+card.spell.slug);
+  assert.ok(card.description.length>150,'Authored rank-two card needs a substantive translated description: '+card.spell.slug);
+  assert.ok(card.englishName&&card.englishName!==card.name,'Keep the original English spell name: '+card.spell.slug);
+  const credit=wave.translations.find(t=>t.spellId===card.id&&t.locale==='ru')?.translatorCredit;
+  assert.ok(credit?.includes('Перевод от At your service!'),'Explicit AYS translator credit required: '+card.spell.slug);
+}
 const wave1Names={
   'ancient-dust':'Древний прах',
   'artistic-recollection':'Художественное воспоминание',
