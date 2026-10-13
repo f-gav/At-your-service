@@ -86,3 +86,11 @@
   line-height:1.4;
   justify-content:center;
 }
+
+/* Compact formatting and preview toolbar */
+.moon-admin-quick-actions,.moon-admin-format-buttons{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:8px 0 16px;}
+.moon-admin-quick-actions button,.moon-admin-format-buttons button{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:6px;border:1px solid #d3d9d5;border-radius:8px;background:#fff;color:#26352e;cursor:pointer;}
+.moon-admin-quick-actions button:hover:not(:disabled),.moon-admin-format-buttons button:hover:not(:disabled){background:#eff4ef;}
+.moon-admin-format-buttons button[aria-pressed="true"]{background:#24372b;color:#fff;border-color:#24372b;}
+.moon-admin-quick-actions span{font-size:12px;min-width:40px;text-align:center;font-variant-numeric:tabular-nums;color:#53625a;}
+.moon-admin-preview-scale{transform-origin:top left;}
