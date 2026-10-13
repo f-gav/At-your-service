@@ -3645,6 +3645,115 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-negate-aroma",
+      "system": "pf2e",
+      "slug": "negate-aroma",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-nettleskin",
+      "system": "pf2e",
+      "slug": "nettleskin",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "plant"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-adventure-threshold-of-knowledge"
+    },
+    {
+      "id": "pf2e-noxious-vapors",
+      "system": "pf2e",
+      "slug": "noxious-vapors",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "poison"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-nudge-the-odds",
+      "system": "pf2e",
+      "slug": "nudge-the-odds",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-object-reading",
+      "system": "pf2e",
+      "slug": "object-reading",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-overselling-flourish",
+      "system": "pf2e",
+      "slug": "overselling-flourish",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "illusion",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-firebrands"
     }
   ],
   "versions": [
@@ -6167,6 +6276,84 @@
       "heightened": {
         "rules": " (+1) The amount of healing increases by 1d8+4."
       }
+    },
+    {
+      "id": "pf2e-negate-aroma-pf2e-legacy",
+      "spellId": "pf2e-negate-aroma",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 willing creature",
+      "duration": "1 hour",
+      "heightened": {
+        "rules": " (5th) The range increases to 30 feet, and you can target up to 10 creatures."
+      }
+    },
+    {
+      "id": "pf2e-nettleskin-pf2e-legacy",
+      "spellId": "pf2e-nettleskin",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "self",
+      "targets": "self",
+      "duration": "1 minute",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d4."
+      }
+    },
+    {
+      "id": "pf2e-noxious-vapors-pf2e-remaster",
+      "spellId": "pf2e-noxious-vapors",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "emanation: 10 feet",
+      "duration": "1 round",
+      "savingThrow": "Basic fortitude save",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d6"
+      }
+    },
+    {
+      "id": "pf2e-nudge-the-odds-pf2e-remaster",
+      "spellId": "pf2e-nudge-the-odds",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-object-reading-pf2e-remaster",
+      "spellId": "pf2e-object-reading",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 object"
+    },
+    {
+      "id": "pf2e-overselling-flourish-pf2e-legacy",
+      "spellId": "pf2e-overselling-flourish",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "the triggering creature",
+      "savingThrow": "will save"
     }
   ],
   "translations": [
@@ -8343,6 +8530,54 @@
       "locale": "en",
       "name": "Necromancer's Generosity",
       "description": "You channel void energy through your magical connection to your undead minion to strengthen the creature. The target regains 1d8+4 Hit Points when you Cast the Spell, and it gains a +2 status bonus to saves against vitality effects for the duration.\n\n\nSpell Effect: Necromancer's Generosity\n\n\n\nHeightened (+1) The amount of healing increases by 1d8+4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-negate-aroma",
+      "versionId": "pf2e-negate-aroma-pf2e-legacy",
+      "locale": "en",
+      "name": "Negate Aroma",
+      "description": "The target loses its odor, preventing creatures from passively noticing its presence via smell alone, even if the creatures have precise or imprecise scent. A creature attempting a Perception check to Seek with scent and other senses might notice the lack of natural scent. If the target has any abilities that result from its smell, such as an overpowering scent, those abilities are also negated.\n\n\n\n\n\nHeightened (5th) The range increases to 30 feet, and you can target up to 10 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-nettleskin",
+      "versionId": "pf2e-nettleskin-pf2e-legacy",
+      "locale": "en",
+      "name": "Nettleskin",
+      "description": "Thorns sprout from your body; they pass through and don't damage any clothing or armor you wear.\n\n\nAdjacent creatures that hit you with a melee or unarmed attack take 1d4 piercing damage as the nettles jab them and break off. Each time a creature takes damage in this way, nettleskin's duration decreases by 1 round.\n\n\n\n\n\nHeightened (+1) The damage increases by 1d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-noxious-vapors",
+      "versionId": "pf2e-noxious-vapors-pf2e-remaster",
+      "locale": "en",
+      "name": "Noxious Vapors",
+      "description": "You emit a cloud of toxic smoke that temporarily obscures you from sight. Each creature except you in the area when you Cast the Spell takes 1d6 poison damage (basic Fortitude save). A creature that critically fails the saving throw also becomes Sickened 1. All creatures in the area become Concealed, and all creatures outside the smoke become concealed to creatures within it. This smoke can be dispersed by a strong wind.\n\n\n\nHeightened (+1) The damage increases by 1d6",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-nudge-the-odds",
+      "versionId": "pf2e-nudge-the-odds-pf2e-remaster",
+      "locale": "en",
+      "name": "Nudge the Odds",
+      "description": "You bestow yourself supernaturally good luck at cards, dice, and other games of chance. You gain a +1 status bonus to Games Lore checks to gamble, and if you roll a critical failure on such a check, you get a failure instead; however, the spell is too short-lived to use for Earn Income checks from gambling.\n\n\nWhen you're under the effect of nudge the odds, one facial feature, such as a lock of hair or the iris of an eye, transforms to a distinctive golden color; the GM chooses which feature when you Cast the Spell. This change resists all magical efforts to conceal it, though it can be hidden or covered by mundane means. A creature noticing the feature can identify the spell using Recall Knowledge. Because it prevents losing big, gamblers consider nudge the odds a repugnant form of cheating. If you're caught using the spell, you're likely to suffer serious consequences depending on the nature of the gamblers you cheated.\n\n\nSpell Effect: Nudge the Odds\n\n\n\nHeightened (5th) The status bonus increases to +2, and the duration increases to lasting until the next time you make your daily preparations. If you continue spending your spell slot each day to keep the duration active, this allows you to apply the effect to a downtime check to Earn Income.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-object-reading",
+      "versionId": "pf2e-object-reading-pf2e-remaster",
+      "locale": "en",
+      "name": "Object Reading",
+      "description": "You place a hand on an object to learn a piece of information about an emotional event that occurred involving the object within the past week, determined by the GM. If you cast object reading on the same item multiple times, you can either concentrate on a single event to gain additional pieces of information about that event, or you can gain a piece of information about another emotional event in the applicable time frame.\n\n\n\n\n\nHeightened (2nd) You can learn about an event that occurred within the last month.\n\n\nHeightened (4th) You can learn about an event that occurred within the last year.\n\n\nHeightened (6th) You can learn about an event that occurred within the last decade.\n\n\nHeightened (8th) You can learn about an event that occurred within the last century.\n\n\nHeightened (9th) You can learn about an event that occurred within the entirety of the object's history.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-overselling-flourish",
+      "versionId": "pf2e-overselling-flourish-pf2e-legacy",
+      "locale": "en",
+      "name": "Overselling Flourish",
+      "description": "Trigger A creature damages you.\n\n\nYou make a grand spectacle out of getting hit. Enhanced by magic, this spectacle features sprays of blood, anguished screams, or other theatrics that appear to result from your foe's attack. The triggering creature must attempt a Will saving throw.\n\n\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature is thrown off by your display. The creature becomes Dazzled until the start of your turn.\n\n\nFailure The creature fully believes your performance, leaving itself open. The creature becomes dazzled and Off-Guard until the start of your turn.\n\n\nCritical Failure The creature is enraptured by the display. The creature uses its remaining actions to watch you in awe. It then remains dazzled and off-guard until the start of your turn.",
       "translationStatus": "verified"
     }
   ],
