@@ -2840,6 +2840,118 @@
       ],
       "rarity": "uncommon",
       "sourceId": "src-pathfinder-169-kindled-magic"
+    },
+    {
+      "id": "pf2e-gentle-landing",
+      "system": "pf2e",
+      "slug": "gentle-landing",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-gloom-mantle",
+      "system": "pf2e",
+      "slug": "gloom-mantle",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "darkness",
+        "illusion",
+        "manipulate",
+        "shadow",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-cheliax-infernal-inheritance"
+    },
+    {
+      "id": "pf2e-goblin-pox",
+      "system": "pf2e",
+      "slug": "goblin-pox",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "disease",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-gravitational-pull",
+      "system": "pf2e",
+      "slug": "gravitational-pull",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-grease",
+      "system": "pf2e",
+      "slug": "grease",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-grim-tendrils",
+      "system": "pf2e",
+      "slug": "grim-tendrils",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "void"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -4839,6 +4951,79 @@
       "resource": "spell-slot",
       "range": "30 feet",
       "targets": "1 or 2 willing creatures"
+    },
+    {
+      "id": "pf2e-gentle-landing-pf2e-remaster",
+      "spellId": "pf2e-gentle-landing",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "reaction"
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "1 falling creature",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-gloom-mantle-pf2e-remaster",
+      "spellId": "pf2e-gloom-mantle",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-goblin-pox-pf2e-remaster",
+      "spellId": "pf2e-goblin-pox",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 creature",
+      "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-gravitational-pull-pf2e-remaster",
+      "spellId": "pf2e-gravitational-pull",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-grease-pf2e-remaster",
+      "spellId": "pf2e-grease",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 object of Bulk 1 or less",
+      "duration": "1 minute",
+      "savingThrow": "reflex save"
+    },
+    {
+      "id": "pf2e-grim-tendrils-pf2e-remaster",
+      "spellId": "pf2e-grim-tendrils",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "area": "line: 30 feet",
+      "savingThrow": "fortitude save",
+      "heightened": {
+        "rules": " (+1) The void damage increases by 2d4, and the persistent bleed damage increases by 1."
+      }
     }
   ],
   "translations": [
@@ -6581,6 +6766,54 @@
       "description": "Вы выпускаете магический снаряд, автоматически попадающий в видимое существо и наносящий 1d4+1 урона силой. Заклинание можно сотворить за 1–3 действия; за каждое дополнительное действие вы выпускаете ещё один снаряд (до трёх), выбирая цель для каждого отдельно. Если несколько снарядов попали в одну цель, сложите их урон перед применением сопротивлений, слабостей и прочих модификаторов. Усиление (+2 круга): за каждое затраченное действие выпускается на один снаряд больше.",
       "translationStatus": "draft",
       "translatorCredit": "Название: PF2E Spell Card (pf2e-spell-cards.ru), описание — самостоятельное изложение механики Foundry PF2e v14-dev."
+    },
+    {
+      "spellId": "pf2e-gentle-landing",
+      "versionId": "pf2e-gentle-landing-pf2e-remaster",
+      "locale": "en",
+      "name": "Gentle Landing",
+      "description": "Trigger a creature within range is falling\n\n\n\n\n\nYou raise a magical updraft to arrest a fall. The target's fall slows to 60 feet per round, and the portion of the fall during the spell's duration doesn't count when calculating falling damage. If the target reaches the ground while the spell is in effect, it takes no damage from the fall. The spell ends as soon as the target lands.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gloom-mantle",
+      "versionId": "pf2e-gloom-mantle-pf2e-remaster",
+      "locale": "en",
+      "name": "Gloom Mantle",
+      "description": "You shroud yourself in shadow. When you Cast this Spell and the first time each round you Sustain it, you become Concealed until the end of your next turn, though you can't use this concealment to [[/act hide]] or [[/act sneak]]. You lose this concealment if you're ever in an area of bright light.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-goblin-pox",
+      "versionId": "pf2e-goblin-pox-pf2e-remaster",
+      "locale": "en",
+      "name": "Goblin Pox",
+      "description": "Your touch afflicts the target with goblin pox, an irritating allergenic rash. The target must attempt a Fortitude save.\n\n\n\n\n\nGoblin Pox (disease) Level 1; Creatures that have the goblin trait and goblin dogs are immune\n\n\nStage 1 Sickened 1 (1 round)\n\n\nStage 2 Sickened 1 and Slowed 1 (1 round)\n\n\nStage 3 Sickened 1 and the creature can't reduce its Sickened value below 1 (1 day)\n\n\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target is Sickened 1.\n\n\nFailure The target is afflicted with goblin pox at stage 1.\n\n\nCritical Failure The target is afflicted with goblin pox at stage 2.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-gravitational-pull",
+      "versionId": "pf2e-gravitational-pull-pf2e-remaster",
+      "locale": "en",
+      "name": "Gravitational Pull",
+      "description": "By suddenly altering gravity, you pull the target toward you. The target is pulled 10 feet closer to you unless it succeeds at a Fortitude save. On a critical failure, it's also knocked Prone. The effects of this spell change depending on the number of actions you spend when you Cast this Spell.\n\n\n1 The spell targets one creature.\n\n\n2 (concentrate) The spell targets one creature and pulls the target 20 feet instead of 10.\n\n\n3 (concentrate) The spell targets up to five creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-grease",
+      "versionId": "pf2e-grease-pf2e-remaster",
+      "locale": "en",
+      "name": "Grease",
+      "description": "You conjure grease, choosing an area or target.\n\n\n\nArea [4 contiguous 5-foot squares] All solid ground in the area is covered with grease. Each creature standing on the greasy surface must succeed at a Reflex save or an Acrobatics check against your spell DC or fall Prone. Creatures using an action to move onto the greasy surface during the spell's duration must attempt either a Reflex save or an Acrobatics check to Balance. A creature that Steps or Crawls doesn't have to attempt a check or save.\nTarget [1 object of Bulk 1 or less] If you Cast the Spell on an unattended object, anyone trying to pick up the object must succeed at an Acrobatics check or Reflex save against your spell DC to do so. If you target an attended object, the creature that has the object must attempt an Acrobatics check or Reflex save. On a failure, the holder or wielder takes a –2 circumstance penalty to all checks that involve using the object; on a critical failure, the holder or wielder releases the item. The object lands in an adjacent square of the GM's choice. If you Cast this Spell on a worn object, the wearer gains a +2 circumstance bonus to Fortitude saves against attempts to grapple them.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-grim-tendrils",
+      "versionId": "pf2e-grim-tendrils-pf2e-remaster",
+      "locale": "en",
+      "name": "Grim Tendrils",
+      "description": "Tendrils of darkness curl out from your fingertips and race through the air. You deal 2d4 void damage and Damage ((@item.level)[bleed)] damage to living creatures in the line. Each living creature in the line must attempt a Fortitude save.\n\n\n\n\n\nCritical Success The creature is unaffected.\n\n\nSuccess The creature takes half the void damage and no persistent bleed damage.\n\n\nFailure The creature takes full damage.\n\n\nCritical Failure The creature takes double void damage and double persistent bleed damage.\n\n\n\n\n\nHeightened (+1) The void damage increases by 2d4, and the persistent bleed damage increases by 1.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
