@@ -59,6 +59,16 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),483,'Tenth page loads final 33 cards');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 483 loaded: no more button');
+  // All approved author translations must replace English labels in actual rendered cards.
+  const authorEntries=(await Promise.all(['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json']
+    .map(async name=>(await (await fetch(base+'spell-library/'+name)).json()).entries))).flat();
+  assert.equal(authorEntries.length,70,'Both author translation waves contain 70 spells');
+  const displayedNames=await page.locator('.spell-result-identity strong').allTextContents();
+  for(const translated of authorEntries){
+    assert.ok(displayedNames.includes(translated.name),
+      'Russian author translation missing from rendered library: '+translated.englishName+' -> '+translated.name);
+  }
+
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
     await page.setViewportSize({width,height:900});
@@ -313,13 +323,10 @@ try{
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
-  assert.equal(await page.locator('.spell-result').count(),50,
-    'First page of fifty untranslated spells');
-  await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),70,
-    'Sixty-nine untranslated rank-two spells plus Funeral Flames rank one');
+  assert.equal(await page.locator('.spell-result').count(),0,
+    'All seventy previously English-only spells are now translated');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,
-    'All seventy untranslated spells now loaded');
+    'No untranslated spells remain');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
