@@ -776,6 +776,7 @@ export default function App() {
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
                       {(character.system==='pf2e'||character.system==='prmoon') && <button type="button" disabled={busy} onClick={() => exportCharacterPdf(character)}><FileDown size={15}/> Экспорт PDF</button>}
                       <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
+                      <button type="button" onClick={() => {const url=window.location.origin+window.location.pathname+window.location.search+siteRouteHash({kind:'character',id:character.id});void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" onClick={() => {setOpenMenuId(null);setDuplicatePortrait(true);setDuplicateTarget(character);}} disabled={busy}><Copy size={15}/> Дублировать</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
