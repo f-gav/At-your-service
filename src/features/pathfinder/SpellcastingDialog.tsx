@@ -7,7 +7,7 @@ import {
   SPELLCASTING_ABILITIES,SPELL_SLOT_RANKS,spellcastingTotals,
   spellAttackDisplay,spellSlotCountText,
 } from './rules-spellcasting';
-import {PF_SPELL_MODE,PF_SPELL_TRADITIONS,selectedTraditions} from './SpellGrimoire';
+import {PF_SPELL_MODE,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,PF_CLASS_LIST,selectedTraditions,selectedClasses} from './SpellGrimoire';
 import './SpellcastingDialog.css';
 
 type Props={
@@ -22,6 +22,7 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
   const totals=spellcastingTotals(values);
   const mode=values[PF_SPELL_MODE]==='text'?'text':'library';
   const traditions=selectedTraditions(values[PF_SPELL_TRADITIONS]);
+  const classes=selectedClasses(values[PF_SPELL_CLASSES]);
   const main=useRef<HTMLDivElement>(null);
   const closeCallback=useRef(onClose);
   closeCallback.current=onClose;
@@ -98,6 +99,13 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
           <button type="button" disabled={disabled||mode==='text'} onClick={onOpenGrimoire}>Открыть гримуар</button>
         </div>
         <p className="pf-spell-dialog-footnote">В текстовом режиме выбранные заклинания скрыты на листе, но сохраняются в гримуаре. Ручные записи также сохраняются при переключении.</p>
+        <h3>Классы, открывающие заклинания</h3>
+        <div className="pf-spell-traditions" aria-label="Доступные классы">
+          {PF_CLASS_LIST.map(([id,label])=><label key={id}><input type="checkbox" disabled={disabled}
+            checked={classes.includes(id)}
+            onChange={e=>onChange(PF_SPELL_CLASSES,JSON.stringify(e.target.checked?[...classes,id]:classes.filter(v=>v!==id)))}/>{label}</label>)}
+        </div>
+        <p className="pf-spell-dialog-footnote">Для классов с изменяемой магической традицией укажи традицию отдельно. Мультиклассовые архетипы сами по себе не дают все заклинания традиции.</p>
         <h3>Доступные магические традиции</h3>
         <div className="pf-spell-traditions">
           {([['arcane','Мистическая'],['divine','Сакральная'],['occult','Оккультная'],['primal','Первобытная']] as const).map(([id,label])=>
