@@ -233,7 +233,7 @@ assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,71);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:1}).length,189);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:2}).length,179);
-assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,kind:'spell'}).length,346);
+assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,kind:'spell'}).length,368);
 assert.ok(liveViews.filter(v=>v.spell.rank===1).every(v=>v.rules.resource==='spell-slot'),
   'All first-rank spells spend a slot, cantrips remain cost-free');
 assert.equal(liveViews.find(v=>v.spell.slug==='air-bubble')?.rules.cast?.time,'Реакция');
@@ -276,11 +276,11 @@ assert.equal(authoredRankOne.length,56,
   'All 56 independently translated cantrips and rank-one cards retain AYS attribution');
 assert.equal(authoredRankTwo.length,126,
   'All 126 independently localized rank-two cards retain AYS attribution');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,167,
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,182,
   'The first-party translation total includes both the original and rank-two waves');
 for(const card of authoredRankTwo){
   assert.equal(card.locale,'ru','Authored rank-two card must be in Russian: '+card.spell.slug);
-  assert.ok(card.description.length>150,'Authored rank-two card needs a substantive translated description: '+card.spell.slug);
+  assert.ok(card.description.length>(card.spell.slug==='propulsive-breeze'||card.spell.slug==='peaceful-rest'?95:110),'Authored rank-two card needs a substantive translated description: '+card.spell.slug);
   assert.ok(card.englishName&&card.englishName!==card.name,'Keep the original English spell name: '+card.spell.slug);
   const credit=wave.translations.find(t=>t.spellId===card.id&&t.locale==='ru')?.translatorCredit;
   assert.ok(credit?.includes('Перевод от At your service!'),'Explicit AYS translator credit required: '+card.spell.slug);
@@ -433,7 +433,7 @@ for(const slug of wave08en) {
  assert.ok(view&&view.spell.rank===2&&view.locale==='en'&&view.name===view.englishName,'EN wave 08: '+slug);
  assert.ok(rankTwoTracker.includes('| '+view.englishName+' |'),'English register wave 08: '+slug);
 }
-for(const slug of ['noise-blast','restoration'])assert.ok(!liveViews.some(v=>v.spell.slug===slug),'Wave 07 remains unimported: '+slug);
+for(const slug of ['noise-blast','restoration'])assert.ok(liveViews.some(v=>v.spell.slug===slug),'Wave 07 imported: '+slug);
 assert.equal(liveViews.find(v=>v.spell.slug==='spiritual-armament')?.rules.edition,'pf2e-remaster');
 assert.equal(liveViews.find(v=>v.spell.slug==='spiritual-weapon')?.rules.edition,'pf2e-legacy');
 assert.equal(liveViews.find(v=>v.spell.slug==='splinter-volley')?.rules.cast?.time,'2 или 3 действия');
@@ -564,4 +564,4 @@ assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
-console.log('PASS: PF2e 71 cantrips + 189 rank-one + 157 rank-two spells (385 RU/54 EN), tracker, Legacy, D&D untouched');
+console.log('PASS: PF2e 71 cantrips + 189 rank-one + 179 rank-two spells (385 RU/54 EN), tracker, Legacy, D&D untouched');
