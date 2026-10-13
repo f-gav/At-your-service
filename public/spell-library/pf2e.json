@@ -4576,6 +4576,117 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-summon-construct",
+      "system": "pf2e",
+      "slug": "summon-construct",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-summon-fey",
+      "system": "pf2e",
+      "slug": "summon-fey",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-summon-lesser-servitor",
+      "system": "pf2e",
+      "slug": "summon-lesser-servitor",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-summon-plant-or-fungus",
+      "system": "pf2e",
+      "slug": "summon-plant-or-fungus",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-summon-undead",
+      "system": "pf2e",
+      "slug": "summon-undead",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "summon"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-sure-strike",
+      "system": "pf2e",
+      "slug": "sure-strike",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "fortune"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -7719,6 +7830,71 @@
       "resource": "spell-slot",
       "range": "30 feet",
       "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-summon-construct-pf2e-remaster",
+      "spellId": "pf2e-summon-construct",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-summon-fey-pf2e-remaster",
+      "spellId": "pf2e-summon-fey",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-summon-lesser-servitor-pf2e-remaster",
+      "spellId": "pf2e-summon-lesser-servitor",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-summon-plant-or-fungus-pf2e-remaster",
+      "spellId": "pf2e-summon-plant-or-fungus",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-summon-undead-pf2e-remaster",
+      "spellId": "pf2e-summon-undead",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "duration": "1 minute"
+    },
+    {
+      "id": "pf2e-sure-strike-pf2e-remaster",
+      "spellId": "pf2e-sure-strike",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "duration": "until the end of your turn"
     }
   ],
   "translations": [
@@ -10441,6 +10617,54 @@
       "locale": "en",
       "name": "Summon Animal",
       "description": "You summon a creature that has the animal trait and whose level is –1 to fight for you.\n\n\n\nHeightened As listed in the summon trait.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-construct",
+      "versionId": "pf2e-summon-construct-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Construct",
+      "description": "You summon a creature that has the construct trait and whose level is –1 to fight for you.\n\n\n\n\n\nHeightened As listed in the summon trait.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-fey",
+      "versionId": "pf2e-summon-fey-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Fey",
+      "description": "You summon a creature that has the fey trait and whose level is –1 to fight for you.\n\n\n\n\n\nHeightened As listed in the summon trait.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-lesser-servitor",
+      "versionId": "pf2e-summon-lesser-servitor-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Lesser Servitor",
+      "description": "While deities jealously guard their most powerful servants from the summoning spells of those who aren't steeped in the faith, this spell allows you to conjure an inhabitant of the Outer Sphere with or without the deity's permission. You summon a common celestial, fiend, or monitor of level –1. You can choose to instead summon a common animal of level –1 that hails from the Outer Sphere; you can choose for this animal to gain the celestial and holy traits, the fiend and unholy traits, or the monitor trait. It's anathema to summon a servitor if it has a holy or unholy trait that isn't allowed for your deity's sanctification. For example, Sarenrae's sanctification is \"can choose holy,\" so you couldn't summon an unholy creature, and Pharasma's is \"none,\" so you couldn't summon a holy or unholy creature. The GM might determine that your deity restricts specific types of creatures further, making it anathema to summon them as well.\n\n\n\nHeightened (2nd) The creature can be level 1 or lower.\n\n\nHeightened (3rd) The creature can be level 2 or lower.\n\n\nHeightened (4th) The creature can be level 3 or lower.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-plant-or-fungus",
+      "versionId": "pf2e-summon-plant-or-fungus-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Plant or Fungus",
+      "description": "You summon a creature that has the plant or fungus trait and whose level is -1 to fight for you.\n\n\n\n\n\nHeightened As listed in the summon trait.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-summon-undead",
+      "versionId": "pf2e-summon-undead-pf2e-remaster",
+      "locale": "en",
+      "name": "Summon Undead",
+      "description": "You summon a creature that has the undead trait and whose level is -1 to fight for you.\n\n\n\n\n\nHeightened As listed in the summon trait.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-sure-strike",
+      "versionId": "pf2e-sure-strike-pf2e-remaster",
+      "locale": "en",
+      "name": "Sure Strike",
+      "description": "The next time you make an attack roll before the end of your turn, roll it twice and use the better result. The attack ignores circumstance penalties to the attack roll and any flat check required due to the target being Concealed or Hidden. You are then temporarily immune to sure strike for 10 minutes.\n\n\nSpell Effect: Sure Strike",
       "translationStatus": "verified"
     }
   ],
