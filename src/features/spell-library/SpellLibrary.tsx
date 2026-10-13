@@ -162,6 +162,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
           <span>{editionTitle(rules.edition)}</span>
           {rules.edition==='pf2e-legacy'&&<span className="spell-legacy-note">Правила до Remaster</span>}
           {spell.locale==='en'&&<span>Только английский текст</span>}
+          {spell.translationOrigin==='at-your-service'&&<span className="spell-translation-origin">Перевод от At your service!</span>}
         </div>
         <p className="spell-source-book"><strong>Источник:</strong> {sourceName(spell)}</p>
       </div>
@@ -185,7 +186,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
         } as Record<string,string>)[key]||key}:</b> {value}</p>)}
       </div>}
       {rules.heightened&&Object.keys(rules.heightened).length>0&&<section className="spell-heightened">
-        <h3>Усиление</h3>
+        <h3>{spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
         {Object.entries(rules.heightened).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
     </section>
