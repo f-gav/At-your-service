@@ -21,6 +21,38 @@ assert.equal(wave.spells.filter(s=>s.kind==='spell'&&s.rank===1).length,189);
 assert.equal(wave.spells.filter(s=>s.kind==='spell'&&s.rank===2).length,223);
 assert.equal(wave.translations.filter(t=>t.locale==='en'&&wave.spells.find(s=>s.id===t.spellId)?.rank===2).length,223);
 assert.equal(new Set(wave.spells.map(s=>s.id)).size,483,'Unique spell IDs');
+
+/** All 223 rank-two cards must have human-readable Russian metadata, not
+ * raw Foundry area JSON or untranslated save/target/duration values. */
+const rankTwoSpellIds=new Set(wave.spells.filter(s=>s.rank===2).map(s=>s.id));
+const rankTwoVersions=wave.versions.filter(v=>rankTwoSpellIds.has(v.spellId));
+assert.equal(rankTwoVersions.length,223);
+for(const version of rankTwoVersions){
+  for(const key of ['area','savingThrow','range','targets','duration','trigger','requirements']){
+    const value=version[key];
+    if(typeof value==='string')assert.ok(!/[a-zA-Z{}]/.test(value),
+      'Unexpected raw/English rank-two '+key+': '+version.spellId+'='+value);
+  }
+  if(typeof version.cast?.time==='string')assert.ok(!/[a-zA-Z]/.test(version.cast.time),
+    'Unlocalized casting time: '+version.spellId);
+  if(version.savingThrow)assert.match(version.savingThrow,
+    /^(?:Обычный )?Спасбросок (?:Рефлекса|Стойкости|Воли)$/,
+    'Noncanonical rank-two saving throw: '+version.spellId);
+}
+const rankTwoRules=slug=>wave.versions.find(v=>v.spellId==='pf2e-'+slug);
+assert.equal(rankTwoRules('noise-blast')?.area,'10-футовый взрыв');
+assert.equal(rankTwoRules('noise-blast')?.savingThrow,'Спасбросок Стойкости');
+assert.equal(rankTwoRules('paranoia')?.savingThrow,'Спасбросок Воли');
+assert.equal(rankTwoRules('paranoia')?.targets,'1 существо');
+assert.equal(rankTwoRules('sudden-bolt')?.savingThrow,'Обычный спасбросок Рефлекса');
+assert.equal(rankTwoRules('pyrefowl-rebuke')?.savingThrow,'Обычный спасбросок Рефлекса');
+assert.equal(rankTwoRules('bee-man-s-summons')?.area,'500-футовая эманация');
+assert.ok(rankTwoRules('propulsive-breeze')?.trigger?.includes('Союзник'));
+assert.ok(rankTwoRules('pyrefowl-rebuke')?.trigger?.includes('Ударом'));
+assert.equal(rankTwoRules('summoners-precaution')?.requirements,'У вас есть эйдолон.');
+assert.equal(rankTwoRules('restoration')?.cast?.time,'1 минута');
+assert.equal(rankTwoRules('sudden-blight')?.savingThrow,'Обычный спасбросок Стойкости');
+
 assert.deepEqual(wave.spells.map(s=>s.slug).slice(0,3),['acid-splash','ancient-dust','approximate']);
 assert.equal(wave.spells[23].slug,'glamorize');
 assert.equal(wave.spells[24].slug,'glass-shield');
