@@ -3297,6 +3297,120 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-item-facade",
+      "system": "pf2e",
+      "slug": "item-facade",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-jump",
+      "system": "pf2e",
+      "slug": "jump",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "manipulate",
+        "move"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-juvenile-companion",
+      "system": "pf2e",
+      "slug": "juvenile-companion",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "polymorph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-kinetic-ram",
+      "system": "pf2e",
+      "slug": "kinetic-ram",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "force"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-dark-archive-remastered"
+    },
+    {
+      "id": "pf2e-know-location",
+      "system": "pf2e",
+      "slug": "know-location",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "detection",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-194-cult-of-the-cave-worm"
+    },
+    {
+      "id": "pf2e-leaden-steps",
+      "system": "pf2e",
+      "slug": "leaden-steps",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "metal",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
     }
   ],
   "versions": [
@@ -5600,6 +5714,81 @@
       "range": "touch",
       "targets": "1 object",
       "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-item-facade-pf2e-remaster",
+      "spellId": "pf2e-item-facade",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "1 object no more than 10 feet by 10 feet by 10 feet",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-jump-pf2e-remaster",
+      "spellId": "pf2e-jump",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "spell-slot",
+      "heightened": {
+        "rules": " (3rd) The range becomes touch, the target changes to one touched creature, and the duration becomes 1 minute, allowing the target to jump as described whenever it takes the Leap action."
+      }
+    },
+    {
+      "id": "pf2e-juvenile-companion-pf2e-remaster",
+      "spellId": "pf2e-juvenile-companion",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "your companion",
+      "duration": "10 minutes"
+    },
+    {
+      "id": "pf2e-kinetic-ram-pf2e-remaster",
+      "spellId": "pf2e-kinetic-ram",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "resource": "spell-slot",
+      "range": "varies",
+      "targets": "1 or more creatures",
+      "savingThrow": "fortitude save"
+    },
+    {
+      "id": "pf2e-know-location-pf2e-legacy",
+      "spellId": "pf2e-know-location",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 minute"
+      },
+      "resource": "spell-slot",
+      "range": "1 mile",
+      "duration": "until the next time you make your daily preparations",
+      "heightened": {
+        "rules": " (3rd) The range is 10 miles.\n\n\nHeightened (5th) The range is 100 miles.\n\n\nHeightened (7th) The range is planetary and you can create an anchor at a location you've viewed with scrying or similar effects."
+      }
+    },
+    {
+      "id": "pf2e-leaden-steps-pf2e-remaster",
+      "spellId": "pf2e-leaden-steps",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "1 minute",
+      "savingThrow": "fortitude save"
     }
   ],
   "translations": [
@@ -7633,6 +7822,54 @@
       "description": "Вы создаёте неподвижный иллюзорный объект, целиком помещающийся в область действия. Он выглядит естественно, но изначально не издаёт звуков и запахов. При прикосновении или действии «Поиск» существо может попытаться распознать иллюзию. Усиление изменяет продолжительность и реалистичность объекта.",
       "translationStatus": "draft",
       "translatorCredit": "Русское название: Pathfinder 2E RU (pf2e-ru-translation); самостоятельное краткое изложение механики Foundry PF2e v14-dev; для деталей см. оригинальное описание."
+    },
+    {
+      "spellId": "pf2e-item-facade",
+      "versionId": "pf2e-item-facade-pf2e-remaster",
+      "locale": "en",
+      "name": "Item Facade",
+      "description": "You make the target object look and feel as though it were in much better or worse physical condition. When you cast this spell, decide whether you want to make the object look decrepit or perfect. An item made to look decrepit appears Broken and shoddy. An intact item made to look better appears as though it's brand new and highly polished or well maintained. A Broken item appears to be intact and functional. Destroyed items can't be affected by this spell. A creature that Interacts with the item can attempt to disbelieve the illusion.\n\n\n\n\n\nHeightened (2nd) The duration is 24 hours.\n\n\nHeightened (3rd) The duration is unlimited.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-jump",
+      "versionId": "pf2e-jump-pf2e-remaster",
+      "locale": "en",
+      "name": "Jump",
+      "description": "Your legs surge with strength, ready to leap high and far. You jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.\n\n\n\n\n\nHeightened (3rd) The range becomes touch, the target changes to one touched creature, and the duration becomes 1 minute, allowing the target to jump as described whenever it takes the Leap action.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-juvenile-companion",
+      "versionId": "pf2e-juvenile-companion-pf2e-remaster",
+      "locale": "en",
+      "name": "Juvenile Companion",
+      "description": "You transform your companion into its juvenile form, such as a cub, foal, kitten, puppy, or piglet, making the target appear small and harmless. It becomes Tiny (if it was larger), and its reach is reduced to 0 feet. All its Speeds are halved (to a minimum Speed of 5 feet), and it gains weakness 5 to physical damage. In all other ways, its abilities and statistics are unchanged.\n\n\nIf your companion uses a hostile action, juvenile companion ends. This spell has no effect on a companion that doesn't have a juvenile form.\n\n\nSpell Effect: Juvenile Companion\n\n\n\nHeightened (2nd) The duration increases to 1 hour.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-kinetic-ram",
+      "versionId": "pf2e-kinetic-ram-pf2e-remaster",
+      "locale": "en",
+      "name": "Kinetic Ram",
+      "description": "Gathering kinetic energy, you either focus it in a straight line or disperse it as an encircling ripple. Any creature targeted by this spell must succeed at a Fortitude saving throw or be pushed 10 feet away from you (or 20 feet on a critical failure).\n\n\nThe spell's area or range and how many creatures it affects is based on how many actions you spend when Casting the Spell.\n\n\n\n1 The spell targets one creature within 15 feet.\n\n\n2 The spell targets one creature within 30 feet. The distance the target is pushed if it fails is doubled, and on a critical failure, the target is also knocked Prone and takes Damage (1d6[bludgeoning)] damage.\n\n\n3 The spell targets all creatures in a @Template[emanation|distance:5].",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-know-location",
+      "versionId": "pf2e-know-location-pf2e-legacy",
+      "locale": "en",
+      "name": "Know Location",
+      "description": "You create an invisible anchor at a location within range (even if it's outside your line of sight or line of effect), as long as you can identify the location by its appearance (or other identifying features). You innately know the direction towards that location, including relative depth, but not the distance. Incorrect knowledge of the location's appearance usually causes the spell to fail, but it could instead lead to an unwanted location or some other unusual mishap determined by the GM. This spell doesn't help you find a suitable route to the location nor assist you in overcoming obstacles on the way there.\n\n\n\n\n\nHeightened (3rd) The range is 10 miles.\n\n\nHeightened (5th) The range is 100 miles.\n\n\nHeightened (7th) The range is planetary and you can create an anchor at a location you've viewed with scrying or similar effects.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-leaden-steps",
+      "versionId": "pf2e-leaden-steps-pf2e-remaster",
+      "locale": "en",
+      "name": "Leaden Steps",
+      "description": "You partially transform a foe's feet into unwieldy slabs of metal, slowing their steps. The target attempts a Fortitude saving throw.\n\n\n\nCritical Success The target is unaffected.\n\n\nSuccess The target is Encumbered and has weakness 2 to electricity until the end of your next turn. The spell can't be sustained.\n\n\nFailure The target is encumbered and has weakness 2 to electricity.\n\n\nCritical Failure The target is encumbered and has weakness 3 to electricity.\n\n\nSpell Effect: Leaden Steps\n\n\n\nHeightened (+1) The weakness increases by 1.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
