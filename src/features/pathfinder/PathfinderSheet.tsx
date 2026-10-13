@@ -520,6 +520,7 @@ export default function PathfinderSheet({
       onClose={()=>setSpellSettingsOpen(false)}
       onOpenGrimoire={()=>{setSpellSettingsOpen(false);setGrimoireOpen(true);}}/>}
     {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
+      slotCounts={Array.from({length:10},(_,i)=>Math.max(0,Number(values['spell_slots_'+(i+1)]||0)||0))}
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
