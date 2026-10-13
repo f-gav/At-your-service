@@ -225,15 +225,15 @@ export default function App() {
   useLayoutEffect(()=>{
     window.scrollTo({top:0,behavior:'instant'});
   },[mainTab]);
+  const [authReady, setAuthReady] = useState(!isConfigured);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [loadingCharacters, setLoadingCharacters] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
   // Opening or closing a character must not inherit the dashboard's scroll
   // position. On mobile that could land the Project Moon sheet on Notes.
   useLayoutEffect(()=>{
     window.scrollTo({top:0,left:0,behavior:'instant'});
   },[activeId]);
-  const [authReady, setAuthReady] = useState(!isConfigured);
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [loadingCharacters, setLoadingCharacters] = useState(false);
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [createPanel, setCreatePanel] = useState<CreatePanel>(null);
   const [showSystemPicker, setShowSystemPicker] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
