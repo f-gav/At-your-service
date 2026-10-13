@@ -557,3 +557,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .site-header .mobile-menu-panel{left:0;right:0;top:62px;width:100%;border-radius:0;padding:16px 17px;}
   .site-header .mobile-account-row{display:flex;}
 }
+
+/* Keep the global navigation above floating sheet settings, PDF controls and page overlays. */
+.site-header{z-index:10000;}
+.site-header .mobile-menu-panel{z-index:10001;}
