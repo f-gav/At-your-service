@@ -8,15 +8,26 @@
 
 **Запланировано:** 224 заклинания в [10 волнах](./SPELL-RANK2-IMPORT-WAVES-RU.md).
 
-**Обработано:** **202 / 224** исходных записей (волны 01–08). Из них **201** действительно 2-го ранга и Funeral Flames — 1-го ранга.
+**Обработано:** **224 / 224** исходных записей (все 10 волн). Из них **223** действительно 2-го ранга и Funeral Flames — 1-го ранга.
 
-**Английских карточек, ожидающих перевода:** **60** (59 второго ранга и 1 первого); седьмая волна добавила 7 EN, восьмая — 6 EN, девятая — 6 EN.
+**Английских карточек, ожидающих перевода:** **70** (69 второго ранга и 1 первого); десятая волна добавила 10 EN.
 
-**Русских карточек второго круга:** **142** (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09). Часть русских названий сверена по русским источникам; 15 авторских черновиков волны 07 требуют дополнительной терминологической проверки. Авторские описания подписаны «Перевод от At your service!».
+**Русских карточек второго круга:** **154** (95 из волн 01–06, 15 из волны 07, 16 из волны 08, 16 из волны 09 и 12 из волны 10). Часть русских названий сверена по русским источникам; авторские черновики волн 07 и 09 требуют дополнительной терминологической проверки; названия RU волны 10 непосредственно найдены в DoctorWater. Авторские описания подписаны «Перевод от At your service!».
 
 Источник сверки: https://github.com/DoctorWater/pf2ru-translation/blob/master/generated/data/community/pf2e/packs/pf2e.spells-srd.json
 
 ## Реестр EN
+
+| 204 | 10 | Tracing Bond | `tracing-bond` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 208 | 10 | Umbral Mindtheft | `umbral-mindtheft` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 209 | 10 | Uncover Device | `uncover-device` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 210 | 10 | Unrelenting Gravity | `unrelenting-gravity` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 211 | 10 | Vanish Weapon | `vanish-weapon` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 212 | 10 | Veil of Spirits | `veil-of-spirits` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 213 | 10 | Vicious Jealousy | `vicious-jealousy` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 216 | 10 | Warping Pull | `warping-pull` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 218 | 10 | Watchdog | `watchdog` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
+| 223 | 10 | With Friends like These | `with-friends-like-these` | EN — русский перевод не найден в модуле DoctorWater | Foundry v14-dev |
 
 | 182 | 09 | Spy's Mark | `spys-mark` | EN — ждёт локализации | Foundry v14-dev |
 | 184 | 09 | Steel Fortifications | `steel-fortifications` | EN — ждёт локализации | Foundry v14-dev |
@@ -258,4 +269,4 @@ JSON находится в папке `spells/rank-2`, но `system.level.value`
 | 179 | Spiritual Weapon | Призрачное Оружие | Legacy |
 | 180 | Splinter Volley | Град щепок | Remaster |
 
-**Особенность:** Spiritual Armament (Remaster) и Spiritual Weapon (Legacy) имеют почти одинаковые подтверждённые русские названия, но остаются разными заклинаниями со своими правилами. **Волна 07 не импортирована.**
+**Особенность:** Spiritual Armament (Remaster) и Spiritual Weapon (Legacy) имеют почти одинаковые подтверждённые русские названия, но остаются разными заклинаниями со своими правилами. **Все 10 волн импортированы.**
