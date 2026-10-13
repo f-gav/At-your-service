@@ -3067,6 +3067,125 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-lost-omens-firebrands"
+    },
+    {
+      "id": "pf2e-hippocampus-retreat",
+      "system": "pf2e",
+      "slug": "hippocampus-retreat",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "morph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-howl-of-the-wild"
+    },
+    {
+      "id": "pf2e-horizon-thunder-sphere",
+      "system": "pf2e",
+      "slug": "horizon-thunder-sphere",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "electricity",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-hydraulic-push",
+      "system": "pf2e",
+      "slug": "hydraulic-push",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "water"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-ill-omen",
+      "system": "pf2e",
+      "slug": "ill-omen",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "curse",
+        "manipulate",
+        "misfortune"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-illusory-disguise",
+      "system": "pf2e",
+      "slug": "illusory-disguise",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-illusory-object",
+      "system": "pf2e",
+      "slug": "illusory-object",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
     }
   ],
   "versions": [
@@ -5218,6 +5337,86 @@
       "resource": "spell-slot",
       "range": "60 feet",
       "duration": "10 minutes"
+    },
+    {
+      "id": "pf2e-hippocampus-retreat-pf2e-remaster",
+      "spellId": "pf2e-hippocampus-retreat",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "10 feet",
+      "targets": "1 creature",
+      "heightened": {
+        "rules": " (+1) The damage increases by 1d6."
+      },
+      "requirements": "You're mostly or totally submerged in water."
+    },
+    {
+      "id": "pf2e-horizon-thunder-sphere-pf2e-remaster",
+      "spellId": "pf2e-horizon-thunder-sphere",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "2 to 2 rounds"
+      },
+      "resource": "spell-slot",
+      "range": "varies",
+      "targets": "1 creature",
+      "heightened": {
+        "rules": " (+1) The initial damage on a hit, as well as the burst damage for 2-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1."
+      }
+    },
+    {
+      "id": "pf2e-hydraulic-push-pf2e-remaster",
+      "spellId": "pf2e-hydraulic-push",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "60 feet",
+      "targets": "1 creature or unattended object",
+      "heightened": {
+        "rules": " (+1) The bludgeoning damage increases by 2d6."
+      }
+    },
+    {
+      "id": "pf2e-ill-omen-pf2e-remaster",
+      "spellId": "pf2e-ill-omen",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 creature",
+      "duration": "1 round",
+      "savingThrow": "will save"
+    },
+    {
+      "id": "pf2e-illusory-disguise-pf2e-remaster",
+      "spellId": "pf2e-illusory-disguise",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "1 willing creature",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-illusory-object-pf2e-remaster",
+      "spellId": "pf2e-illusory-object",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "500 feet",
+      "area": "burst: 20 feet",
+      "duration": "10 minutes"
     }
   ],
   "translations": [
@@ -7055,6 +7254,54 @@
       "locale": "en",
       "name": "Helpful Steps",
       "description": "You call forth a ladder or staircase to help you reach greater heights. The ladder or staircase appears in a space you designate and either stands freely or connects to a nearby wall if possible. You decide the height of the ladder or staircase when casting the spell, up to a maximum height of 40 feet. The ladder or staircase is locked in place and magically supported, allowing you to ascend even if it's in an open area. The conjured ladder is simple in design and made of wood. The staircase is a spiral staircase made of wood. While both are supported and have no risk of falling, they can be damaged and destroyed as normal. The staircase is typically easier to ascend, though it's less discreet than a ladder and could possibly draw more attention. You can Dismiss the spell.\n\n\n\n\n\nHeightened (+1) The maximum height increases by 40 feet.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-hippocampus-retreat",
+      "versionId": "pf2e-hippocampus-retreat-pf2e-remaster",
+      "locale": "en",
+      "name": "Hippocampus Retreat",
+      "description": "Requirements You're mostly or totally submerged in water.\n\n\n\nYou temporarily shape your lower limbs into the tail of a hippocampus in order to swim away from a nearby foe after dealing a parting blow. Attempt a melee spell attack roll against the target's AC, dealing 2d6 bludgeoning damage on a hit (or double damage on a critical hit). Then, Swim up to 30 feet; if you already have a swim Speed, you can Swim up to your Speed with a +10-foot circumstance bonus. You gain a +2 circumstance bonus to your AC against reactions triggered by this movement. At the end of the movement, your lower limbs return to normal.\n\n\nSpell Effect: Hippocampus Retreat\n\n\n\nHeightened (+1) The damage increases by 1d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-horizon-thunder-sphere",
+      "versionId": "pf2e-horizon-thunder-sphere-pf2e-remaster",
+      "locale": "en",
+      "name": "Horizon Thunder Sphere",
+      "description": "You gather magical energy into your palm, forming a concentrated ball of electricity that crackles and rumbles like impossibly distant thunder. Make a ranged spell attack roll against your target's AC. On a success, you deal 3d6 electricity damage. On a critical success, the target takes double damage and is Dazzled for 1 round. The number of actions you spend when Casting this Spell determines its range as well as other parameters.\n\n\n2 This spell has a range of 30 feet.\n\n\n3 This spell has a range of 60 feet and deals half damage on a failure (but not a critical failure) as the electricity lashes out and jolts the target.\n\n\nTwo Rounds If you spend 3 actions Casting the Spell, you can avoid finishing the spell and spend another 2 actions on your next turn to empower the spell even further. You can take other actions before finishing this spell, but the spell is lost if you Cast another Spell in between. After attacking the target, whether you hit or miss, the ball of lightning explodes, dealing Damage ((@item.rank*2)d6[electricity)] damage to all other creatures in a @Template[type:emanation|distance:10] around the target (basic Reflex save). Additionally, you spark with electricity for 1 minute, dealing Damage ((@item.rank)[electricity)] damage to creatures that [[/act grapple]] you or that hit you with an unarmed Strike or a non-reach melee weapon.\n\n\n\nHeightened (+1) The initial damage on a hit, as well as the burst damage for 2-round casting time, each increase by 2d6, and the damage creatures take if they Grapple or hit you while you're in your sparking state increases by 1.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-hydraulic-push",
+      "versionId": "pf2e-hydraulic-push-pf2e-remaster",
+      "locale": "en",
+      "name": "Hydraulic Push",
+      "description": "You call forth a powerful blast of pressurized water that bludgeons the target and knocks it back. Make a ranged spell attack roll.\n\n\n\n\n\nCritical Success The target takes 6d6 bludgeoning damage and is knocked back 10 feet.\n\n\nSuccess The target takes 3d6 bludgeoning damage and is knocked back 5 feet.\n\n\n\n\n\nHeightened (+1) The bludgeoning damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ill-omen",
+      "versionId": "pf2e-ill-omen-pf2e-remaster",
+      "locale": "en",
+      "name": "Ill Omen",
+      "description": "The target is struck with misfortune, which throws it off balance. The target must attempt a Will save.\n\n\nSuccess The target is unaffected.\n\n\nFailure The first time during the duration that the target attempts an attack roll or skill check, it must roll twice and use the worse result.\n\n\nCritical Failure Every time during the duration that the target attempts an attack roll or skill check, it must roll twice and use the worse result.\n\n\nSpell Effect: Ill Omen",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-illusory-disguise",
+      "versionId": "pf2e-illusory-disguise-pf2e-remaster",
+      "locale": "en",
+      "name": "Illusory Disguise",
+      "description": "You create an illusion that causes the target to appear as another creature of the same body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds). The disguise is typically good enough to hide their identity, but not to impersonate a specific individual. The spell changes their appearance and voice, but not mannerisms. You can change the appearance of its clothing and worn items, such as making its armor look like a dress. Held items are unaffected, and any worn item removed from the creature returns to its true appearance.\n\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties the target might take for disguising itself as a dissimilar creature, gives a +4 status bonus to Deception checks to prevent others from seeing through the disguise, and lets the target add its level to such Deception checks even if untrained. You can Dismiss this spell.\n\n\n\n\n\nHeightened (3rd) The target can appear as any creature of the same size, even a specific individual. You must have seen an individual to replicate its appearance, and must have heard its voice to replicate its voice.\n\n\nHeightened (4th) You can target up to 10 willing creatures. If you target multiple creatures, you can choose a different disguise for each target, but none can impersonate a specific individual. You can Dismiss each disguise individually or all collectively.\n\n\nHeightened (7th) As 4th, but you can choose disguises that impersonate specific individuals. You must have seen an individual to replicate its appearance, and must have heard its voice to replicate its voice.\n\n\nSpell Effect: Illusory Disguise",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-illusory-object",
+      "versionId": "pf2e-illusory-object-pf2e-remaster",
+      "locale": "en",
+      "name": "Illusory Object",
+      "description": "You create an illusory visual image of a stationary object. The entire image must fit within the spell's area. The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.\n\n\n\n\n\nHeightened (2nd) Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory and olfactory traits. The duration increases to 1 hour.\n\n\nHeightened (5th) As the 2nd-rank version, but the duration is unlimited.",
       "translationStatus": "verified"
     }
   ],
