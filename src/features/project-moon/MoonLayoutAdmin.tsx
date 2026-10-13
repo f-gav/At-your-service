@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Check, RotateCcw, Save, UploadCloud } from 'lucide-react';
+import { ArrowLeft, Check, RotateCcw, Save, UploadCloud, Bold, Italic, AlignLeft, AlignCenter, AlignRight, Undo2, Redo2, ZoomIn, ZoomOut } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import type { Character } from '../../lib/models';
 import ProjectMoonSheet from './ProjectMoonSheet';
@@ -38,6 +38,36 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   const [versions, setVersions] = useState<number[]>([]);
   const [restore, setRestore] = useState('');
   const dirty = saved !== JSON.stringify(layout);
+  const [zoom,setZoom]=useState(100);
+  const [undo,setUndo]=useState<MoonLayout[]>([]);
+  const [redo,setRedo]=useState<MoonLayout[]>([]);
+  const [numericDrafts,setNumericDrafts]=useState<Record<string,string>>({});
+  const recordChange=(next:MoonLayout)=>{
+    setUndo(old=>[...old.slice(-49),layout]);
+    setRedo([]);
+    setLayout(next);
+  };
+  const undoOnce=()=>{
+    if(!undo.length)return;
+    setRedo(old=>[...old,layout]);
+    setLayout(undo[undo.length-1]);setUndo(old=>old.slice(0,-1));
+  };
+  const redoOnce=()=>{
+    if(!redo.length)return;
+    setUndo(old=>[...old,layout]);
+    setLayout(redo[redo.length-1]);setRedo(old=>old.slice(0,-1));
+  };
+  useEffect(()=>{
+    const onKey=(event:KeyboardEvent)=>{
+      if(!event.ctrlKey&&!event.metaKey)return;
+      if((event.target as HTMLElement|null)?.closest('input,textarea,select,[contenteditable="true"]'))return;
+      if(event.code==='KeyZ'){event.preventDefault();if(event.shiftKey)redoOnce();else undoOnce();}
+      else if(event.code==='KeyY'){event.preventDefault();redoOnce();}
+    };
+    window.addEventListener('keydown',onKey);
+    return ()=>window.removeEventListener('keydown',onKey);
+  },[undo,redo,layout]);
+
 
   useEffect(() => {
     if (!supabase) { setMessage('Supabase недоступен'); setLoading(false); return; }
@@ -77,8 +107,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     }
     const number = Number(raw);
     if (!Number.isFinite(number)) return;
-    const bounded = isMoonPortraitShift(key) ? number
-      : Math.min(control.max!, Math.max(control.min!, number));
+    const bounded = number;
     setLayout(old => {
       if (key === 'titleFont') {
         const titleFont = Math.round(bounded);
@@ -94,8 +123,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     setLayout(old => {
       const before = old.textStyles[selectedTextGroup];
       const updated = normalizeMoonTextStyle({...before,[field]:value}, before);
-      if (selectedTextGroup === 'pageTitle' && field === 'size')
-        updated.size = Math.max(20,Math.min(42,updated.size));
+      
       return {
         ...old,
         ...(selectedTextGroup === 'pageTitle' && field === 'size'
@@ -195,11 +223,18 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     </header>
     <p className="moon-admin-status" role="status">{loading ? 'Загрузка…' : message}{dirty ? ' · Не сохранено' : ''}</p>
     <div className="moon-admin-columns">
-      <div className="moon-admin-preview">
-        <ProjectMoonSheet key="moon-admin-preview" character={previewCharacter} previewMode
-          layoutOverride={layout} onSave={async () => true} onClose={() => {}} onEditPortrait={() => {}} />
+      <div className="moon-admin-preview" onWheel={e=>{if(e.ctrlKey||e.shiftKey||e.altKey)return;setZoom(old=>Math.max(35,Math.min(250,old+(e.deltaY<0?5:-5))));}}>
+        <div className="moon-admin-preview-scale" style={{zoom:zoom/100}}><ProjectMoonSheet key="moon-admin-preview" character={previewCharacter} previewMode
+          layoutOverride={layout} onSave={async () => true} onClose={() => {}} onEditPortrait={() => {}} /></div>
       </div>
       <aside className="moon-admin-inspector">
+        <div className="moon-admin-quick-actions">
+          <button type="button" title="Отменить (Ctrl+Z)" disabled={!undo.length} onClick={undoOnce}><Undo2 size={17}/></button>
+          <button type="button" title="Повторить (Ctrl+Y)" disabled={!redo.length} onClick={redoOnce}><Redo2 size={17}/></button>
+          <button type="button" title="Уменьшить масштаб" onClick={()=>setZoom(old=>Math.max(35,old-10))}><ZoomOut size={17}/></button>
+          <span>{zoom}%</span>
+          <button type="button" title="Увеличить масштаб" onClick={()=>setZoom(old=>Math.min(250,old+10))}><ZoomIn size={17}/></button>
+        </div>
         <h2>Оформление HTML-листа</h2>
         <p>Изменяй параметры и смотри результат на всех четырёх страницах. Поля персонажей и их значения не затрагиваются.</p>
         <div className="moon-admin-controls">
@@ -297,12 +332,15 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
                   onChange={e=>changeTextStyle('lineHeight',Number(e.target.value))}/>
               </span>
             </label>
-            <label className="moon-admin-text-toggle">
-              <input type="checkbox" checked={layout.textStyles[selectedTextGroup].italic}
-                disabled={loading || busy}
-                onChange={e=>changeTextStyle('italic',e.target.checked)}/>
-              Курсив
-            </label>
+            <div className="moon-admin-format-buttons" role="group" aria-label="Быстрое форматирование">
+              <button type="button" aria-label="Жирный" title="Жирный" aria-pressed={layout.textStyles[selectedTextGroup].weight>=700}
+                disabled={loading||busy} onClick={()=>changeTextStyle('weight',layout.textStyles[selectedTextGroup].weight>=700?400:700)}><Bold size={17}/></button>
+              <button type="button" aria-label="Курсив" title="Курсив" aria-pressed={layout.textStyles[selectedTextGroup].italic}
+                disabled={loading||busy} onClick={()=>changeTextStyle('italic',!layout.textStyles[selectedTextGroup].italic)}><Italic size={17}/></button>
+              {([{align:'left',Icon:AlignLeft},{align:'center',Icon:AlignCenter},{align:'right',Icon:AlignRight}] as const).map(({align,Icon})=>
+                <button key={align} type="button" aria-label={align} aria-pressed={layout.textStyles[selectedTextGroup].align===align}
+                  disabled={loading||busy} onClick={()=>changeTextStyle('align',align)}><Icon size={17}/></button>)}
+            </div>
             <button type="button" className="moon-admin-reset-typography"
               disabled={loading || busy}
               onClick={()=>setLayout(old=>{
