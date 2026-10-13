@@ -37,9 +37,9 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('305 записей',{exact:true}).waitFor();
+  await page.getByText('328 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 305 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 328 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -51,8 +51,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),300,'Sixth page loads 50 cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),305,'Seventh page loads final 5 cards');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 305 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),328,'Seventh page loads final 28 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 328 loaded: no more button');
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
     await page.setViewportSize({width,height:900});
@@ -68,7 +68,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),305,
+  assert.equal(await page.locator('.spell-result-stats').count(),328,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -95,7 +95,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'305 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'328 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
@@ -198,13 +198,25 @@ try{
   await page.locator('.spell-result').first().click();
   await page.getByRole('dialog',{name:'Bone Spray'}).waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Зона стихии');
+  assert.equal(await page.locator('.spell-result').count(),1,'Wave-03 Russian name searchable');
+  await page.locator('.spell-result').first().click();
+  const zone=page.getByRole('dialog',{name:'Зона стихии [Elemental Zone]'});
+  await zone.waitFor();
+  await zone.getByText('Перевод от At your service!',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Disorienting Flash');
+  assert.equal(await page.locator('.spell-result').count(),1,'Wave-03 English title searchable');
+  await page.locator('.spell-result').first().click();
+  await page.getByRole('dialog',{name:'Disorienting Flash'}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
-  assert.equal(await page.locator('.spell-result').count(),13,
-    'Eight first-wave and five second-wave spells remain in the English filter');
+  assert.equal(await page.locator('.spell-result').count(),21,
+    'Eight first-wave, five second-wave and eight third-wave spells remain in English');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,
-    'Thirteen untranslated rank-two spells fit on a single page');
+    'Twenty-one untranslated rank-two spells fit on a single page');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
