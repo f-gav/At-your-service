@@ -12358,6 +12358,15 @@
       "description": "Превращаете руки в крупные деревянные кулаки с увеличенной досягаемостью и дробящим уроном. Усиление повышает их магические свойства.",
       "translationStatus": "draft",
       "translatorCredit": "Русское название: PF2.ru, найдено через модуль PF2e: перевод по терминологии PF2.ru (DoctorWater/pf2ru-translation); описание — самостоятельное краткое изложение механики. Сверить полное описание по источнику."
+    },
+    {
+      "spellId": "pf2e-invoke-true-name",
+      "versionId": "pf2e-invoke-true-name-pf2e-legacy",
+      "locale": "ru",
+      "name": "Призыв истинного имени",
+      "description": "Вы произносите истинное имя видимого существа. До конца хода оно застигнуто врасплох против ваших заклинаний, получает штраф к спасброскам от них и дополнительную слабость к урону первого попавшего заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название: Pathfinder 2E RU Translation (Legacy, Invoke True Name), https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/all-spells.html; описание — самостоятельное краткое изложение по исходным механикам."
     }
   ],
   "sources": [
