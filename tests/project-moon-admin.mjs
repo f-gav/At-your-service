@@ -5,6 +5,20 @@ import {
   encodeMoonLayout, parseMoonLayout, moonLayoutVariables,
 } from '../src/features/project-moon/layout-settings.ts';
 const load = path => readFileSync(new URL(path,import.meta.url),'utf8');
+// The admin picker must target the same rich-text nodes that receive the saved
+// per-element geometry and font styles on the actual Pr. Moon sheet.
+const adminSource=load('../src/features/project-moon/MoonLayoutAdmin.tsx');
+const sheetSource=load('../src/features/project-moon/ProjectMoonSheet.tsx');
+for(const richSelector of ['.moon-long-field .pf-rich-editable',
+  '.moon-rich-group .pf-rich-editable','.moon-note .pf-rich-editable']){
+  assert.ok(adminSource.includes(richSelector),
+    'Pr. Moon editor must allow selecting rich-text block: '+richSelector);
+  assert.ok(sheetSource.includes(richSelector),
+    'Pr. Moon sheet must apply the selected rich-text block styling: '+richSelector);
+}
+assert.ok(adminSource.includes('moon-admin-selected-text'),
+  'Selected text blocks must receive visible selection feedback');
+
 const original = {...DEFAULT_MOON_LAYOUT};
 const payload = encodeMoonLayout(original);
 assert.equal(payload.length,17);
