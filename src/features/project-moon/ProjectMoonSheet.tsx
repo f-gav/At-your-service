@@ -209,10 +209,14 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
         nodes.forEach((node,index)=>{
           const override=layout.elementStyles?.[`moon-page-${page}|${group}:${index}`];
           if(!override){
+            node.style.width='';node.style.height='';node.style.maxWidth='';
             node.style.fontSize='';node.style.fontWeight='';node.style.fontStyle='';
             node.style.letterSpacing='';node.style.lineHeight='';node.style.textAlign='';node.style.fontFamily='';
             return;
           }
+          node.style.width=override.boxWidth!==undefined?override.boxWidth+'px':'';
+          node.style.maxWidth=override.boxWidth!==undefined?'100%':'';
+          node.style.height=override.boxHeight!==undefined?override.boxHeight+'px':'';
           node.style.fontSize=override.size!==undefined?override.size+'px':'';
           node.style.fontWeight=override.weight!==undefined?String(override.weight):'';
           node.style.fontStyle=override.italic?'italic':'normal';
