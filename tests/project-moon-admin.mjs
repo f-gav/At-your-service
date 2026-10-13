@@ -10,6 +10,20 @@ const payload = encodeMoonLayout(original);
 assert.equal(payload.length,17);
 assert.deepEqual(parseMoonLayout(payload),original);
 assert.deepEqual(parseMoonLayout(null),original);
+const resizedTextLayout={...original,elementStyles:{
+  'moon-page-notes|bodyText:0':{...original.textStyles.bodyText,size:16,boxWidth:420,boxHeight:175},
+  'moon-page-notes|bodyText:1':{...original.textStyles.bodyText,size:11,boxWidth:250,boxHeight:90},
+}};
+const resizedRestored=parseMoonLayout(encodeMoonLayout(resizedTextLayout));
+assert.equal(resizedRestored.elementStyles['moon-page-notes|bodyText:0'].boxWidth,420,
+  'Selected text box width must survive save/reload');
+assert.equal(resizedRestored.elementStyles['moon-page-notes|bodyText:0'].boxHeight,175,
+  'Selected text box height must survive save/reload');
+assert.equal(resizedRestored.elementStyles['moon-page-notes|bodyText:1'].boxWidth,250,
+  'Neighbouring text block geometry remains independent');
+assert.equal(resizedRestored.textStyles.bodyText.size,original.textStyles.bodyText.size,
+  'Individual styling must not change the shared style');
+
 assert.equal(parseMoonLayout([{id:'pagePadding',value:999}]).pagePadding,999);
 assert.equal(parseMoonLayout([{id:'titleFont',value:-500}]).titleFont,-500);
 assert.equal(parseMoonLayout([{id:'lineColor',value:'red'}]).lineColor,original.lineColor);
