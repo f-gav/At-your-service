@@ -85,6 +85,18 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   }
   function undoOnce(){if(!undo.length)return;setRedo(old=>[...old,cloneFields(fields)]);setFields(cloneFields(undo[undo.length-1]));setUndo(old=>old.slice(0,-1));setDirty(true);}
   function redoOnce(){if(!redo.length)return;setUndo(old=>[...old,cloneFields(fields)]);setFields(cloneFields(redo[redo.length-1]));setRedo(old=>old.slice(0,-1));setDirty(true);}
+  // Ctrl+Z / Ctrl+Y use physical key codes, independent of keyboard layout.
+  useEffect(()=>{
+    const onKey=(event:KeyboardEvent)=>{
+      if(!event.ctrlKey && !event.metaKey)return;
+      const target=event.target as HTMLElement | null;
+      if(target?.closest('input,textarea,select,[contenteditable="true"]'))return;
+      if(event.code==='KeyZ'){event.preventDefault();if(event.shiftKey)redoOnce();else undoOnce();}
+      else if(event.code==='KeyY'){event.preventDefault();redoOnce();}
+    };
+    window.addEventListener('keydown',onKey);
+    return ()=>window.removeEventListener('keydown',onKey);
+  },[undo,redo,fields]);
   function start(e:PE<HTMLElement>,field:EditableField,mode:'move'|'size'){
     if(preview||busy||!pageRef.current)return;
     e.preventDefault();e.stopPropagation();checkpoint();setSelected(field.id);
@@ -170,10 +182,10 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   const changeZoom=(raw:string)=>{
     setZoomInput(raw);
     const n=Number(raw);
-    if(raw.trim() && Number.isFinite(n) && n>=600 && n<=2600)setZoom(n);
+    if(raw.trim() && Number.isFinite(n) && n>=100 && n<=5000)setZoom(n);
   };
   const finishZoom=()=>{
-    const n=Math.max(600,Math.min(2600,Number(zoomInput)||960));
+    const n=Math.max(100,Math.min(5000,Number(zoomInput)||960));
     setZoom(n);setZoomInput(String(n));
   };
   const artPreview = <>
@@ -207,13 +219,18 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
       {bardTestOn&&<span className="ta-bard-hint">Бард — только предпросмотр</span>}
       <label>Масштаб
         <input type="range" min="600" max="2600" step="20" value={zoom} onChange={e=>{setZoom(Number(e.target.value));setZoomInput(e.target.value);}}/>
-        <input className="ta-zoom-value" type="number" min="600" max="2600" step="20" value={zoomInput}
+        <input className="ta-zoom-value" type="number" min="100" max="5000" step="20" value={zoomInput}
           aria-label="Масштаб в пикселях" onChange={e=>changeZoom(e.target.value)} onBlur={finishZoom} onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}}/>
       </label>
       <label><input type="checkbox" checked={grid} onChange={e=>setGrid(e.target.checked)}/>Привязка 1pt</label>
     </div>
     <div className="ta-columns">
-      <div className="ta-scroll"><div className={"ta-page"+(page===2?" ta-page-advancement":"")} ref={pageRef} style={{width:zoom,aspectRatio:page===2?"auto":PDF_WIDTH+"/"+PDF_HEIGHT}}>
+      <div className="ta-scroll" onWheel={e=>{
+        if(e.ctrlKey || e.shiftKey || e.altKey)return;
+        e.preventDefault();
+        const next=Math.max(400,Math.min(4000,zoom+(e.deltaY<0?60:-60)));
+        setZoom(next);setZoomInput(String(next));
+      }}><div className={"ta-page"+(page===2?" ta-page-advancement":"")} ref={pageRef} style={{width:zoom,aspectRatio:page===2?"auto":PDF_WIDTH+"/"+PDF_HEIGHT}}>
         {page===2 ? <div className="pf-advancement-fixed-art">{artPreview}</div> : artPreview}
         {page===2 && <DynamicAdvancement values={displaySamples}
           count={previewAdvancementCount} onValueChange={setPreviewSample}
