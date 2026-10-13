@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 120 заклинаний 1-го круга (191 запись). **На русском:** 93, **только на английском:** 98.
+**Импортировано:** 71 чары и 144 заклинания 1-го круга (215 записей). **На русском:** 101, **только на английском:** 114.
 
 ## Волна 001 — 9 английских
 
@@ -139,3 +139,24 @@
 12. **Nudge the Odds** — `nudge-the-odds` · Remaster · Pathfinder Impossible Magic
 13. **Object Reading** — `object-reading` · Remaster · Pathfinder Player Core 2
 14. **Overselling Flourish** — `overselling-flourish` · Legacy · Pathfinder Lost Omens Firebrands
+
+
+## Заклинания 1-го круга — волна 006 (16 английских)
+
+1. **Penumbral Shroud** — `penumbral-shroud` · Remaster · Pathfinder Lost Omens Divine Mysteries
+2. **Personal Rain Cloud** — `personal-rain-cloud` · Legacy · Pathfinder #151: The Show Must Go On
+3. **Pest Form** — `pest-form` · Remaster · Pathfinder Player Core
+4. **Pet Cache** — `pet-cache` · Remaster · Pathfinder Player Core
+5. **Phantasmal Minion** — `phantasmal-minion` · Remaster · Pathfinder Player Core
+6. **Propelling Air Stream** — `propelling-air-stream` · Remaster · Pathfinder Impossible Magic
+7. **Protector Tree** — `protector-tree` · Remaster · Pathfinder Player Core 2
+8. **Pummeling Rubble** — `pummeling-rubble` · Remaster · Pathfinder Player Core
+9. **Purifying Icicle** — `purifying-icicle` · Legacy · Pathfinder Lost Omens Knights of Lastwall
+10. **Putrefy Food and Drink** — `putrefy-food-and-drink` · Legacy · Pathfinder #158: Sixty Feet Under
+11. **Rainbow's End** — `rainbows-end` · Remaster · Pathfinder War of Immortals
+12. **Reed Whistle** — `reed-whistle` · Remaster · Pathfinder #203: Shepherd of Decay
+13. **Rude Awakening** — `rude-awakening` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+14. **Runic Body** — `runic-body` · Remaster · Pathfinder Player Core
+15. **Runic Weapon** — `runic-weapon` · Remaster · Pathfinder Player Core
+16. **Sacred Beasts** — `sacred-beasts` · Remaster · Pathfinder Howl of the Wild
+17. **Scorching Blast** — `scorching-blast` · Legacy · Pathfinder Kingmaker
