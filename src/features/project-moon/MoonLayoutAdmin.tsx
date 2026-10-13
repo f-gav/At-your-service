@@ -118,7 +118,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
       fieldValue:'.moon-field input',characterName:'.moon-name input',
       attributeLabel:'.moon-attribute-label',resourceTitle:'.moon-resource-title',
       cardTitle:'.moon-weapon-title',noteTitle:'.moon-notes-title',
-      bodyText:'.moon-note textarea',
+      bodyText:'.moon-long-field .pf-rich-editable, .moon-rich-group .pf-rich-editable, .moon-note .pf-rich-editable, .moon-conditions-extra .pf-rich-editable',
     };
     for(const {key} of MOON_TEXT_GROUPS){
       const node=target.closest(selectors[key]);
@@ -128,8 +128,10 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
       const page=Array.from(paper.classList).find(c=>c.startsWith('moon-page-'));
       if(!page)return;
       const id=`${page}|${key}:${index}`;
+      event.currentTarget.querySelectorAll('.moon-admin-selected-text').forEach(element=>element.classList.remove('moon-admin-selected-text'));
+      node.classList.add('moon-admin-selected-text');
       setSelectedElement(id);setSelectedTextGroup(key);
-      setSelectedLabel(node.textContent?.trim().slice(0,65)||key);
+      setSelectedLabel(node.getAttribute('aria-label')||node.getAttribute('data-placeholder')||node.textContent?.trim().slice(0,65)||key);
       return;
     }
   };
