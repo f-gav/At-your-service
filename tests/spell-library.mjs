@@ -160,10 +160,10 @@ assert.ok(liveViews.find(v=>v.spell.slug==='vitality-lash')?.description.include
 assert.ok(liveViews.find(v=>v.spell.slug==='root-reading')?.locale==='en');
 assert.ok(liveViews.find(v=>v.spell.slug==='wash-your-luck')?.locale==='ru');
 assert.ok(source('../docs/SPELL-WAVE-003-RU.md').includes('19 русских'));
-assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=84).length,48,
+assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=71).length,61,
   'Four rank-one waves contain 61 English-only cards');
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=84).length,24);
-assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,84);
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=71).length,35);
+assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,71);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:1}).length,96);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,kind:'spell'}).length,96);
 assert.ok(liveViews.filter(v=>v.spell.rank===1).every(v=>v.rules.resource==='spell-slot'),
