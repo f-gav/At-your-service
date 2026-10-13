@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
@@ -133,6 +133,21 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     catch { return false; }
   });
   const [activePage, setActivePage] = useState<MoonPage>('dossier');
+  // On mobile the browser may restore the dashboard's old scroll offset after
+  // React mounts the long sheet, making its last page (Notes) appear first.
+  // Reset after layout and once more after the next paint to beat restoration.
+  // This is intentionally mount-only: never interfere with page navigation.
+  useLayoutEffect(() => {
+    if (previewMode) return;
+    const reset = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.scrollingElement?.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+    reset();
+    const frame = window.requestAnimationFrame(reset);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   const pageOrder = sheet.pageOrder;
   useEffect(() => {
     try { window.localStorage.setItem('ays-prmoon-navigation-help', navigationHelp ? '1' : '0'); }
