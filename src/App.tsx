@@ -665,7 +665,7 @@ export default function App() {
           <div className="mobile-menu-links">
             {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}><Download size={17}/> Установить приложение</button>}
             {isTemplateAdmin && user && <button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={17}/> Редактор листов</button>}
-            <a className="mobile-menu-action" href={WRECKTRACK_URL} target="_blank" rel="noreferrer" onClick={()=>setMobileMenu(false)}><ArrowRight size={17}/> WreckTrack ↗</a>
+            <a className="mobile-menu-action" href={WRECKTRACK_URL} target="_blank" rel="noreferrer" onClick={()=>setMobileMenu(false)}><ArrowRight size={17}/> WreckTrack</a>
           </div>
         </div>}
         <nav className="site-tabs-mobile" aria-label="Основные разделы">
