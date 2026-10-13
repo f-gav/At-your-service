@@ -24,6 +24,8 @@ export type MoonTextStyle = {
   lineHeight: number;
   family: MoonFontFamily;
   align: MoonTextAlign;
+  boxWidth?: number;
+  boxHeight?: number;
 };
 type MoonTextStyles = Record<MoonTextGroup, MoonTextStyle>;
 
@@ -125,6 +127,8 @@ export function normalizeMoonTextStyle(input: unknown, original: MoonTextStyle):
     next.family = input.family as MoonFontFamily;
   if (allowedAligns.includes(input.align as MoonTextAlign))
     next.align = input.align as MoonTextAlign;
+  if(typeof input.boxWidth==='number'&&Number.isFinite(input.boxWidth))next.boxWidth=Math.round(clamp(input.boxWidth,40,1000));
+  if(typeof input.boxHeight==='number'&&Number.isFinite(input.boxHeight))next.boxHeight=Math.round(clamp(input.boxHeight,20,900));
   return next;
 }
 
