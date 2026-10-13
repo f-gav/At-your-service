@@ -39,9 +39,38 @@ function sourceAbbreviation(spell:SpellView){
   return words.map(w=>w[0]?.toUpperCase()||'').join('').slice(0,4)||'—';
 }
 /** Localize PF2e rules metadata, without changing mechanical quantities. */
-function localizeRuleValue(value:string,_field:'time'|'range'|'targets'|'area'|'savingThrow'|'duration'):string{
+function localizeRuleValue(value:string,field:'time|'range'|'targets'|'area'|'savingThrow'|'duration'):string{
   const source=value.trim();
   if(!source||source==='—')return source;
+  // Imports of rank-two spells can contain a raw Foundry {type,value} object.
+  // This defensive renderer also protects old cached catalogs.
+  if(field==='area'){
+    let kind='',size=0;
+    if(source.startsWith('{')){
+      try {
+        const parsed:unknown=JSON.parse(source);
+        if(parsed&&typeof parsed==='object'&&'type' in parsed&&'value' in parsed){
+          const a=parsed as {type:unknown,value:unknown};
+          kind=String(a.type); size=Number(a.value);
+        }
+      } catch {/* invalid source data is left unaltered */}
+    }
+    const match=source.match(/^(burst|cone|emanation|line|cube|square):\s*(\d+)\s+feet$/i);
+    if(match){kind=match[1];size=Number(match[2]);}
+    if(Number.isFinite(size)&&size>0){
+      const prefix:Record<string,string>={burst:'взрыв',cone:'конус',emanation:'эманация',line:'линия',cube:'куб',square:'квадрат'};
+      if(prefix[kind])return size+'-футов'+(kind==='emanation'||kind==='line'?'ая':'ый')+' '+prefix[kind];
+    }
+  }
+  if(field==='savingThrow'){
+    const match=source.match(/^(?:(basic|обычный|простой)\s+)?(?:(?:спасбросок|save)\s+)?(reflex|fortitude|will|рефлекс(?:а)?|стойкост(?:ь|и)|вол(?:я|и))(?:\s+save)?$/i);
+    if(match){
+      const key=match[2].toLowerCase();
+      const name=key.startsWith('reflex')||key.startsWith('рефлекс')?'Рефлекса':
+        key.startsWith('fortitude')||key.startsWith('стойкост')?'Стойкости':'Воли';
+      return (match[1]?'Обычный ':'')+'спасбросок '+name;
+    }
+  }
   const exact:Record<string,string>={
     '1 object':'1 предмет','1 creature':'1 существо','1 or 2 creatures':'1 или 2 существа',
     '1 creature or object':'1 существо или предмет','1 willing creature':'1 согласное существо',
@@ -63,6 +92,13 @@ function localizeRuleValue(value:string,_field:'time'|'range'|'targets'|'area'|'
     'one door or similar opening':'1 дверь или аналогичный проём',
     '1 item or spell effect':'1 предмет или эффект заклинания',
     'varies':'различается','reaction':'Реакция','touch':'Касание',
+    'unlimited':'неограниченная','see text':'см. описание','see description':'см. описание',
+    'planetary':'планетарная','up to 8 hours':'до 8 часов','1 year':'1 год',
+    '1 minute (see text)':'1 минута (см. описание)',
+    '10 minutes or 8 hours':'10 минут или 8 часов',
+    '1 minute or 8 hours':'1 минута или 8 часов',
+    'until the next time you make your daily preparations':'до следующей ежедневной подготовки',
+    'until the next time you make your daily preparations or until discharged':'до следующей ежедневной подготовки или до разрядки',
     'until your next daily preparations':'до следующей ежедневной подготовки',
     "until the end of the target's next turn":'до конца следующего хода цели',
     '1 cubic foot':'1 кубический фут',
@@ -81,11 +117,11 @@ function localizeRuleValue(value:string,_field:'time'|'range'|'targets'|'area'|'
     if(unit.startsWith('round'))return n+' '+plural('раунд','раунда','раундов');
     return n+' '+plural('день','дня','дней');
   }
-  const feet=source.match(/^(\d+)\s+feet$/i);
-  if(feet)return feet[1]+' футов';
-  const area=source.match(/^(cone|burst|emanation|line):\s*(\d+)\s+feet$/i);
+  const feet=source.match(/^(\d+)\s+(feet|foot|miles?|meters?)$/i);
+  if(feet)return feet[1]+' '+(feet[2].startsWith('mile')?'миль':feet[2].startsWith('meter')?'метров':'футов');
+  const area=source.match(/^(cone|burst|emanation|line|cube|square):\s*(\d+)\s+feet$/i);
   if(area){
-    const noun:{[key:string]:string}={cone:'Конус',burst:'Взрыв',emanation:'Эманация',line:'Линия'};
+    const noun:{[key:string]:string}={cone:'Конус',burst:'Взрыв',emanation:'Эманация',line:'Линия',cube:'Куб',square:'Квадрат'};
     return noun[area[1].toLowerCase()]+' '+area[2]+' футов';
   }
   const save=source.match(/^(basic\s+)?(reflex|fortitude|will)\s+save$/i);
@@ -135,6 +171,8 @@ const PF_TRAIT_LABELS:Record<string,string>={
   polymorph:'Полиморф',extradimensional:'Внепространственный',
   summon:'Призыв',mythic:'Мифический',sleep:'Сон',
   teleportation:'Телепортация',olfactory:'Обонятельный',
+  prediction:'Предсказание',holy:'Святой',death:'Смерть',fungus:'Гриб',
+  evil:'Зло',unholy:'Нечестивый',contingency:'Условный',revelation:'Откровение',scrying:'Наблюдение',
 };
 const editionTitle=(edition:string)=>edition==='pf2e-legacy'?'Legacy':edition==='pf2e-remaster'?'Remaster':edition;
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
