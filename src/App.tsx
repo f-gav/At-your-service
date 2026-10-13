@@ -268,6 +268,9 @@ export default function App() {
     setMainTab(tab);setActiveId(null);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
     closeCreate();
     window.location.hash=siteRouteHash({kind:tab});
+    // Hash navigation can race browser scroll restoration when switching away
+    // from a long paginated library; always reset the destination viewport.
+    window.scrollTo({top:0,left:0,behavior:'instant'});
   }
   function openCharacter(id:string){
     setMainTab('characters');setActiveId(id);setOpenMenuId(null);setError('');
