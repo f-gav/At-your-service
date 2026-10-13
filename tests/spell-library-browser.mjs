@@ -274,10 +274,13 @@ try{
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   await page.locator('.spell-filter-toggle').click();
   await page.locator('.spell-filter-grid select').filter({hasText:'Только английский'}).selectOption('en');
-  assert.equal(await page.locator('.spell-result').count(),47,
-    'Forty-six untranslated rank-two spells plus Funeral Flames rank one');
+  assert.equal(await page.locator('.spell-result').count(),50,
+    'First page of fifty untranslated spells');
+  await page.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await page.locator('.spell-result').count(),54,
+    'Fifty-three untranslated rank-two spells plus Funeral Flames rank one');
   assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,
-    'Forty-seven untranslated spells fit on a single page');
+    'All fifty-four untranslated spells now loaded');
   await page.locator('.spell-reset-main').click();
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.locator('.spell-filter-toggle').click();
