@@ -623,7 +623,7 @@ export default function App() {
               <Download size={15}/> Установить
             </button>}
             <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer" className="header-project-link">WreckTrack <ArrowRight size={13} /></a>
-            {isTemplateAdmin && user && <button type="button" className="header-project-link" style={{background:'none',border:0,cursor:'pointer'}} onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
+            {isTemplateAdmin && user && <button type="button" className="button button-header admin-entry-button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={16}/> Редактор листов</button>}
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
                 <span className="account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
@@ -636,15 +636,18 @@ export default function App() {
           <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
         {mobileMenu && <div className="mobile-menu-panel">
-          {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}>
-            Установить приложение
-          </button>}
-          {user ? <><span className="mobile-account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
-            {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>}
-          </span><button type="button" onClick={() => {setMobileMenu(false); void signOut();}}>Выйти из аккаунта</button></>
-            : <button type="button" onClick={() => {setMobileMenu(false); void signIn();}}>Войти через Google</button>}
-          <a href={WRECKTRACK_URL} target="_blank" rel="noreferrer">WreckTrack ↗</a>
-          {isTemplateAdmin&&user&&<button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}>Редактор листов</button>}
+          <div className="mobile-account-row">
+            {user ? <>
+              <span className="mobile-account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
+                {avatar ? <img className="avatar" src={avatar} alt="" referrerPolicy="no-referrer" /> : <span className="avatar avatar-initial" aria-hidden="true">{displayName.charAt(0).toUpperCase()}</span>}
+              </span>
+              <span className="mobile-account-name">{displayName}</span>
+              <button type="button" className="mobile-signout" onClick={() => {setMobileMenu(false);void signOut();}}><LogOut size={16}/> Выйти из аккаунта</button>
+            </> : <button type="button" onClick={() => {setMobileMenu(false);void signIn();}}><LogIn size={16}/> Войти через Google</button>}
+          </div>
+          {canInstall && <button type="button" onClick={()=>{setMobileMenu(false);void install();}}><Download size={17}/> Установить приложение</button>}
+          {isTemplateAdmin && user && <button type="button" onClick={()=>{setActiveId(null);setShowTemplateAdmin(true);setMobileMenu(false);}}><FilePenLine size={17}/> Редактор листов</button>}
+          <a className="mobile-menu-action" href={WRECKTRACK_URL} target="_blank" rel="noreferrer"><ArrowRight size={17}/> WreckTrack ↗</a>
         </div>}
         <nav className="site-tabs-mobile" aria-label="Основные разделы">
           <button type="button" aria-current={mainTab==='characters'?'page':undefined} className={mainTab==='characters'?'is-active':''}
@@ -815,7 +818,7 @@ export default function App() {
       {portraitCharacter && <PortraitEditor key={portraitCharacter.id} name={portraitCharacter.name} system={portraitCharacter.system}
         existing={portraitPaths(portraitCharacter).length>0} onClose={()=>setEditingPortraitId(null)}
         onSave={savePortraitChange} onDelete={removePortraitChange}/>}
-      <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ ВЕРСИЯ #1</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>
+      <footer className="site-footer"><span>AT YOUR SERVICE <span className="footer-alpha">/ БЕТА</span></span><span>Создано для историй, которые стоит помнить. <Check size={13} /></span></footer>
     </div>
   );
 }
