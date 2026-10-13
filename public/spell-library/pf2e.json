@@ -4687,6 +4687,97 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-swampcall",
+      "system": "pf2e",
+      "slug": "swampcall",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "earth",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-171-hurricane-s-howl"
+    },
+    {
+      "id": "pf2e-synchronize-steps",
+      "system": "pf2e",
+      "slug": "synchronize-steps",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-knights-of-lastwall"
+    },
+    {
+      "id": "pf2e-synchronize",
+      "system": "pf2e",
+      "slug": "synchronize",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-tailwind",
+      "system": "pf2e",
+      "slug": "tailwind",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-temporary-tool",
+      "system": "pf2e",
+      "slug": "temporary-tool",
+      "kind": "spell",
+      "rank": 1,
+      "traditions": [
+        "arcane"
+      ],
+      "classes": [],
+      "traits": [
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
     }
   ],
   "versions": [
@@ -7895,6 +7986,72 @@
       },
       "resource": "spell-slot",
       "duration": "until the end of your turn"
+    },
+    {
+      "id": "pf2e-swampcall-pf2e-legacy",
+      "spellId": "pf2e-swampcall",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "area": "burst: 10 feet",
+      "duration": "1 minute",
+      "savingThrow": "reflex save",
+      "heightened": {
+        "rules": " (3rd) The range increases to 60 feet, and the area increases to a 20-foot burst."
+      }
+    },
+    {
+      "id": "pf2e-synchronize-steps-pf2e-legacy",
+      "spellId": "pf2e-synchronize-steps",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "30 feet",
+      "targets": "2 willing creatures",
+      "duration": "1 minute",
+      "heightened": {
+        "rules": " (5th) The range increases to 60 feet, and you can target up to 10 willing creatures."
+      }
+    },
+    {
+      "id": "pf2e-synchronize-pf2e-remaster",
+      "spellId": "pf2e-synchronize",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "range": "touch",
+      "targets": "up to 5 willing creatures",
+      "duration": "up to 24 hours",
+      "heightened": {
+        "rules": " (2nd) The spell can target up to 20 willing creatures."
+      }
+    },
+    {
+      "id": "pf2e-tailwind-pf2e-remaster",
+      "spellId": "pf2e-tailwind",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "spell-slot",
+      "duration": "1 hour"
+    },
+    {
+      "id": "pf2e-temporary-tool-pf2e-remaster",
+      "spellId": "pf2e-temporary-tool",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 minute"
+      },
+      "resource": "spell-slot",
+      "duration": "1 minute or until used (see text)"
     }
   ],
   "translations": [
@@ -10801,6 +10958,46 @@
       "description": "До конца вашего хода при следующей атаке бросьте кость дважды и выберите лучший результат. Эта атака игнорирует штрафы обстоятельства и чистые проверки из-за скрытой или спрятанной цели. После этого вы получаете временную невосприимчивость к заклинанию на 10 минут.",
       "translationStatus": "draft",
       "translatorCredit": "Русское название сверено по pf2e-ru-translation (Legacy-справочник); описание — самостоятельное краткое изложение Foundry PF2e v14-dev, не официальный перевод."
+    },
+    {
+      "spellId": "pf2e-swampcall",
+      "versionId": "pf2e-swampcall-pf2e-legacy",
+      "locale": "en",
+      "name": "Swampcall",
+      "description": "You call upon the spirits of the soil to twist and churn, transforming the terrain in the targeted area into a sodden mess. The area becomes difficult terrain. Creatures in the area when you Cast this Spell must attempt a Reflex saving throw.\n\nSuccess The creature is unaffected.\n\nFailure The creature sinks partially into the mud. The creature takes a –10-foot circumstance penalty to its Speeds (except for its swim Speed, if any) and becomes Off-Guard. These effects last until the creature leaves the area or until the end of its next turn, whichever comes first.\n\nCritical Failure As failure, but the penalty to Speeds (except Swim speed) is -15 feet.\n\nSpell Effect: Swampcall\n\nHeightened (3rd) The range increases to 60 feet, and the area increases to a 20-foot burst.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-synchronize-steps",
+      "versionId": "pf2e-synchronize-steps-pf2e-legacy",
+      "locale": "en",
+      "name": "Synchronize Steps",
+      "description": "You link the minds of two targets, enabling them to move in tandem. When one of the targets Steps, the other target can use a reaction to Step. When one of the targets Strides, the other target can use a reaction to Stride.\n\nHeightened (5th) The range increases to 60 feet, and you can target up to 10 willing creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-synchronize",
+      "versionId": "pf2e-synchronize-pf2e-remaster",
+      "locale": "en",
+      "name": "Synchronize",
+      "description": "You harmlessly place your unique magic sigil in the shape of your choice, which is about 1 square inch in size, on your targets. When you Cast the Spell, you set the duration by choosing a time at which point the sigil flashes dimly three times. After that point, the spell ends. Even though spell durations aren't normally exact, the effects of synchronize are precise to the second. The timer is based on the place where the spell was cast, so entering a plane or area where time flows differently changes how the time elapses in sometimes unpredictable ways.\n\nHeightened (2nd) The spell can target up to 20 willing creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-tailwind",
+      "versionId": "pf2e-tailwind-pf2e-remaster",
+      "locale": "en",
+      "name": "Tailwind",
+      "description": "The wind at your back pushes you to find new horizons. You gain a +10-foot status bonus to your Speed.\n\nSpell Effect: Tailwind\n\nHeightened (2nd) The duration increases to 8 hours.\n\nSpell Effect: Tailwind (8 hours)",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-temporary-tool",
+      "versionId": "pf2e-temporary-tool-pf2e-remaster",
+      "locale": "en",
+      "name": "Temporary Tool",
+      "description": "You conjure a temporary simple tool, such as a shovel or rope into your hands. It lasts until it's used for a single activity or for 1 minute, whichever comes first, after which it disappears. The tool is obviously temporarily conjured and thus can't be sold or passed off as a genuine item.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -11052,6 +11249,13 @@
     {
       "id": "src-pathfinder-lost-omens-world-guide",
       "name": "Pathfinder Lost Omens World Guide",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-171-hurricane-s-howl",
+      "name": "Pathfinder #171: Hurricane's Howl",
       "publisher": "Paizo",
       "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
