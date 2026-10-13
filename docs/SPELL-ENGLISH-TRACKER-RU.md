@@ -63,6 +63,10 @@
 55. **Turnip Lantern** — `turnip-lantern` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
 56. **Verminous Lure** — `verminous-lure` · Legacy · Pathfinder #169: Kindled Magic
 
+## Проверка дополнительных источников (13 октября 2026)
+
+[Отчёт о повторном поиске всех 56 карточек](./SPELL-REMAINING-56-SEARCH-2026-10-13-RU.md). В русской выгрузке PF2.ru новых соответствий не найдено; старый модуль Foundry предлагает один **предварительный** вариант Briny Bolt — «Соленый снаряд(*)». До подтверждения переводы в каталог не внесены.
+
 ## Правила локализации
 
 - Основной источник названий: [PF2.ru](https://pf2.ru/). Его именования также доступны в [модуле перевода для Foundry](https://github.com/DoctorWater/pf2ru-translation), содержащем ключи с английскими именами.
