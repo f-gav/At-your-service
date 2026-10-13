@@ -8414,7 +8414,7 @@
         "actions": 2
       },
       "resource": "spell-slot",
-      "targets": "1 minute"
+      "duration": "1 minute"
     },
     {
       "id": "pf2e-unbroken-panoply-pf2e-remaster",
@@ -11584,6 +11584,87 @@
       "name": "Wooden Fists",
       "description": "Your arms and hands swell with new growth, transforming into tree trunks twice as big as their current size. Your fists deal 1d6 bludgeoning damage, lose the nonlethal trait, and have reach.\n\nHeightened (3rd) Your fists gain the magical trait and become a striking weapon, increasing the damage your fists deal to 2d6 bludgeoning.\n\nHeightened (7th) Your fists gain the magical trait and become a greater striking weapon, increasing the damage your fists deal to 3d6 bludgeoning. The duration is 10 minutes.\n\nHeightened (9th) Your fists gain the magical trait and become a major striking weapon, increasing the damage your fists deal to 4d6 bludgeoning. The duration is 1 hour.\n\nSpell Effect: Wooden Fists",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-swampcall",
+      "versionId": "pf2e-swampcall-pf2e-legacy",
+      "locale": "ru",
+      "name": "Зов болота",
+      "description": "Вы обращаетесь к духам земли и превращаете 10-футовый взрыв в труднопроходимую грязь на 1 минуту. Все существа в области при сотворении совершают спасбросок Рефлекса. Успех: без дополнительного эффекта. Провал: штраф обстоятельства –10 футов к Скорости (кроме Скорости плавания) и состояние застигнут врасплох, пока существо не покинет область или до конца его следующего хода. Критический провал: тот же эффект, но штраф –15 футов. Усиление (3-й круг): дистанция 60 футов, область — 20-футовый взрыв.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-synchronize",
+      "versionId": "pf2e-synchronize-pf2e-remaster",
+      "locale": "ru",
+      "name": "Сверка",
+      "description": "На не более чем пяти согласных существах появляются небольшие безопасные магические знаки. При сотворении вы назначаете точный момент, когда каждый знак тускло вспыхнет трижды, после чего заклинание закончится. Время отсчитывается от места сотворения и точно до секунды; области с иным течением времени могут повлиять на отсчёт. Усиление (2-й круг): до 20 согласных существ.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-temporary-tool",
+      "versionId": "pf2e-temporary-tool-pf2e-remaster",
+      "locale": "ru",
+      "name": "Временный инструмент",
+      "description": "За 1 минуту вы создаёте в руках простой временный инструмент — например, лопату или верёвку. Он исчезает после однократного использования для одного занятия либо через 1 минуту, в зависимости от того, что произойдёт раньше. Магическое происхождение заметно, поэтому вы не сможете продать инструмент как настоящий.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-tether",
+      "versionId": "pf2e-tether-pf2e-remaster",
+      "locale": "ru",
+      "name": "Путы",
+      "description": "Магические цепи, лозы или другие путы соединяют цель с вами. Она совершает спасбросок Рефлекса. Критический успех: без эффекта. Успех: штраф обстоятельства –5 футов к Скорости, пока цель находится в пределах 30 футов от вас. Провал: штраф –10 футов к Скорости и невозможность отойти дальше чем на 30 футов, пока цель не освободится или заклинание не закончится. Критический провал: цель обездвижена до освобождения или окончания заклинания. Путы можно разорвать атакой (КБ 15, 10 ОЗ); если вы отойдёте дальше чем на 30 футов, эффект закончится. Усиление (+1 круг): КБ пут увеличивается на 3, ОЗ — на 10.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-thicket-of-knives",
+      "versionId": "pf2e-thicket-of-knives-pf2e-remaster",
+      "locale": "ru",
+      "name": "Заросли ножей",
+      "description": "Иллюзорные копии вашей вооружённой руки скрывают настоящие движения. Вы получаете бонус состояния +2 к проверкам Обмана. Даже без обучения Обману можете использовать действие «Финт» и добавлять к проверке свой уровень в качестве бонуса мастерства.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-thoughtful-gift",
+      "versionId": "pf2e-thoughtful-gift-pf2e-remaster",
+      "locale": "ru",
+      "name": "Продуманный подарок",
+      "description": "Вы мгновенно переносите удерживаемый предмет незначительной или лёгкой Массы к согласному существу в пределах 120 футов. Предмет появляется в его свободной руке или у ног, если руки заняты; цель знает, что вы передаёте. Если цель без сознания, отказывается принять дар либо предмет содержит существо (даже внутри межпространственного контейнера), заклинание проваливается. Усиление (3-й круг): дистанция 500 футов. Усиление (5-й круг): допустимая Масса до 1; за 3 действия можно передать предмет на расстояние до 1 мили без прямой видимости, если вы хорошо знакомы с целью.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-thunderstrike",
+      "versionId": "pf2e-thunderstrike-pf2e-remaster",
+      "locale": "ru",
+      "name": "Удар грома",
+      "description": "Вы поражаете цель молнией и ударом грома: 1d12 электрического и 1d4 звукового урона с простым спасброском Рефлекса. Цель в металлическом доспехе или состоящая из металла получает штраф обстоятельства –1 к этому спасброску и, если получает урон от заклинания, становится неуклюжей 1 на 1 раунд. Усиление (+1 круг): добавляется 1d12 электрического и 1d4 звукового урона.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-ventriloquism",
+      "versionId": "pf2e-ventriloquism-pf2e-remaster",
+      "locale": "ru",
+      "name": "Чревовещание",
+      "description": "На протяжении 10 минут ваши слова и другие издаваемые голосом звуки могут казаться исходящими из любой точки в пределах 60 футов. Во время речи вы свободно меняете мнимое местоположение звука; слышащие существа могут попытаться не поверить иллюзии. Усиление (2-й круг): длительность 1 час, вы можете менять тембр и качество голоса; прежде чем пытаться распознать иллюзию, существо должно активно прислушаться или взаимодействовать со звуком.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
+    },
+    {
+      "spellId": "pf2e-wall-of-shrubs",
+      "versionId": "pf2e-wall-of-shrubs-pf2e-remaster",
+      "locale": "ru",
+      "name": "Стена кустарников",
+      "description": "Из земли вырастает линия местных кустарников длиной до 60 футов, толщиной около 1 фута и высотой менее 5 футов. Она предоставляет небольшое укрытие. Усиление (3-й круг): кусты высотой 10 футов и толщиной 5 футов обеспечивают обычное укрытие, становятся труднопроходимой местностью; СЛ Карабкаться 15, длительность 10 минут. Усиление (5-й круг): усиленное укрытие, длительность 1 час; вместо линии можно создать кольцо кустов диаметром до 30 футов.",
+      "translationStatus": "draft",
+      "translatorCredit": "Русское название: pf2e-ru-translation.readthedocs.io; описание — самостоятельный пересказ механик Foundry PF2e v14-dev (не официальный перевод)."
     }
   ],
   "sources": [
