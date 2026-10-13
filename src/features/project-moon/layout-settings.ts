@@ -113,14 +113,14 @@ export function normalizeMoonTextStyle(input: unknown, original: MoonTextStyle):
   const next = { ...original };
   if (!isRecord(input)) return next;
   if (typeof input.size === 'number' && Number.isFinite(input.size))
-    next.size = Math.round(clamp(input.size, 7, 48));
+    next.size = Math.round(clamp(input.size, 5, 160));
   if (typeof input.weight === 'number' && Number.isFinite(input.weight))
     next.weight = Math.round(clamp(input.weight, 100, 900) / 100) * 100;
   if (typeof input.italic === 'boolean') next.italic = input.italic;
   if (typeof input.letterSpacing === 'number' && Number.isFinite(input.letterSpacing))
-    next.letterSpacing = Math.round(clamp(input.letterSpacing,-2,6) * 10) / 10;
+    next.letterSpacing = Math.round(clamp(input.letterSpacing,-30,50) * 10) / 10;
   if (typeof input.lineHeight === 'number' && Number.isFinite(input.lineHeight))
-    next.lineHeight = Math.round(clamp(input.lineHeight,1,2.5) * 20) / 20;
+    next.lineHeight = Math.round(clamp(input.lineHeight,0.5,6) * 20) / 20;
   if (allowedFonts.includes(input.family as MoonFontFamily))
     next.family = input.family as MoonFontFamily;
   if (allowedAligns.includes(input.align as MoonTextAlign))
@@ -139,8 +139,7 @@ export function parseMoonLayout(raw: unknown): MoonLayout {
     const input = entries.get(control.key);
     if (typeof DEFAULT_MOON_LAYOUT[control.key] === 'number') {
       if (typeof input !== 'number' || !Number.isFinite(input)) continue;
-      const value = isMoonPortraitShift(control.key) ? input
-        : clamp(input,control.min ?? input,control.max ?? input);
+      const value = input;
       (safe as Record<string, unknown>)[control.key] = Math.round(value);
     } else if (typeof input === 'string' && /^#[0-9a-fA-F]{6}$/.test(input)) {
       (safe as Record<string, unknown>)[control.key] = input.toLowerCase();
