@@ -13,7 +13,7 @@ const wave=JSON.parse(source('../public/spell-library/pf2e.json'));
 parseSpellCatalog(wave,'pf2e');
 assert.equal(wave.spells.length,259,'71 cantrips + 188 rank-one spells');
 assert.equal(wave.versions.length,259);
-assert.equal(wave.translations.filter(t=>t.locale==='ru').length,213,'9 AYS cantrip translations + Briny Bolt + 203 previously translated cards');
+assert.equal(wave.translations.filter(t=>t.locale==='ru').length,229,'16 new first-rank AYS translations + 213 previous Russian cards');
 assert.equal(wave.translations.filter(t=>t.locale==='en').length,259,'Every spell retains a canonical English identity');
 assert.ok(wave.spells.every(s=>s.system==='pf2e'&&((s.kind==='cantrip'&&s.rank===0)||(s.kind==='spell'&&s.rank===1))));
 assert.equal(wave.spells.filter(s=>s.kind==='cantrip').length,71);
@@ -186,13 +186,13 @@ for(const t of wave.translations){
 }
 const liveViews=toSpellViews(wave,'pf2e-remaster');
 assert.equal(liveViews.length,259,'All 71 cantrips and 188 rank-one spells are searchable');
-assert.equal(liveViews.filter(v=>v.locale==='ru').length,213);
-assert.equal(liveViews.filter(v=>v.locale==='en').length,46);
+assert.equal(liveViews.filter(v=>v.locale==='ru').length,229);
+assert.equal(liveViews.filter(v=>v.locale==='en').length,30);
 const legacy=liveViews.filter(v=>v.rules.edition==='pf2e-legacy');
 assert.deepEqual(legacy.map(v=>v.spell.slug).sort(),["acid-splash","admonishing-ray","airburst","ancient-dust","animate-rope","aqueous-blast","buffeting-winds","celestial-accord","draw-ire","elysian-whimsy","exchange-image","fashionista","flashy-disappearance","flense","forge","friendfetch","ghost-sound","glowing-trail","gritty-wheeze","healing-plaster","helpful-steps","inkshot","inside-ropes","invoke-true-name","join-pasts","know-location","magic-stone","negate-aroma","nettleskin","overselling-flourish","personal-rain-cloud","purifying-icicle","putrefy-food-and-drink","ray-of-frost","scorching-blast","scouring-sand","shillelagh","shocking-grasp","snowball","swampcall","synchronize-steps","torturous-trauma","verdant-sprout","verminous-lure"]);
 assert.equal(toSpellViews(wave,'pf2e-legacy').length,44);
-assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===213);
-assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===46);
+assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'ru'}).length===229);
+assert.ok(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,locale:'en'}).length===30);
 assert.ok(liveViews.every(v=>wave.sources.some(src=>src.id===v.spell.sourceId)));
 const electric=liveViews.find(v=>v.spell.slug==='electric-arc');
 assert.ok(electric?.description.includes('2d4'),'Remaster electric arc has 2d4 base damage');
@@ -224,7 +224,7 @@ assert.ok(liveViews.find(v=>v.spell.slug==='wash-your-luck')?.locale==='ru');
 assert.ok(source('../docs/SPELL-WAVE-003-RU.md').includes('19 русских'));
 assert.equal(englishOnly.filter(slug=>wave.spells.findIndex(s=>s.slug===slug)>=71).length,111,
   'Four rank-one waves contain 61 English-only cards');
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=71).length,142);
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&wave.spells.findIndex(s=>s.id===t.spellId)>=71).length,158);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:0}).length,71);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,rank:1}).length,188);
 assert.equal(filterSpellViews(liveViews,{...DEFAULT_SPELL_FILTERS,kind:'spell'}).length,188);
@@ -264,7 +264,7 @@ assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('растерянно
 assert.ok(briny?.rules.outcomes?.success?.includes('слепоту на 1 раунд'));
 assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('но не от растерянности'));
 assert.equal(briny?.rules.heightened?.['+1'],'Урон увеличивается на 2d6.');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,10,
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,26,
   'Briny Bolt and nine original cantrips must have first-party attribution');
 const wave1Names={
   'ancient-dust':'Древний прах',
@@ -284,6 +284,58 @@ for(const [slug,name] of Object.entries(wave1Names)){
   assert.equal(entry?.translationOrigin,'at-your-service','Every original translation is credited: '+slug);
   assert.ok(entry?.description.length>150,'Translate full mechanical text, not a placeholder: '+slug);
 }
+
+const firstCycle=[
+  ['admonishing-ray','Вразумляющий луч','pf2e-legacy'],
+  ['airburst','Воздушный выброс','pf2e-legacy'],
+  ['blessing-of-vigor','Благословение жизненных сил','pf2e-remaster'],
+  ['bone-shield','Костяной щит','pf2e-remaster'],
+  ['buffeting-winds','Шквальные ветры','pf2e-legacy'],
+  ['celestial-accord','Небесное согласие','pf2e-legacy'],
+  ['cinder-scribe','Пепельный писец','pf2e-remaster'],
+  ['connective-current','Связующий поток','pf2e-remaster'],
+  ['cradle-aloft','Парящая колыбель','pf2e-remaster'],
+  ['curse-of-slippery-steps','Проклятие скользких шагов','pf2e-remaster'],
+  ['cycle-of-retribution','Круг возмездия','pf2e-remaster'],
+  ['decompose','Разложение','pf2e-remaster'],
+  ['defended-by-spirits','Под защитой духов','pf2e-remaster'],
+  ['devils-horseshoe','Дьявольская подкова','pf2e-remaster'],
+  ['dome-of-tranquility','Купол безмятежности','pf2e-remaster'],
+  ['elysian-whimsy','Причуда Элизиума','pf2e-legacy'],
+];
+assert.equal(firstCycle.length,16);
+for(const [slug,russian,edition] of firstCycle){
+  const view=liveViews.find(v=>v.spell.slug===slug);
+  assert.ok(view,'Translated spell must exist: '+slug);
+  assert.equal(view.name,russian,'Russian spell title: '+slug);
+  assert.equal(view.locale,'ru','Russian card locale: '+slug);
+  assert.equal(view.rules.edition,edition,'Legacy/Remaster source must be preserved: '+slug);
+  assert.equal(view.translationOrigin,'at-your-service','Every self-authored spell has its AYS label: '+slug);
+  assert.ok(view.englishName.length>3&&view.englishName!==view.name,'English original must remain searchable: '+slug);
+  assert.ok(view.description.length>50,'Full spell description missing: '+slug);
+  const entry=wave.translations.find(t=>t.spellId===view.id&&t.locale==='ru');
+  assert.ok(entry?.translatorCredit?.includes('Перевод от At your service!'),
+    'Self-authored credits must be retained: '+slug);
+  assert.ok(!/\b(?:Critical Success|Critical Failure|Heightened|Sustain)\b/.test(view.description),
+    'English mechanic remains in authored Russian card: '+slug);
+}
+const firstCycleBySlug=slug=>liveViews.find(v=>v.spell.slug===slug);
+assert.equal(firstCycleBySlug('bone-shield')?.rules.heightened?.['+2'],'Твёрдость щита увеличивается на 3.');
+assert.ok(firstCycleBySlug('buffeting-winds')?.description.includes('2d4 дробящего урона'));
+assert.ok(!firstCycleBySlug('buffeting-winds')?.description.includes('сбивает с ног живых'),
+  'Buffeting Winds must not falsely impose prone');
+assert.ok(firstCycleBySlug('celestial-accord')?.description.includes('подвергается враждебности'));
+assert.equal(firstCycleBySlug('cycle-of-retribution')?.rules.sustain,true);
+assert.equal(firstCycleBySlug('cycle-of-retribution')?.rules.duration,'Поддерживаемое, до 1 минуты');
+assert.equal(firstCycleBySlug('defended-by-spirits')?.rules.sustain,true);
+assert.equal(firstCycleBySlug('defended-by-spirits')?.rules.duration,'Поддерживаемое, до 1 минуты');
+assert.ok(firstCycleBySlug('devils-horseshoe')?.rules.outcomes?.failure?.includes('Бестия'));
+assert.ok(!firstCycleBySlug('devils-horseshoe')?.description.includes('Когда бес проходит'),
+  'Fiend must not be narrowed to an imp');
+assert.ok(firstCycleBySlug('elysian-whimsy')?.description.includes('4 — Неожиданная щедрость'));
+assert.ok(firstCycleBySlug('cinder-scribe')?.rules.heightened?.['4']?.includes('неограниченной'));
+assert.equal(firstCycleBySlug('airburst')?.rules.heightened?.['4']?.includes('10 футов'),true);
+assert.equal(firstCycleBySlug('cradle-aloft')?.rules.cast?.actions,1);
 assert.equal(liveViews.filter(v=>v.spell.kind==='cantrip'&&v.locale==='en').length,0,
   'All 71 cantrips must be available in Russian');
 assert.ok(liveViews.find(v=>v.spell.slug==='ancient-dust')?.rules.outcomes?.criticalFailure?.includes('двойной'));
@@ -336,4 +388,4 @@ assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
-console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (213 RU/46 EN), tracker, Legacy, D&D untouched');
+console.log('PASS: PF2e 71 cantrips + 188 rank-one spells (229 RU/30 EN), tracker, Legacy, D&D untouched');
