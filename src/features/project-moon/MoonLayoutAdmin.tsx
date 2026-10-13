@@ -30,6 +30,13 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   const [layout, setLayout] = useState<MoonLayout>(() =>
     ({...DEFAULT_MOON_LAYOUT,textStyles:cloneMoonTextStyles()}));
   const [selectedTextGroup,setSelectedTextGroup] = useState<MoonTextGroup>('fieldLabel');
+  const [selectedElement,setSelectedElement]=useState('');
+  const [selectedLabel,setSelectedLabel]=useState('');
+  const [styleClipboard,setStyleClipboard]=useState<MoonTextStyle|null>(null);
+  const [lockedElements,setLockedElements]=useState<string[]>([]);
+  const [device,setDevice]=useState<'desktop'|'tablet'|'mobile'>('desktop');
+  const [publishedLayout,setPublishedLayout]=useState<MoonLayout|null>(null);
+  const [autoSaving,setAutoSaving]=useState(false);
   const [saved, setSaved] = useState(JSON.stringify(DEFAULT_MOON_LAYOUT));
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -80,6 +87,7 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
       if (error) { setMessage('Ошибка загрузки: ' + error.message); return; }
       const next = parseMoonLayout(draft.data?.fields ?? published.data?.fields);
       setLayout(next); setSaved(JSON.stringify(next));
+      setPublishedLayout(parseMoonLayout(published.data?.fields));
       setVersion(published.data?.version ?? 0);
       setVersions((history.data ?? []).map(entry => entry.version));
       setMessage(draft.data?.fields ? 'Загружен черновик.' : 'Загружена опубликованная разметка.');
@@ -94,6 +102,62 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty]);
 
+  const currentTextStyle = selectedElement
+    ? {...currentTextStyle,...layout.elementStyles[selectedElement]}
+    : layout.textStyles[selectedTextGroup];
+  const pickElement=(event:React.MouseEvent<HTMLDivElement>)=>{
+    const target=event.target as HTMLElement;
+    const paper=target.closest<HTMLElement>('.moon-paper');
+    if(!paper)return;
+    const selectors:Record<MoonTextGroup,string>={
+      pageKicker:'.moon-page-heading > span',pageTitle:'.moon-page-heading > h2',
+      sectionTitle:'.moon-section-title',fieldLabel:'.moon-field > span',
+      fieldValue:'.moon-field input',characterName:'.moon-name input',
+      attributeLabel:'.moon-attribute-label',resourceTitle:'.moon-resource-title',
+      cardTitle:'.moon-weapon-title',noteTitle:'.moon-notes-title',
+      bodyText:'.moon-note textarea',
+    };
+    for(const {key} of MOON_TEXT_GROUPS){
+      const node=target.closest(selectors[key]);
+      if(!node || !paper.contains(node))continue;
+      const index=Array.from(paper.querySelectorAll(selectors[key])).indexOf(node);
+      if(index<0)continue;
+      const page=Array.from(paper.classList).find(c=>c.startsWith('moon-page-'));
+      if(!page)return;
+      const id=`${page}|${key}:${index}`;
+      setSelectedElement(id);setSelectedTextGroup(key);
+      setSelectedLabel(node.textContent?.trim().slice(0,65)||key);
+      return;
+    }
+  };
+  const copyStyle=()=>setStyleClipboard({...currentTextStyle});
+  const pasteStyle=()=>{
+    if(!styleClipboard)return;
+    checkpoint();
+    setLayout(old=>selectedElement
+      ? {...old,elementStyles:{...old.elementStyles,[selectedElement]:{...styleClipboard}}}
+      : {...old,textStyles:{...old.textStyles,[selectedTextGroup]:{...styleClipboard}}});
+  };
+  const resetIndividual=()=>{
+    if(!selectedElement)return;
+    checkpoint();
+    setLayout(old=>{const next={...old.elementStyles};delete next[selectedElement];return {...old,elementStyles:next};});
+  };
+  useEffect(()=>{
+    if(loading||busy||!dirty||!supabase)return;
+    const timer=window.setTimeout(async()=>{
+      setAutoSaving(true);
+      const snapshot=JSON.stringify(layout);
+      const {error}=await supabase.from('sheet_template_drafts').upsert({
+        template_key:MOON_LAYOUT_KEY,fields:encodeMoonLayout(layout),
+        updated_by:userId,updated_at:new Date().toISOString(),
+      },{onConflict:'template_key'});
+      if(!error)setSaved(snapshot);
+      else setMessage('Ошибка автосохранения: '+error.message);
+      setAutoSaving(false);
+    },1800);
+    return ()=>window.clearTimeout(timer);
+  },[layout,loading,busy,dirty,userId]);
   function change(key: MoonLayoutKey, raw: string) {
     if(!raw.trim())return;
     const control = MOON_LAYOUT_CONTROLS.find(item => item.key === key);
@@ -118,16 +182,19 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
   }
 
   function changeTextStyle<K extends keyof MoonTextStyle>(field: K, value: MoonTextStyle[K]) {
+    if(selectedElement && lockedElements.includes(selectedElement))return;
     checkpoint();
     setLayout(old => {
-      const before = old.textStyles[selectedTextGroup];
+      const before = selectedElement ? {...old.textStyles[selectedTextGroup],...old.elementStyles[selectedElement]} : old.textStyles[selectedTextGroup];
       const updated = normalizeMoonTextStyle({...before,[field]:value}, before);
       
       return {
         ...old,
-        ...(selectedTextGroup === 'pageTitle' && field === 'size'
+        ...(!selectedElement && selectedTextGroup === 'pageTitle' && field === 'size'
           ? {titleFont:updated.size} : {}),
-        textStyles:{...old.textStyles,[selectedTextGroup]:updated},
+        ...(selectedElement
+          ? {elementStyles:{...old.elementStyles,[selectedElement]:updated}}
+          : {textStyles:{...old.textStyles,[selectedTextGroup]:updated}}),
       };
     });
   }
@@ -229,8 +296,8 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
     </header>
     <p className="moon-admin-status" role="status">{loading ? 'Загрузка…' : message}{dirty ? ' · Не сохранено' : ''}</p>
     <div className="moon-admin-columns">
-      <div className="moon-admin-preview" onWheel={e=>{if(e.ctrlKey||e.shiftKey||e.altKey)return;setZoom(old=>Math.max(35,Math.min(250,old+(e.deltaY<0?5:-5))));}}>
-        <div className="moon-admin-preview-scale" style={{zoom:zoom/100}}><ProjectMoonSheet key="moon-admin-preview" character={previewCharacter} previewMode
+      <div className="moon-admin-preview" onClick={pickElement} onWheel={e=>{if(e.ctrlKey||e.shiftKey||e.altKey)return;setZoom(old=>Math.max(35,Math.min(250,old+(e.deltaY<0?5:-5))));}}>
+        <div className="moon-admin-preview-scale" style={{zoom:zoom/100,width:device==='mobile'?390:device==='tablet'?768:undefined,maxWidth:'none'}}><ProjectMoonSheet key="moon-admin-preview" character={previewCharacter} previewMode
           layoutOverride={layout} onSave={async () => true} onClose={() => {}} onEditPortrait={() => {}} /></div>
       </div>
       <aside className="moon-admin-inspector">
@@ -241,7 +308,22 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
           <span>{zoom}%</span>
           <button type="button" title="Увеличить масштаб" onClick={()=>setZoom(old=>Math.min(250,old+10))}><ZoomIn size={17}/></button>
         </div>
+        <div className="moon-admin-device-controls" role="group" aria-label="Размер предпросмотра">
+          {(['desktop','tablet','mobile'] as const).map(mode=><button type="button" key={mode}
+            aria-pressed={device===mode} onClick={()=>setDevice(mode)}>{mode==='desktop'?'Компьютер':mode==='tablet'?'Планшет':'Телефон'}</button>)}
+        </div>
         <h2>Оформление HTML-листа</h2>
+        <p className="moon-admin-autosave">{autoSaving?'Сохранение черновика…':dirty?'Изменения ожидают автосохранения':'Черновик сохранён'}</p>
+        <div className="moon-admin-selection">
+          <strong>{selectedElement?'Выбрано: '+selectedLabel:'Нажми на надпись в предпросмотре'}</strong>
+          {selectedElement&&<>
+            <button type="button" onClick={()=>setLockedElements(old=>old.includes(selectedElement)?old.filter(id=>id!==selectedElement):[...old,selectedElement])}>{lockedElements.includes(selectedElement)?'Разблокировать':'Заблокировать'}</button>
+            <button type="button" onClick={resetIndividual}>Сбросить надпись</button>
+            <button type="button" onClick={()=>setSelectedElement('')}>Общие стили</button>
+          </>}
+          <div><button type="button" onClick={copyStyle}>Копировать стиль</button>
+          <button type="button" disabled={!styleClipboard} onClick={pasteStyle}>Вставить стиль</button></div>
+        </div>
         <p>Изменяй параметры и смотри результат на всех четырёх страницах. Поля персонажей и их значения не затрагиваются.</p>
         <div className="moon-admin-controls">
           {baseControls.map(renderControl)}
@@ -364,6 +446,14 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
           <RotateCcw size={15}/> Исходное оформление
         </button>
         <hr/>
+        <h3>Сравнение с опубликованным</h3>
+        <p>{publishedLayout ? (JSON.stringify(publishedLayout)===JSON.stringify(layout)
+          ? 'Черновик совпадает с опубликованной версией.'
+          : 'Черновик отличается от опубликованной версии. Можно сравнить параметры или восстановить публикацию.') : 'Публикация ещё не загружена.'}</p>
+        <button type="button" disabled={!publishedLayout||busy} onClick={()=>{
+          if(!publishedLayout||!confirm('Загрузить опубликованное оформление в черновик?'))return;
+          checkpoint();setLayout(structuredClone(publishedLayout));
+        }}>Вернуть опубликованное оформление</button>
         <h3>История оформления</h3>
         <p>Опубликованная версия: {version || 'нет'}. Черновик виден только администратору.</p>
         <label>Загрузить версию
