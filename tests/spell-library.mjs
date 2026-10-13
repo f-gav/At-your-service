@@ -264,8 +264,8 @@ assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('растерянно
 assert.ok(briny?.rules.outcomes?.success?.includes('слепоту на 1 раунд'));
 assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('но не от растерянности'));
 assert.equal(briny?.rules.heightened?.['+1'],'Урон увеличивается на 2d6.');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,26,
-  'Briny Bolt and nine original cantrips must have first-party attribution');
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,56,
+  'All 56 independently translated cards must retain first-party attribution');
 const wave1Names={
   'ancient-dust':'Древний прах',
   'artistic-recollection':'Художественное воспоминание',
