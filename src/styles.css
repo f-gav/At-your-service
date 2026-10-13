@@ -531,3 +531,29 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .mobile-account-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:#4a5751;}
   .mobile-menu-panel .mobile-signout{width:auto;min-height:40px;padding:9px 12px;flex:none;}
 }
+
+/* Shared navigation menu: desktop uses the same three-line button as mobile.
+   Google account controls stay in the desktop header, outside this menu. */
+.site-header{position:relative;}
+.site-header .mobile-menu-button{display:inline-flex;flex:none;width:36px;height:36px;cursor:pointer;}
+.site-header .mobile-menu-panel{
+  display:flex;position:absolute;z-index:60;top:calc(100% - 1px);right:max(20px,calc((100vw - 1200px)/2));
+  left:auto;width:min(330px,calc(100vw - 32px));box-sizing:border-box;
+  flex-direction:column;gap:0;padding:12px;background:#fff;
+  border:1px solid #e1e5e0;border-radius:12px;box-shadow:0 15px 38px #1c2b241c;
+}
+.site-header .mobile-menu-links{display:flex;flex-direction:column;gap:8px;}
+.site-header .mobile-menu-links button,.site-header .mobile-menu-links a{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:44px;width:100%;box-sizing:border-box;padding:10px 13px;
+  background:#202627;color:#fff;border:0;border-radius:9px;
+  text-align:center;text-decoration:none;font-size:13px;font-weight:600;cursor:pointer;
+}
+.site-header .mobile-menu-links button:hover,.site-header .mobile-menu-links a:hover{background:#37413f;}
+@media(min-width:651px){
+  .site-header .mobile-account-row{display:none;}
+}
+@media(max-width:650px){
+  .site-header .mobile-menu-panel{left:0;right:0;top:62px;width:100%;border-radius:0;padding:16px 17px;}
+  .site-header .mobile-account-row{display:flex;}
+}
