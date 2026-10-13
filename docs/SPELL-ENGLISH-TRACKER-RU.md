@@ -2,7 +2,7 @@
 
 Обновлено: 13 октября 2026. Реестр языков сайта, не утверждение об отсутствии русских переводов.
 
-**Импортировано:** 71 чары и 168 заклинаний 1-го круга (239 записей). **На русском:** 116, **только на английском:** 123.
+**Импортировано:** 71 чары и 188 заклинаний 1-го круга (259 записей). **На русском:** 125, **только на английском:** 134.
 
 ## Волна 001 — 9 английских
 
@@ -172,3 +172,20 @@
 7. **Stick On** — `stick-on` · Remaster · Pathfinder Impossible Magic
 8. **Summon Lesser Servitor** — `summon-lesser-servitor` · Remaster · Pathfinder Player Core 2
 9. **Summon Undead** — `summon-undead` · Remaster · Pathfinder Player Core
+
+
+## Заклинания 1-го круга — волна 008 (11 английских)
+
+1. **Synchronize Steps** — `synchronize-steps` · Legacy · Pathfinder Lost Omens Knights of Lastwall
+2. **Tailwind** — `tailwind` · Remaster · Pathfinder Player Core
+3. **Threefold Limb** — `threefold-limb` · Remaster · Pathfinder Lost Omens Rival Academies
+4. **Turnip Lantern** — `turnip-lantern` · Remaster · Pathfinder Lost Omens Cheliax, Infernal Inheritance
+5. **Unbroken Panoply** — `unbroken-panoply` · Remaster · Pathfinder Lost Omens Rival Academies
+6. **Vanishing Tracks** — `vanishing-tracks` · Remaster · Pathfinder Player Core
+7. **Verdant Sprout** — `verdant-sprout` · Legacy · Pathfinder #151: The Show Must Go On
+8. **Verminous Lure** — `verminous-lure` · Legacy · Pathfinder #169: Kindled Magic
+9. **Weaken Earth** — `weaken-earth` · Remaster · Pathfinder Rage of Elements
+10. **Weave Wood** — `weave-wood` · Remaster · Pathfinder Rage of Elements
+11. **Wooden Fists** — `wooden-fists` · Remaster · Pathfinder Rage of Elements
+
+**Следующий этап:** аудит всех 188 заклинаний по первоисточникам (редакции, ошибки метаданных, наличие в книгах, спорные/приключенческие записи), затем отдельная ревизия 134 английских карточек.
