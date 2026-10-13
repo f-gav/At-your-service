@@ -302,7 +302,26 @@ export default function SpellLibrary({onBack}:Props){
     void fetch(`${import.meta.env.BASE_URL}spell-library/${system}.json`,{signal:controller.signal})
       .then(async response=>{
         if(!response.ok)throw new Error(`HTTP ${response.status}`);
-        return parseSpellCatalog(await response.json(),system);
+        const base=parseSpellCatalog(await response.json(),system);
+        if(system!=='pf2e')return base;
+        const patchResponse=await fetch(`${import.meta.env.BASE_URL}spell-library/pf2e-ays-rank2-cycle1.json`,{signal:controller.signal});
+        if(!patchResponse.ok)throw new Error(`Не загружены авторские переводы: HTTP ${patchResponse.status}`);
+        const patch=await patchResponse.json() as {entries:Array<{englishName:string;name:string;description:string;rank:number}>};
+        const key=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'');
+        for(const translated of patch.entries){
+          const en=base.translations.find(t=>t.locale==='en'&&key(t.name)===key(translated.englishName));
+          if(!en)throw new Error('Не найден оригинал перевода: '+translated.englishName);
+          const identity=base.spells.find(s=>s.id===en.spellId);
+          if(!identity||identity.rank!==translated.rank)throw new Error('Не совпадает круг: '+translated.englishName);
+          const old=base.translations.findIndex(t=>t.spellId===en.spellId&&t.versionId===en.versionId&&t.locale==='ru');
+          const ru={spellId:en.spellId,versionId:en.versionId,locale:'ru' as const,name:translated.name,
+            description:translated.description,translationOrigin:'at-your-service' as const,
+            translationStatus:'draft' as const,translatorCredit:'Перевод от At your service!'};
+          if(old>=0)base.translations[old]=ru;else base.translations.push(ru);
+          const rule=base.versions.find(v=>v.id===en.versionId);
+          if(rule){rule.outcomes={};rule.heightened={};}
+        }
+        return base;
       })
       .then(data=>{if(active){setCatalog(data);setLoadState('ready');}})
       .catch(error=>{if(active){
