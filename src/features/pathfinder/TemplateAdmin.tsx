@@ -48,6 +48,8 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   const [dirty,setDirty]=useState(false),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[status,setStatus]=useState('');
   const [version,setVersion]=useState(0),[versions,setVersions]=useState<number[]>([]),[restore,setRestore]=useState('');
   const [undo,setUndo]=useState<EditableField[][]>([]),[redo,setRedo]=useState<EditableField[][]>([]);
+  const [styleClipboard,setStyleClipboard]=useState<Partial<EditableField>|null>(null);
+  const [lockedIds,setLockedIds]=useState<string[]>([]);
   const pageRef=useRef<HTMLDivElement>(null),drag=useRef<Drag|null>(null);
   const active=fields.find(f=>f.id===selected);
   useEffect(()=>{
@@ -80,6 +82,7 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
   },[dirty]);
   function checkpoint(){setUndo(old=>[...old.slice(-39),cloneFields(fields)]);setRedo([]);setDirty(true);}
   function update(id:string,values:Change,record=true){
+    if(lockedIds.includes(id))return;
     if(record)checkpoint();
     setFields(old=>old.map(field=>field.id===id?{...field,...values}:field));setDirty(true);
   }
@@ -98,7 +101,7 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
     return ()=>window.removeEventListener('keydown',onKey);
   },[undo,redo,fields]);
   function start(e:PE<HTMLElement>,field:EditableField,mode:'move'|'size'){
-    if(preview||busy||!pageRef.current)return;
+    if(preview||busy||!pageRef.current||lockedIds.includes(field.id))return;
     e.preventDefault();e.stopPropagation();checkpoint();setSelected(field.id);
     drag.current={id:field.id,mode,startX:e.clientX,startY:e.clientY,original:{...field},width:pageRef.current.getBoundingClientRect().width};
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -248,6 +251,7 @@ export default function TemplateAdmin({userId,onClose,backLabel='← К перс
         <label>Выбрать поле<select value={page===2&&isAdvancementField(selected)?"":selected} onChange={e=>setSelected(e.target.value)}><option value="">— Не выбрано —</option>{fields.filter(f=>f.page===page&&(page!==2||!isAdvancementField(f.id))).map(f=><option key={f.id} value={f.id}>{f.label} / {f.id}</option>)}</select></label>
         {page===2&&<p className="ta-advancement-note">Черты и классовые способности теперь динамические: новые уровни добавляются кнопкой «+» прямо на странице, а высота полей растёт вместе с текстом. Их прежние координаты PDF больше не используются.</p>}
         {active && !(page===2 && isAdvancementField(active.id))?<div className="ta-form">
+          <div className="ta-editor-tools"><button type="button" onClick={()=>setLockedIds(old=>old.includes(active.id)?old.filter(id=>id!==active.id):[...old,active.id])}>{lockedIds.includes(active.id)?'Разблокировать':'Заблокировать'}</button><button type="button" onClick={()=>setStyleClipboard({fontFamily:active.fontFamily,fontSize:active.fontSize,fontWeight:active.fontWeight,fontStyle:active.fontStyle,textUnderline:active.textUnderline,textAlign:active.textAlign,color:active.color})}>Копировать стиль</button><button type="button" disabled={!styleClipboard||lockedIds.includes(active.id)} onClick={()=>styleClipboard&&update(active.id,styleClipboard)}>Вставить стиль</button></div>
           <small>ID: {active.id}</small>
           {active.kind==='toggle'
             ? <label className="ta-toggle-setting"><input type="checkbox"
