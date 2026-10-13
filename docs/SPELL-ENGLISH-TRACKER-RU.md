@@ -1,17 +1,12 @@
 # Pathfinder 2e — текущий реестр карточек без русского перевода
 
-Обновлено: 13 октября 2026. **259 всего: 253 RU / 6 EN** (включая 71 чары и 188 заклинаний 1-го круга).
+Обновлено: 13 октября 2026. **259 всего: 259 RU / 0 EN** (включая 71 чары и 188 заклинаний 1-го круга).
 
 Это **актуальный** список, полученный автоматически по локальным записям без `locale=ru`. Исторический перечень исходных 134 английских карточек сохранён в [архиве](./SPELL-ENGLISH-TRACKER-INITIAL-2026-10-13-RU.md).
 
-## Оставшиеся 6 карточек
+## Оставшиеся карточки
 
-1. **Sky Sight** — `sky-sight`
-2. **Spirit Ward** — `spirit-ward`
-3. **Stick On** — `stick-on`
-4. **Synchronize Steps** — `synchronize-steps`
-5. **Turnip Lantern** — `turnip-lantern`
-6. **Verminous Lure** — `verminous-lure`
+**Нет.** Все 259 карточек имеют русскую локализацию. Последняя волна: Sky Sight, Spirit Ward, Stick On, Synchronize Steps, Turnip Lantern, Verminous Lure.
 
 ## Шестая волна — выполнена
 
