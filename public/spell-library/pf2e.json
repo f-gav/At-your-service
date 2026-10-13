@@ -5068,6 +5068,452 @@
       ],
       "rarity": "common",
       "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-acid-arrow",
+      "system": "pf2e",
+      "slug": "acid-arrow",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "attack",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-core-rulebook"
+    },
+    {
+      "id": "pf2e-acid-grip",
+      "system": "pf2e",
+      "slug": "acid-grip",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "acid",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-advanced-scurvy",
+      "system": "pf2e",
+      "slug": "advanced-scurvy",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "disease",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-adventure-path-gatewalkers"
+    },
+    {
+      "id": "pf2e-albatross-curse",
+      "system": "pf2e",
+      "slug": "albatross-curse",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "misfortune"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-howl-of-the-wild"
+    },
+    {
+      "id": "pf2e-allfood",
+      "system": "pf2e",
+      "slug": "allfood",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-194-cult-of-the-cave-worm"
+    },
+    {
+      "id": "pf2e-animal-form",
+      "system": "pf2e",
+      "slug": "animal-form",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "polymorph"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-animal-messenger",
+      "system": "pf2e",
+      "slug": "animal-messenger",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-animated-assault",
+      "system": "pf2e",
+      "slug": "animated-assault",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-animus-mine",
+      "system": "pf2e",
+      "slug": "animus-mine",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-lost-omens-divine-mysteries"
+    },
+    {
+      "id": "pf2e-ash-cloud",
+      "system": "pf2e",
+      "slug": "ash-cloud",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-augury",
+      "system": "pf2e",
+      "slug": "augury",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "divine",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "prediction"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-avenging-wildwood",
+      "system": "pf2e",
+      "slug": "avenging-wildwood",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate",
+        "plant",
+        "wood"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-lost-omens-shining-kingdoms"
+    },
+    {
+      "id": "pf2e-banishing-touch",
+      "system": "pf2e",
+      "slug": "banishing-touch",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "divine",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "manipulate",
+        "mythic"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-war-of-immortals"
+    },
+    {
+      "id": "pf2e-bee-man-s-summons",
+      "system": "pf2e",
+      "slug": "bee-man-s-summons",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "concentrate",
+        "linguistic",
+        "mental"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-201-pactbreaker"
+    },
+    {
+      "id": "pf2e-befitting-attire",
+      "system": "pf2e",
+      "slug": "befitting-attire",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "illusion",
+        "manipulate",
+        "visual"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
+    },
+    {
+      "id": "pf2e-binding-muzzle",
+      "system": "pf2e",
+      "slug": "binding-muzzle",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-195-heavy-is-the-crown"
+    },
+    {
+      "id": "pf2e-blast-of-the-bellows",
+      "system": "pf2e",
+      "slug": "blast-of-the-bellows",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "air",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-195-heavy-is-the-crown"
+    },
+    {
+      "id": "pf2e-blazing-armory",
+      "system": "pf2e",
+      "slug": "blazing-armory",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-rage-of-elements"
+    },
+    {
+      "id": "pf2e-blazing-blade",
+      "system": "pf2e",
+      "slug": "blazing-blade",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "divine",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "fire",
+        "holy",
+        "manipulate"
+      ],
+      "rarity": "rare",
+      "sourceId": "src-pathfinder-kingmaker"
+    },
+    {
+      "id": "pf2e-blazing-bolt",
+      "system": "pf2e",
+      "slug": "blazing-bolt",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "primal"
+      ],
+      "classes": [],
+      "traits": [
+        "attack",
+        "concentrate",
+        "fire",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core"
+    },
+    {
+      "id": "pf2e-blistering-invective",
+      "system": "pf2e",
+      "slug": "blistering-invective",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "auditory",
+        "concentrate",
+        "emotion",
+        "fear",
+        "manipulate",
+        "mental"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-player-core-2"
+    },
+    {
+      "id": "pf2e-blood-duplicate",
+      "system": "pf2e",
+      "slug": "blood-duplicate",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "src-pathfinder-182-graveclaw"
+    },
+    {
+      "id": "pf2e-blood-runs-cold",
+      "system": "pf2e",
+      "slug": "blood-runs-cold",
+      "kind": "spell",
+      "rank": 2,
+      "traditions": [
+        "arcane",
+        "occult"
+      ],
+      "classes": [],
+      "traits": [
+        "cold",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "common",
+      "sourceId": "src-pathfinder-impossible-magic"
     }
   ],
   "versions": [
@@ -8628,6 +9074,272 @@
       },
       "resource": "spell-slot",
       "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-acid-arrow-pf2e-legacy",
+      "spellId": "pf2e-acid-arrow",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 feet",
+      "targets": "1 creature",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-acid-grip-pf2e-remaster",
+      "spellId": "pf2e-acid-grip",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 feet",
+      "targets": "1 creature",
+      "savingThrow": "reflex",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-advanced-scurvy-pf2e-remaster",
+      "spellId": "pf2e-advanced-scurvy",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "touch",
+      "targets": "1 creature",
+      "savingThrow": "fortitude",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-albatross-curse-pf2e-remaster",
+      "spellId": "pf2e-albatross-curse",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 feet",
+      "targets": "1 creature",
+      "savingThrow": "will",
+      "duration": "1 minute (see text)",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-allfood-pf2e-legacy",
+      "spellId": "pf2e-allfood",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 minute"
+      },
+      "targets": "1 unattended non-magical object of 1 Bulk or less",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-animal-form-pf2e-remaster",
+      "spellId": "pf2e-animal-form",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 minute",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-animal-messenger-pf2e-remaster",
+      "spellId": "pf2e-animal-messenger",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 minute"
+      },
+      "range": "120 feet",
+      "duration": "see text",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-animated-assault-pf2e-remaster",
+      "spellId": "pf2e-animated-assault",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "120 feet",
+      "area": "{\"type\":\"burst\",\"value\":10}",
+      "savingThrow": "reflex",
+      "duration": "1 minute",
+      "sustain": true,
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-animus-mine-pf2e-remaster",
+      "spellId": "pf2e-animus-mine",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "savingThrow": "will",
+      "duration": "1 hour",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-ash-cloud-pf2e-remaster",
+      "spellId": "pf2e-ash-cloud",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "range": "120 feet",
+      "area": "{\"type\":\"burst\",\"value\":20}",
+      "savingThrow": "fortitude",
+      "duration": "1 minute",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-augury-pf2e-remaster",
+      "spellId": "pf2e-augury",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "10 minutes"
+      },
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-avenging-wildwood-pf2e-remaster",
+      "spellId": "pf2e-avenging-wildwood",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 3
+      },
+      "range": "60 feet",
+      "duration": "1 minute",
+      "sustain": true,
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-banishing-touch-pf2e-remaster",
+      "spellId": "pf2e-banishing-touch",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "range": "touch",
+      "targets": "1 creature",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-bee-man-s-summons-pf2e-remaster",
+      "spellId": "pf2e-bee-man-s-summons",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "area": "{\"type\":\"emanation\",\"value\":500}",
+      "duration": "until the next time you make your daily preparations or until discharged",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-befitting-attire-pf2e-remaster",
+      "spellId": "pf2e-befitting-attire",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 feet",
+      "targets": "5 willing creatures",
+      "duration": "1 hour",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-binding-muzzle-pf2e-legacy",
+      "spellId": "pf2e-binding-muzzle",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "100 feet",
+      "targets": "1 creature",
+      "savingThrow": "fortitude",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blast-of-the-bellows-pf2e-legacy",
+      "spellId": "pf2e-blast-of-the-bellows",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "100 feet",
+      "area": "{\"type\":\"burst\",\"value\":20}",
+      "duration": "1 minute",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blazing-armory-pf2e-remaster",
+      "spellId": "pf2e-blazing-armory",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 feet",
+      "targets": "1 willing creature",
+      "duration": "5 minutes",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blazing-blade-pf2e-legacy",
+      "spellId": "pf2e-blazing-blade",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 minute",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blazing-bolt-pf2e-remaster",
+      "spellId": "pf2e-blazing-bolt",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "time": "1 to 3"
+      },
+      "range": "60 feet",
+      "targets": "1 or more creatures",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blistering-invective-pf2e-remaster",
+      "spellId": "pf2e-blistering-invective",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 feet",
+      "targets": "1 creature",
+      "savingThrow": "will",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blood-duplicate-pf2e-legacy",
+      "spellId": "pf2e-blood-duplicate",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "touch",
+      "targets": "1 non-magical object of 1 Bulk or less",
+      "duration": "1 hour",
+      "resource": "spell-slot"
+    },
+    {
+      "id": "pf2e-blood-runs-cold-pf2e-remaster",
+      "spellId": "pf2e-blood-runs-cold",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "60 feet",
+      "targets": "1 creature",
+      "savingThrow": "fortitude",
+      "duration": "varies",
+      "resource": "spell-slot"
     }
   ],
   "translations": [
@@ -13037,6 +13749,190 @@
       "translationStatus": "draft",
       "translationOrigin": "at-your-service",
       "translatorCredit": "Перевод от At your service! Самостоятельный перевод оригинального описания Foundry PF2e v14-dev с использованием русской терминологии PF2.ru; английский оригинал и редакция сохранены."
+    },
+    {
+      "spellId": "pf2e-acid-arrow",
+      "versionId": "pf2e-acid-arrow-pf2e-legacy",
+      "locale": "en",
+      "name": "Acid Arrow",
+      "description": "You conjure an arrow of acid that keeps corroding the target after it hits. Make a spell attack against the target. On a hit, you deal 3d8 acid damage plus @Damage[(floor(@item.rank/2))d6[persistent,acid]] damage. On a critical hit, double the initial damage, but not the persistent damage.\n\nHeightened (+2) The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-acid-grip",
+      "versionId": "pf2e-acid-grip-pf2e-remaster",
+      "locale": "en",
+      "name": "Acid Grip",
+      "description": "An ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus @Damage[floor(@item.level/2)d6[persistent,acid]] damage depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds. @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Acid Grip]\n\nCritical Success The creature is unaffected.\n\nSuccess The creature takes half damage and no persistent damage, and the claw moves it up to 5 feet in a direction of your choice.\n\nFailure The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.\n\nCritical Failure The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice.\n\nHeightened (+2) The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-advanced-scurvy",
+      "versionId": "pf2e-advanced-scurvy-pf2e-remaster",
+      "locale": "en",
+      "name": "Advanced Scurvy",
+      "description": "Your touch afflicts the target with an advanced form of scurvy, a mariner's disease stemming from improper nutrition. The symptoms of scurvy include fatigue, joint pain, loose teeth, and internal hemorrhaging.\n\nCritical Success The target is unaffected.\n\nSuccess The target is @UUID[Compendium.pf2e.conditionitems.Item.Enfeebled]{Enfeebled 1} for 1 minute.\n\nFailure The target is afflicted with advanced scurvy at stage 1.\n\nCritical Failure The target is afflicted with advanced scurvy at stage 2.\n\nAdvanced Scurvy (disease)\n\nLevel 4\n\nfor 1 day after eating fresh fruit, a creature gains a +2 circumstance bonus to their next saving throw against this affliction\n\nStage 1 enfeebled 1 and the damage dealt by persistent bleed effects is increased by 1 (1 day)\n\nStage 2 enfeebled 1, @UUID[Compendium.pf2e.conditionitems.Item.Fatigued], and the damage dealt by persistent bleed effects is increased by 1d4 (2 days)\n\nStage 3 @UUID[Compendium.pf2e.conditionitems.Item.Enfeebled]{Enfeebled 2}, fatigued, and the damage dealt by persistent bleed effects is increased by 1d6 (4 days)",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-albatross-curse",
+      "versionId": "pf2e-albatross-curse-pf2e-remaster",
+      "locale": "en",
+      "name": "Albatross Curse",
+      "description": "You create a spectral albatross, a guiding bird for sailors, to hover around the target. You and allies within 30 feet of the target gain a +1 circumstance bonus to attacks against the target. The target creature can spend an action to Strike the albatross, which automatically succeeds and kills it. The target must then attempt a Will save against your spell DC.\n\n@UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Albatross Curse]\n\nCritical Success The target is unaffected.\n\nSuccess The guilt of slaughtering a bird of good fortune weighs on the target's mind. The target is @UUID[Compendium.pf2e.conditionitems.Item.Stupefied]{Stupefied 1} for 1 round.\n\nFailure The albatross hangs around a cord from the target's neck (or closest equivalent) for 1 minute, cursing them for their transgression. During this time, the target must roll twice and take the worse result on their next Will save, after which the albatross disappears.\n\n@UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Albatross Curse (Failure)]\n\nCritical Failure As failure, but the duration is 1 hour.\n\n@UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Albatross Curse (Critical Failure)]",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-allfood",
+      "versionId": "pf2e-allfood-pf2e-legacy",
+      "locale": "en",
+      "name": "Allfood",
+      "description": "You transform one object into an edible substance that any living creature can chew, swallow, and safely digest. This allfood always has a bland taste and slightly gooey consistency, regardless of its original nature. One bulk of allfood provides enough sustenance to feed one Medium creature for a day.\n\nAfter 1 day, if no one has eaten the allfood, it reverts to its original form. Most Small creatures eat one-quarter as much as a Medium creature and most Tiny creatures eat one-sixteenth as much, while most Large creatures eat 10 times as much, Huge creatures need 100 times as much, and so on.\n\nHeightened (+1) Double the maximum bulk (to a maximum of 256 bulk at 10th level).",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animal-form",
+      "versionId": "pf2e-animal-form-pf2e-remaster",
+      "locale": "en",
+      "name": "Animal Form",
+      "description": "You call upon primal energy to transform yourself into a Medium animal battle form. When you Cast this Spell, choose a listed battle form. You can decide the specific type of animal (such as lion or snow leopard for cat), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which animal you choose:\n\n• AC = 16 + your level. Ignore your armor's check penalty and Speed reduction.\n• 5 temporary Hit Points.\n• Low-light vision and imprecise scent 30 feet.\n• One or more unarmed melee attacks specific to your battle form, which are the only attacks you can Strike with. You're trained with them. Your attack modifier is +9, and your damage bonus is +1. These attacks are Strength based (for the purpose of the @UUID[Compendium.pf2e.conditionitems.Item.Enfeebled] condition, for example). If your unarmed attack bonus is higher, you can use it instead.\n• Athletics modifier of +9, unless your own modifier is higher.\nYou also gain specific abilities based on the type of animal you choose:\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Ape)]{Ape}\n\n• Speed 25 feet, climb Speed 20 feet;\n• Melee a fist, Damage 2d6 bludgeoning.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Bear)]{Bear}\n\n• Speed 30 feet;\n• Melee a jaws, Damage 2d8 piercing;\n• Melee a claw (agile), Damage 1d8 slashing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Bull)]{Bull}\n\n• Speed 30 feet;\n• Melee a horn, Damage 2d8 piercing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Canine)]{Canine}\n\n• Speed 40 feet;\n• Melee a jaws, Damage 2d8 piercing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Cat)]{Cat}\n\n• Speed 40 feet;\n• Melee a jaws, Damage 2d6 piercing;\n• Melee a claw (agile), Damage 1d10 slashing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Crab)]{Crab}\n\n• Speed 25 feet, swim Speed 15 feet;\n• Melee a big claw, Damage 2d8 piercing;\n• Melee a little claw (agile), Damage 2d4 piercing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Crocodile)]{Crocodile}\n\n• Speed 25 feet, swim Speed 30 feet;\n• Melee a jaws, Damage 2d8 piercing;\n• Melee a tail (agile), Damage 1d8 bludgeoning.\n• can hold your breath for the duration of the transformation.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Deer)]{Deer}\n\n• Speed 50 feet;\n• Melee a antler, Damage 2d6 piercing.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Frog)]{Frog}\n\n• Speed 25 feet, swim Speed 25 feet;\n• Melee a jaws, Damage 2d6 bludgeoning;\n• Melee a tongue (reach 15 feet), Damage 2d4 bludgeoning.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Orca)]{Orca}\n\n• swim Speed 35 feet;\n• Melee a jaws, Damage 2d8 piercing;\n• can hold your breath for the duration of the transformation.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Seal)]{Seal}\n\n• Speed 20 feet, swim Speed 30 feet;\n• Melee a jaws (grapple), Damage 2d6 piercing;\n• can hold your breath for the duration of the transformation.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Shark)]{Shark}\n\n• swim Speed 35 feet;\n• Melee a jaws, Damage 2d8 piercing;\n• breathe underwater but not in air.\n\n• @UUID[Compendium.pf2e.spell-effects.Item.Spell Effect: Animal Form (Snake)]{Snake}\n\n• Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet;\n• Melee a fangs, Damage 2d4 piercing plus 1d6 poison.\n\nHeightened (3rd) You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.\n\nHeightened (4th) Your battle form is Large and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 15 temporary HP, AC = 18 + your level, attack modifier +16, damage bonus +9, and Athletics +16.\n\nHeightened (5th) Your battle form is Huge and your attacks have 15-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 20 temporary HP, AC = 18 + your level, attack modifier +18, damage bonus +7 and double the number of damage dice, and Athletics +20.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animal-messenger",
+      "versionId": "pf2e-animal-messenger-pf2e-remaster",
+      "locale": "en",
+      "name": "Animal Messenger",
+      "description": "You offer food, and an ordinary Tiny animal within range approaches to eat it. You imprint the image, direction, and distance of an obvious place or landmark well known to you within the animal. You can also attach a small object or note up to light Bulk to it. The animal does its best to reach the destination; if it makes it there, it waits nearby and allows nonhostile creatures to approach and remove the attached object. The spell ends after the message is delivered or after 24 hours, whichever comes first.\n\nIf there are no Tiny wild animals in range, the spell is lost.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animated-assault",
+      "versionId": "pf2e-animated-assault-pf2e-remaster",
+      "locale": "en",
+      "name": "Animated Assault",
+      "description": "You use your mind to manipulate unattended objects in the area, temporarily animating them to attack. The objects hover in the air, then hurl themselves at nearby creatures in a chaotic flurry of debris. This assault deals 2d10 bludgeoning damage (basic Reflex save) to each creature in the area. On subsequent rounds, the first time each round you Sustain this Spell, it deals @Damage[(floor(@item.level/2))d10[bludgeoning]] damage (basic Reflex save) to each creature in the area.\n\nHeightened (+2) The initial damage increases by 2d10 and the subsequent damage increases by 1d10.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-animus-mine",
+      "versionId": "pf2e-animus-mine-pf2e-remaster",
+      "locale": "en",
+      "name": "Animus Mine",
+      "description": "You implant a mental mine within your psyche that detonates against anyone attempting to magically manipulate your thoughts. You can Sustain the spell to suppress the effects of the mine for 1 round to allow someone to safely use a mental effect on you. You can Dismiss the spell. The first creature that uses a magical mental effect against you triggers the animus mine, causing the spell to end. The animus mine deals 4d8 mental damage to the triggering creature, which must attempt a Will save.\n\nCritical Success The creature is unaffected.\n\nSuccess The creature takes half damage.\n\nFailure The creature takes full damage and is @UUID[Compendium.pf2e.conditionitems.Item.Stunned]{Stunned 1}.\n\nCritical Failure The creature takes double damage and is stunned 1. You're unaffected by the triggering mental effect.\n\nHeightened (+1) The damage increases by 2d8.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-ash-cloud",
+      "versionId": "pf2e-ash-cloud-pf2e-remaster",
+      "locale": "en",
+      "name": "Ash Cloud",
+      "description": "You summon a tumultuous cloud of ash and smoke. The cloud is difficult terrain for flying creatures, and creatures in the cloud can't detect anything using their sense of smell. Creatures that start their turn within the cloud take 2d4 fire damage as their lungs fill with the hot, acrid smoke, with a Fortitude save.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half damage.\n\nFailure The target takes full damage and is @UUID[Compendium.pf2e.conditionitems.Item.Dazzled] for 1 round.\n\nCritical Failure The target takes double damage and is @UUID[Compendium.pf2e.conditionitems.Item.Blinded] for 1 round.\n\nHeightened (+1) The damage increases by 1d4.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-augury",
+      "versionId": "pf2e-augury-pf2e-remaster",
+      "locale": "en",
+      "name": "Augury",
+      "description": "You gain a vague glimpse of the future. During the casting of this spell, ask about the results of a particular course of action. The spell can predict results up to 30 minutes into the future and reveal the GM's best guess among the following outcomes: good, bad, mixed (the results will be a mix of good and bad), and nothing (there won't be particularly good or bad results).\n\nThe GM rolls a secret @Check[flat|dc:6|showDC:all|traits:secret]. On a failure, the result is always \"nothing.\" This makes it impossible to tell whether a \"nothing\" result is accurate. If anyone asks about the same topic as the first casting of augury during an additional casting, the GM uses the secret roll result from the first casting. If circumstances change, though, it's possible to get a different result.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-avenging-wildwood",
+      "versionId": "pf2e-avenging-wildwood-pf2e-remaster",
+      "locale": "en",
+      "name": "Avenging Wildwood",
+      "description": "A Medium tree sprouts in an unoccupied square within range, its branches capable of striking out at your foes. This animated tree uses your spell attack modifier for its attack rolls and your spell DC for its AC. Its saving throw modifiers are equal to your spell DC – 10, and it has 20 Hit Points. Other creatures can't occupy its space, but allies can pass through its space. When you Cast the Spell and each time you Sustain it, you can have the tree make a branches Strike against a creature within 15 feet of it, dealing 2d8 bludgeoning, piercing, or slashing damage. You choose the damage type each time.\n\nIf the tree is in soil and survives to the end of the spell's duration, it remains as an ordinary, non-magical tree and continues to grow and thrive. The GM might determine that the tree disappears immediately in certain inhospitable situations.\n\nHeightened (+2) The animated tree has 10 additional Hit Points, and its branches Strike deals 1d8 additional damage.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-banishing-touch",
+      "versionId": "pf2e-banishing-touch-pf2e-remaster",
+      "locale": "en",
+      "name": "Banishing Touch",
+      "description": "Your touch projects a surge of magic that launches your target safely away. Make a melee spell attack at mythic proficiency against your target's AC. If you hit, you deal 1d6 bludgeoning damage, and you launch the target into the air and away from you; the target takes falling damage as normal. The number of actions you spend while Casting the Spell determines the damage dealt by your touch and how far the target is launched.\n\n1 The target is launched 10 feet into the air and knocked back 10 feet.\n\n2 Your touch deals 2d6 bludgeoning damage instead. The target is launched 20 feet into the air and pushed back 10 feet.\n\n3 Your touch deals 2d6 bludgeoning damage instead. The target is launched 30 feet into the air and pushed back 20 feet.\n\nHeightened (4th) The initial damage increases by 1d6, and all distances increase by 10 feet for the 1-action version or 20 feet for the 2- and 3-action versions.\n\nHeightened (6th) The initial damage increases by 2d6, and all distances increase by 20 feet for the 1-action version or 60 feet for the 2- and 3-action versions.\n\nHeightened (8th) The initial damage increases by 3d6, and all distances increase by 30 feet for the 1-action version or 100 feet for the 2- and 3-action versions.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-bee-man-s-summons",
+      "versionId": "pf2e-bee-man-s-summons-pf2e-remaster",
+      "locale": "en",
+      "name": "Bee-Man's Summons",
+      "description": "You recreate the Bee-Man's infamous ability to sense when someone utters their name. During the spell's duration, you mentally sense whenever someone (referred to as a speaker) speaks your full name while within the spell's area. You gain a vague sense of the speaker's identity, such as \"a local farmer\" or \"a halfling in distress,\" unless the speaker is someone you have met and interacted with before, in which case you recognize the speaker specifically. As a reaction within 1 minute of the speaker's utterance, you can send the speaker a telepathic prompt, asking if they intend to summon you. If they respond affirmatively, the spell's remaining duration decreases to sustained (up to 10 minutes), during which time you know the direction to where the speaker named you and how far away they are.\n\nHeightened (4th) The emanation's radius increases to 1,000 feet.\n\nHeightened (7th) The emanation's radius increases to 1 mile, and instead of locating the speaker, you can instead converse with the speaker for 5 minutes. This otherwise works as sending.\n\nHeightened (9th) As 7th, except the emanation's radius increases to 5 miles, and the duration of the conversation is 10 minutes.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-befitting-attire",
+      "versionId": "pf2e-befitting-attire-pf2e-remaster",
+      "locale": "en",
+      "name": "Befitting Attire",
+      "description": "You cloak the targets in an illusion, shaping their clothing and worn items into ones suitable for a particular occasion. You visualize the occasion, and the spell creates illusory attire customized to each target. For instance, if you visualized a noble ball, armor would appear to be fine clothing. This doesn't change identifying details of the targets' appearances other than their clothes.\n\nAny creature that touches the attire, uses the [[/act seek]] action to examine it, or otherwise interacts with it can attempt to disbelieve your illusion.\n\nHeightened (4th) You can target up to 20 creatures.\n\nHeightened (5th) You can target up to 100 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-binding-muzzle",
+      "versionId": "pf2e-binding-muzzle-pf2e-legacy",
+      "locale": "en",
+      "name": "Binding Muzzle",
+      "description": "A shimmering muzzle of pure magical force clamps the target's mouth shut. The target can attempt a Fortitude save to resist the muzzle. For targets with more than one mouth, the caster must target a single mouth.\n\nCritical Success The target is unaffected.\n\nSuccess For 1 round, the target can't use jaws Strikes, Breath Weapons, or any other attack that originates from the mouth, nor can they imbibe anything, including potions, mutagens, and elixirs.\n\nFailure As success, but the effect lasts 1 minute, and they must succeed at a @Check[flat|dc:11] to Cast a Spell with verbal components.\n\nCritical Failure As success, but the effect lasts 1 minute and the target can't speak.\n\nHeightened (5th) You can target up to 5 creatures.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blast-of-the-bellows",
+      "versionId": "pf2e-blast-of-the-bellows-pf2e-legacy",
+      "locale": "en",
+      "name": "Blast of the Bellows",
+      "description": "You create a churning eddy of warm air that makes it difficult to fly within the area. This area is difficult terrain for flying creatures. Each time a flying creature enters the area or ends its turn there, it must attempt an Acrobatics check to @UUID[Compendium.pf2e.actionspf2e.Item.Maneuver in Flight].\n\nSuccess The creature is unaffected.\n\nFailure The creature descends 30 feet.\n\nCritical Failure The creature descends 60 feet.\n\nHeightened (4th) The duration increases to 10 minutes.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blazing-armory",
+      "versionId": "pf2e-blazing-armory-pf2e-remaster",
+      "locale": "en",
+      "name": "Blazing Armory",
+      "description": "As long as you have magic, you're never unarmed. You materialize a flaming simulacrum of any common simple or martial weapon into the target's grasp. The target must have a free hand to hold the weapon, or else the weapon falls to the ground in the target's space. The blazing weapon functions as a +1 striking weapon, and its damage type changes to fire. The damage type can't be changed using the versatile trait, modular trait, or similar methods.\n\nA thrown weapon rematerializes in the target's hand after the Strike is complete. If you choose a ranged weapon that uses ammunition, the wielder must still reload the weapon using the normal number of actions, though this generates ammunition automatically; this functions as normal ammunition, and the blazing weapon can't use other types of ammunition.\n\nAny creature other than you or the target that attempts to touch, make a Strike with, or @UUID[Compendium.pf2e.actionspf2e.Item.Disarm] the weapon takes @Damage[1d6[fire]] damage each time.\n\nHeightened (4th) You can target up to 5 willing creatures and can choose a different weapon for each target. The weapons function as +1 striking flaming weapons.\n\nHeightened (6th) As 4th, but the weapons function as +2 greater striking flaming weapons.\n\nHeightened (8th) As 4th, but the weapons function as +3 greater striking greater flaming weapons.\n\nHeightened (10th) As 4th, but the weapons function as +3 major striking greater flaming weapons.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blazing-blade",
+      "versionId": "pf2e-blazing-blade-pf2e-legacy",
+      "locale": "en",
+      "name": "Blazing Blade",
+      "description": "A scimitar-shaped beam of fiery light springs from your free hand. While the spell lasts, you can use a single action, which has the attack and concentrate traits, to burn your foes with the blazing blade. When you do, make a spell attack roll. On a success, the blazing blade deals 1d6 fire damage plus 1d6 spirit damage plus your spellcasting ability modifier. On a critical success, it deals double the usual damage.\n\nHeightened (4th) The blade's fire damage increases to 2d6. On a critical success, the target takes @Damage[(ternary(gte(@item.level,8),3,ternary(gte(@item.level,6),2,1)))d6[persistent,spirit]] damage.\n\nHeightened (6th) The blade's fire damage increases to 3d6. On a critical success, the target takes 2d6 persistent spirit damage.\n\nHeightened (8th) The blade's fire damage increases to 4d6. On a critical success, the target takes 3d6 persistent spirit damage.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blazing-bolt",
+      "versionId": "pf2e-blazing-bolt-pf2e-remaster",
+      "locale": "en",
+      "name": "Blazing Bolt",
+      "description": "You fire a ray of heat and flame. Make a spell attack roll against a single creature. On a hit, the target takes 2d6 fire damage, and on a critical hit, the target takes double damage.\n\nFor each additional action you use when Casting the Spell, you can fire an additional ray at a different target, to a maximum of three rays targeting three different targets for 3 actions. These attacks each increase your multiple attack penalty, but you don't increase your multiple attack penalty until after you make all the spell attack rolls for blazing bolt. If you spend 2 or more actions Casting the Spell, the damage increases to 4d6 fire damage on a hit, and it still deals double damage on a critical hit.\n\nHeightened (+1) The damage to each target increases by 1d6 for the 1-action version, or by 2d6 for the 2-action and 3-action versions.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blistering-invective",
+      "versionId": "pf2e-blistering-invective-pf2e-remaster",
+      "locale": "en",
+      "name": "Blistering Invective",
+      "description": "A heap of insults and invectives spew from your mouth-words so devastating your foes burn from the intensity of your diatribe. Your words deal 2d6 persistent fire damage, and the target must attempt a Will save. If the target doesn't understand the language or you're not speaking a language, it gains a +4 circumstance bonus to its save.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half the persistent fire damage.\n\nFailure The target becomes @UUID[Compendium.pf2e.conditionitems.Item.Frightened]{Frightened 1} and takes the full persistent fire damage.\n\nCritical Failure The target becomes @UUID[Compendium.pf2e.conditionitems.Item.Frightened]{Frightened 2} and takes double the persistent fire damage.\n\nHeightened (+2) You can target two additional creatures, and the persistent damage increases by 2d6.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blood-duplicate",
+      "versionId": "pf2e-blood-duplicate-pf2e-legacy",
+      "locale": "en",
+      "name": "Blood Duplicate",
+      "description": "This spell deals you 1 piercing damage as you shape a magical duplicate of the target from your blood; you can't cast this spell if you don't have blood. This spell can't duplicate an item made of precious materials, or materials with a rarity of uncommon or higher. If you're ever more than 5 feet from the duplicate, the spell's duration immediately ends. The Perception DC to recognize the duplicate as false using any sense except touch is equal to 10 + your spellcasting ability modifier + your Crafting proficiency bonus. The item feels wet and obviously fake to the touch. When the spell ends, the item collapses into a puddle of blood that quickly evaporates.",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-blood-runs-cold",
+      "versionId": "pf2e-blood-runs-cold-pf2e-remaster",
+      "locale": "en",
+      "name": "Blood Runs Cold",
+      "description": "You chill the blood in the target's veins. The target takes 1d6 persistent cold damage with a Fortitude save.\n\nCritical Success The target is unaffected.\n\nSuccess The target takes half the persistent cold damage.\n\nFailure The target takes the full persistent cold damage and is @UUID[Compendium.pf2e.conditionitems.Item.Slowed]{Slowed 1} for 1 round.\n\nCritical Failure The target takes double the persistent cold damage and is slowed 1 until the persistent cold damage ends.\n\nHeightened (+2) Increase the persistent cold damage by 1d6.",
+      "translationStatus": "verified"
     }
   ],
   "sources": [
@@ -13298,6 +14194,27 @@
       "publisher": "Paizo",
       "license": "OGL",
       "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-1"
+    },
+    {
+      "id": "src-pathfinder-201-pactbreaker",
+      "name": "Pathfinder #201: Pactbreaker",
+      "publisher": "Paizo",
+      "license": "ORC",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-2"
+    },
+    {
+      "id": "src-pathfinder-195-heavy-is-the-crown",
+      "name": "Pathfinder #195: Heavy is the Crown",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-2"
+    },
+    {
+      "id": "src-pathfinder-182-graveclaw",
+      "name": "Pathfinder #182: Graveclaw",
+      "publisher": "Paizo",
+      "license": "OGL",
+      "url": "https://github.com/foundryvtt/pf2e/tree/v14-dev/packs/pf2e/spells/spells/rank-2"
     }
   ]
 }
