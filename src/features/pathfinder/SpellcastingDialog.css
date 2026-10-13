@@ -139,3 +139,10 @@
   .pf-spell-dialog-proficiency{grid-template-columns:1fr;}
   .pf-spell-dialog-slots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 }
+
+.pf-spell-mode-options{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pf-spell-mode-options button{border:1px solid #b9c7bd;background:#f6f8f6;border-radius:7px;color:#304238;padding:9px 14px;cursor:pointer}
+.pf-spell-mode-options button[aria-pressed=true]{background:#3a6c4c;color:#fff}
+.pf-spell-mode-options button:disabled{opacity:.4;cursor:default}
+.pf-spell-traditions{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 20px}
+.pf-spell-traditions label{display:flex;align-items:center;gap:5px;font-size:13px}
