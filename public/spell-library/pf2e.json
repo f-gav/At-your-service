@@ -9636,6 +9636,78 @@
       "name": "Scorching Blast",
       "description": "You evoke a mass of fire into the air around your outstretched fist. For the remainder of your turn, you can blast targets within 30 feet with this fire by spending a single action which has the attack and concentrate traits. When you do so, attempt a ranged spell attack roll. If you hit, you inflict 2d8 fire damage. On a critical hit, the target takes Damage ((1d6+((@item.rank -1)*2))[persistent,fire)] damage.\n\n\n\nHeightened (+1) The base damage increases by 1d8 and the persistent fire damage on a critical hit increases by 2.",
       "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-phantom-pain",
+      "versionId": "pf2e-phantom-pain-pf2e-remaster",
+      "locale": "ru",
+      "name": "Фантомная боль",
+      "description": "Вы вызываете у цели мучительную иллюзорную боль. Она совершает спасбросок Воли; результат определяет ментальный урон, продолжительную боль и состояние тошноты. Точные степени успеха и усиление описаны в оригинальном тексте.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-pocket-library",
+      "versionId": "pf2e-pocket-library-pf2e-remaster",
+      "locale": "ru",
+      "name": "Карманная библиотека",
+      "description": "Вы вызываете магическую подборку полезных книг, способную помочь при проверках Вспомнить информацию. Выбранная тематика и усиление заклинания определяют доступную информацию и бонусы; подробности указаны в оригинальном описании.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-protection",
+      "versionId": "pf2e-protection-pf2e-remaster",
+      "locale": "ru",
+      "name": "Защита",
+      "description": "Вы окружаете согласное существо защитной магией. Эффект предоставляет бонус состояния к защите от определённых воздействий; условия действия и варианты усиления определяются редакцией заклинания.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-quick-sort",
+      "versionId": "pf2e-quick-sort-pf2e-remaster",
+      "locale": "ru",
+      "name": "Быстрая сортировка",
+      "description": "Вы магически упорядочиваете несколько предметов согласно выбранному принципу. Ограничения по количеству, массе и усилению приведены в исходном описании.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-restyle",
+      "versionId": "pf2e-restyle-pf2e-remaster",
+      "locale": "ru",
+      "name": "Смена стиля",
+      "description": "Вы изменяете внешний вид одежды, сохраняя её основные свойства. Заклинание меняет стиль, а не механические характеристики предметов.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-sanctuary",
+      "versionId": "pf2e-sanctuary-pf2e-remaster",
+      "locale": "ru",
+      "name": "Убежище",
+      "description": "Вы защищаете существо магическим покровом. Чтобы совершить против него враждебное действие, противник должен преодолеть спасбросок Воли. Нападение со стороны защищённого существа прекращает действие заклинания; точные условия указаны в оригинальном тексте.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-schadenfreude",
+      "versionId": "pf2e-schadenfreude-pf2e-remaster",
+      "locale": "ru",
+      "name": "Злорадство",
+      "description": "Вы реагируете на собственную неудачу злорадным магическим воздействием, отвлекающим окружающих противников. Цели совершают спасброски Воли; эффекты зависят от степени успеха.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
+    },
+    {
+      "spellId": "pf2e-nudge-the-odds",
+      "versionId": "pf2e-nudge-the-odds-pf2e-remaster",
+      "locale": "ru",
+      "name": "Повышение шансов",
+      "description": "Заклинание слегка склоняет удачу в вашу пользу при азартной игре. Его возможности и ограничения определяются оригинальными правилами.",
+      "translationStatus": "draft",
+      "translatorCredit": "Название сверено с pf2e-ru-translation (старый справочник). Описание — краткая самостоятельная адаптация по Foundry v14-dev; полная проверка механик после завершения круга."
     }
   ],
   "sources": [
