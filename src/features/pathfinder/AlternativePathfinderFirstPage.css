@@ -296,3 +296,36 @@
  .pf-alt-page--first .pf-alt-p1-level-diamond:before{width:38px;height:38px}
  .pf-alt-page--first .pf-alt-p1-level-diamond{height:48px}
 }
+
+/* Reference calibration, pass 3: keep the full equipment and action column
+   inside the four-page A4 envelope without scaling the whole sheet. */
+@media(min-width:901px){
+ .pf-alt-page--first{padding-top:15px;padding-bottom:10px;gap:2px}
+ .pf-alt-page--first .pf-alt-weapon{padding:0 0 1px}
+ .pf-alt-page--first .pf-alt-weapon h4{font-size:10px;line-height:1.05;margin:0}
+ .pf-alt-page--first .pf-alt-weapon-core{row-gap:0}
+ .pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field>span{font-size:7px;line-height:1}
+ .pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field>input{height:18px;font-size:10px}
+ .pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field:nth-child(4)>span{font-size:7px}
+ .pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field:nth-child(4)>input{height:17px}
+ .pf-alt-page--first .pf-alt-weapon-more summary{font-size:7px;line-height:1;margin:0}
+ .pf-alt-page--first .pf-alt-main-right{gap:3px}
+ .pf-alt-page--first .pf-alt-p1-utility .pf-alt-rich{min-height:46px;padding:2px}
+ .pf-alt-page--first .pf-alt-p1-utility .pf-rich-editable{min-height:41px}
+ .pf-alt-page--first .pf-alt-p1-perception-fields>.pf-alt-field:not(:first-child)>span{font-size:7px}
+ .pf-alt-page--first .pf-alt-p1-bottom-right{margin-top:0}
+ .pf-alt-page--first .pf-alt-p1-legend>div{gap:0;font-size:7.5px}
+ .pf-alt-page--first .pf-alt-p1-bottom-right .pf-alt-section>.pf-alt-fields{margin:0}
+ .pf-alt-page--first .pf-alt-p1-bottom-right .pf-alt-field>span{font-size:8px}
+ .pf-alt-page--first .pf-alt-p1-bottom-right .pf-alt-field>input{height:20px}
+}
+/* Long labels must never widen the A4 paper on small displays. */
+@media(max-width:640px){
+ .pf-alt-page--first .pf-alt-p1-top>*{min-width:0;max-width:100%}
+ .pf-alt-page--first .pf-alt-p1-logo{min-width:0;overflow:hidden}
+ .pf-alt-page--first .pf-alt-p1-logo strong{font-size:clamp(16px,4vw,22px)}
+ .pf-alt-page--first .pf-alt-p1-level-diamond{min-width:0}
+ .pf-alt-page--first .pf-alt-p1-hero{min-width:0}
+ .pf-alt-page--first .pf-alt-p1-level .pf-alt-field>input{max-width:100%;min-width:0}
+ .pf-alt-page--first .pf-alt-p1-origins .pf-alt-field{min-width:0}
+}
