@@ -199,3 +199,180 @@
 .pf-alt-weapon .pf-alt-field>span{font-size:9px}
 .pf-alt-weapon .pf-alt-field>input{font-size:12px}
 .pf-alt-main-right>.pf-alt-section:last-child>.pf-alt-fields{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* Page 2 – the PDF puts the numbered class progression at left and
+   three tall inventory columns plus the coin medallions at right. */
+.pf-alt-equipment-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,.9fr);gap:15px;align-items:start}
+.pf-alt-progression-column,.pf-alt-equipment-column{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pf-alt-features>.pf-alt-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pf-alt-features>.pf-alt-fields>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-features .pf-alt-field .pf-alt-rich{min-height:85px}
+.pf-alt-level-track{position:relative;margin:0 0 10px 12px;border-left:2px solid #73514a}
+.pf-alt-advancement-row{position:relative;display:grid;grid-template-columns:29px minmax(0,1fr);gap:6px;
+ padding:4px 0 4px 0;border-bottom:1px solid #805f58;min-height:52px}
+.pf-alt-level-diamond{position:relative;display:flex;align-items:center;justify-content:center;
+ width:29px;height:29px;margin-left:-16px;margin-top:12px;z-index:1}
+.pf-alt-level-diamond:before{content:'';position:absolute;inset:2px;
+ background:#6e443c;transform:rotate(45deg);box-shadow:0 0 0 1px white}
+.pf-alt-level-diamond b{position:relative;z-index:1;font:800 11px Arial,sans-serif;color:#fff}
+.pf-alt-advancement-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;min-width:0}
+.pf-alt-advancement-fields>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-advancement-fields>.pf-alt-field .pf-alt-rich{min-height:44px;padding:3px 5px}
+.pf-alt-advancement-fields .pf-rich-editable{min-height:37px;line-height:1.25}
+.pf-alt-inventory-group{margin-bottom:10px;border:1px solid #a88c82;min-height:250px;display:flex;flex-direction:column}
+.pf-alt-inventory-group h4{margin:0;background:#fff;border-bottom:1px solid #b7a49f;
+ padding:6px 8px;font:700 11px Arial,sans-serif;color:#25362e}
+.pf-alt-inventory-group>.pf-alt-fields{display:grid;grid-template-columns:minmax(0,1fr) 67px;gap:5px;
+ padding:3px 5px;align-items:stretch;margin:0;flex:1}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field{grid-column:span 1;min-width:0}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field:first-child .pf-alt-rich{min-height:196px}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field>.pf-alt-rich{height:100%;min-height:170px;border:0}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field:last-child{border-left:1px solid #d0c4bf;padding-left:4px}
+.pf-alt-inventory .pf-alt-bulk{margin:8px 0 13px;border-top:2px solid #183f2b;padding:7px 0}
+.pf-alt-bulk .pf-alt-field{max-width:135px}
+.pf-alt-coin-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:7px 0 12px}
+.pf-alt-coin{aspect-ratio:1/1;border:2px solid #79635d;border-radius:50%;padding:5px 3px;
+ display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px #fff;background:#fdfdfb}
+.pf-alt-coin-1{border-color:#a08350;background:#fffef6}
+.pf-alt-coin-2{border-color:#8b999e;background:#f8fcfc}
+.pf-alt-coin-3{border-color:#896957;background:#fcf9f7}
+.pf-alt-coin .pf-alt-field>span{text-align:center;font-weight:800;font-size:10px}
+.pf-alt-coin .pf-alt-field>input{border:0;text-align:center;padding:2px;height:22px;font-size:11px}
+.pf-alt-wealth>.pf-alt-fields{grid-template-columns:minmax(0,1fr) 72px 72px}
+.pf-alt-wealth>.pf-alt-fields>.pf-alt-field-long{grid-column:span 1}
+
+/* Page 3 – portrait and appearance share the top row; campaign notes and
+   paired action/reaction boxes follow the Russian sheet's two-column grid. */
+.pf-alt-biography-layout{display:grid;grid-template-columns:32% minmax(0,1fr);gap:12px}
+.pf-alt-biography-right{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pf-alt-portrait{display:block;width:100%;max-width:none;aspect-ratio:3/4;
+ border:1px solid #62534d;background:#f6f6f4}
+.pf-alt-portrait img{width:100%;height:100%;object-fit:cover}
+.pf-alt-portrait-section .pf-alt-portrait{margin:0}
+.pf-alt-appearance-fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+.pf-alt-appearance-fields>.pf-alt-field{grid-column:span 2}
+.pf-alt-appearance-fields>.pf-alt-field:nth-child(4),
+.pf-alt-appearance-fields>.pf-alt-field:nth-child(6),
+.pf-alt-appearance-fields>.pf-alt-field:nth-child(7){grid-column:span 1}
+.pf-alt-appearance-fields>.pf-alt-field:last-child{grid-column:span 6}
+.pf-alt-appearance-fields .pf-alt-rich{min-height:64px}
+.pf-alt-personality-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.pf-alt-personality-fields>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-personality-fields>.pf-alt-field:nth-child(n+5){grid-column:span 2}
+.pf-alt-personality-fields .pf-alt-rich{min-height:65px}
+.pf-alt-campaign-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:6px}
+.pf-alt-campaign-grid>.pf-alt-field:first-child{grid-row:span 3}
+.pf-alt-campaign-grid>.pf-alt-field:first-child .pf-alt-rich{height:100%;min-height:195px}
+.pf-alt-campaign-grid>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-campaign-grid>.pf-alt-field .pf-alt-rich{min-height:58px}
+.pf-alt-action-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pf-alt-action-cards{display:flex;flex-direction:column;gap:6px}
+.pf-alt-action-card{border:1px solid #8c716a;min-height:146px;padding:6px 8px}
+.pf-alt-action-card>h4{display:flex;align-items:center;gap:5px;margin:0 0 5px;
+ border-bottom:1px solid #bcaea8;padding:0 0 4px;color:#453a35;font-size:11px}
+.pf-alt-action-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.pf-alt-action-fields>.pf-alt-field{min-width:0}
+.pf-alt-action-fields>.pf-alt-field-long{grid-column:span 4}
+.pf-alt-action-fields .pf-alt-rich{min-height:55px}
+.pf-alt-action-fields>.pf-alt-field:nth-child(1){grid-column:span 2}
+
+/* Page 4 – small spellcasting tradition pane on left, tall spellbook at right. */
+.pf-alt-magic-layout{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.35fr);gap:12px;align-items:start}
+.pf-alt-magic-left,.pf-alt-magic-right{display:flex;flex-direction:column;gap:11px;min-width:0}
+.pf-alt-tradition-panel{padding:1px 4px 9px}
+.pf-alt-tradition-wheel{position:relative;margin:5px auto 3px;max-width:315px;height:106px}
+.pf-alt-tradition-emblem{position:absolute;top:27px;left:calc(50% - 25px);
+ width:50px;height:50px;border:3px double #73583e;border-radius:50%;
+ display:grid;place-items:center;color:#4b5c54;font-size:37px;line-height:1;background:#fff;
+ pointer-events:none}
+.pf-alt-tradition-option{position:absolute;display:inline-flex;align-items:center;justify-content:center;
+ min-width:105px;padding:4px 6px;border:1px solid #b6b9b3;border-radius:2px;
+ background:#fff;color:#4c514b;font:700 11px Arial,sans-serif;cursor:pointer}
+.pf-alt-tradition-option.is-active{border-color:#476a53;color:#1d452e;background:#e4efe7}
+.pf-alt-tradition-option:focus-visible{outline:2px solid #386e4f;outline-offset:1px}
+.pf-alt-tradition-arcane{left:0;top:12px}
+.pf-alt-tradition-occult{right:0;top:12px}
+.pf-alt-tradition-primal{left:0;bottom:10px}
+.pf-alt-tradition-divine{right:0;bottom:10px}
+.pf-alt-spell-type{display:flex;gap:13px;justify-content:center;margin-top:3px}
+.pf-alt-spell-type .pf-alt-field{flex-direction:row;align-items:center;gap:3px}
+.pf-alt-spell-type .pf-alt-field>span{font-size:10px}
+.pf-alt-casting-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pf-alt-casting-fields>.pf-alt-field:first-child input,
+.pf-alt-casting-fields>.pf-alt-field:nth-child(4) input{font-size:20px;font-weight:800;
+ border:2px solid #644a45;height:44px;text-align:center}
+.pf-alt-slots{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}
+.pf-alt-slot{min-width:0;border:0;border-right:1px solid #d1beb7;padding:0 2px 3px;text-align:center;display:flex;flex-direction:column;gap:3px}
+.pf-alt-slot:last-child{border-right:0}
+.pf-alt-slot>b{height:27px;display:grid;place-items:center;color:#5b4139;font:800 12px Arial,sans-serif;
+ border:2px solid #644c43;clip-path:polygon(0 0,50% 8%,100% 0,100% 100%,0 100%);background:#fff}
+.pf-alt-slot .pf-alt-field>span{font-size:8px}
+.pf-alt-slot .pf-alt-field>input{border:1px solid #bcaea5;height:26px;padding:1px 0;font-size:11px;text-align:center}
+.pf-alt-magic-left .pf-alt-section>.pf-alt-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pf-alt-magic-left .pf-alt-section>.pf-alt-fields>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-focus-points{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.pf-alt-focus-points .pf-alt-field input[type=checkbox]{width:23px;height:23px;appearance:none;
+ border:1.5px solid #5d544e;border-radius:50%;background:#fff}
+.pf-alt-focus-points .pf-alt-field input[type=checkbox]:checked{background:#436b51;box-shadow:inset 0 0 0 4px white}
+.pf-alt-magic-left .pf-alt-section .pf-alt-section>h3{font-size:10px;border-bottom-width:1px}
+.pf-alt-spells{min-height:155px;display:flex;flex-direction:column}
+.pf-alt-spell-head,.pf-alt-spell-row{display:grid;grid-template-columns:minmax(0,1fr) 48px 62px 40px;gap:2px;line-height:1.2}
+.pf-alt-spell-head{background:#fff;color:#4f5952;border-bottom:1px solid #936c66;padding:6px 3px;font-size:9px}
+.pf-alt-spell-row{padding:10px 4px;font-size:12px;color:#304e79;border-bottom:1px solid #eadfdb}
+.pf-alt-spell-row>strong{font-weight:600}
+.pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells{min-height:670px}
+.pf-alt-spell-text{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.pf-alt-spell-text>.pf-alt-field-long{grid-column:span 1}
+.pf-alt-add-spell{margin:9px 0 5px;padding:7px 10px;border:1px solid #6e786e;
+ border-radius:2px;background:#f7faf7;font-size:11px;color:#264c38}
+.pf-alt-add-spell:hover{background:#edf3ec}
+.pf-alt-page-footer{border-top:1px solid #b5ada7;color:#777a75;letter-spacing:.02em;font-size:9px}
+.pf-alt-page-footer span:first-child{font-family:Georgia,serif;font-weight:800;color:#4a5c50}
+
+/* Tablets: retain desktop section order, but make individual grids readable.
+   Phones use natural-height HTML rather than a horizontally cropped PDF. */
+@media(max-width:900px){
+ .pf-alt-page{padding:20px 18px}
+ .pf-alt-defense-grid{grid-template-columns:1fr 1fr}
+ .pf-alt-defense-grid>:last-child{grid-column:1/-1}
+ .pf-alt-main-columns{grid-template-columns:1fr}
+ .pf-alt-skill-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+ .pf-alt-skill-row{grid-template-columns:94px 1fr}
+ .pf-alt-equipment-layout{grid-template-columns:1.3fr 1fr}
+ .pf-alt-magic-layout{grid-template-columns:1fr 1.25fr}
+ .pf-alt-slots{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+@media(max-width:640px){
+ .pf-alt-page{padding:17px 13px;min-height:0;gap:12px}
+ .pf-alt-heading{grid-template-columns:1fr}.pf-alt-heading p{text-align:left}
+ .pf-alt-page1-top,.pf-alt-defense-grid,.pf-alt-main-columns,
+ .pf-alt-equipment-layout,.pf-alt-biography-layout,.pf-alt-action-layout,
+ .pf-alt-magic-layout,.pf-alt-campaign-grid{grid-template-columns:1fr}
+ .pf-alt-hero-marks{justify-content:flex-start}
+ .pf-alt-abilities{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-identity-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(1){grid-column:span 2}
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(2){grid-column:span 1}
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(3){grid-column:span 1}
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(5),
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(6),
+ .pf-alt-identity-grid>.pf-alt-field:nth-child(7){grid-column:span 1}
+ .pf-alt-skill-list{display:flex;flex-direction:column}
+ .pf-alt-save-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-progression-column,.pf-alt-equipment-column{gap:10px}
+ .pf-alt-level-track{margin-left:11px}
+ .pf-alt-biography-layout .pf-alt-portrait{max-width:230px}
+ .pf-alt-appearance-fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-appearance-fields>.pf-alt-field{grid-column:span 1}
+ .pf-alt-appearance-fields>.pf-alt-field:last-child{grid-column:span 3}
+ .pf-alt-personality-fields,.pf-alt-advancement-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pf-alt-campaign-grid>.pf-alt-field:first-child{grid-row:auto}
+ .pf-alt-magic-layout .pf-alt-slots{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .pf-alt-action-cards{gap:6px}
+ .pf-alt-action-card{min-height:135px}
+}
+@media print{
+ .pf-alt-page{border:0;box-shadow:none;padding:14px;break-after:page;min-height:0}
+ .pf-alt-page .pf-alt-section{break-inside:avoid}
+ .pf-alt-add-spell,.pf-alt-portrait span{display:none!important}
+}
