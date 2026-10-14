@@ -7,7 +7,7 @@ import {
   SPELLCASTING_ABILITIES,SPELL_SLOT_RANKS,spellcastingTotals,
   spellAttackDisplay,spellSlotCountText,
 } from './rules-spellcasting';
-import {PF_SPELL_MODE,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,PF_CLASS_LIST,selectedTraditions,selectedClasses} from './SpellGrimoire';
+import {PF_SPELL_MODE,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,PF_CLASS_LIST,effectivePfTraditions,selectedClasses} from './SpellGrimoire';
 import './SpellcastingDialog.css';
 
 type Props={
@@ -21,7 +21,7 @@ type Props={
 export default function SpellcastingDialog({values,onChange,onRankChange,onClose,onOpenGrimoire,disabled=false}:Props){
   const totals=spellcastingTotals(values);
   const mode=values[PF_SPELL_MODE]==='text'?'text':'library';
-  const traditions=selectedTraditions(values[PF_SPELL_TRADITIONS]);
+  const traditions=effectivePfTraditions(values);
   const classes=selectedClasses(values[PF_SPELL_CLASSES]);
   const main=useRef<HTMLDivElement>(null);
   const closeCallback=useRef(onClose);
