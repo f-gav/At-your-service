@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import type {ReactNode} from 'react';
-import {BookOpen, Settings2} from 'lucide-react';
+import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Footprints, History, Gem, Compass, BookMarked, Scroll, Languages, Star, CircleDot, Zap} from 'lucide-react';
 import RichField from './RichField';
 import {RANK_FIELDS, RANK_LABELS,readRank,isAutomatic,isCoreComputedField} from './rules-core';
 import {isSpellcastingComputedField,isSpellcastingConfigured} from './rules-spellcasting';
@@ -32,9 +32,24 @@ const PAGE_CAPTIONS:Record<string,string>={
  '1':'Характеристики и бой','2':'Способности и снаряжение',
  '3':'Персонаж и действия','4':'Магия и заклинания','notes':'Заметки кампании',
 };
-function Section({index,title,children,wide=false}:{index:string;title:string;children:ReactNode;wide?:boolean}){
-  return <section className={'pf-alt-section'+(wide?' pf-alt-wide':'')}>
-    <h3><span>{index}</span>{title}</h3>{children}
+const SECTION_ICONS:Record<string,typeof Shield>={
+ 'Персонаж':UserRound,'Характеристики':Gem,'Защиты':Shield,'Защита и здоровье':Shield,
+ 'Класс брони и щит':Shield,'Пункты здоровья':Heart,'Спасброски':Shield,
+ 'Навыки':Compass,'Языки, внимание и скорость':Eye,'Удары':Swords,'Оружие и атаки':Swords,
+ 'Черты народа и общие черты':Feather,'Классовые способности':Star,
+ 'Способности по уровням':ScrollText,'Инвентарь и снаряжение':Backpack,
+ 'Богатство':Coins,'Внешность':Eye,'Личность':UserRound,'Заметки для кампании':ScrollText,
+ 'Действия и занятия':Zap,'Свободные и ответные действия':CircleDot,
+ 'Магическая традиция':Compass,'Параметры заклинаний':WandSparkles,'Ячейки заклинаний':BookMarked,
+ 'Заклинания':BookOpen,'Фокусы':Sparkles,'Фокусные заклинания':CircleDot,
+ 'Врождённые заклинания':Star,'Ритуалы':Scroll,
+ 'Заметки':ScrollText,'Дополнительные поля':ScrollText,
+};
+function Section({index,title,children,wide=false,className=''}:{index:string;title:string;children:ReactNode;wide?:boolean;className?:string}){
+ const Icon=SECTION_ICONS[title]||ScrollText;
+ return <section className={'pf-alt-section'+(wide?' pf-alt-wide':'')+(className?' '+className:'')}>
+   <h3><Icon size={14} strokeWidth={1.8} aria-hidden="true"/><span className="pf-alt-section-index">{index}</span>{title}</h3>
+   {children}
   </section>;
 }
 export default function AlternativePathfinderPages({
@@ -128,105 +143,219 @@ export default function AlternativePathfinderPages({
    <p>{String(page).padStart(2,'0')} / 04 · Pathfinder 2e · Remaster / Legacy</p>
  </header>
  {page===1&&<>
-  <Section index="01" title="Персонаж" wide>
-   <div className="pf-alt-fields pf-alt-identity">
-    {['name','player','level','experience','ancestry','heritage','background','character_class','size'].map(id=>field(id))}
-   </div>
-   <div className="pf-alt-fields">{['hero_1','hero_2','hero_3','background_notes','class_notes'].map(id=>field(id))}</div>
-  </Section>
-  <Section index="02" title="Характеристики" wide><div className="pf-alt-abilities">
-   {ABILITIES.map(([id,label])=><div className="pf-alt-ability" key={id}>
-    {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частичное повышение')}
-   </div>)}
-  </div></Section>
-  <div className="pf-alt-two-col">
-   <Section index="03" title="Защита и здоровье">
-    <div className="pf-alt-fields">
-     {['armor_class','armor_dex','armor_prof','armor_item','hp_max','hp_current','hp_temp','dying','wounded','shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}
+   <div className="pf-alt-page1-top">
+    <div className="pf-alt-identity-main">
+     <Section index="I" title="Персонаж">
+      <div className="pf-alt-identity-grid">
+       {['name','player','level','experience','ancestry','background','character_class','heritage','size'].map(id=>field(id))}
+      </div>
+      <div className="pf-alt-identity-notes">
+       {['background_notes','class_notes'].map(id=>field(id))}
+      </div>
+     </Section>
     </div>
-    <div className="pf-alt-fields">{matching('armor_rank_').map(id=>field(id))}</div>
-    {cells(['defense_notes','resistances','conditions'])}
+    <Section index="★" title="Пункты героизма" className="pf-alt-hero">
+      <div className="pf-alt-hero-marks">
+       {['hero_1','hero_2','hero_3'].map(id=>field(id))}
+      </div>
+      <p>Получите 1 в начале встречи. Потратьте 1 на перебросок проверки или все, чтобы избежать смерти.</p>
+    </Section>
+   </div>
+   <Section index="II" title="Характеристики" className="pf-alt-abilities-section" wide>
+    <div className="pf-alt-abilities">
+     {ABILITIES.map(([id,label])=><div className="pf-alt-ability" key={id}>
+      {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частичное повышение')}
+     </div>)}
+    </div>
    </Section>
-   <Section index="04" title="Спасброски">
-    {SAVE_NAMES.map(([id,label])=><div className="pf-alt-stat-block" key={id}><h4>{label}</h4>
-      {cells(matching('save_'+id),'pf-alt-fields pf-alt-stat-fields')}
-    </div>)}
-    {cells(['perception','perception_rank','perception_ability','perception_prof','perception_item','perception_notes','speed','movement'])}
-   </Section>
-  </div>
-  <Section index="05" title="Навыки" wide>
-   <div className="pf-alt-skill-list">{SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
-    <b>{label}</b><div className="pf-alt-fields">{matching('skill_'+id+'_').map(k=>field(k,k.split('_').pop()))}</div>
-   </div>)}</div>
-   {cells(['skills_notes','languages'])}
-  </Section>
-  <Section index="06" title="Оружие и атаки" wide>
-   <div className="pf-alt-two-col">{[1,2,3,4,5].map(i=><div className="pf-alt-weapon" key={i}>
-    <h4>Оружие {i}</h4><div className="pf-alt-fields">{matching('weapon_'+i+'_').map(id=>field(id))}</div>
-   </div>)}</div>
-   {cells(['weapon_other','critical_effects','class_dc','class_dc_key','class_dc_rank','class_dc_item'])}
-   <div className="pf-alt-fields">{matching('weapon_rank_').map(id=>field(id))}</div>
-  </Section>
+   <div className="pf-alt-defense-grid">
+    <Section index="III" title="Класс брони и щит">
+     <div className="pf-alt-fields pf-alt-defense-values">{['armor_class','armor_dex','armor_prof','armor_item'].map(id=>field(id))}</div>
+     <h4 className="pf-alt-subhead"><Shield size={13}/> Щит</h4>
+     <div className="pf-alt-fields pf-alt-shield-values">{['shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}</div>
+     <div className="pf-alt-fields pf-alt-ranks">{matching('armor_rank_').map(id=>field(id))}</div>
+     {cells(['defense_notes'])}
+    </Section>
+    <Section index="IV" title="Спасброски">
+     <div className="pf-alt-save-grid">
+      {SAVE_NAMES.map(([id,label])=><div className="pf-alt-save" key={id}>
+       <h4>{label}</h4>
+       {matching('save_'+id).map(key=>field(key,key.endsWith('_rank')?'Владение':undefined))}
+      </div>)}
+     </div>
+    </Section>
+    <Section index="V" title="Пункты здоровья">
+      <div className="pf-alt-health">
+       {['hp_max','hp_current','hp_temp'].map(id=>field(id))}
+      </div>
+      <div className="pf-alt-life-state">
+       {['dying','wounded'].map(id=>field(id))}
+      </div>
+      {cells(['resistances','conditions'])}
+    </Section>
+   </div>
+   <div className="pf-alt-main-columns">
+    <Section index="VI" title="Навыки" className="pf-alt-skills-section">
+     <div className="pf-alt-skill-list">{SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
+      <b>{label}</b><div className="pf-alt-fields">
+       {matching('skill_'+id+'_').map(key=>field(key,key.split('_').pop()))}
+      </div>
+     </div>)}</div>
+     {cells(['skills_notes'])}
+    </Section>
+    <div className="pf-alt-main-right">
+     <Section index="VII" title="Языки, внимание и скорость">
+      {cells(['languages','perception','perception_rank','perception_ability','perception_prof','perception_item','perception_notes','speed','movement'])}
+     </Section>
+     <Section index="VIII" title="Удары">
+      <div className="pf-alt-weapon-list">{[1,2,3,4,5].map(i=><div className="pf-alt-weapon" key={i}>
+        <h4><Swords size={13} aria-hidden="true"/> {i<=3?'Ближний бой':'Дистанционное'} · {i}</h4>
+        <div className="pf-alt-fields">{matching('weapon_'+i+'_').map(id=>field(id))}</div>
+       </div>)}</div>
+      {cells(['weapon_other','critical_effects'])}
+      <div className="pf-alt-fields pf-alt-ranks">{matching('weapon_rank_').map(id=>field(id))}</div>
+     </Section>
+     <Section index="IX" title="Классовая СЛ">
+      {cells(['class_dc','class_dc_key','class_dc_rank','class_dc_item'])}
+     </Section>
+    </div>
+   </div>
  </>}
  {page===2&&<>
-  <Section index="01" title="Народ, происхождение и класс" wide>
-   {cells(['ancestry_features','ancestry_feat_1','background_skill_feat','class_features_1'])}
-  </Section>
-  <Section index="02" title="Развитие персонажа" wide><div className="pf-alt-advancement">
-   {Array.from({length:19},(_,i)=>i+2).map(n=><div key={n} className="pf-alt-advancement-row"><b>{n} ур.</b>
-    {field('feat_level_'+n,'Черта')}{field('class_level_'+n,'Классовая способность')}
-   </div>)}
-  </div></Section>
-  <Section index="03" title="Инвентарь и снаряжение" wide>
-   {cells(['inventory_held','inventory_held_bulk','inventory_consumables','inventory_consumables_bulk','inventory_worn','inventory_worn_attune','inventory_worn_bulk','bulk_total'])}
-  </Section>
-  <Section index="04" title="Монеты и ценности" wide>
-   {cells(['wealth_pp','wealth_gp','wealth_sp','wealth_cp','valuables','valuables_price','valuables_bulk'])}
-  </Section>
+  <div className="pf-alt-equipment-layout">
+   <div className="pf-alt-progression-column">
+    <Section index="I" title="Черты народа и общие черты" className="pf-alt-features">
+     {cells(['ancestry_features','ancestry_feat_1','background_skill_feat'])}
+    </Section>
+    <Section index="II" title="Классовые способности" className="pf-alt-features">
+     {cells(['class_features_1'])}
+    </Section>
+    <Section index="III" title="Способности по уровням">
+     <div className="pf-alt-level-track">
+      {Array.from({length:19},(_,i)=>i+2).map(n=><div key={n} className="pf-alt-advancement-row">
+       <div className="pf-alt-level-diamond"><b>{n}</b></div>
+       <div className="pf-alt-advancement-fields">
+        {field('feat_level_'+n,'Черта навыка / народа / общая')}
+        {field('class_level_'+n,'Классовая черта / способность')}
+       </div>
+      </div>)}
+     </div>
+    </Section>
+   </div>
+   <div className="pf-alt-equipment-column">
+    <Section index="IV" title="Инвентарь и снаряжение" className="pf-alt-inventory">
+     <div className="pf-alt-inventory-group">
+      <h4>Удерживаемые предметы</h4>
+      {cells(['inventory_held','inventory_held_bulk'])}
+     </div>
+     <div className="pf-alt-inventory-group">
+      <h4>Одноразовые предметы</h4>
+      {cells(['inventory_consumables','inventory_consumables_bulk'])}
+     </div>
+     <div className="pf-alt-inventory-group">
+      <h4>Носимые предметы</h4>
+      {cells(['inventory_worn','inventory_worn_attune','inventory_worn_bulk'])}
+     </div>
+     <div className="pf-alt-bulk">{field('bulk_total','Общий вес')}</div>
+    </Section>
+    <Section index="V" title="Богатство" className="pf-alt-wealth">
+     <div className="pf-alt-coin-row">
+      {['wealth_pp','wealth_gp','wealth_sp','wealth_cp'].map((id,i)=><div className={'pf-alt-coin pf-alt-coin-'+i} key={id}>{field(id,['ПМ','ЗМ','СМ','ММ'][i])}</div>)}
+     </div>
+     {cells(['valuables','valuables_price','valuables_bulk'])}
+    </Section>
+   </div>
+  </div>
  </>}
  {page===3&&<>
-  <Section index="01" title="Внешность и биография" wide>
-   <div className="pf-alt-portrait-row">
+  <div className="pf-alt-biography-layout">
+   <Section index="I" title="Портрет персонажа" className="pf-alt-portrait-section">
     <button type="button" className="pf-alt-portrait" onClick={onEditPortrait} aria-label="Изменить портрет">
-      <img src={portraitUrl||import.meta.env.BASE_URL+'pathfinder/portrait-placeholder.webp'} alt="Портрет героя"/>
-      <span>Изменить портрет</span>
+     <img src={portraitUrl||import.meta.env.BASE_URL+'pathfinder/portrait-placeholder.webp'} alt="Портрет героя"/>
+     <span>Изменить портрет</span>
     </button>
-    <div className="pf-alt-fields">{['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance'].map(id=>field(id))}</div>
+   </Section>
+   <div className="pf-alt-biography-right">
+    <Section index="II" title="Внешность">
+     <div className="pf-alt-appearance-fields">
+      {['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance'].map(id=>field(id))}
+     </div>
+    </Section>
+    <Section index="III" title="Личность">
+     <div className="pf-alt-personality-fields">
+      {['attitude','deity','edicts','anathema','likes','dislikes','quotes'].map(id=>field(id))}
+     </div>
+    </Section>
+   </div>
+  </div>
+  <Section index="IV" title="Заметки для кампании" wide>
+   <div className="pf-alt-campaign-grid">
+    {['campaign_notes','allies','enemies','organizations'].map(id=>field(id))}
    </div>
   </Section>
-  <Section index="02" title="Характер и убеждения" wide>
-   {cells(['attitude','deity','edicts','anathema','likes','dislikes','quotes'])}
-  </Section>
-  <Section index="03" title="Кампания и связи" wide>
-   {cells(['campaign_notes','allies','enemies','organizations'])}
-  </Section>
-  <Section index="04" title="Действия и реакции" wide><div className="pf-alt-two-col">
-   {[1,2,3,4].map(i=><div key={i} className="pf-alt-stat-block">
-    <h4>Действие {i}</h4>{cells(matching('action_'+i+'_'))}
-    <h4>Реакция {i}</h4>{cells(matching('reaction_'+i+'_'))}
-   </div>)}
-  </div></Section>
+  <div className="pf-alt-action-layout">
+   <Section index="V" title="Действия и занятия">
+    <div className="pf-alt-action-cards">
+     {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
+      <h4><Zap size={14} aria-hidden="true"/> Действие {i}</h4>
+      <div className="pf-alt-action-fields">{matching('action_'+i+'_').map(id=>field(id))}</div>
+     </div>)}
+    </div>
+   </Section>
+   <Section index="VI" title="Свободные и ответные действия">
+    <div className="pf-alt-action-cards">
+     {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
+      <h4><CircleDot size={14} aria-hidden="true"/> Реакция {i}</h4>
+      <div className="pf-alt-action-fields">{matching('reaction_'+i+'_').map(id=>field(id))}</div>
+     </div>)}
+    </div>
+   </Section>
+  </div>
  </>}
  {page===4&&<>
-  <Section index="01" title="Параметры магии" wide>
-   {cells(['tradition_arcane','tradition_divine','tradition_occult','tradition_primal','prepared','spontaneous',
-     'spell_attack','spell_attack_rank','spell_attack_key','spell_dc','spell_dc_rank','spell_dc_key','spell_dc_item'])}
-   <button type="button" className="pf-alt-add-spell" onClick={onOpenSettings}><Settings2 size={16}/> Настройки заклинаний</button>
-  </Section>
-  <Section index="02" title="Ячейки заклинаний" wide>
-   <div className="pf-alt-slots">{Array.from({length:10},(_,i)=>i+1).map(n=><div className="pf-alt-slot" key={n}>
-    <b>{n}-й круг</b>{field('spell_slots_'+n,'Ячеек')}{field('spell_remaining_'+n,'Осталось')}
-   </div>)}</div>
-  </Section>
-  <Section index="03" title="Чары и фокусы" wide>
-   {cells(['cantrips_daily','cantrip_rank'])}
-  </Section>
-  {spellPanel('cantrip_','Список чар','04')}
-  {spellPanel('spellbook_','Заклинания','05')}
-  <Section index="06" title="Очки фокуса" wide>{cells(['focus_point_1','focus_point_2','focus_point_3','focus_rank'])}</Section>
-  {spellPanel('focus_','Фокусные заклинания','07')}
-  {spellPanel('innate_','Врождённая магия','08')}
-  {spellPanel('rituals_','Ритуалы','09')}
+  <div className="pf-alt-magic-layout">
+   <div className="pf-alt-magic-left">
+    <Section index="I" title="Магическая традиция">
+     <div className="pf-alt-tradition-panel">
+      <div className="pf-alt-tradition-wheel" role="group" aria-label="Выбор магических традиций">
+       {([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=>{
+        const key='tradition_'+id;consumed.add(key);
+        return <button key={id} type="button" aria-pressed={values[key]===true}
+         className={'pf-alt-tradition-option pf-alt-tradition-'+id+(values[key]===true?' is-active':'')}
+         onClick={()=>onChange(key,values[key]!==true)}
+         title={label}>{label}</button>;
+       })}
+       <div className="pf-alt-tradition-emblem" aria-hidden="true">✣</div>
+      </div>
+      <div className="pf-alt-spell-type">{field('prepared','Подготавливающий')}{field('spontaneous','Спонтанный')}</div>
+     </div>
+    </Section>
+    <Section index="II" title="Параметры заклинаний">
+     <div className="pf-alt-casting-fields">
+      {['spell_attack','spell_attack_rank','spell_attack_key','spell_dc','spell_dc_rank','spell_dc_key','spell_dc_item'].map(id=>field(id))}
+     </div>
+     <button type="button" className="pf-alt-add-spell" onClick={onOpenSettings}><Settings2 size={15}/> Настройки магии</button>
+    </Section>
+    <Section index="III" title="Фокусы">
+     {cells(['cantrips_daily','cantrip_rank'])}
+     {spellPanel('cantrip_','Список чар','03a')}
+    </Section>
+    <Section index="IV" title="Фокусные заклинания">
+     <div className="pf-alt-focus-points">{['focus_point_1','focus_point_2','focus_point_3','focus_rank'].map(id=>field(id))}</div>
+     {spellPanel('focus_','Фокусные заклинания','04a')}
+    </Section>
+    {spellPanel('innate_','Врождённые заклинания','V')}
+   </div>
+   <div className="pf-alt-magic-right">
+    <Section index="VI" title="Ячейки заклинаний" className="pf-alt-magic-slots">
+     <div className="pf-alt-slots">{Array.from({length:10},(_,i)=>i+1).map(n=><div className="pf-alt-slot" key={n}>
+      <b>{n}</b>{field('spell_slots_'+n,'Всего')}{field('spell_remaining_'+n,'Осталось')}
+     </div>)}</div>
+    </Section>
+    {spellPanel('spellbook_','Заклинания','VII')}
+   </div>
+  </div>
+  {spellPanel('rituals_','Ритуалы','VIII')}
  </>}
  {remaining()}
  <footer className="pf-alt-page-footer"><span>AT YOUR SERVICE!</span><span>{PAGE_CAPTIONS[pageId]} · {pageId} / 4</span></footer>
