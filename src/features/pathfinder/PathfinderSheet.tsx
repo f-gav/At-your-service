@@ -141,6 +141,8 @@ export default function PathfinderSheet({
   const [pageSettingsOpen,setPageSettingsOpen] = useState(false);
   const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
   const [grimoireOpen,setGrimoireOpen]=useState(false);
+  const [grimoireInitialSpell,setGrimoireInitialSpell]=useState<string|null>(null);
+  const openGrimoire=(spellId:string|null=null)=>{setGrimoireInitialSpell(spellId);setGrimoireOpen(true);};
   const [spellViews,setSpellViews]=useState<SpellView[]>([]);
   const spellMode=values[PF_SPELL_MODE]==='text'?'text':'library';
   const savedSpells=useMemo(()=>readSavedSpells(values[PF_SPELL_SELECTION]),[values[PF_SPELL_SELECTION]]);
@@ -394,11 +396,14 @@ export default function PathfinderSheet({
         fieldId.endsWith('_ranks')||fieldId.endsWith('_rank')?String(spell.spell.rank):
         fieldId.endsWith('_prepared')?'✓':
         fieldId.endsWith('_frequency')||fieldId.endsWith('_cost')?'—':spell.name;
-      return <button key={fieldId} type="button" className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}`}
-        style={style} disabled={editLocked} onClick={()=>setGrimoireOpen(true)}
-        title="Открыть гримуар для выбора заклинаний" aria-label={field.label+', выбрать заклинания'}>
-        {list.map(spell=><span key={spell.id}>{text(spell)}</span>)}
-      </button>;
+      return <div key={fieldId} className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}`}
+        style={style} aria-label={field.label+', заклинания'}>
+        {list.map(spell=><button type="button" className="pf-spell-library-entry" key={spell.id}
+          disabled={editLocked} onClick={()=>openGrimoire(spell.id)}
+          title={'Открыть карточку: '+spell.name} aria-label={'Прочитать заклинание '+spell.name}>{text(spell)}</button>)}
+        <button type="button" className="pf-spell-library-empty" disabled={editLocked}
+          onClick={()=>openGrimoire()} aria-label={'Выбрать заклинания: '+field.label} title="Открыть гримуар"/>
+      </div>;
     }
     if (field.kind === 'long') {
       const tableSpan = spellTableSpan(field, templateFields);
@@ -454,7 +459,7 @@ export default function PathfinderSheet({
         </button>}
       {pageFields.map(renderField)}
       {page===4&&<button type="button" className="pf-spell-grimoire-trigger"
-        disabled={editLocked||spellMode==='text'} onClick={()=>setGrimoireOpen(true)}
+        disabled={editLocked||spellMode==='text'} onClick={()=>openGrimoire()}
         aria-label="Открыть гримуар" title={spellMode==='text'?'Недоступно в режиме текста':'Выбор заклинаний'}><BookOpen size={15}/></button>}
       {page===4&&<button type="button" className="pf-spell-settings-trigger"
         disabled={editLocked} onClick={()=>setSpellSettingsOpen(true)}
@@ -538,11 +543,11 @@ export default function PathfinderSheet({
       onChange={(id,value)=>change(id,value)}
       onRankChange={changeSpellRank}
       onClose={()=>setSpellSettingsOpen(false)}
-      onOpenGrimoire={()=>{setSpellSettingsOpen(false);setGrimoireOpen(true);}}/>}
-    {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
+      onOpenGrimoire={()=>{setSpellSettingsOpen(false);openGrimoire();}}/>}
+    {grimoireOpen&&<SpellGrimoire initialSpellId={grimoireInitialSpell} selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
       slotCounts={Array.from({length:10},(_,i)=>Math.max(0,Number(values['spell_slots_'+(i+1)]||0)||0))}
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
-      onClose={()=>setGrimoireOpen(false)}/>}
+      onClose={()=>{setGrimoireOpen(false);setGrimoireInitialSpell(null);}}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">
         <span>Страницы</span>
