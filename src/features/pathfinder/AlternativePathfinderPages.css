@@ -830,3 +830,25 @@
  .pf-alt-p1-speed{grid-column:1/-1}
  .pf-alt-p1-bottom-right{grid-template-columns:1fr}
 }
+
+/* Ebbe Black by Dimitri Antonov (SIL OFL 1.1).
+   Display headings only: character entries keep their readable UI typeface. */
+@font-face {
+ font-family: 'PF2e Ebbe Black';
+ src: url('../../assets/fonts/Ebbe-Black-Cyrillic.woff2') format('woff2');
+ font-style: normal;
+ font-weight: 900;
+ font-display: swap;
+}
+.pf-alt-page .pf-alt-heading h2,
+.pf-alt-page .pf-alt-section > h3,
+.pf-alt-page .pf-alt-p1-heading,
+.pf-alt-page .pf-alt-p1-logo span,
+.pf-alt-page .pf-alt-save h4 {
+ font-family: 'PF2e Ebbe Black','PF2e Headings',Georgia,serif;
+ font-weight: 900;
+ text-transform: uppercase;
+}
+.pf-alt-page .pf-alt-p1-logo span {letter-spacing:.015em}
+.pf-alt-page .pf-alt-p1-heading {letter-spacing:.035em}
+.pf-alt-page .pf-alt-section > h3 {letter-spacing:.01em}
