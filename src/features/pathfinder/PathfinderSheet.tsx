@@ -24,6 +24,7 @@ import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeA
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
+import AlternativePathfinderPages from './AlternativePathfinderPages';
 import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
 import PageSettingsDialog from './PageSettingsDialog';
@@ -102,6 +103,7 @@ export default function PathfinderSheet({
     return original;
   });
   const [templateFields,setTemplateFields] = useState<EditableField[]>(()=>cloneFields(DEFAULT_FIELDS));
+  const layoutVariant=values.pf2e_layout==='alternative'?'alternative':'classic';
   // Page presentation and optional notes belong to this character, not the
   // global admin PDF template. Hidden notes remain saved in the character.
   const notesEnabled=notesPageEnabled(values[PF_NOTES_ENABLED_KEY]);
@@ -487,7 +489,13 @@ export default function PathfinderSheet({
         <ArrowLeft size={17} /> К персонажам
       </button>
       <div className="pf-toolbar-heading">
-        <h1 className="pf-minimal-title">Лист персонажа PF2e</h1>
+        <h1 className="pf-minimal-title">{layoutVariant==='alternative'?'Альтернативный PF2e':'Лист персонажа PF2e'}</h1>
+      </div>
+      <div className="pf-alt-variant-picker" role="group" aria-label="Вид листа Pathfinder">
+        <button type="button" aria-pressed={layoutVariant==='classic'}
+          onClick={()=>change('pf2e_layout','classic')}>Классический PF2e</button>
+        <button type="button" aria-pressed={layoutVariant==='alternative'}
+          onClick={()=>change('pf2e_layout','alternative')}>Альтернативный PF2e</button>
       </div>
       <div className="pf-toolbar-right">
         <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
@@ -527,12 +535,23 @@ export default function PathfinderSheet({
     {error && <p className="form-error" role="alert">{error}</p>}
     {pdfError && <p role="alert" className="form-error">{pdfError}</p>}
     <div className="pf-sheet-scroll" aria-label="Страницы листа Pathfinder 2e">
-      <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
-        {visiblePages.map(page=>page==='notes'
-          ? <OptionalNotesPage key="notes" values={values} disabled={editLocked}
-              onChange={(id,value)=>change(id,value)}/>
-          : renderPage(Number(page)))}
-      </div>
+      {layoutVariant==='alternative'?
+        <div className={`pf-alt-stack${monochrome?' pf-monochrome':''}`}>
+          {visiblePages.map(page=><AlternativePathfinderPages key={page}
+            page={page==='notes'?'notes':Number(page)} fields={templateFields}
+            values={values} displayValues={displayValues} legacyHasValues={legacyHasValues}
+            preparedSpells={savedSpells.filter(x=>x.prepared).map(x=>spellViews.find(v=>v.id===x.id)).filter((x):x is SpellView=>!!x)}
+            spellMode={spellMode} onChange={(id,value)=>change(id,value)}
+            onOpenGrimoire={()=>openGrimoire()} onOpenSpell={setOpenSpellCard}
+            onOpenSettings={()=>setSpellSettingsOpen(true)}
+            portraitUrl={portraitUrl} onEditPortrait={onEditPortrait}/>)}
+        </div>:
+        <div className={`pf-sheet-stack${monochrome?' pf-monochrome':''}`}>
+          {visiblePages.map(page=>page==='notes'
+            ? <OptionalNotesPage key="notes" values={values} disabled={editLocked}
+                onChange={(id,value)=>change(id,value)}/>
+            : renderPage(Number(page)))}
+        </div>}
     </div>
     {pageSettingsOpen&&<PageSettingsDialog
       order={pageOrder} notesEnabled={notesEnabled} disabled={editLocked}
