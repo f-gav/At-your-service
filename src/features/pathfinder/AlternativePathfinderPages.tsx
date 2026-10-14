@@ -212,8 +212,10 @@ export default function AlternativePathfinderPages({
     </div>
     <div className="pf-alt-p1-level">
      <h3 className="pf-alt-p1-heading">Уровень</h3>
-     <div className="pf-alt-p1-level-diamond">{field('level','Уровень')}</div>
-     {field('experience','Опыт')}
+     <div className="pf-alt-p1-level-line">
+      <div className="pf-alt-p1-level-diamond">{field('level','Уровень')}</div>
+      <div className="pf-alt-p1-experience">{field('experience','Опыт')}</div>
+     </div>
     </div>
     <div className="pf-alt-p1-hero">
      <h3 className="pf-alt-p1-heading">Пункты героизма</h3>
@@ -225,7 +227,7 @@ export default function AlternativePathfinderPages({
         <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
          <polygon points="11,3 29,3 38,20 29,37 11,37 2,20"
           fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.6"/>
-         {active&&<path d="M12 20l5 5 11-12" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>}
+
         </svg>
        </button>;
       })}
@@ -249,7 +251,7 @@ export default function AlternativePathfinderPages({
    <Section index="II" title="Характеристики" className="pf-alt-abilities-section" wide>
     <div className="pf-alt-abilities">
      {ABILITIES.map(([id,label])=><div className="pf-alt-ability" key={id}>
-      {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частичное повышение')}
+      {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частич. повышение')}
      </div>)}
     </div>
    </Section>
