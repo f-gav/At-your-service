@@ -1,3 +1,4 @@
+@font-face{font-family:'PF2e Headings';src:url('../../assets/fonts/VollkornSC-Black.ttf') format('truetype');font-weight:900;font-style:normal;font-display:swap}
 /* HTML-first Pathfinder page: Russian PDF's rulework and strong section hierarchy,
    with real inputs and independent layout instead of a background bitmap. */
 .pf-alt-stack{max-width:1040px;margin:0 auto 60px;display:flex;flex-direction:column;gap:23px}
@@ -398,3 +399,9 @@
  .pf-alt-spell-column:last-child{border:0}
  .pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells .pf-alt-spell-columns{min-height:300px}
 }
+
+/* Same Russian-capable small-cap display family used for other Pathfinder headings. */
+.pf-alt-heading h2{font-family:'PF2e Headings',Georgia,serif;font-size:clamp(26px,3.1vw,34px);font-weight:900;letter-spacing:.015em}
+.pf-alt-section>h3{font-family:'PF2e Headings',Georgia,serif;font-weight:900;font-size:13px;line-height:1.15;letter-spacing:.015em}
+.pf-alt-save h4{font-family:'PF2e Headings',Georgia,serif;font-weight:900}
+.pf-alt-level-diamond b{font-size:11px}
