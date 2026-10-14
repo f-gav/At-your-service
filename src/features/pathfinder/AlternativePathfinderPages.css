@@ -1,0 +1,80 @@
+/* HTML-first Pathfinder page: Russian PDF's rulework and strong section hierarchy,
+   with real inputs and independent layout instead of a background bitmap. */
+.pf-alt-stack{max-width:1040px;margin:0 auto 60px;display:flex;flex-direction:column;gap:23px}
+.pf-alt-page{box-sizing:border-box;width:100%;min-height:1060px;background:#fffefa;color:#263b32;border:1px solid #bfc9c1;box-shadow:0 4px 22px #23362d15;padding:38px 46px 26px;display:flex;flex-direction:column;gap:18px;font:14px/1.35 'Segoe UI',Arial,sans-serif}
+.pf-alt-heading{border-bottom:3px double #54715e;padding:2px 0 14px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:3px 14px}
+.pf-alt-heading small{font-size:10px;font-weight:800;letter-spacing:.16em;color:#64796c;grid-column:1/-1}
+.pf-alt-heading h2{margin:4px 0;font:700 clamp(24px,3vw,35px)/1.1 Georgia,'Times New Roman',serif;color:#173c2b}
+.pf-alt-heading p{margin:0;color:#52685b;text-align:right;font-size:12px}
+.pf-alt-section{min-width:0;border:1px solid #c5d1c7;border-radius:3px;background:#fff;overflow:visible}
+.pf-alt-section>h3{display:flex;gap:12px;align-items:center;margin:0 0 10px;min-height:34px;border-bottom:1px solid #647d6a;color:#253e32;padding:7px 13px;font-size:12px;font-weight:800;letter-spacing:.045em;text-transform:uppercase}
+.pf-alt-section>h3 span{font-size:11px;color:#83978a;letter-spacing:0;font-variant-numeric:tabular-nums}
+.pf-alt-section>.pf-alt-fields,.pf-alt-section>.pf-alt-abilities,.pf-alt-section>.pf-alt-advancement,.pf-alt-section>.pf-alt-two-col,.pf-alt-section>.pf-alt-slots,.pf-alt-section>.pf-alt-skill-list,.pf-alt-section>.pf-alt-spells,.pf-alt-section>.pf-alt-portrait-row{margin:12px}
+.pf-alt-section>button.pf-alt-add-spell{margin:0 12px 12px}
+.pf-alt-two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;align-items:start}
+.pf-alt-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin:12px}
+.pf-alt-identity{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pf-alt-field{display:flex;flex-direction:column;min-width:0;gap:4px;font-size:12px}
+.pf-alt-field>span{color:#50695c;text-transform:uppercase;font-size:10px;line-height:1.2;letter-spacing:.055em;font-weight:750}
+.pf-alt-field>input:not([type=checkbox]),.pf-alt-field>select{box-sizing:border-box;width:100%;height:35px;background:#fff;border:0;border-bottom:1px solid #a9b9af;border-radius:0;padding:4px 2px;color:#25362a;font:600 14px 'Segoe UI',sans-serif;min-width:0}
+.pf-alt-field>input:focus-visible,.pf-alt-field>select:focus-visible{outline:2px solid #52836a;outline-offset:1px}
+.pf-alt-field>input[readonly]{background:#f4f7f4;color:#283c31}
+.pf-alt-field>input[type=checkbox]{width:23px;height:23px;accent-color:#456d52;cursor:pointer;margin:3px}
+.pf-alt-field-long{grid-column:span 2}
+.pf-alt-field .pf-alt-rich{position:relative;min-height:85px;display:block;border:1px solid #d5dfd6;background:repeating-linear-gradient(to bottom,#fff 0,#fff 29px,#e6ece6 30px);border-radius:2px;padding:7px;box-sizing:border-box}
+.pf-alt-rich [contenteditable],.pf-alt-rich .pf-rich-editable{min-height:68px}
+.pf-alt-abilities{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.pf-alt-ability{display:flex;flex-direction:column;gap:4px;text-align:center;padding:9px 5px;border:1px solid #d5dfd7;border-radius:3px}
+.pf-alt-ability .pf-alt-field>span{font-size:10px}
+.pf-alt-ability input{text-align:center;font-size:19px!important}
+.pf-alt-stat-block{margin:10px 12px;border-bottom:1px solid #e0e7e1;padding-bottom:12px}
+.pf-alt-stat-block h4,.pf-alt-weapon h4{margin:10px 0 2px;color:#486550;font-size:12px;text-transform:uppercase}
+.pf-alt-stat-fields{grid-template-columns:repeat(3,minmax(0,1fr));margin:6px 0!important;gap:8px}
+.pf-alt-skill-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px}
+.pf-alt-skill-row{min-width:0;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5ebe5;padding:5px 0}
+.pf-alt-skill-row>b{font-size:12px;flex:0 0 106px;color:#243c2d}
+.pf-alt-skill-row>.pf-alt-fields{margin:0!important;flex:1;grid-template-columns:repeat(auto-fit,minmax(47px,1fr));gap:4px}
+.pf-alt-skill-row .pf-alt-field>span{font-size:8px;letter-spacing:0;text-transform:none}
+.pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{font-size:11px;min-width:0;height:28px}
+.pf-alt-weapon{border-bottom:1px solid #dae2dc;padding:7px}
+.pf-alt-weapon .pf-alt-fields{margin:6px 0}
+.pf-alt-advancement{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}
+.pf-alt-advancement-row{display:flex;align-items:center;gap:8px;padding:7px 4px;border-bottom:1px solid #e0e7e3;min-width:0}
+.pf-alt-advancement-row>b{font-size:11px;min-width:40px}
+.pf-alt-advancement-row>.pf-alt-field{flex:1}
+.pf-alt-advancement-row .pf-alt-field-long{min-width:0}
+.pf-alt-portrait-row{display:grid;grid-template-columns:230px 1fr;gap:20px}
+.pf-alt-portrait{position:relative;aspect-ratio:4/5;border:1px solid #9aaba0;background:#eef1e9;padding:0;overflow:hidden;cursor:pointer}
+.pf-alt-portrait img{object-fit:cover;width:100%;height:100%;display:block}
+.pf-alt-portrait span{position:absolute;bottom:0;left:0;right:0;background:#213a2bce;color:white;text-align:center;padding:8px;font-size:12px}
+.pf-alt-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.pf-alt-slot{border:1px solid #d5dfd7;padding:7px;display:grid;gap:3px}
+.pf-alt-slot>b{font-size:11px;color:#526e59}
+.pf-alt-slot .pf-alt-field input{text-align:center}
+.pf-alt-spells{padding:3px}
+.pf-alt-spell-head,.pf-alt-spell-row{display:grid;grid-template-columns:minmax(0,1fr) 52px 75px 52px;gap:4px;text-align:center}
+.pf-alt-spell-head{border-bottom:1px solid #829286;padding:8px;color:#688173;font-size:10px;font-weight:800;text-transform:uppercase}
+.pf-alt-spell-row{width:100%;border:0;border-bottom:1px solid #dee7de;background:white;padding:11px 8px;cursor:pointer;color:#2b5d79;font-size:13px}
+.pf-alt-spell-row>strong{text-align:left;overflow:hidden;text-overflow:ellipsis}
+.pf-alt-spell-row:hover{background:#edf4f0;text-decoration:underline}
+.pf-alt-add-spell{display:inline-flex;gap:7px;align-items:center;margin:8px 0 8px 8px;padding:9px 12px;border:1px solid #718c79;border-radius:5px;background:#eef4ee;color:#2b5740;cursor:pointer;font-size:12px}
+.pf-alt-spell-text{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pf-alt-spell-text .pf-alt-field-long{grid-column:span 2}
+.pf-alt-page-footer{margin-top:auto;display:flex;justify-content:space-between;border-top:1px solid #abc0b0;padding-top:12px;color:#728675;font-size:10px;letter-spacing:.11em}
+.pf-alt-notes{min-height:220px!important}
+.pf-alt-stack .pf-alt-page{scroll-margin-top:22px}
+.pf-alt-variant-picker{display:flex;gap:9px;align-items:center;border:1px solid #d6e1d9;border-radius:7px;padding:5px;background:#f8faf8}
+.pf-alt-variant-picker button{border:0;background:transparent;color:#4a6752;padding:7px 11px;border-radius:5px;cursor:pointer;font-size:12px}
+.pf-alt-variant-picker button[aria-pressed=true]{background:#386c4c;color:#fff}
+@media(max-width:740px){
+ .pf-alt-page{padding:17px 15px;min-height:0;gap:12px}
+ .pf-alt-heading{grid-template-columns:1fr}.pf-alt-heading p{text-align:left}
+ .pf-alt-two-col,.pf-alt-skill-list,.pf-alt-advancement,.pf-alt-portrait-row{grid-template-columns:1fr}
+ .pf-alt-abilities{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-identity{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pf-alt-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pf-alt-skill-row>b{flex-basis:88px}.pf-alt-slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pf-alt-portrait{max-width:200px}
+ .pf-alt-variant-picker{flex-wrap:wrap}
+}
+@media print{.pf-alt-page{break-after:page;box-shadow:none;border:0;margin:0;min-height:0}.pf-alt-stack{gap:0}.pf-alt-variant-picker{display:none}.pf-alt-add-spell{display:none}}
