@@ -325,9 +325,16 @@ export default function AlternativePathfinderPages({
       {cells(['weapon_other','critical_effects'])}
       <div className="pf-alt-fields pf-alt-ranks">{matching('weapon_rank_').map(id=>field(id))}</div>
      </Section>
-     <Section index="IX" title="Классовая СЛ">
-      {cells(['class_dc','class_dc_key','class_dc_rank','class_dc_item'])}
-     </Section>
+     <div className="pf-alt-p1-bottom-right">
+      <Section index="IX" title="Классовая СЛ" className="pf-alt-p1-class-dc">
+       {cells(['class_dc','class_dc_key','class_dc_rank','class_dc_item'])}
+      </Section>
+      <section className="pf-alt-p1-legend" aria-label="Памятка Pathfinder">
+       <h3 className="pf-alt-p1-heading">Памятка</h3>
+       <div><b>Умение</b><span>Изученный: +2 + уровень</span><span>Эксперт: +4 + уровень</span><span>Мастер: +6 + уровень</span><span>Легенда: +8 + уровень</span></div>
+       <div><b>Действия</b><span>◆ Одиночное действие</span><span>◆◆ Два действия</span><span>◆◆◆ Три действия</span><span>↪ Ответное действие</span></div>
+      </section>
+     </div>
     </div>
    </div>
  </>}
