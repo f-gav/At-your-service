@@ -1,0 +1,221 @@
+/* Pathfinder 2e — independently tuned first page.
+   Based on the Russian printed character-sheet reference. All values are the
+   existing HTML fields; only their placement and visual framing change. */
+.pf-alt-page--first{
+  --pf-ink:#113b2a;--pf-line:#25523b;--pf-brown:#784c46;
+  --pf-rule:#b69891;--pf-muted:#61615e;
+  gap:5px;padding:27px 33px 23px;font-family:Arial,Helvetica,sans-serif;
+  font-size:11px;line-height:1.1;background:#fff;color:#141d18;
+}
+.pf-alt-page--first .pf-alt-p1-heading{
+  font:900 12px/1.12 'PF2e Headings',Georgia,serif;
+  text-transform:uppercase;letter-spacing:0;color:var(--pf-ink);
+  margin:0 0 4px;border-bottom:2px solid var(--pf-line);
+  padding-bottom:2px;white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-field>span{color:#555a57;font-size:9px}
+.pf-alt-page--first .pf-alt-field>input:not([type=checkbox]),
+.pf-alt-page--first .pf-alt-field>select{
+ border:1px solid #9b726d;background:white;border-radius:0;
+ height:25px;font-size:12px;padding:2px 4px;
+}
+.pf-alt-page--first .pf-alt-field .pf-alt-rich{border:1px solid #bda29b;min-height:29px;padding:3px}
+.pf-alt-page--first .pf-alt-rich .pf-rich-editable{min-height:22px;line-height:1.15}
+.pf-alt-page--first>.pf-alt-p1-top{
+ display:grid;grid-template-columns:31% minmax(0,34%) 13% minmax(0,22%);
+ min-height:80px;align-items:start;gap:0;
+}
+.pf-alt-p1-top>*{min-width:0;padding-right:8px}
+.pf-alt-p1-logo{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;
+ min-height:78px;text-align:center;padding-right:14px!important;
+}
+.pf-alt-p1-logo strong{
+ color:#3b241d;letter-spacing:-.035em;font:900 clamp(23px,2.85vw,36px)/.94 Georgia,serif;
+ text-shadow:1px 1px #d4a87c,-1px -1px #c4a073,2px 2px #322015,
+ -2px -2px #322015,3px 3px #dbbe8d;
+ -webkit-text-stroke:.65px #452719;transform:scaleX(.98);
+ max-width:100%;
+}
+.pf-alt-p1-logo span{
+ color:#53332e;font:900 12px/1.3 'PF2e Headings',Georgia,serif;
+ white-space:nowrap;letter-spacing:.02em;
+}
+.pf-alt-p1-name .pf-alt-field{display:flex;flex-direction:column;gap:1px;margin-bottom:3px}
+.pf-alt-p1-name .pf-alt-field>span{display:none}
+.pf-alt-p1-name .pf-alt-field:first-of-type input{font-size:19px;font-weight:600;height:40px}
+.pf-alt-p1-name .pf-alt-field:last-child{flex-direction:row;align-items:center;border:1px solid #af9a95;height:19px}
+.pf-alt-p1-name .pf-alt-field:last-child>span{display:inline;margin-left:3px;white-space:nowrap;font-size:8px}
+.pf-alt-p1-name .pf-alt-field:last-child input{border:0;height:17px;flex:1;width:50%;padding:0 3px}
+.pf-alt-p1-level{position:relative;text-align:center}
+.pf-alt-p1-level>.pf-alt-field:last-child{display:flex;flex-direction:row;align-items:center;gap:3px}
+.pf-alt-p1-level>.pf-alt-field:last-child>span{font-weight:700;color:#171b17}
+.pf-alt-p1-level>.pf-alt-field:last-child input{width:100%;text-align:center;font-size:14px;font-weight:700}
+.pf-alt-p1-level-diamond{display:grid;place-items:center;height:59px;position:relative;margin:1px 0}
+.pf-alt-p1-level-diamond:before{
+ content:'';position:absolute;width:49px;height:49px;border:2px solid #604636;
+ box-shadow:inset 0 0 0 3px #fff,0 0 0 1px #daa959;
+ background:#fff;transform:rotate(45deg);z-index:0;
+}
+.pf-alt-p1-level-diamond .pf-alt-field{position:relative;z-index:1;width:52px}
+.pf-alt-p1-level-diamond .pf-alt-field>span{display:none}
+.pf-alt-p1-level-diamond .pf-alt-field>input{
+ background:transparent!important;border:0!important;width:100%;
+ font-weight:800;font-size:25px!important;text-align:center;
+}
+.pf-alt-p1-hero{padding-right:0}
+.pf-alt-p1-hero .pf-alt-hero-marks{gap:2px;justify-content:center;margin:2px 0}
+.pf-alt-p1-hero .pf-alt-hero-point{width:32px;height:32px}
+.pf-alt-p1-hero .pf-alt-hero-point svg{width:30px;height:30px}
+.pf-alt-p1-hero p{font-size:8px;line-height:1.13;margin:3px 0;color:#5d5957}
+.pf-alt-p1-origins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;min-width:0;margin:0 0 2px}
+.pf-alt-p1-origins>section{min-width:0}
+.pf-alt-p1-origins>section>.pf-alt-field>span{display:none}
+.pf-alt-p1-origins>section>.pf-alt-field>input{font-size:16px;height:27px;width:100%}
+.pf-alt-p1-ancestry-detail{display:grid;grid-template-columns:minmax(0,1fr) 58px;gap:4px;margin-top:3px}
+.pf-alt-p1-origins>section>.pf-alt-field-long{margin-top:3px}
+.pf-alt-p1-origins .pf-alt-rich{min-height:30px!important}
+.pf-alt-p1-origins .pf-rich-editable{min-height:22px!important}
+.pf-alt-p1-origins .pf-alt-field-long{grid-column:auto}
+.pf-alt-p1-origins .pf-alt-field>span{font-size:8px}
+.pf-alt-page--first>.pf-alt-section>h3,
+.pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section>h3,
+.pf-alt-page--first .pf-alt-main-columns .pf-alt-section>h3{
+ font-family:'PF2e Headings',Georgia,serif;
+ font-size:13px;font-weight:900;letter-spacing:0;color:var(--pf-ink);
+ border-bottom:2px solid var(--pf-line);padding:0 0 2px;margin:0 0 3px;
+ line-height:1.12;min-height:14px;
+}
+.pf-alt-page--first .pf-alt-section>h3 svg,
+.pf-alt-page--first .pf-alt-section>h3 .pf-alt-section-index{display:none}
+.pf-alt-page--first .pf-alt-abilities{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:0 0 5px}
+.pf-alt-page--first .pf-alt-ability{
+ display:grid;grid-template-columns:39px minmax(0,1fr);grid-template-rows:23px 15px;gap:0 3px;
+ align-items:center;border:0;border-right:1px solid #bbb0ab;padding:0 4px 0 0;
+}
+.pf-alt-page--first .pf-alt-ability:last-child{border-right:0}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child{display:contents}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
+ grid-column:2;grid-row:1;font-size:13px;font-weight:800;color:#292b27;white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
+ grid-column:1;grid-row:1/3;height:34px!important;width:39px;min-width:0;
+ font:900 18px/1 Arial!important;clip-path:none;
+ border:3px solid #61443d!important;text-align:center;
+}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
+ grid-column:2;grid-row:2;display:flex;gap:2px;align-items:center;justify-content:flex-start;
+}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
+ font-size:8px;white-space:nowrap;font-weight:400;color:#656360}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input{width:10px;height:10px}
+.pf-alt-page--first .pf-alt-defense-grid{
+ display:grid;grid-template-columns:32% 33% minmax(0,35%);gap:0;
+ align-items:stretch;border-bottom:1px solid #cabbb6;margin:0 0 3px}
+.pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section{padding:0 5px;min-width:0}
+.pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section:first-child{padding-left:0;border-right:1px solid #af9b96}
+.pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section:nth-child(2){border-right:1px solid #af9b96}
+.pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section:last-child{padding-right:0}
+.pf-alt-page--first .pf-alt-defense-values{display:grid;grid-template-columns:56px minmax(0,1fr);gap:4px}
+.pf-alt-page--first .pf-alt-defense-values>.pf-alt-field:first-child>input{
+ height:48px;font-size:27px!important;border:3px solid #544943!important;
+ border-radius:22% 22% 35% 35%!important;clip-path:none;
+}
+.pf-alt-page--first .pf-alt-defense-values>.pf-alt-field:not(:first-child){display:flex;flex-direction:column;justify-content:center}
+.pf-alt-page--first .pf-alt-shield-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.pf-alt-page--first .pf-alt-subhead{font-size:9px;margin:2px 0}
+.pf-alt-page--first .pf-alt-ranks{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px}
+.pf-alt-page--first .pf-alt-ranks .pf-alt-field>span{font-size:7px;word-break:break-word}
+.pf-alt-page--first .pf-alt-rank-squares{gap:1px;flex-wrap:wrap}
+.pf-alt-page--first .pf-alt-rank-square{width:10px;height:11px;flex-basis:10px;font-size:8px}
+.pf-alt-page--first .pf-alt-save-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.pf-alt-page--first .pf-alt-save{display:flex;flex-direction:column;gap:2px;border-right:1px solid #d6c7c2;padding:0 2px}
+.pf-alt-page--first .pf-alt-save:last-child{border-right:0}
+.pf-alt-page--first .pf-alt-save h4{font-size:11px;margin:0;text-align:center}
+.pf-alt-page--first .pf-alt-save>.pf-alt-field:nth-child(2)>input{
+ height:34px;font-size:18px!important;font-weight:800;text-align:center;
+ border:2px solid #604b46!important;clip-path:none;border-radius:12px;
+}
+.pf-alt-page--first .pf-alt-save>.pf-alt-rank-field>span{font-size:8px}
+.pf-alt-page--first .pf-alt-save .pf-alt-rank-squares{gap:1px;flex-wrap:nowrap}
+.pf-alt-page--first .pf-alt-save .pf-alt-rank-square{width:9px;height:10px;flex-basis:9px}
+.pf-alt-page--first .pf-alt-save>.pf-alt-field:not(:nth-child(2)):not(.pf-alt-rank-field)>input{height:20px;font-size:10px}
+.pf-alt-page--first .pf-alt-health{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.pf-alt-page--first .pf-alt-health .pf-alt-field>span{font-size:9px}
+.pf-alt-page--first .pf-alt-health .pf-alt-field>input{height:36px!important;font-size:17px!important}
+.pf-alt-page--first .pf-alt-life-state{gap:3px}
+.pf-alt-page--first .pf-alt-dying-skulls button{width:20px;height:20px;padding:2px}
+.pf-alt-page--first .pf-alt-life-state .pf-alt-field>input{height:22px}
+.pf-alt-page--first .pf-alt-defense-grid .pf-alt-rich{min-height:26px}
+.pf-alt-page--first .pf-alt-defense-grid .pf-rich-editable{min-height:21px}
+.pf-alt-page--first .pf-alt-main-columns{display:grid;grid-template-columns:49% minmax(0,51%);gap:0;align-items:start}
+.pf-alt-page--first .pf-alt-skills-section{padding-right:7px;border-right:1px solid #ac9c96}
+.pf-alt-page--first .pf-alt-main-right{padding-left:8px;gap:6px}
+.pf-alt-page--first .pf-alt-skill-list{display:flex;flex-direction:column;gap:0}
+.pf-alt-page--first .pf-alt-skill-row{grid-template-columns:105px minmax(0,1fr);gap:2px;min-height:29px;padding:1px 0}
+.pf-alt-page--first .pf-alt-skill-row>b{font-size:12px;font-weight:800;text-align:right;color:#282a26}
+.pf-alt-page--first .pf-alt-skill-row>.pf-alt-fields{grid-template-columns:52px 44px repeat(4,minmax(0,1fr));gap:1px}
+.pf-alt-page--first .pf-alt-skill-row>.pf-alt-fields>.pf-alt-field:first-child>input{
+ border:2px solid #315d43;height:24px;font-size:13px;font-weight:800;text-align:center;border-radius:6px
+}
+.pf-alt-page--first .pf-alt-skill-row .pf-alt-rank-squares{flex-wrap:wrap;justify-content:center;gap:1px}
+.pf-alt-page--first .pf-alt-skill-row .pf-alt-rank-square{width:10px;height:10px;flex-basis:10px}
+.pf-alt-page--first .pf-alt-skill-row .pf-alt-field>input{height:23px}
+.pf-alt-page--first .pf-alt-skill-row .pf-alt-field>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields:last-child .pf-alt-rich{min-height:175px}
+.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields:last-child .pf-rich-editable{min-height:164px}
+.pf-alt-page--first .pf-alt-p1-utility{display:grid;grid-template-columns:30% 34% minmax(0,36%);gap:3px}
+.pf-alt-page--first .pf-alt-p1-utility>.pf-alt-section{min-width:0}
+.pf-alt-page--first .pf-alt-p1-utility .pf-alt-field>span{font-size:8px}
+.pf-alt-page--first .pf-alt-p1-utility .pf-alt-field>input{height:24px;font-size:11px}
+.pf-alt-page--first .pf-alt-p1-utility .pf-alt-rich{min-height:95px}
+.pf-alt-page--first .pf-alt-p1-utility .pf-rich-editable{min-height:86px}
+.pf-alt-page--first .pf-alt-p1-perception-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}
+.pf-alt-page--first .pf-alt-p1-perception-fields>.pf-alt-field:first-child{grid-column:1/-1}
+.pf-alt-page--first .pf-alt-p1-perception-fields>.pf-alt-field:first-child input{
+ border:2px solid #513e3d;font-size:16px;text-align:center;font-weight:800;
+}
+.pf-alt-page--first .pf-alt-p1-speed>.pf-alt-field:first-of-type input{font-size:15px;font-weight:800}
+.pf-alt-page--first .pf-alt-weapon{padding:2px 0 5px}
+.pf-alt-page--first .pf-alt-weapon h4{font-size:12px;margin:0 0 3px}
+.pf-alt-page--first .pf-alt-weapon-core{display:grid;grid-template-columns:1.4fr .7fr 1fr;gap:3px}
+.pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field:nth-child(4){grid-column:1/-1}
+.pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field>span{font-size:9px}
+.pf-alt-page--first .pf-alt-weapon-core>.pf-alt-field>input{height:26px;font-size:11px}
+.pf-alt-page--first .pf-alt-weapon-more summary{font-size:8px;padding:0;margin-top:1px}
+.pf-alt-page--first .pf-alt-main-right>.pf-alt-section>.pf-alt-fields{margin:3px 0}
+.pf-alt-page--first .pf-alt-p1-bottom-right{display:grid;grid-template-columns:35% minmax(0,65%);gap:5px}
+.pf-alt-page--first .pf-alt-p1-bottom-right .pf-alt-section>.pf-alt-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}
+.pf-alt-page--first .pf-alt-p1-legend{min-width:0}
+.pf-alt-page--first .pf-alt-p1-legend>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;font-size:8px}
+.pf-alt-page--first .pf-alt-p1-legend>div b{grid-column:1/-1;font-size:9px}
+.pf-alt-page--first .pf-alt-page-footer{margin-top:auto}
+@media(max-width:900px){
+ .pf-alt-page--first{padding:17px 14px}
+ .pf-alt-page--first .pf-alt-p1-top{grid-template-columns:30% 34% 14% minmax(0,22%)}
+ .pf-alt-page--first .pf-alt-p1-logo strong{font-size:24px}
+ .pf-alt-page--first .pf-alt-defense-grid{grid-template-columns:1fr 1fr}
+ .pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section:last-child{grid-column:1/-1}
+ .pf-alt-page--first .pf-alt-main-columns{grid-template-columns:47% minmax(0,53%)}
+ .pf-alt-page--first .pf-alt-skill-row{grid-template-columns:72px minmax(0,1fr)}
+ .pf-alt-page--first .pf-alt-skill-row>b{font-size:10px}
+ .pf-alt-page--first .pf-alt-skill-row>.pf-alt-fields{grid-template-columns:40px 36px repeat(4,minmax(0,1fr))}
+ .pf-alt-page--first .pf-alt-p1-utility{grid-template-columns:1fr 1fr}
+ .pf-alt-page--first .pf-alt-p1-speed{grid-column:1/-1}
+}
+@media(max-width:640px){
+ .pf-alt-page--first{padding:15px 10px}
+ .pf-alt-page--first .pf-alt-p1-top{grid-template-columns:1fr 1fr;gap:8px}
+ .pf-alt-page--first .pf-alt-p1-logo{min-height:62px}
+ .pf-alt-page--first .pf-alt-p1-origins{grid-template-columns:1fr;gap:4px}
+ .pf-alt-page--first .pf-alt-abilities{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-page--first .pf-alt-defense-grid{grid-template-columns:1fr;gap:6px}
+ .pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section{border-right:0!important;padding:0}
+ .pf-alt-page--first .pf-alt-main-columns{grid-template-columns:1fr;gap:8px}
+ .pf-alt-page--first .pf-alt-skills-section{border-right:0;padding-right:0}
+ .pf-alt-page--first .pf-alt-main-right{padding-left:0}
+ .pf-alt-page--first .pf-alt-skill-row{grid-template-columns:80px minmax(0,1fr)}
+ .pf-alt-page--first .pf-alt-skill-row>.pf-alt-fields{grid-template-columns:50px 50px repeat(4,minmax(0,1fr))}
+ .pf-alt-page--first .pf-alt-p1-utility{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .pf-alt-page--first .pf-alt-p1-speed{grid-column:auto}
+}
