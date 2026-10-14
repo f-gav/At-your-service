@@ -24,11 +24,12 @@ type Props={
 const ABILITIES=[['str','Сила'],['dex','Ловкость'],['con','Выносливость'],['int','Интеллект'],['wis','Мудрость'],['cha','Харизма']] as const;
 const SAVE_NAMES=[['fort','Стойкость'],['reflex','Рефлексы'],['will','Воля']] as const;
 const SKILLS=[
- ['acrobatics','Акробатика'],['arcana','Аркана'],['athletics','Атлетика'],['crafting','Ремесло'],
- ['deception','Обман'],['diplomacy','Дипломатия'],['intimidation','Запугивание'],['lore1','Знания I'],
- ['lore2','Знания II'],['medicine','Медицина'],['nature','Природа'],['occultism','Оккультизм'],
- ['performance','Выступление'],['religion','Религия'],['society','Общество'],
- ['stealth','Скрытность'],['survival','Выживание'],['thievery','Воровство']
+ ['acrobatics','Акробатика'],['athletics','Атлетика'],['thievery','Воровство'],
+ ['survival','Выживание'],['diplomacy','Дипломатия'],['intimidation','Запугивание'],
+ ['lore1','Знание I'],['lore2','Знание II'],['performance','Исполнение'],
+ ['medicine','Медицина'],['arcana','Мистицизм'],['deception','Обман'],
+ ['society','Общество'],['occultism','Оккультизм'],['nature','Природа'],
+ ['religion','Религия'],['crafting','Ремесло'],['stealth','Скрытность']
 ] as const;
 const PAGE_CAPTIONS:Record<string,string>={
  '1':'Характеристики и бой','2':'Способности и снаряжение',
@@ -294,9 +295,18 @@ export default function AlternativePathfinderPages({
      {cells(['skills_notes'])}
     </Section>
     <div className="pf-alt-main-right">
-     <Section index="VII" title="Языки, внимание и скорость">
-      {cells(['languages','perception','perception_rank','perception_ability','perception_prof','perception_item','perception_notes','speed','movement'])}
-     </Section>
+     <div className="pf-alt-p1-utility">
+      <Section index="VII" title="Языки" className="pf-alt-p1-languages">
+       {field('languages','Языки')}
+      </Section>
+      <Section index="VII" title="Внимание" className="pf-alt-p1-perception">
+       <div className="pf-alt-p1-perception-fields">{['perception','perception_rank','perception_ability','perception_prof','perception_item'].map(id=>field(id))}</div>
+       {field('perception_notes','Восприятие')}
+      </Section>
+      <Section index="VII" title="Скорость" className="pf-alt-p1-speed">
+       {field('speed','Футов')}{field('movement','Типы перемещения')}
+      </Section>
+     </div>
      <Section index="VIII" title="Удары">
       <div className="pf-alt-weapon-list">{[1,2,3,4,5].map(i=>{
         const core=['name','attack','damage','traits'].map(suffix=>'weapon_'+i+'_'+suffix);
