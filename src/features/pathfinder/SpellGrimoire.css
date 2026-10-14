@@ -10,3 +10,13 @@
  .pf-grimoire{width:min(660px,100%);height:min(690px,calc(100dvh - 20px));max-height:calc(100dvh - 20px);padding:12px}
  .pf-grimoire-detail{width:calc(100% - 24px);max-height:calc(100dvh - 35px)}
 }
+
+/* Read-only PF2e spell details, opened directly from a printed spell row. */
+.pf-character-spell-overlay{position:fixed;z-index:19000;inset:0;display:grid;place-items:center;padding:16px;background:rgba(24,30,35,.54)}
+.pf-character-spell-card{position:relative;box-sizing:border-box;width:min(540px,100%);max-height:calc(100dvh - 32px);overflow-y:auto;background:#fff;padding:28px 30px;border:1px solid #c8cdd0;border-radius:8px;box-shadow:0 20px 60px #1018204a;color:#262b2e}
+.pf-character-spell-card h2{text-align:center;font-size:21px;margin:4px 30px 6px}
+.pf-character-spell-meta{color:#69737c;text-align:center;font-size:13px;margin:0 0 22px}
+.pf-character-spell-description{white-space:pre-wrap;line-height:1.55;font-size:14px;overflow-wrap:anywhere}
+.pf-character-spell-credit{font-size:12px;color:#657a69;margin-top:18px;border-top:1px solid #e6e9e6;padding-top:12px}
+.pf-character-spell-close{position:absolute;right:14px;top:12px;border:0;background:transparent;color:#49545c;cursor:pointer;padding:5px}
+.pf-spell-library-field .pf-spell-library-entry{position:relative;z-index:2;pointer-events:auto}
