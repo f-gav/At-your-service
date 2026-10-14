@@ -72,6 +72,21 @@ export default function AlternativePathfinderPages({
   const disabled=computed&&id in displayValues;
   const value=displayValues[id]??values[id]??'';
   const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank';
+  if(isRank){
+   const current=readRank(value)??0;
+   return <div className="pf-alt-field pf-alt-rank-field" key={id}>
+    <span title={f.label}>{label}</span>
+    <div className="pf-alt-rank-squares" role="group" aria-label={f.label+' — уровень владения'}>
+     {([1,2,3,4] as const).map(rank=><button
+       type="button" key={rank} className="pf-alt-rank-square"
+       disabled={disabled} aria-pressed={current===rank}
+       title={RANK_LABELS[rank]}
+       aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
+       onClick={()=>onChange(id,String(current===rank?0:rank))}
+       ><span aria-hidden="true">{current===rank?'✓':''}</span></button>)}
+    </div>
+   </div>;
+  }
   if(id==='dying')return <div key={id} className="pf-alt-field pf-alt-dying" role="group"
    aria-label={'При смерти: '+readDyingSkulls(values.dying)+' из '+DYING_SKULL_COUNT}>
    <span>{label}</span>
@@ -88,11 +103,6 @@ export default function AlternativePathfinderPages({
     <span title={f.label}>{label}</span>
     {f.kind==='toggle'?
       <input type="checkbox" checked={value===true} onChange={e=>onChange(id,e.target.checked)} aria-label={label}/>:
-     isRank?
-      <select value={String(readRank(value)??0)} aria-label={label}
-        onChange={e=>onChange(id,e.target.value)}>
-        {RANK_LABELS.map((l,i)=><option key={i} value={i}>{l}</option>)}
-      </select>:
      f.kind==='long'?
       <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
         value={String(value)} resourceContext={values} disabled={disabled}
