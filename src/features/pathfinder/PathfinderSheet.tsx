@@ -141,8 +141,8 @@ export default function PathfinderSheet({
   const [pageSettingsOpen,setPageSettingsOpen] = useState(false);
   const [spellSettingsOpen,setSpellSettingsOpen] = useState(false);
   const [grimoireOpen,setGrimoireOpen]=useState(false);
-  const [grimoireInitialSpell,setGrimoireInitialSpell]=useState<string|null>(null);
-  const openGrimoire=(spellId:string|null=null)=>{setGrimoireInitialSpell(spellId);setGrimoireOpen(true);};
+  const [openSpellCard,setOpenSpellCard]=useState<SpellView|null>(null);
+  const openGrimoire=()=>setGrimoireOpen(true);
   const [spellViews,setSpellViews]=useState<SpellView[]>([]);
   const spellMode=values[PF_SPELL_MODE]==='text'?'text':'library';
   const savedSpells=useMemo(()=>readSavedSpells(values[PF_SPELL_SELECTION]),[values[PF_SPELL_SELECTION]]);
@@ -399,7 +399,7 @@ export default function PathfinderSheet({
       return <div key={fieldId} className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}`}
         style={style} aria-label={field.label+', заклинания'}>
         {list.map(spell=><button type="button" className="pf-spell-library-entry" key={spell.id}
-          disabled={editLocked} onClick={()=>openGrimoire(spell.id)}
+          disabled={editLocked} onClick={()=>setOpenSpellCard(spell)}
           title={'Открыть карточку: '+spell.name} aria-label={'Прочитать заклинание '+spell.name}>{text(spell)}</button>)}
         <button type="button" className="pf-spell-library-empty" disabled={editLocked}
           onClick={()=>openGrimoire()} aria-label={'Выбрать заклинания: '+field.label} title="Открыть гримуар"/>
@@ -544,10 +544,26 @@ export default function PathfinderSheet({
       onRankChange={changeSpellRank}
       onClose={()=>setSpellSettingsOpen(false)}
       onOpenGrimoire={()=>{setSpellSettingsOpen(false);openGrimoire();}}/>}
-    {grimoireOpen&&<SpellGrimoire initialSpellId={grimoireInitialSpell} selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
+    {grimoireOpen&&<SpellGrimoire selection={savedSpells} traditions={availableTraditions} classes={availableClasses}
       slotCounts={Array.from({length:10},(_,i)=>Math.max(0,Number(values['spell_slots_'+(i+1)]||0)||0))}
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
-      onClose={()=>{setGrimoireOpen(false);setGrimoireInitialSpell(null);}}/>}
+      onClose={()=>setGrimoireOpen(false)}/>}
+    {openSpellCard&&<div className="pf-character-spell-overlay" role="presentation"
+      onMouseDown={event=>{if(event.target===event.currentTarget)setOpenSpellCard(null);}}>
+      <section role="dialog" aria-modal="true" aria-label={'Заклинание '+openSpellCard.name}
+        className="pf-character-spell-card">
+        <button type="button" className="pf-character-spell-close" aria-label="Закрыть карточку заклинания"
+          onClick={()=>setOpenSpellCard(null)}><X size={19}/></button>
+        <h2>{openSpellCard.name}</h2>
+        <p className="pf-character-spell-meta">
+          {openSpellCard.spell.rank===0?'Чары':openSpellCard.spell.rank+'-й круг'}
+          {' · '}{spellCast(openSpellCard)}
+          {openSpellCard.rules.range?' · '+openSpellCard.rules.range:''}
+        </p>
+        <div className="pf-character-spell-description">{openSpellCard.description}</div>
+        {openSpellCard.translationOrigin==='at-your-service'&&<p className="pf-character-spell-credit">Перевод от At your service!</p>}
+      </section>
+    </div>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">
         <span>Страницы</span>
