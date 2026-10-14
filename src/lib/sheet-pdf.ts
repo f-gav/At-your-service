@@ -130,11 +130,11 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
   stage.style.top='0';
   stage.style.zIndex='-1';
   stage.style.pointerEvents='none';
-  stage.style.width=system==='pf2e'?'960px':'980px';
+  stage.style.width=system==='pf2e'&&!alternative?'960px':'980px';
 
   const stack=document.createElement('div');
   stack.className=system==='pf2e'?(alternative?'pf-alt-stack':'pf-sheet-stack'):'moon-sheet-scroll';
-  if(system==='pf2e'){stack.style.width='960px';if(alternative)stack.style.maxWidth='none';}
+  if(system==='pf2e'){stack.style.width=alternative?'980px':'960px';if(alternative)stack.style.maxWidth='none';}
   for(const oldPage of original){
     const page=duplicateForExport(oldPage);
     if(alternative){
