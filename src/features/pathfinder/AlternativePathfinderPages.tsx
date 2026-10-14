@@ -258,14 +258,14 @@ export default function AlternativePathfinderPages({
      <div className="pf-alt-fields pf-alt-defense-values">{['armor_class','armor_dex','armor_prof','armor_item'].map(id=>field(id))}</div>
      <h4 className="pf-alt-subhead"><Shield size={13}/> Щит</h4>
      <div className="pf-alt-fields pf-alt-shield-values">{['shield_ac_bonus','shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}</div>
-     <div className="pf-alt-fields pf-alt-ranks">{matching('armor_rank_').map(id=>field(id))}</div>
+     <div className="pf-alt-fields pf-alt-ranks">{matching('armor_rank_').map((id,i)=>field(id,['Без брони','Лёгкая','Средняя','Тяжёлая'][i]||'Владение'))}</div>
      {cells(['defense_notes'])}
     </Section>
     <Section index="IV" title="Спасброски">
      <div className="pf-alt-save-grid">
       {SAVE_NAMES.map(([id,label])=><div className="pf-alt-save" key={id}>
        <h4>{label}</h4>
-       {matching('save_'+id).map(key=>field(key,key.endsWith('_rank')?'Владение':undefined))}
+       {matching('save_'+id).map(key=>field(key,key.endsWith('_rank')?'Владение':key.endsWith('_ability')?'Хар.':key.endsWith('_prof')?'Умен.':key.endsWith('_item')?'Пред.':label))}
       </div>)}
      </div>
     </Section>
@@ -300,7 +300,7 @@ export default function AlternativePathfinderPages({
        {field('languages','Языки')}
       </Section>
       <Section index="VII" title="Внимание" className="pf-alt-p1-perception">
-       <div className="pf-alt-p1-perception-fields">{['perception','perception_rank','perception_ability','perception_prof','perception_item'].map(id=>field(id))}</div>
+       <div className="pf-alt-p1-perception-fields">{['perception','perception_rank','perception_ability','perception_prof','perception_item'].map((id,i)=>field(id,['Внимание','Владение','Мдр.','Умен.','Пред.'][i]))}</div>
        {field('perception_notes','Восприятие')}
       </Section>
       <Section index="VII" title="Скорость" className="pf-alt-p1-speed">
@@ -327,7 +327,7 @@ export default function AlternativePathfinderPages({
      </Section>
      <div className="pf-alt-p1-bottom-right">
       <Section index="IX" title="Классовая СЛ" className="pf-alt-p1-class-dc">
-       {cells(['class_dc','class_dc_key','class_dc_rank','class_dc_item'])}
+       <div className="pf-alt-fields">{['class_dc','class_dc_key','class_dc_rank','class_dc_item'].map((id,i)=>field(id,['СЛ','Ключ. хар.','Умение','Пред.'][i]))}</div>
       </Section>
       <section className="pf-alt-p1-legend" aria-label="Памятка Pathfinder">
        <h3 className="pf-alt-p1-heading">Памятка</h3>
