@@ -12,6 +12,7 @@ import type {EditableField} from './editor-schema';
 import type {SpellView} from '../spell-library/catalog';
 import {spellCast} from './SpellGrimoire';
 import './AlternativePathfinderPages.css';
+import './AlternativePathfinderFirstPage.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -193,11 +194,11 @@ export default function AlternativePathfinderPages({
   </Section>)}</div>
  </article>;
  const pageId=String(page);
- return <article className="pf-alt-page" id={'pf-sheet-page-'+pageId} aria-label={'Альтернативный PF2e: '+PAGE_CAPTIONS[pageId]}>
- <header className="pf-alt-heading"><small>AT YOUR SERVICE! / PATHFINDER SECOND EDITION</small>
+ return <article className={'pf-alt-page'+(page===1?' pf-alt-page--first':'')} id={'pf-sheet-page-'+pageId} aria-label={'Альтернативный PF2e: '+PAGE_CAPTIONS[pageId]}>
+ {page!==1&&<header className="pf-alt-heading"><small>AT YOUR SERVICE! / PATHFINDER SECOND EDITION</small>
    <h2>{page===1?'Бланк персонажа':PAGE_CAPTIONS[pageId]}</h2>
    <p>{String(page).padStart(2,'0')} / 04 · Pathfinder 2e · Remaster / Legacy</p>
- </header>
+ </header>}
  {page===1&&<>
    <div className="pf-alt-page1-top">
     <div className="pf-alt-identity-main">
