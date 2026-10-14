@@ -66,7 +66,7 @@ export default function AlternativePathfinderPages({
         {RANK_LABELS.map((l,i)=><option key={i} value={i}>{l}</option>)}
       </select>:
      f.kind==='long'?
-      <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich"
+      <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
         value={String(value)} resourceContext={values} disabled={disabled}
         onChange={v=>onChange(id,v)}/>:
      f.kind==='select'?
@@ -116,7 +116,7 @@ export default function AlternativePathfinderPages({
  if(page==='notes')return <article className="pf-alt-page" id="pf-sheet-page-notes" aria-label="Альтернативный PF2e: заметки">
   <header className="pf-alt-heading"><small>AT YOUR SERVICE! / PF2E</small><h2>Заметки</h2><p>Дополнительная страница</p></header>
   <div className="pf-alt-two-col">{Array.from({length:PF_NOTES_BLOCK_COUNT},(_,i)=><Section key={i} index={String(i+1).padStart(2,'0')} title={noteBlockTitle(values[noteTitleKey(i)])}>
-   <RichField id={'pf-alt-note-'+i} label={'Заметки '+(i+1)} className="pf-alt-rich pf-alt-notes"
+   <RichField id={'pf-alt-note-'+i} label={'Заметки '+(i+1)} className="pf-alt-rich pf-alt-notes" grow
      value={String(values[noteBodyKey(i)]??'')} resourceContext={values}
      onChange={v=>onChange(noteBodyKey(i),v)}/>
   </Section>)}</div>
