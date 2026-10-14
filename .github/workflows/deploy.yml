@@ -54,6 +54,16 @@ jobs:
         run: |
           npx playwright install chromium
           npm run test:pdf-browser
+      - name: Check alternative Pathfinder layouts at desktop and mobile resolutions
+        run: npm run test:pf-alternative-browser
+      - name: Upload alternative Pathfinder screenshot snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pf-alt-visual-qa
+          path: test-artifacts/pf-alt-*.png
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Verify library navigation in Chromium
         run: npm run test:spell-library-browser
       - name: Configure Pages
