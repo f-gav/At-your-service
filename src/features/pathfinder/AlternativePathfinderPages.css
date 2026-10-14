@@ -505,3 +505,184 @@
  .pf-alt-weapon-core{grid-template-columns:1.2fr .75fr .85fr 1.2fr}
  .pf-alt-weapon-core .pf-alt-field>span{font-size:8.5px}
 }
+
+
+/* Dense paper mode – compact A4-style layout without clipping user content.
+   Native HTML values are kept at their actual size; overflowing rich text may
+   expand a page, but empty fields should occupy only the paper's ruled space. */
+.pf-alt-page{padding:15px 19px 11px;gap:6px;min-height:0;font-size:11px;line-height:1.16}
+.pf-alt-heading{padding-bottom:5px}
+.pf-alt-heading h2{font-size:25px;line-height:1.05;margin:2px 0}
+.pf-alt-heading small{font-size:9px}
+.pf-alt-heading p{font-size:9px}
+.pf-alt-section>h3{min-height:15px;margin:0 0 3px;padding:0 0 2px;font-size:11px;line-height:1.12;gap:4px}
+.pf-alt-section>h3 svg{width:12px;height:12px}
+.pf-alt-fields{gap:3px 5px;margin:3px 0}
+.pf-alt-section>.pf-alt-fields,.pf-alt-section>.pf-alt-abilities,
+.pf-alt-section>.pf-alt-two-col,.pf-alt-section>.pf-alt-slots,
+.pf-alt-section>.pf-alt-skill-list,.pf-alt-section>.pf-alt-spells{margin:3px 0 4px}
+.pf-alt-field{gap:1px}
+.pf-alt-field>span{font-size:9px;line-height:1.05}
+.pf-alt-field>input:not([type=checkbox]),.pf-alt-field>select{height:23px;padding:2px 3px;font-size:11px}
+.pf-alt-field>input[type=checkbox]{height:14px;width:14px;margin:1px}
+.pf-alt-field .pf-alt-rich{min-height:48px;padding:3px;font-size:11px}
+.pf-alt-rich [contenteditable],.pf-alt-rich .pf-rich-editable{min-height:40px}
+.pf-alt-two-col{gap:9px}
+.pf-alt-page-footer{padding-top:4px;font-size:8px}
+.pf-alt-page1-top{gap:8px;grid-template-columns:minmax(0,1fr) 190px}
+.pf-alt-identity-grid{gap:3px 5px}
+.pf-alt-identity-notes{gap:4px;margin-top:3px}
+.pf-alt-hero-marks{gap:4px;margin:2px 0}
+.pf-alt-hero-point{width:30px;height:30px}
+.pf-alt-hero-point svg{width:29px;height:29px}
+.pf-alt-hero p{margin:3px 0;font-size:9px;line-height:1.12}
+.pf-alt-abilities{gap:6px;padding:0}
+.pf-alt-ability{padding:0 3px 0 0;gap:1px}
+.pf-alt-ability>.pf-alt-field:first-child>span{font-size:10px}
+.pf-alt-ability>.pf-alt-field:first-child>input{width:53px;height:35px;font-size:19px;margin:1px auto}
+.pf-alt-ability>.pf-alt-field:nth-child(2)>span{font-size:8px}
+.pf-alt-defense-grid{gap:8px;grid-template-columns:1.1fr 1.25fr 1fr}
+.pf-alt-defense-grid .pf-alt-fields{gap:3px 4px}
+.pf-alt-defense-values>.pf-alt-field:first-child input{height:36px;font-size:21px}
+.pf-alt-shield-values{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pf-alt-ranks{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.pf-alt-subhead{margin:3px 0;font-size:10px}
+.pf-alt-save-grid{gap:2px}
+.pf-alt-save{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;align-content:start;padding-right:3px}
+.pf-alt-save h4{grid-column:1/-1;margin:0 0 3px;font-size:11px}
+.pf-alt-save .pf-alt-field{min-width:0;margin:0}
+.pf-alt-save .pf-alt-field:first-of-type{grid-column:1/-1}
+.pf-alt-save .pf-alt-field:first-of-type input{height:34px;font-size:18px}
+.pf-alt-save .pf-alt-field>span{font-size:8px}
+.pf-alt-health{gap:2px}
+.pf-alt-health input{height:32px!important;font-size:14px!important}
+.pf-alt-dying-skulls{gap:2px;margin:1px 0}
+.pf-alt-dying-skulls button{width:22px;height:23px;padding:2px}
+.pf-alt-dying-skulls button svg{height:16px;width:16px}
+.pf-alt-main-columns{gap:9px;grid-template-columns:minmax(0,.96fr) minmax(0,1.2fr)}
+.pf-alt-main-right{gap:5px}
+.pf-alt-skill-head{padding:2px 0;line-height:1.05}
+.pf-alt-skill-row{min-height:22px;padding:1px 0}
+.pf-alt-skill-row>b{font-size:9px}
+.pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{height:18px;font-size:9px;line-height:1;padding:0}
+.pf-alt-skill-row>.pf-alt-fields{gap:1px}
+.pf-alt-skills-section>.pf-alt-fields:last-child .pf-alt-rich{min-height:35px}
+.pf-alt-skills-section>.pf-alt-fields:last-child .pf-alt-rich .pf-rich-editable{min-height:30px}
+.pf-alt-main-right>.pf-alt-section:first-child>.pf-alt-fields{gap:3px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.pf-alt-main-right>.pf-alt-section .pf-alt-rich{min-height:34px}
+.pf-alt-main-right>.pf-alt-section .pf-alt-rich .pf-rich-editable{min-height:29px}
+.pf-alt-weapon{padding:2px 0 3px}
+.pf-alt-weapon h4{margin:0 0 1px;font-size:10px}
+.pf-alt-weapon-core{gap:2px}
+.pf-alt-weapon-core .pf-alt-field>span{font-size:8px}
+.pf-alt-weapon-core .pf-alt-field>input{height:22px;font-size:10px}
+.pf-alt-weapon-more{margin:0}
+.pf-alt-weapon-more summary{font-size:9px;line-height:1.05;padding:0}
+.pf-alt-main-right>.pf-alt-section>.pf-alt-fields{margin:3px 0 4px}
+
+/* PF2e proficiency: four individually clickable, mutually exclusive squares,
+   for Trained / Expert / Master / Legendary. Untrained = none lit. */
+.pf-alt-rank-field{min-width:0}
+.pf-alt-rank-squares{display:flex;align-items:center;justify-content:flex-start;gap:2px;min-height:20px}
+.pf-alt-rank-square{display:grid;place-items:center;flex:0 0 13px;width:13px;height:13px;
+ border:1px solid #6f756f;border-radius:1px;background:#fff;color:white;cursor:pointer;
+ padding:0;font:800 10px/1 Arial,sans-serif}
+.pf-alt-rank-square[aria-pressed=true]{background:#315c44;border-color:#315c44}
+.pf-alt-rank-square[aria-pressed=false]:hover:not(:disabled){background:#e8efe7}
+.pf-alt-rank-square:focus-visible{outline:2px solid #286e4b;outline-offset:2px}
+.pf-alt-rank-square:disabled{opacity:.55;cursor:default}
+.pf-alt-skill-row .pf-alt-rank-field>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.pf-alt-skill-row .pf-alt-rank-squares{gap:1px;min-height:18px;justify-content:center}
+.pf-alt-skill-row .pf-alt-rank-square{width:9px;height:10px;flex-basis:9px;font-size:8px}
+.pf-alt-save .pf-alt-rank-squares{gap:1px}
+.pf-alt-save .pf-alt-rank-square{width:10px;height:11px;flex-basis:10px}
+.pf-alt-ranks .pf-alt-rank-square{width:11px;height:11px;flex-basis:11px}
+.pf-alt-casting-fields .pf-alt-rank-square{width:11px;height:11px;flex-basis:11px}
+
+/* Page 2 – denser progression and item ruled areas, still content-expandable. */
+.pf-alt-equipment-layout{gap:9px;grid-template-columns:minmax(0,1.8fr) minmax(0,.9fr)}
+.pf-alt-progression-column,.pf-alt-equipment-column{gap:5px}
+.pf-alt-features>.pf-alt-fields{gap:4px;margin:3px 0 4px}
+.pf-alt-features .pf-alt-field .pf-alt-rich{min-height:54px}
+.pf-alt-level-track{margin:0 0 5px 12px}
+.pf-alt-advancement-row{min-height:32px;gap:3px;padding:2px 0}
+.pf-alt-level-diamond{width:25px;height:24px;margin-left:-13px;margin-top:5px}
+.pf-alt-level-diamond b{font-size:10px}
+.pf-alt-advancement-fields{gap:4px}
+.pf-alt-advancement-fields .pf-alt-rich{min-height:28px!important;padding:2px 3px}
+.pf-alt-advancement-fields .pf-rich-editable{min-height:23px;line-height:1.12}
+.pf-alt-advancement-fields>.pf-alt-field>span{font-size:8px}
+.pf-alt-inventory-group{min-height:165px;margin-bottom:5px}
+.pf-alt-inventory-group h4{padding:3px 5px;font-size:10px}
+.pf-alt-inventory-group>.pf-alt-fields{padding:2px 4px;gap:3px}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field:first-child .pf-alt-rich{min-height:125px}
+.pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field>.pf-alt-rich{min-height:120px}
+.pf-alt-inventory .pf-alt-bulk{margin:4px 0 6px;padding:3px 0}
+.pf-alt-coin-row{margin:3px 0 5px;gap:3px}
+.pf-alt-wealth>.pf-alt-fields{margin:3px 0 5px}
+
+/* Page 3 – portrait and all eight action panels compacted. */
+.pf-alt-biography-layout{gap:8px;grid-template-columns:29% minmax(0,1fr)}
+.pf-alt-biography-right{gap:5px}
+.pf-alt-appearance-fields,.pf-alt-personality-fields{gap:4px}
+.pf-alt-appearance-fields .pf-alt-rich,.pf-alt-personality-fields .pf-alt-rich{min-height:45px}
+.pf-alt-campaign-grid{gap:4px}
+.pf-alt-campaign-grid>.pf-alt-field:first-child .pf-alt-rich{min-height:130px}
+.pf-alt-campaign-grid>.pf-alt-field .pf-alt-rich{min-height:40px}
+.pf-alt-action-layout{gap:8px}
+.pf-alt-action-cards{gap:4px}
+.pf-alt-action-card{min-height:87px;padding:3px 5px}
+.pf-alt-action-card>h4{margin-bottom:2px;padding-bottom:2px;font-size:10px}
+.pf-alt-action-fields{gap:2px}
+.pf-alt-action-fields>.pf-alt-field>span{font-size:8px}
+.pf-alt-action-fields>.pf-alt-field>input{height:21px}
+.pf-alt-action-fields .pf-alt-rich{min-height:34px}
+.pf-alt-action-fields .pf-alt-rich .pf-rich-editable{min-height:29px}
+
+/* Page 4 – preserve distinct spell modes and reduce unused space. */
+.pf-alt-magic-layout{gap:8px}
+.pf-alt-magic-left,.pf-alt-magic-right{gap:5px}
+.pf-alt-tradition-wheel{height:78px;margin:2px auto}
+.pf-alt-tradition-emblem{top:19px;width:40px;height:40px;left:calc(50% - 20px);font-size:29px}
+.pf-alt-tradition-option{min-width:98px;padding:2px 4px;font-size:10px}
+.pf-alt-tradition-panel{padding-bottom:3px}
+.pf-alt-casting-fields{gap:3px}
+.pf-alt-casting-fields>.pf-alt-field:first-child input,
+.pf-alt-casting-fields>.pf-alt-field:nth-child(4) input{height:34px;font-size:17px}
+.pf-alt-focus-points{gap:3px}
+.pf-alt-focus-points .pf-alt-field input[type=checkbox]{width:18px;height:18px}
+.pf-alt-slots{gap:2px}
+.pf-alt-slot>b{height:19px;font-size:11px}
+.pf-alt-slot .pf-alt-field>span{font-size:8px}
+.pf-alt-slot .pf-alt-field>input{height:20px;font-size:10px}
+.pf-alt-spells{min-height:90px}
+.pf-alt-spell-head{padding:3px 2px}
+.pf-alt-spell-row{padding:6px 3px;font-size:11px}
+.pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells{min-height:395px}
+.pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells .pf-alt-spell-columns{min-height:365px}
+.pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:116px}
+.pf-alt-manual-cell .pf-rich-editable{min-height:102px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-column{min-height:390px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:365px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell .pf-rich-editable{min-height:350px}
+.pf-alt-add-spell{padding:4px 7px;margin:3px 0;font-size:10px}
+
+/* On touch screens, keep a comfortable interaction scale. */
+@media(max-width:900px){
+ .pf-alt-defense-grid{grid-template-columns:1fr 1fr}
+ .pf-alt-defense-grid>:last-child{grid-column:1/-1}
+ .pf-alt-save .pf-alt-rank-square{width:13px;height:13px;flex-basis:13px}
+ .pf-alt-skill-row .pf-alt-rank-square{width:10px;height:12px;flex-basis:10px}
+}
+@media(max-width:680px){
+ .pf-alt-page{padding:15px 12px;gap:9px;font-size:12px}
+ .pf-alt-field>input:not([type=checkbox]),.pf-alt-field>select{height:27px;font-size:12px}
+ .pf-alt-skill-row{min-height:27px}
+ .pf-alt-skill-row .pf-alt-rank-square{width:10px;height:12px;flex-basis:10px}
+ .pf-alt-rank-square{height:15px;width:15px;flex-basis:15px}
+ .pf-alt-rank-squares{min-height:24px}
+ .pf-alt-advancement-row{min-height:38px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-column{min-height:270px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:246px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell .pf-rich-editable{min-height:236px}
+}
