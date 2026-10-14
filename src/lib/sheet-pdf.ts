@@ -113,10 +113,15 @@ function safeFileName(name:string,system:PdfSystem){
 }
 
 export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system:PdfSystem):Promise<number>{
-  const original=Array.from(root.querySelectorAll<HTMLElement>(system==='pf2e'?'.pf-sheet-stack > .pf-sheet-page':'.moon-sheet-scroll > .moon-paper'));
+  const alternative=system==='pf2e'&&!!root.querySelector('.pf-alt-stack');
+  const selector=system==='pf2e'
+    ?(alternative?'.pf-alt-stack > .pf-alt-page':'.pf-sheet-stack > .pf-sheet-page')
+    :'.moon-sheet-scroll > .moon-paper';
+  const original=Array.from(root.querySelectorAll<HTMLElement>(selector));
   if(original.length<4)throw new Error('Не найдены все страницы листа для экспорта PDF.');
   const stage=document.createElement('div');
-  stage.className=(system==='pf2e'?'page pf-editor':'page moon-editor')+' sheet-pdf-stage';
+  stage.className=(system==='pf2e'?'page pf-editor':'page moon-editor')+
+    (alternative?' pf-alt-export-stage':'')+' sheet-pdf-stage';
   stage.setAttribute('aria-hidden','true');
   // The current layout custom properties must be inherited by staged pages.
   stage.style.cssText=root.getAttribute('style')||'';
@@ -128,8 +133,8 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
   stage.style.width=system==='pf2e'?'960px':'980px';
 
   const stack=document.createElement('div');
-  stack.className=system==='pf2e'?'pf-sheet-stack':'moon-sheet-scroll';
-  if(system==='pf2e')stack.style.width='960px';
+  stack.className=system==='pf2e'?(alternative?'pf-alt-stack':'pf-sheet-stack'):'moon-sheet-scroll';
+  if(system==='pf2e'){stack.style.width='960px';if(alternative)stack.style.maxWidth='none';}
   for(const oldPage of original){
     const page=duplicateForExport(oldPage);
     if(system==='prmoon'){
