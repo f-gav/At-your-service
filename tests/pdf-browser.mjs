@@ -22,6 +22,7 @@ try {
     {system:'prmoon',notes:false,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
+    {system:'pf2e',notes:false,extras:false,variant:'alternative',expectedMin:4,expectedMax:12},
     {system:'prmoon',notes:false,extras:true,expected:7},
   ];
   for(const [index,test] of cases.entries()){
@@ -30,8 +31,8 @@ try {
     const logs=[];
     page.on('pageerror',error=>logs.push(String(error)));
     try{
-      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}`,{waitUntil:'domcontentloaded'});
-      const selector=test.system==='pf2e'?'.pf-sheet-page':'.moon-paper';
+      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}`,{waitUntil:'domcontentloaded'});
+      const selector=test.system==='pf2e'?(test.variant==='alternative'?'.pf-alt-page':'.pf-sheet-page'):'.moon-paper';
       await page.waitForSelector(selector);
       const expectedDom=test.system==='pf2e'?(test.notes?5:4):4;
       assert.equal(await page.locator(selector).count(),expectedDom,'HTML sheet page count');
@@ -48,7 +49,12 @@ try {
       assert.ok(bytes.subarray(0,8).toString().startsWith('%PDF-'),'Downloaded a real PDF');
       assert.ok(bytes.length>40000,'PDF should contain actual rendered pages');
       const count=(bytes.toString('latin1').match(/\/Type\s*\/Page\b/g)||[]).length;
-      assert.equal(count,test.expected,`Wrong PDF page count for ${JSON.stringify(test)}; ${count} pages`);
+      if(test.expectedMin!==undefined){
+        assert.ok(count>=test.expectedMin&&count<=test.expectedMax,
+          `Unexpected alternative HTML PDF page count: ${count} pages`);
+      }else{
+        assert.equal(count,test.expected,`Wrong PDF page count for ${JSON.stringify(test)}; ${count} pages`);
+      }
       assert.equal(logs.length,0,`Browser errors: ${logs.join('; ')}`);
       console.log(`PASS: ${test.system} ${test.notes?'notes':''} ${test.extras?'extras':''} — ${count} PDF pages, ${bytes.length} bytes`);
     }catch(error){
