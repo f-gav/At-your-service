@@ -1,11 +1,12 @@
 import {useMemo} from 'react';
 import type {ReactNode} from 'react';
-import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap} from 'lucide-react';
+import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap, Skull, Crown} from 'lucide-react';
 import RichField from './RichField';
 import {RANK_FIELDS, RANK_LABELS,readRank,isAutomatic,isCoreComputedField} from './rules-core';
 import {isSpellcastingComputedField,isSpellcastingConfigured} from './rules-spellcasting';
 import {isNativeCombatComputedField,isNativeWeaponAttackField,isClassDcConfigured} from './rules-combat';
 import {PF_NOTES_BLOCK_COUNT,noteBodyKey,noteTitleKey,noteBlockTitle} from './notes-blocks';
+import {DYING_SKULL_COUNT,readDyingSkulls,toggleDyingSkull} from './dying-skulls';
 import type {SheetValues,FieldValue} from './sheet-values';
 import type {EditableField} from './editor-schema';
 import type {SpellView} from '../spell-library/catalog';
@@ -33,17 +34,17 @@ const PAGE_CAPTIONS:Record<string,string>={
  '3':'Персонаж и действия','4':'Магия и заклинания','notes':'Заметки кампании',
 };
 const SECTION_ICONS:Record<string,typeof Shield>={
- 'Персонаж':UserRound,'Характеристики':Gem,'Защиты':Shield,'Защита и здоровье':Shield,
+ 'Персонаж':UserRound,'Пункты героизма':Crown,'Характеристики':Gem,'Защиты':Shield,'Защита и здоровье':Shield,
  'Класс брони и щит':Shield,'Пункты здоровья':Heart,'Спасброски':Shield,
- 'Навыки':Compass,'Языки, внимание и скорость':Eye,'Удары':Swords,'Оружие и атаки':Swords,
- 'Черты народа и общие черты':Feather,'Классовые способности':Star,
+ 'Навыки':Compass,'Языки, внимание и скорость':Eye,'Удары':Swords,'Оружие и атаки':Swords,'Классовая СЛ':Shield,
+ 'Черты народа и общие черты':Feather,'Классовые способности':Star,'Портрет персонажа':UserRound,'Способности по уровням':ScrollText,
  'Способности по уровням':ScrollText,'Инвентарь и снаряжение':Backpack,
  'Богатство':Coins,'Внешность':Eye,'Личность':UserRound,'Заметки для кампании':ScrollText,
  'Действия и занятия':Zap,'Свободные и ответные действия':CircleDot,
- 'Магическая традиция':Compass,'Параметры заклинаний':WandSparkles,'Ячейки заклинаний':BookMarked,
+ 'Магическая традиция':Compass,'Параметры заклинаний':WandSparkles,'Ячейки заклинаний':BookMarked,'Список чар':Sparkles,
  'Заклинания':BookOpen,'Фокусы':Sparkles,'Фокусные заклинания':CircleDot,
  'Врождённые заклинания':Star,'Ритуалы':Scroll,
- 'Заметки':ScrollText,'Дополнительные поля':ScrollText,
+ 'Заметки':ScrollText,'Пункты здоровья':Heart,'Дополнительные поля':ScrollText,
 };
 function Section({index,title,children,wide=false,className=''}:{index:string;title:string;children:ReactNode;wide?:boolean;className?:string}){
  const Icon=SECTION_ICONS[title]||ScrollText;
@@ -71,6 +72,18 @@ export default function AlternativePathfinderPages({
   const disabled=computed&&id in displayValues;
   const value=displayValues[id]??values[id]??'';
   const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank'||id==='class_dc_rank';
+  if(id==='dying')return <div key={id} className="pf-alt-field pf-alt-dying" role="group"
+   aria-label={'При смерти: '+readDyingSkulls(values.dying)+' из '+DYING_SKULL_COUNT}>
+   <span>{label}</span>
+   <div className="pf-alt-dying-skulls">
+    {Array.from({length:DYING_SKULL_COUNT},(_,i)=>{
+     const checked=i<readDyingSkulls(values.dying);
+     return <button type="button" key={i} aria-pressed={checked} title={'При смерти '+(i+1)}
+      aria-label={'При смерти, отметка '+(i+1)} className={checked?'is-active':''}
+      onClick={()=>onChange('dying',toggleDyingSkull(values.dying,i+1))}><Skull size={18} strokeWidth={1.7}/></button>;
+    })}
+   </div>
+  </div>;
   return <label className={'pf-alt-field'+(f.kind==='long'?' pf-alt-field-long':'')} key={id}>
     <span title={f.label}>{label}</span>
     {f.kind==='toggle'?
