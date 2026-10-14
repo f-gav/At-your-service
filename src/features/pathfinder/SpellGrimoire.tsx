@@ -31,6 +31,13 @@ export function selectedTraditions(raw:unknown):string[]{
   try{const list=JSON.parse(String(raw||'[]'));return Array.isArray(list)?list.filter(x=>['arcane','divine','occult','primal'].includes(x)):[];}
   catch{return [];}
 }
+export const PF_TRADITION_IDS=['arcane','divine','occult','primal'] as const;
+export function effectivePfTraditions(values:Record<string,string|boolean>):string[]{
+  const hasSheetChoices=PF_TRADITION_IDS.some(id=>typeof values['tradition_'+id]==='boolean');
+  return hasSheetChoices
+    ? PF_TRADITION_IDS.filter(id=>values['tradition_'+id]===true)
+    : selectedTraditions(values[PF_SPELL_TRADITIONS]);
+}
 export function spellCast(spell:SpellView):string{
   const cast=spell.rules.cast;
   if(cast?.actions===1)return '1 д.';
