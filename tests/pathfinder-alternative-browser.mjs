@@ -27,15 +27,21 @@ try {
     assert.equal(await pages.count(),4,'All four PF2e HTML pages must render');
     assert.equal(await page.locator('.pf-sheet-page').count(),0,'Classic PDF backgrounds must be absent');
     await page.evaluate(()=>document.fonts.ready);
-    const ebbeLoaded=await page.evaluate(async()=>{
-      await document.fonts.load('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА');
+    const ebbeInfo=await page.evaluate(async()=>{
+      const faces=await document.fonts.load('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА');
       const title=document.querySelector('.pf-alt-p1-logo span');
       const heading=document.querySelector('.pf-alt-p1-heading');
-      return document.fonts.check('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА')&&
-        !!title&&!!heading&&getComputedStyle(title).fontFamily.includes('PF2e Ebbe Black')&&
-        getComputedStyle(heading).fontFamily.includes('PF2e Ebbe Black');
+      return {faceCount:faces.length,faceStatus:faces.map(x=>x.status),
+        loaded:document.fonts.check('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА'),
+        titleCount:document.querySelectorAll('.pf-alt-p1-logo span').length,
+        titleFont:title?getComputedStyle(title).fontFamily:null,
+        headingFont:heading?getComputedStyle(heading).fontFamily:null};
     });
-    assert.ok(ebbeLoaded,'Ebbe Black Cyrillic webfont must load and style the Pathfinder headings');
+    console.log('PF2e Ebbe font diagnostics: '+JSON.stringify(ebbeInfo));
+    assert.ok(ebbeInfo.faceCount>0&&ebbeInfo.loaded&&
+      ebbeInfo.titleFont?.includes('PF2e Ebbe Black')&&
+      ebbeInfo.headingFont?.includes('PF2e Ebbe Black'),
+      'Ebbe Black Cyrillic webfont must load and style Pathfinder headings: '+JSON.stringify(ebbeInfo));
     const metrics=await page.evaluate(()=>{
       const out=[];
       for(const page of document.querySelectorAll('.pf-alt-page')){
