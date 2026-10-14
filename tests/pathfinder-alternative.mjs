@@ -34,4 +34,12 @@ assert.ok(html.includes("onOpenSpell(spell)"),
 assert.ok(html.includes("onChange(key,values[key]!==true)"),
   'Magic traditions must remain synchronized with original PF2e fields');
 
+assert.ok(html.includes("['shield_ac_bonus','shield_hardness'"),
+  'Shield bonus must be integrated into the printed defense block, not isolated at the foot');
+assert.ok(!html.includes("||id==='class_dc_rank'"),
+  'Class DC proficiency is a numeric bonus, not a zero-to-four proficiency dropdown');
+assert.ok(html.includes('pf-alt-weapon-more'),
+  'All supplementary weapon fields remain available in expandable form');
+assert.ok(html.includes('pf-alt-manual-spells-double'),
+  'Prepared/handwritten spells use two original-paper columns');
 console.log('Alternative PF2e model, HTML pages and import flow checked.');
