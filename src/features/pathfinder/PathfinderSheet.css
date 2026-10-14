@@ -351,3 +351,10 @@
 .pf-spell-library-field span{line-height:1.75}
 .pf-spell-library-field.pf-spell-library-centered{align-items:center;text-align:center}
 .pf-spell-library-field.pf-spell-library-centered span{width:100%;text-align:center}
+
+/* Each printed library row opens its own spell detail rather than the general list. */
+.pf-spell-library-field{font-size:clamp(10px,1.3cqw,18px)}
+.pf-spell-library-entry{display:block;flex:none;width:100%;padding:0;border:0;background:transparent;color:inherit;font:inherit;line-height:1.75;text-align:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+.pf-spell-library-entry:hover,.pf-spell-library-entry:focus-visible{background:#dce8f766;text-decoration:underline;outline-offset:-1px}
+.pf-spell-library-empty{display:block;flex:1;min-height:12px;width:100%;border:0;background:transparent;cursor:pointer}
+.pf-spell-library-centered .pf-spell-library-entry{text-align:center}
