@@ -113,6 +113,11 @@ assert.match(dialog,/Array\.from\(\{length:SPELL_SLOT_RANKS\}/);
 assert.match(dialog,/spellSlotCountText\(event\.target\.value\)/);
 assert.match(dialog,/Режим заклинаний/);
 assert.match(dialog,/Библиотека/);
+assert.match(dialog,/role="switch"/,'Library mode should use an accessible switch');
+assert.match(dialog,/effectivePfTraditions\(values\)/,'Dialog traditions follow sheet half circles');
+assert.match(sheet,/id===PF_SPELL_TRADITIONS/,'Dialog tradition toggles sync with PDF half circles');
+assert.match(sheet,/id\.startsWith\('tradition_'\)/,'PDF half-circle toggles sync with grimoire');
+
 assert.match(dialog,/Открыть гримуар/);
 assert.match(sheet,/PF_SPELL_SELECTION/);
 assert.match(sheet,/spellMode==='library'/);
