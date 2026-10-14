@@ -148,3 +148,13 @@
 .pf-spell-traditions label{display:flex;align-items:center;gap:5px;font-size:13px}
 
 .pf-spell-dialog .pf-spell-traditions input[type=checkbox]{width:16px;min-width:16px;height:16px;min-height:16px;margin:0;accent-color:#3e7150}
+
+/* LSS-like compact binary mode control, with the checked state meaning Library. */
+.pf-spell-mode-toggle{display:inline-flex;align-items:center;gap:11px;font-size:13px;cursor:pointer;position:relative}
+.pf-spell-dialog .pf-spell-mode-toggle input[type=checkbox]{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.pf-spell-mode-track{display:inline-flex;width:56px;height:29px;border-radius:20px;padding:3px;box-sizing:border-box;background:#aab1b3;transition:background .15s;align-items:center}
+.pf-spell-mode-track>span{display:block;width:23px;height:23px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .15s}
+.pf-spell-mode-toggle input:checked+.pf-spell-mode-track{background:#39764d}
+.pf-spell-mode-toggle input:checked+.pf-spell-mode-track>span{transform:translateX(27px)}
+.pf-spell-mode-toggle input:focus-visible+.pf-spell-mode-track{outline:2px solid #426e9b;outline-offset:2px}
+.pf-spell-mode-toggle input:disabled+.pf-spell-mode-track{opacity:.45}
