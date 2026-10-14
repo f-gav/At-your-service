@@ -855,3 +855,21 @@
 
 /* The page-one caption rule uses a font shorthand; keep Ebbe after all cascades. */
 .pf-alt-page .pf-alt-p1-heading {font-family:'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important}
+
+/* Original-PF heading weight: Ebbe Black is heavier than supplied Bold (700).
+   Add a tiny optical outline without changing glyph widths, fields or layout. */
+.pf-alt-page .pf-alt-heading h2,
+.pf-alt-page .pf-alt-section > h3,
+.pf-alt-page .pf-alt-p1-heading,
+.pf-alt-page .pf-alt-p1-logo span,
+.pf-alt-page .pf-alt-save h4 {
+  font-family: 'PF2e Ebbe Black','PF2e Headings',Georgia,serif;
+  font-weight: 900;
+  font-synthesis: none;
+  -webkit-text-stroke: .32px currentColor;
+  paint-order: stroke fill;
+}
+.pf-alt-page .pf-alt-p1-logo span,
+.pf-alt-page .pf-alt-heading h2 {
+  -webkit-text-stroke-width: .5px;
+}
