@@ -152,7 +152,26 @@
 .moon-resource-controls span { font-size: 12px; color: #777; }
 .moon-resource-controls button { background: transparent; border: 0; padding: 0 1px; height: 22px; color: #879094; font-size: 13px; line-height: 1; opacity: .45; }
 .moon-resource-controls button:hover, .moon-resource-controls button:focus-visible { opacity: 1; color: #24282a; }
-.moon-inventory .moon-long-field { min-height: 386px; }
+.moon-inventory-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.moon-inventory-heading .moon-section-title { flex: 1; }
+.moon-inventory-columns-control { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 10px; color: #555e63; }
+.moon-inventory-columns-control select { border: 1px solid var(--moon-line); background: #fff; color: #202325; padding: 2px 5px; font: inherit; }
+.moon-inventory-grid { display: grid; grid-template-columns: repeat(var(--moon-inventory-columns), minmax(0, 1fr)); border: 1px solid var(--moon-line); min-width: 0; }
+.moon-inventory-column { min-width: 0; overflow: hidden; }
+.moon-inventory-column + .moon-inventory-column { border-left: 1px solid #aeb5ba; }
+.moon-inventory .moon-long-field { min-height: 386px; border: 0; padding: 8px 10px; overflow: hidden; }
+.moon-inventory-column .pf-rich-host,
+.moon-inventory-column .pf-rich-editable { box-sizing: border-box; min-width: 0; max-width: 100%; width: 100%; overflow-wrap: anywhere; }
+.moon-inventory-column .pf-rich-editable [data-pf-spoiler="1"],
+.moon-inventory-column .pf-rich-editable [data-pf-divider="1"],
+.moon-inventory-column .pf-rich-editable [data-pf-spoiler-body="1"] { box-sizing: border-box; max-width: 100%; min-width: 0; }
+.moon-inventory-column .pf-rich-editable [data-pf-divider="1"] { width: 100%; }
+.moon-inventory-column .pf-rich-editable [data-pf-spoiler-title="1"],
+.moon-inventory-column .pf-rich-editable [data-pf-divider-title="1"] { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 660px) {
+  .moon-inventory .moon-long-field { padding-inline: 5px; }
+  .moon-inventory-columns-control { font-size: 9px; }
+}
 .moon-long-field { padding: 8px 11px; border: 1px solid var(--moon-line); min-width: 0; }
 .moon-lined .pf-rich-host { padding: 5px 1px; }
 .moon-lined .pf-rich-editable, .moon-note .pf-rich-editable {
