@@ -852,3 +852,6 @@
 .pf-alt-page .pf-alt-p1-logo span {letter-spacing:.015em}
 .pf-alt-page .pf-alt-p1-heading {letter-spacing:.035em}
 .pf-alt-page .pf-alt-section > h3 {letter-spacing:.01em}
+
+/* The page-one caption rule uses a font shorthand; keep Ebbe after all cascades. */
+.pf-alt-page .pf-alt-p1-heading {font-family:'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important}
