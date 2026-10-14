@@ -27,6 +27,15 @@ try {
     assert.equal(await pages.count(),4,'All four PF2e HTML pages must render');
     assert.equal(await page.locator('.pf-sheet-page').count(),0,'Classic PDF backgrounds must be absent');
     await page.evaluate(()=>document.fonts.ready);
+    const ebbeLoaded=await page.evaluate(async()=>{
+      await document.fonts.load('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА');
+      const title=document.querySelector('.pf-alt-p1-logo span');
+      const heading=document.querySelector('.pf-alt-p1-heading');
+      return document.fonts.check('900 14px "PF2e Ebbe Black"','БЛАНК ПЕРСОНАЖА')&&
+        !!title&&!!heading&&getComputedStyle(title).fontFamily.includes('PF2e Ebbe Black')&&
+        getComputedStyle(heading).fontFamily.includes('PF2e Ebbe Black');
+    });
+    assert.ok(ebbeLoaded,'Ebbe Black Cyrillic webfont must load and style the Pathfinder headings');
     const metrics=await page.evaluate(()=>{
       const out=[];
       for(const page of document.querySelectorAll('.pf-alt-page')){
