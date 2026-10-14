@@ -71,7 +71,7 @@ export default function AlternativePathfinderPages({
       (isNativeCombatComputedField(id)&&!isNativeWeaponAttackField(id)))));
   const disabled=computed&&id in displayValues;
   const value=displayValues[id]??values[id]??'';
-  const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank'||id==='class_dc_rank';
+  const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank';
   if(id==='dying')return <div key={id} className="pf-alt-field pf-alt-dying" role="group"
    aria-label={'При смерти: '+readDyingSkulls(values.dying)+' из '+DYING_SKULL_COUNT}>
    <span>{label}</span>
@@ -229,7 +229,7 @@ export default function AlternativePathfinderPages({
     <Section index="III" title="Класс брони и щит">
      <div className="pf-alt-fields pf-alt-defense-values">{['armor_class','armor_dex','armor_prof','armor_item'].map(id=>field(id))}</div>
      <h4 className="pf-alt-subhead"><Shield size={13}/> Щит</h4>
-     <div className="pf-alt-fields pf-alt-shield-values">{['shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}</div>
+     <div className="pf-alt-fields pf-alt-shield-values">{['shield_ac_bonus','shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}</div>
      <div className="pf-alt-fields pf-alt-ranks">{matching('armor_rank_').map(id=>field(id))}</div>
      {cells(['defense_notes'])}
     </Section>
