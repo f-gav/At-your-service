@@ -130,16 +130,27 @@ export default function AlternativePathfinderPages({
    prefix.startsWith('innate_')?s.spell.kind==='special':
    prefix.startsWith('rituals_')?s.spell.kind==='ritual':
    s.spell.rank>0&&!['focus','ritual','special'].includes(s.spell.kind));
+  const columns=prefix==='spellbook_'||prefix==='rituals_'?2:1;
   return <Section index={index} title={title} wide>
-    <div className="pf-alt-spells">
-      <div className="pf-alt-spell-head"><span>Название</span><span>Круг</span><span>Действия</span><span>Подг.</span></div>
-      {rows.map(s=><button type="button" key={s.id} className="pf-alt-spell-row" onClick={()=>onOpenSpell(s)}
-        aria-label={'Прочитать заклинание '+s.name}>
-         <strong>{s.name}</strong><span>{s.spell.rank||'Ч'}</span><span>{spellCast(s)}</span><span>✓</span>
-        </button>)}
-      <button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire}><BookOpen size={15}/> {rows.length?'Изменить заклинания':'Добавить заклинание'}</button>
+   <div className="pf-alt-spells">
+    <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
+     {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
+      <div className="pf-alt-spell-head">
+       <span>Название</span><span>Круг</span><span>Действия</span><span>Подг.</span>
+      </div>
+      {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
+       className="pf-alt-spell-row" onClick={()=>onOpenSpell(spell)}
+       aria-label={'Прочитать заклинание '+spell.name}>
+       <strong>{spell.name}</strong><span>{spell.spell.rank||'Ч'}</span>
+       <span>{spellCast(spell)}</span><span>✓</span>
+      </button>)}
+     </div>)}
     </div>
-   </Section>;
+    <button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire}>
+     <BookOpen size={15}/> {rows.length?'Изменить заклинания':'Добавить заклинание'}
+    </button>
+   </div>
+  </Section>;
  }
  if(page==='notes')return <article className="pf-alt-page" id="pf-sheet-page-notes" aria-label="Альтернативный PF2e: заметки">
   <header className="pf-alt-heading"><small>AT YOUR SERVICE! / PF2E</small><h2>Заметки</h2><p>Дополнительная страница</p></header>
