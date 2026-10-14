@@ -70,9 +70,9 @@ export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
 }
 const GROUPS=[['arcane','Мистическая'],['divine','Сакральная'],['occult','Оккультная'],['primal','Первобытная']] as const;
 type Props={
-  selection:SavedSpell[];traditions:string[];classes:string[];slotCounts:number[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
+  initialSpellId?:string|null;selection:SavedSpell[];traditions:string[];classes:string[];slotCounts:number[];onSelection:(items:SavedSpell[])=>void;onClose:()=>void;
 };
-export default function SpellGrimoire({selection,traditions,classes,slotCounts,onSelection,onClose}:Props){
+export default function SpellGrimoire({initialSpellId,selection,traditions,classes,slotCounts,onSelection,onClose}:Props){
   const [spells,setSpells]=useState<SpellView[]>([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState('');
@@ -81,7 +81,7 @@ export default function SpellGrimoire({selection,traditions,classes,slotCounts,o
   const [show,setShow]=useState<'all'|'prepared'>('all');
   const [details,setDetails]=useState<SpellView|null>(null);
   useEffect(()=>{const controller=new AbortController();void loadPfSpellViews(controller.signal)
-    .then(setSpells).catch(e=>{if(!controller.signal.aborted)setError(String(e));})
+    .then(items=>{setSpells(items);if(initialSpellId)setDetails(items.find(v=>v.id===initialSpellId)??null);}).catch(e=>{if(!controller.signal.aborted)setError(String(e));})
     .finally(()=>{if(!controller.signal.aborted)setLoading(false);});
     return()=>controller.abort();},[]);
   useEffect(()=>{const handler=(e:KeyboardEvent)=>{if(e.key==='Escape'){if(details)setDetails(null);else onClose();}};
