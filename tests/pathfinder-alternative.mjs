@@ -12,4 +12,26 @@ for(const label of ['Альтернативный PF2e','Классически�
 for(const marker of ['page===1','page===2','page===3','page===4',"page==='notes'",'RichField'])assert.ok(html.includes(marker),marker);
 assert.ok(app.includes('pendingImport&&'));
 assert.ok(read('../src/lib/sheet-pdf.ts').includes("'.pf-alt-stack > .pf-alt-page'"));
+
+for(const heading of ['Класс брони и щит','Спасброски','Пункты здоровья',
+  'Навыки','Удары','Черты народа и общие черты','Способности по уровням',
+  'Инвентарь и снаряжение','Портрет персонажа','Действия и занятия',
+  'Магическая традиция','Ячейки заклинаний','Фокусные заклинания',
+  'Врождённые заклинания','Ритуалы']){
+ assert.ok(html.includes(heading),'Missing original Russian PF2e section: '+heading);
+}
+for(const control of ['pf-alt-hero-marks','pf-alt-level-diamond',
+ 'pf-alt-tradition-wheel','pf-alt-dying-skulls','toggleDyingSkull',
+ 'pf-alt-coin','pf-alt-spell-columns-double']){
+ assert.ok(html.includes(control)||read('../src/features/pathfinder/AlternativePathfinderPages.css').includes(control),
+   'Missing visual/interactive PF2e element: '+control);
+}
+const printable=read('../src/lib/sheet-pdf.ts');
+assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span')"),
+  'HTML character PDF must not include editable controls');
+assert.ok(html.includes("onOpenSpell(spell)"),
+  'Printed spell rows must open their corresponding spell descriptions');
+assert.ok(html.includes("onChange(key,values[key]!==true)"),
+  'Magic traditions must remain synchronized with original PF2e fields');
+
 console.log('Alternative PF2e model, HTML pages and import flow checked.');
