@@ -686,3 +686,40 @@
  .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:246px}
  .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell .pf-rich-editable{min-height:236px}
 }
+
+/* Final density pass: fit the first PF2e page into the paper's A4 height. */
+@media(min-width:901px){
+ .pf-alt-page{gap:3px;padding-top:12px;padding-bottom:9px}
+ .pf-alt-section>h3{min-height:13px;margin-bottom:2px;padding-bottom:1px}
+ .pf-alt-skill-row{min-height:19px;padding:0}
+ .pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{height:17px}
+ .pf-alt-skill-row .pf-alt-rank-squares{min-height:17px}
+ .pf-alt-main-right{gap:3px}
+ .pf-alt-main-right>.pf-alt-section .pf-alt-rich{min-height:28px}
+ .pf-alt-main-right>.pf-alt-section .pf-alt-rich .pf-rich-editable{min-height:23px}
+ .pf-alt-skills-section>.pf-alt-fields:last-child .pf-alt-rich{min-height:26px}
+ .pf-alt-skills-section>.pf-alt-fields:last-child .pf-alt-rich .pf-rich-editable{min-height:22px}
+ .pf-alt-weapon{padding-top:1px;padding-bottom:2px}
+ .pf-alt-weapon-core .pf-alt-field>input{height:20px}
+ .pf-alt-weapon h4{font-size:9px}
+ .pf-alt-weapon-more summary{font-size:8px}
+ .pf-alt-page1-top{gap:6px}
+ .pf-alt-identity-grid{gap:2px 4px}
+ .pf-alt-identity-notes{margin-top:2px}
+ .pf-alt-hero p{font-size:8px}
+ .pf-alt-ability>.pf-alt-field:first-child>input{height:31px}
+ .pf-alt-defense-values>.pf-alt-field:first-child input{height:32px}
+ .pf-alt-save .pf-alt-field:first-of-type input{height:30px}
+}
+/* A 380px-wide sheet still needs four accessible squares and safe rich text. */
+@media(max-width:680px){
+ .pf-alt-rank-squares{flex-wrap:wrap;max-width:100%;gap:1px}
+ .pf-alt-save .pf-alt-rank-square,.pf-alt-ranks .pf-alt-rank-square{
+   flex:0 0 9px;width:9px;height:12px;font-size:8px}
+ .pf-alt-skill-row .pf-alt-rank-square{flex:0 0 8px;width:8px;height:12px}
+ .pf-alt-wealth>.pf-alt-fields{
+   grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ .pf-alt-wealth>.pf-alt-fields>.pf-alt-field:first-child{grid-column:1/-1}
+ .pf-alt-wealth>.pf-alt-fields>.pf-alt-field-long{min-width:0;grid-column:span 1}
+ .pf-alt-wealth .pf-alt-rich{max-width:100%;min-width:0;box-sizing:border-box}
+}
