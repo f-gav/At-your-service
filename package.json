@@ -12,6 +12,7 @@
     "prebuild": "node scripts/generate-pwa-icons.mjs",
     "predev": "node scripts/generate-pwa-icons.mjs",
     "test:pdf-browser": "node tests/pdf-browser.mjs",
+    "test:pf-alternative-browser": "node tests/pathfinder-alternative-browser.mjs",
     "test:spell-library-browser": "node tests/spell-library-browser.mjs"
   },
   "dependencies": {
