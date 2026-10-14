@@ -36,7 +36,9 @@ try {
           const elRect=el.getBoundingClientRect();
           if(!elRect.width||!elRect.height)return false;
           return elRect.right>rect.right+3 || elRect.left<rect.left-3;
-        }).slice(0,8).map(el=>({cls:el.className,txt:(el.textContent||'').trim().slice(0,32),
+        }).slice(0,8).map(el=>({tag:el.tagName,cls:el.className,
+          parent:el.parentElement?.className,aria:el.getAttribute('aria-label'),
+          txt:(el.textContent||'').trim().slice(0,32),
           right:Math.round(el.getBoundingClientRect().right)}));
         out.push({
           id:page.id,w:Math.round(rect.width),h:Math.round(rect.height),
