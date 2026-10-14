@@ -376,3 +376,25 @@
  .pf-alt-page .pf-alt-section{break-inside:avoid}
  .pf-alt-add-spell,.pf-alt-portrait span{display:none!important}
 }
+
+/* Shared PF2e death track: four interactive skulls with saved numeric value. */
+.pf-alt-dying-skulls{display:flex;align-items:center;gap:4px;flex-wrap:nowrap;margin-top:4px}
+.pf-alt-dying-skulls button{border:1px solid #a6a09a;background:white;color:#756d68;border-radius:2px;
+ width:27px;height:29px;display:flex;align-items:center;justify-content:center;padding:3px;cursor:pointer}
+.pf-alt-dying-skulls button.is-active{background:#74463f;color:#fff;border-color:#61342d}
+.pf-alt-dying-skulls button:focus-visible{outline:2px solid #35674d}
+.pf-alt-spell-columns{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;flex:1}
+.pf-alt-spell-columns-double{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pf-alt-spell-column{min-width:0;border-right:1px solid #bca6a0}
+.pf-alt-spell-column:last-child{border-right:0}
+.pf-alt-spell-column .pf-alt-spell-head,.pf-alt-spell-column .pf-alt-spell-row{
+ grid-template-columns:minmax(0,1fr) 34px 52px 30px;gap:1px}
+.pf-alt-spell-column .pf-alt-spell-head{font-size:8px;letter-spacing:0}
+.pf-alt-spell-column .pf-alt-spell-row{font-size:11px;padding:9px 3px}
+.pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells .pf-alt-spell-columns{min-height:535px}
+@media(max-width:680px){
+ .pf-alt-spell-columns-double{grid-template-columns:1fr}
+ .pf-alt-spell-column{border-right:0;border-bottom:1px solid #bca6a0}
+ .pf-alt-spell-column:last-child{border:0}
+ .pf-alt-magic-right>.pf-alt-section:last-child>.pf-alt-spells .pf-alt-spell-columns{min-height:300px}
+}
