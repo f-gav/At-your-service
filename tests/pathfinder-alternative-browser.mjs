@@ -57,15 +57,25 @@ try {
       const name=first.getByRole('textbox',{name:'Имя персонажа'});
       await name.fill('Изменённый герой');
       assert.equal(await name.inputValue(),'Изменённый герой','HTML input remains editable');
-      const hero=first.locator('.pf-alt-hero-marks input[type=checkbox]').first();
-      const before=await hero.isChecked();
+      const hero=first.getByRole('button',{name:'Пункт героизма 1'});
+      const before=await hero.getAttribute('aria-pressed');
       await hero.click();
-      assert.notEqual(await hero.isChecked(),before,'Printed hexagon hero point must toggle');
+      assert.notEqual(await hero.getAttribute('aria-pressed'),before,'Printed hero hexagon toggles');
       const dying=first.locator('.pf-alt-dying-skulls button');
       assert.equal(await dying.count(),4,'All four death skulls remain interactive');
       await dying.nth(2).click();
       assert.equal(await dying.filter({has:page.locator('svg')}).count(),4);
       assert.equal(await dying.nth(2).getAttribute('aria-pressed'),'true');
+      const weapon=first.locator('.pf-alt-weapon').first();
+      assert.equal(await weapon.locator('.pf-alt-weapon-core input').count(),4,
+        'Each weapon has four compact print fields');
+      await weapon.getByText('Бонусы и дополнительные свойства').click();
+      assert.ok(await weapon.locator('.pf-alt-weapon-extra input').count()>0,
+        'Advanced weapon fields remain editable when expanded');
+      assert.equal(await first.locator('.pf-alt-skill-head').count(),1,
+        'The skill table has one fixed heading row, not repeated column labels');
+      assert.equal(await fourth.locator('.pf-alt-manual-column').count()>=2,true,
+        'The manual spell list uses adjacent ruled input columns');
       const arcane=fourth.getByRole('button',{name:'Мистическая'});
       await arcane.click();
       assert.equal(await arcane.getAttribute('aria-pressed'),'false',
