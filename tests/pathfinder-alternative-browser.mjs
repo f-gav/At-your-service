@@ -66,6 +66,15 @@ try {
       await dying.nth(2).click();
       assert.equal(await dying.filter({has:page.locator('svg')}).count(),4);
       assert.equal(await dying.nth(2).getAttribute('aria-pressed'),'true');
+      const rankSquares=first.locator('.pf-alt-skill-row').first().locator('.pf-alt-rank-square');
+      assert.equal(await rankSquares.count(),4,'A skill shows four rank squares, never a dropdown');
+      const initialRank=await rankSquares.evaluateAll(nodes=>nodes.findIndex(node=>node.getAttribute('aria-pressed')==='true'));
+      await rankSquares.nth(2).click();
+      assert.equal(await rankSquares.nth(2).getAttribute('aria-pressed'),'true','Master square selects rank 3');
+      assert.equal(await rankSquares.filter({hasText:'✓'}).count(),1,'Only one rank may be selected at a time');
+      await rankSquares.nth(2).click();
+      assert.equal(await rankSquares.filter({hasText:'✓'}).count(),0,'Click selected square to return to untrained');
+      assert.equal(await first.locator('.pf-alt-skill-row select').count(),0,'No dropdowns for skill ranks');
       const weapon=first.locator('.pf-alt-weapon').first();
       assert.equal(await weapon.locator('.pf-alt-weapon-core input').count(),4,
         'Each weapon has four compact print fields');
