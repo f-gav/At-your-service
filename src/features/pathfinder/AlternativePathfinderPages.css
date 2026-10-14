@@ -91,3 +91,111 @@
  .pf-toolbar>.pf-alt-variant-picker{justify-self:stretch}
  .pf-alt-variant-picker button{flex:1;font-size:11px}
 }
+
+/* PF2e Russian-paper visual language: dark evergreen rules, oxblood borders,
+   notched value boxes, level diamonds and sparse print typography. */
+.pf-alt-page{background:#fff;color:#171c1a;border:1px solid #d7d8d2;border-radius:0;
+ box-shadow:0 2px 9px #0000000e;padding:26px 28px 20px;gap:12px;
+ font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.28}
+.pf-alt-heading{border:0;border-bottom:2px solid #204534;grid-template-columns:1fr auto;align-items:end;padding:0 0 8px;gap:0 14px}
+.pf-alt-heading small{font:800 10px/1.3 Georgia,serif;color:#594335;letter-spacing:.08em}
+.pf-alt-heading h2{font:900 clamp(23px,3vw,31px)/1.05 Georgia,'Times New Roman',serif;
+ color:#173a2c;text-transform:uppercase;margin:3px 0}
+.pf-alt-heading p{font-size:10px;color:#646b66;letter-spacing:.03em}
+.pf-alt-section,.pf-alt-weapon,.pf-alt-stat-block{border:0;background:transparent;border-radius:0}
+.pf-alt-section{min-width:0;overflow:visible}
+.pf-alt-section>h3{position:relative;min-height:20px;padding:0 0 4px;margin:0 0 7px;
+ display:flex;gap:6px;align-items:center;border-bottom:2px solid #204534;
+ font:900 12px/1.3 Georgia,'Times New Roman',serif;color:#19392b;
+ letter-spacing:.035em;text-transform:uppercase}
+.pf-alt-section>h3:after{content:'';height:2px;width:22px;position:absolute;right:0;bottom:-2px;background:#193d2d}
+.pf-alt-section>h3 svg{color:#6f4c48;flex-shrink:0}
+.pf-alt-section-index{font:800 9px/1 Arial,sans-serif;color:#7a423d;opacity:.86}
+.pf-alt-section>.pf-alt-fields,.pf-alt-section>.pf-alt-abilities,
+.pf-alt-section>.pf-alt-advancement,.pf-alt-section>.pf-alt-two-col,
+.pf-alt-section>.pf-alt-slots,.pf-alt-section>.pf-alt-skill-list,
+.pf-alt-section>.pf-alt-spells,.pf-alt-section>.pf-alt-portrait-row{margin:5px 0 9px}
+.pf-alt-fields{margin:7px 0;gap:5px 8px;grid-template-columns:repeat(auto-fit,minmax(95px,1fr))}
+.pf-alt-field{gap:2px}
+.pf-alt-field>span{font:600 10px/1.15 Arial,sans-serif;text-transform:none;letter-spacing:0;color:#60645f}
+.pf-alt-field>input:not([type=checkbox]),.pf-alt-field>select{
+ height:30px;padding:3px 4px;background:#fff;
+ border:1px solid #9f9994;border-radius:0;color:#191b19;
+ font:500 13px Arial,sans-serif}
+.pf-alt-field>input:focus-visible,.pf-alt-field>select:focus-visible{outline:2px solid #396d51;outline-offset:0}
+.pf-alt-field>input[readonly]{background:#f6f8f6;color:#26372c}
+.pf-alt-field>input[type=checkbox]{width:17px;height:17px;accent-color:#365c45;margin:2px}
+.pf-alt-field-long{grid-column:span 2}
+.pf-alt-field .pf-alt-rich{background:#fff;border:1px solid #b6a6a1;border-radius:0;padding:6px;
+ min-height:92px;font-size:12px;box-sizing:border-box}
+.pf-alt-rich [contenteditable],.pf-alt-rich .pf-rich-editable{min-height:78px}
+/* First page of the original PDF: identity, six abilities, three defences,
+   then a narrow skill column and a wide combat column. */
+.pf-alt-page1-top{display:grid;grid-template-columns:minmax(0,1fr) 205px;gap:12px;align-items:start}
+.pf-alt-identity-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.pf-alt-identity-grid>.pf-alt-field:nth-child(1){grid-column:span 3}
+.pf-alt-identity-grid>.pf-alt-field:nth-child(2){grid-column:span 2}
+.pf-alt-identity-grid>.pf-alt-field:nth-child(3){grid-column:span 1}
+.pf-alt-identity-grid>.pf-alt-field:nth-child(5),
+.pf-alt-identity-grid>.pf-alt-field:nth-child(6),
+.pf-alt-identity-grid>.pf-alt-field:nth-child(7){grid-column:span 2}
+.pf-alt-identity-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:5px}
+.pf-alt-identity-notes .pf-alt-field-long{grid-column:span 1}
+.pf-alt-hero{padding-top:1px}
+.pf-alt-hero-marks{display:flex;gap:8px;margin:10px 0 6px;justify-content:center}
+.pf-alt-hero-marks .pf-alt-field>span{display:none}
+.pf-alt-hero-marks .pf-alt-field>input[type=checkbox]{appearance:none;-webkit-appearance:none;cursor:pointer;
+ width:37px;height:39px;margin:0;background:#fff;border:1px solid #55705c;
+ clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
+ box-shadow:inset 0 0 0 2px #dde7df}
+.pf-alt-hero-marks .pf-alt-field>input[type=checkbox]:checked{background:#315e47;box-shadow:inset 0 0 0 2px white}
+.pf-alt-hero p{font-size:10px;line-height:1.28;color:#4b504d;margin:7px 0}
+.pf-alt-abilities{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;padding:2px 0 6px}
+.pf-alt-ability{border:0;border-right:1px solid #c9c1ba;border-radius:0;padding:0 5px 0 0;gap:2px}
+.pf-alt-ability:last-child{border-right:0}
+.pf-alt-ability>.pf-alt-field:first-child>span{font:800 12px/1.3 Georgia,serif;color:#242925;letter-spacing:0}
+.pf-alt-ability>.pf-alt-field:first-child>input{display:block;width:65px;max-width:100%;height:48px;
+ margin:2px auto 1px;font:700 22px Arial,sans-serif;border:2px solid #543d3a;
+ background:#fff;text-align:center;clip-path:polygon(0 0,83% 0,100% 20%,100% 100%,17% 100%,0 80%)}
+.pf-alt-ability>.pf-alt-field:nth-child(2){align-items:center;flex-direction:row;justify-content:center;gap:4px}
+.pf-alt-ability>.pf-alt-field:nth-child(2)>span{font-size:9px}
+.pf-alt-defense-grid{display:grid;grid-template-columns:1.15fr 1.23fr 1.02fr;gap:10px;align-items:start}
+.pf-alt-defense-grid .pf-alt-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pf-alt-defense-values>.pf-alt-field:first-child input{font-size:24px;font-weight:bold;height:46px;text-align:center;
+ border:2px solid #624943;clip-path:polygon(9% 0,91% 0,100% 18%,100% 82%,91% 100%,9% 100%,0 82%,0 18%)}
+.pf-alt-subhead{display:flex;gap:4px;align-items:center;margin:6px 0 0;
+ border-bottom:1px solid #cabbb5;font:700 11px Georgia,serif}
+.pf-alt-shield-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pf-alt-ranks{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.pf-alt-save-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.pf-alt-save{min-width:0;border-right:1px solid #d0c3bb;padding-right:4px}
+.pf-alt-save:last-child{border-right:0}
+.pf-alt-save h4{text-align:center;margin:0 0 6px;font:700 12px Georgia,serif}
+.pf-alt-save .pf-alt-field{margin-bottom:3px}
+.pf-alt-save .pf-alt-field:first-of-type input{height:42px;text-align:center;
+ font-size:20px;border:2px solid #614a46;
+ clip-path:polygon(12% 0,88% 0,100% 20%,100% 80%,88% 100%,12% 100%,0 80%,0 20%)}
+.pf-alt-save .pf-alt-field>span{font-size:9px}
+.pf-alt-health{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.pf-alt-health input{text-align:center;font-size:17px!important;height:42px!important}
+.pf-alt-health>.pf-alt-field:nth-child(2)>input{border:2px solid #764546;
+ clip-path:polygon(50% 100%,5% 42%,5% 18%,24% 0,50% 13%,76% 0,95% 18%,95% 42%)}
+.pf-alt-life-state{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.pf-alt-main-columns{display:grid;grid-template-columns:minmax(0,.93fr) minmax(0,1.2fr);gap:13px}
+.pf-alt-main-right{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pf-alt-skill-list{display:flex;flex-direction:column;gap:0}
+.pf-alt-skill-row{border-bottom:1px solid #ddd4d0;display:grid;grid-template-columns:106px 1fr;
+ gap:3px;padding:2px 0;min-height:32px}
+.pf-alt-skill-row>b{font:700 10px/1.4 Arial,sans-serif;flex:auto;color:#27352b;white-space:nowrap;padding-top:8px}
+.pf-alt-skill-row>.pf-alt-fields{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin:0!important}
+.pf-alt-skill-row .pf-alt-field>span{font-size:7.7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:none}
+.pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{font-size:11px;height:24px;min-width:0;padding:1px}
+.pf-alt-main-right>.pf-alt-section:first-child>.pf-alt-fields{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pf-alt-weapon-list{display:flex;flex-direction:column;gap:0}
+.pf-alt-weapon{border-bottom:1px solid #b99f96;padding:5px 0}
+.pf-alt-weapon h4{display:flex;align-items:center;gap:4px;color:#313b33;margin:0 0 2px;font-size:11px}
+.pf-alt-weapon h4 svg{color:#65403d}
+.pf-alt-weapon .pf-alt-fields{grid-template-columns:1.4fr .8fr .8fr 1.2fr;margin:0;gap:4px}
+.pf-alt-weapon .pf-alt-field>span{font-size:9px}
+.pf-alt-weapon .pf-alt-field>input{font-size:12px}
+.pf-alt-main-right>.pf-alt-section:last-child>.pf-alt-fields{grid-template-columns:repeat(4,minmax(0,1fr))}
