@@ -92,7 +92,7 @@ export default function AlternativePathfinderPages({
   </Section>;
  }
  function spellPanel(prefix:string,title:string,index:string){
-  const keys=matching(prefix);
+  const keys=matching(prefix).filter(id=>!['cantrip_rank','cantrips_daily','focus_rank','focus_point_1','focus_point_2','focus_point_3'].includes(id));
   if(spellMode==='text')return <Section index={index} title={title} wide>
     <div className="pf-alt-fields pf-alt-spell-text">{keys.map(id=>field(id))}</div>
    </Section>;
