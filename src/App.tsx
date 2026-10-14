@@ -243,6 +243,9 @@ export default function App() {
   const [exportPdfId,setExportPdfId] = useState<string|null>(null);
   const [movingId, setMovingId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
+  const [newPfVariant,setNewPfVariant]=useState<'classic'|'alternative'>('classic');
+  const [pendingImport,setPendingImport]=useState<ReturnType<typeof parseCharacterJson>|null>(null);
+  const [importPfVariant,setImportPfVariant]=useState<'classic'|'alternative'>('classic');
   const [filter, setFilter] = useState<Filter>('all');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -463,6 +466,7 @@ export default function App() {
     }
     setShowSystemPicker(false);
     setCreatePanel(system);
+    setNewPfVariant('classic');
     setNewName('');
     setError('');
   }
@@ -477,7 +481,8 @@ export default function App() {
     const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
     const { data, error: insertError } = await supabase.from('characters')
       .insert({ user_id: user.id, system: createPanel, name,
-         details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } : defaultDetails(),
+         details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } :
+           createPanel === 'pf2e' ? { ...defaultDetails(), pathfinderSheet:{pf2e_layout:newPfVariant} } : defaultDetails(),
          sort_order: nextOrder })
       .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
     setBusy(false);
@@ -505,31 +510,63 @@ export default function App() {
     return true;
   }
 
-  async function importJson(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    event.target.value = '';
-    if (!file || !supabase || !user || busy || importingJson) return;
-    if (file.size > 2 * 1024 * 1024) { setError('JSON слишком большой (не более 2 МБ).'); return; }
-    setImportingJson(true); setError('');
-    try {
-      const parsed = parseCharacterJson(await file.text());
-      const nextOrder = characters.reduce((maximum, character) => Math.max(maximum, character.sort_order), 0) + 1;
-      const { data, error: importError } = await supabase.from('characters')
-        .insert({ user_id: user.id, system: parsed.system, name: parsed.name,
-          details: parsed.details, sort_order: nextOrder })
+  async function completeImport(parsed:ReturnType<typeof parseCharacterJson>,variant?:'classic'|'alternative'){
+    if(!supabase||!user||importingJson)return;
+    setImportingJson(true);setError('');
+    try{
+      const details:CharacterDetails=parsed.system==='pf2e'?
+        {...parsed.details,pathfinderSheet:{
+          ...(parsed.details.pathfinderSheet as Record<string,unknown>||{}),
+          pf2e_layout:variant??'classic',
+        }}:parsed.details;
+      const nextOrder=characters.reduce((maximum,c)=>Math.max(maximum,c.sort_order),0)+1;
+      const {data,error:importError}=await supabase.from('characters')
+        .insert({user_id:user.id,system:parsed.system,name:parsed.name,details,sort_order:nextOrder})
         .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
-      if (importError || !data) throw importError ?? new Error('Не удалось создать персонажа.');
-      let imported = { ...data, details: normalizeDetails(data.details) } as Character;
-      if(parsed.portrait) {
-        try { const paths=parsed.portrait.type==='source'
-          ? await savePortrait(imported,user.id,parsed.portrait.source,parsed.portrait.crops)
-          : await saveLegacyPortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet); imported={...imported,...paths}; }
-        catch(cause) { await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id); throw cause; }
+      if(importError||!data)throw importError??new Error('Не удалось создать персонажа.');
+      let imported={...data,details:normalizeDetails(data.details)} as Character;
+      if(parsed.portrait){
+        try{
+          const paths=parsed.portrait.type==='source'
+            ?await savePortrait(imported,user.id,parsed.portrait.source,parsed.portrait.crops)
+            :await saveLegacyPortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet);
+          imported={...imported,...paths};
+        }catch(cause){
+          await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id);
+          throw cause;
+        }
       }
-      setCharacters(current => [...current, imported]);
-      setFilter('all'); setOpenMenuId(null);
-    } catch (cause) { setError(messageFromError(cause)); }
-    finally { setImportingJson(false); }
+      setCharacters(current=>[...current,imported]);
+      setFilter('all');setOpenMenuId(null);setPendingImport(null);
+    }catch(cause){setError(messageFromError(cause));}
+    finally{setImportingJson(false);}
+  }
+  async function importJson(event:ChangeEvent<HTMLInputElement>){
+    const file=event.target.files?.[0];event.target.value='';
+    if(!file||!supabase||!user||busy||importingJson)return;
+    if(file.size>2*1024*1024){setError('JSON слишком большой (не более 2 МБ).');return;}
+    setError('');
+    try{
+      const parsed=parseCharacterJson(await file.text());
+      if(parsed.system==='pf2e'){
+        const raw=parsed.details.pathfinderSheet;
+        const layout=raw&&typeof raw==='object'&&!Array.isArray(raw)
+          ?(raw as Record<string,unknown>).pf2e_layout:null;
+        setImportPfVariant(layout==='alternative'?'alternative':'classic');
+        setPendingImport(parsed);
+        return;
+      }
+      await completeImport(parsed);
+    }catch(cause){setError(messageFromError(cause));}
+  }
+  async function chooseCharacterVariant(character:Character,variant:'classic'|'alternative'){
+    if(character.system!=='pf2e'||busy)return;
+    const original=character.details.pathfinderSheet;
+    const values=original&&typeof original==='object'&&!Array.isArray(original)
+      ?original as Record<string,unknown>:{};
+    const details={...character.details,pathfinderSheet:{...values,pf2e_layout:variant}};
+    setOpenMenuId(null);
+    await saveCharacter(character.id,character.name,details);
   }
 
   async function duplicateCharacter(character:Character,includePortrait:boolean) {
@@ -778,6 +815,11 @@ export default function App() {
                     </button>
                     {openMenuId === character.id && <div className="character-menu" role="group" aria-label={`Действия: ${character.name}`}>
                       {(character.system==='pf2e'||character.system==='prmoon') && <button type="button" disabled={busy} onClick={() => exportCharacterPdf(character)}><FileDown size={15}/> Экспорт PDF</button>}
+                      {character.system==='pf2e'&&<button type="button" disabled={busy}
+                        onClick={()=>void chooseCharacterVariant(character,
+                          (character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'classic':'alternative')}>
+                        <FilePenLine size={15}/> Переключить на {(character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'классический PF2e':'Альтернативный PF2e'}
+                      </button>}
                       <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
                       <button type="button" onClick={() => {const url=window.location.origin+window.location.pathname+window.location.search+siteRouteHash({kind:'character',id:character.id});void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
@@ -812,6 +854,10 @@ export default function App() {
                   <label className="form-label">Имя персонажа
                     <input autoFocus required maxLength={100} placeholder="Как зовут твоего героя?" value={newName} onChange={event => setNewName(event.target.value)} />
                   </label>
+                  {createPanel==='pf2e'&&<div className="pf-variant-choices" role="radiogroup" aria-label="Вид листа Pathfinder">
+                    <label><input type="radio" name="new-pf-variant" checked={newPfVariant==='classic'} onChange={()=>setNewPfVariant('classic')}/> Классический PF2e <small>Привычный лист на основе PDF</small></label>
+                    <label><input type="radio" name="new-pf-variant" checked={newPfVariant==='alternative'} onChange={()=>setNewPfVariant('alternative')}/> Альтернативный PF2e <small>Новый интерактивный HTML-лист</small></label>
+                  </div>}
                   <button disabled={busy || !normalizedName(newName)} type="submit" className="button button-primary"><Plus size={17} /> {busy ? 'Создаю…' : 'Создать лист'}</button>
                 </form>
               </>}
@@ -820,6 +866,26 @@ export default function App() {
         </main>
       )}
 
+      {pendingImport&&<div className="modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget&&!importingJson)setPendingImport(null);}}>
+        <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="pf-import-variant-heading">
+          <div className="modal-top"><span>ИМПОРТ PATHFINDER 2E</span>
+            <button type="button" className="modal-close" aria-label="Отмена импорта" disabled={importingJson} onClick={()=>setPendingImport(null)}><X size={20}/></button>
+          </div>
+          <h2 id="pf-import-variant-heading">В каком виде открыть «{pendingImport.name}»?</h2>
+          <p>Данные JSON одинаковы для обеих версий. Ты сможешь переключить лист позже без потери характеристик.</p>
+          <div className="pf-variant-choices" role="radiogroup" aria-label="Вариант листа при импорте">
+            <label><input type="radio" name="import-pf-variant" checked={importPfVariant==='classic'} onChange={()=>setImportPfVariant('classic')}/>
+              Классический PF2e <small>Исходный русский PDF-лист</small></label>
+            <label><input type="radio" name="import-pf-variant" checked={importPfVariant==='alternative'} onChange={()=>setImportPfVariant('alternative')}/>
+              Альтернативный PF2e <small>HTML-лист в духе Pr. Moon и LSS</small></label>
+          </div>
+          <div className="duplicate-actions">
+            <button type="button" className="button" disabled={importingJson} onClick={()=>setPendingImport(null)}>Отмена</button>
+            <button type="button" className="button button-primary" disabled={importingJson}
+              onClick={()=>void completeImport(pendingImport,importPfVariant)}>{importingJson?'Импортирую…':'Импортировать персонажа'}</button>
+          </div>
+        </section>
+      </div>}
       {duplicateTarget && <div className="modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget&&!busy)setDuplicateTarget(null);}}>
         <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="duplicate-title">
           <div className="modal-top"><span>ДУБЛИРОВАНИЕ ПЕРСОНАЖА</span>
