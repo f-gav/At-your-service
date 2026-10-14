@@ -38,13 +38,13 @@ const SECTION_ICONS:Record<string,typeof Shield>={
  'Класс брони и щит':Shield,'Пункты здоровья':Heart,'Спасброски':Shield,
  'Навыки':Compass,'Языки, внимание и скорость':Eye,'Удары':Swords,'Оружие и атаки':Swords,'Классовая СЛ':Shield,
  'Черты народа и общие черты':Feather,'Классовые способности':Star,'Портрет персонажа':UserRound,'Способности по уровням':ScrollText,
- 'Способности по уровням':ScrollText,'Инвентарь и снаряжение':Backpack,
+ 'Инвентарь и снаряжение':Backpack,
  'Богатство':Coins,'Внешность':Eye,'Личность':UserRound,'Заметки для кампании':ScrollText,
  'Действия и занятия':Zap,'Свободные и ответные действия':CircleDot,
  'Магическая традиция':Compass,'Параметры заклинаний':WandSparkles,'Ячейки заклинаний':BookMarked,'Список чар':Sparkles,
  'Заклинания':BookOpen,'Фокусы':Sparkles,'Фокусные заклинания':CircleDot,
  'Врождённые заклинания':Star,'Ритуалы':Scroll,
- 'Заметки':ScrollText,'Пункты здоровья':Heart,'Дополнительные поля':ScrollText,
+ 'Заметки':ScrollText,'Дополнительные поля':ScrollText,
 };
 function Section({index,title,children,wide=false,className=''}:{index:string;title:string;children:ReactNode;wide?:boolean;className?:string}){
  const Icon=SECTION_ICONS[title]||ScrollText;
