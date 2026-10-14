@@ -405,3 +405,103 @@
 .pf-alt-section>h3{font-family:'PF2e Headings',Georgia,serif;font-weight:900;font-size:13px;line-height:1.15;letter-spacing:.015em}
 .pf-alt-save h4{font-family:'PF2e Headings',Georgia,serif;font-weight:900}
 .pf-alt-level-diamond b{font-size:11px}
+
+/* Visual QA pass: strict Pathfinder paper rows and clear click targets. */
+.pf-alt-hero-marks{gap:7px;margin:5px 0 4px;justify-content:center}
+.pf-alt-hero-point{display:grid;place-items:center;width:37px;height:37px;border:0;background:transparent;padding:0;cursor:pointer}
+.pf-alt-hero-point svg{display:block;width:36px;height:36px;overflow:visible}
+.pf-alt-hero-point:focus-visible{outline:2px solid #326e50;outline-offset:3px}
+.pf-alt-skill-list{display:flex;flex-direction:column}
+.pf-alt-skill-head{display:grid;grid-template-columns:100px repeat(6,minmax(0,1fr));gap:2px;
+ font:700 9px/1.15 Arial,sans-serif;color:#665f58;border-bottom:2px solid #a99890;padding:3px 0 4px}
+.pf-alt-skill-head>*{text-align:center;min-width:0}
+.pf-alt-skill-head>b{text-align:left}
+.pf-alt-skill-row{display:grid;grid-template-columns:100px minmax(0,1fr);gap:2px;min-height:30px;
+ padding:2px 0;border-bottom:1px solid #ded4cf;align-items:center}
+.pf-alt-skill-row>b{padding-top:0;align-self:center;line-height:1.2;font-size:10px}
+.pf-alt-skill-row>.pf-alt-fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;
+ margin:0!important;align-items:center}
+.pf-alt-skill-row .pf-alt-field>span{position:absolute;width:1px;height:1px;overflow:hidden;
+ clip:rect(0,0,0,0);white-space:nowrap}
+.pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{
+ height:26px;font-size:10px;padding:1px 0;line-height:1}
+.pf-alt-skill-row .pf-alt-field{min-width:0}
+.pf-alt-skills-section> .pf-alt-fields:last-child .pf-alt-rich{min-height:51px}
+.pf-alt-skills-section> .pf-alt-fields:last-child .pf-alt-rich .pf-rich-editable{min-height:43px}
+/* Four core weapon inputs are permanently visible; optional calculation inputs
+   open without altering the shared character fields. */
+.pf-alt-weapon-list{gap:0}
+.pf-alt-weapon{padding:3px 0 6px;min-width:0}
+.pf-alt-weapon h4{font-size:11px;margin:0 0 3px}
+.pf-alt-weapon-core{display:grid;grid-template-columns:1.28fr .68fr .83fr 1.4fr;gap:4px;align-items:start}
+.pf-alt-weapon-core .pf-alt-field>span{font-size:9px;white-space:nowrap}
+.pf-alt-weapon-core .pf-alt-field>input{height:28px;font-size:11px;min-width:0}
+.pf-alt-weapon-more{margin-top:4px}
+.pf-alt-weapon-more summary{display:list-item;font-size:10px;cursor:pointer;color:#52685b;
+ margin-left:14px;padding:2px 0}
+.pf-alt-weapon-more summary:hover{text-decoration:underline}
+.pf-alt-weapon-more summary:focus-visible{outline:2px solid #4a7859}
+.pf-alt-weapon-extra{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;
+ background:#f6f7f5;border:1px solid #d6d7d2;padding:5px}
+.pf-alt-weapon-extra .pf-alt-field>span{font-size:9px}
+.pf-alt-weapon-extra .pf-alt-field>input{height:27px;font-size:11px}
+.pf-alt-main-right>.pf-alt-section>.pf-alt-fields{margin:5px 0 8px}
+.pf-alt-main-right>.pf-alt-section .pf-alt-rich{min-height:55px}
+.pf-alt-main-right>.pf-alt-section .pf-alt-rich .pf-rich-editable{min-height:45px}
+/* Condense the repeated action labels: one descriptor row, one effect field. */
+.pf-alt-action-card{padding:5px 7px;min-height:115px}
+.pf-alt-action-card>h4{font-size:10px;padding-bottom:3px;margin-bottom:3px}
+.pf-alt-action-fields{gap:3px}
+.pf-alt-action-fields>.pf-alt-field>span{font-size:9px}
+.pf-alt-action-fields>.pf-alt-field>input{height:26px;font-size:11px}
+.pf-alt-action-fields .pf-alt-rich{min-height:48px}
+.pf-alt-action-fields .pf-alt-rich .pf-rich-editable{min-height:39px}
+.pf-alt-action-card .pf-alt-field-long{grid-column:span 4}
+.pf-alt-action-card .pf-alt-field:nth-child(1){grid-column:span 2}
+.pf-alt-action-card .pf-alt-field:nth-child(4){grid-column:span 1}
+.pf-alt-action-card .pf-alt-field:nth-child(5){grid-column:span 4}
+/* The text mode uses ruled columns, not a stack of giant editor cards. */
+.pf-alt-manual-spells{display:grid;grid-template-columns:minmax(0,1fr);gap:5px;min-width:0}
+.pf-alt-manual-spells-double{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pf-alt-manual-column{display:grid;grid-template-columns:minmax(0,1fr) 62px 44px;
+ border:1px solid #a88c82;min-width:0;align-items:stretch}
+.pf-alt-manual-spells-double .pf-alt-manual-column{grid-template-columns:minmax(0,1fr) 48px 34px 35px}
+.pf-alt-manual-cell{min-width:0;border-right:1px solid #d2c4bd;display:flex;flex-direction:column}
+.pf-alt-manual-cell:last-child{border-right:0}
+.pf-alt-manual-cell>.pf-alt-field{display:flex;flex-direction:column;flex:1}
+.pf-alt-manual-cell>.pf-alt-field>span{font-size:9px;font-weight:bold;text-align:center;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:4px 2px;
+ background:#fbfbfa;border-bottom:1px solid #d2c4bd}
+.pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{flex:1;min-height:180px;border:0;
+ background:repeating-linear-gradient(180deg,#fff 0,#fff 24px,#e6e1de 25px);
+ padding:5px 3px}
+.pf-alt-manual-cell .pf-rich-editable{min-height:160px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-column{min-height:565px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:540px}
+.pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell .pf-rich-editable{min-height:520px}
+.pf-alt-manual-spells-double .pf-alt-manual-column{min-width:0}
+.pf-alt-manual-cell-name,.pf-alt-manual-cell-names,.pf-alt-manual-cell-spells{min-width:0}
+.pf-alt-manual-cell>.pf-alt-field{min-width:0}
+/* Keeps the skill table and the printed main spell tables legible on phones. */
+@media(max-width:900px){
+ .pf-alt-skill-list{display:flex;flex-direction:column}
+ .pf-alt-skill-head{grid-template-columns:100px repeat(6,minmax(0,1fr))}
+ .pf-alt-skill-row{grid-template-columns:100px minmax(0,1fr)}
+ .pf-alt-skill-row>.pf-alt-fields{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+@media(max-width:680px){
+ .pf-alt-manual-spells-double{grid-template-columns:1fr}
+ .pf-alt-manual-column,.pf-alt-manual-spells-double .pf-alt-manual-column{
+   grid-template-columns:minmax(0,1fr) 48px 34px 34px}
+ .pf-alt-manual-spells:not(.pf-alt-manual-spells-double) .pf-alt-manual-column{
+   grid-template-columns:minmax(0,1fr) 54px 40px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-column{min-height:300px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich{min-height:270px}
+ .pf-alt-magic-right>.pf-alt-section:last-child .pf-alt-manual-cell .pf-rich-editable{min-height:252px}
+ .pf-alt-skill-head{grid-template-columns:74px repeat(6,minmax(0,1fr))}
+ .pf-alt-skill-row{grid-template-columns:74px minmax(0,1fr)}
+ .pf-alt-skill-row>b{font-size:9px}
+ .pf-alt-skill-row .pf-alt-field>input,.pf-alt-skill-row .pf-alt-field>select{font-size:9px}
+ .pf-alt-weapon-core{grid-template-columns:1.2fr .75fr .85fr 1.2fr}
+ .pf-alt-weapon-core .pf-alt-field>span{font-size:8.5px}
+}
