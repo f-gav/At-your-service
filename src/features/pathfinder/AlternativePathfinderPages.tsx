@@ -1,4 +1,5 @@
 import {useMemo} from 'react';
+import type {ReactNode} from 'react';
 import {BookOpen, Settings2} from 'lucide-react';
 import RichField from './RichField';
 import {RANK_FIELDS, RANK_LABELS,readRank,isAutomatic,isCoreComputedField} from './rules-core';
@@ -15,7 +16,7 @@ type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
   legacyHasValues:boolean;preparedSpells:SpellView[];spellMode:'library'|'text';
   onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;
-  onOpenSpell:(spell:SpellView)=>void;
+  onOpenSpell:(spell:SpellView)=>void;onOpenSettings:()=>void;
   portraitUrl?:string;onEditPortrait:()=>void;
 };
 const ABILITIES=[['str','Сила'],['dex','Ловкость'],['con','Выносливость'],['int','Интеллект'],['wis','Мудрость'],['cha','Харизма']] as const;
@@ -31,14 +32,14 @@ const PAGE_CAPTIONS:Record<string,string>={
  '1':'Характеристики и бой','2':'Способности и снаряжение',
  '3':'Персонаж и действия','4':'Магия и заклинания','notes':'Заметки кампании',
 };
-function Section({index,title,children,wide=false}:{index:string;title:string;children:React.ReactNode;wide?:boolean}){
+function Section({index,title,children,wide=false}:{index:string;title:string;children:ReactNode;wide?:boolean}){
   return <section className={'pf-alt-section'+(wide?' pf-alt-wide':'')}>
     <h3><span>{index}</span>{title}</h3>{children}
   </section>;
 }
 export default function AlternativePathfinderPages({
  page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
- onChange,onOpenGrimoire,onOpenSpell,portraitUrl,onEditPortrait,
+ onChange,onOpenGrimoire,onOpenSpell,onOpenSettings,portraitUrl,onEditPortrait,
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
  const consumed=new Set<string>();
@@ -54,7 +55,7 @@ export default function AlternativePathfinderPages({
       (isNativeCombatComputedField(id)&&!isNativeWeaponAttackField(id)))));
   const disabled=computed&&id in displayValues;
   const value=displayValues[id]??values[id]??'';
-  const isRank=RANK_FIELDS.includes(id)||id==='spell_attack_rank'||id==='spell_dc_rank'||id==='class_dc_rank';
+  const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank'||id==='class_dc_rank';
   return <label className={'pf-alt-field'+(f.kind==='long'?' pf-alt-field-long':'')} key={id}>
     <span title={f.label}>{label}</span>
     {f.kind==='toggle'?
@@ -210,7 +211,7 @@ export default function AlternativePathfinderPages({
   <Section index="01" title="Параметры магии" wide>
    {cells(['tradition_arcane','tradition_divine','tradition_occult','tradition_primal','prepared','spontaneous',
      'spell_attack','spell_attack_rank','spell_attack_key','spell_dc','spell_dc_rank','spell_dc_key','spell_dc_item'])}
-   <button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire}><Settings2 size={16}/> Гримуар и настройки заклинаний</button>
+   <button type="button" className="pf-alt-add-spell" onClick={onOpenSettings}><Settings2 size={16}/> Настройки заклинаний</button>
   </Section>
   <Section index="02" title="Ячейки заклинаний" wide>
    <div className="pf-alt-slots">{Array.from({length:10},(_,i)=>i+1).map(n=><div className="pf-alt-slot" key={n}>
