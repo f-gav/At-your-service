@@ -24,7 +24,7 @@ import { isAdvancementField, advancementLevelCount, addAdvancementLevel, removeA
 import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank } from './rules-core';
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
-import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
+import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
@@ -144,7 +144,7 @@ export default function PathfinderSheet({
   const [spellViews,setSpellViews]=useState<SpellView[]>([]);
   const spellMode=values[PF_SPELL_MODE]==='text'?'text':'library';
   const savedSpells=useMemo(()=>readSavedSpells(values[PF_SPELL_SELECTION]),[values[PF_SPELL_SELECTION]]);
-  const availableTraditions=useMemo(()=>selectedTraditions(values[PF_SPELL_TRADITIONS]),[values[PF_SPELL_TRADITIONS]]);
+  const availableTraditions=useMemo(()=>effectivePfTraditions(values),[values[PF_SPELL_TRADITIONS]]);
   const availableClasses=useMemo(()=>selectedClasses(values[PF_SPELL_CLASSES]),[values[PF_SPELL_CLASSES]]);
   useEffect(()=>{
     if(spellMode!=='library')return;
@@ -254,6 +254,24 @@ export default function PathfinderSheet({
   const {error}=auto;
 
   function change(id: string, value: FieldValue) {
+    if(id===PF_SPELL_TRADITIONS){
+      const traditions=selectedTraditions(value);
+      setValues(previous=>{
+        const next={...previous,[PF_SPELL_TRADITIONS]:JSON.stringify(traditions)};
+        for(const tradition of PF_TRADITION_IDS)next['tradition_'+tradition]=traditions.includes(tradition);
+        return next;
+      });
+      return;
+    }
+    if(id.startsWith('tradition_')&&PF_TRADITION_IDS.some(t=>id==='tradition_'+t)&&typeof value==='boolean'){
+      setValues(previous=>{
+        const next={...previous,[id]:value};
+        const traditions=PF_TRADITION_IDS.filter(t=>next['tradition_'+t]===true);
+        next[PF_SPELL_TRADITIONS]=JSON.stringify(traditions);
+        return next;
+      });
+      return;
+    }
     if(spellcastingConfigured && (id==='spell_attack_rank'||id==='spell_dc_rank') && typeof value==='string'){
       setValues(previous=>setSpellcastingProficiency(previous,Number(value)));
       return;
