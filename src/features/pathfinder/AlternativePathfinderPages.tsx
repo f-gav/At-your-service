@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import type {ReactNode} from 'react';
-import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Footprints, History, Gem, Compass, BookMarked, Scroll, Languages, Star, CircleDot, Zap} from 'lucide-react';
+import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap} from 'lucide-react';
 import RichField from './RichField';
 import {RANK_FIELDS, RANK_LABELS,readRank,isAutomatic,isCoreComputedField} from './rules-core';
 import {isSpellcastingComputedField,isSpellcastingConfigured} from './rules-spellcasting';
