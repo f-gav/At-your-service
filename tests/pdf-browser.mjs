@@ -22,7 +22,7 @@ try {
     {system:'prmoon',notes:false,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
-    {system:'pf2e',notes:false,extras:false,variant:'alternative',expectedMin:4,expectedMax:7},
+    {system:'pf2e',notes:false,extras:false,variant:'alternative',expected:4},
     {system:'prmoon',notes:false,extras:true,expected:7},
   ];
   for(const [index,test] of cases.entries()){
