@@ -121,7 +121,7 @@ export default function PathfinderSheet({
   const legacyHasValues = useMemo(() => {
     const stored = character.details.pathfinderSheet;
     return !!stored && typeof stored === 'object' && !Array.isArray(stored)
-      && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion');
+      && Object.keys(stored).some(key => key !== 'name' && key !== 'schemaVersion' && key !== 'pf2e_layout');
   }, [character.details]);
   const automatic = isAutomatic(values, legacyHasValues);
   const spellcastingConfigured=isSpellcastingConfigured(values);
