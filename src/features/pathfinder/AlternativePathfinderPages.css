@@ -78,3 +78,16 @@
  .pf-alt-variant-picker{flex-wrap:wrap}
 }
 @media print{.pf-alt-page{break-after:page;box-shadow:none;border:0;margin:0;min-height:0}.pf-alt-stack{gap:0}.pf-alt-variant-picker{display:none}.pf-alt-add-spell{display:none}}
+
+/* The view switch is a separate toolbar row, never overlaying export/settings. */
+.pf-toolbar>.pf-alt-variant-picker{grid-column:1/-1;grid-row:2;justify-self:center}
+.pf-toolbar>.pf-toolbar-right{grid-column:3;grid-row:1}
+.pf-alt-stack.pf-monochrome .pf-alt-page{filter:grayscale(1)}
+@media(max-width:1120px){
+ .pf-toolbar>.pf-alt-variant-picker{grid-column:1/-1;grid-row:3;justify-self:start}
+ .pf-toolbar>.pf-toolbar-right{grid-column:2;grid-row:1}
+}
+@media(max-width:550px){
+ .pf-toolbar>.pf-alt-variant-picker{justify-self:stretch}
+ .pf-alt-variant-picker button{flex:1;font-size:11px}
+}
