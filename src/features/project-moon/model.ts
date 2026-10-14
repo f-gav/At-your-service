@@ -26,6 +26,7 @@ export type MoonSheetData = {
   fields: Record<string, string>;
   autoVitals: boolean;
   smoothWeaponSwitch: boolean;
+  inventoryColumns: number;
   pageOrder: MoonPage[];
   maxOverrides: Partial<Record<MoonResourceId, string>>;
   weapons: MoonWeapon[];
@@ -43,6 +44,7 @@ export function emptyMoonSheet(): MoonSheetData {
     fields: {},
     autoVitals: false,
     smoothWeaponSwitch: true,
+    inventoryColumns: 1,
     pageOrder: [...DEFAULT_MOON_ORDER],
     maxOverrides: {},
     weapons: [newMoonWeapon('weapon-1'), newMoonWeapon('weapon-2')],
@@ -78,6 +80,8 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
       typeof entry[1] === 'string')),
     autoVitals: stored.autoVitals === true,
     smoothWeaponSwitch: stored.smoothWeaponSwitch !== false,
+    inventoryColumns: typeof stored.inventoryColumns === 'number' && Number.isInteger(stored.inventoryColumns)
+      ? Math.max(1, Math.min(4, stored.inventoryColumns)) : 1,
     pageOrder: parseMoonOrder(stored.pageOrder),
     maxOverrides: Object.fromEntries(['hp','st','sp','light']
       .filter(key => typeof overrides[key] === 'string')
