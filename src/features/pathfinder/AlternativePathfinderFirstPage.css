@@ -329,3 +329,19 @@
  .pf-alt-page--first .pf-alt-p1-level .pf-alt-field>input{max-width:100%;min-width:0}
  .pf-alt-page--first .pf-alt-p1-origins .pf-alt-field{min-width:0}
 }
+
+/* Prevent the two longest ability names from pushing partial-boost checkboxes
+   outside the page on narrow screens. Labels remain available to screen readers. */
+@media(max-width:640px){
+ .pf-alt-page--first .pf-alt-ability{grid-template-columns:34px minmax(0,1fr);gap:0 2px;min-width:0}
+ .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
+   min-width:0;max-width:100%;font-size:10px;line-height:1.05;
+   white-space:normal;overflow-wrap:anywhere}
+ .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
+   min-width:0;max-width:100%;justify-content:flex-start}
+ .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
+   position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+ .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input[type=checkbox]{
+   width:12px;height:12px;min-width:12px;max-width:12px;margin:0}
+ .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{width:33px!important}
+}
