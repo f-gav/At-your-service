@@ -81,10 +81,62 @@ try {
       const name=first.getByRole('textbox',{name:'Имя персонажа'});
       await name.fill('Изменённый герой');
       assert.equal(await name.inputValue(),'Изменённый герой','HTML input remains editable');
+      const topAlignment=await first.evaluate(root=>{
+        const level=root.querySelector('.pf-alt-p1-level-diamond');
+        const levelInput=level?.querySelector('input');
+        const xp=root.querySelector('.pf-alt-p1-experience input');
+        const xpLabel=root.querySelector('.pf-alt-p1-experience .pf-alt-field>span');
+        if(!level||!levelInput||!xp||!xpLabel)return null;
+        const gem=level.getBoundingClientRect(),levelRect=levelInput.getBoundingClientRect();
+        const xpRect=xp.getBoundingClientRect(),xpLabelRect=xpLabel.getBoundingClientRect();
+        const originFields=[
+          ...root.querySelectorAll('.pf-alt-p1-ancestry-detail>.pf-alt-field'),
+          ...root.querySelectorAll('.pf-alt-p1-origins>section:nth-child(2)>.pf-alt-field:last-child'),
+          ...root.querySelectorAll('.pf-alt-p1-origins>section:nth-child(3)>.pf-alt-field:last-child')
+        ];
+        const detailRects=originFields.map(field=>{
+          const label=field.querySelector(':scope>span')?.getBoundingClientRect();
+          const input=field.querySelector('input,select')?.getBoundingClientRect();
+          return label&&input?{labelTop:label.top,labelBottom:label.bottom,
+            inputTop:input.top,inputBottom:input.bottom,height:input.height}:null;
+        });
+        const boost=root.querySelector('.pf-alt-ability>.pf-alt-field:nth-child(2)');
+        const boostBox=boost?.querySelector('input')?.getBoundingClientRect();
+        const boostLabel=boost?.querySelector('span')?.getBoundingClientRect();
+        const abilityLabel=root.querySelector('.pf-alt-ability>.pf-alt-field:first-child>span');
+        const abilityInput=root.querySelector('.pf-alt-ability>.pf-alt-field:first-child>input');
+        return {gemX:gem.x+gem.width/2,gemY:gem.y+gem.height/2,
+          levelX:levelRect.x+levelRect.width/2,levelY:levelRect.y+levelRect.height/2,
+          xpX:xpRect.x,xpY:xpRect.y,xpWidth:xpRect.width,
+          gemRight:gem.right,xpLabelBottom:xpLabelRect.bottom,
+          details:detailRects,checkboxX:boostBox?.x,labelX:boostLabel?.x,
+          partialText:boost?.textContent?.trim(),
+          abilityFont:abilityLabel&&getComputedStyle(abilityLabel).fontFamily,
+          abilityBorderTop:abilityInput&&getComputedStyle(abilityInput).borderTopLeftRadius,
+          abilityBorderBottom:abilityInput&&getComputedStyle(abilityInput).borderBottomLeftRadius};
+      });
+      assert.ok(topAlignment,'Gemstone and XP controls must be present');
+      assert.ok(Math.abs(topAlignment.gemX-topAlignment.levelX)<5&&
+        Math.abs(topAlignment.gemY-topAlignment.levelY)<5,
+        'Level value must be centered in diamond: '+JSON.stringify(topAlignment));
+      assert.ok(topAlignment.xpX<topAlignment.gemRight&&
+        topAlignment.xpY>topAlignment.xpLabelBottom,
+        'XP field must overlap the right half of the diamond, with its label above');
+      assert.equal(topAlignment.details.length,4,'Four smaller ancestry and notes fields');
+      assert.ok(topAlignment.details.every(d=>d&&d.labelTop>=d.inputTop-1&&
+        d.labelBottom<d.inputBottom&&Math.abs(d.height-40)<2),
+        'Four lower labels must sit inside equal-height bordered fields: '+JSON.stringify(topAlignment.details));
+      assert.ok(topAlignment.checkboxX<topAlignment.labelX&&
+        topAlignment.partialText==='Частич. повышение',
+        'Partial boost checkbox must appear to the left of its shorter label');
+      assert.ok(topAlignment.abilityFont.includes('Arial')&&
+        topAlignment.abilityBorderTop==='0px'&&topAlignment.abilityBorderBottom!=='0px',
+        'Ability name must be sans-serif and modifier rectangle rounded only below');
       const hero=first.getByRole('button',{name:'Пункт героизма 1'});
       const before=await hero.getAttribute('aria-pressed');
       await hero.click();
       assert.notEqual(await hero.getAttribute('aria-pressed'),before,'Printed hero hexagon toggles');
+      assert.equal(await hero.locator('svg path').count(),0,'Filled hero points cannot display a checkmark');
       const dying=first.locator('.pf-alt-dying-skulls button');
       assert.equal(await dying.count(),4,'All four death skulls remain interactive');
       await dying.nth(2).click();
