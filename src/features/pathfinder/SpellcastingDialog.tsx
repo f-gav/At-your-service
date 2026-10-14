@@ -91,11 +91,15 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
             Для полного расчёта выбери характеристику, умение и заполни уровень и модификатор характеристики на первой странице.
           </p>}
         <h3>Режим заклинаний</h3>
-        <div className="pf-spell-mode-options" role="group" aria-label="Режим заклинаний">
-          <button type="button" aria-pressed={mode==='library'} disabled={disabled}
-            onClick={()=>onChange(PF_SPELL_MODE,'library')}>Библиотека</button>
-          <button type="button" aria-pressed={mode==='text'} disabled={disabled}
-            onClick={()=>onChange(PF_SPELL_MODE,'text')}>Текст</button>
+        <div className="pf-spell-mode-options">
+          <label className="pf-spell-mode-toggle">
+            <span>Библиотека</span>
+            <input type="checkbox" role="switch" aria-label="Режим заклинаний: библиотека"
+              checked={mode==='library'} disabled={disabled}
+              onChange={event=>onChange(PF_SPELL_MODE,event.target.checked?'library':'text')}/>
+            <span className="pf-spell-mode-track" aria-hidden="true"><span/></span>
+            <span>Текст</span>
+          </label>
           <button type="button" disabled={disabled||mode==='text'} onClick={onOpenGrimoire}>Открыть гримуар</button>
         </div>
         <p className="pf-spell-dialog-footnote">В текстовом режиме выбранные заклинания скрыты на листе, но сохраняются в гримуаре. Ручные записи также сохраняются при переключении.</p>
