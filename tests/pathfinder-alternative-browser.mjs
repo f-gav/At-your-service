@@ -53,6 +53,13 @@ try {
     assert.ok(metrics.every(m=>m.scrollW<=m.clientW+4),
       'Text inputs/columns must fit inside each HTML page: '+JSON.stringify(metrics.filter(m=>m.scrollW>m.clientW+4)));
     if(width===1440){
+      const first=pages.first();
+      assert.equal(await first.locator('.pf-alt-p1-logo').count(),1,'PF logo is placed above the first page');
+      assert.equal(await first.locator('.pf-alt-p1-origins>section').count(),3,'Ancestry, background and class share one row');
+      assert.equal(await first.locator('.pf-alt-p1-utility>.pf-alt-section').count(),3,'Languages, perception and speed share one row');
+      await first.screenshot({path:'test-artifacts/pf-alt-1440-page-1-base.png'});
+    }
+    if(width===1440){
       const first=pages.nth(0),fourth=pages.nth(3);
       const name=first.getByRole('textbox',{name:'Имя персонажа'});
       await name.fill('Изменённый герой');
