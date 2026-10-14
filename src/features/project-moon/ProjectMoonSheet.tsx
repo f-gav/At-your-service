@@ -283,10 +283,20 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       <input type="text" disabled={editLocked} value={sheet.fields[key] ?? ''} placeholder={placeholder}
         onChange={event => change(key, event.target.value)} maxLength={220} />
     </label>;
+  const textSizeControls = (key: string) => <div className="moon-text-size-controls" role="group" aria-label={'Размер текста: ' + key}>
+    <span className="moon-text-size-value" aria-live="polite">{sheet.textSizes[key] ?? 12}</span>
+    <button type="button" disabled={editLocked || (sheet.textSizes[key] ?? 12) >= 28}
+      aria-label="Увеличить размер текста" title="Увеличить текст"
+      onClick={() => setSheet(old => ({ ...old, textSizes: { ...old.textSizes, [key]: Math.min(28, (old.textSizes[key] ?? 12) + 1) } }))}>+</button>
+    <button type="button" disabled={editLocked || (sheet.textSizes[key] ?? 12) <= 8}
+      aria-label="Уменьшить размер текста" title="Уменьшить текст"
+      onClick={() => setSheet(old => ({ ...old, textSizes: { ...old.textSizes, [key]: Math.max(8, (old.textSizes[key] ?? 12) - 1) } }))}>−</button>
+  </div>;
   const longField = (label: string, key: string, placeholder = '', extraClass = '') =>
-    <section className={'moon-long-field ' + extraClass} key={key}>
+    <section className={'moon-long-field moon-resizable-text ' + extraClass} key={key} style={{ '--moon-editor-text-size': (sheet.textSizes[key] ?? 12) + 'px' } as CSSProperties}>
       <RichField id={'moon-' + key} label={label} value={sheet.fields[key] ?? ''}
         onChange={value => change(key, value)} placeholder={placeholder} disabled={editLocked} grow />
+      {!previewMode && textSizeControls(key)}
     </section>;
   const sectionTitle = (index: number, title: string) =>
     <h3 className="moon-section-title"><span>{String(index).padStart(2, '0')}</span>{title}</h3>;
