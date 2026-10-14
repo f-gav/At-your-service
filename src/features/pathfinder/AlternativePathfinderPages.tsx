@@ -121,9 +121,31 @@ export default function AlternativePathfinderPages({
  }
  function spellPanel(prefix:string,title:string,index:string){
   const keys=matching(prefix).filter(id=>!['cantrip_rank','cantrips_daily','focus_rank','focus_point_1','focus_point_2','focus_point_3'].includes(id));
-  if(spellMode==='text')return <Section index={index} title={title} wide>
-    <div className="pf-alt-fields pf-alt-spell-text">{keys.map(id=>field(id))}</div>
-   </Section>;
+  if(spellMode==='text'){
+    const twoColumns=prefix==='spellbook_'||prefix==='rituals_';
+    const sides=twoColumns?['left','right']:[''];
+    const columns=prefix==='spellbook_'?
+       [['names','Название'],['actions','Действия'],['ranks','Круг'],['prepared','Подг.']]:
+      prefix==='rituals_'?
+       [['name','Название'],['rank','Круг'],['cost','Стоимость']]:
+      prefix==='cantrip_'?
+       [['names','Название'],['actions','Действия'],['prepared','Подг.']]:
+      prefix==='focus_'?
+       [['spells','Название'],['actions','Действия']]:
+       [['spells','Название'],['actions','Действия'],['frequency','Частота']];
+    return <Section index={index} title={title} wide>
+     <div className={'pf-alt-manual-spells'+(twoColumns?' pf-alt-manual-spells-double':'')}>
+      {sides.map(side=><div className="pf-alt-manual-column" key={side||prefix}>
+       {columns.map(([suffix,label])=>{
+        const id=twoColumns?prefix+side+'_'+suffix:prefix+suffix;
+        return <div key={id} className={'pf-alt-manual-cell pf-alt-manual-cell-'+suffix}>
+         {field(id,label)}
+        </div>;
+       })}
+      </div>)}
+     </div>
+    </Section>;
+  }
   keys.forEach(id=>consumed.add(id));
   const rows=preparedSpells.filter(s=>prefix.startsWith('cantrip_')?s.spell.rank===0&&s.spell.kind==='cantrip':
    prefix.startsWith('focus_')?s.spell.kind==='focus':
@@ -179,8 +201,19 @@ export default function AlternativePathfinderPages({
      </Section>
     </div>
     <Section index="★" title="Пункты героизма" className="pf-alt-hero">
-      <div className="pf-alt-hero-marks">
-       {['hero_1','hero_2','hero_3'].map(id=>field(id))}
+      <div className="pf-alt-hero-marks" role="group" aria-label="Пункты героизма">
+       {['hero_1','hero_2','hero_3'].map((id,i)=>{
+        consumed.add(id);
+        const active=values[id]===true;
+        return <button type="button" className="pf-alt-hero-point" key={id} aria-pressed={active}
+          aria-label={'Пункт героизма '+(i+1)} onClick={()=>onChange(id,!active)}>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+           <polygon points="11,3 29,3 38,20 29,37 11,37 2,20"
+             fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.6"/>
+           {active&&<path d="M12 20l5 5 11-12" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>}
+          </svg>
+         </button>;
+       })}
       </div>
       <p>Получите 1 в начале встречи. Потратьте 1 на перебросок проверки или все, чтобы избежать смерти.</p>
     </Section>
@@ -220,11 +253,17 @@ export default function AlternativePathfinderPages({
    </div>
    <div className="pf-alt-main-columns">
     <Section index="VI" title="Навыки" className="pf-alt-skills-section">
-     <div className="pf-alt-skill-list">{SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
-      <b>{label}</b><div className="pf-alt-fields">
-       {matching('skill_'+id+'_').map(key=>field(key,key.split('_').pop()))}
+     <div className="pf-alt-skill-list">
+      <div className="pf-alt-skill-head" aria-hidden="true">
+       <b>Навык</b><span>Итог</span><span>Влад.</span><span>Хар.</span><span>Ур.</span><span>Пред.</span><span>Штр.</span>
       </div>
-     </div>)}</div>
+      {SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
+       <b>{label}</b>
+       <div className="pf-alt-fields">
+        {matching('skill_'+id+'_').map(key=>field(key,key.split('_').pop()))}
+       </div>
+      </div>)}
+     </div>
      {cells(['skills_notes'])}
     </Section>
     <div className="pf-alt-main-right">
@@ -232,10 +271,20 @@ export default function AlternativePathfinderPages({
       {cells(['languages','perception','perception_rank','perception_ability','perception_prof','perception_item','perception_notes','speed','movement'])}
      </Section>
      <Section index="VIII" title="Удары">
-      <div className="pf-alt-weapon-list">{[1,2,3,4,5].map(i=><div className="pf-alt-weapon" key={i}>
-        <h4><Swords size={13} aria-hidden="true"/> {i<=3?'Ближний бой':'Дистанционное'} · {i}</h4>
-        <div className="pf-alt-fields">{matching('weapon_'+i+'_').map(id=>field(id))}</div>
-       </div>)}</div>
+      <div className="pf-alt-weapon-list">{[1,2,3,4,5].map(i=>{
+        const core=['name','attack','damage','traits'].map(suffix=>'weapon_'+i+'_'+suffix);
+        const extra=matching('weapon_'+i+'_').filter(id=>!core.includes(id));
+        return <div className="pf-alt-weapon" key={i}>
+         <h4><Swords size={13} aria-hidden="true"/> {i<=3?'Ближний бой':'Дистанционное'} · {i}</h4>
+         <div className="pf-alt-weapon-core">
+          {core.map((id,j)=>field(id,['Оружие','Атака','Урон','Свойства'][j]))}
+         </div>
+         {extra.length>0&&<details className="pf-alt-weapon-more">
+          <summary>Бонусы и дополнительные свойства</summary>
+          <div className="pf-alt-weapon-extra">{extra.map(id=>field(id))}</div>
+         </details>}
+        </div>;
+       })}</div>
       {cells(['weapon_other','critical_effects'])}
       <div className="pf-alt-fields pf-alt-ranks">{matching('weapon_rank_').map(id=>field(id))}</div>
      </Section>
@@ -322,7 +371,7 @@ export default function AlternativePathfinderPages({
     <div className="pf-alt-action-cards">
      {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
       <h4><Zap size={14} aria-hidden="true"/> Действие {i}</h4>
-      <div className="pf-alt-action-fields">{matching('action_'+i+'_').map(id=>field(id))}</div>
+      <div className="pf-alt-action-fields">{matching('action_'+i+'_').map(id=>field(id,({name:'Название',cost:'Действия',traits:'Дескрипторы',page:'Стр.',effect:'Эффект',condition:'Условие'} as Record<string,string>)[id.split('_').pop()||'']||undefined))}</div>
      </div>)}
     </div>
    </Section>
@@ -330,7 +379,7 @@ export default function AlternativePathfinderPages({
     <div className="pf-alt-action-cards">
      {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
       <h4><CircleDot size={14} aria-hidden="true"/> Реакция {i}</h4>
-      <div className="pf-alt-action-fields">{matching('reaction_'+i+'_').map(id=>field(id))}</div>
+      <div className="pf-alt-action-fields">{matching('reaction_'+i+'_').map(id=>field(id,({name:'Название',cost:'Действия',traits:'Дескрипторы',page:'Стр.',effect:'Эффект',condition:'Условие'} as Record<string,string>)[id.split('_').pop()||'']||undefined))}</div>
      </div>)}
     </div>
    </Section>
