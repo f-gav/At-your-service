@@ -394,7 +394,7 @@ export default function PathfinderSheet({
         fieldId.endsWith('_ranks')||fieldId.endsWith('_rank')?String(spell.spell.rank):
         fieldId.endsWith('_prepared')?'✓':
         fieldId.endsWith('_frequency')||fieldId.endsWith('_cost')?'—':spell.name;
-      return <button key={fieldId} type="button" className="pf-spell-library-field pf-field"
+      return <button key={fieldId} type="button" className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}`}
         style={style} disabled={editLocked} onClick={()=>setGrimoireOpen(true)}
         title="Открыть гримуар для выбора заклинаний" aria-label={field.label+', выбрать заклинания'}>
         {list.map(spell=><span key={spell.id}>{text(spell)}</span>)}
