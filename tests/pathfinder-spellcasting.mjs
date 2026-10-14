@@ -123,11 +123,10 @@ assert.match(sheet,/PF_SPELL_SELECTION/);
 assert.match(sheet,/spellMode==='library'/);
 assert.match(sheet,/spellMode==='text'/);
 assert.match(sheet,/grimoireOpen&&<SpellGrimoire/);
-assert.match(sheet,/openGrimoire\(spell\.id\)/,'Clicking a rendered spell opens that specific card');
+assert.match(sheet,/setOpenSpellCard\(spell\)/,'Clicking a row must open that exact spell directly');
 assert.match(sheet,/className="pf-spell-library-entry"/,'Library spell names are individually clickable');
-assert.match(sheet,/initialSpellId=\{grimoireInitialSpell\}/,'Details selection passes to grimoire');
-const grimoireSource=read('../src/features/pathfinder/SpellGrimoire.tsx');
-assert.match(grimoireSource,/items\.find\(v=>v\.id===initialSpellId\)/,'Grimoire opens requested spell description');
+assert.match(sheet,/openSpellCard&&<div className="pf-character-spell-overlay"/,'Clicked spell has a direct detail modal');
+assert.match(sheet,/openSpellCard\.description/,'Spell modal shows the selected spell description');
 
 assert.match(dialog,/role="dialog" aria-modal="true"/);
 assert.match(dialog,/closeCallback\.current\(\)/);
