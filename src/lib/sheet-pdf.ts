@@ -137,6 +137,15 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
   if(system==='pf2e'){stack.style.width='960px';if(alternative)stack.style.maxWidth='none';}
   for(const oldPage of original){
     const page=duplicateForExport(oldPage);
+    if(alternative){
+      // The HTML view uses the same input fields as the classic sheet, but
+      // editing controls must not be printed as part of a PDF export.
+      page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span').forEach(node=>node.remove());
+      page.querySelectorAll<HTMLElement>('.pf-alt-spell-row').forEach(node=>{
+        node.style.cursor='default';
+        node.style.textDecoration='none';
+      });
+    }
     if(system==='prmoon'){
       prepareMoonCombat(page);
       page.style.width='210mm';
