@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {initialSheetValues,persistSheetValues} from '../src/features/pathfinder/sheet-values.ts';
+const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
+const original=initialSheetValues({pathfinderSheet:{name:'Герой',level:'5',ability_int:'+4',spell_dc:'24',pf2e_layout:'classic',pf_spell_library_selection:'[{"id":"spell","prepared":true}]'}},'Герой');
+const changed=initialSheetValues(persistSheetValues({pathfinderSheet:original},{...original,pf2e_layout:'alternative'},'Герой'),'Герой');
+assert.equal(changed.pf2e_layout,'alternative');
+for(const key of ['level','ability_int','spell_dc','pf_spell_library_selection'])assert.equal(changed[key],original[key]);
+const app=read('../src/App.tsx'),sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
+const html=read('../src/features/pathfinder/AlternativePathfinderPages.tsx');
+for(const label of ['Альтернативный PF2e','Классический PF2e'])assert.ok(app.includes(label)||sheet.includes(label));
+for(const marker of ['page===1','page===2','page===3','page===4',"page==='notes'",'RichField'])assert.ok(html.includes(marker),marker);
+assert.ok(app.includes('pendingImport&&'));
+assert.ok(read('../src/lib/sheet-pdf.ts').includes("'.pf-alt-stack > .pf-alt-page'"));
+console.log('Alternative PF2e model, HTML pages and import flow checked.');
