@@ -345,3 +345,9 @@
 .pf-spell-library-field{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;border:0;background:transparent;color:#275ba3;text-align:left;cursor:pointer;white-space:nowrap;line-height:1.5;padding:0;font-size:clamp(6px,.86cqw,12px);font-family:inherit}
 .pf-spell-library-field span{flex:none;overflow:hidden;text-overflow:ellipsis;line-height:2}
 .pf-spell-library-field:hover{background:#d2dfec44}
+
+/* PF spell library rows: legible lettering, centered action/preparation values. */
+.pf-spell-library-field{font-size:clamp(9px,1.16cqw,16px);line-height:1.5}
+.pf-spell-library-field span{line-height:1.75}
+.pf-spell-library-field.pf-spell-library-centered{align-items:center;text-align:center}
+.pf-spell-library-field.pf-spell-library-centered span{width:100%;text-align:center}
