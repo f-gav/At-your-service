@@ -720,3 +720,27 @@
   box-shadow:0 5px 18px #22222213;
   font-size:13px;
 }
+
+/* Per-field font sizing; 1lh keeps the ruled background aligned to each line. */
+.moon-paper .moon-resizable-text .pf-rich-editable {
+  font-size: var(--moon-editor-text-size,12px);
+  line-height: 1.35;
+}
+.moon-resizable-text { position: relative; }
+.moon-resizable-text .pf-rich-editable { padding-bottom: 30px; }
+.moon-text-size-controls {
+  position: absolute; right: 7px; bottom: 7px; z-index: 6;
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px 5px; border-radius: 12px;
+  background: #f0f1f2d9; color: #202325;
+}
+.moon-text-size-controls button {
+  border: 0; border-radius: 50%; width: 20px; height: 20px;
+  background: #fff; color: #111; padding: 0;
+  font-size: 16px; line-height: 20px; text-align: center; cursor: pointer;
+}
+.moon-text-size-controls button:disabled { opacity: .35; cursor: default; }
+.moon-text-size-value { display: none; font-size: 14px; min-width: 18px; text-align: center; }
+.moon-text-size-controls:hover .moon-text-size-value,
+.moon-text-size-controls:focus-within .moon-text-size-value { display: inline; }
+@media print { .moon-text-size-controls { display: none !important; } }
