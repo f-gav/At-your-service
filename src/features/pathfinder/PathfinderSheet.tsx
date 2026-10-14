@@ -257,7 +257,7 @@ export default function PathfinderSheet({
     if(id===PF_SPELL_TRADITIONS){
       const traditions=selectedTraditions(value);
       setValues(previous=>{
-        const next={...previous,[PF_SPELL_TRADITIONS]:JSON.stringify(traditions)};
+        const next:SheetValues={...previous,[PF_SPELL_TRADITIONS]:JSON.stringify(traditions)};
         for(const tradition of PF_TRADITION_IDS)next['tradition_'+tradition]=traditions.includes(tradition);
         return next;
       });
@@ -266,7 +266,7 @@ export default function PathfinderSheet({
     if(id.startsWith('tradition_')&&PF_TRADITION_IDS.some(t=>id==='tradition_'+t)&&typeof value==='boolean'){
       setValues(previous=>{
         const original=effectivePfTraditions(previous);
-        const next={...previous,[id]:value};
+        const next:SheetValues={...previous,[id]:value};
         const traditions=PF_TRADITION_IDS.filter(t=>t===id.slice('tradition_'.length)?value:original.includes(t));
         for(const tradition of PF_TRADITION_IDS)next['tradition_'+tradition]=traditions.includes(tradition);
         next[PF_SPELL_TRADITIONS]=JSON.stringify(traditions);
