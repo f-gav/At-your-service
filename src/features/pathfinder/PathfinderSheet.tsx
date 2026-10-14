@@ -268,6 +268,7 @@ export default function PathfinderSheet({
         const original=effectivePfTraditions(previous);
         const next={...previous,[id]:value};
         const traditions=PF_TRADITION_IDS.filter(t=>t===id.slice('tradition_'.length)?value:original.includes(t));
+        for(const tradition of PF_TRADITION_IDS)next['tradition_'+tradition]=traditions.includes(tradition);
         next[PF_SPELL_TRADITIONS]=JSON.stringify(traditions);
         return next;
       });
