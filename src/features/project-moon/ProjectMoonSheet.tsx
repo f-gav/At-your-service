@@ -427,8 +427,26 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           {resourceCards()}
         </section>
         <section className="moon-section moon-inventory">
-          {sectionTitle(3, 'Инвентарь')}
-          {longField('Инвентарь', 'inventory', 'Предметы, снаряжение и заметки…', 'moon-lined')}
+          <div className="moon-inventory-heading">
+            {sectionTitle(3, 'Инвентарь')}
+            <label className="moon-inventory-columns-control">
+              <span>Колонок</span>
+              <select aria-label="Количество колонок инвентаря" disabled={editLocked}
+                value={sheet.inventoryColumns}
+                onChange={event => setSheet(old => ({ ...old, inventoryColumns: Number(event.target.value) }))}>
+                {[1, 2, 3, 4].map(count => <option key={count} value={count}>{count}</option>)}
+              </select>
+            </label>
+          </div>
+          <div className="moon-inventory-grid" style={{ '--moon-inventory-columns': sheet.inventoryColumns } as CSSProperties}>
+            {Array.from({ length: sheet.inventoryColumns }, (_, index) => {
+              const key = index === 0 ? 'inventory' : 'inventory' + (index + 1);
+              return <div className="moon-inventory-column" key={key}>
+                {longField('Инвентарь, колонка ' + (index + 1), key,
+                  index === 0 ? 'Предметы, снаряжение и заметки…' : '', 'moon-lined')}
+              </div>;
+            })}
+          </div>
         </section>
       </>}
 
