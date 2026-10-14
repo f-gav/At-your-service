@@ -200,34 +200,50 @@ export default function AlternativePathfinderPages({
    <p>{String(page).padStart(2,'0')} / 04 · Pathfinder 2e · Remaster / Legacy</p>
  </header>}
  {page===1&&<>
-   <div className="pf-alt-page1-top">
-    <div className="pf-alt-identity-main">
-     <Section index="I" title="Персонаж">
-      <div className="pf-alt-identity-grid">
-       {['name','player','level','experience','ancestry','background','character_class','heritage','size'].map(id=>field(id))}
-      </div>
-      <div className="pf-alt-identity-notes">
-       {['background_notes','class_notes'].map(id=>field(id))}
-      </div>
-     </Section>
+   <div className="pf-alt-p1-top">
+    <div className="pf-alt-p1-logo" role="img" aria-label="Pathfinder — бланк персонажа">
+     <strong>PATHFINDER</strong><span>БЛАНК ПЕРСОНАЖА</span>
     </div>
-    <Section index="★" title="Пункты героизма" className="pf-alt-hero">
-      <div className="pf-alt-hero-marks" role="group" aria-label="Пункты героизма">
-       {['hero_1','hero_2','hero_3'].map((id,i)=>{
-        consumed.add(id);
-        const active=values[id]===true;
-        return <button type="button" className="pf-alt-hero-point" key={id} aria-pressed={active}
-          aria-label={'Пункт героизма '+(i+1)} onClick={()=>onChange(id,!active)}>
-          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-           <polygon points="11,3 29,3 38,20 29,37 11,37 2,20"
-             fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.6"/>
-           {active&&<path d="M12 20l5 5 11-12" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>}
-          </svg>
-         </button>;
-       })}
-      </div>
-      <p>Получите 1 в начале встречи. Потратьте 1 на перебросок проверки или все, чтобы избежать смерти.</p>
-    </Section>
+    <div className="pf-alt-p1-name">
+     <h3 className="pf-alt-p1-heading">Имя персонажа</h3>
+     {field('name','Имя персонажа')}
+     {field('player','Имя игрока')}
+    </div>
+    <div className="pf-alt-p1-level">
+     <h3 className="pf-alt-p1-heading">Уровень</h3>
+     <div className="pf-alt-p1-level-diamond">{field('level','Уровень')}</div>
+     {field('experience','Опыт')}
+    </div>
+    <div className="pf-alt-p1-hero">
+     <h3 className="pf-alt-p1-heading">Пункты героизма</h3>
+     <div className="pf-alt-hero-marks" role="group" aria-label="Пункты героизма">
+      {['hero_1','hero_2','hero_3'].map((id,i)=>{
+       consumed.add(id);const active=values[id]===true;
+       return <button type="button" className="pf-alt-hero-point" key={id} aria-pressed={active}
+        aria-label={'Пункт героизма '+(i+1)} onClick={()=>onChange(id,!active)}>
+        <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+         <polygon points="11,3 29,3 38,20 29,37 11,37 2,20"
+          fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.6"/>
+         {active&&<path d="M12 20l5 5 11-12" fill="none" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>}
+        </svg>
+       </button>;
+      })}
+     </div>
+     <p>Получите 1 в начале встречи. Потратьте 1 для переброска проверки или все, чтобы избежать смерти.</p>
+    </div>
+   </div>
+   <div className="pf-alt-p1-origins">
+    <section><h3 className="pf-alt-p1-heading">Народ</h3>
+     {field('ancestry','Народ')}<div className="pf-alt-p1-ancestry-detail">
+      {field('heritage','Родословная и дескрипторы')}{field('size','Размер')}
+     </div>
+    </section>
+    <section><h3 className="pf-alt-p1-heading">Происхождение</h3>
+     {field('background','Происхождение')}{field('background_notes','Примечания')}
+    </section>
+    <section><h3 className="pf-alt-p1-heading">Класс</h3>
+     {field('character_class','Класс')}{field('class_notes','Примечания')}
+    </section>
    </div>
    <Section index="II" title="Характеристики" className="pf-alt-abilities-section" wide>
     <div className="pf-alt-abilities">
