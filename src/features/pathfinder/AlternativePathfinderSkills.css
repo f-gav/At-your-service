@@ -46,8 +46,8 @@
  .pf-alt-page.pf-alt-page--first .pf-alt-skills-section{grid-template-rows:auto minmax(0,1fr)}
  .pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-skill-list{display:flex;flex-direction:column;justify-content:space-between}
  .pf-alt-page.pf-alt-page--first .pf-alt-skill-row{grid-template-columns:minmax(0,29%) 52px 19px minmax(0,1fr);min-height:42px;flex:1}
- .pf-alt-page.pf-alt-page--first .pf-alt-skill-row>b{font-size:18px;line-height:37px}
- .pf-alt-skill-row .pf-paper-lore-name{height:37px;font-size:18px}
+ .pf-alt-page.pf-alt-page--first .pf-alt-skill-row>b{font-size:16px;line-height:37px}
+ .pf-alt-skill-row .pf-paper-lore-name{height:37px;font-size:16px}
  .pf-alt-skill-row .pf-paper-skill-total{height:35px;margin:2px 0}
  .pf-alt-page.pf-alt-page--first .pf-paper-skill-total>.pf-alt-field>input{height:30px!important;font-size:20px!important}
  .pf-alt-page.pf-alt-page--first .pf-alt-skill-row .pf-alt-rank-square{width:9px;height:9px;flex-basis:9px}
