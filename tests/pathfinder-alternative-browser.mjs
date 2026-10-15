@@ -401,6 +401,13 @@ try {
       });
       assert.ok(din.loaded>0&&din.level.includes('PF2e PDF DIN')&&!din.level.includes('Georgia'),
         'Embedded DIN Pro must load and render the level without serifs');
+      const nameSpacing=await skills.locator('.pf-alt-skill-row').evaluateAll(rows=>rows.filter(row=>row.querySelector(':scope>b')).map(row=>{
+        const label=row.querySelector(':scope>b'),range=document.createRange();range.selectNodeContents(label);
+        const text=range.getBoundingClientRect(),frame=row.querySelector('.pf-paper-skill-total').getBoundingClientRect();
+        return {name:label.textContent,gap:frame.left-text.right,left:text.left-row.getBoundingClientRect().left};
+      }));
+      assert.ok(nameSpacing.every(x=>x.gap>=5&&x.left>=0),
+        'Long skill names stay inside their column with a clear gap before totals: '+JSON.stringify(nameSpacing));
       const lore=skills.getByRole('textbox',{name:'Область знания I',exact:true});
       await lore.fill('Море');assert.equal(await lore.inputValue(),'Море');
       await skills.screenshot({path:'test-artifacts/pf-alt-skills-desktop.png'});

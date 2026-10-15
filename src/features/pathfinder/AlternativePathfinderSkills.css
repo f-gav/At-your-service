@@ -58,3 +58,11 @@
  .pf-paper-skill-formula>i{line-height:21px}
  .pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields::before{font-size:10px}
 }
+@media(min-width:901px){
+ /* Give long DIN skill names their own space before the framed totals. */
+ .pf-alt-page.pf-alt-page--first .pf-alt-skill-row{grid-template-columns:112px 52px 19px minmax(0,1fr);column-gap:6px;padding-left:4px}
+}
+@media(min-width:901px){
+ .pf-alt-page.pf-alt-page--first .pf-alt-skills-section{grid-template-columns:minmax(0,77%) minmax(0,23%)}
+ .pf-alt-page.pf-alt-page--first .pf-paper-skill-formula .pf-alt-field>span{font-size:8px}
+}
