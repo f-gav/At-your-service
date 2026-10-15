@@ -62,7 +62,7 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
 function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'}){
  const paths={
   dart:'M50 4 L96 94 L64 83 V98 H36 V83 L4 94 Z',
-  eye:'M32 72 L8 98 L2 88 L24 65 M53 5 C100 5 100 78 53 78 C6 78 6 5 53 5 Z',
+  eye:'M32 72 L8 98 L2 88 L24 65 M53 5 A37 37 0 1 1 53 79 A37 37 0 1 1 53 5 Z',
   arrow:'M7 25 H58 V5 L96 50 L58 95 V75 H3 Z',
   axe:'M20 5 Q50 22 80 5 Q98 50 80 95 L65 83 V80 H35 V83 L20 95 Q2 50 20 5 Z',
   dc:'M13 5 H87 Q97 5 97 20 V80 Q97 95 87 95 H13 Q3 95 3 80 V20 Q3 5 13 5 Z',
@@ -72,7 +72,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
   save:'M13 9 H87 L97 28 V72 L87 91 H13 L3 72 V28 Z',
   heart:'M50 17 C27 -8 0 7 4 36 C6 64 32 77 50 96 C68 77 94 64 96 36 C100 7 73 -8 50 17 Z'
  };
- return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+ return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio={kind==='eye'?'xMidYMid meet':'none'} aria-hidden="true" focusable="false">
   <path d={paths[kind]} fill="white" stroke={kind==='heart'||kind==='axe'?'#772b27':kind==='skill'?'#1b4a30':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
   <path d={paths[kind]} fill="none" stroke="#b9b9b3" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
  </svg>;
