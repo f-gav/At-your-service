@@ -681,3 +681,9 @@
     min-height:43px!important;
   }
 }
+
+/* Original logo crop calibrated against the actual Chromium snapshot:
+   keep the ornate Pathfinder terminal visible instead of clipping its R. */
+.pf-alt-page--first .pf-alt-p1-logo-art img{
+  width:860px;left:-30px;top:-24px;
+}
