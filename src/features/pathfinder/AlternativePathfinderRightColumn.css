@@ -106,3 +106,6 @@
 .pf-alt-page.pf-alt-page--first .pf-paper-strikes .pf-alt-weapon-list{gap:3px}
 .pf-paper-weapon-line{margin-bottom:10px}
 .pf-alt-page.pf-alt-page--first .pf-alt-main-right{gap:6px}
+/* Align values with the centers of their visible silhouettes. */
+.pf-paper-eye>.pf-alt-field{left:16%;right:10%;top:5%;bottom:21%}
+.pf-paper-arrow>.pf-alt-field{left:17%;right:27%}
