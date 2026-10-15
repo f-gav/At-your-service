@@ -385,6 +385,9 @@ try {
       });
       assert.ok(skillLayout.vertical,'All skills use compact vertical rank columns');
       assert.ok(Math.abs(skillLayout.lastBottom-skillLayout.notesBottom)<2,'Notes extend to the last skill row');
+      const footerTop=await first.locator('.pf-alt-page-footer').evaluate(el=>el.getBoundingClientRect().top);
+      assert.ok(footerTop-skillLayout.lastBottom>=0&&footerTop-skillLayout.lastBottom<40,
+        'Enlarged skills fill the working page height and end just above the footer');
       const lore=skills.getByRole('textbox',{name:'Область знания I',exact:true});
       await lore.fill('Море');assert.equal(await lore.inputValue(),'Море');
       await skills.screenshot({path:'test-artifacts/pf-alt-skills-desktop.png'});
