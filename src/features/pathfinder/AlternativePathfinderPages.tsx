@@ -10,7 +10,7 @@ import {DYING_SKULL_COUNT,readDyingSkulls,toggleDyingSkull} from './dying-skulls
 import type {SheetValues,FieldValue} from './sheet-values';
 import type {EditableField} from './editor-schema';
 import type {SpellView} from '../spell-library/catalog';
-import {spellCast} from './SpellGrimoire';
+import {spellCast,effectivePfTraditions} from './SpellGrimoire';
 import DynamicAdvancement from './DynamicAdvancement';
 import {ADVANCEMENT_FIELD_IDS,advancementLevelCount} from './advancement-model';
 import './AlternativePathfinderPages.css';
@@ -157,9 +157,6 @@ export default function AlternativePathfinderPages({
     }
   </label>;
  }
- function cells(ids:readonly string[],cls='pf-alt-fields'){
-  return <div className={cls}>{ids.map(id=>field(id))}</div>;
- }
  function matching(prefix:string){return Array.from(map.keys()).filter(id=>id.startsWith(prefix));}
  function remaining(){
   const extras=[...map.keys()].filter(id=>!consumed.has(id));
@@ -182,7 +179,7 @@ export default function AlternativePathfinderPages({
       prefix==='focus_'?
        [['spells','Название'],['actions','Действия']]:
        [['spells','Название'],['actions','Действия'],['frequency','Частота']];
-    return <Section index={index} title={title} wide>
+    return <Section index={index} title={title} wide className={'pf-paper-spell-panel pf-paper-panel-'+prefix.replace('_','')}>
      <div className={'pf-alt-manual-spells'+(twoColumns?' pf-alt-manual-spells-double':'')}>
       {sides.map(side=><div className="pf-alt-manual-column" key={side||prefix}>
        {columns.map(([suffix,label])=>{
@@ -202,18 +199,18 @@ export default function AlternativePathfinderPages({
    prefix.startsWith('rituals_')?s.spell.kind==='ritual':
    s.spell.rank>0&&!['focus','ritual','special'].includes(s.spell.kind));
   const columns=prefix==='spellbook_'||prefix==='rituals_'?2:1;
-  return <Section index={index} title={title} wide>
+  return <Section index={index} title={title} wide className={'pf-paper-spell-panel pf-paper-panel-'+prefix.replace('_','')}>
    <div className="pf-alt-spells">
     <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
      {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
       <div className="pf-alt-spell-head">
-       <span>Название</span><span>Круг</span><span>Действия</span><span>Подг.</span>
+       <span>Название</span>{!['cantrip_','focus_','innate_'].includes(prefix)&&<span>Круг</span>}<span>Действия</span>{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}
       </div>
       {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
        className="pf-alt-spell-row" onClick={()=>onOpenSpell(spell)}
        aria-label={'Прочитать заклинание '+spell.name}>
-       <strong>{spell.name}</strong><span>{spell.spell.rank||'Ч'}</span>
-       <span>{spellCast(spell)}</span><span>✓</span>
+       <strong>{spell.name}</strong>{!['cantrip_','focus_','innate_'].includes(prefix)&&<span>{spell.spell.rank||'Ч'}</span>}
+       <span>{spellCast(spell)}</span>{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}
       </button>)}
      </div>)}
     </div>
@@ -511,17 +508,17 @@ export default function AlternativePathfinderPages({
       <div className="pf-alt-tradition-wheel" role="group" aria-label="Выбор магических традиций">
        {([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=>{
         const key='tradition_'+id;consumed.add(key);
-        return <button key={id} type="button" aria-pressed={values[key]===true}
-         className={'pf-alt-tradition-option pf-alt-tradition-'+id+(values[key]===true?' is-active':'')}
-         onClick={()=>onChange(key,values[key]!==true)}
+        return <button key={id} type="button" aria-pressed={effectivePfTraditions(values).includes(id)}
+         className={'pf-alt-tradition-option pf-alt-tradition-'+id+(effectivePfTraditions(values).includes(id)?' is-active':'')}
+         onClick={()=>onChange(key,!effectivePfTraditions(values).includes(id))}
          title={label}>{label}</button>;
        })}
-       <div className="pf-alt-tradition-emblem" aria-hidden="true"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="white" stroke="#a7946b" strokeWidth="3"/><path d="M25 2 V48 M2 25 H48" fill="none" stroke="#a7946b" strokeWidth="3"/></svg></div>
+       <div className="pf-alt-tradition-emblem">{([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=><button key={id} type="button" className={'pf-tradition-sector pf-tradition-sector-'+id} aria-label={'Сектор: '+label} aria-pressed={effectivePfTraditions(values).includes(id)} onClick={()=>onChange('tradition_'+id,!effectivePfTraditions(values).includes(id))} title={label}/>)}</div>
       </div>
       <div className="pf-alt-spell-type">{field('prepared','Подготавливающий')}{field('spontaneous','Спонтанный')}</div>
      </div>
     </Section>
-    <Section index="II" title="Параметры заклинаний">
+    <Section index="II" title="Параметры заклинаний" className="pf-paper-casting-section">
      <div className="pf-paper-casting">
       <div className="pf-paper-cast-group"><h4>Атака заклинанием</h4><div className="pf-paper-cast-line">
        <div className="pf-paper-icon pf-paper-spellstar"><PaperFrame kind="spellstar"/>{field('spell_attack','Атака заклинанием')}</div>{field('spell_attack_rank','Ранг атаки')}
@@ -536,12 +533,12 @@ export default function AlternativePathfinderPages({
       <details><summary>Предмет к СЛ</summary>{field('spell_dc_item','Предмет к СЛ')}</details>
      </div>
     </Section>
-    <Section index="III" title="Фокусы">
-     {cells(['cantrips_daily','cantrip_rank'])}
+    <Section index="III" title="Фокусы" className="pf-paper-cantrips">
+     <div className="pf-paper-cantrip-controls"><span>Подг. в день</span><div className="pf-paper-icon pf-paper-book"><PaperFrame kind="book"/>{field('cantrips_daily','Фокусы в день')}</div><small>1/2 вашего уровня с округлением вверх</small>{field('cantrip_rank','Круг фокусов')}</div>
      {spellPanel('cantrip_','Список чар','03a')}
     </Section>
-    <Section index="IV" title="Фокусные заклинания">
-     <div className="pf-alt-focus-points">{['focus_point_1','focus_point_2','focus_point_3','focus_rank'].map(id=>field(id))}</div>
+    <Section index="IV" title="Фокальные заклинания" className="pf-paper-focus">
+     <div className="pf-paper-focus-controls"><b>ФП</b><div className="pf-alt-focus-points">{['focus_point_1','focus_point_2','focus_point_3'].map((id,i)=>field(id,'Фокусное очко '+(i+1)))}</div>{field('focus_rank','Круг фокальных заклинаний')}</div><small className="pf-paper-focus-hint">1/2 вашего уровня с округлением вверх</small><p className="pf-paper-refocus"><b>Запас ФП:</b> равен числу ваших фокальных заклинаний (максимум 3).<br/><b>Фокусировка:</b> потратьте 10 минут, чтобы восстановить 1 ФП.</p>
      {spellPanel('focus_','Фокусные заклинания','04a')}
     </Section>
     {spellPanel('innate_','Врождённые заклинания','V')}

@@ -459,8 +459,8 @@ try {
       assert.equal(await fourth.locator('.pf-alt-manual-column').count()>=2,true,
         'The manual spell list uses adjacent ruled input columns');
       assert.equal(await fourth.locator(':scope>.pf-alt-heading:visible').count(),0);
-      assert.equal(await fourth.locator('.pf-paper-book').count(),10);
-      const slotTops=await fourth.locator('.pf-paper-book').evaluateAll(nodes=>nodes.map(el=>el.getBoundingClientRect().top));
+      assert.equal(await fourth.locator('.pf-paper-slots .pf-paper-book').count(),10);
+      const slotTops=await fourth.locator('.pf-paper-slots .pf-paper-book').evaluateAll(nodes=>nodes.map(el=>el.getBoundingClientRect().top));
       assert.ok(slotTops.every(y=>Math.abs(y-slotTops[0])<1),'All ten daily spell slots share one paper row');
       const remaining=fourth.getByRole('textbox',{name:'Осталось ячеек 1',exact:true});
       await remaining.fill('2');assert.equal(await remaining.inputValue(),'2');
@@ -468,7 +468,15 @@ try {
       await magicRank.click();assert.equal(await magicRank.getAttribute('aria-pressed'),'true');
       assert.equal(await magicRank.innerText(),'','Magic proficiency uses filled squares without checkmarks');
       await fourth.locator('.pf-paper-magic').screenshot({path:'test-artifacts/pf-alt-magic-desktop.png'});
-      const arcane=fourth.getByRole('button',{name:'Мистическая'});
+      const sector=fourth.getByRole('button',{name:'Сектор: Оккультная',exact:true});
+      const occult=fourth.getByRole('button',{name:'Оккультная',exact:true});
+      const originalOccult=await sector.getAttribute('aria-pressed');
+      await sector.click();
+      assert.notEqual(await sector.getAttribute('aria-pressed'),originalOccult);
+      assert.equal(await sector.getAttribute('aria-pressed'),await occult.getAttribute('aria-pressed'));
+      await sector.click();
+      assert.equal(await sector.getAttribute('aria-pressed'),originalOccult);
+      const arcane=fourth.getByRole('button',{name:'Мистическая',exact:true});
       await arcane.click();
       assert.equal(await arcane.getAttribute('aria-pressed'),'false',
         'Magic tradition selection must toggle off');
@@ -574,3 +582,5 @@ try {
  if(browser)await browser.close();
  server.kill('SIGTERM');
 }
+
+
