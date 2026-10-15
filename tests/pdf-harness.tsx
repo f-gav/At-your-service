@@ -47,7 +47,7 @@ const character:Character={
         attitude:'Любознательный и осторожный',
         tradition_arcane:true,prepared:true,spell_slots_1:'4',spell_slots_2:'3',
         spell_slots_3:'2',spell_dc:'25',spell_attack:'+15',
-        pf_spell_display_mode:'text',
+        pf_spell_display_mode:params.get('spells')==='library'?'library':'text',
         cantrip_names:'Свет\nУказание',spellbook_left_names:'Магический снаряд\nНевидимость'
       }:{}),
     }}

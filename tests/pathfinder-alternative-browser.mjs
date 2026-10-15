@@ -577,6 +577,22 @@ try {
     assert.deepEqual(errors,[],'React browser errors must be absent');
     await page.close();
   }
+  const libraryPage=await browser.newPage({viewport:{width:1440,height:900}});
+  await libraryPage.goto(base+'tests/pdf-harness.html?system=pf2e&variant=alternative&spells=library',{waitUntil:'networkidle'});
+  const magic=libraryPage.locator('.pf-paper-magic');
+  const geometry=await magic.evaluate(el=>{
+    const box=selector=>el.querySelector(selector).getBoundingClientRect();
+    const left=box('.pf-alt-magic-left'),right=box('.pf-alt-magic-right');
+    const book=box('.pf-paper-panel-spellbook .pf-alt-spell-column');
+    const ritual=box('.pf-paper-panel-rituals');
+    return {leftEnd:left.bottom,rightEnd:right.bottom,bookHeight:book.height,ritualTop:ritual.top,bookEnd:book.bottom,
+      borders:[...el.querySelectorAll('.pf-alt-spell-column')].map(x=>getComputedStyle(x).borderTopWidth)};
+  });
+  assert.ok(Math.abs(geometry.leftEnd-geometry.rightEnd)<2,JSON.stringify(geometry));
+  assert.ok(geometry.bookHeight>700&&geometry.ritualTop>geometry.bookEnd,JSON.stringify(geometry));
+  assert.ok(geometry.borders.every(x=>x==='1px'),JSON.stringify(geometry));
+  await magic.screenshot({path:'test-artifacts/pf-alt-magic-library-desktop.png'});
+  await libraryPage.close();
   console.log('PASS: four original-paper PF2e pages, desktop/tablet/mobile, field interactions and screenshot captures');
 }finally{
  if(browser)await browser.close();

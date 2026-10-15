@@ -204,13 +204,12 @@ export default function AlternativePathfinderPages({
     <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
      {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
       <div className="pf-alt-spell-head">
-       <span>Название</span>{!['cantrip_','focus_','innate_'].includes(prefix)&&<span>Круг</span>}<span>Действия</span>{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}
+       <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
       {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
        className="pf-alt-spell-row" onClick={()=>onOpenSpell(spell)}
        aria-label={'Прочитать заклинание '+spell.name}>
-       <strong>{spell.name}</strong>{!['cantrip_','focus_','innate_'].includes(prefix)&&<span>{spell.spell.rank||'Ч'}</span>}
-       <span>{spellCast(spell)}</span>{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}
+       <strong>{spell.name}</strong>{prefix==='rituals_'?<><span>{spell.spell.rank}</span><span>—</span></>:<><span>{spellCast(spell)}</span>{prefix==='spellbook_'&&<span>{spell.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
       </button>)}
      </div>)}
     </div>
@@ -552,9 +551,9 @@ export default function AlternativePathfinderPages({
      </div>
     </Section>
     {spellPanel('spellbook_','Заклинания','VII')}
+    {spellPanel('rituals_','Ритуалы','VIII')}
    </div>
   </div>
-  {spellPanel('rituals_','Ритуалы','VIII')}
  </>}
  {remaining()}
  <footer className="pf-alt-page-footer"><span>AT YOUR SERVICE!</span><span>{PAGE_CAPTIONS[pageId]} · {pageId} / 4</span></footer>

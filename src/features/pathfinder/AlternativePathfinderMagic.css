@@ -87,15 +87,15 @@
 .pf-paper-cantrip-controls>.pf-alt-field>span{font-size:10px;text-align:right}
 .pf-paper-cantrip-controls>.pf-alt-field>input,.pf-paper-focus-controls>.pf-alt-field>input{height:24px;text-align:center;padding:0;border:1px solid #a7946b}
 .pf-paper-cantrips>.pf-paper-spell-panel>h3,.pf-paper-focus>.pf-paper-spell-panel>h3{display:none}
-.pf-paper-magic-left .pf-paper-spell-panel>.pf-alt-spells{border:1px solid #aa8b81;padding:0;margin:0;min-height:0}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-columns{gap:0;min-height:185px}
+.pf-alt-magic-left .pf-paper-spell-panel>.pf-alt-spells{border:1px solid #aa8b81;padding:0;margin:0;min-height:0}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-columns{gap:0;min-height:185px}
 .pf-paper-cantrips .pf-paper-spell-panel .pf-alt-spell-columns{min-height:300px}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-head,.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 55px 34px;gap:0;text-transform:none;font-family:'PF2e PDF DIN',Arial,sans-serif;font-weight:400;letter-spacing:0}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-head{font-size:11px;border:0;padding:4px}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-row{font-size:12px;padding:5px 4px;border:0}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-spell-row>strong{font-weight:400;color:#254d7d}
-.pf-paper-magic-left .pf-paper-panel-focus .pf-alt-spell-head,.pf-paper-magic-left .pf-paper-panel-focus .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 65px}
-.pf-paper-magic-left .pf-alt-add-spell{font-size:10px;min-height:22px;margin:0;border:0;border-top:1px solid #c7b3aa;border-radius:0;padding:3px}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-head,.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 55px 34px;gap:0;text-transform:none;font-family:'PF2e PDF DIN',Arial,sans-serif;font-weight:400;letter-spacing:0}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-head{font-size:11px;border:0;padding:4px}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-row{font-size:12px;padding:5px 4px;border:0}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-spell-row>strong{font-weight:400;color:#254d7d}
+.pf-alt-magic-left .pf-paper-panel-focus .pf-alt-spell-head,.pf-alt-magic-left .pf-paper-panel-focus .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 65px}
+.pf-alt-magic-left .pf-alt-add-spell{font-size:10px;min-height:22px;margin:0;border:0;border-top:1px solid #c7b3aa;border-radius:0;padding:3px}
 .pf-paper-focus-controls{display:flex;align-items:center;gap:4px;font:12px 'PF2e PDF DIN',Arial,sans-serif}
 .pf-paper-focus-controls .pf-alt-focus-points{display:flex;gap:2px;margin:0}
 .pf-paper-focus-controls .pf-alt-focus-points>.pf-alt-field>span{display:none}
@@ -106,11 +106,55 @@
 .pf-paper-focus-controls>.pf-alt-field>input{width:38px}
 .pf-paper-focus-hint{display:block;text-align:right;font-size:7px}
 .pf-paper-refocus{font:8px/1.2 'PF2e PDF DIN',Arial,sans-serif;margin:3px 0}
-.pf-paper-magic-left .pf-alt-manual-column{min-height:190px}
+.pf-alt-magic-left .pf-alt-manual-column{min-height:190px}
 .pf-paper-cantrips .pf-alt-manual-column{min-height:300px}
 .pf-paper-magic .pf-alt-tradition-emblem{align-items:stretch}
 .pf-paper-magic .pf-tradition-sector{width:100%;height:100%;min-height:0;border-radius:0;box-shadow:none;display:block}
-.pf-paper-magic-left .pf-paper-panel-focus .pf-alt-manual-column{grid-template-columns:minmax(0,1fr) 65px}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-manual-cell>.pf-alt-field>span{text-align:left;font:11px 'PF2e PDF DIN',Arial,sans-serif;padding:4px}
-.pf-paper-magic-left .pf-paper-spell-panel .pf-alt-manual-cell .pf-rich-editable{background:none}
+.pf-alt-magic-left .pf-paper-panel-focus .pf-alt-manual-column{grid-template-columns:minmax(0,1fr) 65px}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-manual-cell>.pf-alt-field>span{text-align:left;font:11px 'PF2e PDF DIN',Arial,sans-serif;padding:4px}
+.pf-alt-magic-left .pf-paper-spell-panel .pf-alt-manual-cell .pf-rich-editable{background:none}
 .pf-paper-magic .pf-alt-tradition-emblem{pointer-events:auto;justify-items:stretch}
+/* Shared ruled tables for library and handwritten spell lists. */
+.pf-paper-magic .pf-alt-magic-right{display:flex;flex-direction:column;min-width:0}
+.pf-paper-magic .pf-paper-panel-spellbook{flex:1;display:flex;flex-direction:column}
+.pf-paper-magic .pf-paper-panel-spellbook>.pf-alt-spells,.pf-paper-magic .pf-paper-panel-spellbook>.pf-alt-manual-spells{flex:1;display:flex;flex-direction:column}
+.pf-paper-magic .pf-paper-panel-spellbook .pf-alt-manual-spells-double{display:grid;grid-template-columns:1fr 1fr}
+.pf-paper-magic .pf-paper-spell-panel .pf-alt-spell-columns{gap:7px;flex:1}
+.pf-paper-magic .pf-paper-spell-panel .pf-alt-spell-column{border:1px solid #aa8b81!important;min-height:100px;background:linear-gradient(to right,transparent calc(100% - 136px),#d2c4bd calc(100% - 136px),#d2c4bd calc(100% - 135px),transparent calc(100% - 135px)),linear-gradient(to right,transparent calc(100% - 76px),#d2c4bd calc(100% - 76px),#d2c4bd calc(100% - 75px),transparent calc(100% - 75px)),linear-gradient(to right,transparent calc(100% - 42px),#d2c4bd calc(100% - 42px),#d2c4bd calc(100% - 41px),transparent calc(100% - 41px))}
+.pf-paper-magic .pf-paper-spell-panel .pf-alt-spell-head,.pf-paper-magic .pf-paper-spell-panel .pf-alt-spell-row{display:grid;grid-template-columns:minmax(0,1fr) 60px 34px 42px;gap:0;border:0;padding:4px;text-transform:none;letter-spacing:0;font:11px 'PF2e PDF DIN',Arial,sans-serif;background:transparent}
+.pf-paper-magic .pf-paper-spell-panel .pf-alt-spell-row>strong{font-weight:400;color:#254d7d}
+.pf-paper-magic .pf-alt-magic-left .pf-paper-spell-panel>.pf-alt-spells{border:0}
+.pf-paper-magic .pf-paper-panel-cantrip .pf-alt-spell-column,.pf-paper-magic .pf-paper-panel-innate .pf-alt-spell-column{background:linear-gradient(to right,transparent calc(100% - 100px),#d2c4bd calc(100% - 100px),#d2c4bd calc(100% - 99px),transparent calc(100% - 99px)),linear-gradient(to right,transparent calc(100% - 42px),#d2c4bd calc(100% - 42px),#d2c4bd calc(100% - 41px),transparent calc(100% - 41px))}
+.pf-paper-magic .pf-paper-panel-cantrip .pf-alt-spell-head,.pf-paper-magic .pf-paper-panel-cantrip .pf-alt-spell-row,.pf-paper-magic .pf-paper-panel-innate .pf-alt-spell-head,.pf-paper-magic .pf-paper-panel-innate .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 58px 42px}
+.pf-paper-magic .pf-paper-panel-focus .pf-alt-spell-column{background:linear-gradient(to right,transparent calc(100% - 65px),#d2c4bd calc(100% - 65px),#d2c4bd calc(100% - 64px),transparent calc(100% - 64px))}
+.pf-paper-magic .pf-paper-panel-focus .pf-alt-spell-head,.pf-paper-magic .pf-paper-panel-focus .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 65px}
+.pf-paper-magic .pf-paper-panel-cantrip .pf-alt-spell-columns,.pf-paper-magic .pf-paper-panel-cantrip .pf-alt-manual-column{min-height:380px}
+.pf-paper-magic .pf-paper-panel-focus .pf-alt-spell-columns,.pf-paper-magic .pf-paper-panel-focus .pf-alt-manual-column{min-height:210px}
+.pf-paper-magic .pf-paper-panel-innate .pf-alt-spell-columns,.pf-paper-magic .pf-paper-panel-innate .pf-alt-manual-column{min-height:150px}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-columns,.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-column{min-height:105px}
+.pf-paper-magic .pf-paper-panel-rituals>.pf-alt-spells{min-height:0}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich,.pf-paper-magic .pf-paper-panel-rituals .pf-rich-editable{min-height:75px}
+.pf-paper-cantrip-controls{grid-template-columns:auto 36px minmax(0,1fr) 110px;position:relative;padding-bottom:9px}
+.pf-paper-cantrip-controls>.pf-alt-field{display:flex;flex-direction:row;align-items:center;gap:4px}
+.pf-paper-cantrip-controls>.pf-alt-field>input{width:36px;flex:none}
+.pf-paper-cantrip-controls>small{position:absolute;right:0;bottom:0}
+.pf-paper-magic .pf-alt-add-spell{font-size:10px;margin:3px 0 0;padding:3px;min-height:22px}
+@media(max-width:500px){.pf-paper-magic .pf-alt-spell-columns-double{grid-template-columns:1fr}.pf-paper-cantrip-controls{grid-template-columns:auto 30px minmax(0,1fr) 105px}}
+.pf-paper-magic>.pf-alt-magic-right{align-self:stretch}
+.pf-paper-magic .pf-alt-magic-right>.pf-paper-panel-rituals>.pf-alt-spells,.pf-paper-magic .pf-alt-magic-right>.pf-paper-panel-rituals .pf-alt-spell-columns{min-height:105px}
+.pf-paper-magic .pf-alt-magic-right>.pf-paper-panel-rituals .pf-alt-manual-column{min-height:105px}
+.pf-paper-magic .pf-alt-magic-right>.pf-paper-panel-rituals .pf-alt-manual-cell>.pf-alt-field>.pf-alt-rich,.pf-paper-magic .pf-alt-magic-right>.pf-paper-panel-rituals .pf-rich-editable{min-height:75px}
+.pf-paper-magic .pf-paper-panel-spellbook .pf-alt-manual-column{height:100%;min-height:680px}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-column{grid-template-columns:minmax(0,1fr) 35px 43px}
+.pf-paper-magic .pf-paper-spell-panel .pf-alt-manual-cell>label>span{white-space:nowrap;overflow:visible;font:11px 'PF2e PDF DIN',Arial,sans-serif;text-align:left;padding:4px}
+@media(max-width:900px){.pf-paper-magic .pf-paper-panel-spellbook .pf-alt-manual-column{min-height:400px}}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-column{height:105px;min-height:105px!important}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-rich,.pf-paper-magic .pf-paper-panel-rituals .pf-rich-editable{min-height:0!important;height:100%;background:none}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-spells{margin-bottom:0}
+.pf-paper-magic .pf-paper-panel-spellbook .pf-alt-manual-column{height:100%}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-manual-cell>label>span{font-size:10px}
+.pf-paper-magic .pf-paper-panel-rituals>.pf-alt-spells{min-height:0!important}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-columns{min-height:105px!important;flex:none}
+.pf-paper-magic .pf-paper-panel-spellbook .pf-alt-spell-columns{min-height:700px}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-head,.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 35px 43px}
+.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-column{background:linear-gradient(to right,transparent calc(100% - 78px),#d2c4bd calc(100% - 78px),#d2c4bd calc(100% - 77px),transparent calc(100% - 77px)),linear-gradient(to right,transparent calc(100% - 43px),#d2c4bd calc(100% - 43px),#d2c4bd calc(100% - 42px),transparent calc(100% - 42px))}
