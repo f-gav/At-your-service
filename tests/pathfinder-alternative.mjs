@@ -31,7 +31,7 @@ assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-p
   'HTML character PDF must not include editable controls');
 assert.ok(html.includes("onOpenSpell(spell)"),
   'Printed spell rows must open their corresponding spell descriptions');
-assert.ok(html.includes("onChange(key,values[key]!==true)"),
+assert.ok(html.includes("onChange(key,!effectivePfTraditions(values).includes(id))"),
   'Magic traditions must remain synchronized with original PF2e fields');
 
 assert.ok(html.includes("field('shield_ac_bonus'")&&html.includes("field('shield_hardness'"),
