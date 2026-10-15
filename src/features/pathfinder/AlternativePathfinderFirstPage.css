@@ -346,62 +346,99 @@
  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{width:33px!important}
 }
 
-/* Reference refinement: level gemstone with adjoining, right-aligned XP box. */
-.pf-alt-page--first .pf-alt-p1-level{display:block;position:relative;min-width:0}
+/* PF2e first-page refinement — reference: level, hero, origins, abilities.
+   Scoped to the HTML alternative, not the classic PDF sheet. */
+
+/* Diamond owns the visual layer; XP is behind it and centered on its midline. */
+.pf-alt-page--first .pf-alt-p1-level{
+  position:relative;display:block;min-width:0;text-align:left;
+}
 .pf-alt-page--first .pf-alt-p1-level-line{
-  display:flex;align-items:center;min-width:0;height:60px;position:relative;
+  display:block;position:relative;min-width:0;height:60px;
 }
 .pf-alt-page--first .pf-alt-p1-level-diamond{
-  flex:0 0 62px;width:62px;height:60px;margin:0;
-  display:grid;place-items:center;position:relative;z-index:1;
+  display:grid;place-items:center;position:absolute;top:0;left:0;
+  z-index:3;width:62px;height:60px;min-width:0;margin:0;
 }
-.pf-alt-page--first .pf-alt-p1-level-diamond:before{
-  left:50%;top:50%;width:41px;height:41px;
+.pf-alt-page--first .pf-alt-p1-level-diamond::before{
+  position:absolute;left:50%;top:50%;
+  width:41px;height:41px;
   transform:translate(-50%,-50%) rotate(45deg);
+  background:white;z-index:0;
 }
 .pf-alt-page--first .pf-alt-p1-level-diamond>.pf-alt-field{
-  display:grid;place-items:center;width:100%;height:100%;z-index:2;
+  position:relative;z-index:1;display:grid;place-items:center;
+  width:100%;height:100%;min-width:0;
 }
+.pf-alt-page--first .pf-alt-p1-level-diamond>.pf-alt-field>span{display:none}
 .pf-alt-page--first .pf-alt-p1-level-diamond>.pf-alt-field>input{
-  display:block;box-sizing:border-box;width:48px!important;height:38px!important;
-  margin:0!important;padding:0!important;background:transparent!important;border:0!important;
-  text-align:center!important;font:800 23px/1 Georgia,serif!important;
+  display:block;box-sizing:border-box;
+  width:44px!important;height:40px!important;min-width:0!important;
+  margin:0!important;padding:0!important;border:0!important;
+  border-radius:0!important;outline:0!important;box-shadow:none!important;
+  background:transparent!important;
+  color:#1a1714!important;font:800 23px/1 Georgia,serif!important;
+  text-align:center!important;appearance:none;
+}
+/* Preserve keyboard focus without drawing a rectangle around the diamond. */
+.pf-alt-page--first .pf-alt-p1-level-diamond>.pf-alt-field>input:focus-visible{
+  outline:none!important;box-shadow:none!important;
+  text-decoration:underline;text-decoration-color:#41644b;
+  text-underline-offset:3px;
 }
 .pf-alt-page--first .pf-alt-p1-experience{
-  position:relative;z-index:3;flex:1;min-width:0;max-width:64px;
-  margin-left:-9px;margin-top:2px;align-self:center;
+  position:absolute;left:41px;top:50%;transform:translateY(-50%);
+  z-index:1;width:76px;max-width:calc(100% - 40px);min-width:0;
+  margin:0;
 }
 .pf-alt-page--first .pf-alt-p1-experience>.pf-alt-field{
-  display:flex;flex-direction:column;align-items:stretch;gap:2px;min-width:0;
+  display:block;position:relative;min-width:0;
 }
 .pf-alt-page--first .pf-alt-p1-experience>.pf-alt-field>span{
-  display:block;position:static;color:#333;font:700 9px/1 Arial,sans-serif;
-  text-align:right;padding-right:2px;white-space:nowrap;
+  display:block;position:absolute;bottom:calc(100% + 3px);right:1px;
+  width:auto;height:auto;overflow:visible;clip:auto;
+  text-align:right;white-space:nowrap;padding:0;
+  color:#34312d;font:700 9px/1 Arial,Helvetica,sans-serif;
 }
 .pf-alt-page--first .pf-alt-p1-experience>.pf-alt-field>input{
-  display:block;box-sizing:border-box;width:100%;height:23px;
-  border:1px solid #9b726d;background:#fff;
-  text-align:right!important;padding:1px 4px;font:700 13px/1 Arial,sans-serif;
+  display:block;box-sizing:border-box;width:100%;height:24px;
+  padding:2px 5px 2px 19px!important;border:1px solid #a37c76!important;
+  border-radius:0!important;background:#fff!important;
+  text-align:right!important;font:700 13px/1 Arial,Helvetica,sans-serif!important;
 }
 
-/* Hero points: the filled hexagon itself carries state, without a checkmark. */
+/* A regular flat-top hexagon: all six side lengths are equal. */
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-marks{
+  display:flex;align-items:center;justify-content:center;
+  gap:4px;margin:2px 0 4px;
+}
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point{
+  display:grid;place-items:center;flex:none;
+  width:35px;height:32px;padding:0;border:0;background:transparent;
+}
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point svg{
+  display:block;width:34px;height:30px;
+  max-width:100%;aspect-ratio:40/35;
+}
 .pf-alt-page--first .pf-alt-hero-point[aria-pressed=true] svg polygon{
   fill:#315e47;
 }
 
-/* Four origin-detail labels sit INSIDE equal-height bordered text fields. */
-.pf-alt-page--first .pf-alt-p1-ancestry-detail{align-items:stretch;gap:4px;margin-top:3px}
+/* Inset detail captions at the top of four equal-height text rectangles. */
+.pf-alt-page--first .pf-alt-p1-ancestry-detail{
+  display:grid;align-items:stretch;gap:4px;margin-top:3px;
+}
 .pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field,
 .pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child{
-  position:relative;display:block;min-width:0;height:40px;
-  box-sizing:border-box;margin-top:3px;
+  position:relative;display:block;min-width:0;box-sizing:border-box;
+  height:40px;margin-top:3px;
 }
 .pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field{margin-top:0}
 .pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field>span,
 .pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>span{
-  display:block;position:absolute;z-index:1;top:4px;left:5px;right:4px;
-  width:auto;height:auto;clip:auto;overflow:hidden;text-overflow:ellipsis;
-  pointer-events:none;white-space:nowrap;
+  display:block;position:absolute;top:4px;left:5px;right:4px;z-index:1;
+  width:auto;height:auto;clip:auto;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;pointer-events:none;
   font:400 9px/1.1 Arial,sans-serif;color:#686968;
 }
 .pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field>input,
@@ -412,42 +449,90 @@
   padding:15px 5px 3px;font:400 12px/1.15 Arial,sans-serif;
 }
 
-/* PF ability strip: left-aligned, sans-serif labels and bottom-rounded modifiers. */
-.pf-alt-page--first .pf-alt-abilities{margin-left:-6px;width:calc(100% + 6px);gap:2px}
-.pf-alt-page--first .pf-alt-ability{gap:0 2px;padding-right:1px}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
-  font-family:Arial,Helvetica,sans-serif!important;
-  font-size:12px;font-weight:800;letter-spacing:-.02em;
+/* Six characteristics anchored to the left like the Russian paper sheet. */
+.pf-alt-page--first .pf-alt-abilities{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:2px;margin-left:-15px;width:calc(100% + 15px);
+}
+.pf-alt-page--first .pf-alt-ability{
+  display:grid;grid-template-columns:43px minmax(0,1fr);
+  grid-template-rows:25px 17px;align-items:start;gap:0 3px;
+  padding:0 2px 0 0;min-width:0;
+}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child{
+  display:contents;
 }
 .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
+  grid-column:1;grid-row:1/3;align-self:start;
+  width:42px!important;height:36px!important;min-width:0!important;
+  padding:1px!important;
   border-radius:0 0 9px 9px!important;clip-path:none!important;
+  font:900 18px/1 Arial,Helvetica,sans-serif!important;
+  text-align:center;
+}
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
+  grid-column:2;grid-row:1;align-self:center;min-width:0;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-size:14px;font-weight:800;letter-spacing:-.045em;
+  white-space:nowrap;line-height:1;color:#272925;
 }
 .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
-  display:flex;flex-direction:row-reverse;justify-content:flex-end;
-  align-items:center;gap:3px;min-width:0;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
-  display:block;position:static;min-width:0;width:auto;height:auto;clip:auto;
-  overflow:visible;color:#666;font:400 8px/1 Arial,sans-serif;
-  white-space:nowrap;letter-spacing:0;
+  display:flex;flex-direction:row;align-items:center;
+  justify-content:flex-start;position:static;
+  grid-column:2;grid-row:2;gap:3px;min-width:0;max-width:100%;
 }
 .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input[type=checkbox]{
-  order:0;flex:0 0 11px;width:11px;height:11px;margin:0;cursor:pointer;
+  order:-1;flex:0 0 11px;width:11px;height:11px;min-width:11px;
+  margin:0;cursor:pointer;
 }
+.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
+  order:0;display:block;position:static;
+  width:auto;height:auto;clip:auto;overflow:visible;min-width:0;
+  font:400 8px/1 Arial,Helvetica,sans-serif;
+  color:#62625f;white-space:nowrap;
+}
+
+/* Ebbe Black for every dark-green heading on page one.
+   Leave ability names and editable fields sans-serif. */
+.pf-alt-page--first .pf-alt-p1-heading,
+.pf-alt-page--first .pf-alt-section>h3,
+.pf-alt-page--first .pf-alt-subhead{
+  font-family:'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important;
+  font-weight:900!important;
+}
+
 @media(max-width:900px){
-  .pf-alt-page--first .pf-alt-p1-level-diamond{flex-basis:53px;width:53px}
-  .pf-alt-page--first .pf-alt-p1-level-diamond:before{width:35px;height:35px}
-  .pf-alt-page--first .pf-alt-p1-experience{margin-left:-7px}
-  .pf-alt-page--first .pf-alt-p1-abilities{margin-left:0}
+  .pf-alt-page--first .pf-alt-p1-level-diamond{width:56px;height:56px}
+  .pf-alt-page--first .pf-alt-p1-level-diamond::before{width:36px;height:36px}
+  .pf-alt-page--first .pf-alt-p1-experience{
+    left:37px;max-width:calc(100% - 36px);
+  }
+  .pf-alt-page--first .pf-alt-abilities{
+    margin-left:0;width:100%;
+  }
+  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
+    font-size:clamp(10px,1.4vw,13px);
+  }
 }
 @media(max-width:640px){
-  .pf-alt-page--first .pf-alt-p1-experience{max-width:65px}
-  .pf-alt-page--first .pf-alt-abilities{margin-left:0;width:100%}
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
-    display:block;position:static;clip:auto;width:auto;height:auto;
-    font-size:7px;line-height:1.05;white-space:normal;overflow-wrap:normal;
+  .pf-alt-page--first .pf-alt-p1-experience{width:65px}
+  .pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point{
+    width:30px;height:28px;
   }
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input[type=checkbox]{
-    flex-basis:11px;width:11px;min-width:11px;
+  .pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point svg{
+    width:30px;height:26.25px;
+  }
+  .pf-alt-page--first .pf-alt-ability{
+    grid-template-columns:34px minmax(0,1fr);
+  }
+  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
+    width:33px!important;
+  }
+  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
+    font-size:11px;white-space:normal;
+  }
+  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
+    display:block;position:static;width:auto;height:auto;clip:auto;
+    font-size:7px;line-height:1.05;white-space:normal;
   }
 }
