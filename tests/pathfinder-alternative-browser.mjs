@@ -484,6 +484,17 @@ try {
       assert.ok(await biography.getByRole('button',{name:'Изменить портрет',exact:true}).isEnabled());
       await biography.screenshot({path:'test-artifacts/pf-alt-biography-desktop.png'});
     }
+    const campaign=pages.nth(2).locator('.pf-paper-campaign');
+    if(width===1440){
+      const boxes=await campaign.locator('.pf-alt-campaign-grid>.pf-alt-field').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom}}));
+      assert.ok(Math.abs(boxes[0].width-boxes[1].width)<1,'Campaign notes have equal-width columns');
+      assert.ok(Math.abs(boxes[0].top-boxes[1].top)<1&&Math.abs(boxes[0].bottom-boxes[3].bottom)<1,
+        'Campaign notes and three side fields share top and bottom baselines');
+      const notes=campaign.getByRole('textbox',{name:'Заметки',exact:true});
+      assert.ok((await notes.innerText()).includes('Исследование руин'));
+      const ally=campaign.getByRole('textbox',{name:'Союзники',exact:true});await ally.fill('Союз магов');assert.equal(await ally.innerText(),'Союз магов');
+      await campaign.screenshot({path:'test-artifacts/pf-alt-campaign-desktop.png'});
+    }
     const equipment=pages.nth(1).locator('.pf-paper-equipment');
     assert.equal(await equipment.locator('.pf-alt-inventory-group').count(),3);
     const wornColumns=await equipment.locator('.pf-paper-worn .pf-alt-field').evaluateAll(nodes=>nodes.map(el=>({left:el.getBoundingClientRect().left,top:el.getBoundingClientRect().top})));

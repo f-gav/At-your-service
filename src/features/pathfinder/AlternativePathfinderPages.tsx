@@ -470,9 +470,9 @@ export default function AlternativePathfinderPages({
     </Section>
    </div>
   </div>
-  <Section index="IV" title="Заметки для кампании" wide>
+  <Section index="IV" title="Заметки для кампании" className="pf-paper-campaign" wide>
    <div className="pf-alt-campaign-grid">
-    {['campaign_notes','allies','enemies','organizations'].map(id=>field(id))}
+    {['campaign_notes','allies','enemies','organizations'].map(id=>field(id,id==='campaign_notes'?'Заметки':undefined))}
    </div>
   </Section>
   <div className="pf-alt-action-layout">
