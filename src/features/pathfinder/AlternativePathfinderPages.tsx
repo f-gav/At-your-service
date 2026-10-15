@@ -251,7 +251,7 @@ export default function AlternativePathfinderPages({
    <Section index="II" title="Характеристики" className="pf-alt-abilities-section" wide>
     <div className="pf-alt-abilities">
      {ABILITIES.map(([id,label])=><div className="pf-alt-ability" key={id}>
-      {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частич. повышение')}
+      {field('ability_'+id,label)}{field('ability_'+id+'_partial','Частич. повыш.')}
      </div>)}
     </div>
    </Section>

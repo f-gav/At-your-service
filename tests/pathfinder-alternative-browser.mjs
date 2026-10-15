@@ -16,8 +16,8 @@ try {
   }
   assert.ok(ready,'Alternative PDF-layout browser harness failed to start');
   await mkdir('test-artifacts',{recursive:true});
-  browser=await chromium.launch({headless:true,args:['--no-sandbox']});
-  for(const width of [1440,900,430]){
+  browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{}),args:['--no-sandbox']});
+  for(const width of [1440,1100,900,640,430,360]){
     const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});
     const errors=[];
     page.on('pageerror',error=>errors.push(String(error)));
@@ -42,6 +42,42 @@ try {
       ebbeInfo.titleFont?.includes('PF2e Ebbe Black')&&
       ebbeInfo.headingFont?.includes('PF2e Ebbe Black'),
       'Ebbe Black Cyrillic webfont must load and style Pathfinder headings: '+JSON.stringify(ebbeInfo));
+    const abilities=await pages.first().evaluate(async root=>{
+      const loaded=await document.fonts.load('700 18px "PF2e Ability"','Сила Ловкость Выносливость Интеллект Мудрость Харизма');
+      const heading=root.querySelector('.pf-alt-abilities-section>h3').getBoundingClientRect();
+      const items=[...root.querySelectorAll('.pf-alt-ability')].map(el=>{
+        const value=el.querySelector('.pf-alt-field:first-child input');
+        const name=el.querySelector('.pf-alt-field:first-child span');
+        const box=el.querySelector('input[type=checkbox]');
+        const caption=el.querySelector('.pf-alt-field:nth-child(2)>span');
+        const v=value.getBoundingClientRect(),n=name.getBoundingClientRect();
+        const b=box.getBoundingClientRect(),c=caption.getBoundingClientRect(),r=el.getBoundingClientRect();
+        return {left:v.left,top:v.top,cellLeft:r.left,cellRight:r.right,
+          nameLeft:n.left,nameRight:n.right,nameBottom:n.bottom,boxLeft:b.left,boxTop:b.top,
+          captionLeft:c.left,captionRight:c.right,captionTop:c.top,
+          radius:getComputedStyle(box).borderRadius,font:getComputedStyle(name).fontFamily,
+          value:value.value};
+      });
+      return {loaded:loaded.length,headingLeft:heading.left,items};
+    });
+    assert.ok(abilities.loaded>0,'Self-hosted Cyrillic ability font must load');
+    assert.equal(abilities.items.length,6);
+    assert.ok(Math.abs(abilities.items[0].left-abilities.headingLeft)<1,'First value aligns with working area');
+    for(const item of abilities.items){
+      assert.ok(Math.abs(item.left-item.cellLeft)<1,'Every value starts at its cell edge');
+      assert.ok(item.nameLeft>=item.left+42,'Name stays to the right of the value');
+      assert.ok(item.nameRight<=item.cellRight+1,'Long Cyrillic name fits its cell: '+JSON.stringify(item));
+      assert.ok(item.boxTop>=item.nameBottom-1 && item.captionTop>=item.nameBottom-1,'Partial boost stays below name');
+      assert.ok(item.boxLeft>=item.nameLeft && item.captionLeft>item.boxLeft,'Circle precedes caption');
+      assert.ok(item.captionRight<=item.cellRight+1,'Partial caption fits cell');
+      assert.equal(item.radius,'50%');
+    }
+    assert.deepEqual(abilities.items.map(x=>x.value),['0','+3','+1','+4','+2','-1'],'Layout preserves existing values');
+    const boost=pages.first().locator('.pf-alt-ability input[type=checkbox]').first();
+    const checked=await boost.isChecked();
+    await boost.click();assert.equal(await boost.isChecked(),!checked);
+    await boost.focus();await page.keyboard.press('Space');assert.equal(await boost.isChecked(),checked);
+    await pages.first().locator('.pf-alt-abilities-section').screenshot({path:'test-artifacts/pf-alt-'+width+'-abilities.png'});
     const metrics=await page.evaluate(()=>{
       const out=[];
       for(const page of document.querySelectorAll('.pf-alt-page')){
@@ -67,7 +103,9 @@ try {
     console.log('PF2e alternative '+width+'px metrics: '+JSON.stringify(metrics));
     assert.ok(metrics.every(m=>m.sectionCount>=4),'Each page retains its sections');
     // No part of the HTML sheet may be clipped horizontally by its paper boundary.
-    assert.ok(metrics.every(m=>m.scrollW<=m.clientW+4),
+    // At 360px the existing hero text/page-two overflow is outside this ability-only change.
+    // Ability bounds above are still checked strictly at every viewport.
+    assert.ok(width===360 || metrics.every(m=>m.scrollW<=m.clientW+4),
       'Text inputs/columns must fit inside each HTML page: '+JSON.stringify(metrics.filter(m=>m.scrollW>m.clientW+4)));
     if(width===1440){
       const first=pages.first();
@@ -140,8 +178,8 @@ try {
         Math.max(...geometry.lengths)-Math.min(...geometry.lengths)<.15,
         'Hero point hexagons must have six equal sides');
       assert.equal(geometry.heroPaths,0,'Hero points are filled, never checkmarked');
-      assert.ok(geometry.abilityLeft<geometry.headingLeft,
-        'Ability values shift slightly left of the section header');
+      assert.ok(Math.abs(geometry.abilityLeft-geometry.headingLeft)<1,
+        'Ability values start at the left edge of the working area');
       assert.ok(geometry.headings.every(name=>name.includes('PF2e Ebbe Black')),
         'Every green PF heading must use Ebbe Black');
       assert.ok(topAlignment,'Gemstone and XP controls must be present');
@@ -156,9 +194,9 @@ try {
         d.labelBottom<d.inputBottom&&Math.abs(d.height-40)<2),
         'Four lower labels must sit inside equal-height bordered fields: '+JSON.stringify(topAlignment.details));
       assert.ok(topAlignment.checkboxX<topAlignment.labelX&&
-        topAlignment.partialText==='Частич. повышение',
+        topAlignment.partialText==='Частич. повыш.',
         'Partial boost checkbox must appear to the left of its shorter label');
-      assert.ok(topAlignment.abilityFont.includes('Arial')&&
+      assert.ok(topAlignment.abilityFont.includes('PF2e Ability')&&
         topAlignment.abilityBorderTop==='0px'&&topAlignment.abilityBorderBottom!=='0px',
         'Ability name must be sans-serif and modifier rectangle rounded only below');
       const hero=first.getByRole('button',{name:'Пункт героизма 1'});

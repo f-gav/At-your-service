@@ -88,27 +88,6 @@
 }
 .pf-alt-page--first .pf-alt-section>h3 svg,
 .pf-alt-page--first .pf-alt-section>h3 .pf-alt-section-index{display:none}
-.pf-alt-page--first .pf-alt-abilities{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:0 0 5px}
-.pf-alt-page--first .pf-alt-ability{
- display:grid;grid-template-columns:39px minmax(0,1fr);grid-template-rows:23px 15px;gap:0 3px;
- align-items:center;border:0;border-right:1px solid #bbb0ab;padding:0 4px 0 0;
-}
-.pf-alt-page--first .pf-alt-ability:last-child{border-right:0}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child{display:contents}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
- grid-column:2;grid-row:1;font-size:13px;font-weight:800;color:#292b27;white-space:nowrap;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
- grid-column:1;grid-row:1/3;height:34px!important;width:39px;min-width:0;
- font:900 18px/1 Arial!important;clip-path:none;
- border:3px solid #61443d!important;text-align:center;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
- grid-column:2;grid-row:2;display:flex;gap:2px;align-items:center;justify-content:flex-start;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
- font-size:8px;white-space:nowrap;font-weight:400;color:#656360}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input{width:10px;height:10px}
 .pf-alt-page--first .pf-alt-defense-grid{
  display:grid;grid-template-columns:32% 33% minmax(0,35%);gap:0;
  align-items:stretch;border-bottom:1px solid #cabbb6;margin:0 0 3px}
@@ -208,7 +187,6 @@
  .pf-alt-page--first .pf-alt-p1-top{grid-template-columns:1fr 1fr;gap:8px}
  .pf-alt-page--first .pf-alt-p1-logo{min-height:62px}
  .pf-alt-page--first .pf-alt-p1-origins{grid-template-columns:1fr;gap:4px}
- .pf-alt-page--first .pf-alt-abilities{grid-template-columns:repeat(3,minmax(0,1fr))}
  .pf-alt-page--first .pf-alt-defense-grid{grid-template-columns:1fr;gap:6px}
  .pf-alt-page--first .pf-alt-defense-grid>.pf-alt-section{border-right:0!important;padding:0}
  .pf-alt-page--first .pf-alt-main-columns{grid-template-columns:1fr;gap:8px}
@@ -225,8 +203,6 @@
 @media(min-width:901px){
  .pf-alt-page--first{gap:3px;padding-top:18px;padding-bottom:14px}
  .pf-alt-page--first>.pf-alt-p1-top{min-height:74px}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{height:30px!important}
- .pf-alt-page--first .pf-alt-abilities{padding-bottom:2px}
  .pf-alt-page--first .pf-alt-defense-grid{align-items:start}
  .pf-alt-page--first .pf-alt-defense-grid .pf-alt-section{min-height:0}
  .pf-alt-page--first .pf-alt-defense-values{
@@ -330,21 +306,7 @@
  .pf-alt-page--first .pf-alt-p1-origins .pf-alt-field{min-width:0}
 }
 
-/* Prevent the two longest ability names from pushing partial-boost checkboxes
-   outside the page on narrow screens. Labels remain available to screen readers. */
-@media(max-width:640px){
- .pf-alt-page--first .pf-alt-ability{grid-template-columns:34px minmax(0,1fr);gap:0 2px;min-width:0}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
-   min-width:0;max-width:100%;font-size:10px;line-height:1.05;
-   white-space:normal;overflow-wrap:anywhere}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
-   min-width:0;max-width:100%;justify-content:flex-start}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
-   position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input[type=checkbox]{
-   width:12px;height:12px;min-width:12px;max-width:12px;margin:0}
- .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{width:33px!important}
-}
+
 
 /* PF2e first-page refinement — reference: level, hero, origins, abilities.
    Scoped to the HTML alternative, not the classic PDF sheet. */
@@ -449,48 +411,7 @@
   padding:15px 5px 3px;font:400 12px/1.15 Arial,sans-serif;
 }
 
-/* Six characteristics anchored to the left like the Russian paper sheet. */
-.pf-alt-page--first .pf-alt-abilities{
-  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:2px;margin-left:-15px;width:calc(100% + 15px);
-}
-.pf-alt-page--first .pf-alt-ability{
-  display:grid;grid-template-columns:43px minmax(0,1fr);
-  grid-template-rows:25px 17px;align-items:start;gap:0 3px;
-  padding:0 2px 0 0;min-width:0;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child{
-  display:contents;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
-  grid-column:1;grid-row:1/3;align-self:start;
-  width:42px!important;height:36px!important;min-width:0!important;
-  padding:1px!important;
-  border-radius:0 0 9px 9px!important;clip-path:none!important;
-  font:900 18px/1 Arial,Helvetica,sans-serif!important;
-  text-align:center;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
-  grid-column:2;grid-row:1;align-self:center;min-width:0;
-  font-family:Arial,Helvetica,sans-serif!important;
-  font-size:14px;font-weight:800;letter-spacing:-.045em;
-  white-space:nowrap;line-height:1;color:#272925;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2){
-  display:flex;flex-direction:row;align-items:center;
-  justify-content:flex-start;position:static;
-  grid-column:2;grid-row:2;gap:3px;min-width:0;max-width:100%;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>input[type=checkbox]{
-  order:-1;flex:0 0 11px;width:11px;height:11px;min-width:11px;
-  margin:0;cursor:pointer;
-}
-.pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
-  order:0;display:block;position:static;
-  width:auto;height:auto;clip:auto;overflow:visible;min-width:0;
-  font:400 8px/1 Arial,Helvetica,sans-serif;
-  color:#62625f;white-space:nowrap;
-}
+
 
 /* Ebbe Black for every dark-green heading on page one.
    Leave ability names and editable fields sans-serif. */
@@ -507,12 +428,6 @@
   .pf-alt-page--first .pf-alt-p1-experience{
     left:37px;max-width:calc(100% - 36px);
   }
-  .pf-alt-page--first .pf-alt-abilities{
-    margin-left:0;width:100%;
-  }
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
-    font-size:clamp(10px,1.4vw,13px);
-  }
 }
 @media(max-width:640px){
   .pf-alt-page--first .pf-alt-p1-experience{width:65px}
@@ -522,17 +437,61 @@
   .pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point svg{
     width:30px;height:26.25px;
   }
-  .pf-alt-page--first .pf-alt-ability{
-    grid-template-columns:34px minmax(0,1fr);
-  }
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>input{
-    width:33px!important;
-  }
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:first-child>span{
-    font-size:11px;white-space:normal;
-  }
-  .pf-alt-page--first .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
-    display:block;position:static;width:auto;height:auto;clip:auto;
-    font-size:7px;line-height:1.05;white-space:normal;
-  }
+}
+
+/* Ability row only: self-hosted Cyrillic font, independent of legacy flex rules. */
+@font-face{
+ font-family:'PF2e Ability';
+ src:url('../../assets/fonts/roboto-condensed/RobotoCondensed-Variable.ttf') format('truetype');
+ font-style:normal;font-weight:100 900;font-display:swap;
+}
+.pf-alt-page--first .pf-alt-abilities-section>.pf-alt-abilities{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+ gap:6px;margin:0;width:100%;padding:0 0 5px;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability{
+ position:static;display:grid;grid-template-columns:42px minmax(0,1fr);
+ grid-template-rows:minmax(23px,auto) 16px;gap:0 4px;
+ align-items:start;min-width:0;padding:0;border:0;text-align:left;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability>.pf-alt-field:first-child{
+ display:contents;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability>.pf-alt-field:first-child>input{
+ grid-column:1;grid-row:1/3;align-self:start;box-sizing:border-box;
+ width:42px;height:39px!important;min-width:0;margin:0;padding:1px;
+ border:3px solid #61443d;border-radius:0 0 9px 9px;clip-path:none;
+ background:#fff;font:900 21px/1 Arial,Helvetica,sans-serif!important;text-align:center;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability>.pf-alt-field:first-child>span{
+ grid-column:2;grid-row:1;align-self:center;min-width:0;
+ font:700 18px/1.1 'PF2e Ability','Arial Narrow',Arial,sans-serif;
+ color:#272925;text-transform:none;letter-spacing:0;white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability>.pf-alt-field:nth-child(2){
+ position:static;grid-column:2;grid-row:2;display:flex;flex-direction:row;
+ align-items:center;justify-content:flex-start;gap:3px;min-width:0;margin:0;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability>.pf-alt-field:nth-child(2)>span{
+ position:static;display:block;width:auto;height:auto;clip:auto;overflow:visible;
+ font:400 9px/1.1 'PF2e Ability',Arial,sans-serif;
+ text-transform:none;letter-spacing:0;color:#62625f;white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability input[type=checkbox]{
+ appearance:none;box-sizing:border-box;order:-1;flex:0 0 12px;
+ width:12px;height:12px;min-width:12px;margin:0;padding:0;
+ border:1.5px solid #73746f;border-radius:50%;background:#fff;cursor:pointer;
+}
+.pf-alt-page--first .pf-alt-abilities-section .pf-alt-ability input[type=checkbox]:checked{
+ background:#315e47;box-shadow:inset 0 0 0 2px #fff;
+}
+@media(max-width:1100px){
+ .pf-alt-page--first .pf-alt-abilities-section>.pf-alt-abilities{
+  grid-template-columns:repeat(3,minmax(0,1fr));row-gap:6px;
+ }
+}
+@media(max-width:480px){
+ .pf-alt-page--first .pf-alt-abilities-section>.pf-alt-abilities{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
 }
