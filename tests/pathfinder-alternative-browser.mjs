@@ -42,17 +42,30 @@ try {
       ebbeInfo.titleFont?.includes('PF2e Ebbe Black')&&
       ebbeInfo.headingFont?.includes('PF2e Ebbe Black'),
       'Ebbe Black Cyrillic webfont must load and style Pathfinder headings: '+JSON.stringify(ebbeInfo));
+    const badge=await pages.first().locator('.pf-alt-p1-logo-art').evaluate(el=>{
+      const box=el.getBoundingClientRect(),img=el.querySelector('img').getBoundingClientRect();
+      // Bounds of the badge and its low left flourish in the original PDF raster.
+      const project=(x,y)=>({x:img.left+x*img.width/3005,y:img.top+y*img.width/3005});
+      return {box:{left:box.left,right:box.right,top:box.top,bottom:box.bottom},
+        upperLeft:project(125,90),lowerRight:project(990,265),flourish:project(200,285)};
+    });
+    for(const point of [badge.upperLeft,badge.lowerRight,badge.flourish]){
+      assert.ok(point.x>=badge.box.left&&point.x<=badge.box.right&&
+        point.y>=badge.box.top&&point.y<=badge.box.bottom,
+        'Entire Pathfinder badge and flourish must fit the responsive crop');
+    }
     const typography=await pages.first().evaluate(root=>({
       weights:[...root.querySelectorAll('.pf-alt-ability>.pf-alt-field:first-child>span')]
         .map(el=>getComputedStyle(el).fontWeight),
       headings:[...root.querySelectorAll('.pf-alt-p1-heading,.pf-alt-section>h3')]
         .map(el=>({border:getComputedStyle(el).borderBottomColor,
-          rule:getComputedStyle(el,'::after').visibility}))
+          rule:getComputedStyle(el,'::after').position,
+          width:parseFloat(getComputedStyle(el,'::after').width)}))
     }));
     assert.ok(typography.weights.length===6&&typography.weights.every(x=>x==='600'),
       'All six ability names use a lighter semibold weight');
-    assert.ok(typography.headings.every(x=>x.border==='rgba(0, 0, 0, 0)'&&x.rule==='hidden'),
-      'First-page headings have no visible underline or decorative rule');
+    assert.ok(typography.headings.every(x=>x.border==='rgba(0, 0, 0, 0)'&&x.rule==='static'&&x.width>=8),
+      'First-page headings have inline paper rules and no underline');
     const abilities=await pages.first().evaluate(async root=>{
       const loaded=await document.fonts.load('700 18px "PF2e Ability"','Сила Ловкость Выносливость Интеллект Мудрость Харизма');
       const heading=root.querySelector('.pf-alt-abilities-section>h3').getBoundingClientRect();
@@ -148,7 +161,7 @@ try {
           nameFonts:names.map(value=>value&&value.font),
           captions,
           rightBorders:columns,
-          headingRuleVisibility:headingAfter?.visibility,
+          headingRuleWidth:headingAfter?parseFloat(headingAfter.width):0,
           headingBorder:title&&getComputedStyle(title).borderBottomWidth,
           rowEnd:section?.getBoundingClientRect().bottom,
         };
@@ -168,8 +181,8 @@ try {
         'A round boost marker precedes its text on one line');
       assert.ok(strip.rightBorders.every(value=>value==='0px'),
         'No vertical separators between abilities');
-      assert.equal(strip.headingRuleVisibility,'hidden',
-        'Characteristics heading must have no visible decorative rule');
+      assert.ok(strip.headingRuleWidth>80&&strip.headingBorder==='0px',
+        'Characteristics rule continues to the right of its caption');
     }
     if(width===1440){
       const first=pages.first();

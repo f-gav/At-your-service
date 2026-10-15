@@ -763,12 +763,23 @@
   width:860px;left:-30px;top:-24px;
 }
 
-/* Hide decorative heading rules while preserving the existing field positions. */
+/* Paper rules continue beside captions; keep the old underline space empty. */
 .pf-alt-page--first .pf-alt-p1-heading,
 .pf-alt-page--first .pf-alt-section>h3{
   border-bottom-color:transparent!important;
 }
 .pf-alt-page--first .pf-alt-p1-heading::after,
 .pf-alt-page--first .pf-alt-section>h3::after{
-  visibility:hidden!important;
+  content:"";position:static;inset:auto;display:block;
+  flex:1 1 0;min-width:8px;width:auto;height:3px;
+  background:var(--pf-line);
+}
+/* Scale the PDF badge crop with its column. The lower-left flourish extends
+   below the badge; exclude the printed subtitle only to its right. */
+.pf-alt-page--first .pf-alt-p1-logo-art{
+  flex:0 0 auto;width:100%;height:auto;aspect-ratio:900/210;
+  clip-path:polygon(0 0,100% 0,100% 90.5%,13% 90.5%,13% 100%,0 100%);
+}
+.pf-alt-page--first .pf-alt-p1-logo-art img{
+  width:333.888889%;left:-12.222222%;top:-38.095238%;
 }
