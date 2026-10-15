@@ -42,6 +42,17 @@ try {
       ebbeInfo.titleFont?.includes('PF2e Ebbe Black')&&
       ebbeInfo.headingFont?.includes('PF2e Ebbe Black'),
       'Ebbe Black Cyrillic webfont must load and style Pathfinder headings: '+JSON.stringify(ebbeInfo));
+    const typography=await pages.first().evaluate(root=>({
+      weights:[...root.querySelectorAll('.pf-alt-ability>.pf-alt-field:first-child>span')]
+        .map(el=>getComputedStyle(el).fontWeight),
+      headings:[...root.querySelectorAll('.pf-alt-p1-heading,.pf-alt-section>h3')]
+        .map(el=>({border:getComputedStyle(el).borderBottomColor,
+          rule:getComputedStyle(el,'::after').visibility}))
+    }));
+    assert.ok(typography.weights.length===6&&typography.weights.every(x=>x==='600'),
+      'All six ability names use a lighter semibold weight');
+    assert.ok(typography.headings.every(x=>x.border==='rgba(0, 0, 0, 0)'&&x.rule==='hidden'),
+      'First-page headings have no visible underline or decorative rule');
     const abilities=await pages.first().evaluate(async root=>{
       const loaded=await document.fonts.load('700 18px "PF2e Ability"','Сила Ловкость Выносливость Интеллект Мудрость Харизма');
       const heading=root.querySelector('.pf-alt-abilities-section>h3').getBoundingClientRect();
@@ -137,7 +148,7 @@ try {
           nameFonts:names.map(value=>value&&value.font),
           captions,
           rightBorders:columns,
-          headingRuleWidth:headingAfter?parseFloat(headingAfter.width):0,
+          headingRuleVisibility:headingAfter?.visibility,
           headingBorder:title&&getComputedStyle(title).borderBottomWidth,
           rowEnd:section?.getBoundingClientRect().bottom,
         };
@@ -157,8 +168,8 @@ try {
         'A round boost marker precedes its text on one line');
       assert.ok(strip.rightBorders.every(value=>value==='0px'),
         'No vertical separators between abilities');
-      assert.ok(strip.headingRuleWidth>80&&strip.headingBorder==='0px',
-        'Green rule must start to the right of the Characteristics title');
+      assert.equal(strip.headingRuleVisibility,'hidden',
+        'Characteristics heading must have no visible decorative rule');
     }
     if(width===1440){
       const first=pages.first();
