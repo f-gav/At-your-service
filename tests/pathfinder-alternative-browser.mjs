@@ -119,7 +119,7 @@ try {
       const inset=first.locator('.pf-alt-p1-origins');
       const topFields=inset.locator('> section > label > input');
       assert.ok(await topFields.count()>=3,'Origin, background and class fields are editable');
-      const emptyOrigin=inset.locator('> section:nth-child(2) > label > input');
+      const emptyOrigin=inset.getByRole('textbox',{name:'Происхождение',exact:true});
       assert.equal(await emptyOrigin.getAttribute('placeholder'),'',
         'Empty upper origin fields must remain blank, not show a false dash');
       const size=inset.getByRole('combobox',{name:'Размер'});
