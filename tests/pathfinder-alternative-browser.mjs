@@ -468,6 +468,22 @@ try {
         .or(fourth.locator('.pf-alt-spell-text .pf-rich-editable').first());
       assert.ok(await fourth.locator('.pf-alt-magic-layout').count()===1);
     }
+    const equipment=pages.nth(1).locator('.pf-paper-equipment');
+    assert.equal(await equipment.locator('.pf-alt-inventory-group').count(),3);
+    const wornColumns=await equipment.locator('.pf-paper-worn .pf-alt-field').evaluateAll(nodes=>nodes.map(el=>({left:el.getBoundingClientRect().left,top:el.getBoundingClientRect().top})));
+    assert.equal(wornColumns.length,3);
+    assert.ok(wornColumns.every((x,i)=>Math.abs(x.top-wornColumns[0].top)<1&&(i===0||x.left>wornColumns[i-1].left)),
+      'Worn items, attunement and bulk are three adjacent columns');
+    assert.deepEqual(await equipment.locator('.pf-alt-coin .pf-alt-field>span').allTextContents(),['ММ','СМ','ЗМ','ПМ']);
+    if(width===1440){
+      const held=equipment.locator('.pf-paper-held .pf-rich-editable').first();
+      assert.ok((await held.innerText()).includes('Свёрток с рунами'),'Existing inventory contents remain readable');
+      await equipment.locator('.pf-paper-bag input').fill('8');
+      assert.equal(await equipment.locator('.pf-paper-bag input').inputValue(),'8');
+      const gold=equipment.getByRole('textbox',{name:'ЗМ',exact:true});await gold.fill('27');assert.equal(await gold.inputValue(),'27');
+      const attunement=equipment.locator('.pf-paper-worn .pf-rich-editable').nth(1);await attunement.fill('1');assert.equal(await attunement.innerText(),'1');
+      await equipment.screenshot({path:'test-artifacts/pf-alt-equipment-desktop.png'});
+    }
     const advancement=pages.nth(1).locator('.pf-alt-dynamic-advancement');
     assert.equal(await advancement.count(),1,'Alternative page reuses dynamic advancement');
     if(width===1440){

@@ -20,6 +20,7 @@ import './AlternativePathfinderSkills.css';
 import './AlternativePathfinderTypography.css';
 import './AlternativePathfinderRightColumn.css';
 import './AlternativePathfinderAdvancement.css';
+import './AlternativePathfinderEquipment.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -63,8 +64,9 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
    {children}
   </section>;
 }
-function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'}){
+function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'|'bag'}){
  const paths={
+  bag:'M18 4 H82 L79 23 L91 37 L91 80 L78 96 H22 L9 80 V37 L21 23 Z',
   dart:'M50 4 L96 94 L64 83 V98 H36 V83 L4 94 Z',
   eye:'M32 72 L8 98 L2 88 L24 65 M53 5 A37 37 0 1 1 53 79 A37 37 0 1 1 53 5 Z',
   arrow:'M7 25 H58 V5 L96 50 L58 95 V75 H3 Z',
@@ -420,27 +422,28 @@ export default function AlternativePathfinderPages({
       onValueChange={onChange} onAdd={onAddLevel} onRemove={onRemoveLevel}/>
     </div>
    </div>
-   <div className="pf-alt-equipment-column">
-    <Section index="IV" title="Инвентарь и снаряжение" className="pf-alt-inventory">
-     <div className="pf-alt-inventory-group">
-      <h4>Удерживаемые предметы</h4>
-      {cells(['inventory_held','inventory_held_bulk'])}
+   <div className="pf-alt-equipment-column pf-paper-equipment">
+    <Section index="IV" title="Снаряжение" className="pf-alt-inventory">
+     <div className="pf-alt-inventory-group pf-paper-held"><div className="pf-alt-fields">
+      {field('inventory_held','Удерживаемые предметы')}{field('inventory_held_bulk','Вес')}
+     </div></div>
+     <div className="pf-alt-inventory-group pf-paper-consumables"><div className="pf-alt-fields">
+      {field('inventory_consumables','Одноразовые предметы')}{field('inventory_consumables_bulk','Вес')}
+     </div></div>
+     <div className="pf-alt-inventory-group pf-paper-worn"><div className="pf-alt-fields">
+      {field('inventory_worn','Носимые предметы')}{field('inventory_worn_attune','Настр.')}{field('inventory_worn_bulk','Вес')}
+     </div></div>
+    </Section>
+    <Section index="IV" title="Вес" className="pf-paper-bulk-section">
+     <div className="pf-paper-bulk-body"><div className="pf-paper-icon pf-paper-bag"><PaperFrame kind="bag"/>{field('bulk_total','Вес')}</div>
+      <div className="pf-paper-bulk-guide"><span><b>Лёгкие вещи:</b> 10 предметов веса Л = вес 1</span><span><b>Нагруженность:</b> 5 + Сил</span><span><b>Макс. вес:</b> 10 + Сил</span><span><b>Макс. настроенность:</b> 10</span></div>
      </div>
-     <div className="pf-alt-inventory-group">
-      <h4>Одноразовые предметы</h4>
-      {cells(['inventory_consumables','inventory_consumables_bulk'])}
-     </div>
-     <div className="pf-alt-inventory-group">
-      <h4>Носимые предметы</h4>
-      {cells(['inventory_worn','inventory_worn_attune','inventory_worn_bulk'])}
-     </div>
-     <div className="pf-alt-bulk">{field('bulk_total','Общий вес')}</div>
     </Section>
     <Section index="V" title="Богатство" className="pf-alt-wealth">
      <div className="pf-alt-coin-row">
-      {['wealth_pp','wealth_gp','wealth_sp','wealth_cp'].map((id,i)=><div className={'pf-alt-coin pf-alt-coin-'+i} key={id}>{field(id,['ПМ','ЗМ','СМ','ММ'][i])}</div>)}
+      {['wealth_cp','wealth_sp','wealth_gp','wealth_pp'].map((id,i)=><div className={'pf-alt-coin pf-paper-coin-'+id} key={id}>{field(id,['ММ','СМ','ЗМ','ПМ'][i])}</div>)}
      </div>
-     {cells(['valuables','valuables_price','valuables_bulk'])}
+     <div className="pf-alt-fields pf-paper-valuables">{field('valuables','Самоцветы и предметы искусства')}{field('valuables_price','Цена')}{field('valuables_bulk','Вес')}</div>
     </Section>
    </div>
   </div>
