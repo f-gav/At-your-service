@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import type {ReactNode} from 'react';
 import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap, Skull, Crown} from 'lucide-react';
 import RichField from './RichField';
-import {RANK_FIELDS, RANK_LABELS,readRank,isAutomatic,isCoreComputedField} from './rules-core';
+import {RANK_FIELDS, RANK_LABELS,SKILL_ABILITIES,readRank,isAutomatic,isCoreComputedField} from './rules-core';
 import {isSpellcastingComputedField,isSpellcastingConfigured} from './rules-spellcasting';
 import {isNativeCombatComputedField,isNativeWeaponAttackField,isClassDcConfigured} from './rules-combat';
 import {PF_NOTES_BLOCK_COUNT,noteBodyKey,noteTitleKey,noteBlockTitle} from './notes-blocks';
@@ -14,6 +14,7 @@ import {spellCast} from './SpellGrimoire';
 import './AlternativePathfinderPages.css';
 import './AlternativePathfinderFirstPage.css';
 import './AlternativePathfinderDefenses.css';
+import './AlternativePathfinderSkills.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -56,15 +57,16 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
    {children}
   </section>;
 }
-function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'}){
+function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'}){
  const paths={
+  skill:'M14 4 H86 Q86 18 97 18 V82 Q86 82 86 96 H14 Q14 82 3 82 V18 Q14 18 14 4 Z',
   armor:'M35 8 L42 3 Q50 10 58 3 L65 8 L77 10 L94 38 L81 48 L72 39 L72 88 L60 91 L56 98 L44 98 L40 91 L28 88 L28 39 L19 48 L6 38 L23 10 Z',
   shield:'M9 5 H91 V40 Q88 72 50 96 Q12 72 9 40 Z',
   save:'M13 9 H87 L97 28 V72 L87 91 H13 L3 72 V28 Z',
   heart:'M50 17 C27 -8 0 7 4 36 C6 64 32 77 50 96 C68 77 94 64 96 36 C100 7 73 -8 50 17 Z'
  };
  return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-  <path d={paths[kind]} fill="white" stroke={kind==='heart'?'#772b27':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
+  <path d={paths[kind]} fill="white" stroke={kind==='heart'?'#772b27':kind==='skill'?'#1b4a30':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
   <path d={paths[kind]} fill="none" stroke="#b9b9b3" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
  </svg>;
 }
@@ -98,7 +100,7 @@ export default function AlternativePathfinderPages({
        title={RANK_LABELS[rank]}
        aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
        onClick={()=>onChange(id,String(current===rank?0:rank))}
-       ><span aria-hidden="true">{current===rank&&!(page===1&&id.startsWith('armor_rank_'))?'✓':''}</span></button>)}
+       ><span aria-hidden="true">{current===rank&&!(page===1&&(id.startsWith('armor_rank_')||id.startsWith('skill_')))?'✓':''}</span></button>)}
     </div>
    </div>;
   }
@@ -332,17 +334,21 @@ export default function AlternativePathfinderPages({
    <div className="pf-alt-main-columns">
     <Section index="VI" title="Навыки" className="pf-alt-skills-section">
      <div className="pf-alt-skill-list">
-      <div className="pf-alt-skill-head" aria-hidden="true">
-       <b>Навык</b><span>Итог</span><span>Влад.</span><span>Хар.</span><span>Ур.</span><span>Пред.</span><span>Штр.</span>
-      </div>
       {SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
-       <b>{label}</b>
-       <div className="pf-alt-fields">
-        {matching('skill_'+id+'_').map(key=>field(key,key.split('_').pop()))}
+       {id==='lore1'||id==='lore2'?<label className="pf-paper-lore-name"><b>Знание</b>
+        <input aria-label={'Область знания '+(id==='lore1'?'I':'II')} value={String(values['skill_'+id+'_name']??'')}
+         onChange={e=>onChange('skill_'+id+'_name',e.target.value)} />
+       </label>:<b>{label}</b>}
+       <div className="pf-paper-skill-total"><PaperFrame kind="skill"/>{field('skill_'+id+'_total',label+': итог')}</div>
+       {field('skill_'+id+'_rank',label+': владение')}
+       <div className="pf-paper-skill-formula">
+        {field('skill_'+id+'_ability',({str:'Сил',dex:'Лвк',con:'Вын',int:'Инт',wis:'Мдр',cha:'Хар'})[SKILL_ABILITIES[id]])}<i>+</i>
+        {field('skill_'+id+'_prof','Умен.')}<i>+</i>{field('skill_'+id+'_item','Предм.')}
+        {map.has('skill_'+id+'_armor')&&<><i>−</i>{field('skill_'+id+'_armor','Броня')}</>}
        </div>
       </div>)}
      </div>
-     {cells(['skills_notes'])}
+     <div className="pf-alt-fields">{field('skills_notes','Примечания')}</div>
     </Section>
     <div className="pf-alt-main-right">
      <div className="pf-alt-p1-utility">

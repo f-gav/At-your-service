@@ -373,12 +373,28 @@ try {
       await dying.nth(2).click();
       assert.equal(await dying.filter({has:page.locator('svg')}).count(),4);
       assert.equal(await dying.nth(2).getAttribute('aria-pressed'),'true');
+      const skills=first.locator('.pf-alt-skills-section');
+      assert.equal(await skills.locator('.pf-alt-skill-row').count(),18);
+      assert.equal(await skills.locator('.pf-paper-frame--skill').count(),18);
+      const skillLayout=await skills.evaluate(root=>{
+        const rows=[...root.querySelectorAll('.pf-alt-skill-row')];
+        const notes=root.querySelector(':scope>.pf-alt-fields').getBoundingClientRect();
+        return {lastBottom:rows.at(-1).getBoundingClientRect().bottom,notesBottom:notes.bottom,
+          vertical:rows.every(row=>{const buttons=[...row.querySelectorAll('.pf-alt-rank-square')];
+            return buttons.length===4&&buttons.every((b,i)=>i===0||b.getBoundingClientRect().top>=buttons[i-1].getBoundingClientRect().bottom-1);})};
+      });
+      assert.ok(skillLayout.vertical,'All skills use compact vertical rank columns');
+      assert.ok(Math.abs(skillLayout.lastBottom-skillLayout.notesBottom)<2,'Notes extend to the last skill row');
+      const lore=skills.getByRole('textbox',{name:'Область знания I',exact:true});
+      await lore.fill('Море');assert.equal(await lore.inputValue(),'Море');
+      await skills.screenshot({path:'test-artifacts/pf-alt-skills-desktop.png'});
       const rankSquares=first.locator('.pf-alt-skill-row').first().locator('.pf-alt-rank-square');
       assert.equal(await rankSquares.count(),4,'A skill shows four rank squares, never a dropdown');
       const initialRank=await rankSquares.evaluateAll(nodes=>nodes.findIndex(node=>node.getAttribute('aria-pressed')==='true'));
       await rankSquares.nth(2).click();
       assert.equal(await rankSquares.nth(2).getAttribute('aria-pressed'),'true','Master square selects rank 3');
-      assert.equal(await rankSquares.filter({hasText:'✓'}).count(),1,'Only one rank may be selected at a time');
+      assert.equal(await rankSquares.filter({hasText:'✓'}).count(),0,'Skill ranks are filled without checkmarks');
+      assert.equal(await rankSquares.locator('visible=true').count(),4);
       await rankSquares.nth(2).click();
       assert.equal(await rankSquares.filter({hasText:'✓'}).count(),0,'Click selected square to return to untrained');
       assert.equal(await first.locator('.pf-alt-skill-row select').count(),0,'No dropdowns for skill ranks');
@@ -396,8 +412,8 @@ try {
       await weapon.getByText('Бонусы и дополнительные свойства').click();
       assert.ok(await weapon.locator('.pf-alt-weapon-extra input').count()>0,
         'Advanced weapon fields remain editable when expanded');
-      assert.equal(await first.locator('.pf-alt-skill-head').count(),1,
-        'The skill table has one fixed heading row, not repeated column labels');
+      assert.equal(await first.locator('.pf-alt-skill-head').count(),0,
+        'Skill calculations have their own captions, without a shared table header');
       assert.equal(await fourth.locator('.pf-alt-manual-column').count()>=2,true,
         'The manual spell list uses adjacent ruled input columns');
       const arcane=fourth.getByRole('button',{name:'Мистическая'});

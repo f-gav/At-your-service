@@ -1,0 +1,42 @@
+/* Paper skill rows, isolated from the classic sheet and other first-page blocks. */
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section{display:grid;grid-template-columns:minmax(0,74%) minmax(0,26%);gap:0 4px;align-items:stretch}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>h3{grid-column:1/-1}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-skill-list{grid-column:1;margin:0!important;gap:0}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields{grid-column:2;display:flex;min-width:0;margin:0!important}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields>.pf-alt-field{flex:1;position:relative}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields>.pf-alt-field>span{position:absolute;left:3px;top:3px;z-index:1;font:400 8px/1 Arial,sans-serif}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section .pf-alt-rich{height:100%;min-height:0!important;flex:1;padding:14px 3px 3px}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section .pf-rich-editable{min-height:0!important}
+.pf-alt-page.pf-alt-page--first .pf-alt-skill-row{display:grid;grid-template-columns:minmax(0,29%) 43px 17px minmax(0,1fr);gap:3px;min-height:34px;border:0;padding:0;align-items:start}
+.pf-alt-page.pf-alt-page--first .pf-alt-skill-row>b{font:700 16px/30px 'PF2e Ability',Arial,sans-serif;padding:0;text-align:right;white-space:nowrap}
+.pf-alt-skill-row .pf-paper-skill-total{position:relative;height:29px;margin:2px 0}
+.pf-paper-skill-total>.pf-paper-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.pf-paper-skill-total>.pf-alt-field{position:absolute;inset:0;display:flex;justify-content:center;align-items:center}
+.pf-alt-page.pf-alt-page--first .pf-paper-skill-total>.pf-alt-field>input{border:0!important;clip-path:none!important;border-radius:0!important;background:transparent!important;width:90%;height:24px!important;padding:0;font-size:17px!important;font-weight:700;text-align:center}
+.pf-alt-page.pf-alt-page--first .pf-alt-skill-row>.pf-alt-rank-field>span,.pf-alt-page.pf-alt-page--first .pf-paper-skill-total>.pf-alt-field>span{display:none}
+.pf-alt-page.pf-alt-page--first .pf-alt-skill-row .pf-alt-rank-squares{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:start;justify-content:start;gap:0;min-height:0;padding:1px 8px 0 0}
+.pf-alt-page.pf-alt-page--first .pf-alt-skill-row .pf-alt-rank-square{position:relative;width:8px;height:8px;flex:0 0 8px;border-radius:0;padding:0}
+.pf-alt-skill-row .pf-alt-rank-square::after{position:absolute;left:100%;top:0;margin-left:1px;font:700 8px/8px Arial,sans-serif;color:#30332e}
+.pf-alt-skill-row .pf-alt-rank-square:nth-child(1)::after{content:'И'}
+.pf-alt-skill-row .pf-alt-rank-square:nth-child(2)::after{content:'Э'}
+.pf-alt-skill-row .pf-alt-rank-square:nth-child(3)::after{content:'М'}
+.pf-alt-skill-row .pf-alt-rank-square:nth-child(4)::after{content:'Л'}
+.pf-alt-skill-row .pf-paper-skill-formula{display:flex;align-items:start;min-width:0;height:19px;margin-top:3px;border:1px solid #9b726d}
+.pf-paper-skill-formula>.pf-alt-field{flex:1;min-width:0;display:flex;flex-direction:column-reverse;gap:2px}
+.pf-alt-page.pf-alt-page--first .pf-paper-skill-formula .pf-alt-field>input{border:0;height:17px!important;font-size:10px;padding:0 1px;text-align:center;background:transparent}
+.pf-alt-page.pf-alt-page--first .pf-paper-skill-formula .pf-alt-field>span{position:static;clip:auto;width:auto;height:auto;overflow:visible;font:700 8px/1 'PF2e Ability',Arial,sans-serif;white-space:nowrap;text-align:center;color:#272c26}
+.pf-paper-skill-formula>i{font:700 7px/17px Arial,sans-serif;color:#754b41}
+.pf-alt-skill-row .pf-paper-lore-name{display:flex;align-items:center;min-width:0;height:30px;font:700 16px/1 'PF2e Ability',Arial,sans-serif}
+.pf-paper-lore-name>input{min-width:0;width:0;flex:1;border:0;border-bottom:1px solid #555;background:transparent;font:400 10px/1 Arial,sans-serif;padding:0 1px}
+@media(max-width:480px){
+ .pf-alt-page.pf-alt-page--first .pf-alt-skills-section{grid-template-columns:minmax(0,1fr) 65px}
+ .pf-alt-page.pf-alt-page--first .pf-alt-skill-row{grid-template-columns:minmax(0,31%) 32px 16px minmax(0,1fr);gap:2px}
+ .pf-alt-page.pf-alt-page--first .pf-alt-skill-row>b,.pf-alt-skill-row .pf-paper-lore-name{font-size:12px}
+ .pf-alt-page.pf-alt-page--first .pf-paper-skill-formula .pf-alt-field>span{font-size:6px}
+ .pf-alt-page.pf-alt-page--first .pf-paper-skill-formula .pf-alt-field>input{font-size:8px}
+}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields>.pf-alt-field>span{display:block;clip:auto;clip-path:none;width:auto;height:auto;overflow:visible;visibility:visible}
+.pf-paper-skill-formula:not(:has(input[aria-label="Броня"])){width:80%}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields{position:relative}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields::before{content:'Примечания';position:absolute;top:4px;left:4px;z-index:5;pointer-events:none;font:400 8px/1 Arial,sans-serif;color:#555a57}
+.pf-alt-page.pf-alt-page--first .pf-alt-skills-section>.pf-alt-fields>.pf-alt-field>span{display:none}
