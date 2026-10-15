@@ -100,6 +100,13 @@ try {
         'Armor and shield have the wider paper-reference proportions');
       assert.ok(packing.formula.top>=packing.coat.bottom&&packing.training.left>=packing.formula.right-2,
         'AC calculation sits under the coat and shield, beside armor training');
+      const armorRanks=defense.locator('.pf-paper-armor-ranks .pf-alt-rank-field').first();
+      const armorExpert=armorRanks.locator('button').nth(1);
+      await armorExpert.click();
+      assert.equal(await armorExpert.getAttribute('aria-pressed'),'true');
+      assert.equal(await armorRanks.locator('button').filter({hasText:'✓'}).count(),0,
+        'Armor ranks use filled squares without checkmarks');
+      await armorExpert.click();assert.equal(await armorExpert.getAttribute('aria-pressed'),'false');
       const maximumHP=defense.getByRole('textbox',{name:'Максимум ПЗ',exact:true});
       for(const value of ['122','9999']){
         await maximumHP.fill(value);

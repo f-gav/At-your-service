@@ -98,7 +98,7 @@ export default function AlternativePathfinderPages({
        title={RANK_LABELS[rank]}
        aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
        onClick={()=>onChange(id,String(current===rank?0:rank))}
-       ><span aria-hidden="true">{current===rank?'✓':''}</span></button>)}
+       ><span aria-hidden="true">{current===rank&&!(page===1&&id.startsWith('armor_rank_'))?'✓':''}</span></button>)}
     </div>
    </div>;
   }
