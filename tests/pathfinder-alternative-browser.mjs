@@ -110,6 +110,25 @@ try {
     if(width===1440){
       const first=pages.first();
       assert.equal(await first.locator('.pf-alt-p1-logo').count(),1,'PF logo is placed above the first page');
+      const logoArtwork=first.locator('.pf-alt-p1-logo-art img');
+      assert.equal(await logoArtwork.count(),1,'Original PDF Pathfinder logo must be used');
+      const actualLogo=await logoArtwork.evaluate(img=>({complete:img.complete,
+        width:img.naturalWidth,height:img.naturalHeight,src:img.currentSrc}));
+      assert.ok(actualLogo.complete&&actualLogo.width>500&&actualLogo.height>600,
+        'The original Russian PDF background artwork must be loaded');
+      const inset=first.locator('.pf-alt-p1-origins');
+      const topFields=inset.locator('> section > label > input');
+      assert.ok(await topFields.count()>=3,'Origin, background and class fields are editable');
+      const emptyOrigin=inset.locator('> section:nth-child(2) > label > input');
+      assert.equal(await emptyOrigin.getAttribute('placeholder'),'',
+        'Empty upper origin fields must remain blank, not show a false dash');
+      const size=inset.getByRole('combobox',{name:'Размер'});
+      assert.equal(await size.evaluate(el=>getComputedStyle(el).appearance),'none',
+        'The PF2e size selector should work without a browser dropdown arrow');
+      const heroNote=first.locator('.pf-alt-p1-hero p');
+      assert.ok((await heroNote.innerText()).includes('Потратьте все')&&
+        await heroNote.locator('strong').count()>=2,
+        'Hero-point text includes the full paper-sheet explanation and emphasized phrases');
       assert.equal(await first.locator('.pf-alt-p1-origins>section').count(),3,'Ancestry, background and class share one row');
       assert.equal(await first.locator('.pf-alt-p1-utility>.pf-alt-section').count(),3,'Languages, perception and speed share one row');
       await first.screenshot({path:'test-artifacts/pf-alt-1440-page-1-base.png'});
