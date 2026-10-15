@@ -1,3 +1,4 @@
+import {parseSiteRoute,siteRoutePath} from '../src/lib/routes.ts';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
@@ -618,10 +619,21 @@ const app=source('../src/App.tsx');
 const page=source('../src/features/spell-library/SpellLibrary.tsx');
 assert.ok(app.includes('Персонажи</button>')&&app.includes('Библиотека</button>'));
 assert.ok(app.includes("<SpellLibrary onBack="));
-assert.ok(app.includes("parseSiteRoute(window.location.hash)") && app.includes("siteRouteHash({kind:tab})"),'Library supports direct hash links');
+assert.ok(app.includes("currentSiteRoute()") && app.includes("siteRoutePath({kind:tab},import.meta.env.BASE_URL)"),'Library supports clean path links');
 assert.ok(page.includes('spell-library/pf2e')===false,'System catalogs use independent dynamic paths');
 assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
 console.log('PASS: PF2e 71 cantrips + 189 rank-one + 223 rank-two spells (413 RU/54 EN), tracker, Legacy, D&D untouched');
+
+const routeId='550e8400-e29b-41d4-a716-446655440000';
+for(const base of ['/','/At-your-service/']){
+  for(const route of [{kind:'characters'},{kind:'library'},{kind:'character',id:routeId}]){
+    const path=siteRoutePath(route,base);
+    assert.ok(!path.includes('#'));
+    assert.deepEqual(parseSiteRoute(path,base),route);
+  }
+}
+assert.deepEqual(parseSiteRoute('#library'),{kind:'library'});
+assert.deepEqual(parseSiteRoute('/character/invalid/'),{kind:'characters'});

@@ -28,7 +28,13 @@ try{
   });
   const homeHeader=await headerMetrics();
   await page.locator('.site-nav').getByRole('button',{name:'Библиотека'}).click();
-  assert.equal(new URL(page.url()).hash,'#library');
+  assert.equal(new URL(page.url()).pathname,'/At-your-service/library/');
+  assert.equal(new URL(page.url()).hash,'');
+  await page.reload({waitUntil:'networkidle'});
+  assert.ok(await page.getByRole('heading',{name:'Библиотека заклинаний'}).isVisible());
+  await page.goBack({waitUntil:'networkidle'});
+  assert.equal(new URL(page.url()).pathname,'/At-your-service/');
+  await page.goForward({waitUntil:'networkidle'});
   const libraryHeader=await headerMetrics();
   for(const key of ['x','width','navX','viewportWidth']){
     assert.ok(Math.abs(homeHeader[key]-libraryHeader[key])<1,
@@ -499,6 +505,11 @@ try{
   assert.ok(Math.abs(mobileAfterNavigation.x-mobileNavigation.x)<1,'Mobile tabs must stay aligned');
   const mobileOverflow=await mobile.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
   assert.ok(mobileOverflow<=1,'Tabs must not introduce horizontal overflow: '+mobileOverflow);
+  await mobile.goto(base+'?__route='+encodeURIComponent('/At-your-service/library/?source=bookmark'),{waitUntil:'networkidle'});
+  assert.equal(new URL(mobile.url()).pathname,'/At-your-service/library/');
+  assert.equal(new URL(mobile.url()).search,'?source=bookmark');
+  assert.equal(new URL(mobile.url()).hash,'');
+  await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
   assert.deepEqual(errors,[],'No browser JavaScript exceptions');
   console.log('PASS: desktop/mobile primary tabs, deep-link, independent empty catalogs, filters and responsive UI');
   await mobile.close();

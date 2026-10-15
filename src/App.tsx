@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import AutoSaveStatus from './lib/AutoSaveStatus';
-import {parseSiteRoute,siteRouteHash} from './lib/routes';
+import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
@@ -216,11 +216,13 @@ function CharacterEditor({
   );
 }
 
+initializeSiteRoute();
+
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
-  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>parseSiteRoute(window.location.hash).kind==='library'?'library':'characters');
+  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>currentSiteRoute().kind==='library'?'library':'characters');
   // Reset the new page position before paint. Scrolling the old page inside
   // navigateTo could visibly move the header when content height changes.
   useLayoutEffect(()=>{
@@ -254,34 +256,34 @@ export default function App() {
   const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
   const [portraitUrls,setPortraitUrls] = useState<Record<string,string>>({});
   const {canInstall,install}=usePwaInstall();
-  // Hash routes are bookmarkable and survive reloads, back/forward and OAuth redirects.
+  // Restore the selected screen on browser back/forward navigation.
   useEffect(()=>{
     const sync=()=>{
-      const route=parseSiteRoute(window.location.hash);
+      const route=currentSiteRoute();
       setShowTemplateAdmin(false);
       setMainTab(route.kind==='library'?'library':'characters');
       setActiveId(route.kind==='character'?route.id:null);
       setMobileMenu(false);
     };
-    window.addEventListener('hashchange',sync);
-    return()=>window.removeEventListener('hashchange',sync);
+    window.addEventListener('popstate',sync);
+    return()=>window.removeEventListener('popstate',sync);
   },[]);
   function navigateTo(tab:'characters'|'library'){
     if(showTemplateAdmin)setShowTemplateAdmin(false);
     setMainTab(tab);setActiveId(null);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
     closeCreate();
-    window.location.hash=siteRouteHash({kind:tab});
-    // Hash navigation can race browser scroll restoration when switching away
+    window.history.pushState(null,'',siteRoutePath({kind:tab},import.meta.env.BASE_URL));
+    // Navigation can race browser scroll restoration when switching away
     // from a long paginated library; always reset the destination viewport.
     window.scrollTo({top:0,left:0,behavior:'instant'});
   }
   function openCharacter(id:string){
     setMainTab('characters');setActiveId(id);setOpenMenuId(null);setError('');
-    window.location.hash=siteRouteHash({kind:'character',id});
+    window.history.pushState(null,'',siteRoutePath({kind:'character',id},import.meta.env.BASE_URL));
   }
   function closeCharacter(){
     setActiveId(null);setFilter('all');
-    window.location.hash=siteRouteHash({kind:'characters'});
+    window.history.pushState(null,'',siteRoutePath({kind:'characters'},import.meta.env.BASE_URL));
   }
 
   const user = session?.user;
@@ -400,7 +402,7 @@ export default function App() {
         else {
           const owned=(data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[];
           setCharacters(owned);
-          const route=parseSiteRoute(window.location.hash);
+          const route=currentSiteRoute();
           if(route.kind==='character') {
             if(owned.some(character=>character.id===route.id))setActiveId(route.id);
             else {setActiveId(null);setError('Персонаж не найден в твоём аккаунте или доступ к нему отсутствует.');}
@@ -821,7 +823,7 @@ export default function App() {
                         <FilePenLine size={15}/> Переключить на {(character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'классический PF2e':'Альтернативный PF2e'}
                       </button>}
                       <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
-                      <button type="button" onClick={() => {const url=window.location.origin+window.location.pathname+window.location.search+siteRouteHash({kind:'character',id:character.id});void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
+                      <button type="button" onClick={() => {const url=window.location.origin+siteRoutePath({kind:'character',id:character.id},import.meta.env.BASE_URL);void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" onClick={() => {setOpenMenuId(null);setDuplicatePortrait(true);setDuplicateTarget(character);}} disabled={busy}><Copy size={15}/> Дублировать</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
