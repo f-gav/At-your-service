@@ -69,7 +69,7 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
 }
 function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'|'bag'|'spellstar'|'scroll'|'book'}){
  const paths={
-  spellstar:'M42 5 L55 24 C72 24 83 35 83 49 L96 57 L80 61 C74 77 56 83 42 74 L8 87 L30 62 C22 47 28 32 42 27 Z',
+  spellstar:'M34 3 L51 23 C61 22 69 27 74 34 L98 28 L81 48 C82 60 75 70 66 75 L68 97 L51 78 C39 78 30 70 26 61 L3 64 L24 48 C24 37 31 29 40 25 Z',
   scroll:'M25 7 H85 Q93 7 89 18 L73 42 Q69 49 75 55 Q85 67 80 84 Q78 93 69 93 H14 Q6 93 10 83 L27 57 Q32 49 26 43 Q14 29 18 14 Q19 7 25 7 Z',
   book:'M3 12 L43 7 L50 14 L57 7 L97 12 V90 L57 85 L50 92 L43 85 L3 90 Z',
   bag:'M18 4 H82 L79 23 L91 37 L91 80 L78 96 H22 L9 80 V37 L21 23 Z',
@@ -84,7 +84,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
   save:'M13 9 H87 L97 28 V72 L87 91 H13 L3 72 V28 Z',
   heart:'M50 17 C27 -8 0 7 4 36 C6 64 32 77 50 96 C68 77 94 64 96 36 C100 7 73 -8 50 17 Z'
  };
- return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio={kind==='eye'?'xMidYMid meet':'none'} aria-hidden="true" focusable="false">
+ return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio={kind==='eye'||kind==='spellstar'?'xMidYMid meet':'none'} aria-hidden="true" focusable="false">
   <path d={paths[kind]} fill="white" stroke={kind==='heart'||kind==='axe'?'#772b27':kind==='skill'?'#1b4a30':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
   <path d={paths[kind]} fill="none" stroke="#b9b9b3" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
  </svg>;

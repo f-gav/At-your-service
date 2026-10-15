@@ -159,7 +159,8 @@
 .pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-head,.pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-row{grid-template-columns:minmax(0,1fr) 35px 43px}
 .pf-paper-magic .pf-paper-panel-rituals .pf-alt-spell-column{background:linear-gradient(to right,transparent calc(100% - 78px),#d2c4bd calc(100% - 78px),#d2c4bd calc(100% - 77px),transparent calc(100% - 77px)),linear-gradient(to right,transparent calc(100% - 43px),#d2c4bd calc(100% - 43px),#d2c4bd calc(100% - 42px),transparent calc(100% - 42px))}
 /* Keep the numeric centres clear of the decorative tips and folds. */
-.pf-paper-magic .pf-paper-spellstar>.pf-alt-field{left:24%;right:12%;top:20%;bottom:18%}
+.pf-paper-magic .pf-paper-spellstar{height:54px}
+.pf-paper-magic .pf-paper-spellstar>.pf-alt-field{left:26%;right:20%;top:28%;bottom:24%}
 .pf-paper-magic .pf-paper-scroll>.pf-alt-field{left:22%;right:19%;top:19%;bottom:16%}
 .pf-paper-magic .pf-paper-spellstar>.pf-alt-field>input,.pf-paper-magic .pf-paper-scroll>.pf-alt-field>input{width:100%;font-size:17px!important}
 .pf-paper-magic .pf-paper-spellstar>.pf-paper-frame>path,.pf-paper-magic .pf-paper-scroll>.pf-paper-frame>path{stroke-width:3px;stroke-linejoin:round}
@@ -168,3 +169,6 @@
 .pf-paper-magic .pf-paper-magic-tools>button.pf-alt-add-spell:hover{background:#e5eee3}
 .pf-paper-magic .pf-paper-magic-tools>button.pf-alt-add-spell:focus-visible{outline:2px solid #315c44;outline-offset:2px}
 .pf-paper-magic .pf-paper-casting-section>h3{padding-right:61px}
+
+.pf-paper-magic .pf-paper-spellstar>.pf-paper-frame>path{stroke-linejoin:miter}
+@media(max-width:500px){.pf-paper-magic .pf-paper-spellstar{height:45px}.pf-paper-magic .pf-paper-spellstar>.pf-alt-field>input{font-size:15px!important}}
