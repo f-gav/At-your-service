@@ -27,7 +27,7 @@ for(const control of ['pf-alt-hero-marks','pf-alt-level-diamond',
    'Missing visual/interactive PF2e element: '+control);
 }
 const printable=read('../src/lib/sheet-pdf.ts');
-assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span')"),
+assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span,.pf-alt-dynamic-advancement .pf-advancement-add-row')"),
   'HTML character PDF must not include editable controls');
 assert.ok(html.includes("onOpenSpell(spell)"),
   'Printed spell rows must open their corresponding spell descriptions');

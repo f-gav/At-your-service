@@ -32,6 +32,7 @@ const character:Character={
       ...(alternative?{
         pf2e_layout:'alternative',
         name:'Элирэн Лунный Взор',player:'Игрок',level:'7',experience:'1200',
+        ancestry_features:'ays:rich:v1:<div><b>Эльф-провидец</b></div><div>Обнаружение магии</div>',
         ancestry:'Эльф',heritage:'Провидец',background:'Искатель знаний',character_class:'Волшебник',
         hero_1:true,hero_2:true,ability_str:'0',ability_dex:'+3',ability_con:'+1',
         ability_int:'+4',ability_wis:'+2',ability_cha:'-1',

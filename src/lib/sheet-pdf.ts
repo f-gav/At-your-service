@@ -140,7 +140,7 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
     if(alternative){
       // The HTML view uses the same input fields as the classic sheet, but
       // editing controls must not be printed as part of a PDF export.
-      page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span').forEach(node=>node.remove());
+      page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span,.pf-alt-dynamic-advancement .pf-advancement-add-row').forEach(node=>node.remove());
       page.querySelectorAll<HTMLElement>('.pf-alt-spell-row').forEach(node=>{
         node.style.cursor='default';
         node.style.textDecoration='none';

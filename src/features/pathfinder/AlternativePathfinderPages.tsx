@@ -11,12 +11,15 @@ import type {SheetValues,FieldValue} from './sheet-values';
 import type {EditableField} from './editor-schema';
 import type {SpellView} from '../spell-library/catalog';
 import {spellCast} from './SpellGrimoire';
+import DynamicAdvancement from './DynamicAdvancement';
+import {ADVANCEMENT_FIELD_IDS,advancementLevelCount} from './advancement-model';
 import './AlternativePathfinderPages.css';
 import './AlternativePathfinderFirstPage.css';
 import './AlternativePathfinderDefenses.css';
 import './AlternativePathfinderSkills.css';
 import './AlternativePathfinderTypography.css';
 import './AlternativePathfinderRightColumn.css';
+import './AlternativePathfinderAdvancement.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -24,6 +27,7 @@ type Props={
   onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;
   onOpenSpell:(spell:SpellView)=>void;onOpenSettings:()=>void;
   portraitUrl?:string;onEditPortrait:()=>void;
+  onAddLevel:()=>void;onRemoveLevel:(level:number)=>void;disabled?:boolean;
 };
 const ABILITIES=[['str','Сила'],['dex','Ловкость'],['con','Выносливость'],['int','Интеллект'],['wis','Мудрость'],['cha','Харизма']] as const;
 const SAVE_NAMES=[['fort','Стойкость'],['reflex','Рефлексы'],['will','Воля']] as const;
@@ -79,10 +83,11 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
 }
 export default function AlternativePathfinderPages({
  page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
- onChange,onOpenGrimoire,onOpenSpell,onOpenSettings,portraitUrl,onEditPortrait,
+ onChange,onOpenGrimoire,onOpenSpell,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
  const consumed=new Set<string>();
+ if(page===2)for(const id of ADVANCEMENT_FIELD_IDS)consumed.add(id);
  const automatic=isAutomatic(values,legacyHasValues);
  const spellConfigured=isSpellcastingConfigured(values);
  function field(id:string,alias?:string){
@@ -409,23 +414,11 @@ export default function AlternativePathfinderPages({
  {page===2&&<>
   <div className="pf-alt-equipment-layout">
    <div className="pf-alt-progression-column">
-    <Section index="I" title="Черты народа и общие черты" className="pf-alt-features">
-     {cells(['ancestry_features','ancestry_feat_1','background_skill_feat'])}
-    </Section>
-    <Section index="II" title="Классовые способности" className="pf-alt-features">
-     {cells(['class_features_1'])}
-    </Section>
-    <Section index="III" title="Способности по уровням">
-     <div className="pf-alt-level-track">
-      {Array.from({length:19},(_,i)=>i+2).map(n=><div key={n} className="pf-alt-advancement-row">
-       <div className="pf-alt-level-diamond"><b>{n}</b></div>
-       <div className="pf-alt-advancement-fields">
-        {field('feat_level_'+n,'Черта навыка / народа / общая')}
-        {field('class_level_'+n,'Классовая черта / способность')}
-       </div>
-      </div>)}
-     </div>
-    </Section>
+    <div className="pf-alt-dynamic-advancement" aria-label="Способности по уровням">
+     <DynamicAdvancement values={values} count={advancementLevelCount(values)}
+      pageArtUrl={import.meta.env.BASE_URL+'pathfinder/page-2.webp'} disabled={disabled}
+      onValueChange={onChange} onAdd={onAddLevel} onRemove={onRemoveLevel}/>
+    </div>
    </div>
    <div className="pf-alt-equipment-column">
     <Section index="IV" title="Инвентарь и снаряжение" className="pf-alt-inventory">

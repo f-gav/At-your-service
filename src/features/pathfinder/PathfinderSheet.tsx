@@ -542,6 +542,8 @@ export default function PathfinderSheet({
             values={values} displayValues={displayValues} legacyHasValues={legacyHasValues}
             preparedSpells={savedSpells.filter(x=>x.prepared).map(x=>spellViews.find(v=>v.id===x.id)).filter((x):x is SpellView=>!!x)}
             spellMode={spellMode} onChange={(id,value)=>change(id,value)}
+            disabled={editLocked} onAddLevel={()=>setValues(old=>addAdvancementLevel(old))}
+            onRemoveLevel={level=>setValues(old=>removeAdvancementLevel(old,level))}
             onOpenGrimoire={()=>openGrimoire()} onOpenSpell={setOpenSpellCard}
             onOpenSettings={()=>setSpellSettingsOpen(true)}
             portraitUrl={portraitUrl} onEditPortrait={onEditPortrait}/>)}

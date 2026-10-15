@@ -193,7 +193,7 @@ try {
       return out;
     });
     console.log('PF2e alternative '+width+'px metrics: '+JSON.stringify(metrics));
-    assert.ok(metrics.every(m=>m.sectionCount>=4),'Each page retains its sections');
+    assert.ok(metrics.every(m=>m.sectionCount>=(m.id==='pf-sheet-page-2'?2:4)),'Each page retains its sections');
     // No part of the HTML sheet may be clipped horizontally by its paper boundary.
     // At 360px the existing hero text/page-two overflow is outside this ability-only change.
     // Ability bounds above are still checked strictly at every viewport.
@@ -467,6 +467,31 @@ try {
       const spellInput=fourth.getByRole('textbox',{name:'Название',exact:false}).first()
         .or(fourth.locator('.pf-alt-spell-text .pf-rich-editable').first());
       assert.ok(await fourth.locator('.pf-alt-magic-layout').count()===1);
+    }
+    const advancement=pages.nth(1).locator('.pf-alt-dynamic-advancement');
+    assert.equal(await advancement.count(),1,'Alternative page reuses dynamic advancement');
+    if(width===1440){
+      const rows=advancement.locator('.pf-advancement-row');
+      const before=await rows.count();
+      await advancement.getByRole('button',{name:'Добавить уровень',exact:true}).click();
+      assert.equal(await rows.count(),before+1,'Add creates one next level, preserving previous levels');
+      const firstEditor=advancement.locator('.pf-advancement-row-first .pf-rich-editable').first();
+      assert.ok((await firstEditor.innerText()).includes('Эльф-провидец'));
+      assert.equal(await firstEditor.locator('b').innerText(),'Эльф-провидец');
+      assert.ok(!(await firstEditor.innerText()).includes('ays:rich:v1:'));
+      const original=await firstEditor.innerText();
+      const beforeHeight=await pages.nth(1).evaluate(el=>el.getBoundingClientRect().height);
+      await firstEditor.fill(Array.from({length:90},(_,i)=>'Строка способности '+i).join('\n'));
+      assert.ok(await pages.nth(1).evaluate(el=>el.getBoundingClientRect().height)>beforeHeight+100,
+        'Long advancement entries grow the level and the HTML page');
+      await firstEditor.fill(original);
+      await advancement.getByRole('button',{name:'Удалить уровень '+(before+1),exact:true}).click();
+      const dialog=page.getByRole('dialog');await dialog.getByRole('button',{name:'Отмена',exact:true}).click();
+      assert.equal(await rows.count(),before+1,'Cancel preserves the level');
+      await advancement.getByRole('button',{name:'Удалить уровень '+(before+1),exact:true}).click();
+      await page.getByRole('dialog').getByRole('button',{name:'Удалить',exact:true}).click();
+      assert.equal(await rows.count(),before,'Confirmed removal compacts the existing level model');
+      await advancement.screenshot({path:'test-artifacts/pf-alt-advancement-desktop.png'});
     }
     for(let i=0;i<4;i++){
       await pages.nth(i).screenshot({path:'test-artifacts/pf-alt-'+width+'-page-'+(i+1)+'.png'});

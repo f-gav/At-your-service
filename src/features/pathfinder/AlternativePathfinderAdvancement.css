@@ -1,0 +1,29 @@
+/* Reuse the classic sheet's advancement behavior in the alternative HTML flow. */
+.pf-alt-page .pf-alt-dynamic-advancement{container-type:inline-size;width:100%;min-width:0}
+.pf-alt-dynamic-advancement .pf-advancement{width:100%;min-height:0;margin:0;padding:0 0 8px 34px;background:#fff}
+.pf-alt-dynamic-advancement .pf-advancement .pf-advancement-head{display:grid;grid-template-columns:1fr 1fr;gap:6px;height:auto;width:auto;margin:0 0 8px;padding:0;background:none;font:900 13px/1.2 'PF2e Ebbe Black',Georgia,serif;white-space:normal}
+.pf-alt-dynamic-advancement .pf-advancement-head strong{position:static;clip:auto;clip-path:none;width:auto;height:auto;overflow:visible;opacity:1;font:inherit}
+.pf-alt-dynamic-advancement .pf-advancement-head strong::after{display:none}
+.pf-alt-dynamic-advancement .pf-advancement-levels{margin-left:0}
+.pf-alt-dynamic-advancement .pf-advancement-row{grid-template-columns:1fr 1fr;min-height:65px}
+.pf-alt-dynamic-advancement .pf-advancement .pf-advancement-row-first{min-height:260px}
+.pf-alt-dynamic-advancement .pf-advancement-left,.pf-alt-dynamic-advancement .pf-advancement-right{padding:7px 9px!important}
+.pf-alt-dynamic-advancement .pf-advancement-level{left:-34px;top:0;width:34px;height:34px;font-size:15px}
+.pf-alt-dynamic-advancement .pf-advancement-first{height:49px}
+.pf-alt-dynamic-advancement .pf-advancement-first>span{font-size:7px}
+.pf-alt-dynamic-advancement .pf-advancement-first strong{font-size:19px}
+.pf-alt-dynamic-advancement .pf-advancement-add-row{min-height:48px}
+.pf-alt-dynamic-advancement .pf-advancement-add-star{left:-34px;width:34px;height:34px;font-size:27px}
+.pf-alt-dynamic-advancement .pf-advancement-rich{min-height:45px!important;height:auto;padding:0!important}
+.pf-alt-dynamic-advancement .pf-advancement-rich .pf-rich-editable{font:400 13px/1.4 Arial,sans-serif;min-height:45px!important;height:auto;overflow:visible;padding:0;field-sizing:content}
+.pf-alt-dynamic-advancement .pf-advancement-first-fields .pf-advancement-rich{min-height:55px!important}
+@media(max-width:480px){
+ .pf-alt-dynamic-advancement .pf-advancement{padding-left:27px}
+ .pf-alt-dynamic-advancement .pf-advancement-level,.pf-alt-dynamic-advancement .pf-advancement-add-star{left:-27px;width:27px}
+ .pf-alt-dynamic-advancement .pf-advancement .pf-advancement-head{font-size:11px}
+ .pf-alt-dynamic-advancement .pf-advancement-left,.pf-alt-dynamic-advancement .pf-advancement-right{padding:5px!important}
+ .pf-alt-dynamic-advancement .pf-advancement-rich .pf-rich-editable{font-size:12px}
+}
+.pf-alt-dynamic-advancement .pf-advancement .pf-advancement-levels{width:100%;margin:0}
+.pf-alt-dynamic-advancement .pf-advancement .pf-advancement-head{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.pf-alt-dynamic-advancement .pf-advancement .pf-advancement-head strong{min-width:0;white-space:normal;overflow-wrap:anywhere;font-family:'PF2e Ebbe Black',Georgia,serif!important}
