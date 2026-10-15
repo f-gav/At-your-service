@@ -495,3 +495,189 @@
   grid-template-columns:repeat(2,minmax(0,1fr));
  }
 }
+
+
+/* Paper-reference upper section, iteration 2026-10-15.
+   Only .pf-alt-page--first: classic PDF and other HTML pages unchanged. */
+.pf-alt-page--first>.pf-alt-p1-top{
+  display:grid;
+  grid-template-columns:30% minmax(0,33%) minmax(0,15%) minmax(0,22%);
+  align-items:start;
+  gap:0;
+  min-height:94px;
+}
+.pf-alt-page--first .pf-alt-p1-top>*{box-sizing:border-box;min-width:0;padding-right:7px}
+.pf-alt-page--first .pf-alt-p1-logo{
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  width:100%;min-height:87px;overflow:hidden;padding:0 9px 0 0!important;
+  gap:0;
+}
+/* The artwork is cropped directly from the existing Russian PDF page.
+   We do not recreate the distinctive Pathfinder wordmark with typography. */
+.pf-alt-page--first .pf-alt-p1-logo-art{
+  position:relative;display:block;flex:0 0 61px;overflow:hidden;
+  width:100%;max-width:290px;height:61px;
+}
+.pf-alt-page--first .pf-alt-p1-logo-art img{
+  display:block;position:absolute;max-width:none;width:980px;height:auto;
+  left:-39px;top:-27px;pointer-events:none;user-select:none;
+}
+.pf-alt-page--first .pf-alt-p1-logo>span{
+  position:relative;display:block;
+  margin-top:0;line-height:1.06;text-align:center;
+  font:900 17px/1.05 'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important;
+  letter-spacing:.015em;color:#4c2d29;
+  -webkit-text-stroke:.45px currentColor;
+  white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-p1-heading{
+  font:900 14px/1.08 'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important;
+  color:#133b29;letter-spacing:.012em;
+  border-bottom:2px solid #174c30;padding-bottom:3px;margin:0 0 5px;
+  white-space:nowrap;
+}
+.pf-alt-page--first .pf-alt-p1-top .pf-alt-p1-name .pf-alt-field{
+  margin-bottom:3px;
+}
+.pf-alt-page--first .pf-alt-p1-name .pf-alt-field:first-of-type>input{
+  height:42px;font-size:20px;font-weight:700;border:1.5px solid #76514c;
+  background:#fff;color:#171717;
+}
+.pf-alt-page--first .pf-alt-p1-name .pf-alt-field:last-child{
+  height:24px;display:flex;align-items:center;border:1px solid #8f7770;
+  background:#fff;
+}
+.pf-alt-page--first .pf-alt-p1-name .pf-alt-field:last-child>span{
+  display:inline-block;white-space:nowrap;margin-left:4px;
+  font:400 10px/1 Arial,sans-serif;color:#3a3533;
+}
+.pf-alt-page--first .pf-alt-p1-name .pf-alt-field:last-child>input{
+  flex:1;min-width:0;width:20%;height:22px;padding:0 4px;
+  border:none!important;box-shadow:none;
+  font:400 15px/1 Arial,Helvetica,sans-serif;
+}
+.pf-alt-page--first .pf-alt-p1-level-line{height:70px}
+.pf-alt-page--first .pf-alt-p1-level-diamond{
+  width:72px;height:70px;z-index:4;top:0;left:0;
+}
+.pf-alt-page--first .pf-alt-p1-level-diamond:before{
+  width:46px;height:46px;border:2px solid #68483c;
+  box-shadow:inset 0 0 0 2px #fff,0 0 0 1px #d1a64e;
+}
+.pf-alt-page--first .pf-alt-p1-level-diamond>.pf-alt-field>input{
+  font-size:24px!important;
+}
+.pf-alt-page--first .pf-alt-p1-experience{
+  left:47px;top:50%;transform:translateY(-50%);
+  width:94px;max-width:calc(100% - 47px);z-index:1;
+}
+.pf-alt-page--first .pf-alt-p1-experience>.pf-alt-field>span{
+  right:8px;bottom:calc(100% + 4px);
+  font-size:10px;
+}
+.pf-alt-page--first .pf-alt-p1-experience>.pf-alt-field>input{
+  height:30px;padding-left:22px!important;
+  font:800 16px/1 Arial,sans-serif!important;
+  border:1.5px solid #7d6058!important;
+}
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-marks{
+  margin:4px 0 3px;gap:5px;justify-content:center;
+}
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point{
+  flex:0 0 38px;width:38px;height:35px;
+  padding:0;background:transparent;border:0;
+}
+.pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-point svg{
+  display:block;width:38px;height:33.25px;aspect-ratio:40/35;
+}
+.pf-alt-page--first .pf-alt-p1-hero p{
+  margin:2px 0 0;max-width:none;
+  font:400 8.7px/1.13 Arial,Helvetica,sans-serif;
+  color:#383735;text-align:center;
+}
+.pf-alt-page--first .pf-alt-p1-hero p strong{font-weight:800;color:#1b201d}
+
+/* The three origins use dark paper borders, 1 shared top baseline and
+   inset labels in equally tall lower fields. */
+.pf-alt-page--first>.pf-alt-p1-origins{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;align-items:start;margin:2px 0 5px;
+}
+.pf-alt-page--first .pf-alt-p1-origins>section{min-width:0}
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:first-of-type>input{
+  box-sizing:border-box;width:100%;height:32px;padding:3px 6px;
+  border:1.5px solid #855953;
+  font:400 16px/1.1 Arial,Helvetica,sans-serif;
+}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail{
+  display:grid;grid-template-columns:minmax(0,1fr) 62px;
+  gap:4px;margin-top:4px;align-items:stretch;
+}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field,
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child{
+  position:relative;box-sizing:border-box;min-width:0;
+  height:43px;min-height:43px;margin-top:4px;
+}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field{margin-top:0}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field>span,
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>span{
+  display:block;position:absolute;top:4px;left:5px;right:4px;z-index:2;
+  width:auto;height:auto;clip:auto;overflow:hidden;text-overflow:ellipsis;
+  font:400 10px/1.05 Arial,Helvetica,sans-serif;
+  white-space:nowrap;color:#5f5e5b;
+  pointer-events:none;
+}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field>input,
+.pf-alt-page--first .pf-alt-p1-ancestry-detail>.pf-alt-field>select,
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>input{
+  box-sizing:border-box;width:100%;height:43px;
+  border:1.5px solid #855953;border-radius:0;
+  background:#fff;padding:16px 5px 3px;
+  font:400 15px/1.1 Arial,Helvetica,sans-serif;
+}
+.pf-alt-page--first .pf-alt-p1-ancestry-detail select{
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  background-image:none!important;cursor:pointer;
+  padding-right:1px!important;
+}
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>.pf-alt-rich{
+  box-sizing:border-box;height:43px!important;min-height:43px!important;
+  border:1.5px solid #855953!important;
+  padding:15px 5px 3px;background:#fff;
+}
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>.pf-alt-rich .pf-rich-editable{
+  min-height:21px!important;height:auto;
+  font:400 14px/1.1 Arial,Helvetica,sans-serif;
+}
+/* RichField emits its own HTML editor; position the label in the bordered host. */
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child{
+  margin-top:4px;
+}
+
+@media(max-width:900px){
+  .pf-alt-page--first>.pf-alt-p1-top{
+    grid-template-columns:30% 37% minmax(0,33%);
+    gap:0;
+  }
+  .pf-alt-page--first .pf-alt-p1-top>.pf-alt-p1-hero{
+    grid-column:1/-1;display:flex;align-items:center;gap:10px;
+  }
+  .pf-alt-page--first .pf-alt-p1-logo-art{height:61px}
+  .pf-alt-page--first .pf-alt-p1-hero p{text-align:left}
+}
+@media(max-width:640px){
+  .pf-alt-page--first>.pf-alt-p1-top{
+    grid-template-columns:minmax(0,1fr) 120px;
+  }
+  .pf-alt-page--first .pf-alt-p1-top>.pf-alt-p1-logo{
+    grid-column:1/-1;min-height:83px;
+  }
+  .pf-alt-page--first .pf-alt-p1-logo-art{max-width:290px}
+  .pf-alt-page--first .pf-alt-p1-name .pf-alt-field:first-of-type>input{
+    font-size:17px;
+  }
+  .pf-alt-page--first .pf-alt-p1-heading{font-size:12px}
+  .pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>.pf-alt-rich{
+    min-height:43px!important;
+  }
+}
