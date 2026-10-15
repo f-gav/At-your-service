@@ -459,7 +459,9 @@
  white-space:nowrap;
 }
 .pf-alt-page--first>.pf-alt-abilities-section>h3::after{
- display:block;content:"";flex:1;min-width:8px;height:3px;
+ /* Override the generic absolutely-positioned 22px corner accent. */
+ position:static;inset:auto;display:block;content:"";
+ flex:1 1 0;width:auto;min-width:8px;height:3px;
  background:#194830;
 }
 .pf-alt-page--first>.pf-alt-abilities-section>.pf-alt-abilities{
