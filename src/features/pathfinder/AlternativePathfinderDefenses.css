@@ -109,3 +109,7 @@
 .pf-paper-defense-row .pf-paper-armor-top>div:first-child>h4{text-align:left}
 .pf-alt-page.pf-alt-page--first .pf-paper-shield-details .pf-alt-field>span,
 .pf-paper-shield-max>span{font-size:7.5px}
+@media(max-width:400px){
+ .pf-paper-defense-row .pf-paper-health-side>.pf-alt-dying{flex-wrap:wrap}
+ .pf-paper-defense-row .pf-paper-health-side .pf-alt-dying-skulls{flex:0 0 48px}
+}
