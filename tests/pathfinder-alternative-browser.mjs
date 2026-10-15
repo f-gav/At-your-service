@@ -121,7 +121,7 @@ try {
         const left=root.querySelector('.pf-alt-abilities')?.getBoundingClientRect();
         const heading=root.querySelector('.pf-alt-abilities-section>h3');
         const hero=root.querySelector('.pf-alt-p1-hero .pf-alt-hero-point svg polygon');
-        const points=hero?.getAttribute('points')?.trim().split(/\\s+/).map(pair=>pair.split(',').map(Number))||[];
+        const points=hero?.getAttribute('points')?.trim().split(/\s+/).map(pair=>pair.split(',').map(Number))||[];
         const lengths=points.map((p,i)=>Math.hypot(p[0]-points[(i+1)%points.length][0],p[1]-points[(i+1)%points.length][1]));
         return {diamondY:diamond?.getBoundingClientRect().y,
           diamondH:diamond?.getBoundingClientRect().height,
