@@ -91,6 +91,15 @@ try {
     assert.ok(defenseBounds.healthNotes[1].top>=defenseBounds.healthNotes[0].bottom,
       'Resistances and conditions stack vertically');
     if(width===1440){
+      const packing=await defense.evaluate(root=>{
+        const rect=selector=>{const r=root.querySelector(selector).getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
+        return {coat:rect('.pf-paper-coat'),shield:rect('.pf-paper-shield'),
+          formula:rect('.pf-paper-armor-formula'),training:rect('.pf-paper-armor-training')};
+      });
+      assert.ok(packing.coat.width/packing.coat.height>1.3&&packing.shield.width/packing.shield.height>.65,
+        'Armor and shield have the wider paper-reference proportions');
+      assert.ok(packing.formula.top>=packing.coat.bottom&&packing.training.left>=packing.formula.right-2,
+        'AC calculation sits under the coat and shield, beside armor training');
       const shieldHP=defense.getByRole('textbox',{name:'ПЗ щита',exact:true});
       await shieldHP.fill('33');assert.equal(await shieldHP.inputValue(),'33');
       const operand=defense.getByRole('textbox',{name:'Вын',exact:true});
