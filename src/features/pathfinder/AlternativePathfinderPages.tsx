@@ -3,7 +3,7 @@ import type {ReactNode} from 'react';
 import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap, Skull, Crown} from 'lucide-react';
 import RichField from './RichField';
 import {RANK_FIELDS, RANK_LABELS,SKILL_ABILITIES,readRank,isAutomatic,isCoreComputedField} from './rules-core';
-import {isSpellcastingComputedField,isSpellcastingConfigured} from './rules-spellcasting';
+import {isSpellcastingComputedField,isSpellcastingConfigured,spellcastingTotals} from './rules-spellcasting';
 import {isNativeCombatComputedField,isNativeWeaponAttackField,isClassDcConfigured} from './rules-combat';
 import {PF_NOTES_BLOCK_COUNT,noteBodyKey,noteTitleKey,noteBlockTitle} from './notes-blocks';
 import {DYING_SKULL_COUNT,readDyingSkulls,toggleDyingSkull} from './dying-skulls';
@@ -23,6 +23,7 @@ import './AlternativePathfinderAdvancement.css';
 import './AlternativePathfinderEquipment.css';
 import './AlternativePathfinderBiography.css';
 import './AlternativePathfinderActions.css';
+import './AlternativePathfinderMagic.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -66,8 +67,11 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
    {children}
   </section>;
 }
-function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'|'bag'}){
+function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'|'bag'|'spellstar'|'scroll'|'book'}){
  const paths={
+  spellstar:'M33 20 L29 3 L47 17 C67 13 86 29 82 51 L97 65 L76 65 C65 83 45 85 30 71 L4 82 L23 56 C16 40 20 28 33 20 Z',
+  scroll:'M15 5 H89 Q76 25 89 42 L72 55 Q86 76 74 95 H10 Q25 75 12 55 L29 42 Q17 23 15 5 Z',
+  book:'M3 12 L43 7 L50 14 L57 7 L97 12 V90 L57 85 L50 92 L43 85 L3 90 Z',
   bag:'M18 4 H82 L79 23 L91 37 L91 80 L78 96 H22 L9 80 V37 L21 23 Z',
   dart:'M50 4 L96 94 L64 83 V98 H36 V83 L4 94 Z',
   eye:'M32 72 L8 98 L2 88 L24 65 M53 5 A37 37 0 1 1 53 79 A37 37 0 1 1 53 5 Z',
@@ -116,7 +120,7 @@ export default function AlternativePathfinderPages({
        title={RANK_LABELS[rank]}
        aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
        onClick={()=>onChange(id,String(current===rank?0:rank))}
-       ><span aria-hidden="true">{current===rank&&!(page===1&&(id.startsWith('armor_rank_')||id.startsWith('skill_')||id.startsWith('weapon_rank_')||id==='perception_rank'))?'✓':''}</span></button>)}
+       ><span aria-hidden="true">{current===rank&&!((id.startsWith('armor_rank_')||id.startsWith('skill_')||id.startsWith('weapon_rank_')||id==='perception_rank'||id==='spell_attack_rank'||id==='spell_dc_rank'))?'✓':''}</span></button>)}
     </div>
    </div>;
   }
@@ -500,7 +504,7 @@ export default function AlternativePathfinderPages({
   </div>
  </>}
  {page===4&&<>
-  <div className="pf-alt-magic-layout">
+  <div className="pf-alt-magic-layout pf-paper-magic">
    <div className="pf-alt-magic-left">
     <Section index="I" title="Магическая традиция">
      <div className="pf-alt-tradition-panel">
@@ -512,16 +516,25 @@ export default function AlternativePathfinderPages({
          onClick={()=>onChange(key,values[key]!==true)}
          title={label}>{label}</button>;
        })}
-       <div className="pf-alt-tradition-emblem" aria-hidden="true">✣</div>
+       <div className="pf-alt-tradition-emblem" aria-hidden="true"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="white" stroke="#a7946b" strokeWidth="3"/><path d="M25 2 V48 M2 25 H48" fill="none" stroke="#a7946b" strokeWidth="3"/></svg></div>
       </div>
       <div className="pf-alt-spell-type">{field('prepared','Подготавливающий')}{field('spontaneous','Спонтанный')}</div>
      </div>
     </Section>
     <Section index="II" title="Параметры заклинаний">
-     <div className="pf-alt-casting-fields">
-      {['spell_attack','spell_attack_rank','spell_attack_key','spell_dc','spell_dc_rank','spell_dc_key','spell_dc_item'].map(id=>field(id))}
+     <div className="pf-paper-casting">
+      <div className="pf-paper-cast-group"><h4>Атака заклинанием</h4><div className="pf-paper-cast-line">
+       <div className="pf-paper-icon pf-paper-spellstar"><PaperFrame kind="spellstar"/>{field('spell_attack','Атака заклинанием')}</div>{field('spell_attack_rank','Ранг атаки')}
+       <div className="pf-paper-right-formula">{field('spell_attack_key','Ключ.')}<i>+</i><div className="pf-paper-prof"><output>{spellcastingTotals(values).attackProficiency??'—'}</output><span>Умен.</span></div></div>
+      </div></div>
+      <div className="pf-paper-cast-group"><h4>СЛ заклинаний</h4><div className="pf-paper-cast-line">
+       <div className="pf-paper-icon pf-paper-scroll"><PaperFrame kind="scroll"/>{field('spell_dc','СЛ заклинаний')}</div>{field('spell_dc_rank','Ранг СЛ')}
+       <div className="pf-paper-right-formula"><div className="pf-paper-prof"><output>10</output><span>Баз.</span></div><i>+</i>{field('spell_dc_key','Ключ.')}<i>+</i><div className="pf-paper-prof"><output>{spellcastingTotals(values).dcProficiency??'—'}</output><span>Умен.</span></div></div>
+      </div></div>
      </div>
-     <button type="button" className="pf-alt-add-spell" onClick={onOpenSettings}><Settings2 size={15}/> Настройки магии</button>
+     <div className="pf-paper-magic-tools"><button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire} aria-label="Открыть гримуар"><BookOpen size={16}/></button><button type="button" className="pf-alt-add-spell" onClick={onOpenSettings} aria-label="Настройки магии"><Settings2 size={16}/></button>
+      <details><summary>Предмет к СЛ</summary>{field('spell_dc_item','Предмет к СЛ')}</details>
+     </div>
     </Section>
     <Section index="III" title="Фокусы">
      {cells(['cantrips_daily','cantrip_rank'])}
@@ -535,9 +548,11 @@ export default function AlternativePathfinderPages({
    </div>
    <div className="pf-alt-magic-right">
     <Section index="VI" title="Ячейки заклинаний" className="pf-alt-magic-slots">
-     <div className="pf-alt-slots">{Array.from({length:10},(_,i)=>i+1).map(n=><div className="pf-alt-slot" key={n}>
-      <b>{n}</b>{field('spell_slots_'+n,'Всего')}{field('spell_remaining_'+n,'Осталось')}
-     </div>)}</div>
+     <div className="pf-alt-slots pf-paper-slots"><div className="pf-paper-slot-labels"><span>Заклинаний<br/>в день</span><b>Круг заклинаний</b><span>Осталось</span></div>
+      {Array.from({length:10},(_,i)=>i+1).map(n=><div className="pf-alt-slot" key={n}>
+       <div className="pf-paper-icon pf-paper-book"><PaperFrame kind="book"/>{field('spell_slots_'+n,'Всего заклинаний '+n)}</div><b>{n}</b>{field('spell_remaining_'+n,'Осталось ячеек '+n)}
+      </div>)}
+     </div>
     </Section>
     {spellPanel('spellbook_','Заклинания','VII')}
    </div>

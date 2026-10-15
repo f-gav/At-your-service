@@ -1,0 +1,73 @@
+/* Compact original-paper spellcasting header; all spell data stays shared. */
+.pf-alt-page:has(.pf-paper-magic)>.pf-alt-heading{display:none}
+.pf-alt-page .pf-paper-magic{grid-template-columns:minmax(0,36%) minmax(0,64%);gap:12px}
+.pf-paper-magic .pf-alt-section>h3{font:900 14px/1.1 'PF2e Ebbe Black',Georgia,serif;border:0;padding:0;margin:0 0 5px;min-height:17px}
+.pf-paper-magic .pf-alt-section>h3>svg,.pf-paper-magic .pf-alt-section-index{display:none}
+.pf-paper-magic .pf-alt-section>h3::after{position:static;inset:auto;flex:1;width:auto;min-width:8px;height:3px;background:#214932}
+.pf-paper-magic .pf-alt-tradition-panel{display:grid;grid-template-columns:minmax(0,65%) minmax(0,35%);gap:4px;min-height:56px}
+.pf-paper-magic .pf-alt-tradition-wheel{display:grid;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);grid-template-rows:1fr 1fr;width:100%;height:48px;min-height:0;max-width:none;margin:0;background:none;border:0;border-radius:0;position:relative}
+.pf-paper-magic .pf-alt-tradition-option{position:static;transform:none;inset:auto;min-width:0;width:auto;padding:0;border:0;background:none;font:700 12px/1.1 'PF2e PDF DIN',Arial,sans-serif;text-align:left;border-radius:0}
+.pf-paper-magic .pf-alt-tradition-arcane{grid-column:1;grid-row:1}
+.pf-paper-magic .pf-alt-tradition-primal{grid-column:1;grid-row:2}
+.pf-paper-magic .pf-alt-tradition-occult{grid-column:3;grid-row:1}
+.pf-paper-magic .pf-alt-tradition-divine{grid-column:3;grid-row:2}
+.pf-paper-magic .pf-alt-tradition-option[aria-pressed=true]{color:#174d32;text-decoration:underline;text-underline-offset:3px}
+.pf-paper-magic .pf-alt-tradition-emblem{position:static;transform:none;width:38px;height:48px;grid-column:2;grid-row:1/3;background:none;border:0;padding:0;display:flex;align-items:center}
+.pf-paper-magic .pf-alt-tradition-emblem svg{width:38px;height:38px}
+.pf-paper-magic .pf-alt-spell-type{display:flex;flex-direction:column;justify-content:center;gap:3px;margin:0}
+.pf-paper-magic .pf-alt-spell-type>.pf-alt-field{display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-end;gap:2px}
+.pf-paper-magic .pf-alt-spell-type .pf-alt-field>span{font:400 9px/1.1 'PF2e PDF DIN',Arial,sans-serif;white-space:normal}
+.pf-paper-magic .pf-alt-spell-type input[type=checkbox]{appearance:none;width:10px;height:10px;min-width:10px;border:1px solid #555;border-radius:50%;margin:0}
+.pf-paper-magic .pf-alt-spell-type input:checked{background:#315c44;box-shadow:inset 0 0 0 1px white}
+.pf-paper-casting{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.pf-paper-cast-group{min-width:0}
+.pf-paper-cast-group h4{font:700 13px/1.1 'PF2e PDF DIN',Arial,sans-serif;margin:0 0 3px;white-space:nowrap}
+.pf-paper-cast-line{display:grid;grid-template-columns:44px 16px minmax(0,1fr);gap:2px;min-height:60px}
+.pf-paper-spellstar,.pf-paper-scroll{height:46px}
+.pf-paper-magic .pf-paper-icon>.pf-alt-field>input{font-family:'PF2e PDF DIN',Arial,sans-serif;font-size:18px!important}
+.pf-paper-cast-line>.pf-alt-field>span{display:none}
+.pf-paper-cast-line .pf-paper-right-formula{margin-top:12px}
+.pf-paper-magic .pf-alt-rank-squares{display:flex;flex-direction:column;flex-wrap:nowrap;gap:0;min-height:0;padding-right:8px}
+.pf-paper-magic .pf-alt-rank-square{position:relative;width:9px;height:9px;flex:0 0 9px;border-radius:0;padding:0}
+.pf-paper-magic .pf-alt-rank-square::after{position:absolute;left:100%;top:0;margin-left:1px;font:700 9px/9px Arial,sans-serif;color:#333}
+.pf-paper-magic .pf-alt-rank-square:nth-child(1)::after{content:'И'}
+.pf-paper-magic .pf-alt-rank-square:nth-child(2)::after{content:'Э'}
+.pf-paper-magic .pf-alt-rank-square:nth-child(3)::after{content:'М'}
+.pf-paper-magic .pf-alt-rank-square:nth-child(4)::after{content:'Л'}
+.pf-paper-prof{flex:1;min-width:0;display:flex;flex-direction:column;text-align:center;gap:3px;font-family:'PF2e PDF DIN',Arial,sans-serif}
+.pf-paper-prof>output{height:20px;line-height:20px;font-size:11px}
+.pf-paper-prof>span{font-size:8px;font-weight:700;white-space:nowrap}
+.pf-paper-magic-tools{display:flex;align-items:start;gap:5px;margin-bottom:4px}
+.pf-paper-magic-tools>.pf-alt-add-spell{padding:3px;margin:0}
+.pf-paper-magic-tools>details{font:400 9px/1.1 Arial,sans-serif;min-width:0}
+.pf-paper-magic-tools details input{height:20px;font-size:11px;width:70px}
+.pf-paper-magic .pf-paper-slots{display:grid;grid-template-columns:82px repeat(10,minmax(0,1fr));gap:5px;margin:0}
+.pf-paper-slot-labels{display:grid;grid-template-rows:31px 20px 26px;align-items:center;text-align:right;font:400 10px/1 'PF2e PDF DIN',Arial,sans-serif}
+.pf-paper-slot-labels>b{font-size:10px}
+.pf-paper-magic .pf-alt-slot{display:grid;grid-template-rows:31px 20px 26px;gap:0;border:0;padding:0;background:none;min-width:0;text-align:center}
+.pf-paper-magic .pf-alt-slot>b{font:700 15px/20px 'PF2e PDF DIN',Arial,sans-serif;height:20px;border:0;background:none;clip-path:none}
+.pf-paper-book{height:29px}
+.pf-paper-magic .pf-paper-book>.pf-alt-field>input{font-size:12px!important;height:22px!important;width:80%}
+.pf-paper-magic .pf-alt-slot>.pf-alt-field>span{display:none}
+.pf-paper-magic .pf-alt-slot>.pf-alt-field>input{height:25px;border:1.5px solid #57534e;padding:0;font:700 12px/1 'PF2e PDF DIN',Arial,sans-serif;text-align:center}
+@media(max-width:900px){
+ .pf-alt-page .pf-paper-magic{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:500px){
+ .pf-paper-magic .pf-paper-slots{grid-template-columns:52px repeat(10,minmax(0,1fr));gap:2px}
+ .pf-paper-slot-labels,.pf-paper-slot-labels>b{font-size:8px}
+ .pf-paper-magic .pf-alt-slot>b{font-size:11px}
+ .pf-paper-magic .pf-alt-slot>.pf-alt-field>input{font-size:10px}
+ .pf-paper-casting{gap:5px}
+ .pf-paper-cast-line{grid-template-columns:36px 15px minmax(0,1fr)}
+}
+.pf-paper-magic .pf-paper-icon>.pf-alt-field>span{display:none}
+.pf-paper-magic .pf-paper-icon>.pf-alt-field>input{border:0!important;background:transparent!important;padding:0;clip-path:none;border-radius:0;text-align:center;font-weight:700;width:90%;height:28px!important}
+.pf-paper-magic .pf-paper-book>.pf-alt-field>input{font-size:13px!important;height:22px!important}
+.pf-paper-book>.pf-paper-frame>path{stroke-width:1.5px}
+.pf-paper-book>.pf-paper-frame>path+path{stroke-width:.5px}
+.pf-paper-magic .pf-alt-slot>b{background-image:none;box-shadow:none}
+.pf-paper-cast-line{grid-template-columns:54px 16px minmax(0,1fr)}
+.pf-paper-magic .pf-paper-right-formula .pf-alt-field>input{height:20px!important;border:0!important;background:transparent;padding:0 1px;text-align:center;font:400 11px/1 'PF2e PDF DIN',Arial,sans-serif}
+.pf-paper-magic .pf-paper-right-formula .pf-alt-field>span{font:700 8px/1 'PF2e PDF DIN',Arial,sans-serif;text-align:center;white-space:nowrap}
+@media(max-width:500px){.pf-paper-cast-line{grid-template-columns:45px 15px minmax(0,1fr)}}

@@ -458,6 +458,16 @@ try {
         'Skill calculations have their own captions, without a shared table header');
       assert.equal(await fourth.locator('.pf-alt-manual-column').count()>=2,true,
         'The manual spell list uses adjacent ruled input columns');
+      assert.equal(await fourth.locator(':scope>.pf-alt-heading:visible').count(),0);
+      assert.equal(await fourth.locator('.pf-paper-book').count(),10);
+      const slotTops=await fourth.locator('.pf-paper-book').evaluateAll(nodes=>nodes.map(el=>el.getBoundingClientRect().top));
+      assert.ok(slotTops.every(y=>Math.abs(y-slotTops[0])<1),'All ten daily spell slots share one paper row');
+      const remaining=fourth.getByRole('textbox',{name:'Осталось ячеек 1',exact:true});
+      await remaining.fill('2');assert.equal(await remaining.inputValue(),'2');
+      const magicRank=fourth.locator('.pf-paper-cast-group').first().locator('.pf-alt-rank-square').nth(1);
+      await magicRank.click();assert.equal(await magicRank.getAttribute('aria-pressed'),'true');
+      assert.equal(await magicRank.innerText(),'','Magic proficiency uses filled squares without checkmarks');
+      await fourth.locator('.pf-paper-magic').screenshot({path:'test-artifacts/pf-alt-magic-desktop.png'});
       const arcane=fourth.getByRole('button',{name:'Мистическая'});
       await arcane.click();
       assert.equal(await arcane.getAttribute('aria-pressed'),'false',
