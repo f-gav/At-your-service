@@ -112,11 +112,12 @@ export default function AlternativePathfinderPages({
      f.kind==='select'?
       <select aria-label={label} value={String(value)} disabled={disabled}
         onChange={e=>onChange(id,e.target.value)}>
-        <option value="">—</option>{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>)}
+        <option value="">{page===1&&id==='size'?'':'—'}</option>{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>)}
       </select>:
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={disabled} aria-label={label}
-        onChange={e=>onChange(id,e.target.value)} placeholder="—"/>
+        onChange={e=>onChange(id,e.target.value)}
+        placeholder={page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
  }
@@ -203,7 +204,10 @@ export default function AlternativePathfinderPages({
  {page===1&&<>
    <div className="pf-alt-p1-top">
     <div className="pf-alt-p1-logo" role="img" aria-label="Pathfinder — бланк персонажа">
-     <strong>PATHFINDER</strong><span>БЛАНК ПЕРСОНАЖА</span>
+     <div className="pf-alt-p1-logo-art" aria-hidden="true">
+      <img src={import.meta.env.BASE_URL+'pathfinder/page-1.webp'} alt="" loading="eager" />
+     </div>
+     <span>БЛАНК ПЕРСОНАЖА</span>
     </div>
     <div className="pf-alt-p1-name">
      <h3 className="pf-alt-p1-heading">Имя персонажа</h3>
@@ -232,7 +236,7 @@ export default function AlternativePathfinderPages({
        </button>;
       })}
      </div>
-     <p>Получите 1 в начале встречи. Потратьте 1 для переброска проверки или все, чтобы избежать смерти.</p>
+     <p><strong>Получите 1</strong> в начале встречи. <strong>Потратьте 1</strong> для повторной проверки. <strong>Потратьте все</strong>, чтобы избежать смерти.</p>
     </div>
    </div>
    <div className="pf-alt-p1-origins">
