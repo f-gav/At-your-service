@@ -603,6 +603,18 @@ try {
   await spellRow.waitFor();await spellRow.click();
   await grimoire.waitFor();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+  for(const panel of ['cantrip','focus','innate','spellbook','rituals']){
+    const areas=magic.locator('.pf-paper-panel-'+panel+' .pf-alt-spell-area');
+    for(let i=0;i<await areas.count();i++){
+      const area=areas.nth(i);
+      await area.click({position:{x:15,y:(await area.boundingBox()).height-15}});
+      await grimoire.waitFor();
+      await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+    }
+  }
+  await magic.locator('.pf-alt-spell-area').first().focus();
+  await libraryPage.keyboard.press('Enter');await grimoire.waitFor();
+  await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   await libraryPage.close();
   console.log('PASS: four original-paper PF2e pages, desktop/tablet/mobile, field interactions and screenshot captures');
 }finally{

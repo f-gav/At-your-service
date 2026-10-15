@@ -172,3 +172,9 @@
 
 .pf-paper-magic .pf-paper-spellstar>.pf-paper-frame>path{stroke-linejoin:miter}
 @media(max-width:500px){.pf-paper-magic .pf-paper-spellstar{height:45px}.pf-paper-magic .pf-paper-spellstar>.pf-alt-field>input{font-size:15px!important}}
+/* The empty paper is an accessible grimoire target too. Rows stay above it. */
+.pf-paper-magic .pf-alt-spell-column{position:relative}
+.pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-area{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:pointer;z-index:0}
+.pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-head,.pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-row{position:relative;z-index:1}
+.pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-head{pointer-events:none}
+.pf-paper-magic .pf-alt-spell-area:focus-visible{outline:2px solid #315c44;outline-offset:-3px}

@@ -203,6 +203,8 @@ export default function AlternativePathfinderPages({
    <div className="pf-alt-spells">
     <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
      {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
+      <button type="button" className="pf-alt-spell-area" onClick={onOpenGrimoire}
+       aria-label={'Открыть гримуар: '+title+(columns>1?' — колонка '+(column+1):'')}/>
       <div className="pf-alt-spell-head">
        <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
