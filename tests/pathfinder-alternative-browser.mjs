@@ -446,6 +446,13 @@ try {
       const perceptionRank=first.locator('.pf-paper-perception-top .pf-alt-rank-square').nth(1);
       await perceptionRank.click();assert.equal(await perceptionRank.getAttribute('aria-pressed'),'true');
       assert.equal(await perceptionRank.innerText(),'','Perception rank uses fill without checkmark');
+      for(const [selector,value] of [['.pf-paper-eye','+13'],['.pf-paper-arrow','30'],['.pf-paper-frame--dart','+13']]){
+        const shape=selector.includes('frame')?first.locator(selector).first().locator('..'):first.locator(selector).first();
+        const input=shape.locator('input');
+        await input.fill(value);assert.equal(await input.inputValue(),value);
+        assert.ok(await input.evaluate(el=>{const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');ctx.font=getComputedStyle(el).font;return ctx.measureText(el.value).width<el.clientWidth-2;}),
+          'Signed values fit the enlarged perception, speed and ranged-attack icons');
+      }
       await first.locator('.pf-alt-main-right').screenshot({path:'test-artifacts/pf-alt-right-desktop.png'});
       assert.equal(await first.locator('.pf-alt-skill-head').count(),0,
         'Skill calculations have their own captions, without a shared table header');

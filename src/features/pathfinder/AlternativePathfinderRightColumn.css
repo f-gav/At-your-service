@@ -83,3 +83,22 @@
 .pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer>.pf-alt-field>input{height:52px;font-size:11px}
 @media(max-width:600px){.pf-paper-weapon-line{grid-template-columns:minmax(0,29%) 34px minmax(0,25%) minmax(0,1fr) 13px}}
 .pf-paper-attack:has(.pf-paper-frame--axe)>.pf-alt-field{transform:translateY(-2px)}
+/* Give signed values enough space inside the actual silhouettes. */
+.pf-paper-perception-top{grid-template-columns:55px 16px minmax(0,1fr);height:65px}
+.pf-paper-eye{height:57px}
+.pf-paper-eye>.pf-alt-field{left:12%;right:5%;top:0;bottom:24%}
+.pf-alt-page.pf-alt-page--first .pf-paper-eye>.pf-alt-field>input{width:98%;font-size:20px!important}
+.pf-paper-speed-top{height:65px}
+.pf-paper-arrow{height:56px;width:110px;flex:0 1 110px}
+.pf-paper-arrow>.pf-alt-field{right:39%;left:5%}
+.pf-paper-weapon-line:has(.pf-paper-frame--dart){grid-template-columns:minmax(0,29%) 66px minmax(0,24%) minmax(0,1fr) 14px}
+.pf-paper-attack:has(.pf-paper-frame--dart){height:56px}
+.pf-paper-attack:has(.pf-paper-frame--dart)>.pf-alt-field{top:25%;bottom:10%}
+.pf-alt-page.pf-alt-page--first .pf-paper-attack:has(.pf-paper-frame--dart)>.pf-alt-field>input{font-size:17px!important;width:65%}
+@media(max-width:600px){
+ .pf-paper-perception-top{grid-template-columns:48px 15px minmax(0,1fr)}
+ .pf-paper-eye{height:52px}
+ .pf-paper-weapon-line:has(.pf-paper-frame--dart){grid-template-columns:minmax(0,27%) 52px minmax(0,23%) minmax(0,1fr) 13px}
+ .pf-paper-attack:has(.pf-paper-frame--dart){height:50px}
+ .pf-alt-page.pf-alt-page--first .pf-paper-attack:has(.pf-paper-frame--dart)>.pf-alt-field>input{font-size:16px!important}
+}
