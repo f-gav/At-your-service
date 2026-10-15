@@ -687,3 +687,14 @@
 .pf-alt-page--first .pf-alt-p1-logo-art img{
   width:860px;left:-30px;top:-24px;
 }
+
+/* Notes may grow when a player enters several lines; never crop saved text. */
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child{
+  min-height:43px;height:auto;
+}
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>.pf-alt-rich{
+  min-height:43px!important;height:auto!important;
+}
+.pf-alt-page--first .pf-alt-p1-origins>section>.pf-alt-field:last-child>.pf-alt-rich .pf-rich-editable{
+  min-height:21px!important;height:auto!important;
+}
