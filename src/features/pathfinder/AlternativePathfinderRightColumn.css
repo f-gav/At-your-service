@@ -1,0 +1,85 @@
+/* Paper layout for the right column of alternative page one only. */
+.pf-alt-page.pf-alt-page--first .pf-alt-main-right{gap:8px}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility{grid-template-columns:minmax(0,31%) minmax(0,33%) minmax(0,36%);gap:8px;align-items:stretch}
+.pf-paper-utility>.pf-alt-section{display:flex;flex-direction:column;min-width:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility .pf-alt-field>span{display:none}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility .pf-alt-rich{min-height:65px!important;height:auto;padding:3px!important}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility .pf-rich-editable{min-height:58px!important;padding:0;font-size:12px}
+.pf-paper-utility .pf-alt-p1-languages>.pf-alt-field{flex:1}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility .pf-alt-p1-languages .pf-alt-rich{flex:1;min-height:114px!important}
+.pf-alt-page.pf-alt-page--first .pf-paper-utility .pf-alt-p1-languages .pf-rich-editable{min-height:107px!important}
+.pf-paper-icon{position:relative;min-width:0}
+.pf-paper-icon>.pf-paper-frame{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.pf-paper-icon>.pf-alt-field{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;margin:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-icon>.pf-alt-field>span{display:none}
+.pf-alt-page.pf-alt-page--first .pf-paper-icon>.pf-alt-field>input{width:85%;height:30px!important;padding:0;border:0!important;background:transparent!important;clip-path:none!important;border-radius:0!important;text-align:center;font-size:22px!important;font-weight:700}
+.pf-paper-perception-top{display:grid;grid-template-columns:39px 16px minmax(0,1fr);gap:2px;height:50px}
+.pf-paper-eye{height:43px}
+.pf-paper-eye>.pf-alt-field{bottom:10px;left:6px}
+.pf-paper-speed-top{display:flex;align-items:center;height:50px;gap:4px}
+.pf-paper-arrow{height:43px;width:85px}
+.pf-paper-speed-top>span{align-self:flex-end;font-size:10px;margin-bottom:7px}
+.pf-paper-right-formula{display:flex;min-width:0;border:1px solid #9b726d;height:22px;margin-top:9px;align-items:start}
+.pf-paper-right-formula>.pf-alt-field{flex:1;min-width:0;display:flex;flex-direction:column-reverse;gap:3px;margin:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-right-formula .pf-alt-field>input{height:20px!important;width:100%;border:0!important;padding:0 1px;background:transparent;font-size:11px;text-align:center}
+.pf-alt-page.pf-alt-page--first .pf-paper-right-formula .pf-alt-field>span{display:block;position:static;clip:auto;width:auto;height:auto;overflow:visible;font-size:8px;font-weight:700;text-align:center;white-space:nowrap}
+.pf-paper-right-formula>i{font:700 7px/20px Arial,sans-serif;color:#784c46}
+/* A single consistent proficiency pattern: vertical filled squares, bold marks. */
+.pf-alt-page.pf-alt-page--first .pf-alt-main-right .pf-alt-rank-squares{display:flex;flex-direction:column;align-items:start;justify-content:start;flex-wrap:nowrap;gap:0;min-height:0;padding:1px 8px 0 0}
+.pf-alt-page.pf-alt-page--first .pf-alt-main-right .pf-alt-rank-square{position:relative;width:9px;height:9px;flex:0 0 9px;padding:0;border-radius:0}
+.pf-alt-main-right .pf-alt-rank-square::after{position:absolute;left:100%;top:0;margin-left:1px;font:700 9px/9px Arial,sans-serif;color:#30332e}
+.pf-alt-main-right .pf-alt-rank-square:nth-child(1)::after{content:'И'}
+.pf-alt-main-right .pf-alt-rank-square:nth-child(2)::after{content:'Э'}
+.pf-alt-main-right .pf-alt-rank-square:nth-child(3)::after{content:'М'}
+.pf-alt-main-right .pf-alt-rank-square:nth-child(4)::after{content:'Л'}
+.pf-alt-page.pf-alt-page--first .pf-paper-perception-top>.pf-alt-field>span{display:none}
+.pf-alt-page.pf-alt-page--first .pf-paper-strikes .pf-alt-weapon-list{display:flex;flex-direction:column;gap:5px}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon{border:0;padding:0;margin:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon h4{font-size:18px;line-height:1.1;margin:2px 0 5px}
+.pf-paper-weapon-line{display:grid;grid-template-columns:minmax(0,32%) 42px minmax(0,24%) minmax(0,1fr) 14px;gap:5px;align-items:end;min-height:42px;margin-bottom:15px}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-line>.pf-alt-field>span{font-size:13px;line-height:1}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-line>.pf-alt-field>input{height:29px;font-size:14px;border:1.5px solid #57534e}
+.pf-paper-attack{height:38px;margin-bottom:1px}
+.pf-paper-weapon-line>.pf-paper-right-formula{margin:0 0 4px}
+.pf-paper-damage-types{display:flex;flex-direction:column;gap:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-damage-types>.pf-alt-field{display:flex;flex-direction:row-reverse;align-items:center;justify-content:flex-end;gap:1px;height:10px}
+.pf-alt-page.pf-alt-page--first .pf-paper-damage-types .pf-alt-field>span{font-size:8px}
+.pf-alt-page.pf-alt-page--first .pf-paper-damage-types input[type=checkbox]{appearance:none;width:8px;height:8px;min-width:8px;border:1px solid #666;border-radius:50%;margin:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-damage-types input:checked{background:#315c44;box-shadow:inset 0 0 0 1px white}
+.pf-alt-page.pf-alt-page--first .pf-paper-descriptors .pf-alt-field>span{display:none}
+.pf-alt-page.pf-alt-page--first .pf-paper-descriptors .pf-alt-field>input{height:23px;font-size:11px;padding:2px 4px}
+.pf-paper-weapon-more{margin:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon .pf-alt-weapon-more{font-size:8px}
+.pf-paper-weapon-footer{display:grid;grid-template-columns:minmax(0,46%) minmax(0,27%) minmax(0,27%);gap:5px;margin-top:6px}
+.pf-paper-weapon-footer>div>h4{font-size:12px;line-height:1;margin:0 0 3px}
+.pf-paper-weapon-ranks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-ranks .pf-alt-field>span{font-size:7px;white-space:nowrap}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer>.pf-alt-field{grid-column:auto;min-width:0;gap:2px}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer>.pf-alt-field>span{font-size:9px;white-space:nowrap}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer .pf-alt-rich{min-height:52px!important;padding:3px}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer .pf-rich-editable{min-height:45px!important;padding:0}
+.pf-alt-page.pf-alt-page--first .pf-paper-bottom{grid-template-columns:minmax(0,32%) minmax(0,68%);gap:9px;margin-top:4px}
+.pf-paper-dc{height:46px;margin:3px 2px}
+.pf-paper-bottom .pf-paper-right-formula{margin-top:7px}
+.pf-paper-fixed-ten{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;text-align:center}
+.pf-paper-fixed-ten>b{height:20px;font-size:14px;line-height:20px}
+.pf-paper-fixed-ten>span{font-size:8px;font-weight:700}
+.pf-alt-page.pf-alt-page--first .pf-paper-bottom .pf-alt-p1-legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;align-content:start}
+.pf-paper-bottom .pf-alt-p1-legend>h3{grid-column:1/-1}
+.pf-alt-page.pf-alt-page--first .pf-paper-bottom .pf-alt-p1-legend>div{display:flex;flex-direction:column;gap:3px;font-size:9px;line-height:1.15}
+.pf-alt-page.pf-alt-page--first .pf-paper-bottom .pf-alt-p1-legend b{font-size:12px}
+@media(max-width:600px){
+ .pf-alt-page.pf-alt-page--first .pf-paper-utility{grid-template-columns:1fr 1fr}
+ .pf-paper-utility>.pf-alt-p1-languages{grid-column:1/-1}
+ .pf-paper-weapon-line{grid-template-columns:minmax(0,29%) 34px minmax(0,25%) minmax(0,1fr) 13px;gap:3px}
+ .pf-alt-page.pf-alt-page--first .pf-paper-weapon-line>.pf-alt-field>span{font-size:11px}
+ .pf-paper-weapon-footer{grid-template-columns:1fr 1fr}
+ .pf-paper-weapon-footer>div:first-child{grid-column:1/-1}
+ .pf-alt-page.pf-alt-page--first .pf-paper-bottom{grid-template-columns:1fr}
+}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon h4{text-transform:none;letter-spacing:0}
+.pf-paper-weapon-line{grid-template-columns:minmax(0,31%) 46px minmax(0,24%) minmax(0,1fr) 14px}
+.pf-alt-page.pf-alt-page--first .pf-paper-attack>.pf-alt-field>input{font-size:18px!important;width:90%}
+.pf-alt-page.pf-alt-page--first .pf-paper-weapon-footer>.pf-alt-field>input{height:52px;font-size:11px}
+@media(max-width:600px){.pf-paper-weapon-line{grid-template-columns:minmax(0,29%) 34px minmax(0,25%) minmax(0,1fr) 13px}}
+.pf-paper-attack:has(.pf-paper-frame--axe)>.pf-alt-field{transform:translateY(-2px)}

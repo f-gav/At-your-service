@@ -430,11 +430,23 @@ try {
       assert.equal(await partial.isChecked(),wasChecked,
         'Partial ability boost can return to its saved state');
       const weapon=first.locator('.pf-alt-weapon').first();
-      assert.equal(await weapon.locator('.pf-alt-weapon-core input').count(),4,
-        'Each weapon has four compact print fields');
-      await weapon.getByText('Бонусы и дополнительные свойства').click();
-      assert.ok(await weapon.locator('.pf-alt-weapon-extra input').count()>0,
-        'Advanced weapon fields remain editable when expanded');
+      assert.equal(await weapon.locator('.pf-paper-weapon-line input').count(),9,
+        'Weapon name, total, three operands, damage and three damage types are visible');
+      if(await weapon.locator('.pf-alt-weapon-more').count()){
+        await weapon.getByText('Бонусы и дополнительные свойства').click();
+        assert.ok(await weapon.locator('.pf-alt-weapon-extra input').count()>0);
+      }
+      assert.equal(await first.locator('.pf-paper-frame--axe').count(),3);
+      assert.equal(await first.locator('.pf-paper-frame--dart').count(),2);
+      assert.equal(await first.locator('.pf-paper-damage-types input').count(),15);
+      const damageTypes=weapon.locator('.pf-paper-damage-types input');
+      await damageTypes.nth(0).check();await damageTypes.nth(1).check();
+      assert.equal(await damageTypes.nth(0).isChecked(),false,'Weapon damage types remain exclusive');
+      assert.equal(await damageTypes.nth(1).isChecked(),true);
+      const perceptionRank=first.locator('.pf-paper-perception-top .pf-alt-rank-square').nth(1);
+      await perceptionRank.click();assert.equal(await perceptionRank.getAttribute('aria-pressed'),'true');
+      assert.equal(await perceptionRank.innerText(),'','Perception rank uses fill without checkmark');
+      await first.locator('.pf-alt-main-right').screenshot({path:'test-artifacts/pf-alt-right-desktop.png'});
       assert.equal(await first.locator('.pf-alt-skill-head').count(),0,
         'Skill calculations have their own captions, without a shared table header');
       assert.equal(await fourth.locator('.pf-alt-manual-column').count()>=2,true,

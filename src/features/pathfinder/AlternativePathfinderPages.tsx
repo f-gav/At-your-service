@@ -16,6 +16,7 @@ import './AlternativePathfinderFirstPage.css';
 import './AlternativePathfinderDefenses.css';
 import './AlternativePathfinderSkills.css';
 import './AlternativePathfinderTypography.css';
+import './AlternativePathfinderRightColumn.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -58,8 +59,13 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
    {children}
   </section>;
 }
-function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'}){
+function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'}){
  const paths={
+  dart:'M50 4 L96 94 L64 83 V98 H36 V83 L4 94 Z',
+  eye:'M32 72 L8 98 L2 88 L24 65 M53 5 C100 5 100 78 53 78 C6 78 6 5 53 5 Z',
+  arrow:'M7 25 H58 V5 L96 50 L58 95 V75 H3 Z',
+  axe:'M20 5 Q50 22 80 5 Q98 50 80 95 L65 83 V80 H35 V83 L20 95 Q2 50 20 5 Z',
+  dc:'M13 5 H87 Q97 5 97 20 V80 Q97 95 87 95 H13 Q3 95 3 80 V20 Q3 5 13 5 Z',
   skill:'M14 4 H86 Q86 18 97 18 V82 Q86 82 86 96 H14 Q14 82 3 82 V18 Q14 18 14 4 Z',
   armor:'M35 8 L42 3 Q50 10 58 3 L65 8 L77 10 L94 38 L81 48 L72 39 L72 88 L60 91 L56 98 L44 98 L40 91 L28 88 L28 39 L19 48 L6 38 L23 10 Z',
   shield:'M9 5 H91 V40 Q88 72 50 96 Q12 72 9 40 Z',
@@ -67,7 +73,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'}){
   heart:'M50 17 C27 -8 0 7 4 36 C6 64 32 77 50 96 C68 77 94 64 96 36 C100 7 73 -8 50 17 Z'
  };
  return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-  <path d={paths[kind]} fill="white" stroke={kind==='heart'?'#772b27':kind==='skill'?'#1b4a30':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
+  <path d={paths[kind]} fill="white" stroke={kind==='heart'||kind==='axe'?'#772b27':kind==='skill'?'#1b4a30':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
   <path d={paths[kind]} fill="none" stroke="#b9b9b3" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
  </svg>;
 }
@@ -101,7 +107,7 @@ export default function AlternativePathfinderPages({
        title={RANK_LABELS[rank]}
        aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
        onClick={()=>onChange(id,String(current===rank?0:rank))}
-       ><span aria-hidden="true">{current===rank&&!(page===1&&(id.startsWith('armor_rank_')||id.startsWith('skill_')))?'✓':''}</span></button>)}
+       ><span aria-hidden="true">{current===rank&&!(page===1&&(id.startsWith('armor_rank_')||id.startsWith('skill_')||id.startsWith('weapon_rank_')||id==='perception_rank'))?'✓':''}</span></button>)}
     </div>
    </div>;
   }
@@ -124,7 +130,7 @@ export default function AlternativePathfinderPages({
      f.kind==='long'?
       <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
         value={String(value)} resourceContext={values} disabled={disabled}
-        placeholder={page===1&&id==='defense_notes'?label:undefined}
+        placeholder={page===1&&['defense_notes','perception_notes','movement'].includes(id)?label:undefined}
         onChange={v=>onChange(id,v)}/>:
      f.kind==='select'?
       <select aria-label={label} value={String(value)} disabled={disabled}
@@ -134,7 +140,7 @@ export default function AlternativePathfinderPages({
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={disabled} aria-label={label}
         onChange={e=>onChange(id,e.target.value)}
-        placeholder={page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
+        placeholder={page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
  }
@@ -352,44 +358,49 @@ export default function AlternativePathfinderPages({
      <div className="pf-alt-fields">{field('skills_notes','Примечания')}</div>
     </Section>
     <div className="pf-alt-main-right">
-     <div className="pf-alt-p1-utility">
-      <Section index="VII" title="Языки" className="pf-alt-p1-languages">
-       {field('languages','Языки')}
-      </Section>
+     <div className="pf-alt-p1-utility pf-paper-utility">
+      <Section index="VII" title="Языки" className="pf-alt-p1-languages">{field('languages','Языки')}</Section>
       <Section index="VII" title="Внимание" className="pf-alt-p1-perception">
-       <div className="pf-alt-p1-perception-fields">{['perception','perception_rank','perception_ability','perception_prof','perception_item'].map((id,i)=>field(id,['Внимание','Владение','Мдр.','Умен.','Пред.'][i]))}</div>
-       {field('perception_notes','Восприятие')}
+       <div className="pf-paper-perception-top"><div className="pf-paper-icon pf-paper-eye"><PaperFrame kind="eye"/>{field('perception','Внимание')}</div>
+        {field('perception_rank','Владение вниманием')}
+        <div className="pf-paper-right-formula">{field('perception_ability','Мдр')}<i>+</i>{field('perception_prof','Умен.')}<i>+</i>{field('perception_item','Предм.')}</div>
+       </div>{field('perception_notes','Восприятие')}
       </Section>
       <Section index="VII" title="Скорость" className="pf-alt-p1-speed">
-       {field('speed','Футов')}{field('movement','Типы перемещения')}
+       <div className="pf-paper-speed-top"><div className="pf-paper-icon pf-paper-arrow"><PaperFrame kind="arrow"/>{field('speed','Скорость')}</div><span>футов</span></div>
+       {field('movement','Типы перемещения')}
       </Section>
      </div>
-     <Section index="VIII" title="Удары">
+     <Section index="VIII" title="Удары" className="pf-paper-strikes">
       <div className="pf-alt-weapon-list">{[1,2,3,4,5].map(i=>{
-        const core=['name','attack','damage','traits'].map(suffix=>'weapon_'+i+'_'+suffix);
-        const extra=matching('weapon_'+i+'_').filter(id=>!core.includes(id));
-        return <div className="pf-alt-weapon" key={i}>
-         <h4><Swords size={13} aria-hidden="true"/> {i<=3?'Ближний бой':'Дистанционное'} · {i}</h4>
-         <div className="pf-alt-weapon-core">
-          {core.map((id,j)=>field(id,['Оружие','Атака','Урон','Свойства'][j]))}
+        const visible=['name','attack','damage','traits','ability','prof','item','damage_bludgeoning','damage_piercing','damage_slashing'].map(suffix=>'weapon_'+i+'_'+suffix);
+        const extra=matching('weapon_'+i+'_').filter(id=>!visible.includes(id));
+        return <div className="pf-alt-weapon pf-paper-weapon" key={i}>
+         {(i===1||i===4)&&<h4>{i===1?'В ближнем бою':'Дистанционные'}</h4>}
+         <div className="pf-paper-weapon-line">
+          {field('weapon_'+i+'_name','Оружие')}
+          <div className="pf-paper-icon pf-paper-attack"><PaperFrame kind={i<=3?'axe':'dart'}/>{field('weapon_'+i+'_attack','Атака оружием '+i)}</div>
+          <div className="pf-paper-right-formula">{field('weapon_'+i+'_ability',i<=3?'Сил / Лвк':'Лвк')}<i>+</i>{field('weapon_'+i+'_prof','Умен.')}<i>+</i>{field('weapon_'+i+'_item','Предм.')}</div>
+          {field('weapon_'+i+'_damage','Урон')}
+          <div className="pf-paper-damage-types">{['bludgeoning','piercing','slashing'].map((type,j)=>field('weapon_'+i+'_damage_'+type,['Д','К','Р'][j]))}</div>
          </div>
-         {extra.length>0&&<details className="pf-alt-weapon-more">
-          <summary>Бонусы и дополнительные свойства</summary>
-          <div className="pf-alt-weapon-extra">{extra.map(id=>field(id))}</div>
-         </details>}
+         <div className="pf-paper-descriptors">{field('weapon_'+i+'_traits','Дескрипторы')}</div>
+         {extra.length>0&&<details className="pf-alt-weapon-more"><summary>Бонусы и дополнительные свойства</summary><div className="pf-alt-weapon-extra">{extra.map(id=>field(id))}</div></details>}
         </div>;
        })}</div>
-      {cells(['weapon_other','critical_effects'])}
-      <div className="pf-alt-fields pf-alt-ranks">{matching('weapon_rank_').map(id=>field(id))}</div>
+      <div className="pf-paper-weapon-footer"><div><h4>Умения в оружии</h4><div className="pf-paper-weapon-ranks">{matching('weapon_rank_').map((id,i)=>field(id,['Безоруж.','Простое','Особое','Экзот.','Проч.'][i]))}</div></div>
+       {field('weapon_other','Прочие умения')}{field('critical_effects','Критические эффекты')}
+      </div>
      </Section>
-     <div className="pf-alt-p1-bottom-right">
+     <div className="pf-alt-p1-bottom-right pf-paper-bottom">
       <Section index="IX" title="Классовая СЛ" className="pf-alt-p1-class-dc">
-       <div className="pf-alt-fields">{['class_dc','class_dc_key','class_dc_rank','class_dc_item'].map((id,i)=>field(id,['СЛ','Ключ. хар.','Умение','Пред.'][i]))}</div>
+       <div className="pf-paper-icon pf-paper-dc"><PaperFrame kind="dc"/>{field('class_dc','Классовая СЛ')}</div>
+       <div className="pf-paper-right-formula"><div className="pf-paper-fixed-ten"><b>10</b><span>Баз.</span></div><i>+</i>{field('class_dc_key','Ключ.') }<i>+</i>{field('class_dc_rank','Умен.')}<i>+</i>{field('class_dc_item','Предм.')}</div>
       </Section>
       <section className="pf-alt-p1-legend" aria-label="Памятка Pathfinder">
        <h3 className="pf-alt-p1-heading">Памятка</h3>
-       <div><b>Умение</b><span>Изученный: +2 + уровень</span><span>Эксперт: +4 + уровень</span><span>Мастер: +6 + уровень</span><span>Легенда: +8 + уровень</span></div>
-       <div><b>Действия</b><span>◆ Одиночное действие</span><span>◆◆ Два действия</span><span>◆◆◆ Три действия</span><span>↪ Ответное действие</span></div>
+       <div><b>Умение</b><span>Необученный +0</span><span>Изученный 2 + уровень</span><span>Эксперт 4 + уровень</span><span>Мастер 6 + уровень</span><span>Легенда 8 + уровень</span></div>
+       <div><b>Действия</b><span>◆ Одиночное действие</span><span>◆◆ Занятие в два действия</span><span>◆◆◆ Занятие в три действия</span><span>◇ Свободное действие</span><span>↪ Ответное действие</span></div>
       </section>
      </div>
     </div>
