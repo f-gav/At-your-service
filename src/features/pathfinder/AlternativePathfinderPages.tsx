@@ -22,6 +22,7 @@ import './AlternativePathfinderRightColumn.css';
 import './AlternativePathfinderAdvancement.css';
 import './AlternativePathfinderEquipment.css';
 import './AlternativePathfinderBiography.css';
+import './AlternativePathfinderActions.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -148,7 +149,7 @@ export default function AlternativePathfinderPages({
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={disabled} aria-label={label}
         onChange={e=>onChange(id,e.target.value)}
-        placeholder={page===3&&['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance','attitude','deity','likes','dislikes','quotes'].includes(id)?'':page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
+        placeholder={page===3&&/^(action|reaction)_[1-4]_/.test(id)?'':page===3&&['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance','attitude','deity','likes','dislikes','quotes'].includes(id)?'':page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
  }
@@ -442,7 +443,8 @@ export default function AlternativePathfinderPages({
     </Section>
     <Section index="V" title="Богатство" className="pf-alt-wealth">
      <div className="pf-alt-coin-row">
-      {['wealth_cp','wealth_sp','wealth_gp','wealth_pp'].map((id,i)=><div className={'pf-alt-coin pf-paper-coin-'+id} key={id}>{field(id,['ММ','СМ','ЗМ','ПМ'][i])}</div>)}
+      {/* Legacy keys follow PDF positions: pp, gp, sp, cp = ММ, СМ, ЗМ, ПМ. */}
+      {['wealth_pp','wealth_gp','wealth_sp','wealth_cp'].map((id,i)=><div className={'pf-alt-coin pf-paper-coin-'+i} key={id}>{field(id,['ММ','СМ','ЗМ','ПМ'][i])}</div>)}
      </div>
      <div className="pf-alt-fields pf-paper-valuables">{field('valuables','Самоцветы и предметы искусства')}{field('valuables_price','Цена')}{field('valuables_bulk','Вес')}</div>
     </Section>
@@ -475,23 +477,26 @@ export default function AlternativePathfinderPages({
     {['campaign_notes','allies','enemies','organizations'].map(id=>field(id,id==='campaign_notes'?'Заметки':undefined))}
    </div>
   </Section>
-  <div className="pf-alt-action-layout">
-   <Section index="V" title="Действия и занятия">
-    <div className="pf-alt-action-cards">
-     {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
-      <h4><Zap size={14} aria-hidden="true"/> Действие {i}</h4>
-      <div className="pf-alt-action-fields">{matching('action_'+i+'_').map(id=>field(id,({name:'Название',cost:'Действия',traits:'Дескрипторы',page:'Стр.',effect:'Эффект',condition:'Условие'} as Record<string,string>)[id.split('_').pop()||'']||undefined))}</div>
-     </div>)}
-    </div>
-   </Section>
-   <Section index="VI" title="Свободные и ответные действия">
-    <div className="pf-alt-action-cards">
-     {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card">
-      <h4><CircleDot size={14} aria-hidden="true"/> Реакция {i}</h4>
-      <div className="pf-alt-action-fields">{matching('reaction_'+i+'_').map(id=>field(id,({name:'Название',cost:'Действия',traits:'Дескрипторы',page:'Стр.',effect:'Эффект',condition:'Условие'} as Record<string,string>)[id.split('_').pop()||'']||undefined))}</div>
-     </div>)}
-    </div>
-   </Section>
+  <div className="pf-alt-action-layout pf-paper-actions">
+   <Section index="V" title="Действия и занятия"><div className="pf-alt-action-cards">
+    {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card pf-paper-action" aria-label={'Действие '+i}>
+     <div className="pf-paper-action-top">{field('action_'+i+'_name','Название')}{field('action_'+i+'_cost','Действия')}{field('action_'+i+'_traits','Дескрипторы')}{field('action_'+i+'_page','Стр.')}</div>
+     <div className="pf-paper-action-effect">{field('action_'+i+'_effect','Эффекты')}</div>
+    </div>)}
+   </div></Section>
+   <Section index="VI" title="Свободные и ответные действия"><div className="pf-alt-action-cards">
+    {[1,2,3,4].map(i=><div key={i} className="pf-alt-action-card pf-paper-reaction" aria-label={'Свободное или ответное действие '+i}>
+     <div className="pf-paper-action-top">{field('reaction_'+i+'_name','Название')}
+      <div className="pf-paper-reaction-kind" role="group" aria-label={'Тип действия '+i}>
+       {(['free','reaction'] as const).map(kind=><button key={kind} type="button" aria-pressed={values['reaction_'+i+'_kind']===kind}
+        aria-label={(kind==='free'?'Свободное действие ':'Ответное действие ')+i} disabled={disabled}
+        onClick={()=>onChange('reaction_'+i+'_kind',values['reaction_'+i+'_kind']===kind?'':kind)}><span className="pf-paper-kind-circle" aria-hidden="true"/><span aria-hidden="true">{kind==='free'?'◇':'↪'}</span></button>)}
+      </div>{field('reaction_'+i+'_traits','Дескрипторы')}{field('reaction_'+i+'_page','Стр.')}
+     </div>
+     <div className="pf-paper-action-condition">{field('reaction_'+i+'_condition','Условие')}</div>
+     <div className="pf-paper-action-effect">{field('reaction_'+i+'_effect','Эффекты')}</div>
+    </div>)}
+   </div></Section>
   </div>
  </>}
  {page===4&&<>

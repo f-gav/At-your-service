@@ -36,6 +36,7 @@ const character:Character={
         ancestry:'Эльф',heritage:'Провидец',background:'Искатель знаний',character_class:'Волшебник',
         hero_1:true,hero_2:true,ability_str:'0',ability_dex:'+3',ability_con:'+1',
         ability_int:'+4',ability_wis:'+2',ability_cha:'-1',
+        wealth_pp:'12',wealth_gp:'23',wealth_sp:'34',wealth_cp:'45',action_1_page:'1',
         hp_current:'55',hp_max:'67',dying:'2',shield_hp:'18',
         skill_acrobatics_total:'+13',skill_arcana_total:'+17',weapon_1_name:'Ритуальный кинжал',
         weapon_1_attack:'+14',weapon_1_damage:'1d4+2',weapon_1_traits:'Лёгкий, ловкое',

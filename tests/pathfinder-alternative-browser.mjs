@@ -484,6 +484,21 @@ try {
       assert.ok(await biography.getByRole('button',{name:'Изменить портрет',exact:true}).isEnabled());
       await biography.screenshot({path:'test-artifacts/pf-alt-biography-desktop.png'});
     }
+    const actions=pages.nth(2).locator('.pf-paper-actions');
+    assert.equal(await actions.locator('.pf-alt-action-card').count(),8);
+    assert.equal(await actions.locator('.pf-alt-action-card>h4').count(),0);
+    if(width===1440){
+      const firstAction=actions.locator('.pf-paper-action').first();
+      assert.equal(await firstAction.getByRole('textbox',{name:'Стр.',exact:true}).inputValue(),'1');
+      const tops=await firstAction.locator('.pf-paper-action-top>.pf-alt-field').evaluateAll(nodes=>nodes.map(el=>el.getBoundingClientRect().top));
+      assert.ok(tops.length===4&&tops.every(y=>Math.abs(y-tops[0])<1),'Action header fields stay on one line');
+      await firstAction.getByRole('textbox',{name:'Название',exact:true}).fill('Шаг');
+      await firstAction.getByRole('textbox',{name:'Эффекты',exact:true}).fill('Переместиться на 5 футов.');
+      const free=actions.getByRole('button',{name:'Свободное действие 1',exact:true}),reaction=actions.getByRole('button',{name:'Ответное действие 1',exact:true});
+      await free.click();assert.equal(await free.getAttribute('aria-pressed'),'true');
+      await reaction.click();assert.equal(await reaction.getAttribute('aria-pressed'),'true');assert.equal(await free.getAttribute('aria-pressed'),'false');
+      await actions.screenshot({path:'test-artifacts/pf-alt-actions-desktop.png'});
+    }
     const campaign=pages.nth(2).locator('.pf-paper-campaign');
     if(width===1440){
       const boxes=await campaign.locator('.pf-alt-campaign-grid>.pf-alt-field').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect();return {width:r.width,top:r.top,bottom:r.bottom}}));
@@ -507,6 +522,8 @@ try {
       assert.ok((await held.innerText()).includes('Свёрток с рунами'),'Existing inventory contents remain readable');
       await equipment.locator('.pf-paper-bag input').fill('8');
       assert.equal(await equipment.locator('.pf-paper-bag input').inputValue(),'8');
+      assert.deepEqual(await equipment.locator('.pf-alt-coin input').evaluateAll(nodes=>nodes.map(el=>el.value)),['12','23','34','45'],
+        'Alternative coin labels match the classic PDF positions without moving saved values');
       const gold=equipment.getByRole('textbox',{name:'ЗМ',exact:true});await gold.fill('27');assert.equal(await gold.inputValue(),'27');
       const attunement=equipment.locator('.pf-paper-worn .pf-rich-editable').nth(1);await attunement.fill('1');assert.equal(await attunement.innerText(),'1');
       await equipment.screenshot({path:'test-artifacts/pf-alt-equipment-desktop.png'});
