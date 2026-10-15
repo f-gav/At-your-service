@@ -29,8 +29,8 @@ for(const control of ['pf-alt-hero-marks','pf-alt-level-diamond',
 const printable=read('../src/lib/sheet-pdf.ts');
 assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span,.pf-alt-dynamic-advancement .pf-advancement-add-row')"),
   'HTML character PDF must not include editable controls');
-assert.ok(html.includes("onOpenSpell(spell)"),
-  'Printed spell rows must open their corresponding spell descriptions');
+assert.ok(html.includes("className=\"pf-alt-spell-row\" onClick={onOpenGrimoire}"),
+  'Printed spell rows must open the grimoire');
 assert.ok(html.includes("onChange(key,!effectivePfTraditions(values).includes(id))"),
   'Magic traditions must remain synchronized with original PF2e fields');
 

@@ -544,7 +544,7 @@ export default function PathfinderSheet({
             spellMode={spellMode} onChange={(id,value)=>change(id,value)}
             disabled={editLocked} onAddLevel={()=>setValues(old=>addAdvancementLevel(old))}
             onRemoveLevel={level=>setValues(old=>removeAdvancementLevel(old,level))}
-            onOpenGrimoire={()=>openGrimoire()} onOpenSpell={setOpenSpellCard}
+            onOpenGrimoire={()=>openGrimoire()}
             onOpenSettings={()=>setSpellSettingsOpen(true)}
             portraitUrl={portraitUrl} onEditPortrait={onEditPortrait}/>)}
         </div>:

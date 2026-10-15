@@ -592,6 +592,17 @@ try {
   assert.ok(geometry.bookHeight>700&&geometry.ritualTop>geometry.bookEnd,JSON.stringify(geometry));
   assert.ok(geometry.borders.every(x=>x==='1px'),JSON.stringify(geometry));
   await magic.screenshot({path:'test-artifacts/pf-alt-magic-library-desktop.png'});
+  const toolBorders=await magic.locator('.pf-paper-magic-tools>button').evaluateAll(nodes=>nodes.map(el=>({width:getComputedStyle(el).borderTopWidth,color:getComputedStyle(el).borderTopColor})));
+  assert.ok(toolBorders.every(b=>b.width==='1px'&&b.color==='rgb(49, 92, 68)'));
+  await magic.getByRole('button',{name:'Открыть гримуар',exact:true}).click();
+  const grimoire=libraryPage.getByRole('dialog',{name:'Гримуар заклинаний',exact:true});
+  await grimoire.locator('.pf-grimoire-item').first().waitFor();
+  await grimoire.locator('.pf-grimoire-item').first().getByRole('button',{name:/^Подготовить /}).click();
+  await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+  const spellRow=magic.locator('.pf-alt-spell-row').first();
+  await spellRow.waitFor();await spellRow.click();
+  await grimoire.waitFor();
+  await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   await libraryPage.close();
   console.log('PASS: four original-paper PF2e pages, desktop/tablet/mobile, field interactions and screenshot captures');
 }finally{

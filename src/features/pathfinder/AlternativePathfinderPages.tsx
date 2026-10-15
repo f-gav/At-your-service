@@ -29,7 +29,7 @@ type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
   legacyHasValues:boolean;preparedSpells:SpellView[];spellMode:'library'|'text';
   onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;
-  onOpenSpell:(spell:SpellView)=>void;onOpenSettings:()=>void;
+  onOpenSettings:()=>void;
   portraitUrl?:string;onEditPortrait:()=>void;
   onAddLevel:()=>void;onRemoveLevel:(level:number)=>void;disabled?:boolean;
 };
@@ -69,8 +69,8 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
 }
 function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'arrow'|'axe'|'dc'|'dart'|'bag'|'spellstar'|'scroll'|'book'}){
  const paths={
-  spellstar:'M33 20 L29 3 L47 17 C67 13 86 29 82 51 L97 65 L76 65 C65 83 45 85 30 71 L4 82 L23 56 C16 40 20 28 33 20 Z',
-  scroll:'M15 5 H89 Q76 25 89 42 L72 55 Q86 76 74 95 H10 Q25 75 12 55 L29 42 Q17 23 15 5 Z',
+  spellstar:'M42 5 L55 24 C72 24 83 35 83 49 L96 57 L80 61 C74 77 56 83 42 74 L8 87 L30 62 C22 47 28 32 42 27 Z',
+  scroll:'M25 7 H85 Q93 7 89 18 L73 42 Q69 49 75 55 Q85 67 80 84 Q78 93 69 93 H14 Q6 93 10 83 L27 57 Q32 49 26 43 Q14 29 18 14 Q19 7 25 7 Z',
   book:'M3 12 L43 7 L50 14 L57 7 L97 12 V90 L57 85 L50 92 L43 85 L3 90 Z',
   bag:'M18 4 H82 L79 23 L91 37 L91 80 L78 96 H22 L9 80 V37 L21 23 Z',
   dart:'M50 4 L96 94 L64 83 V98 H36 V83 L4 94 Z',
@@ -91,7 +91,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
 }
 export default function AlternativePathfinderPages({
  page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
- onChange,onOpenGrimoire,onOpenSpell,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
+ onChange,onOpenGrimoire,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
  const consumed=new Set<string>();
@@ -207,8 +207,8 @@ export default function AlternativePathfinderPages({
        <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
       {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
-       className="pf-alt-spell-row" onClick={()=>onOpenSpell(spell)}
-       aria-label={'Прочитать заклинание '+spell.name}>
+       className="pf-alt-spell-row" onClick={onOpenGrimoire}
+       aria-label={'Открыть гримуар: '+spell.name}>
        <strong>{spell.name}</strong>{prefix==='rituals_'?<><span>{spell.spell.rank}</span><span>—</span></>:<><span>{spellCast(spell)}</span>{prefix==='spellbook_'&&<span>{spell.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
       </button>)}
      </div>)}
