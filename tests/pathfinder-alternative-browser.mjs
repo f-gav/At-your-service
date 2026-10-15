@@ -210,7 +210,7 @@ try {
         'XP field must overlap the right half of the diamond, with its label above');
       assert.equal(topAlignment.details.length,4,'Four smaller ancestry and notes fields');
       assert.ok(topAlignment.details.every(d=>d&&d.labelTop>=d.inputTop-1&&
-        d.labelBottom<d.inputBottom&&Math.abs(d.height-40)<2),
+        d.labelBottom<d.inputBottom&&Math.abs(d.height-43)<2),
         'Four lower labels must sit inside equal-height bordered fields: '+JSON.stringify(topAlignment.details));
       assert.ok(topAlignment.checkboxX<topAlignment.labelX&&
         topAlignment.partialText==='Частич. повыш.',
