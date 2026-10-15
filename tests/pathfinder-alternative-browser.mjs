@@ -107,6 +107,59 @@ try {
     // Ability bounds above are still checked strictly at every viewport.
     assert.ok(width===360 || metrics.every(m=>m.scrollW<=m.clientW+4),
       'Text inputs/columns must fit inside each HTML page: '+JSON.stringify(metrics.filter(m=>m.scrollW>m.clientW+4)));
+    if(width>=1100){
+      const strip=await pages.first().evaluate(root=>{
+        const section=root.querySelector('.pf-alt-abilities-section');
+        const title=section?.querySelector(':scope>h3');
+        const cards=[...section.querySelectorAll('.pf-alt-ability')];
+        const numberRects=cards.map(card=>card.querySelector('input[type=text]')?.getBoundingClientRect()).filter(Boolean);
+        const names=cards.map(card=>{
+          const label=card.querySelector('.pf-alt-field:first-child>span');
+          if(!label)return null;
+          const range=document.createRange();
+          range.selectNodeContents(label);
+          return {rect:range.getBoundingClientRect(),font:getComputedStyle(label).fontFamily,
+            name:label.textContent};
+        });
+        const captions=cards.map(card=>{
+          const circle=card.querySelector('input[type=checkbox]')?.getBoundingClientRect();
+          const text=card.querySelector('.pf-alt-field:nth-child(2)>span')?.getBoundingClientRect();
+          return {circleX:circle?.x,textX:text?.x,circleTop:circle?.top,textTop:text?.top};
+        });
+        const columns=cards.map(card=>getComputedStyle(card).borderRightWidth);
+        const headingAfter=title?getComputedStyle(title,'::after'):null;
+        return {
+          count:cards.length,
+          top:numberRects.map(rect=>Math.round(rect.top)),
+          x:numberRects.map(rect=>Math.round(rect.left)),
+          width:numberRects.map(rect=>Math.round(rect.width)),
+          nameEnds:names.map(value=>value&&Math.round(value.rect.right)),
+          nameFonts:names.map(value=>value&&value.font),
+          captions,
+          rightBorders:columns,
+          headingRuleWidth:headingAfter?parseFloat(headingAfter.width):0,
+          headingBorder:title&&getComputedStyle(title).borderBottomWidth,
+          rowEnd:section?.getBoundingClientRect().bottom,
+        };
+      });
+      console.log('PF2e ability-strip '+width+'px: '+JSON.stringify(strip));
+      assert.equal(strip.count,6,'All six PF2e abilities remain present');
+      assert.equal(new Set(strip.top).size,1,'Six modifier shields must sit on one row');
+      assert.ok(strip.x.every((x,i)=>i===0||x>strip.x[i-1]),
+        'Modifier shields must appear left-to-right');
+      assert.ok(strip.x.every((x,i)=>i<2||Math.abs(x-strip.x[i-1]-(strip.x[1]-strip.x[0]))<=4),
+        'Modifier shields must be evenly spaced');
+      assert.ok(strip.nameEnds.every((right,i)=>i===5||right<=strip.x[i+1]-1),
+        'Ability captions cannot overlap the next modifier shield: '+JSON.stringify(strip));
+      assert.ok(strip.nameFonts.every(value=>value.includes('PF2e Ability')),
+        'Russian condensed sans-serif must be applied to ability names');
+      assert.ok(strip.captions.every(x=>x.circleX<x.textX&&Math.abs(x.circleTop-x.textTop)<5),
+        'A round boost marker precedes its text on one line');
+      assert.ok(strip.rightBorders.every(value=>value==='0px'),
+        'No vertical separators between abilities');
+      assert.ok(strip.headingRuleWidth>80&&strip.headingBorder==='0px',
+        'Green rule must start to the right of the Characteristics title');
+    }
     if(width===1440){
       const first=pages.first();
       assert.equal(await first.locator('.pf-alt-p1-logo').count(),1,'PF logo is placed above the first page');
@@ -237,6 +290,14 @@ try {
       await rankSquares.nth(2).click();
       assert.equal(await rankSquares.filter({hasText:'✓'}).count(),0,'Click selected square to return to untrained');
       assert.equal(await first.locator('.pf-alt-skill-row select').count(),0,'No dropdowns for skill ranks');
+      const partial=first.locator('.pf-alt-abilities-section input[type=checkbox]').first();
+      const wasChecked=await partial.isChecked();
+      await partial.click();
+      assert.notEqual(await partial.isChecked(),wasChecked,
+        'Partial ability boost must remain interactive');
+      await partial.click();
+      assert.equal(await partial.isChecked(),wasChecked,
+        'Partial ability boost can return to its saved state');
       const weapon=first.locator('.pf-alt-weapon').first();
       assert.equal(await weapon.locator('.pf-alt-weapon-core input').count(),4,
         'Each weapon has four compact print fields');
