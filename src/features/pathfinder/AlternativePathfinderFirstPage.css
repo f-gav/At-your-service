@@ -702,7 +702,7 @@
 /* The original raster contains its own printed subtitle below the badge.
    Crop precisely above that subtitle so only our Ebbe Black caption remains. */
 .pf-alt-page--first .pf-alt-p1-logo-art{
-  flex:0 0 57px;height:57px;
+  flex:0 0 53px;height:53px;
 }
 .pf-alt-page--first .pf-alt-p1-logo-art img{
   width:860px;left:-30px;top:-24px;
