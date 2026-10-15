@@ -115,6 +115,35 @@ try {
           abilityBorderTop:abilityInput&&getComputedStyle(abilityInput).borderTopLeftRadius,
           abilityBorderBottom:abilityInput&&getComputedStyle(abilityInput).borderBottomLeftRadius};
       });
+      const geometry=await first.evaluate(root=>{
+        const diamond=root.querySelector('.pf-alt-p1-level-diamond');
+        const experience=root.querySelector('.pf-alt-p1-experience input');
+        const left=root.querySelector('.pf-alt-abilities')?.getBoundingClientRect();
+        const heading=root.querySelector('.pf-alt-abilities-section>h3');
+        const hero=root.querySelector('.pf-alt-p1-hero .pf-alt-hero-point svg polygon');
+        const points=hero?.getAttribute('points')?.trim().split(/\\s+/).map(pair=>pair.split(',').map(Number))||[];
+        const lengths=points.map((p,i)=>Math.hypot(p[0]-points[(i+1)%points.length][0],p[1]-points[(i+1)%points.length][1]));
+        return {diamondY:diamond?.getBoundingClientRect().y,
+          diamondH:diamond?.getBoundingClientRect().height,
+          xpMid:experience?experience.getBoundingClientRect().y+experience.getBoundingClientRect().height/2:null,
+          diamondLayer:diamond&&getComputedStyle(diamond).zIndex,
+          xpLayer:experience&&getComputedStyle(experience.closest('.pf-alt-p1-experience')).zIndex,
+          abilityLeft:left?.left,headingLeft:heading?.getBoundingClientRect().left,
+          lengths,heroPaths:root.querySelectorAll('.pf-alt-p1-hero .pf-alt-hero-point svg path').length,
+          headings:[...root.querySelectorAll('.pf-alt-p1-heading,.pf-alt-section>h3')].map(el=>getComputedStyle(el).fontFamily)};
+      });
+      assert.ok(Math.abs(geometry.xpMid-(geometry.diamondY+geometry.diamondH/2))<2,
+        'XP rectangle must be vertically centered against the diamond: '+JSON.stringify(geometry));
+      assert.ok(Number(geometry.diamondLayer)>Number(geometry.xpLayer),
+        'XP field must be behind the diamond');
+      assert.ok(geometry.lengths.length===6 &&
+        Math.max(...geometry.lengths)-Math.min(...geometry.lengths)<.15,
+        'Hero point hexagons must have six equal sides');
+      assert.equal(geometry.heroPaths,0,'Hero points are filled, never checkmarked');
+      assert.ok(geometry.abilityLeft<geometry.headingLeft,
+        'Ability values shift slightly left of the section header');
+      assert.ok(geometry.headings.every(name=>name.includes('PF2e Ebbe Black')),
+        'Every green PF heading must use Ebbe Black');
       assert.ok(topAlignment,'Gemstone and XP controls must be present');
       assert.ok(Math.abs(topAlignment.gemX-topAlignment.levelX)<5&&
         Math.abs(topAlignment.gemY-topAlignment.levelY)<5,
