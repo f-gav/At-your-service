@@ -13,6 +13,7 @@ import type {SpellView} from '../spell-library/catalog';
 import {spellCast} from './SpellGrimoire';
 import './AlternativePathfinderPages.css';
 import './AlternativePathfinderFirstPage.css';
+import './AlternativePathfinderDefenses.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -54,6 +55,18 @@ function Section({index,title,children,wide=false,className=''}:{index:string;ti
    <h3><Icon size={14} strokeWidth={1.8} aria-hidden="true"/><span className="pf-alt-section-index">{index}</span>{title}</h3>
    {children}
   </section>;
+}
+function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'}){
+ const paths={
+  armor:'M35 8 L42 3 Q50 10 58 3 L65 8 L77 10 L94 38 L81 48 L72 39 L72 88 L60 91 L56 98 L44 98 L40 91 L28 88 L28 39 L19 48 L6 38 L23 10 Z',
+  shield:'M9 5 H91 V40 Q88 72 50 96 Q12 72 9 40 Z',
+  save:'M13 9 H87 L97 28 V72 L87 91 H13 L3 72 V28 Z',
+  heart:'M50 17 C27 -8 0 7 4 36 C6 64 32 77 50 96 C68 77 94 64 96 36 C100 7 73 -8 50 17 Z'
+ };
+ return <svg className={'pf-paper-frame pf-paper-frame--'+kind} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <path d={paths[kind]} fill="white" stroke={kind==='heart'?'#772b27':'#474643'} strokeWidth="5" vectorEffect="non-scaling-stroke"/>
+  <path d={paths[kind]} fill="none" stroke="#b9b9b3" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+ </svg>;
 }
 export default function AlternativePathfinderPages({
  page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
@@ -108,6 +121,7 @@ export default function AlternativePathfinderPages({
      f.kind==='long'?
       <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
         value={String(value)} resourceContext={values} disabled={disabled}
+        placeholder={page===1&&id==='defense_notes'?label:undefined}
         onChange={v=>onChange(id,v)}/>:
      f.kind==='select'?
       <select aria-label={label} value={String(value)} disabled={disabled}
@@ -117,7 +131,7 @@ export default function AlternativePathfinderPages({
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={disabled} aria-label={label}
         onChange={e=>onChange(id,e.target.value)}
-        placeholder={page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
+        placeholder={page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
  }
@@ -259,30 +273,60 @@ export default function AlternativePathfinderPages({
      </div>)}
     </div>
    </Section>
-   <div className="pf-alt-defense-grid">
-    <Section index="III" title="Класс брони и щит">
-     <div className="pf-alt-fields pf-alt-defense-values">{['armor_class','armor_dex','armor_prof','armor_item'].map(id=>field(id))}</div>
-     <h4 className="pf-alt-subhead"><Shield size={13}/> Щит</h4>
-     <div className="pf-alt-fields pf-alt-shield-values">{['shield_ac_bonus','shield_hardness','shield_max_hp','shield_hp','shield_broken'].map(id=>field(id))}</div>
-     <div className="pf-alt-fields pf-alt-ranks">{matching('armor_rank_').map((id,i)=>field(id,['Без брони','Лёгкая','Средняя','Тяжёлая'][i]||'Владение'))}</div>
-     {cells(['defense_notes'])}
-    </Section>
-    <Section index="IV" title="Спасброски">
-     <div className="pf-alt-save-grid">
-      {SAVE_NAMES.map(([id,label])=><div className="pf-alt-save" key={id}>
-       <h4>{label}</h4>
-       {matching('save_'+id).map(key=>field(key,key.endsWith('_rank')?'Владение':key.endsWith('_ability')?'Хар.':key.endsWith('_prof')?'Умен.':key.endsWith('_item')?'Пред.':label))}
-      </div>)}
+   <div className="pf-alt-defense-grid pf-paper-defense-row">
+    <Section index="III" title="Защиты" className="pf-paper-defenses">
+     <div className="pf-paper-defense-body">
+      <div className="pf-paper-armor" aria-label="Класс брони и щит">
+       <div className="pf-paper-armor-top">
+        <div><h4>Класс брони</h4><div className="pf-paper-shape pf-paper-coat">
+         <PaperFrame kind="armor"/>{field('armor_class','Класс брони')}
+        </div></div>
+        <div><h4>Щит</h4><div className="pf-paper-shape pf-paper-shield">
+         <PaperFrame kind="shield"/>{field('shield_ac_bonus','Бонус щита')}
+        </div></div>
+        <div className="pf-paper-shield-details">
+         {field('shield_hardness','Твёрдость')}
+         <div className="pf-paper-shield-max"><span>Макс. ПЗ / ПП</span><div>
+          {field('shield_max_hp','Максимальные ПЗ щита')}<b>/</b>{field('shield_broken','Порог поломки щита')}
+         </div></div>
+         {field('shield_hp','ПЗ щита')}
+         <div className="pf-paper-armor-training"><h4>Умения в броне</h4>
+          <div className="pf-paper-armor-ranks">{matching('armor_rank_').map((id,i)=>field(id,['Без брони','Лёгк.','Средн.','Тяж.'][i]||'Владение'))}</div>
+         </div>
+        </div>
+       </div>
+       <div className="pf-paper-armor-formula"><div className="pf-paper-formula">
+        <div className="pf-paper-base"><b>10</b><span>Баз.</span></div><i>+</i>
+        {field('armor_dex','Лвк*')}<i>+</i>{field('armor_prof','Умен.')}<i>+</i>{field('armor_item','Предм.')}
+       </div><small>* Используйте максимум Лвк. в броне</small></div>
+      </div>
+      <div className="pf-paper-saves" aria-label="Спасброски">
+       <div className="pf-alt-save-grid">
+        {SAVE_NAMES.map(([id,label],i)=><div className="pf-paper-save" key={id}>
+         <h4>{id==='reflex'?'Реакция':label}</h4>
+         <div className="pf-paper-save-top"><div className="pf-paper-shape pf-paper-save-total">
+          <PaperFrame kind="save"/>{field('save_'+id,label)}
+         </div>{field('save_'+id+'_rank','Владение')}</div>
+         <div className="pf-paper-formula">{field('save_'+id+'_ability',['Вын','Лвк','Мдр'][i])}<i>+</i>
+          {field('save_'+id+'_prof','Умен.')}<i>+</i>{field('save_'+id+'_item','Предм.')}
+         </div>
+        </div>)}
+       </div>
+       {field('defense_notes','Примечания')}
+      </div>
      </div>
     </Section>
-    <Section index="V" title="Пункты здоровья">
-      <div className="pf-alt-health">
-       {['hp_max','hp_current','hp_temp'].map(id=>field(id))}
+    <Section index="V" title="Пункты здоровья" className="pf-paper-health">
+     <div className="pf-paper-health-top">
+      <div className="pf-paper-health-max"><span>Максимум</span><div className="pf-paper-shape pf-paper-heart">
+       <PaperFrame kind="heart"/>{field('hp_max','Максимум ПЗ')}
+      </div></div>
+      {field('hp_current','Текущие ПЗ')}
+      <div className="pf-paper-health-side">{field('hp_temp','Временные ПЗ')}
+       {field('dying')}{field('wounded','Ранение')}
       </div>
-      <div className="pf-alt-life-state">
-       {['dying','wounded'].map(id=>field(id))}
-      </div>
-      {cells(['resistances','conditions'])}
+     </div>
+     <div className="pf-paper-health-notes">{field('resistances','Устойчивость и невосприимчивость')}{field('conditions','Состояния')}</div>
     </Section>
    </div>
    <div className="pf-alt-main-columns">

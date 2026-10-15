@@ -66,6 +66,42 @@ try {
       'All six ability names use a lighter semibold weight');
     assert.ok(typography.headings.every(x=>x.border==='rgba(0, 0, 0, 0)'&&x.rule==='static'&&x.width>=8),
       'First-page headings have inline paper rules and no underline');
+    const defense=pages.first().locator('.pf-paper-defense-row');
+    assert.equal(await defense.locator('.pf-paper-defenses>h3').innerText(),'ЗАЩИТЫ');
+    assert.equal(await defense.locator('.pf-paper-frame--armor').count(),1);
+    assert.equal(await defense.locator('.pf-paper-frame--shield').count(),1);
+    assert.equal(await defense.locator('.pf-paper-frame--save').count(),3);
+    assert.equal(await defense.locator('.pf-paper-heart').getByRole('textbox',{name:'Максимум ПЗ',exact:true}).inputValue(),'67');
+    const defenseBounds=await defense.evaluate(root=>{
+      const rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};
+      return {box:rect(root),controls:[...root.querySelectorAll('input,button')].map(rect),
+        saves:[...root.querySelectorAll('.pf-paper-save')].map(el=>({
+          total:rect(el.querySelector('.pf-paper-save-total')),
+          rank:rect(el.querySelector('.pf-alt-rank-field')),
+          formula:rect(el.querySelector('.pf-paper-formula'))})),
+        notes:rect(root.querySelector('.pf-paper-saves>.pf-alt-field')),
+        healthNotes:[...root.querySelectorAll('.pf-paper-health-notes>.pf-alt-field')].map(rect)};
+    });
+    assert.ok(defenseBounds.controls.every(r=>r.left>=defenseBounds.box.left-1&&r.right<=defenseBounds.box.right+1),
+      'Every defense and health control stays inside the paper at '+width+'px');
+    assert.ok(defenseBounds.saves.every(x=>x.rank.left>=x.total.right&&x.formula.top>=x.total.bottom),
+      'Save ranks sit to the right; calculations sit below their framed totals');
+    assert.ok(defenseBounds.notes.top>Math.max(...defenseBounds.saves.map(x=>x.formula.bottom)),
+      'Defense notes sit beneath all three save calculations');
+    assert.ok(defenseBounds.healthNotes[1].top>=defenseBounds.healthNotes[0].bottom,
+      'Resistances and conditions stack vertically');
+    if(width===1440){
+      const shieldHP=defense.getByRole('textbox',{name:'ПЗ щита',exact:true});
+      await shieldHP.fill('33');assert.equal(await shieldHP.inputValue(),'33');
+      const operand=defense.getByRole('textbox',{name:'Вын',exact:true});
+      await operand.fill('2');assert.equal(await operand.inputValue(),'2');
+      const fortRank=defense.locator('.pf-paper-save').first().locator('.pf-alt-rank-square').nth(1);
+      await fortRank.click();assert.equal(await fortRank.getAttribute('aria-pressed'),'true');
+      const currentHP=defense.getByRole('textbox',{name:'Текущие ПЗ',exact:true});
+      await currentHP.fill('48');assert.equal(await currentHP.inputValue(),'48');
+      await defense.getByRole('textbox',{name:'Устойчивость и невосприимчивость',exact:true}).fill('Огонь 5');
+    }
+    await defense.screenshot({path:'test-artifacts/pf-alt-'+width+'-defenses.png'});
     const abilities=await pages.first().evaluate(async root=>{
       const loaded=await document.fonts.load('700 18px "PF2e Ability"','Сила Ловкость Выносливость Интеллект Мудрость Харизма');
       const heading=root.querySelector('.pf-alt-abilities-section>h3').getBoundingClientRect();

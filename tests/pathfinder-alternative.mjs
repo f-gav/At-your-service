@@ -34,7 +34,7 @@ assert.ok(html.includes("onOpenSpell(spell)"),
 assert.ok(html.includes("onChange(key,values[key]!==true)"),
   'Magic traditions must remain synchronized with original PF2e fields');
 
-assert.ok(html.includes("['shield_ac_bonus','shield_hardness'"),
+assert.ok(html.includes("field('shield_ac_bonus'")&&html.includes("field('shield_hardness'"),
   'Shield bonus must be integrated into the printed defense block, not isolated at the foot');
 assert.ok(!html.includes("||id==='class_dc_rank'"),
   'Class DC proficiency is a numeric bonus, not a zero-to-four proficiency dropdown');
