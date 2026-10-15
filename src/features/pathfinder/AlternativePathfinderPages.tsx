@@ -21,6 +21,7 @@ import './AlternativePathfinderTypography.css';
 import './AlternativePathfinderRightColumn.css';
 import './AlternativePathfinderAdvancement.css';
 import './AlternativePathfinderEquipment.css';
+import './AlternativePathfinderBiography.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
@@ -147,7 +148,7 @@ export default function AlternativePathfinderPages({
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={disabled} aria-label={label}
         onChange={e=>onChange(id,e.target.value)}
-        placeholder={page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
+        placeholder={page===3&&['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance','attitude','deity','likes','dislikes','quotes'].includes(id)?'':page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
  }
@@ -449,7 +450,7 @@ export default function AlternativePathfinderPages({
   </div>
  </>}
  {page===3&&<>
-  <div className="pf-alt-biography-layout">
+  <div className="pf-alt-biography-layout pf-paper-biography">
    <Section index="I" title="Портрет персонажа" className="pf-alt-portrait-section">
     <button type="button" className="pf-alt-portrait" onClick={onEditPortrait} aria-label="Изменить портрет">
      <img src={portraitUrl||import.meta.env.BASE_URL+'pathfinder/portrait-placeholder.webp'} alt="Портрет героя"/>

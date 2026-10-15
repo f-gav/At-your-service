@@ -468,6 +468,22 @@ try {
         .or(fourth.locator('.pf-alt-spell-text .pf-rich-editable').first());
       assert.ok(await fourth.locator('.pf-alt-magic-layout').count()===1);
     }
+    const biography=pages.nth(2).locator('.pf-paper-biography');
+    assert.equal(await pages.nth(2).locator(':scope>.pf-alt-heading:visible').count(),0);
+    if(width===1440){
+      const geometry=await biography.evaluate(root=>{
+        const portrait=root.querySelector('.pf-alt-portrait').getBoundingClientRect();
+        const fields=[...root.querySelectorAll('.pf-alt-appearance-fields>.pf-alt-field')].slice(0,7).map(el=>el.getBoundingClientRect());
+        return {tops:fields.map(r=>r.top),portraitBottom:portrait.bottom,
+          lastBottom:root.querySelector('.pf-alt-personality-fields>.pf-alt-field:last-child').getBoundingClientRect().bottom};
+      });
+      assert.ok(geometry.tops.every(x=>Math.abs(x-geometry.tops[0])<1),'All seven appearance details share one paper row');
+      assert.ok(Math.abs(geometry.portraitBottom-geometry.lastBottom)<2,'Portrait and personality end on one baseline');
+      const likes=biography.getByRole('textbox',{name:'Любит',exact:true});await likes.fill('Книги и путешествия');assert.equal(await likes.inputValue(),'Книги и путешествия');
+      const edicts=biography.getByRole('textbox',{name:'Наказы',exact:true});await edicts.fill('Беречь знания');assert.equal(await edicts.innerText(),'Беречь знания');
+      assert.ok(await biography.getByRole('button',{name:'Изменить портрет',exact:true}).isEnabled());
+      await biography.screenshot({path:'test-artifacts/pf-alt-biography-desktop.png'});
+    }
     const equipment=pages.nth(1).locator('.pf-paper-equipment');
     assert.equal(await equipment.locator('.pf-alt-inventory-group').count(),3);
     const wornColumns=await equipment.locator('.pf-paper-worn .pf-alt-field').evaluateAll(nodes=>nodes.map(el=>({left:el.getBoundingClientRect().left,top:el.getBoundingClientRect().top})));
