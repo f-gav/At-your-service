@@ -15,6 +15,7 @@ import './AlternativePathfinderPages.css';
 import './AlternativePathfinderFirstPage.css';
 import './AlternativePathfinderDefenses.css';
 import './AlternativePathfinderSkills.css';
+import './AlternativePathfinderTypography.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;

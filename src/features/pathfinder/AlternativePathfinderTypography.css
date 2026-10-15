@@ -1,0 +1,18 @@
+/* DIN Pro outlines embedded in the original Russian character-sheet PDF.
+   Missing subset glyphs fall back to the other DIN weight, then Cyrillic sans. */
+@font-face{font-family:'PF2e PDF DIN';src:url('../../assets/fonts/pdf-din/DINPro-Regular-subset.otf') format('opentype');font-style:normal;font-weight:100 500;font-display:swap}
+@font-face{font-family:'PF2e PDF DIN';src:url('../../assets/fonts/pdf-din/DINPro-Bold-subset.otf') format('opentype');font-style:normal;font-weight:600 900;font-display:swap}
+@font-face{font-family:'PF2e PDF DIN Bold';src:url('../../assets/fonts/pdf-din/DINPro-Bold-subset.otf') format('opentype');font-display:swap}
+@font-face{font-family:'PF2e Ability';src:url('../../assets/fonts/pdf-din/DINPro-Regular-subset.otf') format('opentype');font-style:normal;font-weight:100 500;font-display:swap}
+@font-face{font-family:'PF2e Ability';src:url('../../assets/fonts/pdf-din/DINPro-Bold-subset.otf') format('opentype');font-style:normal;font-weight:600 900;font-display:swap}
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first),
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) *{font-family:'PF2e PDF DIN','PF2e PDF DIN Bold','PF2e Ability',Arial,sans-serif!important}
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-p1-level-diamond>.pf-alt-field>input{font-family:'PF2e PDF DIN','PF2e PDF DIN Bold',Arial,sans-serif!important}
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-p1-heading,
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-section>h3,
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-section>h3 *,
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-p1-logo>span,
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-subhead{font-family:'PF2e Ebbe Black','PF2e Headings',Georgia,serif!important}
+/* Grow the editing surface itself, not only its decorative outer rectangle. */
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-skills-section>.pf-alt-fields>.pf-alt-field>.pf-rich-host{display:flex;flex-direction:column;height:auto;align-self:stretch;min-height:0!important}
+.pf-alt-page.pf-alt-page--first:is(#pf-sheet-page-1,.pf-alt-page--first) .pf-alt-skills-section .pf-rich-editable.pf-rich-grow{flex:1;align-self:stretch;width:100%;height:auto;min-height:0!important;field-sizing:fixed;padding:0;overflow:visible}

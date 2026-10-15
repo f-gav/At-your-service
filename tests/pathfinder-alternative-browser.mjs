@@ -243,7 +243,7 @@ try {
         'Modifier shields must be evenly spaced');
       assert.ok(strip.nameEnds.every((right,i)=>i===5||right<=strip.x[i+1]-1),
         'Ability captions cannot overlap the next modifier shield: '+JSON.stringify(strip));
-      assert.ok(strip.nameFonts.every(value=>value.includes('PF2e Ability')),
+      assert.ok(strip.nameFonts.every(value=>value.includes('PF2e PDF DIN')),
         'Russian condensed sans-serif must be applied to ability names');
       assert.ok(strip.captions.every(x=>x.circleX<x.textX&&Math.abs(x.circleTop-x.textTop)<5),
         'A round boost marker precedes its text on one line');
@@ -360,7 +360,7 @@ try {
       assert.ok(topAlignment.checkboxX<topAlignment.labelX&&
         topAlignment.partialText==='Частич. повыш.',
         'Partial boost checkbox must appear to the left of its shorter label');
-      assert.ok(topAlignment.abilityFont.includes('PF2e Ability')&&
+      assert.ok(topAlignment.abilityFont.includes('PF2e PDF DIN')&&
         topAlignment.abilityBorderTop==='0px'&&topAlignment.abilityBorderBottom!=='0px',
         'Ability name must be sans-serif and modifier rectangle rounded only below');
       const hero=first.getByRole('button',{name:'Пункт героизма 1'});
@@ -388,6 +388,19 @@ try {
       const footerTop=await first.locator('.pf-alt-page-footer').evaluate(el=>el.getBoundingClientRect().top);
       assert.ok(footerTop-skillLayout.lastBottom>=0&&footerTop-skillLayout.lastBottom<40,
         'Enlarged skills fill the working page height and end just above the footer');
+      const notesEditor=skills.locator('.pf-rich-editable');
+      const noteBounds=await notesEditor.evaluate(el=>({
+        editor:el.getBoundingClientRect().height,host:el.parentElement.getBoundingClientRect().height
+      }));
+      assert.ok(noteBounds.editor>=noteBounds.host-25,'The editable notes surface fills its full rectangle');
+      await notesEditor.fill('Заметки доступны по всей высоте поля.');
+      assert.equal(await notesEditor.innerText(),'Заметки доступны по всей высоте поля.');
+      const din=await first.evaluate(async root=>{
+        const faces=await document.fonts.load('700 23px "PF2e PDF DIN"','0123456789');
+        return {loaded:faces.length,level:getComputedStyle(root.querySelector('.pf-alt-p1-level-diamond input')).fontFamily};
+      });
+      assert.ok(din.loaded>0&&din.level.includes('PF2e PDF DIN')&&!din.level.includes('Georgia'),
+        'Embedded DIN Pro must load and render the level without serifs');
       const lore=skills.getByRole('textbox',{name:'Область знания I',exact:true});
       await lore.fill('Море');assert.equal(await lore.inputValue(),'Море');
       await skills.screenshot({path:'test-artifacts/pf-alt-skills-desktop.png'});
