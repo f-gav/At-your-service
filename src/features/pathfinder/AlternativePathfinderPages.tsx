@@ -224,9 +224,9 @@ export default function AlternativePathfinderPages({
        consumed.add(id);const active=values[id]===true;
        return <button type="button" className="pf-alt-hero-point" key={id} aria-pressed={active}
         aria-label={'Пункт героизма '+(i+1)} onClick={()=>onChange(id,!active)}>
-        <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-         <polygon points="11,3 29,3 38,20 29,37 11,37 2,20"
-          fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.6"/>
+        <svg viewBox="0 0 40 35" aria-hidden="true" focusable="false">
+         <polygon points="11,1.9 29,1.9 38,17.5 29,33.1 11,33.1 2,17.5"
+          fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.4"/>
 
         </svg>
        </button>;
