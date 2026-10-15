@@ -154,3 +154,14 @@
  .pf-paper-defense-row .pf-paper-health-side>.pf-alt-dying{flex-wrap:wrap}
  .pf-paper-defense-row .pf-paper-health-side .pf-alt-dying-skulls{flex:0 0 48px}
 }
+/* Keep multi-digit maximum HP centered in the broad part of the heart. */
+.pf-alt-page.pf-alt-page--first .pf-paper-heart>.pf-alt-field>input{
+ width:88%;height:30px!important;padding:0!important;
+ font-size:22px!important;line-height:30px;transform:translateY(-2px);
+}
+/* The defense notes and final health field share the same bottom baseline. */
+.pf-alt-page.pf-alt-page--first .pf-paper-defense-row{align-items:stretch}
+.pf-paper-defense-row .pf-paper-health{display:flex;flex-direction:column}
+.pf-paper-defense-row .pf-paper-health-notes{flex:1}
+.pf-paper-defense-row .pf-paper-health-notes>.pf-alt-field:last-child{flex:1}
+.pf-alt-page.pf-alt-page--first .pf-paper-health-notes>.pf-alt-field:last-child>input{flex:1;min-height:32px}

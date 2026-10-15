@@ -100,6 +100,22 @@ try {
         'Armor and shield have the wider paper-reference proportions');
       assert.ok(packing.formula.top>=packing.coat.bottom&&packing.training.left>=packing.formula.right-2,
         'AC calculation sits under the coat and shield, beside armor training');
+      const maximumHP=defense.getByRole('textbox',{name:'Максимум ПЗ',exact:true});
+      for(const value of ['122','9999']){
+        await maximumHP.fill(value);
+        assert.equal(await maximumHP.inputValue(),value);
+        assert.ok(await maximumHP.evaluate(input=>{
+          const style=getComputedStyle(input),canvas=document.createElement('canvas');
+          const context=canvas.getContext('2d');context.font=style.font;
+          return context.measureText(input.value).width<=input.clientWidth;
+        }),'Multi-digit maximum HP fits inside the heart');
+      }
+      await maximumHP.fill('122');
+      const bottoms=await defense.evaluate(root=>({
+        defenses:root.querySelector('.pf-paper-saves>.pf-alt-field').getBoundingClientRect().bottom,
+        health:root.querySelector('.pf-paper-health-notes>.pf-alt-field:last-child').getBoundingClientRect().bottom
+      }));
+      assert.ok(Math.abs(bottoms.defenses-bottoms.health)<1,'Defense and health blocks end on one baseline');
       const shieldHP=defense.getByRole('textbox',{name:'ПЗ щита',exact:true});
       await shieldHP.fill('33');assert.equal(await shieldHP.inputValue(),'33');
       const operand=defense.getByRole('textbox',{name:'Вын',exact:true});
