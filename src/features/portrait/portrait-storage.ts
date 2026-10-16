@@ -26,8 +26,10 @@ function verifyOwner(c:Character,userId:string){
   if(c.user_id!==userId)throw new Error('Нельзя изменить чужого персонажа.');
 }
 async function upload(path:string,blob:Blob){
-  if(blob.type!=='image/webp'||blob.size>400000)
-    throw new Error('Портрет должен быть WebP до 400 КБ.');
+  // Keep restored JSON v1 images within the same 450 KB limit as the
+  // private Storage bucket and portrait transfer decoder.
+  if(blob.type!=='image/webp'||blob.size>450000)
+    throw new Error('Портрет должен быть WebP до 450 КБ.');
   const {error}=await client().storage.from(PORTRAIT_BUCKET).upload(path,blob,
     {contentType:'image/webp',cacheControl:'3600',upsert:false});
   if(error)throw new Error('Ошибка загрузки портрета: '+error.message);
