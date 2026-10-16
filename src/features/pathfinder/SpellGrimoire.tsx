@@ -51,19 +51,37 @@ export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
   const response=await fetch(root+'pf2e.json',{signal});
   if(!response.ok)throw new Error('Не удалось загрузить заклинания');
   const base=parseSpellCatalog(await response.json(),'pf2e') as SpellCatalog;
+  // Build lookup indexes once. Translation overlays previously scanned the
+  // entire catalogue twice for every entry, delaying first render.
+  const normalizeEnglish=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'');
+  const englishByName=new Map<string,(typeof base.translations)[number]>();
+  const russianByVersion=new Map<string,number>();
+  base.translations.forEach((translation,index)=>{
+    if(translation.locale==='en'){
+      const key=normalizeEnglish(translation.name);
+      if(!englishByName.has(key))englishByName.set(key,translation);
+    }
+    if(translation.locale==='ru'){
+      const key=JSON.stringify([translation.spellId,translation.versionId]);
+      if(!russianByVersion.has(key))russianByVersion.set(key,index);
+    }
+  });
   for(const file of ['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json']){
     const overlay=await fetch(root+file,{signal});
     if(!overlay.ok)throw new Error('Не удалось загрузить русские переводы');
     const patch=await overlay.json() as {entries:Array<{englishName:string;name:string;description:string}>};
-    const normalize=(v:string)=>v.toLowerCase().replace(/[^a-z0-9]/g,'');
     for(const entry of patch.entries){
-      const english=base.translations.find(t=>t.locale==='en'&&normalize(t.name)===normalize(entry.englishName));
+      const english=englishByName.get(normalizeEnglish(entry.englishName));
       if(!english)continue;
-      const old=base.translations.findIndex(t=>t.spellId===english.spellId&&t.versionId===english.versionId&&t.locale==='ru');
+      const key=JSON.stringify([english.spellId,english.versionId]);
+      const old=russianByVersion.get(key);
       const russian={spellId:english.spellId,versionId:english.versionId,locale:'ru' as const,
         name:entry.name,description:entry.description,translationOrigin:'at-your-service' as const,
         translationStatus:'draft' as const,translatorCredit:'Перевод от At your service!'};
-      if(old===-1)base.translations.push(russian);else base.translations[old]=russian;
+      if(old===undefined){
+        russianByVersion.set(key,base.translations.length);
+        base.translations.push(russian);
+      }else base.translations[old]=russian;
     }
   }
   return toSpellViews(base,'pf2e-remaster').sort((a,b)=>a.spell.rank-b.spell.rank||a.name.localeCompare(b.name,'ru'));
