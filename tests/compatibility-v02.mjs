@@ -9,7 +9,7 @@ async function loadForTest(entry){
   const output=await build({
     entryPoints:[entry],bundle:true,write:false,platform:'node',format:'esm',
     plugins:[{name:'supabase-network-stub',setup(builder){
-      builder.onResolve({filter:new RegExp('/lib/supabase},()=>({path:'test-supabase',namespace:'compat-stub'}));
+      builder.onResolve({filter:new RegExp('/lib/supabase'+'$')},()=>({path:'test-supabase',namespace:'compat-stub'}));
       builder.onLoad({filter:/.*/,namespace:'compat-stub'},()=>({
         contents:'export const supabase=null;',loader:'js'
       }));
