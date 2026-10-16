@@ -76,7 +76,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
 
   function emit(){
     const editor=root.current;
-    if(!editor)return;
+    if(!editor||disabled)return;
     const next=serializeRichHtml(editor.innerHTML);
     ownValue.current=next;
     onChange(next);
@@ -86,7 +86,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   // clamped current value is persisted immediately (no phantom refills).
   useLayoutEffect(()=>{
     const editor=root.current;
-    if(!editor)return;
+    if(!editor||disabled)return;
     let dataChanged=false;
     const widgets=Array.from(editor.querySelectorAll<HTMLElement>('[data-pf-resource-widget="1"]'));
     for(const widget of widgets){
@@ -308,6 +308,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     replaceResource(widget,{...stored,current:chooseResourceCell(effective,index).current});
   }
   function handleTokenClick(event:ReactMouseEvent<HTMLDivElement>){
+    if(disabled)return;
     const target=event.target instanceof HTMLElement?event.target:null;
     if(!target||!root.current?.contains(target))return;
     const cell=target.closest<HTMLElement>('[data-pf-resource-cell]');
@@ -347,6 +348,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(token){event.preventDefault();toggleToken(token);}
   }
   function handlePaste(event:React.ClipboardEvent<HTMLDivElement>){
+    if(disabled){event.preventDefault();return;}
     event.preventDefault();
     // Never import active HTML or untrusted markup from pasted websites.
     const text=event.clipboardData.getData('text/plain');
@@ -397,11 +399,15 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         role="textbox" aria-label={label} aria-multiline="true"
         contentEditable={!disabled} suppressContentEditableWarning spellCheck={false}
         data-placeholder={placeholder??''}
-        onInput={()=>{if(!convertDividerShortcut())emit();}}
+        onInput={()=>{if(disabled)return;if(!convertDividerShortcut())emit();}}
         onMouseUp={event=>{pointerRef.current={x:event.clientX,y:event.clientY};refresh();}}
         onKeyUp={event=>{if(event.key!=='Shift')pointerRef.current=null;refresh();}}
         onClick={handleTokenClick}
         onKeyDown={event=>{
+          if(disabled){if(event.key==='Enter'||event.key===' '){
+            const target=event.target instanceof HTMLElement?event.target:null;
+            if(target?.closest('[data-pf-resource-cell],[data-pf-resource-action],[data-pf-resource],[data-pf-task]'))event.preventDefault();
+          }return;}
           const title=event.target instanceof HTMLElement
             ? event.target.closest<HTMLElement>('[data-pf-divider-title]') : null;
           const heading=event.target instanceof HTMLElement
