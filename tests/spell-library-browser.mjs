@@ -43,9 +43,9 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('483 записей',{exact:true}).waitFor();
+  await page.getByText('493 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 483 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 493 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -63,8 +63,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),450,'Ninth page loads 50 cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),483,'Tenth page loads final 33 cards');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 483 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),493,'Tenth page loads final 43 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 493 loaded: no more button');
   // All approved author translations must replace English labels in actual rendered cards.
   const authorEntries=(await Promise.all(['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json']
     .map(async name=>(await (await fetch(base+'spell-library/'+name)).json()).entries))).flat();
@@ -74,6 +74,24 @@ try{
     assert.ok(displayedNames.includes(translated.name),
       'Russian author translation missing from rendered library: '+translated.englishName+' -> '+translated.name);
   }
+
+  // Necromancer class-specific cantrips and focus spells are discoverable through
+  // the existing class filter without incorrectly marking them as occult-list spells.
+  await page.locator('.spell-filter-toggle').click();
+  await page.getByRole('combobox',{name:'Класс'}).selectOption('necromancer');
+  assert.equal(await page.locator('.spell-total').textContent(),'10 записей');
+  assert.equal(await page.locator('.spell-result').count(),10);
+  await page.getByRole('button',{name:/Создание прислужника/}).click();
+  const thrall=page.getByRole('dialog',{name:/Создание прислужника/});
+  await thrall.getByText('Без ячеек и ФП',{exact:true}).waitFor();
+  await thrall.getByText('Некромант',{exact:true}).first().waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('button',{name:/Вытягивание жизни/}).click();
+  await page.getByRole('dialog',{name:/Вытягивание жизни/}).getByText('1 ФП',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.getByRole('combobox',{name:'Класс'}).selectOption('all');
+  await page.locator('.spell-filter-toggle').click();
+  assert.equal(await page.locator('.spell-total').textContent(),'493 записей');
 
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
@@ -90,7 +108,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),483,
+  assert.equal(await page.locator('.spell-result-stats').count(),493,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -117,7 +135,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'483 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'493 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
