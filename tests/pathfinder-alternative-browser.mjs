@@ -199,6 +199,16 @@ try {
     // the actual page scrollWidth must still fit its clientWidth.
     assert.ok(metrics.every(m=>m.scrollW<=m.clientW+4),
       'Text inputs/columns must fit inside each HTML page: '+JSON.stringify(metrics.filter(m=>m.scrollW>m.clientW+4)));
+    if(width===360){
+      const controls=await pages.nth(3).locator('.pf-paper-magic .pf-alt-manual-cell .pf-text-size-controls').evaluateAll(nodes=>
+        nodes.map(node=>{
+          const rect=node.getBoundingClientRect();
+          const paper=node.closest('.pf-alt-page')?.getBoundingClientRect();
+          return {left:rect.left,right:rect.right,paperLeft:paper?.left,paperRight:paper?.right};
+        }));
+      assert.ok(controls.every(r=>r.left>=r.paperLeft-1&&r.right<=r.paperRight+1),
+        'Every spell-table text-size control must stay inside the fourth page at 360px: '+JSON.stringify(controls));
+    }
     if(width>=1100){
       const strip=await pages.first().evaluate(root=>{
         const section=root.querySelector('.pf-alt-abilities-section');
