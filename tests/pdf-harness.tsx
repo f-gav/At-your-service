@@ -12,6 +12,7 @@ const system=params.get('system')==='pf2e'?'pf2e':'prmoon';
 const notes=params.get('notes')==='1';
 const extras=params.get('extras')==='1';
 const alternative=params.get('variant')==='alternative';
+const longPdf=params.get('long')==='1';
 const moon=emptyMoonSheet();
 if(extras){
   for(let i=0;i<3;i++)moon.weapons.push({
@@ -41,7 +42,7 @@ const character:Character={
         skill_acrobatics_total:'+13',skill_arcana_total:'+17',weapon_1_name:'Ритуальный кинжал',
         weapon_1_attack:'+14',weapon_1_damage:'1d4+2',weapon_1_traits:'Лёгкий, ловкое',
         feat_level_2:'Обнаружение магии',class_level_2:'Классовая способность',
-        inventory_held:'Свёрток с рунами\nКнига заклинаний\nПосох',
+        inventory_held:longPdf?Array.from({length:110},(_,i)=>'Снаряжение '+(i+1)+' — запись инвентаря').join('\n'):'Свёрток с рунами\nКнига заклинаний\nПосох',
         campaign_notes:'Исследование руин на севере.',
         appearance:'Серебряные волосы, чёрный плащ.',
         attitude:'Любознательный и осторожный',
