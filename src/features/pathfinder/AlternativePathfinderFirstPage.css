@@ -783,3 +783,21 @@
 .pf-alt-page--first .pf-alt-p1-logo-art img{
   width:333.888889%;left:-12.222222%;top:-38.095238%;
 }
+
+/* Final mobile regression: the hero text and three diamonds must stack inside
+   a 311px paper viewport instead of extending its horizontal scroll area.
+   Larger breakpoints and PDF captures keep their original paper geometry. */
+@media screen and (max-width:400px){
+  .pf-alt-page--first>.pf-alt-p1-top>.pf-alt-p1-hero{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    gap:3px;min-width:0;width:100%;justify-items:start;
+  }
+  .pf-alt-page--first .pf-alt-p1-hero .pf-alt-hero-marks{
+    display:flex;flex-wrap:wrap;max-width:100%;min-width:0;
+    justify-content:flex-start;margin:1px 0;
+  }
+  .pf-alt-page--first .pf-alt-p1-hero p{
+    box-sizing:border-box;max-width:100%;min-width:0;
+    overflow-wrap:anywhere;text-align:left;
+  }
+}
