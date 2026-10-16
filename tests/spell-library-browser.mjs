@@ -81,12 +81,12 @@ try{
   await page.getByRole('combobox',{name:'Класс'}).selectOption('necromancer');
   assert.equal(await page.locator('.spell-total').textContent(),'10 записей');
   assert.equal(await page.locator('.spell-result').count(),10);
-  await page.getByRole('button',{name:/Создание прислужника/}).click();
+  await page.locator('.spell-result').filter({hasText:'Создание прислужника'}).click();
   const thrall=page.getByRole('dialog',{name:/Создание прислужника/});
   await thrall.getByText('Без ячеек и ФП',{exact:true}).waitFor();
   await thrall.getByText('Некромант',{exact:true}).first().waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
-  await page.getByRole('button',{name:/Вытягивание жизни/}).click();
+  await page.locator('.spell-result').filter({hasText:'Вытягивание жизни'}).click();
   await page.getByRole('dialog',{name:/Вытягивание жизни/}).getByText('1 ФП',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('combobox',{name:'Класс'}).selectOption('all');
