@@ -288,7 +288,11 @@ export default function App() {
 
   const user = session?.user;
   useEffect(()=>{
-    if(!supabase||!user?.id){setIsTemplateAdmin(false);setShowTemplateAdmin(false);return;}
+    // A previous account's admin flag must never remain visible while the
+    // newly authenticated user's server-side permissions are being checked.
+    setIsTemplateAdmin(false);
+    setShowTemplateAdmin(false);
+    if(!supabase||!user?.id)return;
     let active=true;
     void supabase.from('sheet_admins').select('user_id').eq('user_id',user.id).maybeSingle()
       .then(({data,error})=>{if(active)setIsTemplateAdmin(!error&&!!data);});
