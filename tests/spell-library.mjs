@@ -627,6 +627,37 @@ assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
 console.log('PASS: PF2e 71 cantrips + 189 rank-one + 223 rank-two spells (413 RU/54 EN), tracker, Legacy, D&D untouched');
 
+// Independent class spells: the legacy spell-slot corpus remains at 483 entries.
+const necro=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-necromancer.json')),'pf2e');
+assert.equal(necro.spells.length,10,'All ten first-rank grave spells imported');
+assert.equal(necro.versions.length,10);
+assert.equal(necro.translations.filter(t=>t.locale==='ru').length,10);
+assert.equal(necro.translations.filter(t=>t.locale==='en').length,10);
+assert.ok(necro.spells.every(s=>s.rank===1&&s.classes.includes('necromancer')&&s.rarity==='uncommon'));
+assert.equal(necro.spells.filter(s=>s.kind==='cantrip').length,2);
+assert.equal(necro.spells.filter(s=>s.kind==='focus').length,8);
+assert.ok(necro.spells.every(s=>s.traditions.length===0),'Class-exclusive grave spells are not available to every occult caster');
+assert.equal(necro.sources.length,1);
+const necroViews=toSpellViews(necro,'pf2e-remaster');
+assert.equal(necroViews.length,10);
+assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,className:'necromancer'}).length,10);
+assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,tradition:'occult'}).length,0);
+assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,kind:'focus'}).length,8);
+for(const card of necroViews){
+  assert.equal(card.locale,'ru');
+  assert.equal(card.translationOrigin,'at-your-service');
+  assert.ok(card.description.length>50,'Every necromancer card has substantive Russian mechanics: '+card.id);
+  assert.ok(card.rules.cast?.actions===1||card.rules.cast?.actions===2);
+  assert.equal(card.rules.resource,card.spell.kind==='cantrip'?'none':'focus-point');
+}
+assert.equal(necroViews.find(v=>v.spell.slug==='create-thrall')?.rules.cast?.actions,1);
+assert.ok(necroViews.find(v=>v.spell.slug==='create-thrall')?.description.includes('двух прислужников'));
+assert.equal(necroViews.find(v=>v.spell.slug==='bone-spear')?.rules.savingThrow,'Обычный спасбросок Рефлекса');
+assert.equal(necroViews.find(v=>v.spell.slug==='dead-weight')?.rules.outcomes?.criticalFailure,'Существо замедлено 2 и застигнуто врасплох.');
+assert.equal(necroViews.find(v=>v.spell.slug==='necrotic-bomb')?.rules.heightened?.['+1'],'Урон увеличивается на 1d12.');
+assert.ok(page.includes('pf2e-necromancer.json'),'React library merges new class spell pack');
+console.log('PASS: Necromancer 10 remaster grave spells, Russian cards, class filter, focus resources');
+
 const routeId='550e8400-e29b-41d4-a716-446655440000';
 for(const base of ['/','/At-your-service/']){
   for(const route of [{kind:'characters'},{kind:'library'},{kind:'character',id:routeId}]){
