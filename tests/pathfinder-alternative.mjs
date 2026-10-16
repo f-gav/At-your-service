@@ -29,7 +29,7 @@ for(const control of ['pf-alt-hero-marks','pf-alt-level-diamond',
 const printable=read('../src/lib/sheet-pdf.ts');
 assert.ok(printable.includes("page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span,.pf-alt-dynamic-advancement .pf-advancement-add-row')"),
   'HTML character PDF must not include editable controls');
-assert.ok(html.includes('className="pf-alt-spell-row" onClick={()=>onOpenSpellCard(spell)}'),
+assert.ok(html.includes('className="pf-alt-spell-row" disabled={disabled} onClick={()=>onOpenSpellCard(spell)}'),
   'Prepared spell rows must open the selected spell card');
 assert.ok(html.includes('onClick={onOpenGrimoire}'),
   'Empty areas and add-spell controls must still open the grimoire');
