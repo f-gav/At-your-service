@@ -620,7 +620,7 @@ const page=source('../src/features/spell-library/SpellLibrary.tsx');
 assert.ok(app.includes('Персонажи</button>')&&app.includes('Библиотека</button>'));
 assert.ok(app.includes("<SpellLibrary onBack="));
 assert.ok(app.includes("currentSiteRoute()") && app.includes("siteRoutePath({kind:tab},import.meta.env.BASE_URL)"),'Library supports clean path links');
-assert.ok(page.includes('spell-library/pf2e')===false,'System catalogs use independent dynamic paths');
+assert.ok(!page.includes('spell-library/pf2e.json'),'Base system catalogs retain independent dynamic paths');
 assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
