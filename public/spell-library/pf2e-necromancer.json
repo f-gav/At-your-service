@@ -1,0 +1,575 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-necromancer-create-thrall",
+      "system": "pf2e",
+      "slug": "create-thrall",
+      "kind": "cantrip",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "necromancer",
+        "thrall"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-thrall-charge",
+      "system": "pf2e",
+      "slug": "thrall-charge",
+      "kind": "cantrip",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "cantrip",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-life-tap",
+      "system": "pf2e",
+      "slug": "life-tap",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-bone-spear",
+      "system": "pf2e",
+      "slug": "bone-spear",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-dead-weight",
+      "system": "pf2e",
+      "slug": "dead-weight",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-muscle-barrier",
+      "system": "pf2e",
+      "slug": "muscle-barrier",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-necrotic-bomb",
+      "system": "pf2e",
+      "slug": "necrotic-bomb",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer",
+        "void"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-blood-infusion",
+      "system": "pf2e",
+      "slug": "blood-infusion",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-song-of-the-soul",
+      "system": "pf2e",
+      "slug": "song-of-the-soul",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "concentrate",
+        "healing",
+        "manipulate",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-deathly-scream",
+      "system": "pf2e",
+      "slug": "deathly-scream",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "necromancer"
+      ],
+      "traits": [
+        "focus",
+        "auditory",
+        "concentrate",
+        "emotion",
+        "fear",
+        "mental",
+        "necromancer"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-impossible-magic-2026"
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-necromancer-create-thrall-remaster",
+      "spellId": "pf2e-necromancer-create-thrall",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "duration": "1 минута",
+      "resource": "none",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-thrall-charge-remaster",
+      "spellId": "pf2e-necromancer-thrall-charge",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "heightened": {
+        "2": "Дополнительный урон Удара увеличивается до 2d6.",
+        "6": "Дополнительный урон Удара увеличивается до 3d6.",
+        "10": "Дополнительный урон Удара увеличивается до 4d6."
+      },
+      "resource": "none",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-life-tap-remaster",
+      "spellId": "pf2e-necromancer-life-tap",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "savingThrow": "Спасбросок Стойкости",
+      "outcomes": {
+        "criticalSuccess": "Цель не подвергается воздействию.",
+        "success": "Цель становится истощена 1 (drained 1); это состояние проходит через 1 минуту. Применяется описанное исцеление.",
+        "failure": "Как при успехе, но цель становится истощена 2.",
+        "criticalFailure": "Как при успехе, но цель становится истощена 3."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-bone-spear-remaster",
+      "spellId": "pf2e-necromancer-bone-spear",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "area": "15-футовая линия",
+      "savingThrow": "Обычный спасбросок Рефлекса",
+      "heightened": {
+        "+1": "Урон увеличивается на 2d6."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-dead-weight-remaster",
+      "spellId": "pf2e-necromancer-dead-weight",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "savingThrow": "Спасбросок Стойкости",
+      "duration": "1 раунд",
+      "outcomes": {
+        "criticalSuccess": "Существо не затронуто.",
+        "success": "Существо застигнуто врасплох (off-guard).",
+        "failure": "Существо замедлено 1 и застигнуто врасплох.",
+        "criticalFailure": "Существо замедлено 2 и застигнуто врасплох."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-muscle-barrier-remaster",
+      "spellId": "pf2e-necromancer-muscle-barrier",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Количество временных ПЗ увеличивается на 10."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-necrotic-bomb-remaster",
+      "spellId": "pf2e-necromancer-necrotic-bomb",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "area": "10-футовая эманация",
+      "savingThrow": "Обычный спасбросок Стойкости",
+      "heightened": {
+        "+1": "Урон увеличивается на 1d12."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-blood-infusion-remaster",
+      "spellId": "pf2e-necromancer-blood-infusion",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "savingThrow": "Спасбросок Стойкости",
+      "duration": "1 минута",
+      "outcomes": {
+        "criticalSuccess": "Цель не затронута.",
+        "success": "Цель получает 1 урон от кровотечения.",
+        "failure": "Как при успехе, но урон становится продолжительным кровотечением 1d6.",
+        "criticalFailure": "Как при успехе, но урон становится продолжительным кровотечением 2d6."
+      },
+      "heightened": {
+        "+1": "При успехе урон от кровотечения увеличивается на 1; при провале продолжительный урон увеличивается на 1d6; при критическом провале — на 2d6."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-song-of-the-soul-remaster",
+      "spellId": "pf2e-necromancer-song-of-the-soul",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Первоначальное исцеление увеличивается на 1d8, а быстрое исцеление — на 1."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    },
+    {
+      "id": "pf2e-necromancer-deathly-scream-remaster",
+      "spellId": "pf2e-necromancer-deathly-scream",
+      "edition": "pf2e-remaster",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 ваш прислужник",
+      "area": "5-футовая эманация",
+      "savingThrow": "Спасбросок Воли",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Половина урона.",
+        "failure": "Полный урон и испуг 1.",
+        "criticalFailure": "Двойной урон и испуг 2."
+      },
+      "heightened": {
+        "+1": "Ментальный урон увеличивается на 1d4."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-impossible-magic-2026"
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-necromancer-create-thrall",
+      "versionId": "pf2e-necromancer-create-thrall-remaster",
+      "locale": "en",
+      "name": "Create Thrall",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-create-thrall",
+      "versionId": "pf2e-necromancer-create-thrall-remaster",
+      "locale": "ru",
+      "name": "Создание прислужника",
+      "summary": "Вы создаёте прислужников-нежить.",
+      "description": "В пределах дистанции создайте двух прислужников в свободных клетках. Вместо этого вы можете создать одного прислужника и немедленно отдать ему Команду. Правила прислужников, их действий и уничтожения изложены в описании класса Некромант.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-thrall-charge",
+      "versionId": "pf2e-necromancer-thrall-charge-remaster",
+      "locale": "en",
+      "name": "Thrall Charge",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-thrall-charge",
+      "versionId": "pf2e-necromancer-thrall-charge-remaster",
+      "locale": "ru",
+      "name": "Натиск прислужника",
+      "summary": "Приказываете прислужнику передвинуться и атаковать.",
+      "description": "Отдайте выбранному прислужнику команду Переместиться (Stride), а затем совершить Удар. Этот Удар наносит дополнительно 1d6 урона. Вы можете уничтожить прислужника при совершении Удара: тогда к урону Удара добавляется бонус состояния, равный рангу этих чар.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-life-tap",
+      "versionId": "pf2e-necromancer-life-tap-remaster",
+      "locale": "en",
+      "name": "Life Tap",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-life-tap",
+      "versionId": "pf2e-necromancer-life-tap-remaster",
+      "locale": "ru",
+      "name": "Вытягивание жизни",
+      "summary": "Высасываете жизненную силу через прислужника, чтобы исцелить союзника.",
+      "description": "Выберите существо в пределах 30 футов от прислужника: оно совершает спасбросок Стойкости. Затем прислужник уничтожается. Если спасбросок не был критически успешным, вы или выбранный союзник в пределах 30 футов от прислужника восстанавливаете ПЗ в количестве, вдвое превышающем ПЗ, потерянные целью из-за состояния истощения. Одно существо может получать исцеление этим заклинанием только раз в 10 минут.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-bone-spear",
+      "versionId": "pf2e-necromancer-bone-spear-remaster",
+      "locale": "en",
+      "name": "Bone Spear",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-bone-spear",
+      "versionId": "pf2e-necromancer-bone-spear-remaster",
+      "locale": "ru",
+      "name": "Костяное копьё",
+      "summary": "Разрушаете прислужника, выпуская копьё из костей.",
+      "description": "Уничтожьте выбранного прислужника. Из занимаемого им места возникает линия длиной 15 футов. Все существа в этой линии получают 2d6 колющего урона с обычным спасброском Рефлекса.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-dead-weight",
+      "versionId": "pf2e-necromancer-dead-weight-remaster",
+      "locale": "en",
+      "name": "Dead Weight",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-dead-weight",
+      "versionId": "pf2e-necromancer-dead-weight-remaster",
+      "locale": "ru",
+      "name": "Мёртвый груз",
+      "summary": "Прислужник бросается на существо и мешает ему двигаться.",
+      "description": "Прикажите прислужнику броситься на существо в пределах 15 футов от него. Плоть прислужника сливается с телом цели, заставляя её пройти испытание Стойкости. После этого прислужник уничтожается.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-muscle-barrier",
+      "versionId": "pf2e-necromancer-muscle-barrier-remaster",
+      "locale": "en",
+      "name": "Muscle Barrier",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-muscle-barrier",
+      "versionId": "pf2e-necromancer-muscle-barrier-remaster",
+      "locale": "ru",
+      "name": "Мышечный барьер",
+      "summary": "Покрываете союзника мышечной защитой.",
+      "description": "Уничтожьте прислужника и выберите согласное существо не дальше 15 футов от него. Существо получает 10 временных ПЗ на срок до 1 минуты и бонус состояния +1 к проверкам Атлетики на всё время действия заклинания. Когда временные ПЗ полностью израсходованы, действие заклинания заканчивается.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-necrotic-bomb",
+      "versionId": "pf2e-necromancer-necrotic-bomb-remaster",
+      "locale": "en",
+      "name": "Necrotic Bomb",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-necrotic-bomb",
+      "versionId": "pf2e-necromancer-necrotic-bomb-remaster",
+      "locale": "ru",
+      "name": "Некротическая бомба",
+      "summary": "Прислужник взрывается энергией пустоты.",
+      "description": "Переполните выбранного прислужника энергией пустоты. Все существа в 10-футовой эманации от него получают 1d12 урона пустотой с обычным спасброском Стойкости. Прислужник уничтожается.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-blood-infusion",
+      "versionId": "pf2e-necromancer-blood-infusion-remaster",
+      "locale": "en",
+      "name": "Blood Infusion",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-blood-infusion",
+      "versionId": "pf2e-necromancer-blood-infusion-remaster",
+      "locale": "ru",
+      "name": "Насыщение кровью",
+      "summary": "Принуждаете существо истекать кровью с помощью прислужника.",
+      "description": "Выберите существо в пределах 15 футов от прислужника. Введя в него кровь и жидкости прислужника, вы уничтожаете последнего и вынуждаете существо пройти испытание Стойкости. При любом результате, кроме критического успеха, существо теряет иммунитет к кровотечению и считается имеющим кровь для соответствующих эффектов и требований.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-song-of-the-soul",
+      "versionId": "pf2e-necromancer-song-of-the-soul-remaster",
+      "locale": "en",
+      "name": "Song of the Soul",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-song-of-the-soul",
+      "versionId": "pf2e-necromancer-song-of-the-soul-remaster",
+      "locale": "ru",
+      "name": "Песнь души",
+      "summary": "Обращаете прислужника в инструмент, исцеляющий одну душу.",
+      "description": "Прислужник превращается в инструмент, чью беззвучную мелодию слышит лишь выбранная душа. Выберите живое существо или нежить в пределах 15 футов от прислужника. Существо сразу восстанавливает 1d8 ПЗ и получает быстрое исцеление 1, пока находится не далее 15 футов от прислужника. При исцелении живого существа заклинание приобретает дескриптор жизни (vitality); при исцелении нежити — дескриптор пустоты (void).",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-necromancer-deathly-scream",
+      "versionId": "pf2e-necromancer-deathly-scream-remaster",
+      "locale": "en",
+      "name": "Deathly Scream",
+      "translationStatus": "verified"
+    },
+    {
+      "spellId": "pf2e-necromancer-deathly-scream",
+      "versionId": "pf2e-necromancer-deathly-scream-remaster",
+      "locale": "ru",
+      "name": "Смертельный вопль",
+      "summary": "Прислужник издаёт крик, вселяющий страх.",
+      "description": "Прислужник испускает пронзительный призрачный вопль. Каждое существо в 5-футовой эманации от него совершает испытание Воли против 1d4 ментального урона. Эффект зависит от результата испытания.",
+      "translationOrigin": "at-your-service",
+      "translationStatus": "draft",
+      "translatorCredit": "Перевод от At your service!"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-impossible-magic-2026",
+      "name": "Невозможная магия (Pathfinder Impossible Magic)",
+      "publisher": "Paizo Inc.",
+      "year": 2026,
+      "url": "https://pf2.ru/classes/necromancer?tab=focus-spells"
+    }
+  ]
+}
