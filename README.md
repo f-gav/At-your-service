@@ -44,6 +44,7 @@ npm run test:spell-library-browser
 - [Установка и эксплуатация](docs/SETUP-RU.md)
 - [Автосохранение и PWA](docs/AUTOSAVE-PWA.md)
 - [Формат JSON и совместимость](docs/CHARACTER-JSON.md)
+- [Резервные копии и проверка восстановления](docs/BACKUP-RESTORE-RU.md)
 - [Редактор шаблонов](docs/ADMIN-EDITOR.md)
 - [Альтернативный HTML Pathfinder](docs/PF2E-ALTERNATIVE-HTML-RU.md)
 - [Project Moon](docs/PROJECT-MOON-PATCH1.md)
