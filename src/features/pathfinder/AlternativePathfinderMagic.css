@@ -178,3 +178,20 @@
 .pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-head,.pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-row{position:relative;z-index:1}
 .pf-paper-magic .pf-alt-spell-column>.pf-alt-spell-head{pointer-events:none}
 .pf-paper-magic .pf-alt-spell-area:focus-visible{outline:2px solid #315c44;outline-offset:-3px}
+
+/* Tiny spell-table tracks cannot fit the horizontal 70px +/- control.
+   Stack the existing buttons vertically without removing text sizing. */
+@media screen and (max-width:400px){
+  .pf-paper-magic .pf-alt-manual-cell .pf-text-size-controls{
+    box-sizing:border-box;
+    flex-direction:column;align-items:center;gap:1px;
+    width:26px;max-width:100%;padding:2px;
+    right:0;left:auto;bottom:2px;
+  }
+  .pf-paper-magic .pf-alt-manual-cell .pf-text-size-controls button{
+    flex:0 0 20px;width:20px;height:20px;
+  }
+  .pf-paper-magic .pf-alt-manual-cell .pf-rich-host:has(>.pf-text-size-controls)>.pf-rich-editable{
+    padding-bottom:72px;
+  }
+}
