@@ -36,6 +36,14 @@ assert.ok(auto.includes('writeLocalDraft(draftKey,payload,currentRef.current)'))
 assert.ok(auto.includes("window.addEventListener('beforeunload'"));
 assert.ok(auto.includes("window.addEventListener('online'"));
 assert.ok(auto.includes("document.addEventListener('visibilitychange'"));
+assert.ok(auto.includes("window.addEventListener('pagehide'"),
+  'Tab closing or bfcache navigation must preserve unsent edits');
+assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,payload)'),
+  'Persist the exact unsent snapshot before starting its network request');
+assert.ok(auto.includes('if(currentRef.current!==savedRef.current)'),
+  'Unmount recovery must avoid recording already acknowledged state');
+assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,currentRef.current)'),
+  'In-app route unmount and pagehide must retain the latest local edit');
 assert.ok(auto.includes('if(!ok)'),'Server failure cannot be called a success');
 assert.ok(status.includes('Повторить'));
 assert.ok(app.includes('usePwaInstall()'));
