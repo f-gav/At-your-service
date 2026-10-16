@@ -37,7 +37,13 @@ export function useAutoSave({
 
   useEffect(()=>{
     mounted.current=true;
-    return ()=>{mounted.current=false;};
+    return ()=>{
+      // Internal navigation (including browser Back) unmounts the editor
+      // without firing beforeunload/pagehide. Keep its final unsent snapshot.
+      if(currentRef.current!==savedRef.current)
+        writeLocalDraft(draftKey,savedRef.current,currentRef.current);
+      mounted.current=false;
+    };
   },[]);
 
   const dirty = snapshot!==acknowledged;
