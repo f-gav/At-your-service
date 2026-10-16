@@ -94,3 +94,19 @@
 .sheet-pdf-stage .moon-pdf-supplement {padding:8mm 11mm 14mm!important;}
 .sheet-pdf-stage .moon-pdf-extra-grid {margin-top:15px;row-gap:12px;}
 .sheet-pdf-stage input,.sheet-pdf-stage textarea {pointer-events:none;}
+
+/* HTML-first PF: allow long formatted notes and inventory to extend naturally
+   in the export copy. Do not change the live editor or classic PDF geometry. */
+.sheet-pdf-stage.pf-alt-export-stage .pf-rich-editable {
+  overflow:visible!important;
+  max-height:none!important;
+  height:auto!important;
+}
+.sheet-pdf-stage.pf-alt-export-stage .pf-rich-host {
+  overflow:visible!important;
+}
+.sheet-pdf-stage.pf-alt-export-stage [data-pf-spoiler-remove="1"],
+.sheet-pdf-stage.pf-alt-export-stage [data-pf-resource-action="settings"],
+.sheet-pdf-stage.pf-alt-export-stage .pf-text-size-controls {
+  display:none!important;
+}
