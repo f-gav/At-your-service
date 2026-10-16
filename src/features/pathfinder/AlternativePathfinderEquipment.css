@@ -35,3 +35,8 @@
 @media(max-width:480px){.pf-paper-equipment .pf-alt-inventory-group{min-height:180px}.pf-paper-equipment .pf-paper-worn{min-height:230px}}
 .pf-paper-bulk-guide{min-width:0;overflow-wrap:anywhere}
 @media(max-width:680px){.pf-alt-equipment-layout:has(.pf-paper-equipment){grid-template-columns:minmax(0,1fr)}}
+
+/* Size controls belong to the spacious inventory text column. The narrow
+   bulk/attunement columns must not overlay adjacent controls or content. */
+.pf-paper-equipment .pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field:not(:first-child) .pf-text-size-controls{display:none}
+.pf-paper-equipment .pf-alt-inventory-group>.pf-alt-fields>.pf-alt-field:first-child .pf-text-size-controls{right:6px;bottom:6px}
