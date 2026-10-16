@@ -74,4 +74,17 @@ assert.doesNotMatch(sqlOnly,/\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|
 assert.ok(restoreRunbook.includes('изолированный')&&restoreRunbook.includes('Storage')&&restoreRunbook.includes('pg_dump'),
   'Backup documentation must require separate Storage copies and isolated restoration');
 console.log('PASS: v0.2 backup-integrity SQL stays read-only and covers characters, templates, history and portraits');
+
+const securityAudit=read('../supabase/security-audit.sql');
+const sqlWithoutComments=securityAudit.replace(/--[^\n]*/g,'');
+assert.doesNotMatch(sqlWithoutComments,/\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|GRANT|REVOKE|CALL|DO)\b/i,
+  'Security audit SQL must never write to the live database');
+for(const check of ['pg_policies','pg_roles','prosecdef','character-portraits','publish_sheet_template']){
+  assert.ok(securityAudit.includes(check),'Security inventory missing '+check);
+}
+const appSecurity=read('../src/App.tsx');
+assert.match(appSecurity,/setIsTemplateAdmin\(false\);\s*setShowTemplateAdmin\(false\);\s*if\(!supabase\|\|!user\?\.id\)return;/,
+  'Switching users must immediately revoke stale template admin UI privileges');
+console.log('PASS: live security inventory remains read-only and admin controls reset on account switch');
+
 console.log('PASS: v0.2 static SQL/RLS, private portrait, JSON v1 and system availability guards');
