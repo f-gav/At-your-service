@@ -391,3 +391,21 @@
 .pf-text-size-controls output{min-width:15px;text-align:center}
 .pf-rich-host:has(>.pf-text-size-controls)>.pf-rich-editable{padding-bottom:27px}
 @media print{.pf-text-size-controls{display:none!important}}
+
+/* Phone interaction: toolbar positions stay inside the visual viewport, even
+   at 320–360px and when zoom/accessibility text scaling is enabled. */
+@media (max-width:680px) {
+  .pf-rich-toolbar,.pf-rich-insert-toolbar {
+    box-sizing:border-box;
+    max-width:calc(100vw - 16px);
+    max-height:calc(100dvh - 16px);
+    overflow-x:auto;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .pf-rich-link-form {min-width:0;max-width:100%;}
+  .pf-rich-link-form input {min-width:0;flex:1 1 auto;}
+  .pf-rich-toolbar > button,.pf-rich-insert-toolbar button {
+    min-height:32px;
+  }
+}
