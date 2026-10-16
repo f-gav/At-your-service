@@ -74,6 +74,10 @@ assert.match(notes,/id="pf-sheet-page-notes"/);
 assert.match(notes,/className="pf-sheet-page pf-optional-notes-page"/);
 assert.ok(notes.includes('className="pf-optional-note-card-body"'));
 assert.match(notes,/resourceContext=\{values\}/);
+assert.match(notes,/onTextSizeChange=\{size=>onChange\('pf_text_size_'\+noteBodyKey\(index\),String\(size\)\)\}/,
+  'Classic and HTML notes must share their saved text-size keys');
+assert.match(notes,/textSize=\{Number\(values\['pf_text_size_'\+noteBodyKey\(index\)\]\)/,
+  'Previously chosen note text size must display on the classic page');
 assert.match(notes,/onChange=\{next => onChange\(noteBodyKey\(index\), next\)\}/);
 assert.ok(notes.includes('notes-page.svg'));
 assert.ok(notes.includes('<img'));
