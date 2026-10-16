@@ -43,6 +43,8 @@ export default function OptionalNotesPage({values, disabled = false, onChange}: 
                 className="pf-optional-note-card-body"
                 value={String(values[noteBodyKey(index)] ?? '')}
                 resourceContext={values}
+                textSize={Number(values['pf_text_size_'+noteBodyKey(index)])>=8&&Number(values['pf_text_size_'+noteBodyKey(index)])<=28?Number(values['pf_text_size_'+noteBodyKey(index)]):undefined}
+                onTextSizeChange={size=>onChange('pf_text_size_'+noteBodyKey(index),String(size))}
                 disabled={disabled}
                 onChange={next => onChange(noteBodyKey(index), next)}
               />
