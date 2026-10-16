@@ -2,6 +2,7 @@ import {useMemo} from 'react';
 import type {ReactNode} from 'react';
 import {BookOpen, Settings2, Shield, Heart, Swords, ScrollText, Coins, Eye, Feather, Sparkles, Backpack, WandSparkles, UserRound, Gem, Compass, BookMarked, Scroll, Star, CircleDot, Zap, Skull, Crown} from 'lucide-react';
 import RichField from './RichField';
+import {sanitizeSignedNumericInput} from './numeric-input';
 import {RANK_FIELDS, RANK_LABELS,SKILL_ABILITIES,readRank,isAutomatic,isCoreComputedField} from './rules-core';
 import {isSpellcastingComputedField,isSpellcastingConfigured,spellcastingTotals} from './rules-spellcasting';
 import {isNativeCombatComputedField,isNativeWeaponAttackField,isClassDcConfigured} from './rules-combat';
@@ -107,7 +108,8 @@ export default function AlternativePathfinderPages({
     (spellConfigured&&isSpellcastingComputedField(id))||
     (automatic&&id!=='class_dc'&&(isCoreComputedField(id)||
       (isNativeCombatComputedField(id)&&!isNativeWeaponAttackField(id)))));
-  const disabled=computed&&id in displayValues;
+  const computedReadonly=computed;
+  const fieldLocked=Boolean(disabled);
   const value=displayValues[id]??values[id]??'';
   const isRank=RANK_FIELDS.has(id)||id==='spell_attack_rank'||id==='spell_dc_rank';
   if(isRank){
@@ -117,7 +119,7 @@ export default function AlternativePathfinderPages({
     <div className="pf-alt-rank-squares" role="group" aria-label={f.label+' — уровень владения'}>
      {([1,2,3,4] as const).map(rank=><button
        type="button" key={rank} className="pf-alt-rank-square"
-       disabled={disabled} aria-pressed={current===rank}
+       disabled={fieldLocked} aria-pressed={current===rank}
        title={RANK_LABELS[rank]}
        aria-label={f.label+': '+RANK_LABELS[rank]+(current===rank?' (снять)':'')}
        onClick={()=>onChange(id,String(current===rank?0:rank))}
@@ -133,28 +135,28 @@ export default function AlternativePathfinderPages({
      const checked=i<readDyingSkulls(values.dying);
      return <button type="button" key={i} aria-pressed={checked} title={'При смерти '+(i+1)}
       aria-label={'При смерти, отметка '+(i+1)} className={checked?'is-active':''}
-      onClick={()=>onChange('dying',toggleDyingSkull(values.dying,i+1))}><Skull size={18} strokeWidth={1.7}/></button>;
+      disabled={fieldLocked} onClick={()=>onChange('dying',toggleDyingSkull(values.dying,i+1))}><Skull size={18} strokeWidth={1.7}/></button>;
     })}
    </div>
   </div>;
   return <label className={'pf-alt-field'+(f.kind==='long'?' pf-alt-field-long':'')} key={id}>
     <span title={f.label}>{label}</span>
     {f.kind==='toggle'?
-      <input type="checkbox" checked={value===true} onChange={e=>onChange(id,e.target.checked)} aria-label={label}/>:
+      <input type="checkbox" checked={value===true} disabled={fieldLocked||computedReadonly} onChange={e=>onChange(id,e.target.checked)} aria-label={label}/>:
      f.kind==='long'?
       <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
         textSize={textSize(id)} onTextSizeChange={size=>onChange('pf_text_size_'+id,String(size))}
-        value={String(value)} resourceContext={values} disabled={disabled}
+        value={String(value)} resourceContext={values} disabled={fieldLocked||computedReadonly}
         placeholder={page===1&&['defense_notes','perception_notes','movement'].includes(id)?label:undefined}
         onChange={v=>onChange(id,v)}/>:
      f.kind==='select'?
-      <select aria-label={label} value={String(value)} disabled={disabled}
+      <select aria-label={label} value={String(value)} disabled={fieldLocked||computedReadonly}
         onChange={e=>onChange(id,e.target.value)}>
-        <option value="">{page===1&&id==='size'?'':'—'}</option>{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>)}
+        <option value="">{page===1&&id==='size'?'':'—'}</option>{String(value)&&!(f.options||[]).includes(String(value))&&<option value={String(value)}>{String(value)}</option>}{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>}
       </select>:
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
-        value={String(value)} readOnly={disabled} aria-label={label}
-        onChange={e=>onChange(id,e.target.value)}
+        value={String(value)} readOnly={computedReadonly} disabled={fieldLocked} aria-label={label}
+        onChange={e=>{if(!computedReadonly)onChange(id,f.kind==='number'||f.kind==='counter'?sanitizeSignedNumericInput(e.target.value):e.target.value);}}
         placeholder={page===3&&/^(action|reaction)_[1-4]_/.test(id)?'':page===3&&['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance','attitude','deity','likes','dislikes','quotes'].includes(id)?'':page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
@@ -206,18 +208,18 @@ export default function AlternativePathfinderPages({
     <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
      {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
       <button type="button" className="pf-alt-spell-area" onClick={onOpenGrimoire}
-       aria-label={'Открыть гримуар: '+title+(columns>1?' — колонка '+(column+1):'')}/>
+       disabled={disabled} aria-label={'Открыть гримуар: '+title+(columns>1?' — колонка '+(column+1):'')}/>
       <div className="pf-alt-spell-head">
        <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
       {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
-       className="pf-alt-spell-row" onClick={()=>onOpenSpellCard(spell)}
+       className="pf-alt-spell-row" disabled={disabled} onClick={()=>onOpenSpellCard(spell)}
        aria-label={'Открыть карточку заклинания: '+spell.name}>
        <strong>{spell.name}</strong>{prefix==='rituals_'?<><span>{spell.spell.rank}</span><span>—</span></>:<><span>{spellCast(spell)}</span>{prefix==='spellbook_'&&<span>{spell.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
       </button>)}
      </div>)}
     </div>
-    <button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire}>
+    <button type="button" className="pf-alt-add-spell" disabled={disabled} onClick={onOpenGrimoire}>
      <BookOpen size={15}/> {rows.length?'Изменить заклинания':'Добавить заклинание'}
     </button>
    </div>
@@ -228,7 +230,7 @@ export default function AlternativePathfinderPages({
   <div className="pf-alt-two-col">{Array.from({length:PF_NOTES_BLOCK_COUNT},(_,i)=><Section key={i} index={String(i+1).padStart(2,'0')} title={noteBlockTitle(values[noteTitleKey(i)])}>
    <RichField id={'pf-alt-note-'+i} label={'Заметки '+(i+1)} className="pf-alt-rich pf-alt-notes" grow
      textSize={textSize(noteBodyKey(i))} onTextSizeChange={size=>onChange('pf_text_size_'+noteBodyKey(i),String(size))}
-     value={String(values[noteBodyKey(i)]??'')} resourceContext={values}
+     value={String(values[noteBodyKey(i)]??'')} resourceContext={values} disabled={disabled}
      onChange={v=>onChange(noteBodyKey(i),v)}/>
   </Section>)}</div>
  </article>;
@@ -264,7 +266,7 @@ export default function AlternativePathfinderPages({
       {['hero_1','hero_2','hero_3'].map((id,i)=>{
        consumed.add(id);const active=values[id]===true;
        return <button type="button" className="pf-alt-hero-point" key={id} aria-pressed={active}
-        aria-label={'Пункт героизма '+(i+1)} onClick={()=>onChange(id,!active)}>
+        aria-label={'Пункт героизма '+(i+1)} disabled={disabled} onClick={()=>onChange(id,!active)}>
         <svg viewBox="0 0 40 35" aria-hidden="true" focusable="false">
          <polygon points="11,1.9 29,1.9 38,17.5 29,33.1 11,33.1 2,17.5"
           fill={active?'#315e47':'#ffffff'} stroke="#385742" strokeWidth="2.4"/>
@@ -357,7 +359,7 @@ export default function AlternativePathfinderPages({
      <div className="pf-alt-skill-list">
       {SKILLS.map(([id,label])=><div key={id} className="pf-alt-skill-row">
        {id==='lore1'||id==='lore2'?<label className="pf-paper-lore-name"><b>Знание</b>
-        <input aria-label={'Область знания '+(id==='lore1'?'I':'II')} value={String(values['skill_'+id+'_name']??'')}
+        <input aria-label={'Область знания '+(id==='lore1'?'I':'II')} value={String(values['skill_'+id+'_name']??'')} disabled={disabled}
          onChange={e=>onChange('skill_'+id+'_name',e.target.value)} />
        </label>:<b>{label}</b>}
        <div className="pf-paper-skill-total"><PaperFrame kind="skill"/>{field('skill_'+id+'_total',label+': итог')}</div>
@@ -449,8 +451,8 @@ export default function AlternativePathfinderPages({
     </Section>
     <Section index="V" title="Богатство" className="pf-alt-wealth">
      <div className="pf-alt-coin-row">
-      {/* Legacy keys follow PDF positions: pp, gp, sp, cp = ММ, СМ, ЗМ, ПМ. */}
-      {['wealth_pp','wealth_gp','wealth_sp','wealth_cp'].map((id,i)=><div className={'pf-alt-coin pf-paper-coin-'+i} key={id}>{field(id,['ММ','СМ','ЗМ','ПМ'][i])}</div>)}
+      {/* The printed layout is copper/silver/gold/platinum; match each label to its stable semantic key. */}
+      {['wealth_cp','wealth_sp','wealth_gp','wealth_pp'].map((id,i)=><div className={'pf-alt-coin pf-paper-coin-'+i} key={id}>{field(id,['ММ','СМ','ЗМ','ПМ'][i])}</div>)}
      </div>
      <div className="pf-alt-fields pf-paper-valuables">{field('valuables','Самоцветы и предметы искусства')}{field('valuables_price','Цена')}{field('valuables_bulk','Вес')}</div>
     </Section>
@@ -460,7 +462,7 @@ export default function AlternativePathfinderPages({
  {page===3&&<>
   <div className="pf-alt-biography-layout pf-paper-biography">
    <Section index="I" title="Портрет персонажа" className="pf-alt-portrait-section">
-    <button type="button" className="pf-alt-portrait" onClick={onEditPortrait} aria-label="Изменить портрет">
+    <button type="button" className="pf-alt-portrait" disabled={disabled} onClick={onEditPortrait} aria-label="Изменить портрет">
      <img src={portraitUrl||import.meta.env.BASE_URL+'pathfinder/portrait-placeholder.webp'} alt="Портрет героя"/>
      <span>Изменить портрет</span>
     </button>
@@ -514,11 +516,11 @@ export default function AlternativePathfinderPages({
        {([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=>{
         const key='tradition_'+id;consumed.add(key);
         return <button key={id} type="button" aria-pressed={effectivePfTraditions(values).includes(id)}
-         className={'pf-alt-tradition-option pf-alt-tradition-'+id+(effectivePfTraditions(values).includes(id)?' is-active':'')}
+         className={'pf-alt-tradition-option pf-alt-tradition-'+id+(effectivePfTraditions(values).includes(id)?' is-active':'')} disabled={disabled}
          onClick={()=>onChange(key,!effectivePfTraditions(values).includes(id))}
          title={label}>{label}</button>;
        })}
-       <div className="pf-alt-tradition-emblem">{([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=><button key={id} type="button" className={'pf-tradition-sector pf-tradition-sector-'+id} aria-label={'Сектор: '+label} aria-pressed={effectivePfTraditions(values).includes(id)} onClick={()=>onChange('tradition_'+id,!effectivePfTraditions(values).includes(id))} title={label}/>)}</div>
+       <div className="pf-alt-tradition-emblem">{([['arcane','Мистическая'],['occult','Оккультная'],['primal','Первобытная'],['divine','Сакральная']] as const).map(([id,label])=><button key={id} type="button" className={'pf-tradition-sector pf-tradition-sector-'+id} aria-label={'Сектор: '+label} aria-pressed={effectivePfTraditions(values).includes(id)} disabled={disabled} onClick={()=>onChange('tradition_'+id,!effectivePfTraditions(values).includes(id))} title={label}/>)}</div>
       </div>
       <div className="pf-alt-spell-type">{field('prepared','Подготавливающий')}{field('spontaneous','Спонтанный')}</div>
      </div>
@@ -534,7 +536,7 @@ export default function AlternativePathfinderPages({
        <div className="pf-paper-right-formula"><div className="pf-paper-prof"><output>10</output><span>Баз.</span></div><i>+</i>{field('spell_dc_key','Ключ.')}<i>+</i><div className="pf-paper-prof"><output>{spellcastingTotals(values).dcProficiency??'—'}</output><span>Умен.</span></div></div>
       </div></div>
      </div>
-     <div className="pf-paper-magic-tools"><button type="button" className="pf-alt-add-spell" onClick={onOpenGrimoire} aria-label="Открыть гримуар"><BookOpen size={16}/></button><button type="button" className="pf-alt-add-spell" onClick={onOpenSettings} aria-label="Настройки магии"><Settings2 size={16}/></button>
+     <div className="pf-paper-magic-tools"><button type="button" className="pf-alt-add-spell" disabled={disabled} onClick={onOpenGrimoire} aria-label="Открыть гримуар"><BookOpen size={16}/></button><button type="button" className="pf-alt-add-spell" disabled={disabled} onClick={onOpenSettings} aria-label="Настройки магии"><Settings2 size={16}/></button>
       <details><summary>Предмет к СЛ</summary>{field('spell_dc_item','Предмет к СЛ')}</details>
      </div>
     </Section>
