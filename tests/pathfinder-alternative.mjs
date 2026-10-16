@@ -40,6 +40,14 @@ assert.ok(html.includes("onChange(key,!effectivePfTraditions(values).includes(id
 
 assert.ok(html.includes("field('shield_ac_bonus'")&&html.includes("field('shield_hardness'"),
   'Shield bonus must be integrated into the printed defense block, not isolated at the foot');
+assert.ok(html.includes("['wealth_cp','wealth_sp','wealth_gp','wealth_pp'].map"),
+  'Printed copper/silver/gold/platinum positions must match stable semantic currency keys');
+assert.ok(html.includes('const computedReadonly=computed')&&html.includes('const fieldLocked=Boolean(disabled)'),
+  'Alternative editable fields must distinguish calculated values from sheet-wide editing lock');
+assert.ok(html.includes('sanitizeSignedNumericInput(e.target.value)'),
+  'Alternative numeric input must use the same safe signed-number sanitizer as classic PF');
+assert.ok(html.includes('resourceContext={values} disabled={disabled}'),
+  'Optional notes must respect the sheet-wide editing lock');
 assert.ok(!html.includes("||id==='class_dc_rank'"),
   'Class DC proficiency is a numeric bonus, not a zero-to-four proficiency dropdown');
 assert.ok(html.includes('pf-alt-weapon-more'),
