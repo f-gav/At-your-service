@@ -607,9 +607,16 @@ try {
   await grimoire.locator('.pf-grimoire-item').first().getByRole('button',{name:/^Подготовить /}).click();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   const spellRow=magic.locator('.pf-alt-spell-row').first();
-  await spellRow.waitFor();await spellRow.click();
-  await grimoire.waitFor();
-  await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+  await spellRow.waitFor();
+  const selectedSpellName=(await spellRow.locator('strong').innerText()).trim();
+  await spellRow.click();
+  const spellDetail=libraryPage.getByRole('dialog',{name:'Заклинание '+selectedSpellName,exact:true});
+  await spellDetail.waitFor();
+  assert.equal(await spellDetail.locator('h2').innerText(),selectedSpellName,
+    'Clicking a prepared spell row must open that exact spell card, not the grimoire');
+  assert.equal(await grimoire.count(),0,'Prepared spell row must not reopen the grimoire');
+  await spellDetail.getByRole('button',{name:'Закрыть карточку заклинания'}).click();
+  assert.equal(await spellDetail.count(),0,'Spell card closes without altering the selection');
   for(const panel of ['cantrip','focus','innate','spellbook','rituals']){
     const areas=magic.locator('.pf-paper-panel-'+panel+' .pf-alt-spell-area');
     for(let i=0;i<await areas.count();i++){
