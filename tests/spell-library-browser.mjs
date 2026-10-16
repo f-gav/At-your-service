@@ -92,6 +92,12 @@ try{
   await page.getByRole('combobox',{name:'Класс'}).selectOption('all');
   await page.locator('.spell-filter-toggle').click();
   assert.equal(await page.locator('.spell-total').textContent(),'493 записей');
+  // Changing filters intentionally resets pagination; restore the full list for
+  // the existing responsive/layout assertions below.
+  while(await page.getByRole('button',{name:'Показать ещё'}).count()){
+    await page.getByRole('button',{name:'Показать ещё'}).click();
+  }
+  assert.equal(await page.locator('.spell-result').count(),493);
 
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
