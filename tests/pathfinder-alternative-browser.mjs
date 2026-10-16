@@ -545,6 +545,15 @@ try {
     if(width===1440){
       const held=equipment.locator('.pf-paper-held .pf-rich-editable').first();
       assert.ok((await held.innerText()).includes('Свёрток с рунами'),'Existing inventory contents remain readable');
+      const originalText=await held.innerText();
+      await held.fill('Предмет один\\nПредмет два\\nПредмет три');
+      assert.ok((await held.innerText()).includes('Предмет три'),'Inventory accepts multiline text');
+      const sizeGroup=equipment.locator('.pf-paper-held .pf-text-size-controls');
+      const originalSize=Number(await sizeGroup.locator('output').innerText());
+      await sizeGroup.getByRole('button',{name:/Увеличить текст/}).click();
+      assert.equal(Number(await sizeGroup.locator('output').innerText()),originalSize+1,'Inventory text size is adjustable');
+      assert.ok((await held.innerText()).includes('Предмет три'),'Resizing must not erase inventory');
+      await held.fill(originalText);
       await equipment.locator('.pf-paper-bag input').fill('8');
       assert.equal(await equipment.locator('.pf-paper-bag input').inputValue(),'8');
       assert.deepEqual(await equipment.locator('.pf-alt-coin input').evaluateAll(nodes=>nodes.map(el=>el.value)),['45','34','23','12'],
