@@ -56,9 +56,17 @@ const character:Character={
   portrait_card_path:null,portrait_sheet_path:null,portrait_source_path:null,portrait_crops:null,
 };
 const noop=()=>{};
+const saveTest=params.get('save')==='test';
+const saveEvents:Array<{name:string;details:Character['details']}>=[];
+Object.assign(window,{__pfSaveEvents:saveEvents});
+async function saveTestCharacter(_id:string,name:string,details:Character['details']):Promise<boolean>{
+  saveEvents.push({name,details});
+  await new Promise(resolve=>setTimeout(resolve,350));
+  return params.get('fail')!=='1';
+}
 createRoot(document.getElementById('root')!).render(
   system==='pf2e'
-  ? <PathfinderSheet character={character} onSave={async()=>true} onClose={noop} onEditPortrait={noop}/>
+  ? <PathfinderSheet character={character} onSave={saveTest?saveTestCharacter:async()=>true} onClose={noop} onEditPortrait={noop}/>
   : <ProjectMoonSheet character={character} onSave={async()=>true} onClose={noop} onEditPortrait={noop} previewMode/>
 );
 document.getElementById('generate-test-pdf')!.addEventListener('click',()=>{
