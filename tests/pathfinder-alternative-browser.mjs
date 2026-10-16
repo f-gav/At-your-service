@@ -590,6 +590,25 @@ try {
     for(let i=0;i<4;i++){
       await pages.nth(i).screenshot({path:'test-artifacts/pf-alt-'+width+'-page-'+(i+1)+'.png'});
     }
+    if(width===360){
+      // A selected phrase summons a portalled toolbar; it must stay inside a
+      // narrow phone viewport rather than using the desktop 370px width.
+      const editor=pages.first().locator('.pf-rich-editable').first();
+      await editor.evaluate(el=>{
+        el.focus();
+        if(!el.textContent?.trim())el.textContent='Проверка мобильного выделения';
+        const selection=window.getSelection(),range=document.createRange();
+        range.selectNodeContents(el);
+        selection?.removeAllRanges();selection?.addRange(range);
+        document.dispatchEvent(new Event('selectionchange'));
+      });
+      const toolbar=page.locator('.pf-rich-toolbar');
+      await toolbar.waitFor();
+      const bounds=await toolbar.boundingBox();
+      assert.ok(bounds&&bounds.x>=0&&bounds.x+bounds.width<=width+1,
+        'Mobile rich-text formatting toolbar must fit within the 360px viewport');
+      await editor.press('Escape');
+    }
     assert.deepEqual(errors,[],'React browser errors must be absent');
     await page.close();
   }
