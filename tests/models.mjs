@@ -76,7 +76,7 @@ assert.ok(restoreRunbook.includes('изолированный')&&restoreRunbook.
 console.log('PASS: v0.2 backup-integrity SQL stays read-only and covers characters, templates, history and portraits');
 
 const securityAudit=read('../supabase/security-audit.sql');
-const sqlWithoutComments=securityAudit.replace(/--[^\n]*/g,'');
+const sqlWithoutComments=securityAudit.replace(/--[^\n]*/g,'').replace(/'(?:''|[^'])*'/g,"''");
 assert.doesNotMatch(sqlWithoutComments,/\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|GRANT|REVOKE|CALL|DO)\b/i,
   'Security audit SQL must never write to the live database');
 for(const check of ['pg_policies','pg_roles','prosecdef','character-portraits','publish_sheet_template']){
