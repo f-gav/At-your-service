@@ -385,3 +385,9 @@
 .pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"]:focus-visible {
   opacity:1;
 }
+.pf-text-size-controls{position:absolute;right:4px;bottom:4px;z-index:6;display:flex;align-items:center;gap:3px;padding:2px 4px;border-radius:12px;background:#f0f3f0e8;color:#263b2e;font:12px Arial,sans-serif}
+.pf-text-size-controls button{border:1px solid #bbcabb;border-radius:50%;width:20px;height:20px;padding:0;background:white;color:#263b2e;cursor:pointer;font:16px/18px Arial,sans-serif}
+.pf-text-size-controls button:disabled{opacity:.35;cursor:default}
+.pf-text-size-controls output{min-width:15px;text-align:center}
+.pf-rich-host:has(>.pf-text-size-controls)>.pf-rich-editable{padding-bottom:27px}
+@media print{.pf-text-size-controls{display:none!important}}

@@ -150,6 +150,7 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
       prepareMoonCombat(page);
       page.style.width='210mm';
     }
+    page.querySelectorAll('.pf-text-size-controls').forEach(node=>node.remove());
     stack.append(page);
     if(system==='prmoon'&&oldPage.classList.contains('moon-page-combat')){
       const coreSkills=Array.from(root.querySelectorAll<HTMLElement>('.moon-skill-card')).slice(0,6);

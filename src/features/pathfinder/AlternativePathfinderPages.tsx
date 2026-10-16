@@ -95,6 +95,7 @@ export default function AlternativePathfinderPages({
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
  const consumed=new Set<string>();
+ function textSize(id:string){const size=Number(values['pf_text_size_'+id]);return Number.isFinite(size)&&size>=8&&size<=28?size:undefined;}
  if(page===2)for(const id of ADVANCEMENT_FIELD_IDS)consumed.add(id);
  const automatic=isAutomatic(values,legacyHasValues);
  const spellConfigured=isSpellcastingConfigured(values);
@@ -142,6 +143,7 @@ export default function AlternativePathfinderPages({
       <input type="checkbox" checked={value===true} onChange={e=>onChange(id,e.target.checked)} aria-label={label}/>:
      f.kind==='long'?
       <RichField id={'pf-alt-'+id} label={label} className="pf-alt-rich" grow
+        textSize={textSize(id)} onTextSizeChange={size=>onChange('pf_text_size_'+id,String(size))}
         value={String(value)} resourceContext={values} disabled={disabled}
         placeholder={page===1&&['defense_notes','perception_notes','movement'].includes(id)?label:undefined}
         onChange={v=>onChange(id,v)}/>:
@@ -225,6 +227,7 @@ export default function AlternativePathfinderPages({
   <header className="pf-alt-heading"><small>AT YOUR SERVICE! / PF2E</small><h2>Заметки</h2><p>Дополнительная страница</p></header>
   <div className="pf-alt-two-col">{Array.from({length:PF_NOTES_BLOCK_COUNT},(_,i)=><Section key={i} index={String(i+1).padStart(2,'0')} title={noteBlockTitle(values[noteTitleKey(i)])}>
    <RichField id={'pf-alt-note-'+i} label={'Заметки '+(i+1)} className="pf-alt-rich pf-alt-notes" grow
+     textSize={textSize(noteBodyKey(i))} onTextSizeChange={size=>onChange('pf_text_size_'+noteBodyKey(i),String(size))}
      value={String(values[noteBodyKey(i)]??'')} resourceContext={values}
      onChange={v=>onChange(noteBodyKey(i),v)}/>
   </Section>)}</div>
@@ -423,6 +426,7 @@ export default function AlternativePathfinderPages({
     <div className="pf-alt-dynamic-advancement" aria-label="Способности по уровням">
      <DynamicAdvancement values={values} count={advancementLevelCount(values)}
       pageArtUrl={import.meta.env.BASE_URL+'pathfinder/page-2.webp'} disabled={disabled}
+      onTextSizeChange={(id,size)=>onChange('pf_text_size_'+id,String(size))}
       onValueChange={onChange} onAdd={onAddLevel} onRemove={onRemoveLevel}/>
     </div>
    </div>

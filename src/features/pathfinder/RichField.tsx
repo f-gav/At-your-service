@@ -13,6 +13,7 @@ import './RichField.css';
 type Props={
   id:string;label:string;value:string;onChange:(value:string)=>void;
   placeholder?:string;disabled?:boolean;className?:string;
+  textSize?:number;onTextSizeChange?:(size:number)=>void;
   style?:CSSProperties;grow?:boolean;resourceContext?:FormulaContext;spellColumns?:number[];
 };
 type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
@@ -23,7 +24,7 @@ function popupPosition(rect:DOMRect):Spot {
   return {left:Math.max(8,Math.min(window.innerWidth-width-8,rect.left+rect.width/2-width/2)),
     top:Math.max(8,rect.top-57)};
 }
-export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={},spellColumns}:Props){
+export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={},spellColumns,textSize,onTextSizeChange}:Props){
   const root=useRef<HTMLDivElement>(null);
   const rangeRef=useRef<Range|null>(null);
   const pointerRef=useRef<{x:number;y:number}|null>(null);
@@ -392,6 +393,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   return <>
     <div id={id} className={'pf-rich-host '+className} style={style}>
       <div ref={root} className={'pf-rich-editable'+(grow?' pf-rich-grow':'')}
+        style={textSize===undefined?undefined:{fontSize:textSize+'px'}}
         role="textbox" aria-label={label} aria-multiline="true"
         contentEditable={!disabled} suppressContentEditableWarning spellCheck={false}
         data-placeholder={placeholder??''}
@@ -450,6 +452,13 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
           }
         }}
         onPaste={handlePaste}/>
+      {onTextSizeChange&&<div className="pf-text-size-controls" role="group" aria-label={'Размер текста: '+label} onMouseDown={e=>e.preventDefault()}>
+        <output aria-live="polite">{textSize??12}</output>
+        <button type="button" disabled={disabled||(textSize??12)<=8} aria-label={'Уменьшить текст: '+label}
+          onClick={e=>{e.preventDefault();onTextSizeChange(Math.max(8,(textSize??12)-1));}}>−</button>
+        <button type="button" disabled={disabled||(textSize??12)>=28} aria-label={'Увеличить текст: '+label}
+          onClick={e=>{e.preventDefault();onTextSizeChange(Math.min(28,(textSize??12)+1));}}>+</button>
+      </div>}
     </div>
     {toolbar}
     {insertToolbar}

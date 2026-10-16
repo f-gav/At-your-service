@@ -71,3 +71,6 @@ assert.doesNotMatch(sheetSource, /for\s*\(const field of FIELDS\)/);
 assert.match(jsonSource, /details:\s*normalizeDetails\(c\.details\)/);
 
 console.log('PF2e: custom admin fields restore, save, clear, preserve hidden values, JSON roundtrip.');
+
+const sizeDetails=persistSheetValues({}, {name:'Герой',pf_text_size_defense_notes:'18'},'Герой');
+assert.equal(initialSheetValues(sizeDetails,'Герой').pf_text_size_defense_notes,'18');

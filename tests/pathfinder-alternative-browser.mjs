@@ -453,6 +453,13 @@ try {
         assert.ok(await input.evaluate(el=>{const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');ctx.font=getComputedStyle(el).font;return ctx.measureText(el.value).width<el.clientWidth-2;}),
           'Signed values fit the enlarged perception, speed and ranged-attack icons');
       }
+      const defenseHost=first.locator('#pf-alt-defense_notes');
+      await defenseHost.getByRole('button',{name:'Увеличить текст: Примечания',exact:true}).click();
+      assert.equal(await defenseHost.locator('.pf-rich-editable').evaluate(el=>getComputedStyle(el).fontSize),'13px');
+      await defenseHost.getByRole('button',{name:'Уменьшить текст: Примечания',exact:true}).click();
+      assert.equal(await defenseHost.locator('.pf-rich-editable').evaluate(el=>getComputedStyle(el).fontSize),'12px');
+      const bodyFonts=await defenseHost.locator('.pf-rich-editable').evaluate(el=>getComputedStyle(el).fontFamily);
+      assert.ok(!bodyFonts.includes('PF2e PDF DIN Bold'),bodyFonts);
       await first.locator('.pf-alt-main-right').screenshot({path:'test-artifacts/pf-alt-right-desktop.png'});
       assert.equal(await first.locator('.pf-alt-skill-head').count(),0,
         'Skill calculations have their own captions, without a shared table header');
