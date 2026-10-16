@@ -604,11 +604,15 @@ try {
         document.dispatchEvent(new Event('selectionchange'));
         el.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));
       });
-      const toolbar=page.locator('.pf-rich-toolbar');
-      await toolbar.waitFor();
-      const bounds=await toolbar.boundingBox();
-      assert.ok(bounds&&bounds.x>=0&&bounds.x+bounds.width<=width+1,
-        'Mobile rich-text formatting toolbar must fit within the 360px viewport');
+      // The selection toolbar may be dismissed by asynchronous viewport
+      // events. Check its visible bounds in a single browser frame, rather
+      // than racing a separate waitFor() against boundingBox().
+      await page.waitForFunction((limit)=>{
+        const toolbar=document.querySelector('.pf-rich-toolbar');
+        if(!toolbar)return false;
+        const rect=toolbar.getBoundingClientRect();
+        return rect.width>0&&rect.height>0&&rect.left>=0&&rect.right<=limit+1;
+      },width,{timeout:10000});
       await editor.press('Escape');
     }
     assert.deepEqual(errors,[],'React browser errors must be absent');
