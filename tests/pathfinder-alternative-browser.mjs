@@ -639,7 +639,39 @@ try {
   await libraryPage.keyboard.press('Enter');await grimoire.waitFor();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   await libraryPage.close();
-  console.log('PASS: four original-paper PF2e pages, desktop/tablet/mobile, field interactions and screenshot captures');
+
+  // The save simulator delays responses to exercise edits made during an
+  // outstanding request. A later value must receive its own cloud write.
+  const savePage=await browser.newPage();
+  await savePage.goto(base+'tests/pdf-harness.html?system=pf2e&variant=alternative&save=test',{waitUntil:'networkidle'});
+  const saveName=savePage.getByRole('textbox',{name:'Имя персонажа',exact:true});
+  await saveName.fill('Первый вариант');
+  await savePage.waitForFunction(()=>window.__pfSaveEvents?.length>=1);
+  await saveName.fill('Последний вариант');
+  await savePage.waitForFunction(()=>window.__pfSaveEvents?.length>=2);
+  await savePage.locator('.auto-save-saved').waitFor();
+  const saves=await savePage.evaluate(()=>window.__pfSaveEvents.map(entry=>entry.name));
+  assert.deepEqual(saves,['Первый вариант','Последний вариант'],
+    'An in-flight request must not swallow a newer character edit');
+  const remainingDraft=await savePage.evaluate(()=>
+    Object.keys(localStorage).filter(key=>key.includes('ays-unsaved-draft-v1:')));
+  assert.equal(remainingDraft.length,0,'Acknowledged final edit must clear its emergency draft');
+  await savePage.close();
+
+  const failContext=await browser.newContext();
+  const failPage=await failContext.newPage();
+  const failUrl=base+'tests/pdf-harness.html?system=pf2e&variant=alternative&save=test&fail=1';
+  await failPage.goto(failUrl,{waitUntil:'networkidle'});
+  await failPage.getByRole('textbox',{name:'Имя персонажа',exact:true}).fill('Несохранённый черновик');
+  await failPage.locator('.auto-save-error').waitFor();
+  const storedDraft=await failPage.evaluate(()=>
+    Object.keys(localStorage).find(key=>key.includes('ays-unsaved-draft-v1:')));
+  assert.ok(storedDraft,'Failed cloud save must retain a local emergency draft');
+  await failPage.reload({waitUntil:'networkidle'});
+  assert.equal(await failPage.getByRole('textbox',{name:'Имя персонажа',exact:true}).inputValue(),
+    'Несохранённый черновик','Reload must recover the failed save when cloud baseline has not changed');
+  await failContext.close();
+  console.log('PASS: four original-paper PF2e pages, desktop/tablet/mobile, autosave sequencing and emergency recovery');
 }finally{
  if(browser)await browser.close();
  server.kill('SIGTERM');
