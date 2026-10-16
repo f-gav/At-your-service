@@ -61,4 +61,17 @@ assert.ok(json.includes('JSON слишком большой')&&json.includes('no
   'Character JSON must enforce size limits and normalize incoming details');
 assert.ok(systems.includes("creatableSystemKeys = ['pf2e', 'prmoon']"),
   'Unreleased systems must not be available for new characters');
+const integrity=read('../supabase/backup-integrity.sql');
+const restoreRunbook=read('../docs/BACKUP-RESTORE-RU.md');
+for(const table of ['characters','sheet_admins','sheet_templates','sheet_template_drafts','sheet_template_history']){
+  assert.ok(integrity.includes('public.'+table),'Backup integrity inventory misses '+table);
+}
+assert.ok(integrity.includes("bucket_id='character-portraits'"));
+assert.ok(integrity.includes('missing_source_objects')&&integrity.includes('unreferenced_portrait_objects'));
+const sqlOnly=integrity.replace(/--[^\\n]*/g,'');
+assert.doesNotMatch(sqlOnly,/\\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|GRANT|REVOKE)\\b/i,
+  'Backup integrity check must remain read-only');
+assert.ok(restoreRunbook.includes('изолированный')&&restoreRunbook.includes('Storage')&&restoreRunbook.includes('pg_dump'),
+  'Backup documentation must require separate Storage copies and isolated restoration');
+console.log('PASS: v0.2 backup-integrity SQL stays read-only and covers characters, templates, history and portraits');
 console.log('PASS: v0.2 static SQL/RLS, private portrait, JSON v1 and system availability guards');
