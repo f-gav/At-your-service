@@ -593,14 +593,16 @@ try {
     if(width===360){
       // A selected phrase summons a portalled toolbar; it must stay inside a
       // narrow phone viewport rather than using the desktop 370px width.
-      const editor=pages.first().locator('.pf-rich-editable').first();
+      const editor=pages.nth(1).locator('.pf-paper-held .pf-rich-editable').first();
       await editor.evaluate(el=>{
         el.focus();
-        if(!el.textContent?.trim())el.textContent='Проверка мобильного выделения';
+        const firstText=[...el.childNodes].find(node=>node.textContent?.trim());
+        if(!firstText)throw new Error('Inventory fixture must contain selectable text');
         const selection=window.getSelection(),range=document.createRange();
-        range.selectNodeContents(el);
+        range.selectNodeContents(firstText);
         selection?.removeAllRanges();selection?.addRange(range);
         document.dispatchEvent(new Event('selectionchange'));
+        el.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));
       });
       const toolbar=page.locator('.pf-rich-toolbar');
       await toolbar.waitFor();
