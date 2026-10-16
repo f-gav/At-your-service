@@ -68,8 +68,8 @@ for(const table of ['characters','sheet_admins','sheet_templates','sheet_templat
 }
 assert.ok(integrity.includes("bucket_id='character-portraits'"));
 assert.ok(integrity.includes('missing_source_objects')&&integrity.includes('unreferenced_portrait_objects'));
-const sqlOnly=integrity.replace(/--[^\\n]*/g,'');
-assert.doesNotMatch(sqlOnly,/\\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|GRANT|REVOKE)\\b/i,
+const sqlOnly=integrity.replace(/--[^\n]*/g,'');
+assert.doesNotMatch(sqlOnly,/\b(INSERT|UPDATE|DELETE|TRUNCATE|DROP|ALTER|CREATE|GRANT|REVOKE)\b/i,
   'Backup integrity check must remain read-only');
 assert.ok(restoreRunbook.includes('изолированный')&&restoreRunbook.includes('Storage')&&restoreRunbook.includes('pg_dump'),
   'Backup documentation must require separate Storage copies and isolated restoration');
