@@ -156,15 +156,21 @@ export default function PathfinderSheet({
     void loadPfSpellViews(controller.signal).then(setSpellViews).catch(()=>{});
     return()=>controller.abort();
   },[spellMode]);
+  // Index the catalogue once per load, instead of scanning every spell for
+  // each selected entry on every page render and inside every category.
+  const spellViewsById=useMemo(()=>new Map(spellViews.map(view=>[view.id,view])),[spellViews]);
+  const preparedSpellViews=useMemo(()=>savedSpells.filter(entry=>entry.prepared)
+    .map(entry=>spellViewsById.get(entry.id))
+    .filter((view):view is SpellView=>!!view),[savedSpells,spellViewsById]);
   const grimoireColumns=useMemo(()=>{
-    const prepared=savedSpells.filter(x=>x.prepared).map(x=>spellViews.find(v=>v.id===x.id)).filter((x):x is SpellView=>!!x);
+    const prepared=preparedSpellViews;
     const cantrips=prepared.filter(x=>x.spell.rank===0&&x.spell.kind==='cantrip');
     const focus=prepared.filter(x=>x.spell.kind==='focus');
     const rituals=prepared.filter(x=>x.spell.kind==='ritual');
     const innate=prepared.filter(x=>x.spell.kind==='special');
     const regular=prepared.filter(x=>x.spell.rank>0&&!['focus','ritual','special'].includes(x.spell.kind));
     return {cantrips,focus,rituals,innate,left:regular.filter((_,i)=>i%2===0),right:regular.filter((_,i)=>i%2===1)};
-  },[savedSpells,spellViews]);
+  },[preparedSpellViews]);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
     try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
     catch{return false;}
@@ -540,7 +546,7 @@ export default function PathfinderSheet({
           {visiblePages.map(page=><AlternativePathfinderPages key={page}
             page={page==='notes'?'notes':Number(page)} fields={templateFields}
             values={values} displayValues={displayValues} legacyHasValues={legacyHasValues}
-            preparedSpells={savedSpells.filter(x=>x.prepared).map(x=>spellViews.find(v=>v.id===x.id)).filter((x):x is SpellView=>!!x)}
+            preparedSpells={preparedSpellViews}
             spellMode={spellMode} onChange={(id,value)=>change(id,value)}
             disabled={editLocked} onAddLevel={()=>setValues(old=>addAdvancementLevel(old))}
             onRemoveLevel={level=>setValues(old=>removeAdvancementLevel(old,level))}
