@@ -28,7 +28,7 @@ import './AlternativePathfinderMagic.css';
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
   legacyHasValues:boolean;preparedSpells:SpellView[];spellMode:'library'|'text';
-  onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;
+  onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;onOpenSpellCard:(spell:SpellView)=>void;
   onOpenSettings:()=>void;
   portraitUrl?:string;onEditPortrait:()=>void;
   onAddLevel:()=>void;onRemoveLevel:(level:number)=>void;disabled?:boolean;
@@ -91,7 +91,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
 }
 export default function AlternativePathfinderPages({
  page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
- onChange,onOpenGrimoire,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
+ onChange,onOpenGrimoire,onOpenSpellCard,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
  const consumed=new Set<string>();
@@ -211,8 +211,8 @@ export default function AlternativePathfinderPages({
        <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
       {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
-       className="pf-alt-spell-row" onClick={onOpenGrimoire}
-       aria-label={'Открыть гримуар: '+spell.name}>
+       className="pf-alt-spell-row" onClick={()=>onOpenSpellCard(spell)}
+       aria-label={'Открыть карточку заклинания: '+spell.name}>
        <strong>{spell.name}</strong>{prefix==='rituals_'?<><span>{spell.spell.rank}</span><span>—</span></>:<><span>{spellCast(spell)}</span>{prefix==='spellbook_'&&<span>{spell.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
       </button>)}
      </div>)}
