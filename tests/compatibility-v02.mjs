@@ -1,9 +1,26 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {exportCharacter,parseCharacterJson} from '../src/lib/character-json.ts';
+import {build} from 'esbuild';
+
+// Production modules intentionally use Vite-resolved extensionless imports.
+// Bundle the actual TypeScript sources for Node tests, stubbing only the
+// network-only Supabase client (no live queries or uploads are performed).
+async function loadForTest(entry){
+  const output=await build({
+    entryPoints:[entry],bundle:true,write:false,platform:'node',format:'esm',
+    plugins:[{name:'supabase-network-stub',setup(builder){
+      builder.onResolve({filter:/\\/lib\\/supabase$/},()=>({path:'test-supabase',namespace:'compat-stub'}));
+      builder.onLoad({filter:/.*/,namespace:'compat-stub'},()=>({
+        contents:'export const supabase=null;',loader:'js'
+      }));
+    }}],
+  });
+  return import('data:text/javascript;base64,'+Buffer.from(output.outputFiles[0].contents).toString('base64'));
+}
+const {exportCharacter,parseCharacterJson}=await loadForTest('src/lib/character-json.ts');
+const {parsePortraitTransfer}=await loadForTest('src/features/portrait/portrait-json.ts');
 import {initialSheetValues,persistSheetValues} from '../src/features/pathfinder/sheet-values.ts';
 import {readMoonSheet,saveMoonSheet} from '../src/features/project-moon/model.ts';
-import {parsePortraitTransfer} from '../src/features/portrait/portrait-json.ts';
 import {validCrops} from '../src/features/portrait/crop.ts';
 
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
