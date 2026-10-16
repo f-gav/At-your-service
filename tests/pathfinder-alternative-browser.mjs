@@ -194,10 +194,10 @@ try {
     });
     console.log('PF2e alternative '+width+'px metrics: '+JSON.stringify(metrics));
     assert.ok(metrics.every(m=>m.sectionCount>=(m.id==='pf-sheet-page-2'?2:4)),'Each page retains its sections');
-    // No part of the HTML sheet may be clipped horizontally by its paper boundary.
-    // At 360px the existing hero text/page-two overflow is outside this ability-only change.
-    // Ability bounds above are still checked strictly at every viewport.
-    assert.ok(width===360 || metrics.every(m=>m.scrollW<=m.clientW+4),
+    // All widths, including 360px, must stay inside the paper's scroll box.
+    // Intentionally cropped source artwork can extend within overflow:hidden;
+    // the actual page scrollWidth must still fit its clientWidth.
+    assert.ok(metrics.every(m=>m.scrollW<=m.clientW+4),
       'Text inputs/columns must fit inside each HTML page: '+JSON.stringify(metrics.filter(m=>m.scrollW>m.clientW+4)));
     if(width>=1100){
       const strip=await pages.first().evaluate(root=>{
