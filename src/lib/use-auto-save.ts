@@ -54,6 +54,9 @@ export function useAutoSave({
     }
     const payload=currentRef.current;
     if(payload===savedRef.current) return true;
+    // Persist the latest edits locally before an asynchronous network request.
+    // A tab can be closed before React runs its ordinary draft-writing effect.
+    writeLocalDraft(draftKey,savedRef.current,payload);
     if(typeof navigator!=='undefined' && !navigator.onLine) {
       if(mounted.current){setError('Нет соединения с интернетом. Черновик сохранён на устройстве.');setFailedSnapshot(payload);}
       return false;
@@ -107,9 +110,17 @@ export function useAutoSave({
 
   useEffect(()=>{
     if(!enabled)return;
-    const onVisible=()=>{
-      if(document.visibilityState==='hidden' && currentRef.current!==savedRef.current)void saveNow();
+    const preservePending=()=>{
+      if(currentRef.current!==savedRef.current)
+        writeLocalDraft(draftKey,savedRef.current,currentRef.current);
     };
+    const onVisible=()=>{
+      if(document.visibilityState==='hidden'){
+        preservePending();
+        if(currentRef.current!==savedRef.current)void saveNow();
+      }
+    };
+    const onPageHide=()=>preservePending();
     const onOnline=()=>{
       if(currentRef.current!==savedRef.current) {
         setFailedSnapshot(null);
@@ -117,17 +128,22 @@ export function useAutoSave({
       }
     };
     const onBeforeUnload=(event:BeforeUnloadEvent)=>{
-      if(currentRef.current!==savedRef.current) event.preventDefault();
+      if(currentRef.current!==savedRef.current){
+        preservePending();
+        event.preventDefault();
+      }
     };
     document.addEventListener('visibilitychange',onVisible);
     window.addEventListener('online',onOnline);
+    window.addEventListener('pagehide',onPageHide);
     window.addEventListener('beforeunload',onBeforeUnload);
     return ()=>{
       document.removeEventListener('visibilitychange',onVisible);
       window.removeEventListener('online',onOnline);
+      window.removeEventListener('pagehide',onPageHide);
       window.removeEventListener('beforeunload',onBeforeUnload);
     };
-  },[saveNow,enabled]);
+  },[saveNow,enabled,draftKey]);
 
   return {
     dirty, saving, error, savedAt,
