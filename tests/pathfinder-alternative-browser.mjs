@@ -547,8 +547,8 @@ try {
       assert.ok((await held.innerText()).includes('Свёрток с рунами'),'Existing inventory contents remain readable');
       await equipment.locator('.pf-paper-bag input').fill('8');
       assert.equal(await equipment.locator('.pf-paper-bag input').inputValue(),'8');
-      assert.deepEqual(await equipment.locator('.pf-alt-coin input').evaluateAll(nodes=>nodes.map(el=>el.value)),['12','23','34','45'],
-        'Alternative coin labels match the classic PDF positions without moving saved values');
+      assert.deepEqual(await equipment.locator('.pf-alt-coin input').evaluateAll(nodes=>nodes.map(el=>el.value)),['45','34','23','12'],
+        'Coin labels match the semantic values in copper, silver, gold and platinum order');
       const gold=equipment.getByRole('textbox',{name:'ЗМ',exact:true});await gold.fill('27');assert.equal(await gold.inputValue(),'27');
       const attunement=equipment.locator('.pf-paper-worn .pf-rich-editable').nth(1);await attunement.fill('1');assert.equal(await attunement.innerText(),'1');
       await equipment.screenshot({path:'test-artifacts/pf-alt-equipment-desktop.png'});
