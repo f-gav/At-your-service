@@ -36,6 +36,12 @@ assert.match(sheet,/field\.kind === 'long'[\s\S]{0,850}return <RichField/,
  'Long fields still render through RichField; spell tables now calculate their row-wide span first');
 assert.match(sheet,/withMagicTraditionHalfCircles/);
 assert.match(admin,/withMagicTraditionHalfCircles/);
+assert.match(rich,/if\(!editor\|\|disabled\)return;/,
+ 'Locked rich-text editors must not serialize or recalculate changes');
+assert.match(rich,/if\(disabled\)return;[\s\S]*?const target=event\.target/,
+ 'Clicking embedded resources and spoilers must not mutate a locked editor');
+assert.match(rich,/if\(disabled\)\{event\.preventDefault\(\);return;\}/,
+ 'Paste must not edit a locked editor');
 assert.match(rich,/selectionchange/);
 for(const action of ["bold","italic","underline","insertUnorderedList","createLink","resource","task"])
  assert.ok(rich.includes(action),'Missing formatting '+action);
