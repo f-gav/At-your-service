@@ -481,6 +481,11 @@ try{
   await preview.route('**/spell-library/pf2e-ays-rank2-cycle*.json',route=>route.fulfill({
     status:200,contentType:'application/json',body:JSON.stringify({entries:[]})
   }));
+  // Keep this synthetic 55-item fixture independent from production class packs.
+  await preview.route('**/spell-library/pf2e-necromancer.json',route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({schemaVersion:1,system:'pf2e',spells:[],versions:[],translations:[],sources:[]})
+  }));
   await preview.goto(base+'#library',{waitUntil:'networkidle'});
   await preview.getByText('55 записей',{exact:true}).waitFor();
   assert.equal(await preview.locator('.spell-result').count(),50,'Catalog results are paginated');
