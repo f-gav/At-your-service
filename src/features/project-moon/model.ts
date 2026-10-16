@@ -74,8 +74,8 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
   const initial = emptyMoonSheet();
   const fields = record(stored.fields);
   const overrides = record(stored.maxOverrides);
-  const readItems = (value: unknown, fallback: MoonItem[]) => Array.isArray(value)
-    ? value.slice(0, 100).map((entry, index) => item(entry, 'skill-' + (index + 1))) : fallback;
+  const readItems = (value: unknown, fallback: MoonItem[], idPrefix: 'skill' | 'note') => Array.isArray(value)
+    ? value.slice(0, 100).map((entry, index) => item(entry, idPrefix + '-' + (index + 1))) : fallback;
   return {
     schemaVersion: 1,
     fields: Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] =>
@@ -94,8 +94,8 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
       ? stored.weapons.slice(0, 100).map((entry, index) => weapon(entry, 'weapon-' + (index + 1)))
         .concat(initial.weapons.slice(Math.min(stored.weapons.length, 2)))
       : initial.weapons,
-    skills: readItems(stored.skills, initial.skills),
-    notes: readItems(stored.notes, initial.notes),
+    skills: readItems(stored.skills, initial.skills, 'skill'),
+    notes: readItems(stored.notes, initial.notes, 'note'),
   };
 }
 
