@@ -155,7 +155,8 @@ function spellTypeLabel(spell:SpellView):string{
   return `Особая магия ${rank}-го ${level}`;
 }
 const PF_TRAIT_LABELS:Record<string,string>={
-  cantrip:'Чары',acid:'Кислота',air:'Воздух',attack:'Атака',
+  cantrip:'Чары',focus:'Фокальное',necromancer:'Некромант',thrall:'Прислужник',
+  acid:'Кислота',air:'Воздух',attack:'Атака',
   auditory:'Слуховой',cold:'Холод',concentrate:'Концентрация',
   detection:'Обнаружение',earth:'Земля',electricity:'Электричество',
   fire:'Огонь',illusion:'Иллюзия',manipulate:'Манипуляция',
@@ -202,7 +203,9 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
     ['Область',localizeRuleValue(rules.area||'—','area')],
     ['Защита',localizeRuleValue(rules.savingThrow||'—','savingThrow')],
     ['Длительность',localizeRuleValue(rules.duration||'—','duration')],
-    ...(rules.resource==='spell-slot'?[['Расход','Ячейка заклинания']]:[]),
+    ...(rules.resource==='spell-slot'?[['Расход','Ячейка заклинания']]:
+        rules.resource==='focus-point'?[['Расход','1 ФП']]:
+        rules.resource==='none'?[['Расход','Без ячеек и ФП']]:[]),
   ].filter(([k,v])=>v!=='—'||k==='Сотворение');
   const name=spell.name===spell.englishName?spell.name:`${spell.name} [${spell.englishName}]`;
   const descriptors=entry.traits.filter(t=>t!=='cantrip').map(t=>PF_TRAIT_LABELS[t]||t);
@@ -249,7 +252,10 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
     <section className="spell-availability" aria-label="Доступность заклинания">
       <h3>Доступно</h3>
       {entry.system==='pf2e'
-        ? <div className="spell-traditions">{entry.traditions.map(t=><span key={t}>{PF_TRADITIONS[t]}</span>)}</div>
+        ? <div className="spell-traditions">
+            {entry.traditions.map(t=><span key={t}>{PF_TRADITIONS[t]}</span>)}
+            {entry.classes.map(t=><span key={t}>{t==='necromancer'?'Некромант':t}</span>)}
+          </div>
         : <div className="spell-traditions">{entry.classes.map(t=><span key={t}>{t}</span>)}</div>}
       {entry.rarity!=='common'&&<p className="spell-rarity">Редкость: {RARITY_LABELS[entry.rarity]}</p>}
     </section>
@@ -343,6 +349,24 @@ export default function SpellLibrary({onBack}:Props){
           // Author translation contains complete mechanics, including outcomes and heightened text.
           // Do not mutate the original English version metadata.
         }
+        // Class-only necromancer grave magic ships separately from the historical
+        // spell-slot catalog, so its rank-1 cantrips and focus spells don't alter
+        // the 483-record base file or earlier translation tracking.
+        const necroResponse=await fetch(`${import.meta.env.BASE_URL}spell-library/pf2e-necromancer.json`,{signal:controller.signal});
+        if(!necroResponse.ok)throw new Error(`Не загружены заклинания некроманта: HTTP ${necroResponse.status}`);
+        const necro=parseSpellCatalog(await necroResponse.json(),'pf2e');
+        const existingSpellIds=new Set(base.spells.map(s=>s.id));
+        const existingVersionIds=new Set(base.versions.map(v=>v.id));
+        const existingSourceIds=new Set(base.sources.map(s=>s.id));
+        if(necro.spells.some(s=>existingSpellIds.has(s.id))||
+           necro.versions.some(v=>existingVersionIds.has(v.id))||
+           necro.sources.some(s=>existingSourceIds.has(s.id))){
+          throw new Error('Повторяющиеся идентификаторы в пакете заклинаний некроманта');
+        }
+        base.spells.push(...necro.spells);
+        base.versions.push(...necro.versions);
+        base.translations.push(...necro.translations);
+        base.sources.push(...necro.sources);
         return base;
       })
       .then(data=>{if(active){setCatalog(data);setLoadState('ready');}})
@@ -384,13 +408,13 @@ export default function SpellLibrary({onBack}:Props){
   function chooseRank(rank:number|'all'){
     setFilters(old=>({...old,rank}));
     // Cantrips are stored at rank 0, while ordinary spells start at rank 1.
-    if((rank===0&&section==='spell')||(rank!==0&&rank!=='all'&&section==='cantrip'))
+    if((rank===0&&section==='spell')||(rank!==0&&rank!==1&&rank!=='all'&&section==='cantrip'))
       setSection('all');
     setSelectedId(null);
   }
   function chooseCategory(kind:Section){
     setSection(kind);
-    if((kind==='cantrip'&&filters.rank!=='all'&&filters.rank!==0)||
+    if((kind==='cantrip'&&filters.rank!=='all'&&filters.rank!==0&&filters.rank!==1)||
        (kind==='spell'&&filters.rank===0))
       setFilters(old=>({...old,rank:'all'}));
     setSelectedId(null);
@@ -497,7 +521,7 @@ export default function SpellLibrary({onBack}:Props){
           <label>Класс
             <select value={filters.className} onChange={e=>update('className',e.target.value)}>
               <option value="all">Все классы</option>
-              {classOptions.map(name=><option key={name} value={name}>{name}</option>)}
+              {classOptions.map(name=><option key={name} value={name}>{name==='necromancer'?'Некромант':name}</option>)}
             </select>
           </label>
           <label>Источник
