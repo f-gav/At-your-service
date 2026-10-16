@@ -548,7 +548,7 @@ try {
       const originalText=await held.innerText();
       await held.fill('Предмет один\nПредмет два\nПредмет три');
       assert.ok((await held.innerText()).includes('Предмет три'),'Inventory accepts multiline text');
-      const sizeGroup=equipment.locator('.pf-paper-held .pf-text-size-controls');
+      const sizeGroup=equipment.locator('#pf-alt-inventory_held .pf-text-size-controls');
       const originalSize=Number(await sizeGroup.locator('output').innerText());
       await sizeGroup.getByRole('button',{name:/Увеличить текст/}).click();
       assert.equal(Number(await sizeGroup.locator('output').innerText()),originalSize+1,'Inventory text size is adjustable');
