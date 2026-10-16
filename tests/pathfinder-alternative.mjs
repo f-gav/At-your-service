@@ -8,6 +8,15 @@ assert.equal(changed.pf2e_layout,'alternative');
 for(const key of ['level','ability_int','spell_dc','pf_spell_library_selection'])assert.equal(changed[key],original[key]);
 const app=read('../src/App.tsx'),sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const html=read('../src/features/pathfinder/AlternativePathfinderPages.tsx');
+const spellLoader=read('../src/features/pathfinder/SpellGrimoire.tsx');
+assert.match(sheet,/const spellViewsById=useMemo\(\(\)=>new Map\(spellViews\.map/,'Spell catalogue must be indexed once per load');
+assert.match(sheet,/const preparedSpellViews=useMemo\(/,'Prepared spell views must be shared across pages');
+assert.match(sheet,/preparedSpells=\{preparedSpellViews\}/,'Alternative pages must reuse memoized prepared spells');
+assert.match(spellLoader,/const englishByName=new Map/,'Translations use an English-name index');
+assert.match(spellLoader,/const russianByVersion=new Map/,'Russian translations use a version index');
+assert.ok(!spellLoader.includes('base.translations.find(')&&!spellLoader.includes('base.translations.findIndex('),
+  'Translation overlays must avoid repeated catalogue scans');
+
 for(const label of ['Альтернативный PF2e','Классический PF2e'])assert.ok(app.includes(label)||sheet.includes(label));
 for(const marker of ['page===1','page===2','page===3','page===4',"page==='notes'",'RichField'])assert.ok(html.includes(marker),marker);
 assert.ok(app.includes('pendingImport&&'));
