@@ -546,7 +546,7 @@ try {
       const held=equipment.locator('.pf-paper-held .pf-rich-editable').first();
       assert.ok((await held.innerText()).includes('Свёрток с рунами'),'Existing inventory contents remain readable');
       const originalText=await held.innerText();
-      await held.fill('Предмет один\\nПредмет два\\nПредмет три');
+      await held.fill('Предмет один\nПредмет два\nПредмет три');
       assert.ok((await held.innerText()).includes('Предмет три'),'Inventory accepts multiline text');
       const sizeGroup=equipment.locator('.pf-paper-held .pf-text-size-controls');
       const originalSize=Number(await sizeGroup.locator('output').innerText());
