@@ -399,7 +399,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         role="textbox" aria-label={label} aria-multiline="true"
         contentEditable={!disabled} suppressContentEditableWarning spellCheck={false}
         data-placeholder={placeholder??''}
-        onInput={()=>{if(disabled)return;if(!convertDividerShortcut())emit();}}
+        onInput={()=>{if(!convertDividerShortcut())emit();}}
         onMouseUp={event=>{pointerRef.current={x:event.clientX,y:event.clientY};refresh();}}
         onKeyUp={event=>{if(event.key!=='Shift')pointerRef.current=null;refresh();}}
         onClick={handleTokenClick}
