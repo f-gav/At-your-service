@@ -23,6 +23,8 @@ try {
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,variant:'alternative',expected:4},
+    {system:'pf2e',notes:true,extras:false,variant:'alternative',expected:5},
+    {system:'pf2e',notes:false,extras:false,variant:'alternative',long:true,expectedMin:5,expectedMax:10},
     {system:'prmoon',notes:false,extras:true,expected:7},
   ];
   for(const [index,test] of cases.entries()){
@@ -31,7 +33,7 @@ try {
     const logs=[];
     page.on('pageerror',error=>logs.push(String(error)));
     try{
-      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}`,{waitUntil:'domcontentloaded'});
+      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}&long=${test.long?'1':'0'}`,{waitUntil:'domcontentloaded'});
       const selector=test.system==='pf2e'?(test.variant==='alternative'?'.pf-alt-page':'.pf-sheet-page'):'.moon-paper';
       await page.waitForSelector(selector);
       const expectedDom=test.system==='pf2e'?(test.notes?5:4):4;
