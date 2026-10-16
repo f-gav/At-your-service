@@ -152,7 +152,7 @@ export default function AlternativePathfinderPages({
      f.kind==='select'?
       <select aria-label={label} value={String(value)} disabled={fieldLocked||computedReadonly}
         onChange={e=>onChange(id,e.target.value)}>
-        <option value="">{page===1&&id==='size'?'':'—'}</option>{String(value)&&!(f.options||[]).includes(String(value))&&<option value={String(value)}>{String(value)}</option>}{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>}
+        <option value="">{page===1&&id==='size'?'':'—'}</option>{String(value)&&!(f.options||[]).includes(String(value))&&<option value={String(value)}>{String(value)}</option>}{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>)}
       </select>:
       <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
         value={String(value)} readOnly={computedReadonly} disabled={fieldLocked} aria-label={label}
