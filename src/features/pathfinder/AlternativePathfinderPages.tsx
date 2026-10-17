@@ -197,11 +197,11 @@ export default function AlternativePathfinderPages({
     </Section>;
   }
   keys.forEach(id=>consumed.add(id));
-  const rows=preparedSpells.filter(s=>prefix.startsWith('cantrip_')?s.spell.rank===0&&s.spell.kind==='cantrip':
+  const rows=preparedSpells.filter(s=>prefix.startsWith('cantrip_')?s.spell.kind==='cantrip':
    prefix.startsWith('focus_')?s.spell.kind==='focus':
    prefix.startsWith('innate_')?s.spell.kind==='special':
    prefix.startsWith('rituals_')?s.spell.kind==='ritual':
-   s.spell.rank>0&&!['focus','ritual','special'].includes(s.spell.kind));
+   s.spell.kind==='spell');
   const columns=prefix==='spellbook_'||prefix==='rituals_'?2:1;
   return <Section index={index} title={title} wide className={'pf-paper-spell-panel pf-paper-panel-'+prefix.replace('_','')}>
    <div className="pf-alt-spells">
