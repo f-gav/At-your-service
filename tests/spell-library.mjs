@@ -641,6 +641,8 @@ assert.equal(necro.sources.length,1);
 const necroViews=toSpellViews(necro,'pf2e-remaster');
 assert.equal(necroViews.length,10);
 assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,className:'necromancer'}).length,10);
+assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,query:'Некромант'}).length,10,
+  'Russian class name searches all ten class-specific spells');
 assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,tradition:'occult'}).length,0);
 assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,kind:'focus'}).length,8);
 for(const card of necroViews){
@@ -656,6 +658,8 @@ assert.equal(necroViews.find(v=>v.spell.slug==='bone-spear')?.rules.savingThrow,
 assert.equal(necroViews.find(v=>v.spell.slug==='dead-weight')?.rules.outcomes?.criticalFailure,'Существо замедлено 2 и застигнуто врасплох.');
 assert.equal(necroViews.find(v=>v.spell.slug==='necrotic-bomb')?.rules.heightened?.['+1'],'Урон увеличивается на 1d12.');
 assert.ok(page.includes('pf2e-necromancer.json'),'React library merges new class spell pack');
+assert.ok(page.includes('Классы заклинаний')&&page.includes('Все классы'),
+  'The Necromancer class must have a visible quick-selection row');
 console.log('PASS: Necromancer 10 remaster grave spells, Russian cards, class filter, focus resources');
 
 const routeId='550e8400-e29b-41d4-a716-446655440000';
