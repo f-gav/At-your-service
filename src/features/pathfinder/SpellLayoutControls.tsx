@@ -4,7 +4,7 @@ import {GripVertical,Plus,X} from 'lucide-react';
 import type {KeyboardEvent,MouseEvent,PointerEvent,ReactNode} from 'react';
 import type {SpellView} from '../spell-library/catalog';
 import {
-  PF_SPELL_LAYOUT,SPELL_ZONES,resolveSpellLayout,moveSpellLayout,addSpellDivider,
+  SPELL_ZONES,resolveSpellLayout,moveSpellLayout,addSpellDivider,
   setSpellDividerTitle,deleteSpellDivider,spellZoneRows,
 } from './spell-layout';
 import type {SpellZone,SpellLayoutRow} from './spell-layout';
