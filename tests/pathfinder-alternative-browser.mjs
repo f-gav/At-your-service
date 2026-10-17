@@ -673,6 +673,30 @@ try {
   await magic.locator('.pf-alt-spell-area').first().focus();
   await libraryPage.keyboard.press('Enter');await grimoire.waitFor();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+
+  // Regression: the sheet's class settings (not the separate public library)
+  // must offer Necromancer and expose its class-exclusive focus magic.
+  await magic.getByRole('button',{name:'Настройки магии'}).click();
+  const spellSettings=libraryPage.getByRole('dialog',{name:'Настройки заклинаний'});
+  await spellSettings.waitFor();
+  const necromancer=spellSettings.getByRole('checkbox',{name:'Некромант'});
+  assert.ok(await necromancer.isVisible(),'Necromancer checkbox is available in the sheet settings');
+  await necromancer.check();
+  assert.ok(await necromancer.isChecked());
+  await spellSettings.getByRole('button',{name:'Закрыть настройки заклинаний'}).click();
+  await magic.getByRole('button',{name:'Открыть гримуар',exact:true}).click();
+  await grimoire.locator('.pf-grimoire-item').filter({hasText:'Создание прислужника'}).waitFor();
+  const thrall=grimoire.locator('.pf-grimoire-item').filter({hasText:'Создание прислужника'});
+  const spear=grimoire.locator('.pf-grimoire-item').filter({hasText:'Костяное копьё'});
+  await thrall.getByRole('button',{name:/^Добавить/}).click();
+  await spear.getByRole('button',{name:/^Добавить/}).click();
+  await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
+  assert.ok(await magic.locator('.pf-paper-panel-cantrip .pf-alt-spell-row')
+    .filter({hasText:'Создание прислужника'}).isVisible(),
+    'Create Thrall is rendered in the Cantrips panel, not as a spell slot');
+  assert.ok(await magic.locator('.pf-paper-panel-focus .pf-alt-spell-row')
+    .filter({hasText:'Костяное копьё'}).isVisible(),
+    'Bone Spear is rendered in the Focus Spell panel');
   await libraryPage.close();
 
   // The save simulator delays responses to exercise edits made during an
