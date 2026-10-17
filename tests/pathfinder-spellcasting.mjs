@@ -140,7 +140,7 @@ assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips
 assert.match(grimoire,/s\.spell\.traditions\.length===0&&s\.spell\.classes\.length>0/,
   'Class-exclusive spells must not be unlocked by the occult tradition alone');
 assert.match(sheet,/useSpellLayoutUi\(preparedSpellViews/,'Spell placement is shared across classic and alternative layouts');
-assert.match(alternative,/prefix\.startsWith\('cantrip_'\)\?s\.spell\.kind==='cantrip'/);
+assert.match(alternative,/prefix==='cantrip_'\?\['cantrip'\]/,'HTML sheet automatically assigns cantrips to their proper zone');
 assert.match(sheet,/useSpellLayoutUi\(preparedSpellViews/,'Spell placement is shared across classic and alternative layouts');
 
 assert.match(sheet,/PF_SPELL_SELECTION/);
