@@ -25,7 +25,7 @@ assert.ok(sheet.includes('moon-resource-controls'));
 assert.ok(sheet.includes("moonDisplayedMax(sheet, id)"));
 assert.ok(sheet.includes("moonCalculatedMax(sheet, id)"));
 assert.ok(sheet.includes("updateWeaponById(weapon.id,{rank:e.target.value})"));
-assert.ok(sheet.includes("updateSkill(index,{[key]:e.target.value})"));
+assert.ok(sheet.includes("updateSkill(skill.id,{[key]:e.target.value})"));
 assert.ok(css.includes('min-height: 297mm'));
 assert.ok(css.includes('width: min(100%, 210mm)'));
 assert.ok(css.includes('border-left: 7px solid'));
