@@ -24,6 +24,21 @@ if(extras){
     rank:'1',light:'2',ep:'0',body:'Пример описания боевого приёма',
   });
 }
+// 0.3.4 fixture: all inventory columns and enlarged ruled notes are included
+// in actual Chromium rendering and PDF capture, not only in JSON model tests.
+if(params.get('inventory')==='1'){
+  moon.inventoryColumns=4;
+  moon.fields.inventory='ПЕРВАЯ КОЛОНКА: комплект выживания';
+  moon.fields.inventory2='ВТОРАЯ КОЛОНКА: аптечка';
+  moon.fields.inventory3='ТРЕТЬЯ КОЛОНКА: запасной инструмент';
+  moon.fields.inventory4='ЧЕТВЕРТАЯ КОЛОНКА: личные вещи';
+  moon.textSizes.inventory=18;
+  moon.textSizes.inventory2=15;
+  moon.textSizes.inventory3=14;
+  moon.textSizes.inventory4=12;
+  moon.notes[0].body='Заметка с увеличенным размером текста';
+  moon.textSizes['note:note-1']=21;
+}
 const character:Character={
   id:'pdf-test-character',user_id:'pdf-test-user',system,
   name:'PDF тест — персонаж',
