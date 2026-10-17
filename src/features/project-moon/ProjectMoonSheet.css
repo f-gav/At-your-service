@@ -156,6 +156,15 @@
 .moon-inventory-heading .moon-section-title { flex: 1; }
 .moon-inventory-columns-control { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 10px; color: #555e63; }
 .moon-inventory-columns-control select { border: 1px solid var(--moon-line); background: #fff; color: #202325; padding: 2px 5px; font: inherit; }
+.moon-inventory-hidden-hint {
+  margin: 3px 0 6px;
+  color: #515b61;
+  font-size: 10px;
+  line-height: 1.35;
+}
+@media print {
+  .moon-inventory-hidden-hint { display: none !important; }
+}
 .moon-inventory-grid { display: grid; grid-template-columns: repeat(var(--moon-inventory-columns), minmax(0, 1fr)); border: 1px solid var(--moon-line); min-width: 0; }
 .moon-inventory-column { min-width: 0; overflow: hidden; }
 .moon-inventory-column + .moon-inventory-column { border-left: 1px solid #aeb5ba; }
