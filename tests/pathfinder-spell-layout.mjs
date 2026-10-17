@@ -35,6 +35,8 @@ let moved=resolveSpellLayout(base,persisted);
 assert.deepEqual(spellZoneRows(moved,'spellbook-right').map(row=>row.id),['bone-spear','healing']);
 assert.equal(base[2].spell.kind,'focus','Manual visual positioning must not rewrite class mechanics');
 assert.equal(JSON.stringify(base),original,'Source spells are immutable');
+assert.equal(moveSpellLayout(base,persisted,'bone-spear','spellbook-right','bone-spear'),persisted,
+  'Dropping on the original row does not unexpectedly move it to the bottom');
 
 persisted=moveSpellLayout(base,persisted,'healing','spellbook-right','bone-spear');
 assert.deepEqual(spellZoneRows(resolveSpellLayout(base,persisted),'spellbook-right').map(row=>row.id),
