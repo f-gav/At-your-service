@@ -1,0 +1,76 @@
+/* Draggable spell placements: the grabber is the ONLY pointer-drag surface.
+ * This keeps spell names clickable and page scrolling functional on phones. */
+.pf-spell-drag-handle{
+  border:0;background:transparent;color:#849388;
+  cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:0;width:19px;min-width:19px;height:22px;border-radius:3px;
+}
+.pf-spell-drag-handle:active{cursor:grabbing;color:#245a3b;background:#e5eee7}
+.pf-spell-drag-handle:hover,.pf-spell-drag-handle:focus-visible{
+  color:#245a3b;background:#e6efea;outline-offset:-2px;
+}
+.pf-spell-drag-handle:disabled{opacity:.35;cursor:default}
+.pf-spell-drop-active{outline:2px dashed #67967c!important;outline-offset:-2px}
+.pf-spell-divider{display:flex;align-items:center;position:relative;min-width:0;
+  width:100%;min-height:25px;gap:3px;color:#677d6d}
+.pf-spell-divider::before{content:"";position:absolute;left:19px;right:17px;
+  top:50%;border-top:1px solid #a8b4a9;pointer-events:none}
+.pf-spell-divider .pf-spell-drag-handle{position:relative;z-index:2;flex:none}
+.pf-spell-divider input{position:relative;z-index:2;flex:1;width:0;min-width:0;
+  font:inherit;color:#315842;background:#fff;border:0;border-radius:2px;
+  padding:2px 4px;outline-offset:1px}
+.pf-spell-divider input::placeholder{color:#93a198;font-style:italic}
+.pf-spell-divider-remove{position:relative;z-index:2;flex:none;width:16px;height:20px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:0;color:#82968a;cursor:pointer;padding:0}
+.pf-spell-divider-remove:hover{color:#a33}
+.pf-spell-divider-add{display:flex;align-items:center;gap:3px;justify-content:center;
+  border:0;background:transparent;color:#789583;font-size:10px;line-height:1.4;
+  padding:3px 4px;cursor:pointer;max-width:100%}
+.pf-spell-divider-add:hover{color:#315f42;background:#e8f0e8}
+.pf-spell-divider-add:disabled{opacity:.4;cursor:default}
+.pf-spell-context-menu{position:fixed;z-index:31000;min-width:202px;padding:5px;
+  border:1px solid #bacabf;border-radius:7px;background:#fff;
+  box-shadow:0 8px 28px #172e2740;font:13px/1.4 'Segoe UI',Arial,sans-serif}
+.pf-spell-context-menu button{width:100%;display:flex;align-items:center;
+  gap:7px;text-align:left;background:transparent;border:0;border-radius:4px;
+  color:#34503e;padding:9px;cursor:pointer}
+.pf-spell-context-menu button:hover,.pf-spell-context-menu button:focus-visible{
+  background:#eaf0ea;outline-offset:-2px}
+
+/* Classic PDF overlay: keep each column row-height aligned, including dividers. */
+.pf-spell-layout-classic-cell{height:1.75em;min-height:1.75em;
+  display:flex;align-items:center;position:relative;flex:none;min-width:0}
+.pf-spell-layout-classic-cell .pf-spell-library-entry{flex:1;min-width:0}
+.pf-spell-layout-classic-cell .pf-spell-drag-handle{
+  flex:none;width:clamp(12px,1.45cqw,19px);min-width:0;height:1.75em;
+}
+.pf-spell-layout-classic-gap{display:block;height:1.75em;width:100%}
+.pf-spell-library-centered .pf-spell-layout-classic-cell{justify-content:center;width:100%}
+.pf-spell-library-centered .pf-spell-layout-classic-cell .pf-spell-library-entry{text-align:center}
+.pf-spell-library-field .pf-spell-divider{height:1.75em;min-height:1.75em;font-size:inherit}
+.pf-spell-library-field .pf-spell-divider input{
+  font-size:inherit;line-height:1.4;height:1.7em;background:#fffdfc}
+.pf-spell-library-field .pf-spell-divider .pf-spell-drag-handle{height:1.7em}
+.pf-spell-library-field .pf-spell-divider-add{font-size:clamp(7px,.85cqw,11px);flex:none}
+.pf-spell-library-field .pf-spell-divider-remove{width:12px}
+
+/* HTML sheet: drag grabber sits INSIDE the name column and outside the
+ * spell-name button, so clicking the name still opens the correct card. */
+.pf-paper-magic .pf-alt-spell-line{position:relative;min-width:0}
+.pf-paper-magic .pf-alt-spell-line .pf-alt-spell-row{
+  width:100%;padding-left:24px;cursor:pointer}
+.pf-paper-magic .pf-alt-spell-line>.pf-spell-drag-handle{
+  position:absolute;z-index:3;left:2px;top:50%;transform:translateY(-50%)}
+.pf-paper-magic .pf-alt-spell-divider{padding:1px 3px;max-width:100%}
+.pf-paper-magic .pf-alt-spell-divider input{font-size:11px;max-width:100%}
+.pf-paper-magic .pf-alt-spell-column>.pf-spell-divider-add{
+  position:relative;z-index:2;margin:3px 5px}
+.pf-paper-magic .pf-alt-spell-column:has(.pf-spell-drop-active){border-color:#67967c}
+@media print{
+ .pf-spell-drag-handle,.pf-spell-divider-add,.pf-spell-divider-remove,
+ .pf-spell-context-menu{display:none!important}
+ .pf-spell-divider input{background:transparent!important;border:0!important}
+ .pf-paper-magic .pf-alt-spell-line .pf-alt-spell-row{padding-left:4px}
+}
