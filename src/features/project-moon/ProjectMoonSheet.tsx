@@ -13,7 +13,7 @@ import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
 import {
   MOON_PAGES, MOON_ATTRIBUTES, readMoonSheet, saveMoonSheet,
-  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, addMoonSkill, addMoonWeapon, removeMoonWeapon, moonWeaponLetter,
+  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, moonDamageEstimate, addMoonSkill, addMoonWeapon, removeMoonWeapon, moonWeaponLetter,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
@@ -81,6 +81,12 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   });
   const [name,setName]=useState(()=>recovered?.name??character.name);
   const [sheet,setSheet]=useState(()=>recovered?.sheet??readMoonSheet(character.details));
+  // Transient calculator inputs: never persisted or applied to resources.
+  const [damageCalculatorOpen,setDamageCalculatorOpen]=useState(false);
+  const [damageType,setDamageType]=useState<'slash'|'pierce'|'blunt'>('slash');
+  const [damageRoll,setDamageRoll]=useState('');
+  const [damageAfterHp,setDamageAfterHp]=useState('');
+  const [damageAfterSt,setDamageAfterSt]=useState('');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [weaponOffset, setWeaponOffset] = useState(0);
   const [pendingWeaponDelete, setPendingWeaponDelete] = useState<string | null>(null);
@@ -470,8 +476,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
             {field('Реакции', 'reactions', 'По рангу')}
             <label className="moon-field">
               <span>Атака</span>
-              <small>+Ранг</small>
-              <input readOnly type="text" value={moonAttackBonus(sheet)} placeholder="—" aria-label="Бонус атаки" />
+              <small>По правилам: {moonAttackBonus(sheet) || '+Ранг'}</small>
+              <input type="text" value={sheet.fields.attackBonus ?? ''} disabled={editLocked}
+                onChange={event=>change('attackBonus',event.target.value)}
+                placeholder={moonAttackBonus(sheet) || '+Ранг'} aria-label="Бонус атаки" />
             </label>
             {field('Блок', 'blockBonus', '+Самообладание')}
             {field('Уклонение', 'evadeBonus', '+Проницательность')}
@@ -590,7 +598,38 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               <div className="moon-conditions-extra"><RichField id="moon-conditions" label="Дополнительные состояния"
                 value={sheet.fields.conditions ?? ''} onChange={value=>change('conditions',value)}
                 disabled={editLocked} grow placeholder="Другие состояния…" /></div>
+              <p className="moon-mechanics-hint">CR 3.x: ST = 0 — ошеломление (−5 SP, +1 Light); SP = 0 — паника; HP = 0 — кровотечение. Подсказки не изменяют ресурсы и состояния.</p>
             </div>
+          </div>
+          <div className="moon-damage-calculator">
+            <button type="button" className="text-button" aria-expanded={damageCalculatorOpen}
+              onClick={()=>setDamageCalculatorOpen(open=>!open)}>
+              {damageCalculatorOpen?'Скрыть калькулятор урона':'Калькулятор урона (необязательно)'}
+            </button>
+            {damageCalculatorOpen && <div className="moon-damage-calculator-content">
+              <p>Итог атаки × сопротивление + добавочный урон после сопротивления. Расчёт HP и ST раздельный; списания нет.</p>
+              <div className="moon-damage-calculator-controls">
+                <label>Итог атаки <input aria-label="Итог атаки для калькулятора" type="text" inputMode="decimal"
+                  value={damageRoll} onChange={event=>setDamageRoll(event.target.value)} placeholder="Например, 12"/></label>
+                <label>Тип урона <select aria-label="Тип урона для калькулятора" value={damageType}
+                  onChange={event=>setDamageType(event.target.value as typeof damageType)}>
+                  <option value="slash">Режущий</option><option value="pierce">Колющий</option><option value="blunt">Дробящий</option>
+                </select></label>
+                <label>Доп. урон HP <input aria-label="Добавочный урон HP" type="text" inputMode="decimal"
+                  value={damageAfterHp} onChange={event=>setDamageAfterHp(event.target.value)} placeholder="0"/></label>
+                <label>Доп. урон ST <input aria-label="Добавочный урон ST" type="text" inputMode="decimal"
+                  value={damageAfterSt} onChange={event=>setDamageAfterSt(event.target.value)} placeholder="0"/></label>
+              </div>
+              <div className="moon-damage-calculator-results">
+                {(['HP','ST'] as const).map(kind=>{
+                  const resist=sheet.fields['resistance'+kind+damageType] ?? '';
+                  const amount=moonDamageEstimate(damageRoll,resist,kind==='HP'?damageAfterHp:damageAfterSt);
+                  return <span key={kind}>{kind}: <strong>{amount===null?'—':amount}</strong>
+                    <small> (сопротивление: {resist||'не указано'})</small></span>;
+                })}
+              </div>
+              <small>Без дополнительного округления. Особые эффекты и округление согласуются с ведущим.</small>
+            </div>}
           </div>
         </section>
         <section className="moon-section">
@@ -626,7 +665,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               </div>
             </div>)}
           </div>
-          <button type="button" className="moon-add" disabled={editLocked || sheet.skills.length >= 100}
+          <button type="button" className="moon-add" disabled={editLocked}
             onClick={() => setSheet(old => addMoonSkill(old, 'skill-' + crypto.randomUUID()))}>
             <Plus size={16} /> Добавить приём
           </button>
