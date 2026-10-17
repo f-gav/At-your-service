@@ -722,6 +722,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       label={'оружие ' + moonWeaponLetter(pendingWeaponIndex)}
       disabled={editLocked} onCancel={() => setPendingWeaponDelete(null)}
       onConfirm={confirmWeaponDeletion} />}
+    {pendingSkillDelete && pendingSkillIndex >= 0 && <MoonWeaponDeleteDialog
+      kind="skill" label={'приём ' + (pendingSkillIndex + 1)}
+      disabled={editLocked} onCancel={() => setPendingSkillDelete(null)}
+      onConfirm={confirmSkillDeletion} />}
     {pageSettingsOpen && <MoonPageSettingsDialog
       order={pageOrder} disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
