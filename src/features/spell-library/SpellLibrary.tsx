@@ -14,6 +14,9 @@ import type {
 } from './catalog';
 import './SpellLibrary.css';
 
+const PF_CLASS_LABELS:Record<string,string>={necromancer:'Некромант'};
+const classLabel=(id:string)=>PF_CLASS_LABELS[id]??id;
+
 type Props={onBack:()=>void};
 type Section='all'|SpellKind|'mine';
 type Category={id:Section,label:string,description:string};
@@ -254,7 +257,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       {entry.system==='pf2e'
         ? <div className="spell-traditions">
             {entry.traditions.map(t=><span key={t}>{PF_TRADITIONS[t]}</span>)}
-            {entry.classes.map(t=><span key={t}>{t==='necromancer'?'Некромант':t}</span>)}
+            {entry.classes.map(t=><span key={t}>{classLabel(t)}</span>)}
           </div>
         : <div className="spell-traditions">{entry.classes.map(t=><span key={t}>{t}</span>)}</div>}
       {entry.rarity!=='common'&&<p className="spell-rarity">Редкость: {RARITY_LABELS[entry.rarity]}</p>}
@@ -485,6 +488,18 @@ export default function SpellLibrary({onBack}:Props){
               onClick={()=>chooseCategory(item.id)}>{item.label}</button>)}
           </div>
         </nav>
+        {system==='pf2e'&&classOptions.length>0&&<div className="spell-quick-group spell-class-group" aria-label="Классы заклинаний">
+          <span className="spell-quick-label">Класс</span>
+          <div className="spell-chips-scroll">
+            <button type="button" className={`spell-kind-chip${filters.className==='all'?' is-active':''}`}
+              aria-pressed={filters.className==='all'} onClick={()=>update('className','all')}>Все классы</button>
+            {classOptions.map(name=><button type="button" key={name}
+              className={`spell-kind-chip${filters.className===name?' is-active':''}`}
+              aria-pressed={filters.className===name} onClick={()=>update('className',name)}>
+              {classLabel(name)}
+            </button>)}
+          </div>
+        </div>}
       </div>
 
       <div id="spell-expanded-filters" className={`spell-filter-panel${mobileFilters?' is-expanded':''}`}>
@@ -521,7 +536,7 @@ export default function SpellLibrary({onBack}:Props){
           <label>Класс
             <select value={filters.className} onChange={e=>update('className',e.target.value)}>
               <option value="all">Все классы</option>
-              {classOptions.map(name=><option key={name} value={name}>{name==='necromancer'?'Некромант':name}</option>)}
+              {classOptions.map(name=><option key={name} value={name}>{classLabel(name)}</option>)}
             </select>
           </label>
           <label>Источник
