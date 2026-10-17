@@ -210,7 +210,8 @@ export function filterSpellViews(spells:readonly SpellView[],filters:SpellFilter
     if(filters.rarity!=='all'&&s.rarity!==filters.rarity)return false;
     if(filters.locale==='ru'&&!item.translated)return false;
     if(filters.locale==='en'&&item.locale!=='en')return false;
-    if(query&&!([item.name,item.englishName,item.summary,s.slug,...s.traits]
+    if(query&&!([item.name,item.englishName,item.summary,s.slug,...s.traits,
+      ...s.classes,...s.classes.map(name=>name==='necromancer'?'Некромант':name)]
       .join(' ').toLocaleLowerCase('ru').includes(query)))return false;
     return true;
   }).sort((a,b)=>a.spell.rank-b.spell.rank||a.name.localeCompare(b.name,'ru'));
