@@ -59,7 +59,7 @@
 /* HTML sheet: drag grabber sits INSIDE the name column and outside the
  * spell-name button, so clicking the name still opens the correct card. */
 .pf-paper-magic .pf-alt-spell-line{position:relative;min-width:0}
-.pf-paper-magic .pf-alt-spell-line .pf-alt-spell-row{
+.pf-paper-magic .pf-alt-spell-column .pf-alt-spell-line .pf-alt-spell-row{
   width:100%;padding-left:24px;cursor:pointer}
 .pf-paper-magic .pf-alt-spell-line>.pf-spell-drag-handle{
   position:absolute;z-index:3;left:2px;top:50%;transform:translateY(-50%)}
