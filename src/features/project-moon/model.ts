@@ -140,6 +140,41 @@ export function moonAttackBonus(sheet: MoonSheetData): string {
   return rank < 0 ? String(rank) : '+' + rank;
 }
 
+/** Rulebook 3.x resistance tiers. Pure helper for an optional preview;
+ * never mutates HP, ST, status or character data.
+ */
+export const MOON_RESISTANCE_TIERS = [
+  { label: 'Fatal', multiplier: 2 },
+  { label: 'Weak', multiplier: 1.5 },
+  { label: 'Normal', multiplier: 1 },
+  { label: 'Endured', multiplier: 0.5 },
+  { label: 'Ineffective', multiplier: 0.25 },
+  { label: 'Immune', multiplier: 0 },
+] as const;
+
+export function moonResistanceMultiplier(raw: string): number | null {
+  const text = raw.trim().replace(',', '.').toLowerCase();
+  if (!text) return null;
+  const tier = MOON_RESISTANCE_TIERS.find(entry => entry.label.toLowerCase() === text);
+  if (tier) return tier.multiplier;
+  // Accept previously entered multipliers such as 'x1.5', '1.5' or '×0.5'.
+  const plain = text.replace(/^[x×]/, '').trim();
+  if (!/^(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(plain)) return null;
+  const value = Number(plain);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+export function moonDamageEstimate(finalResult: string, resistance: string, afterResistance = ''): number | null {
+  const resultText = finalResult.trim().replace(',', '.');
+  const afterText = afterResistance.trim().replace(',', '.');
+  if (!/^(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(resultText)) return null;
+  if (afterText && !/^-?(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(afterText)) return null;
+  const modifier = moonResistanceMultiplier(resistance);
+  if (modifier === null) return null;
+  const damage = Number(resultText) * modifier + (afterText ? Number(afterText) : 0);
+  return Number.isFinite(damage) ? Math.max(0, damage) : null;
+}
+
 export function addMoonSkill(sheet: MoonSheetData, id: string): MoonSheetData {
   return { ...sheet, skills: [...sheet.skills, newMoonItem(id)] };
 }
