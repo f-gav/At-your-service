@@ -712,7 +712,7 @@ try {
   // Drag by the handle, never by the spell name. A manual placement override
   // must move a focus spell to the other printed table without rewriting data.
   const handle=spearRow.getByRole('button',{name:'Перетащить Костяное копьё'});
-  const destination=magic.locator('[data-pf-spell-zone="spellbook-left"] .pf-alt-spell-head');
+  const destination=magic.locator('[data-pf-spell-zone="spellbook-left"] .pf-alt-spell-area');
   await handle.dragTo(destination,{targetPosition:{x:24,y:8}});
   await magic.locator('[data-pf-spell-zone="spellbook-left"] .pf-alt-spell-row')
     .filter({hasText:'Костяное копьё'}).waitFor();
