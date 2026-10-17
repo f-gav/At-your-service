@@ -141,6 +141,8 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
       // The HTML view uses the same input fields as the classic sheet, but
       // editing controls must not be printed as part of a PDF export.
       page.querySelectorAll('.pf-alt-add-spell,.pf-alt-portrait span,.pf-alt-dynamic-advancement .pf-advancement-add-row').forEach(node=>node.remove());
+       page.querySelectorAll<HTMLElement>('.pf-alt-spell-line .pf-alt-spell-row')
+         .forEach(row=>{row.style.paddingLeft='4px';});
       page.querySelectorAll<HTMLElement>('.pf-alt-spell-row').forEach(node=>{
         node.style.cursor='default';
         node.style.textDecoration='none';
@@ -150,7 +152,11 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
       prepareMoonCombat(page);
       page.style.width='210mm';
     }
-    page.querySelectorAll('.pf-text-size-controls').forEach(node=>node.remove());
+    // Handles and insert/delete controls are editor UI, not printed spells.
+     // Divider titles and separating rules remain part of the PDF.
+     page.querySelectorAll('.pf-spell-drag-handle,.pf-spell-divider-add,.pf-spell-divider-remove')
+       .forEach(node=>node.remove());
+     page.querySelectorAll('.pf-text-size-controls').forEach(node=>node.remove());
     stack.append(page);
     if(system==='prmoon'&&oldPage.classList.contains('moon-page-combat')){
       const coreSkills=Array.from(root.querySelectorAll<HTMLElement>('.moon-skill-card')).slice(0,6);
