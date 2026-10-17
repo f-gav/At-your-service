@@ -88,3 +88,14 @@ assert.match(appSecurity,/setIsTemplateAdmin\(false\);\s*setShowTemplateAdmin\(f
 console.log('PASS: live security inventory remains read-only and admin controls reset on account switch');
 
 console.log('PASS: v0.2 static SQL/RLS, private portrait, JSON v1 and system availability guards');
+
+const packageInfo=JSON.parse(read('../package.json'));
+assert.equal(packageInfo.version,'0.2.0','0.2 release must use matching package version');
+const releaseNotes=read('../docs/RELEASE-0.2.0-RU.md');
+const roadmapV02=read('../docs/ROADMAP.md');
+for(const fragment of ['0.2.0','0.2.2','0.2.4','BACKUP-RESTORE-RU.md']){
+  assert.ok(releaseNotes.includes(fragment),'Release notes missing acceptance condition: '+fragment);
+}
+assert.ok(roadmapV02.includes('0.2.0')&&roadmapV02.includes('ОТКРЫТО'),
+  'Roadmap must keep pending backup and multi-account verification visible');
+console.log('PASS: 0.2.0 version and release acceptance gates stay documented');
