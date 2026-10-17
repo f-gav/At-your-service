@@ -86,3 +86,33 @@ jobs:
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify live Necromancer catalog
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          origin=os.environ['PAGES_URL'].rstrip('/')
+          url=origin+'/spell-library/pf2e-necromancer.json'
+          required={'create-thrall','thrall-charge','life-tap','bone-spear','dead-weight',
+                    'muscle-barrier','necrotic-bomb','blood-infusion','song-of-the-soul','deathly-scream'}
+          for attempt in range(12):
+              try:
+                  request=urllib.request.Request(url+'?verify='+os.environ['GITHUB_SHA'][:12],
+                                                headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(request,timeout=15) as response:
+                      catalog=json.load(response)
+                  entries=catalog['spells']
+                  found={spell['slug'] for spell in entries}
+                  if len(entries)!=10 or found!=required:
+                      raise ValueError(f'Expected ten Necromancer spells, got {len(entries)}: {found}')
+                  if any('necromancer' not in entry['classes'] for entry in entries):
+                      raise ValueError('Necromancer class tag missing')
+                  print('PASS: GitHub Pages serves 10 Necromancer spells from',url)
+                  break
+              except Exception as error:
+                  if attempt==11:
+                      raise
+                  print(f'Live catalog not ready ({error}); retry {attempt+1}/12')
+                  time.sleep(4)
+          PY
