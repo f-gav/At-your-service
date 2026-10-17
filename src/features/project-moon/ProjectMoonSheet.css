@@ -744,3 +744,30 @@
 .moon-text-size-controls:hover .moon-text-size-value,
 .moon-text-size-controls:focus-within .moon-text-size-value { display: inline; }
 @media print { .moon-text-size-controls { display: none !important; } }
+
+/* 0.3.2 — informational combat hints and optional non-mutating calculator */
+.moon-mechanics-hint {
+  margin: 10px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--moon-ink, #222);
+  opacity: .78;
+}
+.moon-damage-calculator { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--moon-line, #bfc4c8); }
+.moon-damage-calculator-content { display: grid; gap: 9px; font-size: 12px; }
+.moon-damage-calculator-content p { margin: 0; }
+.moon-damage-calculator-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.moon-damage-calculator-controls label { display: grid; gap: 4px; min-width: 0; }
+.moon-damage-calculator-controls input,
+.moon-damage-calculator-controls select {
+  min-width: 0; width: 100%; box-sizing: border-box; border: 1px solid var(--moon-line,#bfc4c8);
+  background: transparent; color: inherit; padding: 5px 6px; border-radius: 3px;
+}
+.moon-damage-calculator-results { display: flex; gap: 14px; flex-wrap: wrap; }
+.moon-damage-calculator-results span { white-space: normal; }
+@media screen and (max-width: 660px) {
+  .moon-damage-calculator-controls { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  .moon-damage-calculator { display: none !important; }
+}
