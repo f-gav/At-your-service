@@ -12,6 +12,9 @@ import type {SheetValues,FieldValue} from './sheet-values';
 import type {EditableField} from './editor-schema';
 import type {SpellView} from '../spell-library/catalog';
 import {spellCast,effectivePfTraditions} from './SpellGrimoire';
+import {SpellDragHandle,SpellDivider,SpellDividerAdd} from './SpellLayoutControls';
+import type {SpellLayoutUi} from './SpellLayoutControls';
+import type {SpellZone} from './spell-layout';
 import DynamicAdvancement from './DynamicAdvancement';
 import {ADVANCEMENT_FIELD_IDS,advancementLevelCount} from './advancement-model';
 import './AlternativePathfinderPages.css';
@@ -28,7 +31,7 @@ import './AlternativePathfinderMagic.css';
 
 type Props={
   page:number|'notes';fields:EditableField[];values:SheetValues;displayValues:SheetValues;
-  legacyHasValues:boolean;preparedSpells:SpellView[];spellMode:'library'|'text';
+  legacyHasValues:boolean;preparedSpells:SpellView[];spellLayout:SpellLayoutUi;spellMode:'library'|'text';
   onChange:(id:string,value:FieldValue)=>void;onOpenGrimoire:()=>void;onOpenSpellCard:(spell:SpellView)=>void;
   onOpenSettings:()=>void;
   portraitUrl?:string;onEditPortrait:()=>void;
@@ -91,7 +94,7 @@ function PaperFrame({kind}:{kind:'armor'|'shield'|'save'|'heart'|'skill'|'eye'|'
  </svg>;
 }
 export default function AlternativePathfinderPages({
- page,fields,values,displayValues,legacyHasValues,preparedSpells,spellMode,
+ page,fields,values,displayValues,legacyHasValues,spellLayout,spellMode,
  onChange,onOpenGrimoire,onOpenSpellCard,onOpenSettings,portraitUrl,onEditPortrait,onAddLevel,onRemoveLevel,disabled,
 }:Props){
  const map=useMemo(()=>new Map(fields.filter(f=>f.page===page).map(f=>[f.id,f])),[fields,page]);
@@ -197,30 +200,38 @@ export default function AlternativePathfinderPages({
     </Section>;
   }
   keys.forEach(id=>consumed.add(id));
-  const rows=preparedSpells.filter(s=>prefix.startsWith('cantrip_')?s.spell.kind==='cantrip':
-   prefix.startsWith('focus_')?s.spell.kind==='focus':
-   prefix.startsWith('innate_')?s.spell.kind==='special':
-   prefix.startsWith('rituals_')?s.spell.kind==='ritual':
-   s.spell.kind==='spell');
-  const columns=prefix==='spellbook_'||prefix==='rituals_'?2:1;
+  const zones:SpellZone[]=prefix==='cantrip_'?['cantrip']:
+    prefix==='focus_'?['focus']:
+    prefix==='innate_'?['innate']:
+    prefix==='rituals_'?['rituals-left','rituals-right']:
+    ['spellbook-left','spellbook-right'];
+  const hasSpells=spellLayout.rows.some(row=>row.kind==='spell'&&zones.includes(row.zone));
   return <Section index={index} title={title} wide className={'pf-paper-spell-panel pf-paper-panel-'+prefix.replace('_','')}>
    <div className="pf-alt-spells">
-    <div className={'pf-alt-spell-columns'+(columns===2?' pf-alt-spell-columns-double':'')}>
-     {Array.from({length:columns},(_,column)=><div className="pf-alt-spell-column" key={column}>
+    <div className={'pf-alt-spell-columns'+(zones.length>1?' pf-alt-spell-columns-double':'')}>
+     {zones.map((zone,column)=><div className={'pf-alt-spell-column'+(spellLayout.hover===zone?' pf-spell-drop-active':'')}
+       key={zone} data-pf-spell-zone={zone} onContextMenu={event=>spellLayout.context(event,zone)}>
       <button type="button" className="pf-alt-spell-area" onClick={onOpenGrimoire}
-       disabled={disabled} aria-label={'Открыть гримуар: '+title+(columns>1?' — колонка '+(column+1):'')}/>
+       disabled={disabled} aria-label={'Открыть гримуар: '+title+(zones.length>1?' — колонка '+(column+1):'')}/>
       <div className="pf-alt-spell-head">
        <span>Название</span>{prefix==='rituals_'?<><span>Круг</span><span>Стоим.</span></>:<><span>Действия</span>{prefix==='spellbook_'&&<span>Круг</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'Частота':'Подг.'}</span>}</>}
       </div>
-      {rows.filter((_,i)=>i%columns===column).map(spell=><button type="button" key={spell.id}
-       className="pf-alt-spell-row" disabled={disabled} onClick={()=>onOpenSpellCard(spell)}
-       aria-label={'Открыть карточку заклинания: '+spell.name}>
-       <strong>{spell.name}</strong>{prefix==='rituals_'?<><span>{spell.spell.rank}</span><span>—</span></>:<><span>{spellCast(spell)}</span>{prefix==='spellbook_'&&<span>{spell.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
-      </button>)}
+      {spellLayout.inZone(zone).map(row=>row.kind==='divider'
+        ?<div key={row.id} className="pf-alt-spell-divider">
+          <SpellDivider row={row} layout={spellLayout} disabled={disabled}/>
+        </div>
+        :<div key={row.id} className="pf-alt-spell-line" data-pf-spell-row={row.id}>
+          <SpellDragHandle row={row} layout={spellLayout} disabled={disabled}/>
+          <button type="button" className="pf-alt-spell-row" disabled={disabled} onClick={()=>{if(row.spell)onOpenSpellCard(row.spell);}}
+            aria-label={'Открыть карточку заклинания: '+row.spell?.name}>
+            <strong>{row.spell?.name}</strong>{prefix==='rituals_'?<><span>{row.spell?.spell.rank}</span><span>—</span></>:<><span>{row.spell?spellCast(row.spell):'—'}</span>{prefix==='spellbook_'&&<span>{row.spell?.spell.rank}</span>}{prefix!=='focus_'&&<span>{prefix==='innate_'?'—':'✓'}</span>}</>}
+          </button>
+        </div>)}
+      <SpellDividerAdd zone={zone} layout={spellLayout} disabled={disabled}/>
      </div>)}
     </div>
     <button type="button" className="pf-alt-add-spell" disabled={disabled} onClick={onOpenGrimoire}>
-     <BookOpen size={15}/> {rows.length?'Изменить заклинания':'Добавить заклинание'}
+     <BookOpen size={15}/> {hasSpells?'Изменить заклинания':'Добавить заклинание'}
     </button>
    </div>
   </Section>;
