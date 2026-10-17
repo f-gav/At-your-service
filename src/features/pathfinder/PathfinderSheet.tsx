@@ -164,11 +164,11 @@ export default function PathfinderSheet({
     .filter((view):view is SpellView=>!!view),[savedSpells,spellViewsById]);
   const grimoireColumns=useMemo(()=>{
     const prepared=preparedSpellViews;
-    const cantrips=prepared.filter(x=>x.spell.rank===0&&x.spell.kind==='cantrip');
+    const cantrips=prepared.filter(x=>x.spell.kind==='cantrip');
     const focus=prepared.filter(x=>x.spell.kind==='focus');
     const rituals=prepared.filter(x=>x.spell.kind==='ritual');
     const innate=prepared.filter(x=>x.spell.kind==='special');
-    const regular=prepared.filter(x=>x.spell.rank>0&&!['focus','ritual','special'].includes(x.spell.kind));
+    const regular=prepared.filter(x=>x.spell.kind==='spell');
     return {cantrips,focus,rituals,innate,left:regular.filter((_,i)=>i%2===0),right:regular.filter((_,i)=>i%2===1)};
   },[preparedSpellViews]);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
