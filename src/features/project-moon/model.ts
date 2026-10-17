@@ -175,6 +175,22 @@ export function moonDamageEstimate(finalResult: string, resistance: string, afte
   return Number.isFinite(damage) ? Math.max(0, damage) : null;
 }
 
+/** Stable-ID mutations: a late rich-text callback must never edit a shifted neighbor. */
+export function updateMoonSkill(sheet: MoonSheetData, id: string, patch: Partial<MoonItem>): MoonSheetData {
+  if (!sheet.skills.some(entry => entry.id === id)) return sheet;
+  return { ...sheet, skills: sheet.skills.map(entry => entry.id === id ? { ...entry, ...patch, id: entry.id } : entry) };
+}
+
+export function removeMoonSkill(sheet: MoonSheetData, id: string): MoonSheetData {
+  if (!sheet.skills.some(entry => entry.id === id)) return sheet;
+  return { ...sheet, skills: sheet.skills.filter(entry => entry.id !== id) };
+}
+
+/** Clamp the first visible weapon after removal without skipping remaining cards. */
+export function moonOffsetAfterWeaponRemoval(oldOffset: number, countAfter: number, visibleCount: number): number {
+  return Math.max(0, Math.min(oldOffset, Math.max(0, countAfter - visibleCount)));
+}
+
 export function addMoonSkill(sheet: MoonSheetData, id: string): MoonSheetData {
   return { ...sheet, skills: [...sheet.skills, newMoonItem(id)] };
 }
