@@ -75,6 +75,16 @@ try{
       'Russian author translation missing from rendered library: '+translated.englishName+' -> '+translated.name);
   }
 
+  // The class should be discoverable from the main library on desktop,
+  // without opening hidden advanced filters.
+  const necromancerChip=page.getByRole('button',{name:'Некромант',exact:true});
+  assert.ok(await necromancerChip.isVisible(),'Necromancer is a visible class button');
+  await necromancerChip.click();
+  assert.equal(await page.locator('.spell-total').textContent(),'10 записей');
+  assert.equal(await page.locator('.spell-result').count(),10);
+  await page.getByRole('button',{name:'Все классы',exact:true}).click();
+  assert.equal(await page.locator('.spell-total').textContent(),'493 записей');
+
   // Necromancer class-specific cantrips and focus spells are discoverable through
   // the existing class filter without incorrectly marking them as occult-list spells.
   await page.locator('.spell-filter-toggle').click();
@@ -502,6 +512,11 @@ try{
   mobile.on('pageerror',error=>errors.push(error.message));
   await mobile.goto(base+'#library',{waitUntil:'networkidle'});
   await mobile.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
+  const mobileClass=mobile.getByRole('button',{name:'Некромант',exact:true});
+  assert.ok(await mobileClass.isVisible(),'Necromancer must not be hidden in advanced filters on mobile');
+  await mobileClass.click();
+  assert.equal(await mobile.locator('.spell-total').textContent(),'10 записей');
+  await mobile.getByRole('button',{name:'Все классы',exact:true}).click();
   const phoneSizing=await mobile.evaluate(()=>{
     const tab=document.querySelector('.spell-system-tab span');
     const category=document.querySelector('.spell-kind-chip');
