@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   emptyMoonSheet, readMoonSheet, saveMoonSheet, addMoonWeapon, removeMoonWeapon,
-  moonWeaponLetter,
+  updateMoonSkill, removeMoonSkill, moonOffsetAfterWeaponRemoval, moonWeaponLetter,
 } from '../src/features/project-moon/model.ts';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
@@ -50,6 +50,28 @@ assert.strictEqual(removeMoonWeapon(reloaded,'nonexistent'),reloaded);
 assert.equal(readMoonSheet(saveMoonSheet({},deleted)).weapons.length,3);
 assert.equal(saved.pathfinderSheet.unchanged,true);
 
+// Removing a middle skill must never retarget a delayed rich-text edit by index.
+let combat=emptyMoonSheet();
+combat.skills[0]={...combat.skills[0],title:'Первый',body:'A'};
+combat.skills[1]={...combat.skills[1],title:'Средний',body:'B',ep:'4',light:'2'};
+combat.skills[2]={...combat.skills[2],title:'Последний',body:'C'};
+const deletedSkill=removeMoonSkill(combat,'skill-2');
+assert.equal(deletedSkill.skills.length,5);
+assert.deepEqual(deletedSkill.skills.slice(0,2).map(x=>x.body),['A','C']);
+const updatedSkill=updateMoonSkill(deletedSkill,'skill-3',{body:'После удаления'});
+assert.equal(updatedSkill.skills[1].body,'После удаления');
+assert.equal(updatedSkill.skills[0].body,'A');
+assert.strictEqual(updateMoonSkill(updatedSkill,'skill-2',{body:'Опоздавшее событие'}),updatedSkill);
+assert.strictEqual(removeMoonSkill(updatedSkill,'skill-2'),updatedSkill);
+assert.equal(readMoonSheet(saveMoonSheet({},updatedSkill)).skills[1].body,'После удаления');
+// The weapons retain IDs and rich content when the middle card is removed.
+const mid=removeMoonWeapon(reloaded,'weapon-C');
+assert.deepEqual(mid.weapons.map(x=>x.id),['weapon-A','weapon-B','weapon-D']);
+assert.deepEqual(mid.weapons.map(x=>x.name),['Старая катана','Револьвер','Четвёртое оружие']);
+assert.equal(moonOffsetAfterWeaponRemoval(3,3,2),1);
+assert.equal(moonOffsetAfterWeaponRemoval(2,2,2),0);
+assert.equal(moonOffsetAfterWeaponRemoval(0,2,1),0);
+
 const sheet = read('../src/features/project-moon/ProjectMoonSheet.tsx');
 const css = read('../src/features/project-moon/ProjectMoonSheet.css');
 const globalCSS = read('../src/styles.css');
@@ -66,6 +88,14 @@ assert.ok(sheet.includes('className="moon-delete-weapon-mobile"'));
 assert.ok(sheet.includes('aria-label={\'Удалить оружие \' + moonWeaponLetter(index)}'));
 assert.ok(sheet.includes('<MoonWeaponDeleteDialog'));
 assert.ok(sheet.includes('pendingWeaponDelete'));
+assert.ok(sheet.includes('pendingSkillDelete'),'Skill deletion must request confirmation');
+assert.ok(sheet.includes('onConfirm={confirmSkillDeletion}'));
+assert.ok(sheet.includes('kind="skill"'));
+assert.ok(sheet.includes("updateMoonSkill(old, id, patch)"),'Skill editing must use stable card IDs');
+assert.ok(sheet.includes("onClick={()=>setPendingSkillDelete(skill.id)}"));
+assert.ok(!sheet.includes('skills:old.skills.filter(entry=>entry.id!==skill.id)'),'No immediate skill deletion');
+assert.ok(sheet.includes('moonOffsetAfterWeaponRemoval('));
+
 assert.ok(sheet.includes('setPendingWeaponDelete(id)'));
 assert.ok(sheet.includes('onConfirm={confirmWeaponDeletion}'));
 assert.ok(!sheet.includes('window.confirm('));
