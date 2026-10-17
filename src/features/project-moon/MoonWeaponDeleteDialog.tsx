@@ -5,12 +5,13 @@ import '../pathfinder/DynamicAdvancement.css';
 
 type Props = {
   label: string;
+  kind?: 'weapon' | 'skill';
   onCancel: () => void;
   onConfirm: () => void;
   disabled?: boolean;
 };
 
-export default function MoonWeaponDeleteDialog({ label, onCancel, onConfirm, disabled = false }: Props) {
+export default function MoonWeaponDeleteDialog({ label, kind = 'weapon', onCancel, onConfirm, disabled = false }: Props) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteRef = useRef<HTMLButtonElement>(null);
   const cancelCallback = useRef(onCancel);
@@ -47,8 +48,8 @@ export default function MoonWeaponDeleteDialog({ label, onCancel, onConfirm, dis
         aria-labelledby="moon-weapon-confirm-title" aria-describedby="moon-weapon-confirm-description">
         <h2 id="moon-weapon-confirm-title">Удалить {label}?</h2>
         <p id="moon-weapon-confirm-description">
-          Вы точно хотите удалить оружие? Все данные этой карточки будут потеряны.
-          Остальные карточки оружия переместятся на её место.
+          {kind === 'skill' ? 'Вы точно хотите удалить приём?' : 'Вы точно хотите удалить оружие?'} Все данные этой карточки будут потеряны.
+          {kind === 'skill' ? 'Остальные приёмы сохранят свои данные и порядок.' : 'Остальные карточки оружия переместятся на её место.'}
         </p>
         <div className="pf-advancement-confirm-actions">
           <button type="button" ref={cancelRef} onClick={onCancel}>Отмена</button>
