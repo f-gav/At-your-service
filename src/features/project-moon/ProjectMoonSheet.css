@@ -765,7 +765,7 @@
 }
 .moon-damage-calculator-results { display: flex; gap: 14px; flex-wrap: wrap; }
 .moon-damage-calculator-results span { white-space: normal; }
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 659px) {
   .moon-damage-calculator-controls { grid-template-columns: minmax(0, 1fr); }
 }
 @media print {
