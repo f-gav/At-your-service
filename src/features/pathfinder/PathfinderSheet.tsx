@@ -27,6 +27,8 @@ import SpellcastingDialog from './SpellcastingDialog';
 import AlternativePathfinderPages from './AlternativePathfinderPages';
 import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
+import {PF_SPELL_LAYOUT,spellClassicFieldZone} from './spell-layout';
+import {useSpellLayoutUi,SpellDragHandle,SpellDivider,SpellDividerAdd} from './SpellLayoutControls';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
 import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
@@ -162,15 +164,11 @@ export default function PathfinderSheet({
   const preparedSpellViews=useMemo(()=>savedSpells.filter(entry=>entry.prepared)
     .map(entry=>spellViewsById.get(entry.id))
     .filter((view):view is SpellView=>!!view),[savedSpells,spellViewsById]);
-  const grimoireColumns=useMemo(()=>{
-    const prepared=preparedSpellViews;
-    const cantrips=prepared.filter(x=>x.spell.kind==='cantrip');
-    const focus=prepared.filter(x=>x.spell.kind==='focus');
-    const rituals=prepared.filter(x=>x.spell.kind==='ritual');
-    const innate=prepared.filter(x=>x.spell.kind==='special');
-    const regular=prepared.filter(x=>x.spell.kind==='spell');
-    return {cantrips,focus,rituals,innate,left:regular.filter((_,i)=>i%2===0),right:regular.filter((_,i)=>i%2===1)};
-  },[preparedSpellViews]);
+  // Persistent positions are independent from spell kind: newly prepared spells
+  // enter their correct tables automatically; explicit drags only change the
+  // character's visual layout, never the original game rules or catalog.
+  const spellLayout=useSpellLayoutUi(preparedSpellViews,values[PF_SPELL_LAYOUT],
+    next=>change(PF_SPELL_LAYOUT,next),false);
   const [navigationHelp,setNavigationHelp] = useState<boolean>(()=>{
     try{return window.localStorage.getItem('ays-pf2e-navigation-help')==='1';}
     catch{return false;}
@@ -393,22 +391,38 @@ export default function PathfinderSheet({
     const spellColumns=/^(cantrip_(names|actions|prepared)|spellbook_(left|right)_(names|actions|ranks|prepared)|focus_(spells|actions)|innate_(spells|actions|frequency)|rituals_(left|right)_(name|rank|cost))$/.test(field.id);
     if(field.kind==='long'&&spellColumns&&spellMode==='library'){
       const fieldId=field.id;
-      const list:SpellView[]=fieldId.startsWith('cantrip_')?grimoireColumns.cantrips:
-        fieldId.startsWith('spellbook_left_')?grimoireColumns.left:
-        fieldId.startsWith('spellbook_right_')?grimoireColumns.right:
-        fieldId.startsWith('focus_')?grimoireColumns.focus:
-        fieldId.startsWith('innate_')?grimoireColumns.innate:
-        fieldId.startsWith('rituals_left_')?grimoireColumns.rituals.filter((_,i)=>i%2===0):
-        grimoireColumns.rituals.filter((_,i)=>i%2===1);
+      const zone=spellClassicFieldZone(fieldId);
+      const rows=zone?spellLayout.inZone(zone):[];
+      const isName=/(_names|_spells|_name)$/.test(fieldId);
       const text=(spell:SpellView)=>fieldId.endsWith('_actions')?spellCast(spell):
         fieldId.endsWith('_ranks')||fieldId.endsWith('_rank')?String(spell.spell.rank):
         fieldId.endsWith('_prepared')?'✓':
         fieldId.endsWith('_frequency')||fieldId.endsWith('_cost')?'—':spell.name;
-      return <div key={fieldId} className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}`}
+      return <div key={fieldId}
+        className={`pf-spell-library-field pf-field${/_actions$|_prepared$/.test(fieldId)?' pf-spell-library-centered':''}${spellLayout.hover===zone?' pf-spell-drop-active':''}`}
+        data-pf-spell-zone={zone??undefined}
+        onContextMenu={zone?event=>spellLayout.context(event,zone):undefined}
+        onScroll={event=>{
+          if(!zone)return;
+          const source=event.currentTarget;
+          const page=source.closest('.pf-sheet-page');
+          if(!page)return;
+          for(const field of page.querySelectorAll<HTMLElement>('.pf-spell-library-field[data-pf-spell-zone="'+zone+'"]')){
+            if(field!==source&&field.scrollTop!==source.scrollTop)field.scrollTop=source.scrollTop;
+          }
+        }}
         style={style} aria-label={field.label+', заклинания'}>
-        {list.map(spell=><button type="button" className="pf-spell-library-entry" key={spell.id}
-          disabled={editLocked} onClick={()=>setOpenSpellCard(spell)}
-          title={'Открыть карточку: '+spell.name} aria-label={'Прочитать заклинание '+spell.name}>{text(spell)}</button>)}
+        {rows.map(row=>row.kind==='divider'
+          ?isName?<SpellDivider key={row.id} row={row} layout={spellLayout} disabled={editLocked}/>
+            :<span key={row.id} className="pf-spell-layout-classic-gap" data-pf-spell-row={row.id}/>
+          :<div key={row.id} className="pf-spell-layout-classic-cell" data-pf-spell-row={row.id}>
+            {isName&&<SpellDragHandle row={row} layout={spellLayout} disabled={editLocked}/>}
+            <button type="button" className="pf-spell-library-entry" disabled={editLocked}
+              onClick={()=>{if(row.spell)setOpenSpellCard(row.spell);}}
+              title={'Открыть карточку: '+row.spell?.name}
+              aria-label={'Прочитать заклинание '+row.spell?.name}>{row.spell?text(row.spell):''}</button>
+          </div>)}
+        {isName&&zone&&<SpellDividerAdd zone={zone} layout={spellLayout} disabled={editLocked}/>}
         <button type="button" className="pf-spell-library-empty" disabled={editLocked}
           onClick={()=>openGrimoire()} aria-label={'Выбрать заклинания: '+field.label} title="Открыть гримуар"/>
       </div>;
@@ -546,7 +560,7 @@ export default function PathfinderSheet({
           {visiblePages.map(page=><AlternativePathfinderPages key={page}
             page={page==='notes'?'notes':Number(page)} fields={templateFields}
             values={values} displayValues={displayValues} legacyHasValues={legacyHasValues}
-            preparedSpells={preparedSpellViews}
+            preparedSpells={preparedSpellViews} spellLayout={spellLayout}
             spellMode={spellMode} onChange={(id,value)=>change(id,value)}
             disabled={editLocked} onAddLevel={()=>setValues(old=>addAdvancementLevel(old))}
             onRemoveLevel={level=>setValues(old=>removeAdvancementLevel(old,level))}
@@ -562,6 +576,7 @@ export default function PathfinderSheet({
             : renderPage(Number(page)))}
         </div>}
     </div>
+    {spellLayout.contextMenu}
     {pageSettingsOpen&&<PageSettingsDialog
       order={pageOrder} notesEnabled={notesEnabled} disabled={editLocked}
       onNotesEnabled={setNotesPageEnabled}
