@@ -74,3 +74,10 @@
  .pf-spell-divider input{background:transparent!important;border:0!important}
  .pf-paper-magic .pf-alt-spell-line .pf-alt-spell-row{padding-left:4px}
 }
+
+/* Fixed PDF-column fields remain individually scrollable for long lists.
+ * The sheet synchronizes scrollTop across all columns of the same section. */
+.pf-spell-library-field[data-pf-spell-zone]{
+  overflow-x:hidden;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;
+}
+.pf-spell-library-field[data-pf-spell-zone]::-webkit-scrollbar{display:none}
