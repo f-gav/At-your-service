@@ -688,8 +688,8 @@ try {
   await grimoire.locator('.pf-grimoire-item').filter({hasText:'Создание прислужника'}).waitFor();
   const thrall=grimoire.locator('.pf-grimoire-item').filter({hasText:'Создание прислужника'});
   const spear=grimoire.locator('.pf-grimoire-item').filter({hasText:'Костяное копьё'});
-  await thrall.getByRole('button',{name:/^Добавить/}).click();
-  await spear.getByRole('button',{name:/^Добавить/}).click();
+  await thrall.getByRole('button',{name:'Подготовить Создание прислужника'}).click();
+  await spear.getByRole('button',{name:'Подготовить Костяное копьё'}).click();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   assert.ok(await magic.locator('.pf-paper-panel-cantrip .pf-alt-spell-row')
     .filter({hasText:'Создание прислужника'}).isVisible(),
