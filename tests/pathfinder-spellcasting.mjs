@@ -139,9 +139,9 @@ assert.match(grimoire,/grave\.spells\.push|base\.spells\.push\(\.\.\.grave\.spel
 assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips are listed under Cantrips');
 assert.match(grimoire,/s\.spell\.traditions\.length===0&&s\.spell\.classes\.length>0/,
   'Class-exclusive spells must not be unlocked by the occult tradition alone');
-assert.match(sheet,/const cantrips=prepared\.filter\(x=>x\.spell\.kind==='cantrip'\)/);
+assert.match(sheet,/useSpellLayoutUi\(preparedSpellViews/,'Spell placement is shared across classic and alternative layouts');
 assert.match(alternative,/prefix\.startsWith\('cantrip_'\)\?s\.spell\.kind==='cantrip'/);
-assert.match(sheet,/const regular=prepared\.filter\(x=>x\.spell\.kind==='spell'\)/);
+assert.match(sheet,/useSpellLayoutUi\(preparedSpellViews/,'Spell placement is shared across classic and alternative layouts');
 
 assert.match(sheet,/PF_SPELL_SELECTION/);
 assert.match(sheet,/spellMode==='library'/);
