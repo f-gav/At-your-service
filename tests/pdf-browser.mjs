@@ -20,6 +20,7 @@ try {
   browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   const cases=[
     {system:'prmoon',notes:false,extras:false,expected:5},
+    {system:'prmoon',notes:false,extras:false,inventory:true,expected:5},
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,variant:'alternative',expected:4},
@@ -33,11 +34,28 @@ try {
     const logs=[];
     page.on('pageerror',error=>logs.push(String(error)));
     try{
-      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}&long=${test.long?'1':'0'}`,{waitUntil:'domcontentloaded'});
+      await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}&long=${test.long?'1':'0'}&inventory=${test.inventory?'1':'0'}`,{waitUntil:'domcontentloaded'});
       const selector=test.system==='pf2e'?(test.variant==='alternative'?'.pf-alt-page':'.pf-sheet-page'):'.moon-paper';
       await page.waitForSelector(selector);
       const expectedDom=test.system==='pf2e'?(test.notes?5:4):4;
       assert.equal(await page.locator(selector).count(),expectedDom,'HTML sheet page count');
+      if(test.inventory){
+        const columns=page.locator('.moon-inventory-column');
+        assert.equal(await columns.count(),4,'All four inventory columns must render in PDF');
+        for(const [index,text] of ['ПЕРВАЯ КОЛОНКА','ВТОРАЯ КОЛОНКА','ТРЕТЬЯ КОЛОНКА','ЧЕТВЕРТАЯ КОЛОНКА'].entries()){
+          assert.ok((await columns.nth(index).innerText()).includes(text),'Inventory item not visible: '+text);
+        }
+        const bounded=await columns.evaluateAll(items=>items.every((item,index)=>{
+          if(index===0)return true;
+          const previous=items[index-1].getBoundingClientRect();
+          const current=item.getBoundingClientRect();
+          return current.left>=previous.right-1&&current.width>0;
+        }));
+        assert.ok(bounded,'Inventory column boundaries may not overlap');
+        const note=page.locator('.moon-note .pf-rich-editable').first();
+        const size=await note.evaluate(el=>getComputedStyle(el).fontSize);
+        assert.equal(size,'21px','Per-note text sizing should affect printed notes');
+      }
       const dimensions=await page.locator(selector).evaluateAll(elements=>elements.map(el=>({
         page:el.id,height:el.getBoundingClientRect().height,scrollHeight:el.scrollHeight,width:el.getBoundingClientRect().width
       })));
