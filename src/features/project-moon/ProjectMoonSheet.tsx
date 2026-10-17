@@ -13,7 +13,7 @@ import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
 import {
   MOON_PAGES, MOON_ATTRIBUTES, readMoonSheet, saveMoonSheet,
-  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, moonDamageEstimate, addMoonSkill, addMoonWeapon, removeMoonWeapon, moonWeaponLetter,
+  moonCalculatedMax, moonDisplayedMax, moonAttackBonus, moonDamageEstimate, addMoonSkill, updateMoonSkill, removeMoonSkill, moonOffsetAfterWeaponRemoval, addMoonWeapon, removeMoonWeapon, moonWeaponLetter,
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
@@ -90,6 +90,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [weaponOffset, setWeaponOffset] = useState(0);
   const [pendingWeaponDelete, setPendingWeaponDelete] = useState<string | null>(null);
+  const [pendingSkillDelete, setPendingSkillDelete] = useState<string | null>(null);
   const weaponViewportRef = useRef<HTMLDivElement>(null);
   const [compactWeapons, setCompactWeapons] = useState(() => window.matchMedia('(max-width: 660px)').matches);
   const visibleWeapons = compactWeapons ? 1 : 2;
@@ -128,11 +129,18 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const confirmWeaponDeletion = () => {
     if (!pendingWeaponDelete || editLocked) return;
     setSheet(old => removeMoonWeapon(old, pendingWeaponDelete));
-    setWeaponOffset(old => Math.min(old, Math.max(0, sheet.weapons.length - 1 - visibleWeapons)));
+    setWeaponOffset(old => moonOffsetAfterWeaponRemoval(old, sheet.weapons.length - 1, visibleWeapons));
     setPendingWeaponDelete(null);
   };
   const pendingWeaponIndex = pendingWeaponDelete === null
     ? -1 : sheet.weapons.findIndex(weapon => weapon.id === pendingWeaponDelete);
+  const pendingSkillIndex = pendingSkillDelete === null
+    ? -1 : sheet.skills.findIndex(skill => skill.id === pendingSkillDelete);
+  const confirmSkillDeletion = () => {
+    if (!pendingSkillDelete || editLocked) return;
+    setSheet(old => removeMoonSkill(old, pendingSkillDelete));
+    setPendingSkillDelete(null);
+  };
   const [pageSettingsOpen, setPageSettingsOpen] = useState(false);
   const [navigationHelp, setNavigationHelp] = useState<boolean>(() => {
     try { return window.localStorage.getItem('ays-prmoon-navigation-help') === '1'; }
@@ -256,8 +264,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
 
   const change = (key: string, value: string) =>
     setSheet(old => ({ ...old, fields: { ...old.fields, [key]: value } }));
-  const updateSkill = (index: number, patch: Partial<MoonItem>) =>
-    setSheet(old => ({ ...old, skills: old.skills.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
+  const updateSkill = (id: string, patch: Partial<MoonItem>) =>
+    setSheet(old => updateMoonSkill(old, id, patch));
   const updateNote = (index: number, patch: Partial<MoonItem>) =>
     setSheet(old => ({ ...old, notes: old.notes.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
   const updateWeaponById = (id: string, patch: Partial<MoonWeapon>) =>
@@ -641,26 +649,24 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                 <span className="moon-card-meta">
                   {(['rank','light','ep'] as const).map((key)=><label key={key}>{key.toUpperCase()}
                     <input disabled={editLocked} aria-label={key + ' приёма ' + (index + 1)}
-                      value={skill[key] ?? ''} onChange={e=>updateSkill(index,{[key]:e.target.value})}/></label>)}
+                      value={skill[key] ?? ''} onChange={e=>updateSkill(skill.id,{[key]:e.target.value})}/></label>)}
                   <button type="button" title="Удалить приём" aria-label={'Удалить приём ' + (index + 1)}
-                    disabled={editLocked} onClick={()=>setSheet(old=>({
-                      ...old,skills:old.skills.filter(entry=>entry.id!==skill.id)
-                    }))}><Trash2 size={14}/></button>
+                    disabled={editLocked} onClick={()=>setPendingSkillDelete(skill.id)}><Trash2 size={14}/></button>
                 </span>
               </div>
               <label className="moon-compact-field"><strong>Название:</strong>
                 <input disabled={editLocked} value={skill.title}
-                  onChange={e=>updateSkill(index,{title:e.target.value})}
+                  onChange={e=>updateSkill(skill.id,{title:e.target.value})}
                   aria-label={'Название приёма ' + (index + 1)}/></label>
               <div className="moon-choice-row"><span>Тип:</span>
                 {['атака','блок','уклонение','проверка'].map(value=><label key={value}>
                   <input type="radio" disabled={editLocked} name={'moon-skill-type-' + skill.id}
-                    checked={(skill.type ?? '') === value} onChange={()=>updateSkill(index,{type:value})}/>{value}
+                    checked={(skill.type ?? '') === value} onChange={()=>updateSkill(skill.id,{type:value})}/>{value}
                 </label>)}
               </div>
               <div className="moon-rich-group"><span>УСЛОВИЯ / ЭФФЕКТ:</span>
                 <RichField id={'moon-' + skill.id} label={'Приём ' + (index + 1)}
-                  value={skill.body} onChange={value=>updateSkill(index,{body:value})}
+                  value={skill.body} onChange={value=>updateSkill(skill.id,{body:value})}
                   disabled={editLocked} grow placeholder="Условия, эффекты и описание…" />
               </div>
             </div>)}
