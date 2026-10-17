@@ -697,6 +697,29 @@ try {
   assert.ok(await magic.locator('.pf-paper-panel-focus .pf-alt-spell-row')
     .filter({hasText:'Костяное копьё'}).isVisible(),
     'Bone Spear is rendered in the Focus Spell panel');
+  // Right-click the actual sheet row: insert a divider, rename it and keep it
+  // independently of spell-card clicks or the spell's original kind.
+  const focusZone=magic.locator('[data-pf-spell-zone="focus"]');
+  const spearRow=focusZone.locator('.pf-alt-spell-line').filter({hasText:'Костяное копьё'});
+  await spearRow.click({button:'right'});
+  const spellMenu=libraryPage.getByRole('menu',{name:'Действия со списком заклинаний'});
+  await spellMenu.getByRole('menuitem',{name:'Разделитель после'}).click();
+  const divider=focusZone.getByRole('textbox',{name:'Название разделителя'});
+  await divider.fill('Приёмы из костей');
+  assert.equal(await divider.inputValue(),'Приёмы из костей');
+  assert.ok(await focusZone.getByRole('button',{name:/Разделитель/}).count()>=1,
+    'Dividers have a dedicated touch-friendly insertion button');
+  // Drag by the handle, never by the spell name. A manual placement override
+  // must move a focus spell to the other printed table without rewriting data.
+  const handle=spearRow.getByRole('button',{name:'Перетащить Костяное копьё'});
+  const destination=magic.locator('[data-pf-spell-zone="spellbook-left"] .pf-alt-spell-head');
+  await handle.dragTo(destination,{targetPosition:{x:24,y:8}});
+  await magic.locator('[data-pf-spell-zone="spellbook-left"] .pf-alt-spell-row')
+    .filter({hasText:'Костяное копьё'}).waitFor();
+  assert.equal(await focusZone.locator('.pf-alt-spell-row').filter({hasText:'Костяное копьё'}).count(),0,
+    'Spell is removed from the source display zone after a cross-panel drag');
+  assert.equal(await divider.inputValue(),'Приёмы из костей',
+    'Section dividers remain when nearby spells are moved elsewhere');
   await libraryPage.close();
 
   // The save simulator delays responses to exercise edits made during an
