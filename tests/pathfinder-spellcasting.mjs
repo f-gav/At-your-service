@@ -81,6 +81,17 @@ const withLibrary=initialSheetValues(persistSheetValues(before,{
 assert.equal(withLibrary.pf_spell_library_selection,spellSelections,
   'Library spell selections survive a sheet save and reload');
 assert.equal(withLibrary.pf_spell_available_classes,'["cleric","druid"]');
+const necromancerSheet=initialSheetValues(persistSheetValues(before,{
+  ...withLibrary,pf_spell_available_classes:'["necromancer"]',
+  pf_spell_library_selection:JSON.stringify([
+    {id:'pf2e-necromancer-create-thrall',prepared:true},
+    {id:'pf2e-necromancer-bone-spear',prepared:true},
+  ]),
+},'Грацин'),'Грацин');
+assert.equal(necromancerSheet.pf_spell_available_classes,'["necromancer"]',
+  'New necromancer class selection survives sheet save/reload');
+assert.ok(String(necromancerSheet.pf_spell_library_selection).includes('pf2e-necromancer-create-thrall'),
+  'Class cantrips remain selected on sheet save/reload');
 assert.equal(withLibrary.pf_spell_available_traditions,'["divine","primal"]');
 const textMode=initialSheetValues(persistSheetValues(before,{
   ...withLibrary,pf_spell_display_mode:'text',
@@ -96,6 +107,8 @@ assert.deepEqual(calculateSpellcasting(oldManual),{},'Old manual sheet unaffecte
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const dialog=read('../src/features/pathfinder/SpellcastingDialog.tsx');
+const grimoire=read('../src/features/pathfinder/SpellGrimoire.tsx');
+const alternative=read('../src/features/pathfinder/AlternativePathfinderPages.tsx');
 const css=read('../src/features/pathfinder/SpellcastingDialog.css');
 assert.match(sheet,/calculateSpellcasting\(values\)/);
 assert.match(sheet,/spellcastingConfigured && isSpellcastingComputedField\(field\.id\)/);
@@ -119,6 +132,17 @@ assert.match(sheet,/id===PF_SPELL_TRADITIONS/,'Dialog tradition toggles sync wit
 assert.match(sheet,/id\.startsWith\('tradition_'\)/,'PDF half-circle toggles sync with grimoire');
 
 assert.match(dialog,/Открыть гримуар/);
+assert.match(grimoire,/\['necromancer','Некромант','occult'\]/,'Necromancer must appear as a class checkbox');
+assert.match(grimoire,/root\+'pf2e-necromancer\.json'/,'Sheet grimoire loads Necromancer spells');
+assert.match(grimoire,/grave\.spells\.push|base\.spells\.push\(\.\.\.grave\.spells\)/,
+  'Class-only spells are merged into the sheet catalogue');
+assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips are listed under Cantrips');
+assert.match(grimoire,/s\.spell\.traditions\.length===0&&s\.spell\.classes\.length>0/,
+  'Class-exclusive spells must not be unlocked by the occult tradition alone');
+assert.match(sheet,/const cantrips=prepared\.filter\(x=>x\.spell\.kind==='cantrip'\)/);
+assert.match(alternative,/prefix\.startsWith\('cantrip_'\)\?s\.spell\.kind==='cantrip'/);
+assert.match(sheet,/const regular=prepared\.filter\(x=>x\.spell\.kind==='spell'\)/);
+
 assert.match(sheet,/PF_SPELL_SELECTION/);
 assert.match(sheet,/spellMode==='library'/);
 assert.match(sheet,/spellMode==='text'/);
