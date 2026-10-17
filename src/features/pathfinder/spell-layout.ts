@@ -82,6 +82,8 @@ export function moveSpellLayout(
   const items=strip(resolveSpellLayout(spells,raw));
   const from=items.findIndex(item=>item.id===id);
   if(from<0)return typeof raw==='string'?raw:'';
+  // Releasing the handle over its own row is not a reorder operation.
+  if(anchorId===id&&items[from].zone===zone)return encoded(items);
   const [entry]=items.splice(from,1);
   const moved:SpellLayoutItem={...entry,zone};
   let position=anchorId?items.findIndex(row=>row.id===anchorId&&row.zone===zone):-1;
