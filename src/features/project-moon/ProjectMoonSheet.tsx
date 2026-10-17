@@ -462,6 +462,9 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               </select>
             </label>
           </div>
+          {sheet.inventoryColumns < 4 && <p className="moon-inventory-hidden-hint" role="status">
+            Содержимое скрытых колонок сохранено. Верните 4 колонки, чтобы снова его увидеть.
+          </p>}
           <div className="moon-inventory-grid" style={{ '--moon-inventory-columns': sheet.inventoryColumns } as CSSProperties}>
             {Array.from({ length: sheet.inventoryColumns }, (_, index) => {
               const key = index === 0 ? 'inventory' : 'inventory' + (index + 1);
@@ -704,7 +707,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       </>}
 
       {page === 'notes' && <div className="moon-two-columns moon-notes">
-        {sheet.notes.map((note, index) => <section className="moon-card moon-note" key={note.id}>
+        {sheet.notes.map((note, index) => <section className="moon-card moon-note moon-resizable-text" key={note.id}
+          style={{ '--moon-editor-text-size': (sheet.textSizes['note:' + note.id] ?? 12) + 'px' } as CSSProperties}>
           <div className="moon-note-heading">
             <input type="text" disabled={editLocked} maxLength={120}
               aria-label={'Заголовок заметки ' + (index + 1)} value={note.title}
@@ -714,6 +718,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           <RichField id={'moon-' + note.id} label={'Заметка ' + (index + 1)}
             value={note.body} onChange={value => updateNote(index, { body: value })}
             disabled={editLocked} grow placeholder="Текст заметки…" />
+          {!previewMode && textSizeControls('note:' + note.id)}
         </section>)}
       </div>}
       </article>)}
