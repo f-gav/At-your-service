@@ -147,7 +147,7 @@ assert.match(sheet,/PF_SPELL_SELECTION/);
 assert.match(sheet,/spellMode==='library'/);
 assert.match(sheet,/spellMode==='text'/);
 assert.match(sheet,/grimoireOpen&&<SpellGrimoire/);
-assert.match(sheet,/setOpenSpellCard\(spell\)/,'Clicking a row must open that exact spell directly');
+assert.match(sheet,/setOpenSpellCard\(row\.spell\)/,'Clicking a placed row opens its original spell card');
 assert.match(sheet,/className="pf-spell-library-entry"/,'Library spell names are individually clickable');
 assert.match(sheet,/openSpellCard&&<div className="pf-character-spell-overlay"/,'Clicked spell has a direct detail modal');
 assert.match(sheet,/openSpellCard\.description/,'Spell modal shows the selected spell description');
