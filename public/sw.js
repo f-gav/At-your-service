@@ -42,7 +42,7 @@ self.addEventListener('fetch',event=>{
   }
   // Updated assets must be fetched from the network first. Previous versions
   // used cache-first and could retain obsolete styles across deployments.
-  const isPublicAsset=/\\.(?:js|css|png|svg|webp|woff2?|ttf|ico|pdf)$/.test(url.pathname);
+  const isPublicAsset=/\.(?:js|css|png|svg|webp|woff2?|ttf|ico|pdf)$/.test(url.pathname);
   if(!isPublicAsset)return;
   event.respondWith((async()=>{
     try {
