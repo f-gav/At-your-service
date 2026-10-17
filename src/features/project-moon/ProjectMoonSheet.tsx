@@ -665,8 +665,9 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               </div>
             </div>)}
           </div>
-          <button type="button" className="moon-add" disabled={editLocked}
-            onClick={() => setSheet(old => addMoonSkill(old, 'skill-' + crypto.randomUUID()))}>
+          <button type="button" className="moon-add" disabled={editLocked || sheet.skills.length >= 100}
+            title={sheet.skills.length >= 100 ? 'Технический предел сохранения — 100 приёмов' : 'Добавить приём'}
+            onClick={() => setSheet(old => old.skills.length >= 100 ? old : addMoonSkill(old, 'skill-' + crypto.randomUUID()))}>
             <Plus size={16} /> Добавить приём
           </button>
         </section>
