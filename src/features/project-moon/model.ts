@@ -159,7 +159,7 @@ export function moonResistanceMultiplier(raw: string): number | null {
   if (tier) return tier.multiplier;
   // Accept previously entered multipliers such as 'x1.5', '1.5' or '×0.5'.
   const plain = text.replace(/^[x×]/, '').trim();
-  if (!/^(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(plain)) return null;
+  if (!/^(?:\d+(?:\.\d+)?|\.\d+)$/.test(plain)) return null;
   const value = Number(plain);
   return Number.isFinite(value) && value >= 0 ? value : null;
 }
@@ -167,8 +167,8 @@ export function moonResistanceMultiplier(raw: string): number | null {
 export function moonDamageEstimate(finalResult: string, resistance: string, afterResistance = ''): number | null {
   const resultText = finalResult.trim().replace(',', '.');
   const afterText = afterResistance.trim().replace(',', '.');
-  if (!/^(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(resultText)) return null;
-  if (afterText && !/^-?(?:\\d+(?:\\.\\d+)?|\\.\\d+)$/.test(afterText)) return null;
+  if (!/^(?:\d+(?:\.\d+)?|\.\d+)$/.test(resultText)) return null;
+  if (afterText && !/^-?(?:\d+(?:\.\d+)?|\.\d+)$/.test(afterText)) return null;
   const modifier = moonResistanceMultiplier(resistance);
   if (modifier === null) return null;
   const damage = Number(resultText) * modifier + (afterText ? Number(afterText) : 0);
