@@ -137,6 +137,21 @@ assert.match(grimoire,/root\+'pf2e-necromancer\.json'/,'Sheet grimoire loads Nec
 assert.match(grimoire,/grave\.spells\.push|base\.spells\.push\(\.\.\.grave\.spells\)/,
   'Class-only spells are merged into the sheet catalogue');
 assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips are listed under Cantrips');
+const librarySource=read('../src/features/spell-library/SpellLibrary.tsx');
+const libraryCss=read('../src/features/spell-library/SpellLibrary.css');
+assert.match(grimoire,/import \{SpellModal\} from '\.\.\/spell-library\/SpellLibrary'/,
+  'Grimoire must reuse the public library card rather than a reduced description');
+assert.match(grimoire,/<SpellModal spell=\{details\} onClose=\{\(\)=>setDetails\(null\)\} layer="grimoire"/,
+  'The selected grimoire entry must open its full card while keeping the grimoire visible');
+assert.ok(!grimoire.includes('className="pf-grimoire-detail"'),
+  'Old reduced spell detail card must not render');
+assert.match(librarySource,/export function SpellModal\(/,'Shared library modal must be reusable');
+for (const marker of ['spell-descriptors','spell-source-book','spell-parameters','spell-heightened','spell-availability']){
+  assert.ok(librarySource.includes(marker),'Shared card must include '+marker);
+}
+assert.match(libraryCss,/\.spell-modal-overlay\.spell-modal-over-grimoire\s*\{\s*z-index:17000/,
+  'Selected spell card must appear above the grimoire and sheet overlays');
+
 assert.match(grimoire,/s\.spell\.traditions\.length===0&&s\.spell\.classes\.length>0/,
   'Class-exclusive spells must not be unlocked by the occult tradition alone');
 assert.match(sheet,/useSpellLayoutUi\(preparedSpellViews/,'Spell placement is shared across classic and alternative layouts');
