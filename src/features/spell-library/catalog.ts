@@ -89,8 +89,6 @@ export type SpellView = {
   name:string;
   englishName:string;
   description:string;
-  /** Canonical full text when a Russian draft omits significant rules. */
-  originalDescription?:string;
   summary:string;
   locale:'ru'|'en';
   translated:boolean;
@@ -194,9 +192,6 @@ export function toSpellViews(catalog:SpellCatalog,edition:string):SpellView[]{
       name:selected?.name||spell.slug,
       englishName:english?.name||spell.slug,
       summary:selected?.summary||'',description:selected?.description||'',
-      originalDescription:russian?.translationStatus==='draft'&&english?.description&&
-        (!russian.description||russian.description.length<english.description.length*0.65)
-        ?english.description:undefined,
       locale:selected?.locale||'en',translated:Boolean(russian),translationStatus:selected?.translationStatus,
       translationOrigin:selected?.translationOrigin,
       source:sources.get(rules.sourceId??spell.sourceId),
