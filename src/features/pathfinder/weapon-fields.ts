@@ -36,6 +36,8 @@ export const WEAPON_SHEET_FIELDS: EditableField[] = WEAPON_IDS.flatMap((id,index
  */
 export function withWeaponSheetFields(fields:EditableField[]):EditableField[] {
   const corrected=fields.map(f=>{
+    // Damage is dice notation, not an arithmetic field. Keep Cyrillic 1к6 intact.
+    if(/^weapon_[1-5]_damage$/.test(f.id))return {...f,kind:'text' as const,maxlen:Math.max(f.maxlen??0,24)};
     const match=/^weapon_([1-5])_attack$/.exec(f.id);
     if(!match)return f;
     const y=ROWS[Number(match[1])-1];
