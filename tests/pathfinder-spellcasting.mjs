@@ -164,8 +164,8 @@ assert.match(sheet,/spellMode==='text'/);
 assert.match(sheet,/grimoireOpen&&<SpellGrimoire/);
 assert.match(sheet,/setOpenSpellCard\(row\.spell\)/,'Clicking a placed row opens its original spell card');
 assert.match(sheet,/className="pf-spell-library-entry"/,'Library spell names are individually clickable');
-assert.match(sheet,/openSpellCard&&<div className="pf-character-spell-overlay"/,'Clicked spell has a direct detail modal');
-assert.match(sheet,/openSpellCard\.description/,'Spell modal shows the selected spell description');
+assert.match(sheet,/openSpellCard&&<SpellModal spell=\{openSpellCard\}/,'Clicked spell uses the full library modal');
+assert.match(sheet,/import \{SpellModal\} from '\.\.\/spell-library\/SpellLibrary'/,'Spell modal is shared with the library');
 
 assert.match(dialog,/role="dialog" aria-modal="true"/);
 assert.match(dialog,/closeCallback\.current\(\)/);
