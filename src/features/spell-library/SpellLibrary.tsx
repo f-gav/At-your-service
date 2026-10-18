@@ -266,7 +266,7 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
 }
 
 /** A portal prevents the popup from being constrained by the catalogue grid. */
-function SpellModal({spell,onClose}:{spell:SpellView;onClose:()=>void}){
+export function SpellModal({spell,onClose,layer='library'}:{spell:SpellView;onClose:()=>void;layer?:'library'|'grimoire'}){
   const dialogRef=useRef<HTMLElement|null>(null);
   useEffect(()=>{
     const previousOverflow=document.body.style.overflow;
@@ -296,7 +296,7 @@ function SpellModal({spell,onClose}:{spell:SpellView;onClose:()=>void}){
     };
   },[onClose]);
   return createPortal(
-    <div className="spell-modal-overlay" onMouseDown={event=>{
+    <div className={'spell-modal-overlay' + (layer==='grimoire'?' spell-modal-over-grimoire':'')} onMouseDown={event=>{
       if(event.target===event.currentTarget)onClose();
     }}>
       <section ref={dialogRef} className="spell-modal" role="dialog" aria-modal="true"
