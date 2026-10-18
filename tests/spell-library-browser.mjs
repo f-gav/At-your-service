@@ -414,7 +414,7 @@ try{
   const horseshoePopup=page.getByRole('dialog',{name:'Дьявольская подкова [Devil\'s Horseshoe]'});
   await horseshoePopup.waitFor();
   await horseshoePopup.getByText('Перевод от At your service!',{exact:true}).waitFor();
-  assert.ok(await horseshoePopup.getByText('Бестия получает полный урон',{exact:false}).isVisible());
+  assert.ok(await horseshoePopup.locator('.spell-outcomes').getByText('Бестия получает полный урон',{exact:false}).isVisible());
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Briny Bolt');
   assert.equal(await page.locator('.spell-result').count(),1,'English original still finds the translated card');
