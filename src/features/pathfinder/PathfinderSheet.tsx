@@ -368,7 +368,7 @@ export default function PathfinderSheet({
       maxLength: field.maxlen,
       onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (!computedField) change(field.id,
-          (field.kind==='number'||field.kind==='counter')
+          (field.kind==='number'||field.kind==='counter') && !/^weapon_[1-5]_damage$/.test(field.id)
             ? sanitizeSignedNumericInput(event.target.value)
             : event.target.value);
       },
