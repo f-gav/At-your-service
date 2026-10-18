@@ -292,7 +292,7 @@ assert.ok(liveViews.find(v=>v.spell.slug==='live-wire')?.description.includes('�
 assert.ok(liveViews.find(v=>v.spell.slug==='ray-of-frost')?.rules.edition==='pf2e-legacy');
 assert.equal(liveViews.find(v=>v.spell.slug==='read-aura')?.rules.cast?.time,'1 минута');
 assert.ok(liveViews.every(v=>v.description.length>50),'Every card retains an original or independent Russian rules summary');
-assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('PF2.ru, найдено через модуль')).length,77);
+assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('PF2.ru, найдено через модуль')).length,64);
 assert.equal(wave.translations.filter(t=>t.locale==='ru'&&t.translatorCredit?.includes('Pathfinder 2E RU Translation (Legacy')).length,1);
 assert.ok(liveViews.find(v=>v.spell.slug==='mystic-armor')?.name==='Магический доспех');
 assert.ok(liveViews.find(v=>v.spell.slug==='invoke-true-name')?.name==='Призыв истинного имени');
@@ -308,13 +308,22 @@ assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('растерянно
 assert.ok(briny?.rules.outcomes?.success?.includes('слепоту на 1 раунд'));
 assert.ok(briny?.rules.outcomes?.criticalSuccess?.includes('но не от растерянности'));
 assert.equal(briny?.rules.heightened?.['+1'],'Урон увеличивается на 2d6.');
+
+for(const slug of ["ancient-dust","approximate","caustic-blast","frosts-touch","ghost-sound","glamorize","glass-shield","illuminate","infectious-enthusiasm","invoke-true-name","know-the-way","live-wire","root-reading","take-root","timber"]) {
+  const view=liveViews.find(v=>v.spell.slug===slug);
+  assert.ok(view?.description.length>200,'Full Russian cantrip text: '+slug);
+  assert.equal(view?.translationOrigin,'at-your-service','Attribution for audited cantrip: '+slug);
+}
+for(const [slug,formula] of [['caustic-blast','1d8'],['glass-shield','1d4'],['live-wire','1d4'],['timber','2d4']]) {
+  assert.ok(liveViews.find(v=>v.spell.slug===slug)?.description.includes(formula),'Critical dice retained: '+slug);
+}
 const authoredRankOne=liveViews.filter(v=>v.spell.rank<=1&&v.translationOrigin==='at-your-service');
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
-assert.equal(authoredRankOne.length,56,
-  'All 56 independently translated cantrips and rank-one cards retain AYS attribution');
+assert.equal(authoredRankOne.length,71,
+  'Original first-party localizations and all 15 audited cantrips retain AYS attribution');
 assert.equal(authoredRankTwo.length,154,
   'All 154 independently localized rank-two cards retain AYS attribution');
-assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,210,
+assert.equal(liveViews.filter(v=>v.translationOrigin==='at-your-service').length,225,
   'The first-party translation total includes both the original and rank-two waves');
 for(const card of authoredRankTwo){
   assert.equal(card.locale,'ru','Authored rank-two card must be in Russian: '+card.spell.slug);
