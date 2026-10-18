@@ -25,8 +25,9 @@ import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank 
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
 import AlternativePathfinderPages from './AlternativePathfinderPages';
-import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
+import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
+import {SpellModal} from '../spell-library/SpellLibrary';
 import {PF_SPELL_LAYOUT,spellClassicFieldZone} from './spell-layout';
 import {useSpellLayoutUi,SpellDragHandle,SpellDivider,SpellDividerAdd} from './SpellLayoutControls';
 import PageSettingsDialog from './PageSettingsDialog';
@@ -591,22 +592,7 @@ export default function PathfinderSheet({
       slotCounts={Array.from({length:10},(_,i)=>Math.max(0,Number(values['spell_slots_'+(i+1)]||0)||0))}
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
-    {openSpellCard&&<div className="pf-character-spell-overlay" role="presentation"
-      onMouseDown={event=>{if(event.target===event.currentTarget)setOpenSpellCard(null);}}>
-      <section role="dialog" aria-modal="true" aria-label={'Заклинание '+openSpellCard.name}
-        className="pf-character-spell-card">
-        <button type="button" className="pf-character-spell-close" aria-label="Закрыть карточку заклинания"
-          onClick={()=>setOpenSpellCard(null)}><X size={19}/></button>
-        <h2>{openSpellCard.name}</h2>
-        <p className="pf-character-spell-meta">
-          {openSpellCard.spell.rank===0?'Чары':openSpellCard.spell.rank+'-й круг'}
-          {' · '}{spellCast(openSpellCard)}
-          {openSpellCard.rules.range?' · '+openSpellCard.rules.range:''}
-        </p>
-        <div className="pf-character-spell-description">{openSpellCard.description}</div>
-        {openSpellCard.translationOrigin==='at-your-service'&&<p className="pf-character-spell-credit">Перевод от At your service!</p>}
-      </section>
-    </div>}
+    {openSpellCard&&<SpellModal spell={openSpellCard} onClose={()=>setOpenSpellCard(null)}/>}
     {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
       <div className="pf-navigation-help-title">
         <span>Страницы</span>
