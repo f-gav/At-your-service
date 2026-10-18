@@ -2,6 +2,7 @@ import {useEffect,useMemo,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,Search} from 'lucide-react';
 import {parseSpellCatalog,toSpellViews} from '../spell-library/catalog';
+import {SpellModal} from '../spell-library/SpellLibrary';
 import type {SpellView,SpellCatalog} from '../spell-library/catalog';
 import './SpellGrimoire.css';
 
@@ -174,11 +175,6 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
             </div>})}</section>:null;
         })}</div>}
     </section>
-    {details&&<div className="pf-grimoire-detail" role="dialog" aria-label={'Описание '+details.name}>
-      <button type="button" className="pf-grimoire-close" onClick={()=>setDetails(null)} aria-label="Закрыть описание"><X/></button>
-      <h2>{details.name}</h2><p>{details.spell.kind==='cantrip'?'Чары':details.spell.kind==='focus'?'Фокусное заклинание '+details.spell.rank+'-го круга':details.spell.rank+'-й круг'} · {spellCast(details)} · {details.rules.range||'—'}</p>
-      <div className="pf-grimoire-description">{details.description}</div>
-      <button type="button" onClick={()=>{update(details);setDetails(null);}}>{selection.some(x=>x.id===details.id&&x.prepared)?'Снять подготовку':'Подготовить'}</button>
-    </div>}
+    {details&&<SpellModal spell={details} onClose={()=>setDetails(null)} layer="grimoire"/>}
   </div>,document.body);
 }
