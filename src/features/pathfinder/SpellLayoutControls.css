@@ -18,7 +18,7 @@
   top:50%;border-top:1px solid #a8b4a9;pointer-events:none}
 .pf-spell-divider .pf-spell-drag-handle{position:relative;z-index:2;flex:none}
 .pf-spell-divider input{position:relative;z-index:2;flex:1;width:0;min-width:0;
-  font:inherit;color:#315842;background:#fff;border:0;border-radius:2px;
+  font:inherit;font-weight:700;color:#315842;background:#fff;border:0;border-radius:2px;
   padding:2px 4px;outline-offset:1px}
 .pf-spell-divider input::placeholder{color:#93a198;font-style:italic}
 .pf-spell-divider-remove{position:relative;z-index:2;flex:none;width:16px;height:20px;
