@@ -188,6 +188,9 @@
 }
 
 /* LSS-like spell card overlay: opening a spell never replaces the result list. */
+/* Grimoire sits above the sheet, so its selected card must sit above the grimoire. */
+.spell-modal-overlay.spell-modal-over-grimoire { z-index:17000; }
+
 .spell-modal-overlay {
   position:fixed;
   inset:0;
