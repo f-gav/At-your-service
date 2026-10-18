@@ -330,6 +330,19 @@ for(const [slug,formula] of [['aqueous-blast','2d8'],['breathe-fire','2d6'],['br
  assert.ok(liveViews.find(v=>v.spell.slug===slug)?.description.includes(formula),'Wave two damage formula: '+slug);
 }
 const authoredRankOne=liveViews.filter(v=>v.spell.rank<=1&&v.translationOrigin==='at-your-service');
+const fifthWaveFormulaChecks = [
+ ['exploding-earth','4d6'],['feast-of-ashes','2d4'],['feral-shades','2d4'],
+ ['final-sacrifice','6d6'],['floating-flame','3d6'],['fungal-hyphae','3d8'],
+ ['heat-metal','4d6'],['ignite-fireworks','1d4'],['illusory-creature','3d4'],
+ ['inner-radiance-torrent','4d4'],['murder-of-crows','6d4'],['noise-blast','2d10'],
+ ['piercing-jet','4d6'],['shatter','2d10'],['spiritual-armament','2d8'],
+ ['spiritual-weapon','2d8'],['vomit-swarm','2d8'],['warriors-regret','4d8']
+];
+for(const [slug,formula] of fifthWaveFormulaChecks){
+ const card=liveViews.find(v=>v.spell.slug===slug);
+ assert.ok(card?.description.includes(formula)||Object.values(card?.rules.heightened||{}).some(x=>x.includes(formula)),
+  'Wave five formula available in Russian: '+slug+' / '+formula);
+}
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
 assert.equal(authoredRankOne.length,164,
   'Original first-party localizations and all 15 audited cantrips retain AYS attribution');
