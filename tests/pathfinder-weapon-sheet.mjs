@@ -12,6 +12,15 @@ const migrated=withWeaponSheetFields(original);
 assert.equal(WEAPON_SHEET_FIELDS.length,30);
 assert.equal(migrated.length,original.length+30);
 assert.equal(withWeaponSheetFields(migrated).length,migrated.length,'Idempotent migration');
+for(let i=1;i<=5;i++){
+  const damage=migrated.find(f=>f.id==='weapon_'+i+'_damage');
+  assert.equal(damage.kind,'text','Weapon damage must accept Cyrillic 1к6: '+i);
+  assert.ok(damage.maxlen>=24,'Dice formulas need sufficient character space: '+i);
+}
+const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
+const alternative=read('../src/features/pathfinder/AlternativePathfinderPages.tsx');
+assert.match(sheet,/!\/\^weapon_\[1-5\]_damage\$\/.test\(field.id\)/,'Classic sheet must not filter weapon dice as numbers');
+assert.match(alternative,/!\/\^weapon_\[1-5\]_damage\$\/.test\(id\)/,'Alternative sheet must not filter weapon dice as numbers');
 for (let i=1;i<=5;i++){
   const old=original.find(f=>f.id==='weapon_'+i+'_attack');
   const attack=migrated.find(f=>f.id==='weapon_'+i+'_attack');
