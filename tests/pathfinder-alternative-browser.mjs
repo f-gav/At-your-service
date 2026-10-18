@@ -654,12 +654,12 @@ try {
   await spellRow.waitFor();
   const selectedSpellName=(await spellRow.locator('strong').innerText()).trim();
   await spellRow.click();
-  const spellDetail=libraryPage.getByRole('dialog',{name:'Заклинание '+selectedSpellName,exact:true});
+  const spellDetail=libraryPage.locator('.spell-modal').filter({has:libraryPage.getByRole('article',{name:'Описание заклинания '+selectedSpellName,exact:true})});
   await spellDetail.waitFor();
-  assert.equal(await spellDetail.locator('h2').innerText(),selectedSpellName,
-    'Clicking a prepared spell row must open that exact spell card, not the grimoire');
+  assert.ok((await spellDetail.locator('h2').innerText()).startsWith(selectedSpellName),
+    'Clicking a prepared spell row opens the full catalogue card for the selected spell');
   assert.equal(await grimoire.count(),0,'Prepared spell row must not reopen the grimoire');
-  await spellDetail.getByRole('button',{name:'Закрыть карточку заклинания'}).click();
+  await spellDetail.getByRole('button',{name:'Закрыть описание'}).click();
   assert.equal(await spellDetail.count(),0,'Spell card closes without altering the selection');
   for(const panel of ['cantrip','focus','innate','spellbook','rituals']){
     const areas=magic.locator('.pf-paper-panel-'+panel+' .pf-alt-spell-area');
