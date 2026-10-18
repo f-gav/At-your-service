@@ -242,11 +242,6 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       {spell.description
         ? <p className="spell-body-text">{author?author.body:spell.description}</p>
         : <p className="spell-missing-description">Описание пока не добавлено.</p>}
-      {spell.originalDescription&&<details className="spell-original-rules">
-        <summary>Полный оригинальный текст правил (English)</summary>
-        <p className="spell-original-rules-note">Русский перевод пока сокращён. Ниже приведён полный исходный текст, включая формулы урона, проверки и условия.</p>
-        <p className="spell-body-text">{spell.originalDescription}</p>
-      </details>}
       {(author&&Object.keys(author.outcomes).length>0||Boolean(rules.outcomes&&Object.keys(rules.outcomes).length>0))&&<div className="spell-outcomes">
         {Object.entries(author&&Object.keys(author.outcomes).length>0?author.outcomes:rules.outcomes||{}).map(([key,value])=><p key={key}><b>{({
           criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'
