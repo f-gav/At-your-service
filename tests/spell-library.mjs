@@ -587,7 +587,7 @@ assert.equal(firstCycleBySlug('bone-shield')?.rules.heightened?.['+2'],'Твёр
 assert.ok(firstCycleBySlug('buffeting-winds')?.description.includes('2d4 дробящего урона'));
 assert.ok(!firstCycleBySlug('buffeting-winds')?.description.includes('сбивает с ног живых'),
   'Buffeting Winds must not falsely impose prone');
-assert.ok(firstCycleBySlug('celestial-accord')?.description.includes('подвергается враждебности'));
+assert.ok(firstCycleBySlug('celestial-accord')?.description.includes('проявляет враждебность'));
 assert.equal(firstCycleBySlug('cycle-of-retribution')?.rules.sustain,true);
 assert.equal(firstCycleBySlug('cycle-of-retribution')?.rules.duration,'Поддерживаемое, до 1 минуты');
 assert.equal(firstCycleBySlug('defended-by-spirits')?.rules.sustain,true);
