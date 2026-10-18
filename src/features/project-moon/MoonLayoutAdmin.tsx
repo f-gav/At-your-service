@@ -234,7 +234,9 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
       const {data,error} = await supabase.rpc('publish_sheet_template',{ p_template_key: MOON_LAYOUT_KEY });
       if (error) { setMessage('Не удалось опубликовать: ' + error.message); return; }
       const next = Number(data);
-      setVersion(next); setVersions(old => [next,...old]);
+      setVersion(next); setVersions(old => [next,...old.filter(version => version !== next)]);
+      // Keep the comparison against the published version current immediately.
+      setPublishedLayout(parseMoonLayout(encodeMoonLayout(layout)));
       setMessage('Версия ' + next + ' опубликована. Оформление появится у пользователей после обновления листа.');
     } finally { setBusy(false); }
   }
@@ -246,6 +248,8 @@ export default function MoonLayoutAdmin({userId,onClose}: Props) {
       const {data,error} = await supabase.from('sheet_template_history').select('fields')
         .eq('template_key',MOON_LAYOUT_KEY).eq('version', Number(restore)).single();
       if (error) { setMessage('Ошибка загрузки версии: ' + error.message); return; }
+      // Loading history is an editable draft change, so it must be undoable.
+      checkpoint();
       setLayout(parseMoonLayout(data?.fields));
       setMessage('Версия восстановлена в редакторе. Для применения сначала сохрани черновик.');
     } finally { setBusy(false); }
