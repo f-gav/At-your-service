@@ -12,6 +12,17 @@ assert.deepEqual(parseSpellCatalog(dnd,'dnd5e'),emptySpellCatalog('dnd5e'),
   'D&D must remain untouched during Pathfinder waves 001–003');
 const wave=JSON.parse(source('../public/spell-library/pf2e.json'));
 parseSpellCatalog(wave,'pf2e');
+const inkshotRu=wave.translations.find(t=>t.spellId==='pf2e-inkshot'&&t.locale==='ru');
+assert.match(inkshotRu.description,/2d6/,'Inkshot must specify poison damage');
+assert.match(inkshotRu.description,/бросок атаки заклинанием/,'Inkshot must state attack roll');
+assert.match(inkshotRu.description,/1 раунд/,'Inkshot must specify normal hit duration');
+assert.match(inkshotRu.description,/1 минуту/,'Inkshot must specify critical hit duration');
+const abridgedViews=toSpellViews(wave,'pf2e-remaster');
+assert.ok(abridgedViews.find(spell=>spell.id==='pf2e-inkshot')?.description.includes('2d6'));
+assert.ok(abridgedViews.some(spell=>spell.originalDescription?.length),
+  'Abridged draft translations must expose complete English rules');
+assert.ok(!abridgedViews.find(spell=>spell.id==='pf2e-inkshot')?.originalDescription,
+  'Fully restored Inkshot translation should not be flagged as abridged');
 assert.equal(wave.spells.length,483,'71 cantrips + 189 rank-one + 223 rank-two spells');
 assert.equal(wave.versions.length,483);
 assert.equal(wave.translations.filter(t=>t.locale==='ru').length,413,'259 initial + 154 rank-two Russian titles');
