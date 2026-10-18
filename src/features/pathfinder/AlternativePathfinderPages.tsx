@@ -157,9 +157,9 @@ export default function AlternativePathfinderPages({
         onChange={e=>onChange(id,e.target.value)}>
         <option value="">{page===1&&id==='size'?'':'—'}</option>{String(value)&&!(f.options||[]).includes(String(value))&&<option value={String(value)}>{String(value)}</option>}{(f.options||[]).map(x=><option key={x} value={x}>{x}</option>)}
       </select>:
-      <input type="text" inputMode={f.kind==='number'||f.kind==='counter'?'numeric':undefined}
+      <input type="text" inputMode={(f.kind==='number'||f.kind==='counter')&&!/^weapon_[1-5]_damage$/.test(id)?'numeric':undefined}
         value={String(value)} readOnly={computedReadonly} disabled={fieldLocked} aria-label={label}
-        onChange={e=>{if(!computedReadonly)onChange(id,f.kind==='number'||f.kind==='counter'?sanitizeSignedNumericInput(e.target.value):e.target.value);}}
+        onChange={e=>{if(!computedReadonly)onChange(id,(f.kind==='number'||f.kind==='counter')&&!/^weapon_[1-5]_damage$/.test(id)?sanitizeSignedNumericInput(e.target.value):e.target.value);}}
         placeholder={page===3&&/^(action|reaction)_[1-4]_/.test(id)?'':page===3&&['ethnicity','nationality','birthplace','age','pronouns','height','weight','appearance','attitude','deity','likes','dislikes','quotes'].includes(id)?'':page===1&&/^weapon_[1-5]_traits$/.test(id)?label:page===1&&id==='shield_ac_bonus'?'+':page===1&&['resistances','conditions'].includes(id)?label:page===1&&['name','player','ancestry','heritage','background','character_class','background_notes','class_notes'].includes(id)?'':'—'}/>
     }
   </label>;
