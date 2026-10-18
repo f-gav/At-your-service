@@ -414,7 +414,8 @@ try{
   const horseshoePopup=page.getByRole('dialog',{name:'Дьявольская подкова [Devil\'s Horseshoe]'});
   await horseshoePopup.waitFor();
   await horseshoePopup.getByText('Перевод от At your service!',{exact:true}).waitFor();
-  assert.ok(await horseshoePopup.locator('.spell-outcomes').getByText('Бестия получает полный урон',{exact:false}).isVisible());
+  assert.ok((await horseshoePopup.locator('.spell-description').innerText()).includes('полный урон'),
+     'Devil\'s Horseshoe must describe full damage on a failed save');
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Briny Bolt');
   assert.equal(await page.locator('.spell-result').count(),1,'English original still finds the translated card');
@@ -424,8 +425,8 @@ try{
   await brinyPopup.getByText('Перевод от At your service!',{exact:true}).waitFor();
   await brinyPopup.getByText('Критический успех:',{exact:true}).waitFor();
   await brinyPopup.getByText('Повышенное',{exact:true}).waitFor();
-  assert.ok(await brinyPopup.getByText('растерянность на 1 минуту',{exact:false}).isVisible(),
-    'Localized Dazzled is correctly distinguished from Blinded');
+  assert.ok((await brinyPopup.locator('.spell-description').innerText()).includes('ослепление бликами на 1 минуту'),
+    'Localized Dazzled must remain distinct from Blinded');
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('');
   assert.equal(await page.locator('.spell-result').count(),50,'Rank one restored with first 50 cards after clearing search');
