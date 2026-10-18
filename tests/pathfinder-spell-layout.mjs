@@ -74,9 +74,9 @@ const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const alt=read('../src/features/pathfinder/AlternativePathfinderPages.tsx');
 const ui=read('../src/features/pathfinder/SpellLayoutControls.tsx');
 const dividerCss=read('../src/features/pathfinder/SpellLayoutControls.css');
-const dividerTitleRule=dividerCss.match(/\.pf-spell-divider input\\s*\\{([^}]+)\\}/);
+const dividerTitleRule=dividerCss.match(/\.pf-spell-divider input\s*\{([^}]+)\}/);
 assert.ok(dividerTitleRule,'Spell divider must have a dedicated editable title rule');
-assert.match(dividerTitleRule[1],/font-weight:\\s*700\\s*;/,
+assert.match(dividerTitleRule[1],/font-weight:\s*700\s*;/,
   'Divider title should be bold both in HTML, classic sheets and printed PDF');
 
 assert.ok(sheet.includes('useSpellLayoutUi(preparedSpellViews'));
