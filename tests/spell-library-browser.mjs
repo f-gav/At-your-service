@@ -237,7 +237,7 @@ try{
   await ancient.waitFor();
   await ancient.getByText('Перевод от At your service!',{exact:true}).waitFor();
   await ancient.getByText('Критический провал:',{exact:true}).waitFor();
-  await ancient.getByText('Начальный урон пустотой увеличивается на 1d6',{exact:false}).waitFor();
+  await ancient.locator('.spell-heightened').getByText('Начальный урон пустотой увеличивается на 1d6',{exact:false}).waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Верёвка из внутренностей');
   await page.locator('.spell-result').first().click();
