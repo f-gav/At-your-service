@@ -317,6 +317,18 @@ for(const slug of ["ancient-dust","approximate","caustic-blast","frosts-touch","
 for(const [slug,formula] of [['caustic-blast','1d8'],['glass-shield','1d4'],['live-wire','1d4'],['timber','2d4']]) {
   assert.ok(liveViews.find(v=>v.spell.slug===slug)?.description.includes(formula),'Critical dice retained: '+slug);
 }
+
+const secondWaveSlugs=["aqueous-blast","armor-of-thorn-and-claw","breathe-fire","briny-bolt","camel-spit","chilling-spray","concordant-choir","conductive-weapon","cycle-of-retribution","dehydrate","draw-ire","flourishing-flora","forced-mercy","forge","gust-of-wind","hippocampus-retreat","horizon-thunder-sphere","infuse-vitality","kinetic-ram","noxious-vapors","phantom-pain","pummeling-rubble","rainbows-end","sacred-beasts","scorching-blast","shattering-gem","shocking-grasp","shockwave","signal-skyrocket","spider-sting","threefold-limb","wooden-fists"];
+assert.equal(secondWaveSlugs.length,32,'Audited formula-missing entries in rank one');
+for(const slug of secondWaveSlugs){
+ const card=liveViews.find(v=>v.spell.slug===slug);
+ assert.ok(card&&card.locale==='ru','Russian wave two card: '+slug);
+ assert.ok(card.description.length>=190,'Complete mechanics instead of a short summary: '+slug);
+ assert.equal(card.translationOrigin,'at-your-service','Translation attribution: '+slug);
+}
+for(const [slug,formula] of [['aqueous-blast','2d8'],['breathe-fire','2d6'],['briny-bolt','4d6'],['chilling-spray','2d4'],['dehydrate','3d6'],['horizon-thunder-sphere','3d6'],['phantom-pain','2d4'],['signal-skyrocket','1d10'],['spider-sting','1d4'],['wooden-fists','4d6']]){
+ assert.ok(liveViews.find(v=>v.spell.slug===slug)?.description.includes(formula),'Wave two damage formula: '+slug);
+}
 const authoredRankOne=liveViews.filter(v=>v.spell.rank<=1&&v.translationOrigin==='at-your-service');
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
 assert.equal(authoredRankOne.length,100,
