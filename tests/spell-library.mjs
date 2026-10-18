@@ -288,7 +288,7 @@ assert.ok(source('../docs/SPELL-RANK1-WAVE-001-RU.md').includes('13 карточ
 
 assert.equal(liveViews.find(v=>v.spell.slug==='gouging-claw')?.rules.edition,'pf2e-remaster');
 assert.ok(liveViews.find(v=>v.spell.slug==='gouging-claw')?.description.includes('2d6'));
-assert.ok(liveViews.find(v=>v.spell.slug==='live-wire')?.description.includes('электрический'));
+assert.ok(liveViews.find(v=>v.spell.slug==='live-wire')?.description.includes('электричеством'));
 assert.ok(liveViews.find(v=>v.spell.slug==='ray-of-frost')?.rules.edition==='pf2e-legacy');
 assert.equal(liveViews.find(v=>v.spell.slug==='read-aura')?.rules.cast?.time,'1 минута');
 assert.ok(liveViews.every(v=>v.description.length>50),'Every card retains an original or independent Russian rules summary');
