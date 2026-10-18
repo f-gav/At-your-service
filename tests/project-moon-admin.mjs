@@ -141,6 +141,15 @@ assert.ok(pfAdmin.includes('backLabel'));
 assert.ok(editor.includes('sheet_template_drafts'));
 assert.ok(editor.includes("supabase.rpc('publish_sheet_template'"));
 assert.ok(editor.includes('sheet_template_history'));
+assert.ok(editor.includes("setPublishedLayout(parseMoonLayout(encodeMoonLayout(layout)))"),
+  'After confirmed RPC publication, comparison must reflect newly published layout');
+assert.ok(editor.includes("checkpoint();\n      setLayout(parseMoonLayout(data?.fields))"),
+  'Loading a historical template must create an undo checkpoint');
+assert.ok(editor.includes("supabase.from('sheet_template_drafts').upsert"),
+  'Drafts must be persisted separately from published templates');
+assert.ok(editor.includes("if (!(await saveDraft())) return"),
+  'Publish must stop when saving the draft fails');
+
 assert.ok(editor.includes('layoutOverride={layout}'));
 assert.ok(editor.includes('selectedTextGroup'));
 assert.ok(editor.includes('changeTextStyle('));
