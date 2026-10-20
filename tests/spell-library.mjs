@@ -374,6 +374,25 @@ for(const slug of ['feast-of-ashes','heat-metal','ignite-fireworks','noise-blast
 }
 assert.ok(liveViews.find(v=>v.spell.slug==='inner-radiance-torrent')?.description.includes('ещё 2 действия'),'Current Foundry rank-two two-round casting variant');
 
+
+const sixthWaveSlugs=["blood-vendetta","boneshaker","brand-the-impenitent","charitable-urge","deafness","death-knell","expeditious-excavation","fear-the-sun","fungal-infestation","ghoulish-cravings","laughing-fit","mental-map","paranoia","revealing-light","web","worms-repast"];
+assert.equal(sixthWaveSlugs.length,16,'Wave six count');
+for(const slug of sixthWaveSlugs){
+ const view=liveViews.find(v=>v.spell.slug===slug);
+ assert.ok(view?.spell.rank===2&&view.locale==='ru','Wave 6 rank-two Russian spell: '+slug);
+ assert.equal(view.translationOrigin,'at-your-service','Wave 6 original translation attribution: '+slug);
+ assert.ok(view.description.length>=350,'Wave 6 full rather than abbreviated description: '+slug);
+ for(const [key,title] of Object.entries({criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'})){
+   if(view.rules.outcomes?.[key]) assert.ok(view.description.includes('**'+title+':** '+view.rules.outcomes[key]),'Complete outcome '+key+': '+slug);
+ }
+ for(const [level,value] of Object.entries(view.rules.heightened||{}))
+  assert.ok(view.description.includes(value),'Missing rank enhancement '+level+': '+slug);
+}
+for(const slug of ['boneshaker','brand-the-impenitent','death-knell','worms-repast'])
+ assert.equal(liveViews.find(v=>v.spell.slug===slug)?.rules.edition,'pf2e-legacy','Keep Legacy version: '+slug);
+assert.equal(liveViews.find(v=>v.spell.slug==='blood-vendetta')?.rules.cast?.time,'Реакция');
+assert.equal(liveViews.find(v=>v.spell.slug==='boneshaker')?.rules.cast?.time,'2 или 3 действия');
+assert.equal(liveViews.find(v=>v.spell.slug==='laughing-fit')?.rules.sustain,true);
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
 assert.equal(authoredRankOne.length,164,
   'Original first-party localizations and all 15 audited cantrips retain AYS attribution');
