@@ -382,8 +382,9 @@ for(const slug of sixthWaveSlugs){
  assert.ok(view?.spell.rank===2&&view.locale==='ru','Wave 6 rank-two Russian spell: '+slug);
  assert.equal(view.translationOrigin,'at-your-service','Wave 6 original translation attribution: '+slug);
  assert.ok(view.description.length>=350,'Wave 6 full rather than abbreviated description: '+slug);
+ assert.ok(!view.description.includes('**'),'Wave 6 should not expose markdown stars: '+slug);
  for(const [key,title] of Object.entries({criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'})){
-   if(view.rules.outcomes?.[key]) assert.ok(view.description.includes('**'+title+':** '+view.rules.outcomes[key]),'Complete outcome '+key+': '+slug);
+   if(view.rules.outcomes?.[key]) assert.ok(view.description.includes(title+': '+view.rules.outcomes[key]),'Complete outcome '+key+': '+slug);
  }
  for(const [level,value] of Object.entries(view.rules.heightened||{}))
   assert.ok(view.description.includes(value),'Missing rank enhancement '+level+': '+slug);
