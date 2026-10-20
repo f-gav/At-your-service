@@ -331,27 +331,8 @@ export default function SpellLibrary({onBack}:Props){
         if(!response.ok)throw new Error(`HTTP ${response.status}`);
         const base=parseSpellCatalog(await response.json(),system);
         if(system!=='pf2e')return base;
-        const patchFiles=['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json'];
-        const patches=[] as Array<{entries:Array<{englishName:string;name:string;description:string;rank:number}>}>;
-        for(const filename of patchFiles){
-          const response=await fetch(`${import.meta.env.BASE_URL}spell-library/${filename}`,{signal:controller.signal});
-          if(!response.ok)throw new Error(`Не загружены авторские переводы: ${filename}, HTTP ${response.status}`);
-          patches.push(await response.json());
-        }
-        const key=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'');
-        for(const translated of patches.flatMap(p=>p.entries)){
-          const en=base.translations.find(t=>t.locale==='en'&&key(t.name)===key(translated.englishName));
-          if(!en)throw new Error('Не найден оригинал перевода: '+translated.englishName);
-          const identity=base.spells.find(s=>s.id===en.spellId);
-          if(!identity||identity.rank!==translated.rank)throw new Error('Не совпадает круг: '+translated.englishName);
-          const old=base.translations.findIndex(t=>t.spellId===en.spellId&&t.versionId===en.versionId&&t.locale==='ru');
-          const ru={spellId:en.spellId,versionId:en.versionId,locale:'ru' as const,name:translated.name,
-            description:translated.description,translationOrigin:'at-your-service' as const,
-            translationStatus:'draft' as const,translatorCredit:'Перевод от At your service!'};
-          if(old>=0)base.translations[old]=ru;else base.translations.push(ru);
-          // Author translation contains complete mechanics, including outcomes and heightened text.
-          // Do not mutate the original English version metadata.
-        }
+        // Russian rank-two translations are now stored in pf2e.json itself.
+        // Author translation cycle archives are no longer a runtime dependency.
         // Class-only necromancer grave magic ships separately from the historical
         // spell-slot catalog, so its rank-1 cantrips and focus spells don't alter
         // the 483-record base file or earlier translation tracking.
