@@ -450,7 +450,7 @@ for(const id of eighthWaveQueue){
  }
  const eng=wave.translations.find(x=>x.spellId===id&&x.locale==='en');
  assert.ok(eng?.description?.length>80,'Wave 8 original English mechanics retained: '+id);
- for(const damage of new Set(eng.description.match(/\\d+d\\d+/gi)||[]))
+ for(const damage of new Set(eng.description.match(/\d+d\d+/gi)||[]))
   assert.ok(v.description.includes(damage),'Wave 8 original damage dice preserved in Russian: '+id+' / '+damage);
 }
 assert.equal(eighthWaveQueue.filter(id=>Object.keys(liveViews.find(v=>v.id===id)?.rules.heightened||{}).length>0).length,42);
