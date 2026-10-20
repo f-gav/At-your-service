@@ -21,10 +21,12 @@
 - Волна 2: 1 круг — формулы: 33.
 - Волна 3: 1 круг — иные механики: 18.
 - Волна 4: 1 круг — короткие/без RU: 59.
-- Волна 5: 2 круг — формулы: 38.
+- Волна 5: 2 круг — формулы: **18** (уточнено 20.10; первоначальные 38 включали 20 записей без RU).
 - Волна 6: 2 круг — иные механики: 16.
-- Волна 7: 2 круг — короткие/без RU: 69.
+- Волна 7: 2 круг — короткие/без RU: **89** (69 + 20 записей, переклассифицированных из волны 5).
 - Волна 8: контроль карточек без сигналов: 235.
+
+Уточнение от 20 октября 2026 года: первоначальная приоритетная очередь второго круга «38» состояла из 18 сигналов о пропуске формул и 20 карточек только на английском языке; отсутствие русской версии не доказывает ошибку урона. Приоритет 20 строк «Нет RU» перенесён с 1 на 3 без изменений самих заклинаний. Отчёт сверки: [волна 05](SPELL-AUDIT-WAVE05-2026-10-20-RU.md). Кодовые изменения в русских карточках и регрессионные проверки уточнены отдельно.
 
 ## Реестр
 
@@ -292,7 +294,7 @@
 | 1 | pf2e-wooden-fists | Деревянные кулаки | pf2e-remaster | 1 | Короткое; Нет кубиков 1d6,2d6,3d6,4d6 |
 | 2 | pf2e-acid-arrow | Кислотная Стрела | pf2e-legacy | 4 | — |
 | 2 | pf2e-acid-grip | Кислотная хватка | pf2e-remaster | 4 | — |
-| 2 | pf2e-advanced-scurvy | Advanced Scurvy | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-advanced-scurvy | Advanced Scurvy | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-albatross-curse | Проклятие альбатроса | pf2e-remaster | 4 | — |
 | 2 | pf2e-allfood | Allfood | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-animal-form | Форма животного | pf2e-remaster | 3 | Короткое |
@@ -301,7 +303,7 @@
 | 2 | pf2e-animus-mine | Ментальная мина | pf2e-remaster | 4 | — |
 | 2 | pf2e-ash-cloud | Пепельное облако | pf2e-remaster | 4 | — |
 | 2 | pf2e-augury | Гадание | pf2e-remaster | 4 | — |
-| 2 | pf2e-avenging-wildwood | Avenging Wildwood | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-avenging-wildwood | Avenging Wildwood | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-banishing-touch | Изгоняющее касание | pf2e-remaster | 4 | — |
 | 2 | pf2e-bee-man-s-summons | Bee-Man's Summons | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-befitting-attire | Подходящий наряд | pf2e-remaster | 4 | — |
@@ -312,12 +314,12 @@
 | 2 | pf2e-blazing-bolt | Всполох пламени | pf2e-remaster | 4 | — |
 | 2 | pf2e-blistering-invective | Обжигающее сквернословие | pf2e-remaster | 4 | — |
 | 2 | pf2e-blood-duplicate | Blood Duplicate | pf2e-legacy | 3 | Нет RU |
-| 2 | pf2e-blood-runs-cold | Blood Runs Cold | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-blood-runs-cold | Blood Runs Cold | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-blood-vendetta | Кровавая месть | pf2e-remaster | 2 | Короткое; Проверить критические исходы |
 | 2 | pf2e-blur | Расплывчатость | pf2e-remaster | 4 | — |
-| 2 | pf2e-bone-spray | Bone Spray | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-bone-spray | Bone Spray | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-boneshaker | Костотряс | pf2e-legacy | 2 | Короткое; Проверить критические исходы |
-| 2 | pf2e-bralani-referendum | Bralani Referendum | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-bralani-referendum | Bralani Referendum | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-brand-the-impenitent | Клеймение нераскаявшегося | pf2e-legacy | 2 | Проверить критические исходы |
 | 2 | pf2e-breath-of-drought | Breath of Drought | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-brine-dragon-bile | Желчь пенного дракона | pf2e-remaster | 3 | Короткое |
@@ -336,18 +338,18 @@
 | 2 | pf2e-coiling-dance | Извивающийся танец | pf2e-remaster | 4 | — |
 | 2 | pf2e-confetti-cloud | Confetti Cloud | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-create-food | Создание еды | pf2e-remaster | 4 | — |
-| 2 | pf2e-cutting-insult | Cutting Insult | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-cutting-insult | Cutting Insult | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-dancing-shield | Танцующий щит | pf2e-remaster | 3 | Короткое |
 | 2 | pf2e-darkness | Тьма | pf2e-remaster | 4 | — |
 | 2 | pf2e-darkvision | Ночное зрение | pf2e-remaster | 3 | Короткое |
 | 2 | pf2e-deafness | Глухота | pf2e-remaster | 2 | Проверить критические исходы |
 | 2 | pf2e-death-knell | Погребальный звон | pf2e-legacy | 2 | Проверить критические исходы |
 | 2 | pf2e-dimensional-drop | Dimensional Drop | pf2e-remaster | 3 | Нет RU |
-| 2 | pf2e-disintegrating-puddle | Disintegrating Puddle | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-disintegrating-puddle | Disintegrating Puddle | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-dismantle | Деконструкция | pf2e-remaster | 4 | — |
-| 2 | pf2e-disorienting-flash | Disorienting Flash | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-disorienting-flash | Disorienting Flash | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-dispel-magic | Рассеивание магии | pf2e-remaster | 4 | — |
-| 2 | pf2e-draw-blood | Draw Blood | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-draw-blood | Draw Blood | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-electrostatic-glider | Electrostatic Glider | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-elemental-zone | Зона стихии | pf2e-remaster | 4 | — |
 | 2 | pf2e-embed-message | Начертание послания | pf2e-remaster | 3 | Короткое |
@@ -361,7 +363,7 @@
 | 2 | pf2e-everlight | Вечный свет | pf2e-remaster | 4 | — |
 | 2 | pf2e-expeditious-excavation | Стремительные раскопки | pf2e-remaster | 2 | Короткое; Проверить критические исходы |
 | 2 | pf2e-exploding-earth | Взрывающаяся земля | pf2e-remaster | 1 | Нет кубиков 2d6 |
-| 2 | pf2e-explosive-dust | Explosive Dust | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-explosive-dust | Explosive Dust | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-extract-poison | Извлечение яда | pf2e-legacy | 4 | — |
 | 2 | pf2e-faerie-fire | Фейское сияние | pf2e-legacy | 4 | — |
 | 2 | pf2e-false-vitality | Ложная жизнь | pf2e-remaster | 4 | — |
@@ -377,7 +379,7 @@
 | 2 | pf2e-floating-flame | Парящее пламя | pf2e-remaster | 1 | Нет кубиков 1d6 |
 | 2 | pf2e-floating-harness | Floating Harness | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-frog-tongue | Лягушачий язык | pf2e-remaster | 4 | — |
-| 2 | pf2e-frozen-lungs | Frozen Lungs | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-frozen-lungs | Frozen Lungs | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-fungal-hyphae | Грибные гифы | pf2e-remaster | 1 | Короткое; Нет кубиков 3d8 |
 | 2 | pf2e-fungal-infestation | Грибковое заражение | pf2e-remaster | 2 | Короткое; Проверить критические исходы |
 | 2 | pf2e-gecko-grip | Лапы геккона | pf2e-remaster | 4 | — |
@@ -397,7 +399,7 @@
 | 2 | pf2e-ignite-fireworks | Поджечь фейерверк | pf2e-remaster | 1 | Короткое; Нет кубиков 1d4 |
 | 2 | pf2e-illusory-creature | Иллюзорное существо | pf2e-remaster | 1 | Нет кубиков 1d4 |
 | 2 | pf2e-illusory-shroud | Illusory Shroud | pf2e-legacy | 3 | Нет RU |
-| 2 | pf2e-imp-sting | Imp Sting | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-imp-sting | Imp Sting | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-impart-empathy | Impart Empathy | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-impeccable-flow | Impeccable Flow | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-imprinting-hand | Imprinting Hand | pf2e-remaster | 3 | Нет RU |
@@ -418,7 +420,7 @@
 | 2 | pf2e-mark-of-blood | Mark of Blood | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-marvelous-mount | Чудесный скакун | pf2e-remaster | 3 | Короткое |
 | 2 | pf2e-mental-map | Ментальная карта | pf2e-remaster | 2 | Проверить критические исходы |
-| 2 | pf2e-metal-reverberation | Metal Reverberation | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-metal-reverberation | Metal Reverberation | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-mimic-undead | Имитирование нежити | pf2e-legacy | 4 | — |
 | 2 | pf2e-mind-games | Mind Games | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-mirror-image | Зеркальное отражение | pf2e-legacy | 4 | — |
@@ -427,7 +429,7 @@
 | 2 | pf2e-murder-of-crows | Воронья стая | pf2e-remaster | 1 | Нет кубиков 3d4 |
 | 2 | pf2e-noise-blast | Звуковой взрыв | pf2e-remaster | 1 | Короткое; Нет кубиков 1d10; Проверить критические исходы |
 | 2 | pf2e-oaken-resilience | Дубовая стойкость | pf2e-remaster | 3 | Короткое |
-| 2 | pf2e-one-with-plants | One with Plants | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-one-with-plants | One with Plants | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-osseous-cage | Osseous Cage | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-pack-attack | Стайная атака | pf2e-legacy | 3 | Короткое |
 | 2 | pf2e-palm-held-sun | Palm-Held Sun | pf2e-remaster | 3 | Нет RU |
@@ -441,7 +443,7 @@
 | 2 | pf2e-piercing-jet | Пронзающая струя | pf2e-remaster | 1 | Нет кубиков 2d6 |
 | 2 | pf2e-propulsive-breeze | Попутный ветер | pf2e-remaster | 4 | — |
 | 2 | pf2e-pyrefowl-rebuke | Отпор огненной птицы | pf2e-remaster | 4 | — |
-| 2 | pf2e-quench | Quench | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-quench | Quench | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-radiant-field | Сияющее поле | pf2e-remaster | 3 | Короткое |
 | 2 | pf2e-rapid-adaptation | Быстрая адаптация | pf2e-legacy | 4 | — |
 | 2 | pf2e-reapers-lantern | Фонарь жнеца | pf2e-remaster | 3 | Короткое |
@@ -449,10 +451,10 @@
 | 2 | pf2e-restoration | Восстановление | pf2e-legacy | 3 | Короткое |
 | 2 | pf2e-retrieving-hook | Retrieving Hook | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-revealing-light | Озаряющий свет | pf2e-remaster | 2 | Проверить критические исходы |
-| 2 | pf2e-rime-slick | Rime Slick | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-rime-slick | Rime Slick | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-rubble-step | Шаг щебня | pf2e-remaster | 4 | — |
 | 2 | pf2e-saturate | Saturate | pf2e-remaster | 3 | Нет RU |
-| 2 | pf2e-sea-surge | Sea Surge | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-sea-surge | Sea Surge | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-see-the-unseen | Видение невидимого | pf2e-remaster | 4 | — |
 | 2 | pf2e-shadow-zombie | Shadow Zombie | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-shape-wood | Преображение дерева | pf2e-remaster | 4 | — |
@@ -472,7 +474,7 @@
 | 2 | pf2e-spray-of-salt | Соляной шквал | pf2e-remaster | 4 | — |
 | 2 | pf2e-spys-mark | Spy's Mark | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-status | Состояние | pf2e-remaster | 4 | — |
-| 2 | pf2e-steel-fortifications | Steel Fortifications | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-steel-fortifications | Steel Fortifications | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-sticky-fire | Липкое пламя | pf2e-remaster | 4 | — |
 | 2 | pf2e-stupefy | Одурманивание | pf2e-remaster | 4 | — |
 | 2 | pf2e-sudden-blight | Внезапное увядание | pf2e-remaster | 4 | — |
@@ -489,14 +491,14 @@
 | 2 | pf2e-the-queens-rainbow | Радуга королевы | pf2e-remaster | 4 | — |
 | 2 | pf2e-thermal-remedy | Целебный отвар | pf2e-remaster | 3 | Короткое |
 | 2 | pf2e-thunder-echo | Громовое эхо | pf2e-remaster | 3 | Короткое |
-| 2 | pf2e-thundering-dominance | Thundering Dominance | pf2e-remaster | 1 | Нет RU |
+| 2 | pf2e-thundering-dominance | Thundering Dominance | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-timely-reminder | Своевременное напоминание | pf2e-remaster | 4 | — |
 | 2 | pf2e-timely-tutor | Своевременный наставник | pf2e-remaster | 4 | — |
 | 2 | pf2e-tracing-bond | Tracing Bond | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-translate | Перевод | pf2e-remaster | 4 | — |
 | 2 | pf2e-tremorsense | Виброчувствительность | pf2e-remaster | 4 | — |
 | 2 | pf2e-umbral-extraction | Извлечение из тени | pf2e-legacy | 4 | — |
-| 2 | pf2e-umbral-mindtheft | Umbral Mindtheft | pf2e-legacy | 1 | Нет RU |
+| 2 | pf2e-umbral-mindtheft | Umbral Mindtheft | pf2e-legacy | 3 | Нет RU |
 | 2 | pf2e-uncover-device | Uncover Device | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-unrelenting-gravity | Unrelenting Gravity | pf2e-remaster | 3 | Нет RU |
 | 2 | pf2e-vanish-weapon | Vanish Weapon | pf2e-remaster | 3 | Нет RU |

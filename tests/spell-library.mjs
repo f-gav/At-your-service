@@ -330,19 +330,50 @@ for(const [slug,formula] of [['aqueous-blast','2d8'],['breathe-fire','2d6'],['br
  assert.ok(liveViews.find(v=>v.spell.slug===slug)?.description.includes(formula),'Wave two damage formula: '+slug);
 }
 const authoredRankOne=liveViews.filter(v=>v.spell.rank<=1&&v.translationOrigin==='at-your-service');
-const fifthWaveFormulaChecks = [
- ['exploding-earth','4d6'],['feast-of-ashes','2d4'],['feral-shades','2d4'],
- ['final-sacrifice','6d6'],['floating-flame','3d6'],['fungal-hyphae','3d8'],
- ['heat-metal','4d6'],['ignite-fireworks','1d4'],['illusory-creature','3d4'],
- ['inner-radiance-torrent','4d4'],['murder-of-crows','6d4'],['noise-blast','2d10'],
- ['piercing-jet','4d6'],['shatter','2d10'],['spiritual-armament','2d8'],
- ['spiritual-weapon','2d8'],['vomit-swarm','2d8'],['warriors-regret','4d8']
-];
-for(const [slug,formula] of fifthWaveFormulaChecks){
+// Wave 05: verify all mechanically meaningful dice, not just one token per spell.
+// The published catalog may move heightening into structured rules rather than description.
+const fifthWaveDamageCases = {
+ 'exploding-earth':['4d6','1d6','2d6'],
+ 'feast-of-ashes':['1d4','2d4'],
+ 'feral-shades':['2d4','1d4'],
+ 'final-sacrifice':['6d6','2d6'],
+ 'floating-flame':['3d6','1d6'],
+ 'fungal-hyphae':['3d8'], // Damage only becomes available at spell rank 4.
+ 'heat-metal':['4d6','2d4','1d4'],
+ 'ignite-fireworks':['1d8','1d4'],
+ 'illusory-creature':['3d4'],
+ 'inner-radiance-torrent':['4d4','2d4'],
+ 'murder-of-crows':['6d4','3d4'],
+ 'noise-blast':['2d10','1d10'],
+ 'piercing-jet':['4d6','2d6'],
+ 'shatter':['2d10','1d10'],
+ 'spiritual-armament':['2d8','1d8'],
+ 'spiritual-weapon':['2d8','1d8'],
+ 'vomit-swarm':['2d8','1d8'],
+ 'warriors-regret':['1d8','2d8','4d8']
+};
+assert.equal(Object.keys(fifthWaveDamageCases).length,18,'Wave 05 formula queue is 18 distinct RU cards; 20 EN-only cards are tracked separately');
+for(const [slug,dice] of Object.entries(fifthWaveDamageCases)){
  const card=liveViews.find(v=>v.spell.slug===slug);
- assert.ok(card?.description.includes(formula)||Object.values(card?.rules.heightened||{}).some(x=>x.includes(formula)),
-  'Wave five formula available in Russian: '+slug+' / '+formula);
+ assert.ok(card&&card.spell.rank===2&&card.locale==='ru','Wave 05 rank-two Russian card: '+slug);
+ const mechanics=[card.description,...Object.values(card.rules.heightened||{}),...Object.values(card.rules.outcomes||{})].join(' ');
+ for(const formula of dice){
+  assert.ok(mechanics.includes(formula),'Wave 05 mechanic '+slug+' is missing dice '+formula);
+ }
 }
+const rankTwoAudit=(slug)=>liveViews.find(v=>v.spell.slug===slug)?.rules;
+assert.equal(rankTwoAudit('heat-metal')?.edition,'pf2e-legacy');
+assert.equal(rankTwoAudit('spiritual-weapon')?.edition,'pf2e-legacy');
+assert.equal(rankTwoAudit('spiritual-armament')?.edition,'pf2e-remaster');
+assert.equal(rankTwoAudit('floating-flame')?.sustain,true);
+assert.equal(rankTwoAudit('spiritual-armament')?.sustain,true);
+assert.ok(rankTwoAudit('fungal-hyphae')?.heightened?.['4']?.includes('3d8'));
+assert.ok(rankTwoAudit('fungal-hyphae')?.heightened?.['6']);
+for(const slug of ['feast-of-ashes','heat-metal','ignite-fireworks','noise-blast','warriors-regret']){
+ assert.ok(rankTwoAudit(slug)?.outcomes?.criticalFailure,'Wave 05 critical failure mechanics: '+slug);
+}
+assert.ok(liveViews.find(v=>v.spell.slug==='inner-radiance-torrent')?.description.includes('ещё 2 действия'),'Current Foundry rank-two two-round casting variant');
+
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
 assert.equal(authoredRankOne.length,164,
   'Original first-party localizations and all 15 audited cantrips retain AYS attribution');
