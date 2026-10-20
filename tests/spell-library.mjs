@@ -426,6 +426,33 @@ for(const slug of ['dancing-shield','darkvision','embed-message','enlarge','far-
  for(const desc of Object.values(card?.rules.heightened||{}))
   assert.ok(card.description.includes(desc),'Wave 07 inline enhancement must survive: '+slug);
 }
+
+const eighthWaveQueue=["pf2e-acid-arrow","pf2e-acid-grip","pf2e-albatross-curse","pf2e-animal-messenger","pf2e-animated-assault","pf2e-animus-mine","pf2e-ash-cloud","pf2e-augury","pf2e-banishing-touch","pf2e-befitting-attire","pf2e-blazing-armory","pf2e-blazing-blade","pf2e-blazing-bolt","pf2e-blistering-invective","pf2e-blur","pf2e-burrow-ward","pf2e-buzzing-servants","pf2e-calm","pf2e-cauterize-wounds","pf2e-clad-in-metal","pf2e-claws-of-the-otter","pf2e-clawsong","pf2e-cleanse-affliction","pf2e-cleanse-air","pf2e-clear-mind","pf2e-coiling-dance","pf2e-create-food","pf2e-darkness","pf2e-dismantle","pf2e-dispel-magic","pf2e-elemental-zone","pf2e-empty-pack","pf2e-enhance-victuals","pf2e-entangling-flora","pf2e-environmental-endurance","pf2e-everlight","pf2e-extract-poison","pf2e-faerie-fire","pf2e-false-vitality","pf2e-falsify-heat","pf2e-fireproof","pf2e-flame-wisp","pf2e-frog-tongue","pf2e-gecko-grip","pf2e-gentle-breeze","pf2e-ghostly-carrier","pf2e-guiding-star","pf2e-helpful-wood-spirits","pf2e-hidebound","pf2e-humanoid-form","pf2e-instant-armor","pf2e-invisibility","pf2e-iron-gut","pf2e-kgalaserkes-axes","pf2e-knock","pf2e-lock-item","pf2e-loose-times-arrow","pf2e-lucky-number","pf2e-magnetic-attraction","pf2e-magnetic-repulsion","pf2e-mimic-undead","pf2e-mirror-image","pf2e-mist","pf2e-phantom-crowd","pf2e-propulsive-breeze","pf2e-pyrefowl-rebuke","pf2e-rapid-adaptation","pf2e-rubble-step","pf2e-see-the-unseen","pf2e-shape-wood","pf2e-share-life","pf2e-shrink","pf2e-silence","pf2e-slough-skin","pf2e-sonata-span","pf2e-sound-body","pf2e-speak-with-animals","pf2e-spirit-sense","pf2e-splinter-volley","pf2e-spray-of-salt","pf2e-status","pf2e-sticky-fire","pf2e-stupefy","pf2e-sudden-blight","pf2e-sudden-bolt","pf2e-summon-elemental","pf2e-sure-footing","pf2e-tacky-pine-sap","pf2e-teeth-to-terror","pf2e-telekinetic-maneuver","pf2e-the-queens-rainbow","pf2e-timely-reminder","pf2e-timely-tutor","pf2e-translate","pf2e-tremorsense","pf2e-umbral-extraction","pf2e-voice-on-the-breeze","pf2e-water-breathing","pf2e-water-walk","pf2e-waterproof"];
+assert.equal(eighthWaveQueue.length,100,'Control wave eight exactly 100 rank-two Russian cards');
+assert.equal(new Set(eighthWaveQueue).size,100,'No repeated spells in control wave');
+for(const id of eighthWaveQueue){
+ const v=liveViews.find(x=>x.id===id);
+ assert.ok(v?.spell.rank===2&&v.locale==='ru','Wave 8 rank-two translated card: '+id);
+ assert.equal(v.translationOrigin,'at-your-service','Wave 8 translation credit retained: '+id);
+ assert.ok(v.description.length>=120,'Wave 8 mechanics not empty: '+id);
+ assert.ok(!v.description.includes('**'),'Wave 8 no raw bold-markup in spell description: '+id);
+ assert.ok(!/^Усиление\s*\(/m.test(v.description),'Wave 8 uses recognized heightened heading: '+id);
+ for(const [level,desc] of Object.entries(v.rules.heightened||{})){
+  const label=level.startsWith('+')?level:level+'-й ранг';
+  assert.ok(v.description.includes('Повышение ('+label+'):'),
+   'Wave 8 rank enhancement must be shown in the spell popup: '+id+' rank '+level);
+  const translated=wave.translations.find(x=>x.spellId===id&&x.locale==='ru');
+  assert.equal(translated?.description,v.description,'Wave 8 main catalog text intact: '+id);
+ }
+ for(const [key,text] of Object.entries(v.rules.outcomes||{})){
+  const labels={criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'};
+  assert.ok(v.description.includes(labels[key]+':'),'Wave 8 inline outcome visible: '+id+' '+key);
+ }
+ const eng=wave.translations.find(x=>x.spellId===id&&x.locale==='en');
+ assert.ok(eng?.description?.length>80,'Wave 8 original English mechanics retained: '+id);
+}
+assert.equal(eighthWaveQueue.filter(id=>Object.keys(liveViews.find(v=>v.id===id)?.rules.heightened||{}).length>0).length,42);
+assert.deepEqual(['calm','lock-item'].sort(),eighthWaveQueue.filter(id=>Object.keys(liveViews.find(v=>v.id===id)?.rules.outcomes||{}).length>0).map(x=>x.replace(/^pf2e-/,'')).sort());
 const authoredRankTwo=liveViews.filter(v=>v.spell.rank===2&&v.translationOrigin==='at-your-service');
 assert.equal(authoredRankOne.length,165,
   'Original first-party localizations and all 15 audited cantrips retain AYS attribution');
