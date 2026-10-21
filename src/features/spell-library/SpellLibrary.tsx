@@ -12,7 +12,7 @@ import {
 import type {
   PfTradition,SpellCatalog,SpellFilters,SpellKind,SpellSystem,SpellView,
 } from './catalog';
-import {loadSpellCatalog} from './load-catalog';
+import {loadCachedSpellCatalog} from './cached-catalog';
 import './SpellLibrary.css';
 
 const PF_CLASS_LABELS:Record<string,string>={necromancer:'Некромант'};
@@ -336,7 +336,7 @@ export default function SpellLibrary({onBack}:Props){
     const controller=new AbortController();
     setLoadState('loading');
     setLoadError('');
-    void loadSpellCatalog(system,controller.signal,import.meta.env.BASE_URL)
+    void loadCachedSpellCatalog(system,controller.signal,import.meta.env.BASE_URL)
       .then(data=>{if(active){setCatalog(data);setLoadState('ready');}})
       .catch(error=>{if(active){
         setLoadError(error instanceof Error?error.message:'Ошибка загрузки каталога');
