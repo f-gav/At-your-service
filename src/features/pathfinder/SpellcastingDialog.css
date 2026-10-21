@@ -162,3 +162,11 @@
 .pf-spell-mode-options{align-items:center;gap:14px}
 .pf-spell-mode-options .pf-open-grimoire-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;padding:0;border:1px solid #b9c7bd;border-radius:7px;background:#f6f8f6;color:#304238}
 .pf-spell-mode-options .pf-open-grimoire-icon:hover:not(:disabled){background:#e8f0e9}
+
+/* Maintain the compact book glyph while giving touch users a full-size hit area. */
+@media(max-width:680px){
+  .pf-spell-mode-options .pf-open-grimoire-icon{width:44px;height:44px;min-width:44px;}
+}
+.pf-spell-mode-options .pf-open-grimoire-icon:focus-visible{
+  outline:2px solid #426e9b;outline-offset:2px;
+}
