@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,Search} from 'lucide-react';
 import {toSpellViews} from '../spell-library/catalog';
@@ -70,12 +70,47 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
   const [rank,setRank]=useState<number|'all'>('all');
   const [show,setShow]=useState<'all'|'prepared'>('all');
   const [details,setDetails]=useState<SpellView|null>(null);
+  const dialogRef=useRef<HTMLElement>(null);
+  const closeRef=useRef<HTMLButtonElement>(null);
   useEffect(()=>{const controller=new AbortController();void loadPfSpellViews(controller.signal)
     .then(items=>{setSpells(items);if(initialSpellId)setDetails(items.find(v=>v.id===initialSpellId)??null);}).catch(e=>{if(!controller.signal.aborted)setError(String(e));})
     .finally(()=>{if(!controller.signal.aborted)setLoading(false);});
     return()=>controller.abort();},[]);
-  useEffect(()=>{const handler=(e:KeyboardEvent)=>{if(e.key==='Escape'){if(details)setDetails(null);else onClose();}};
-    window.addEventListener('keydown',handler);return()=>window.removeEventListener('keydown',handler);},[details,onClose]);
+  useEffect(()=>{
+    const previousFocus=document.activeElement instanceof HTMLElement?document.activeElement:null;
+    const previousOverflow=document.body.style.overflow;
+    document.body.style.overflow='hidden';
+    closeRef.current?.focus({preventScroll:true});
+    return ()=>{
+      document.body.style.overflow=previousOverflow;
+      if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});
+    };
+  },[]);
+  useEffect(()=>{
+    const onKeyDown=(event:KeyboardEvent)=>{
+      // The spell detail is a second, higher modal: it owns its own focus trap.
+      if(details)return;
+      if(event.key==='Escape'){
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if(event.key!=='Tab'||!dialogRef.current)return;
+      const dialog=dialogRef.current;
+      const focusable=Array.from(dialog.querySelectorAll<HTMLElement>(
+        'button:not(:disabled),input:not(:disabled),select:not(:disabled),a[href],[tabindex]:not([tabindex="-1"])'
+      )).filter(node=>node.getClientRects().length>0);
+      if(!focusable.length){event.preventDefault();dialog.focus();return;}
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(event.shiftKey&&(document.activeElement===first||!dialog.contains(document.activeElement))){
+        event.preventDefault();last.focus();
+      }else if(!event.shiftKey&&(document.activeElement===last||!dialog.contains(document.activeElement))){
+        event.preventDefault();first.focus();
+      }
+    };
+    document.addEventListener('keydown',onKeyDown);
+    return()=>document.removeEventListener('keydown',onKeyDown);
+  },[details,onClose]);
   const allowed=useMemo(()=>{
     const effective=new Set([...traditions,...PF_CLASS_LIST.filter(([id])=>classes.includes(id))
       .map(([, ,tradition])=>tradition).filter(Boolean)]);
@@ -104,9 +139,9 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
     x.id===spell.id?{...x,prepared:!x.prepared}:x));
   const remove=(id:string)=>onSelection(selection.filter(x=>x.id!==id));
   return createPortal(<div className="pf-grimoire-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)onClose();}}>
-    <section className="pf-grimoire" role="dialog" aria-modal="true" aria-label="Гримуар заклинаний">
+    <section ref={dialogRef} className="pf-grimoire" role="dialog" aria-modal="true" aria-label="Гримуар заклинаний" tabIndex={-1}>
       <header><h2>Гримуар</h2><span>В ячейках: {preparedCount} · Отмечено: {selectedCount} · Добавлено: {knownCount}</span>
-        <button type="button" aria-label="Закрыть гримуар" onClick={onClose}><X size={20}/></button></header>
+        <button ref={closeRef} type="button" aria-label="Закрыть гримуар" onClick={onClose}><X size={20}/></button></header>
       <div className="pf-grimoire-tabs">
         <button className={show==='all'?'active':''} onClick={()=>setShow('all')}>Все доступные ({allowed.length})</button>
         <button className={show==='prepared'?'active':''} onClick={()=>setShow('prepared')}>Подготовленные ({selectedCount})</button>
