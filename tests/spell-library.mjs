@@ -831,7 +831,7 @@ const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
   const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'dnd5e.json':dnd}[file];
-  return {ok:Boolean(data),status:data?200:404,json:async()=>data};
+  return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
 assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length);
