@@ -198,7 +198,12 @@ function splitAuthorSpellText(description:string){
 
 function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
   const entry=spell.spell,rules=spell.rules;
-  const author=spell.translationOrigin==='at-your-service'?splitAuthorSpellText(spell.description):null;
+  const [language,setLanguage]=useState<'ru'|'en'>('ru');
+  const canSwitch=spell.locale==='ru'&&Boolean(spell.englishDescription);
+  const english=canSwitch&&language==='en';
+  const shownDescription=english?spell.englishDescription||'':spell.description;
+  const shownSummary=english?spell.englishSummary||'':spell.summary;
+  const author=!english&&spell.translationOrigin==='at-your-service'?splitAuthorSpellText(shownDescription):null;
   const values=[
     ['Сотворение',rules.cast?.actions===undefined?(localizeRuleValue(rules.cast?.time||'—','time')):`${rules.cast.actions} действ.`],
     ['Дистанция',localizeRuleValue(rules.range||'—','range')],
@@ -238,17 +243,21 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
       </dl>
     </section>
     <section className="spell-description" aria-label="Описание и эффекты">
-      {spell.summary&&<p className="spell-summary">{spell.summary}</p>}
-      {spell.description
-        ? <p className="spell-body-text">{author?author.body:spell.description}</p>
+      {canSwitch&&<div className="spell-language-switch" role="group" aria-label="Язык описания">
+        <button type="button" className={!english?"is-active":""} aria-pressed={!english} onClick={()=>setLanguage("ru")}>RU</button>
+        <button type="button" className={english?"is-active":""} aria-pressed={english} onClick={()=>setLanguage("en")}>EN</button>
+      </div>}
+      {shownSummary&&<p className="spell-summary">{shownSummary}</p>}
+      {shownDescription
+        ? <p className="spell-body-text">{author?author.body:shownDescription}</p>
         : <p className="spell-missing-description">Описание пока не добавлено.</p>}
       {(author&&Object.keys(author.outcomes).length>0||Boolean(rules.outcomes&&Object.keys(rules.outcomes).length>0))&&<div className="spell-outcomes">
         {Object.entries(author&&Object.keys(author.outcomes).length>0?author.outcomes:rules.outcomes||{}).map(([key,value])=><p key={key}><b>{({
-          criticalSuccess:'Критический успех',success:'Успех',failure:'Провал',criticalFailure:'Критический провал'
+          criticalSuccess:english?'Critical Success':'Критический успех',success:english?'Success':'Успех',failure:english?'Failure':'Провал',criticalFailure:english?'Critical Failure':'Критический провал'
         } as Record<string,string>)[key]||key}:</b> {value}</p>)}
       </div>}
       {(Boolean(author?.heightened.length)||Boolean(rules.heightened&&Object.keys(rules.heightened).length>0))&&<section className="spell-heightened">
-        <h3>{spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
+        <h3>{english?'Heightened':spell.translationOrigin==='at-your-service'?'Повышенное':'Усиление'}</h3>
         {author?.heightened.length?author.heightened.map(({label,text})=><p key={label}><b>{label}:</b> {text}</p>):Object.entries(rules.heightened||{}).map(([level,description])=><p key={level}><b>{level}:</b> {description}</p>)}
       </section>}
     </section>
