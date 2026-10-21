@@ -82,7 +82,7 @@ export function useAutoSave({
           setError('');
           setFailedSnapshot(null);
         }
-        if(currentRef.current===payload) clearLocalDraft(draftKey);
+        if(currentRef.current===payload) clearLocalDraft(draftKey,payload);
         else writeLocalDraft(draftKey,payload,currentRef.current);
         return true;
       }catch(cause){
@@ -103,7 +103,7 @@ export function useAutoSave({
   // Synchronous local writes in an effect: no personal data in the SW cache.
   useEffect(()=>{
     if(!enabled)return;
-    if(snapshot===acknowledged) clearLocalDraft(draftKey);
+    if(snapshot===acknowledged) clearLocalDraft(draftKey,snapshot);
     else writeLocalDraft(draftKey,savedRef.current,snapshot);
   },[snapshot,acknowledged,draftKey,enabled]);
 
