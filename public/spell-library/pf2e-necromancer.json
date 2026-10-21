@@ -387,7 +387,9 @@
       "versionId": "pf2e-necromancer-create-thrall-remaster",
       "locale": "en",
       "name": "Create Thrall",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "You create undead thralls.",
+      "description": "Create two thralls in unoccupied spaces within range. Alternatively, create one thrall and immediately issue it a Command. Refer to the Necromancer class rules for how thralls act and how they are destroyed."
     },
     {
       "spellId": "pf2e-necromancer-create-thrall",
@@ -405,7 +407,9 @@
       "versionId": "pf2e-necromancer-thrall-charge-remaster",
       "locale": "en",
       "name": "Thrall Charge",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Command a thrall to move and strike.",
+      "description": "Command the chosen thrall to Stride and then make a Strike. The Strike deals an additional 1d6 damage. You can destroy the thrall as it makes the Strike; if you do, add a status bonus to the Strike's damage equal to this cantrip's rank."
     },
     {
       "spellId": "pf2e-necromancer-thrall-charge",
@@ -423,7 +427,9 @@
       "versionId": "pf2e-necromancer-life-tap-remaster",
       "locale": "en",
       "name": "Life Tap",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Drain life through a thrall to heal an ally.",
+      "description": "Choose a creature within 30 feet of the thrall. It attempts a Fortitude save, after which the thrall is destroyed. Unless the save is a critical success, you or an ally you choose within 30 feet of the thrall regains Hit Points equal to twice the Hit Points the target lost due to the drained condition. A creature can benefit from healing by this spell only once every 10 minutes."
     },
     {
       "spellId": "pf2e-necromancer-life-tap",
@@ -441,7 +447,9 @@
       "versionId": "pf2e-necromancer-bone-spear-remaster",
       "locale": "en",
       "name": "Bone Spear",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Destroy a thrall to send forth a spear of bone.",
+      "description": "Destroy the chosen thrall. A 15-foot line extends from its space. Every creature in the line takes 2d6 piercing damage, with a basic Reflex save."
     },
     {
       "spellId": "pf2e-necromancer-bone-spear",
@@ -459,7 +467,9 @@
       "versionId": "pf2e-necromancer-dead-weight-remaster",
       "locale": "en",
       "name": "Dead Weight",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "A thrall leaps onto an enemy, hindering its movement.",
+      "description": "Command the thrall to leap onto a creature within 15 feet of it. The thrall's flesh merges with the target, which must attempt a Fortitude save. The thrall is then destroyed. Apply the save outcomes shown in this spell's rules."
     },
     {
       "spellId": "pf2e-necromancer-dead-weight",
@@ -477,7 +487,9 @@
       "versionId": "pf2e-necromancer-muscle-barrier-remaster",
       "locale": "en",
       "name": "Muscle Barrier",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Wrap an ally in a protective layer of muscle.",
+      "description": "Destroy the thrall and choose a willing creature within 15 feet of it. The creature gains 10 temporary Hit Points for up to 1 minute and a +1 status bonus to Athletics checks while the spell lasts. The spell ends when the temporary Hit Points are depleted."
     },
     {
       "spellId": "pf2e-necromancer-muscle-barrier",
@@ -495,7 +507,9 @@
       "versionId": "pf2e-necromancer-necrotic-bomb-remaster",
       "locale": "en",
       "name": "Necrotic Bomb",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Detonate a thrall with void energy.",
+      "description": "Overcharge the chosen thrall with void energy. Every creature in a 10-foot emanation around it takes 1d12 void damage with a basic Fortitude save. The thrall is destroyed."
     },
     {
       "spellId": "pf2e-necromancer-necrotic-bomb",
@@ -513,7 +527,9 @@
       "versionId": "pf2e-necromancer-blood-infusion-remaster",
       "locale": "en",
       "name": "Blood Infusion",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Make a creature bleed through your thrall.",
+      "description": "Choose a creature within 15 feet of the thrall. You infuse the target with the thrall's blood and bodily fluids, destroying the thrall and forcing the creature to attempt a Fortitude save. On any result other than a critical success, the target loses immunity to bleed damage and counts as having blood for relevant effects and requirements. Apply the save outcomes shown in this spell's rules."
     },
     {
       "spellId": "pf2e-necromancer-blood-infusion",
@@ -531,7 +547,9 @@
       "versionId": "pf2e-necromancer-song-of-the-soul-remaster",
       "locale": "en",
       "name": "Song of the Soul",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Turn a thrall into an instrument that heals a soul.",
+      "description": "The thrall becomes an instrument whose silent music is heard by only the chosen soul. Choose a living or undead creature within 15 feet of the thrall. It immediately regains 1d8 Hit Points and gains fast healing 1 for as long as it remains within 15 feet of the thrall. When healing a living creature, the spell gains the vitality trait; when healing undead, it gains the void trait."
     },
     {
       "spellId": "pf2e-necromancer-song-of-the-soul",
@@ -549,7 +567,9 @@
       "versionId": "pf2e-necromancer-deathly-scream-remaster",
       "locale": "en",
       "name": "Deathly Scream",
-      "translationStatus": "verified"
+      "translationStatus": "draft",
+      "summary": "Make a thrall unleash a terrifying scream.",
+      "description": "The thrall emits a piercing, ghostly scream. Each creature in a 5-foot emanation around it attempts a Will save against 1d4 mental damage. The effects depend on the save result shown in this spell's rules."
     },
     {
       "spellId": "pf2e-necromancer-deathly-scream",
