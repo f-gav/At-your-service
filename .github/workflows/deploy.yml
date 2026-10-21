@@ -68,6 +68,8 @@ jobs:
         run: |
           npm run test:spell-library-browser
           node tests/routes-static-browser.mjs
+      - name: Release smoke: Project Moon mobile, autosave and export entrypoints
+        run: node tests/release-smoke-browser.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload build artifact
