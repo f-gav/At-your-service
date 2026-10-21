@@ -841,7 +841,7 @@ assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays mus
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);
 const duplicate=structuredClone(necroPack);
-duplicate.spells[0].id=wave.spells[0].id;
+duplicate.spells.push(structuredClone(wave.spells[0]));
 await assert.rejects(()=>loadSpellCatalog('pf2e',new AbortController().signal,'/',async(url)=>({
   ok:true,status:200,json:async()=>url.endsWith('pf2e-necromancer.json')?duplicate:wave
 })),/Повторяющиеся/);
