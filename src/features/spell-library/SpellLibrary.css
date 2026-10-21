@@ -376,3 +376,11 @@
   .spell-filter-toggle {flex:1 1 auto;}
   .spell-reset-main {flex:0 0 48px;}
 }
+
+/* Compact language toggle inside a spell card. */
+.spell-language-switch{display:flex;justify-content:flex-end;gap:2px;margin:0 0 9px;}
+.spell-language-switch button{font-size:11px;font-weight:650;line-height:1.2;letter-spacing:.3px;padding:5px 8px;border:1px solid #dce5dd;background:#fff;color:#748479;cursor:pointer;}
+.spell-language-switch button:first-child{border-radius:5px 0 0 5px;}
+.spell-language-switch button:last-child{border-radius:0 5px 5px 0;}
+.spell-language-switch button.is-active{background:#eaf0e9;color:#2d4837;border-color:#c8d8ca;}
+.spell-language-switch button:focus-visible{outline:2px solid #6d9073;outline-offset:2px;}
