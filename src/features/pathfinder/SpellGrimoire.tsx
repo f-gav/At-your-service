@@ -1,9 +1,10 @@
 import {useEffect,useMemo,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,Search} from 'lucide-react';
-import {parseSpellCatalog,toSpellViews} from '../spell-library/catalog';
+import {toSpellViews} from '../spell-library/catalog';
+import {loadSpellCatalog} from '../spell-library/load-catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
-import type {SpellView,SpellCatalog} from '../spell-library/catalog';
+import type {SpellView} from '../spell-library/catalog';
 import './SpellGrimoire.css';
 
 export type SavedSpell={id:string;prepared:boolean};
@@ -48,60 +49,7 @@ export function spellCast(spell:SpellView):string{
   return spell.rules.trigger?'Реакция':'—';
 }
 export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
-  const root=import.meta.env.BASE_URL+'spell-library/';
-  const response=await fetch(root+'pf2e.json',{signal});
-  if(!response.ok)throw new Error('Не удалось загрузить заклинания');
-  const base=parseSpellCatalog(await response.json(),'pf2e') as SpellCatalog;
-  // Build lookup indexes once. Translation overlays previously scanned the
-  // entire catalogue twice for every entry, delaying first render.
-  const normalizeEnglish=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'');
-  const englishByName=new Map<string,(typeof base.translations)[number]>();
-  const russianByVersion=new Map<string,number>();
-  base.translations.forEach((translation,index)=>{
-    if(translation.locale==='en'){
-      const key=normalizeEnglish(translation.name);
-      if(!englishByName.has(key))englishByName.set(key,translation);
-    }
-    if(translation.locale==='ru'){
-      const key=JSON.stringify([translation.spellId,translation.versionId]);
-      if(!russianByVersion.has(key))russianByVersion.set(key,index);
-    }
-  });
-  for(const file of ['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json']){
-    const overlay=await fetch(root+file,{signal});
-    if(!overlay.ok)throw new Error('Не удалось загрузить русские переводы');
-    const patch=await overlay.json() as {entries:Array<{englishName:string;name:string;description:string}>};
-    for(const entry of patch.entries){
-      const english=englishByName.get(normalizeEnglish(entry.englishName));
-      if(!english)continue;
-      const key=JSON.stringify([english.spellId,english.versionId]);
-      const old=russianByVersion.get(key);
-      const russian={spellId:english.spellId,versionId:english.versionId,locale:'ru' as const,
-        name:entry.name,description:entry.description,translationOrigin:'at-your-service' as const,
-        translationStatus:'draft' as const,translatorCredit:'Перевод от At your service!'};
-      if(old===undefined){
-        russianByVersion.set(key,base.translations.length);
-        base.translations.push(russian);
-      }else base.translations[old]=russian;
-    }
-  }
-  // The character-sheet grimoire must use the same class-exclusive spell
-  // package as the public library. Previously it loaded only pf2e.json, so
-  // checking "Некромант" in the sheet could never reveal the grave spells.
-  const graveResponse=await fetch(root+'pf2e-necromancer.json',{signal});
-  if(!graveResponse.ok)throw new Error('Не удалось загрузить заклинания некроманта');
-  const grave=parseSpellCatalog(await graveResponse.json(),'pf2e');
-  const spellIds=new Set(base.spells.map(s=>s.id));
-  const versionIds=new Set(base.versions.map(v=>v.id));
-  const sourceIds=new Set(base.sources.map(s=>s.id));
-  if(grave.spells.some(s=>spellIds.has(s.id))||
-     grave.versions.some(v=>versionIds.has(v.id))||
-     grave.sources.some(s=>sourceIds.has(s.id)))
-    throw new Error('Повторяющиеся идентификаторы заклинаний некроманта');
-  base.spells.push(...grave.spells);
-  base.versions.push(...grave.versions);
-  base.translations.push(...grave.translations);
-  base.sources.push(...grave.sources);
+  const base=await loadSpellCatalog('pf2e',signal,import.meta.env.BASE_URL);
   return toSpellViews(base,'pf2e-remaster').sort((a,b)=>
     grimoireDisplayRank(a)-grimoireDisplayRank(b)||a.name.localeCompare(b.name,'ru'));
 }
