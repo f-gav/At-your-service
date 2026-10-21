@@ -133,8 +133,8 @@ assert.match(sheet,/id\.startsWith\('tradition_'\)/,'PDF half-circle toggles syn
 
 assert.match(dialog,/Открыть гримуар/);
 assert.match(grimoire,/\['necromancer','Некромант','occult'\]/,'Necromancer must appear as a class checkbox');
-assert.match(grimoire,/root\+'pf2e-necromancer\.json'/,'Sheet grimoire loads Necromancer spells');
-assert.match(grimoire,/grave\.spells\.push|base\.spells\.push\(\.\.\.grave\.spells\)/,
+assert.match(grimoire,/loadSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,'Sheet grimoire shares the PF2e catalog loader');
+assert.match(read('../src/features/spell-library/load-catalog.ts'),/base\.spells\.push\(\.\.\.necro\.spells\)/,
   'Class-only spells are merged into the sheet catalogue');
 assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips are listed under Cantrips');
 const librarySource=read('../src/features/spell-library/SpellLibrary.tsx');
