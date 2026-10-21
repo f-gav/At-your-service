@@ -172,3 +172,12 @@ assert.match(dialog,/closeCallback\.current\(\)/);
 assert.match(css,/\.pf-spell-dialog-backdrop/);
 assert.match(css,/@media\(max-width:680px\)/);
 console.log('PF2e spellcasting: rank + ability, signed attacks, spell DC, missing data, legacy/manual JSON, 10 slots and in-sheet dialog checked.');
+
+// Wave 2: adding and preparing are separate actions for slotted spells.
+assert.match(grimoire,/const add=\(spell:SpellView\)=>onSelection\(\[\.\.\.selection,\{id:spell\.id,prepared:spell\.spell\.kind!=='spell'\}\]\)/);
+assert.match(grimoire,/const togglePrepared=\(spell:SpellView\)/);
+assert.match(grimoire,/preparedByRank/);
+assert.match(grimoire,/slotWarnings/);
+assert.match(grimoire,/spell\.spell\.kind==='spell'\?/);
+assert.match(grimoire,/Это подсказка, а не ограничение подготовки/);
+console.log('PASS: Wave 2 - independent add and prepare, per-rank slot guidance');
