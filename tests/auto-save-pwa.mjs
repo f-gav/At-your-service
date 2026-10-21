@@ -33,6 +33,8 @@ assert.ok(auto.includes('inFlight.current'),'Network writes must be serialized')
 assert.ok(auto.includes('savedRef.current=payload'),'Only acknowledge exact saved payload');
 assert.ok(auto.includes('setFailedSnapshot(payload)'),'Failure must be visible and not silently retried forever');
 assert.ok(auto.includes('writeLocalDraft(draftKey,payload,currentRef.current)'));
+assert.ok(auto.includes('clearLocalDraft(draftKey,payload)'));
+assert.ok(auto.includes('clearLocalDraft(draftKey,snapshot)'));
 assert.ok(auto.includes("window.addEventListener('beforeunload'"));
 assert.ok(auto.includes("window.addEventListener('online'"));
 assert.ok(auto.includes("document.addEventListener('visibilitychange'"));
@@ -65,7 +67,9 @@ assert.equal(recoverLocalDraft(key,elsewhere),null,'Draft from stale base must n
 writeLocalDraft(key,baseline,baseline);
 assert.equal(recoverLocalDraft(key,baseline),null);
 writeLocalDraft(key,baseline,later);
-clearLocalDraft(key);
+clearLocalDraft(key,baseline);
+assert.equal(recoverLocalDraft(key,baseline),later,'An older tab cannot clear a newer unsaved draft');
+clearLocalDraft(key,later);
 assert.equal(recoverLocalDraft(key,baseline),null);
 writeLocalDraft(key,baseline,later);
 const stale=JSON.parse(storage.get(key));
