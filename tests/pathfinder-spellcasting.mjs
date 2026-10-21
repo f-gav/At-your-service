@@ -133,10 +133,11 @@ assert.match(sheet,/id\.startsWith\('tradition_'\)/,'PDF half-circle toggles syn
 
 assert.match(dialog,/Открыть гримуар/);
 assert.match(grimoire,/\['necromancer','Некромант','occult'\]/,'Necromancer must appear as a class checkbox');
-assert.match(grimoire,/loadSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,'Sheet grimoire shares the PF2e catalog loader');
+assert.match(grimoire,/loadCachedSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,'Sheet grimoire shares the PF2e catalog loader');
 assert.match(read('../src/features/spell-library/load-catalog.ts'),/base\.spells\.push\(\.\.\.necro\.spells\)/,
   'Class-only spells are merged into the sheet catalogue');
-assert.match(grimoire,/grimoireDisplayRank\(s\)===rank/,'Rank-one class cantrips are listed under Cantrips');
+assert.match(read('../src/features/pathfinder/grimoire-selectors.ts'),/spell\.spell\.kind==='cantrip'\?0:spell\.spell\.rank/,
+  'Rank-one class cantrips are listed under Cantrips');
 const librarySource=read('../src/features/spell-library/SpellLibrary.tsx');
 const libraryCss=read('../src/features/spell-library/SpellLibrary.css');
 assert.match(grimoire,/import \{SpellModal\} from '\.\.\/spell-library\/SpellLibrary'/,
@@ -176,7 +177,7 @@ console.log('PF2e spellcasting: rank + ability, signed attacks, spell DC, missin
 // Wave 2: adding and preparing are separate actions for slotted spells.
 assert.match(grimoire,/const add=\(spell:SpellView\)=>onSelection\(\[\.\.\.selection,\{id:spell\.id,prepared:spell\.spell\.kind!=='spell'\}\]\)/);
 assert.match(grimoire,/const togglePrepared=\(spell:SpellView\)/);
-assert.match(grimoire,/preparedByRank/);
+assert.match(read('../src/features/pathfinder/grimoire-selectors.ts'),/preparedByRank/);
 assert.match(grimoire,/slotWarnings/);
 assert.match(grimoire,/spell\.spell\.kind==='spell'\?/);
 assert.match(grimoire,/Это подсказка, а не ограничение подготовки/);
