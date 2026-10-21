@@ -90,6 +90,8 @@ export type SpellView = {
   englishName:string;
   description:string;
   summary:string;
+  englishDescription?:string;
+  englishSummary?:string;
   locale:'ru'|'en';
   translated:boolean;
   translationStatus?:'verified'|'draft'|'missing';
@@ -192,6 +194,7 @@ export function toSpellViews(catalog:SpellCatalog,edition:string):SpellView[]{
       name:selected?.name||spell.slug,
       englishName:english?.name||spell.slug,
       summary:selected?.summary||'',description:selected?.description||'',
+      englishSummary:english?.summary||'',englishDescription:english?.description||'',
       locale:selected?.locale||'en',translated:Boolean(russian),translationStatus:selected?.translationStatus,
       translationOrigin:selected?.translationOrigin,
       source:sources.get(rules.sourceId??spell.sourceId),
