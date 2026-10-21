@@ -1,4 +1,5 @@
 import {parseSiteRoute,siteRoutePath} from '../src/lib/routes.ts';
+import {loadSpellCatalog} from '../src/features/spell-library/load-catalog.ts';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
@@ -823,3 +824,25 @@ for(const base of ['/','/At-your-service/']){
 }
 assert.deepEqual(parseSiteRoute('#library'),{kind:'library'});
 assert.deepEqual(parseSiteRoute('/character/invalid/'),{kind:'characters'});
+
+const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
+const requested=[];
+const mockedFetch=async(url)=>{
+  requested.push(url);
+  const file=url.split('/').at(-1);
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'dnd5e.json':dnd}[file];
+  return {ok:Boolean(data),status:data?200:404,json:async()=>data};
+};
+const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json']);
+assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
+const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
+assert.equal(sharedDnd.spells.length,dnd.spells.length);
+const duplicate=structuredClone(necroPack);
+duplicate.spells[0].id=wave.spells[0].id;
+await assert.rejects(()=>loadSpellCatalog('pf2e',new AbortController().signal,'/',async(url)=>({
+  ok:true,status:200,json:async()=>url.endsWith('pf2e-necromancer.json')?duplicate:wave
+})),/Повторяющиеся/);
+console.log('PASS: shared loader, no old overlays, class pack, duplicate protection');
