@@ -648,6 +648,35 @@ try {
   await magic.getByRole('button',{name:'Открыть гримуар',exact:true}).click();
   const grimoire=libraryPage.getByRole('dialog',{name:'Гримуар заклинаний',exact:true});
   await grimoire.locator('.pf-grimoire-item').first().waitFor();
+  const grimoireClose=grimoire.getByRole('button',{name:'Закрыть гримуар'});
+  assert.ok(await grimoireClose.evaluate(node=>document.activeElement===node),
+    'Opening the grimoire must focus its close control');
+  await libraryPage.keyboard.press('Shift+Tab');
+  assert.ok(await grimoire.evaluate(node=>node.contains(document.activeElement)),
+    'Reverse Tab must remain inside the grimoire');
+  await libraryPage.keyboard.press('Tab');
+  assert.ok(await grimoireClose.evaluate(node=>document.activeElement===node),
+    'Tab from the last control must wrap back to close');
+  for(const width of [320,390]){
+    await libraryPage.setViewportSize({width,height:740});
+    const metrics=await grimoire.evaluate(node=>{
+      const box=node.getBoundingClientRect();
+      const scroll=node.querySelector('.pf-grimoire-scroll');
+      const first=node.querySelector('.pf-grimoire-item');
+      const close=node.querySelector('header button');
+      return {
+        left:box.left,right:box.right,viewport:window.innerWidth,
+        scrollWidth:scroll?.scrollWidth,clientWidth:scroll?.clientWidth,
+        rowWidth:first?.scrollWidth,rowClient:first?.clientWidth,
+        closeWidth:close?.getBoundingClientRect().width,
+      };
+    });
+    assert.ok(metrics.left>=0&&metrics.right<=width+1,'Grimoire must stay on-screen at '+width+': '+JSON.stringify(metrics));
+    assert.ok(metrics.scrollWidth<=metrics.clientWidth+2,'Grimoire content cannot overflow horizontally at '+width+': '+JSON.stringify(metrics));
+    assert.ok(metrics.rowWidth<=metrics.rowClient+2,'Long spell entries must wrap at '+width+': '+JSON.stringify(metrics));
+    assert.ok(metrics.closeWidth>=44,'Close button must have a touch-safe hit area at '+width);
+  }
+  await libraryPage.setViewportSize({width:1440,height:900});
   await grimoire.getByRole('combobox',{name:'Круг заклинаний'}).selectOption('1');
   const slottedSpell=grimoire.locator('.pf-grimoire-item:not(:has(.pf-grimoire-focus-tag))').first();
   await slottedSpell.getByRole('button',{name:/^Добавить /}).click();
