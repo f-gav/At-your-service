@@ -65,7 +65,7 @@ writeLocalDraft(key,baseline,later);
 assert.equal(recoverLocalDraft(key,baseline),later);
 assert.equal(recoverLocalDraft(key,elsewhere),null,'Draft from stale base must never overwrite newer cloud data');
 writeLocalDraft(key,baseline,baseline);
-assert.equal(recoverLocalDraft(key,baseline),null);
+assert.equal(recoverLocalDraft(key,baseline),later,'An unchanged tab must preserve another tab\'s draft');
 writeLocalDraft(key,baseline,later);
 clearLocalDraft(key,baseline);
 assert.equal(recoverLocalDraft(key,baseline),later,'An older tab cannot clear a newer unsaved draft');
