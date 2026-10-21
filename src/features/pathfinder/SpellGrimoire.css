@@ -1,14 +1,114 @@
-.pf-grimoire-backdrop{position:fixed;inset:0;z-index:1200;background:#1e232b83;display:flex;justify-content:center;align-items:center;gap:22px;padding:24px}.pf-grimoire{width:min(760px,95vw);height:min(88vh,880px);background:#fff;border:1px solid #b8bcbf;border-radius:8px;display:flex;flex-direction:column;padding:18px 20px;min-height:0;box-shadow:0 12px 40px #10182038}.pf-grimoire header{display:flex;align-items:center;gap:14px;border-bottom:1px solid #ddd;padding-bottom:10px}.pf-grimoire header h2{font-size:21px;margin:0}.pf-grimoire header span{font-size:13px;color:#657077;margin-left:auto}.pf-grimoire button{cursor:pointer}.pf-grimoire header button{background:transparent;border:0}.pf-grimoire-tabs{display:flex;gap:8px;margin:12px 0}.pf-grimoire-tabs button{flex:1;padding:10px;border:0;background:#eff1f3;border-bottom:2px solid transparent}.pf-grimoire-tabs button.active{border-color:#426caa;background:#eaf0f9}.pf-grimoire-filters{display:flex;gap:12px}.pf-grimoire-filters label{display:flex;align-items:center;gap:6px;flex:1;border:1px solid #ccd0d4;padding:7px;border-radius:5px}.pf-grimoire-filters input{border:0;outline:0;width:100%;min-width:0}.pf-grimoire-filters select{padding:7px;border:1px solid #ccd0d4;border-radius:5px}.pf-grimoire-traditions{color:#61717a;font-size:12px;margin:10px 0}.pf-grimoire-scroll{overflow:auto;min-height:0;flex:1}.pf-grimoire-scroll h3{font-size:16px;border-bottom:1px solid #777;margin:15px 0 6px}.pf-grimoire-item{display:flex;gap:10px;align-items:center;min-height:42px;border-bottom:1px solid #eff0f2}.pf-grimoire-name{flex:1;text-align:left;border:0;background:none;font-size:14px;font-weight:600}.pf-grimoire-item small{color:#667;min-width:48px}.pf-grimoire-item>button:not(.pf-grimoire-name){border:1px solid #6481aa;border-radius:4px;padding:6px 9px;background:white;color:#36619d}.pf-grimoire-item>button.chosen{color:white;background:#456bb4}.pf-grimoire-detail{width:min(440px,95vw);max-height:84vh;overflow:auto;background:white;position:relative;padding:25px;border-radius:7px;box-shadow:0 8px 32px #171e273b}.pf-grimoire-detail h2{font-size:20px;text-align:center}.pf-grimoire-detail p{color:#606b75}.pf-grimoire-description{white-space:pre-wrap;line-height:1.55;font-size:14px;margin:22px 0}.pf-grimoire-close{position:absolute;right:12px;top:12px;background:none;border:0}.pf-grimoire-detail>button:last-child{background:#416cba;color:#fff;border:0;border-radius:4px;padding:9px 16px}@media(max-width:850px){.pf-grimoire-backdrop{padding:8px;gap:0}.pf-grimoire{width:100%;height:96vh;padding:12px}.pf-grimoire-detail{position:absolute;width:calc(100% - 24px);max-width:480px;box-shadow:0 0 0 100vmax #18202b88}}
-/* Keep the entire grimoire inside the visible application viewport, including header. */
-.pf-grimoire-backdrop{box-sizing:border-box;z-index:16000;padding:clamp(12px,3vh,24px);align-items:center;overflow:hidden}
+/* Grimoire layout: a bounded scrolling dialog at desktop and phone widths. */
+.pf-grimoire-backdrop{
+  position:fixed;inset:0;z-index:16000;box-sizing:border-box;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(12px,3vh,24px);background:#1e232b83;overflow:hidden;
+}
 .pf-grimoire,.pf-grimoire-detail{box-sizing:border-box}
-.pf-grimoire{width:min(660px,calc(100vw - 32px));height:min(690px,calc(100dvh - 48px));max-height:calc(100dvh - 24px);padding:14px 17px;overflow:hidden}
-.pf-grimoire-scroll{overscroll-behavior:contain;overflow-y:auto}
-.pf-grimoire-detail{width:min(390px,calc(100vw - 32px));max-height:calc(100dvh - 48px)}
-@media(max-width:850px){
- .pf-grimoire-backdrop{padding:10px;align-items:center}
- .pf-grimoire{width:min(660px,100%);height:min(690px,calc(100dvh - 20px));max-height:calc(100dvh - 20px);padding:12px}
- .pf-grimoire-detail{width:calc(100% - 24px);max-height:calc(100dvh - 35px)}
+.pf-grimoire{
+  display:flex;flex-direction:column;min-height:0;overflow:hidden;
+  width:min(660px,calc(100vw - 32px));
+  height:min(690px,calc(100dvh - 48px));max-height:calc(100dvh - 24px);
+  padding:14px 17px;background:#fff;border:1px solid #b8bcbf;
+  border-radius:8px;box-shadow:0 12px 40px #10182038;
+}
+.pf-grimoire header{display:flex;align-items:center;gap:14px;border-bottom:1px solid #ddd;padding-bottom:10px}
+.pf-grimoire header h2{font-size:21px;margin:0;white-space:nowrap}
+.pf-grimoire header span{font-size:13px;color:#657077;margin-left:auto;overflow-wrap:anywhere}
+.pf-grimoire button{cursor:pointer}
+.pf-grimoire header button{
+  display:grid;place-items:center;flex:none;width:40px;height:40px;
+  padding:0;background:transparent;border:0;border-radius:6px;
+}
+.pf-grimoire :is(button,input,select):focus-visible{
+  outline:2px solid #426e9b;outline-offset:2px;
+}
+.pf-grimoire-tabs{display:flex;gap:8px;margin:12px 0}
+.pf-grimoire-tabs button{
+  flex:1;min-width:0;min-height:42px;padding:8px 10px;
+  border:0;border-bottom:2px solid transparent;background:#eff1f3;
+  font-size:13px;
+}
+.pf-grimoire-tabs button.active{border-color:#426caa;background:#eaf0f9}
+.pf-grimoire-filters{display:flex;gap:12px;min-width:0}
+.pf-grimoire-filters label{
+  display:flex;align-items:center;gap:6px;flex:1;min-width:0;
+  border:1px solid #ccd0d4;padding:7px;border-radius:5px;
+}
+.pf-grimoire-filters input{border:0;outline:0;width:100%;min-width:0}
+.pf-grimoire-filters select{min-width:0;padding:7px;border:1px solid #ccd0d4;border-radius:5px}
+.pf-grimoire-traditions{
+  color:#61717a;font-size:12px;line-height:1.5;margin:10px 0;
+  overflow-wrap:anywhere;
+}
+.pf-grimoire-scroll{min-height:0;min-width:0;flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.pf-grimoire-scroll h3{font-size:16px;border-bottom:1px solid #777;margin:15px 0 6px}
+.pf-grimoire-item{
+  display:flex;gap:10px;align-items:center;min-height:48px;
+  min-width:0;border-bottom:1px solid #eff0f2;
+}
+.pf-grimoire-name{
+  flex:1;min-width:0;text-align:left;border:0;background:none;
+  font-size:14px;font-weight:600;overflow-wrap:anywhere;
+}
+.pf-grimoire-item small{color:#667;min-width:48px;flex:none}
+.pf-grimoire-item>button:not(.pf-grimoire-name){
+  min-height:36px;border:1px solid #6481aa;border-radius:4px;
+  padding:6px 9px;background:white;color:#36619d;
+}
+.pf-grimoire-item>button.chosen{color:white;background:#456bb4}
+.pf-grimoire-detail{
+  width:min(390px,calc(100vw - 32px));max-height:calc(100dvh - 48px);
+  overflow:auto;background:white;position:relative;padding:25px;
+  border-radius:7px;box-shadow:0 8px 32px #171e273b;
+}
+.pf-grimoire-detail h2{font-size:20px;text-align:center}
+.pf-grimoire-detail p{color:#606b75}
+.pf-grimoire-description{white-space:pre-wrap;line-height:1.55;font-size:14px;margin:22px 0}
+.pf-grimoire-close{position:absolute;right:12px;top:12px;background:none;border:0}
+.pf-grimoire-detail>button:last-child{background:#416cba;color:#fff;border:0;border-radius:4px;padding:9px 16px}
+.pf-grimoire-focus-tag{
+  display:inline-block;margin-left:8px;padding:2px 6px;
+  border:1px solid #c4d6c8;border-radius:4px;background:#edf4ee;
+  color:#3d6446;font-size:11px;font-weight:600;
+  vertical-align:middle;white-space:nowrap;
+}
+.pf-grimoire-slot-warning{
+  margin:5px 0 9px;padding:8px 10px;border:1px solid #e2c9a0;
+  border-radius:5px;background:#fffaf0;color:#78501f;
+  font-size:12px;line-height:1.5;
+}
+.pf-grimoire-no-slot{
+  display:inline-flex;align-items:center;padding:6px 9px;
+  color:#5b7663;font-size:12px;white-space:nowrap;
+}
+@media(max-width:600px){
+  .pf-grimoire-backdrop{padding:8px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .pf-grimoire{
+    width:100%;height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);
+    padding:12px;min-width:0;
+  }
+  .pf-grimoire header{
+    display:grid;grid-template-columns:minmax(0,1fr) 44px;
+    gap:2px 8px;align-items:center;
+  }
+  .pf-grimoire header h2{grid-column:1;grid-row:1;font-size:19px}
+  .pf-grimoire header span{grid-column:1;grid-row:2;margin-left:0;font-size:12px}
+  .pf-grimoire header button{grid-column:2;grid-row:1 / 3;width:44px;height:44px}
+  .pf-grimoire-tabs{gap:6px;margin:10px 0}
+  .pf-grimoire-tabs button{font-size:12px;min-height:44px;padding:7px 5px}
+  .pf-grimoire-filters{flex-direction:column;gap:7px}
+  .pf-grimoire-filters label,.pf-grimoire-filters select{width:100%;box-sizing:border-box;min-height:44px}
+  .pf-grimoire-traditions{font-size:11px;margin:8px 0}
+  .pf-grimoire-item{
+    display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+    gap:4px 7px;min-width:0;padding:8px 2px;
+  }
+  .pf-grimoire-name{grid-column:1 / -1;grid-row:1;min-height:26px;line-height:1.5;padding:1px 0}
+  .pf-grimoire-item small{grid-column:1;grid-row:2;min-width:0}
+  .pf-grimoire-item>button:not(.pf-grimoire-name){min-height:44px;padding:7px 10px}
+  .pf-grimoire-no-slot{padding:7px 8px}
+  .pf-grimoire-detail{width:calc(100% - 24px);max-height:calc(100dvh - 35px)}
 }
 
 /* Read-only PF2e spell details, opened directly from a printed spell row. */
@@ -21,7 +121,3 @@
 .pf-character-spell-close{position:absolute;right:14px;top:12px;border:0;background:transparent;color:#49545c;cursor:pointer;padding:5px}
 .pf-spell-library-field .pf-spell-library-entry{position:relative;z-index:2;pointer-events:auto}
 
-.pf-grimoire-focus-tag{display:inline-block;margin-left:8px;padding:2px 6px;border:1px solid #c4d6c8;border-radius:4px;background:#edf4ee;color:#3d6446;font-size:11px;font-weight:600;vertical-align:middle;white-space:nowrap}
-
-.pf-grimoire-slot-warning{margin:5px 0 9px;padding:8px 10px;border:1px solid #e2c9a0;border-radius:5px;background:#fffaf0;color:#78501f;font-size:12px;line-height:1.5}
-.pf-grimoire-no-slot{display:inline-flex;align-items:center;padding:6px 9px;color:#5b7663;font-size:12px;white-space:nowrap}
