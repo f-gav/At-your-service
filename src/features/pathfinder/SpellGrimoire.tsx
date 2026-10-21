@@ -168,7 +168,7 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
           const group=results.filter(s=>grimoireDisplayRank(s)===level);
           return group.length?<section key={level}><h3>{level===0?'Чары':'Заклинания '+level+'-го круга'} ({group.length})</h3>
             {group.map(spell=>{const saved=selection.find(x=>x.id===spell.id);return <div className="pf-grimoire-item" key={spell.id}>
-              <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}</button>
+              <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}{spell.spell.kind==='focus'&&<span className="pf-grimoire-focus-tag">Фокусное</span>}</button>
               <small>{spellCast(spell)}</small>
               <button type="button" aria-label={'Подготовить '+spell.name} className={saved?.prepared?'chosen':''} onClick={()=>update(spell)}>{saved?.prepared?'Подготовлено':saved?'Подготовить':'Добавить'}</button>
               {saved&&<button type="button" aria-label={'Удалить '+spell.name} onClick={()=>remove(spell.id)}>×</button>}
