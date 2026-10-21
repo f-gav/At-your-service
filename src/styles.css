@@ -569,3 +569,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .pf-variant-choices input{grid-row:span 2;accent-color:#386b48;margin:1px 0}
 .pf-variant-choices small{font-size:11px;font-weight:400;color:#6f7971;grid-column:2}
 @media(max-width:550px){.pf-variant-choices{grid-template-columns:1fr}}
+
+/* Reserve the portrait surface until a private WebP has loaded and decoded. */
+.ays-portrait-loading{display:block;position:relative;width:100%;height:100%;overflow:hidden;background:#e9edeb}
+.ays-portrait-loading img{display:block;opacity:0;transition:opacity .18s ease}
+.ays-portrait-loading.is-ready img{opacity:1}
+.ays-portrait-loading img:not([style*="position"]){width:100%;height:100%;object-fit:cover}
