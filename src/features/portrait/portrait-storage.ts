@@ -12,10 +12,27 @@ function client(){
   if(!supabase)throw new Error('Для портретов требуется вход через Google.');
   return supabase;
 }
+const signedUrlCache=new Map<string,{url:string;until:number}>();
+const signedUrlRequests=new Map<string,Promise<string>>();
+/** In-memory only: private URLs are not stored in localStorage or the service worker. */
 export async function signedPortraitUrl(path:string):Promise<string>{
-  const {data,error}=await client().storage.from(PORTRAIT_BUCKET).createSignedUrl(path,3600);
-  if(error||!data)throw new Error(error?.message??'Не удалось загрузить портрет.');
-  return data.signedUrl;
+  const cached=signedUrlCache.get(path);
+  if(cached&&cached.until>Date.now())return cached.url;
+  const pending=signedUrlRequests.get(path);
+  if(pending)return pending;
+  const request=(async()=>{
+    const {data,error}=await client().storage.from(PORTRAIT_BUCKET).createSignedUrl(path,3600);
+    if(error||!data)throw new Error(error?.message??'Не удалось загрузить портрет.');
+    // Refresh well before the signed link's one-hour expiration.
+    signedUrlCache.set(path,{url:data.signedUrl,until:Date.now()+50*60*1000});
+    return data.signedUrl;
+  })().finally(()=>signedUrlRequests.delete(path));
+  signedUrlRequests.set(path,request);
+  return request;
+}
+export function clearSignedPortraitCache():void{
+  signedUrlCache.clear();
+  signedUrlRequests.clear();
 }
 async function clean(paths:string[]){
   if(!paths.length)return;
