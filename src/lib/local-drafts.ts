@@ -43,6 +43,14 @@ export function writeLocalDraft(key: string, base: string, snapshot: string): vo
     // Storage can be full or forbidden in private browsing. Cloud saves still work.
   }
 }
-export function clearLocalDraft(key: string): void {
-  try { window.localStorage.removeItem(key); } catch { /* no storage permission */ }
+/** Only clear the draft that this save actually acknowledged. A second tab may
+ * already have written another snapshot with the same key. */
+export function clearLocalDraft(key: string, expectedSnapshot?: string): void {
+  try {
+    if (expectedSnapshot !== undefined) {
+      const existing = parseRecord(window.localStorage.getItem(key));
+      if (!existing || existing.snapshot !== expectedSnapshot) return;
+    }
+    window.localStorage.removeItem(key);
+  } catch { /* no storage permission */ }
 }
