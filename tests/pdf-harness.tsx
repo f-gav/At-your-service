@@ -83,7 +83,7 @@ async function saveTestCharacter(_id:string,name:string,details:Character['detai
 createRoot(document.getElementById('root')!).render(
   system==='pf2e'
   ? <PathfinderSheet character={character} onSave={saveTest?saveTestCharacter:async()=>true} onClose={noop} onEditPortrait={noop}/>
-  : <ProjectMoonSheet character={character} onSave={async()=>true} onClose={noop} onEditPortrait={noop} previewMode/>
+  : <ProjectMoonSheet character={character} onSave={saveTest?saveTestCharacter:async()=>true} onClose={noop} onEditPortrait={noop} previewMode={!saveTest}/>
 );
 document.getElementById('generate-test-pdf')!.addEventListener('click',()=>{
   const selector=system==='pf2e'?'.pf-editor':'.moon-editor';
