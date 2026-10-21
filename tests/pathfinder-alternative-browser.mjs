@@ -648,7 +648,10 @@ try {
   await magic.getByRole('button',{name:'Открыть гримуар',exact:true}).click();
   const grimoire=libraryPage.getByRole('dialog',{name:'Гримуар заклинаний',exact:true});
   await grimoire.locator('.pf-grimoire-item').first().waitFor();
-  await grimoire.locator('.pf-grimoire-item').first().getByRole('button',{name:/^Подготовить /}).click();
+  await grimoire.getByRole('combobox',{name:'Круг заклинаний'}).selectOption('1');
+  const slottedSpell=grimoire.locator('.pf-grimoire-item:not(:has(.pf-grimoire-focus-tag))').first();
+  await slottedSpell.getByRole('button',{name:/^Добавить /}).click();
+  await slottedSpell.getByRole('button',{name:/^Подготовить /}).click();
   await grimoire.getByRole('button',{name:'Закрыть гримуар'}).click();
   const spellRow=magic.locator('.pf-alt-spell-row').first();
   await spellRow.waitFor();
