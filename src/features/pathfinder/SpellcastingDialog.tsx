@@ -1,6 +1,6 @@
 import {useEffect,useRef} from 'react';
 import {createPortal} from 'react-dom';
-import {X} from 'lucide-react';
+import {X,BookOpen} from 'lucide-react';
 import type {SheetValues} from './sheet-values';
 import {RANK_LABELS,readRank} from './rules-core';
 import {
@@ -100,7 +100,7 @@ export default function SpellcastingDialog({values,onChange,onRankChange,onClose
             <span className="pf-spell-mode-track" aria-hidden="true"><span/></span>
             <span>Текст</span>
           </label>
-          <button type="button" disabled={disabled||mode==='text'} onClick={onOpenGrimoire}>Открыть гримуар</button>
+          <button type="button" className="pf-open-grimoire-icon" disabled={disabled||mode==='text'} onClick={onOpenGrimoire} aria-label="Открыть гримуар" title="Открыть гримуар"><BookOpen size={20} aria-hidden="true"/></button>
         </div>
         <p className="pf-spell-dialog-footnote">В текстовом режиме выбранные заклинания скрыты на листе, но сохраняются в гримуаре. Ручные записи также сохраняются при переключении.</p>
         <h3>Классы, открывающие заклинания</h3>
