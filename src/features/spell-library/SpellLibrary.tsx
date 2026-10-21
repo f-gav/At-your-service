@@ -7,11 +7,12 @@ import {
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
   RARITY_LABELS,SPELL_SYSTEMS,
-  emptySpellCatalog,filterSpellViews,parseSpellCatalog,toSpellViews,
+  emptySpellCatalog,filterSpellViews,toSpellViews,
 } from './catalog';
 import type {
   PfTradition,SpellCatalog,SpellFilters,SpellKind,SpellSystem,SpellView,
 } from './catalog';
+import {loadSpellCatalog} from './load-catalog';
 import './SpellLibrary.css';
 
 const PF_CLASS_LABELS:Record<string,string>={necromancer:'Некромант'};
@@ -335,33 +336,7 @@ export default function SpellLibrary({onBack}:Props){
     const controller=new AbortController();
     setLoadState('loading');
     setLoadError('');
-    void fetch(`${import.meta.env.BASE_URL}spell-library/${system}.json`,{signal:controller.signal})
-      .then(async response=>{
-        if(!response.ok)throw new Error(`HTTP ${response.status}`);
-        const base=parseSpellCatalog(await response.json(),system);
-        if(system!=='pf2e')return base;
-        // Russian rank-two translations are now stored in pf2e.json itself.
-        // Author translation cycle archives are no longer a runtime dependency.
-        // Class-only necromancer grave magic ships separately from the historical
-        // spell-slot catalog, so its rank-1 cantrips and focus spells don't alter
-        // the 483-record base file or earlier translation tracking.
-        const necroResponse=await fetch(`${import.meta.env.BASE_URL}spell-library/pf2e-necromancer.json`,{signal:controller.signal});
-        if(!necroResponse.ok)throw new Error(`Не загружены заклинания некроманта: HTTP ${necroResponse.status}`);
-        const necro=parseSpellCatalog(await necroResponse.json(),'pf2e');
-        const existingSpellIds=new Set(base.spells.map(s=>s.id));
-        const existingVersionIds=new Set(base.versions.map(v=>v.id));
-        const existingSourceIds=new Set(base.sources.map(s=>s.id));
-        if(necro.spells.some(s=>existingSpellIds.has(s.id))||
-           necro.versions.some(v=>existingVersionIds.has(v.id))||
-           necro.sources.some(s=>existingSourceIds.has(s.id))){
-          throw new Error('Повторяющиеся идентификаторы в пакете заклинаний некроманта');
-        }
-        base.spells.push(...necro.spells);
-        base.versions.push(...necro.versions);
-        base.translations.push(...necro.translations);
-        base.sources.push(...necro.sources);
-        return base;
-      })
+    void loadSpellCatalog(system,controller.signal,import.meta.env.BASE_URL)
       .then(data=>{if(active){setCatalog(data);setLoadState('ready');}})
       .catch(error=>{if(active){
         setLoadError(error instanceof Error?error.message:'Ошибка загрузки каталога');
