@@ -1,4 +1,4 @@
-import {parseSpellCatalog} from './catalog';
+import {parseSpellCatalog} from './catalog.ts';
 import type {SpellCatalog,SpellSystem} from './catalog';
 
 /** Shared spell catalog loader for library and character grimoire. */
