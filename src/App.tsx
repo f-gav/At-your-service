@@ -812,14 +812,18 @@ export default function App() {
                           ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
                           : character.portrait_card_path && portraitUrls[character.portrait_card_path]
                             ? <PortraitImage url={portraitUrls[character.portrait_card_path]} />
-                            : <img src={`${import.meta.env.BASE_URL}project-moon/character-icon.png`} alt="" />
+                            : character.portrait_source_path||character.portrait_card_path
+                              ? <span className="ays-portrait-loading" />
+                              : <img src={`${import.meta.env.BASE_URL}project-moon/character-icon.png`} alt="" />
                         : character.portrait_source_path && portraitUrls[character.portrait_source_path]
                           ? <PortraitImage url={portraitUrls[character.portrait_source_path]} frame={character.portrait_crops?.card} />
                           : character.portrait_card_path && portraitUrls[character.portrait_card_path]
                             ? <PortraitImage url={portraitUrls[character.portrait_card_path]} />
-                            : character.system==='pf2e'
-                              ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder-simple.png`} alt="" />
-                              : null}
+                            : character.portrait_source_path||character.portrait_card_path
+                              ? <span className="ays-portrait-loading" />
+                              : character.system==='pf2e'
+                                ? <img className="character-portrait-placeholder" src={`${import.meta.env.BASE_URL}pathfinder/portrait-placeholder-simple.png`} alt="" />
+                                : null}
                     </span>
                     <span className="character-data">
                       <strong>{character.name}</strong>
