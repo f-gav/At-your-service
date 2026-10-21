@@ -45,7 +45,7 @@ import { emptyMoonSheet, moonSubtitle } from './features/project-moon/model';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
-import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl, downloadPortraitBlob } from './features/portrait/portrait-storage';
+import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl, clearSignedPortraitCache, downloadPortraitBlob } from './features/portrait/portrait-storage';
 import SheetAdmin from './features/sheet-admin/SheetAdmin';
 import SpellLibrary from './features/spell-library/SpellLibrary';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
@@ -288,6 +288,11 @@ export default function App() {
 
   const user = session?.user;
   useEffect(()=>{
+    // Signed URLs are bearer links: never reuse them across account changes.
+    clearSignedPortraitCache();
+    setPortraitUrls({});
+  },[user?.id]);
+  useEffect(()=>{
     // A previous account's admin flag must never remain visible while the
     // newly authenticated user's server-side permissions are being checked.
     setIsTemplateAdmin(false);
@@ -302,12 +307,20 @@ export default function App() {
   const portraitCharacter = characters.find(c=>c.id===editingPortraitId) ?? null;
   const signedPaths = useMemo(() => [...new Set(characters.flatMap(portraitPaths))], [characters]);
   useEffect(()=>{
+    // Render each portrait as soon as its signed URL arrives. One slow or
+    // unavailable portrait must not delay every other character card.
     if(!supabase||!user?.id||!signedPaths.length){setPortraitUrls({});return;}
     let mounted=true;
-    void Promise.all(signedPaths.map(async path=>{
-      try{return [path,await signedPortraitUrl(path)] as const;}
-      catch{return [path,''] as const;}
-    })).then(rows=>{if(mounted)setPortraitUrls(Object.fromEntries(rows));});
+    const paths=new Set(signedPaths);
+    setPortraitUrls(previous=>Object.fromEntries(
+      Object.entries(previous).filter(([path])=>paths.has(path))));
+    for(const path of signedPaths){
+      void signedPortraitUrl(path).then(url=>{
+        if(mounted)setPortraitUrls(previous=>previous[path]===url?previous:{...previous,[path]:url});
+      }).catch(()=>{
+        if(mounted)setPortraitUrls(previous=>previous[path]===undefined?previous:{...previous,[path]:''});
+      });
+    }
     return()=>{mounted=false;};
   },[user?.id,signedPaths]);
   async function savePortraitChange(source:Blob,crops:PortraitCrops) {
