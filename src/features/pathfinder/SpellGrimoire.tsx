@@ -4,6 +4,7 @@ import {X,Search} from 'lucide-react';
 import {toSpellViews} from '../spell-library/catalog';
 import {loadCachedSpellCatalog} from '../spell-library/cached-catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
+import {filterGrimoireEntries,groupGrimoireEntries,summarizeGrimoire} from './grimoire-selectors';
 import type {SpellView} from '../spell-library/catalog';
 import './SpellGrimoire.css';
 
@@ -123,17 +124,13 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
         s.spell.classes.some(c=>classes.includes(c.toLowerCase()));
     });
   },[spells,traditions,classes]);
-  const results=useMemo(()=>allowed.filter(s=>(rank==='all'||grimoireDisplayRank(s)===rank)&&
-    (show==='all'||selection.some(x=>x.id===s.id&&x.prepared))&&
-    (!search||[s.name,s.englishName].some(name=>name.toLowerCase().includes(search.toLowerCase())))),[allowed,rank,show,search,selection]);
+  const selectedById=useMemo(()=>new Map(selection.map(entry=>[entry.id,entry] as const)),[selection]);
+  const results=useMemo(()=>filterGrimoireEntries(allowed,rank,show,search,selectedById),
+    [allowed,rank,show,search,selectedById]);
+  const groups=useMemo(()=>groupGrimoireEntries(results),[results]);
   const knownCount=selection.length;
-  const selectedCount=selection.filter(x=>x.prepared).length;
-  const preparedByRank=Array.from({length:10},(_,i)=>selection.filter(x=>x.prepared&&spells.some(v=>
-    v.id===x.id&&v.spell.kind==='spell'&&v.spell.rank===i+1)).length);
-  const preparedCount=preparedByRank.reduce((sum,n)=>sum+n,0);
-  const slotWarnings=preparedByRank.flatMap((count,i)=>count>0&&slotCounts[i]!==undefined&&
-    Number.isFinite(slotCounts[i])&&count>slotCounts[i]?
-    [`${i+1}-й круг: ${count} из ${slotCounts[i]}`]:[]);
+  const {selectedCount,preparedCount,slotWarnings}=useMemo(
+    ()=>summarizeGrimoire(spells,selection,slotCounts),[spells,selection,slotCounts]);
   const add=(spell:SpellView)=>onSelection([...selection,{id:spell.id,prepared:spell.spell.kind!=='spell'}]);
   const togglePrepared=(spell:SpellView)=>onSelection(selection.map(x=>
     x.id===spell.id?{...x,prepared:!x.prepared}:x));
@@ -156,9 +153,9 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
       {slotWarnings.length>0&&<p className="pf-grimoire-slot-warning" role="status">Проверьте ячейки по кругам: {slotWarnings.join('; ')}. Это подсказка, а не ограничение подготовки.</p>}
       {loading?<p>Загружаем библиотеку…</p>:error?<p role="alert">{error}</p>:
         <div className="pf-grimoire-scroll">{Array.from({length:11},(_,level)=>{
-          const group=results.filter(s=>grimoireDisplayRank(s)===level);
+          const group=groups[level];
           return group.length?<section key={level}><h3>{level===0?'Чары':'Заклинания '+level+'-го круга'} ({group.length})</h3>
-            {group.map(spell=>{const saved=selection.find(x=>x.id===spell.id);return <div className="pf-grimoire-item" key={spell.id}>
+            {group.map(spell=>{const saved=selectedById.get(spell.id);return <div className="pf-grimoire-item" key={spell.id}>
               <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}{spell.spell.kind==='focus'&&<span className="pf-grimoire-focus-tag">Фокусное</span>}</button>
               <small>{spellCast(spell)}</small>
               {!saved?<button type="button" aria-label={'Добавить '+spell.name} onClick={()=>add(spell)}>Добавить</button>:
