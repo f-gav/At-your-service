@@ -102,3 +102,6 @@
   outline-offset:-3px;
 }
 
+
+.moon-portrait-art-window>.ays-portrait-loading{position:absolute;inset:0;width:100%;height:100%;background:#363b3c}
+.moon-portrait-art-window>.ays-portrait-loading>img{max-width:none;object-fit:cover}
