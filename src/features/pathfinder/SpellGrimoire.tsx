@@ -2,7 +2,7 @@ import {useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,Search} from 'lucide-react';
 import {toSpellViews} from '../spell-library/catalog';
-import {loadSpellCatalog} from '../spell-library/load-catalog';
+import {loadCachedSpellCatalog} from '../spell-library/cached-catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
 import type {SpellView} from '../spell-library/catalog';
 import './SpellGrimoire.css';
@@ -49,7 +49,7 @@ export function spellCast(spell:SpellView):string{
   return spell.rules.trigger?'Реакция':'—';
 }
 export async function loadPfSpellViews(signal:AbortSignal):Promise<SpellView[]>{
-  const base=await loadSpellCatalog('pf2e',signal,import.meta.env.BASE_URL);
+  const base=await loadCachedSpellCatalog('pf2e',signal,import.meta.env.BASE_URL);
   return toSpellViews(base,'pf2e-remaster').sort((a,b)=>
     grimoireDisplayRank(a)-grimoireDisplayRank(b)||a.name.localeCompare(b.name,'ru'));
 }
