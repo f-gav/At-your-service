@@ -12,10 +12,13 @@ const spellLoader=read('../src/features/pathfinder/SpellGrimoire.tsx');
 assert.match(sheet,/const spellViewsById=useMemo\(\(\)=>new Map\(spellViews\.map/,'Spell catalogue must be indexed once per load');
 assert.match(sheet,/const preparedSpellViews=useMemo\(/,'Prepared spell views must be shared across pages');
 assert.match(sheet,/preparedSpells=\{preparedSpellViews\}/,'Alternative pages must reuse memoized prepared spells');
-assert.match(spellLoader,/const englishByName=new Map/,'Translations use an English-name index');
-assert.match(spellLoader,/const russianByVersion=new Map/,'Russian translations use a version index');
-assert.ok(!spellLoader.includes('base.translations.find(')&&!spellLoader.includes('base.translations.findIndex('),
-  'Translation overlays must avoid repeated catalogue scans');
+const commonLoader=read('../src/features/spell-library/load-catalog.ts');
+assert.match(spellLoader,/loadSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,
+  'Grimoire must use the shared spell catalog loader');
+assert.match(commonLoader,/base\.translations\.push\(\.\.\.necro\.translations\)/,
+  'The shared loader merges class-specific localizations once');
+assert.ok(!spellLoader.includes('pf2e-ays-rank2-cycle'),
+  'Grimoire must not depend on archived translation overlays');
 
 for(const label of ['Альтернативный PF2e','Классический PF2e'])assert.ok(app.includes(label)||sheet.includes(label));
 for(const marker of ['page===1','page===2','page===3','page===4',"page==='notes'",'RichField'])assert.ok(html.includes(marker),marker);
