@@ -158,3 +158,7 @@
 .pf-spell-mode-toggle input:checked+.pf-spell-mode-track>span{transform:translateX(27px)}
 .pf-spell-mode-toggle input:focus-visible+.pf-spell-mode-track{outline:2px solid #426e9b;outline-offset:2px}
 .pf-spell-mode-toggle input:disabled+.pf-spell-mode-track{opacity:.45}
+
+.pf-spell-mode-options{align-items:center;gap:14px}
+.pf-spell-mode-options .pf-open-grimoire-icon{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;padding:0;border:1px solid #b9c7bd;border-radius:7px;background:#f6f8f6;color:#304238}
+.pf-spell-mode-options .pf-open-grimoire-icon:hover:not(:disabled){background:#e8f0e9}
