@@ -37,7 +37,7 @@ export function recoverLocalDraft(key: string, serverSnapshot: string): string |
 }
 export function writeLocalDraft(key: string, base: string, snapshot: string): void {
   try {
-    if (snapshot === base) { window.localStorage.removeItem(key); return; }
+    if (snapshot === base) { clearLocalDraft(key,base); return; }
     window.localStorage.setItem(key, JSON.stringify({base,snapshot,updatedAt:Date.now()} satisfies LocalDraft));
   } catch {
     // Storage can be full or forbidden in private browsing. Cloud saves still work.
