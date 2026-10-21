@@ -91,18 +91,25 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
   const results=useMemo(()=>allowed.filter(s=>(rank==='all'||grimoireDisplayRank(s)===rank)&&
     (show==='all'||selection.some(x=>x.id===s.id&&x.prepared))&&
     (!search||[s.name,s.englishName].some(name=>name.toLowerCase().includes(search.toLowerCase())))),[allowed,rank,show,search,selection]);
-  const preparedCount=selection.filter(x=>x.prepared&&spells.some(v=>v.id===x.id&&v.spell.rank>0&&v.spell.kind==='spell')).length;
-  const availableSlots=slotCounts.reduce((sum,n)=>sum+n,0);
-  const update=(spell:SpellView)=>{const old=selection.find(x=>x.id===spell.id);
-    onSelection(old?selection.map(x=>x.id===spell.id?{...x,prepared:!x.prepared}:x):[...selection,{id:spell.id,prepared:true}]);};
+  const knownCount=selection.length;
+  const selectedCount=selection.filter(x=>x.prepared).length;
+  const preparedByRank=Array.from({length:10},(_,i)=>selection.filter(x=>x.prepared&&spells.some(v=>
+    v.id===x.id&&v.spell.kind==='spell'&&v.spell.rank===i+1)).length);
+  const preparedCount=preparedByRank.reduce((sum,n)=>sum+n,0);
+  const slotWarnings=preparedByRank.flatMap((count,i)=>count>0&&slotCounts[i]!==undefined&&
+    Number.isFinite(slotCounts[i])&&count>slotCounts[i]?
+    [`${i+1}-й круг: ${count} из ${slotCounts[i]}`]:[]);
+  const add=(spell:SpellView)=>onSelection([...selection,{id:spell.id,prepared:spell.spell.kind!=='spell'}]);
+  const togglePrepared=(spell:SpellView)=>onSelection(selection.map(x=>
+    x.id===spell.id?{...x,prepared:!x.prepared}:x));
   const remove=(id:string)=>onSelection(selection.filter(x=>x.id!==id));
   return createPortal(<div className="pf-grimoire-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)onClose();}}>
     <section className="pf-grimoire" role="dialog" aria-modal="true" aria-label="Гримуар заклинаний">
-      <header><h2>Гримуар</h2><span style={{color:availableSlots>0&&preparedCount>availableSlots?'#b54b4b':undefined}}>Подготовлено: {preparedCount}{availableSlots>0?'/'+availableSlots:''} · Добавлено: {selection.length}</span>
+      <header><h2>Гримуар</h2><span>В ячейках: {preparedCount} · Отмечено: {selectedCount} · Добавлено: {knownCount}</span>
         <button type="button" aria-label="Закрыть гримуар" onClick={onClose}><X size={20}/></button></header>
       <div className="pf-grimoire-tabs">
         <button className={show==='all'?'active':''} onClick={()=>setShow('all')}>Все доступные ({allowed.length})</button>
-        <button className={show==='prepared'?'active':''} onClick={()=>setShow('prepared')}>Подготовленные ({selection.filter(x=>x.prepared).length})</button>
+        <button className={show==='prepared'?'active':''} onClick={()=>setShow('prepared')}>Подготовленные ({selectedCount})</button>
       </div>
       <div className="pf-grimoire-filters">
         <label><Search size={16}/><input aria-label="Поиск заклинаний в гримуаре" value={search} placeholder="Поиск названия..." onChange={e=>setSearch(e.target.value)}/></label>
@@ -111,6 +118,7 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
         </select>
       </div>
       <div className="pf-grimoire-traditions">Выбранные классы: {classes.length?PF_CLASS_LIST.filter(([id])=>classes.includes(id)).map(([,label])=>label).join(', '):'не указаны'} · Доступные традиции: {traditions.length?GROUPS.filter(([id])=>traditions.includes(id)).map(([,label])=>label).join(', '):'все (настройте в параметрах заклинаний)'}</div>
+      {slotWarnings.length>0&&<p className="pf-grimoire-slot-warning" role="status">Проверьте ячейки по кругам: {slotWarnings.join('; ')}. Это подсказка, а не ограничение подготовки.</p>}
       {loading?<p>Загружаем библиотеку…</p>:error?<p role="alert">{error}</p>:
         <div className="pf-grimoire-scroll">{Array.from({length:11},(_,level)=>{
           const group=results.filter(s=>grimoireDisplayRank(s)===level);
@@ -118,7 +126,11 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
             {group.map(spell=>{const saved=selection.find(x=>x.id===spell.id);return <div className="pf-grimoire-item" key={spell.id}>
               <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}{spell.spell.kind==='focus'&&<span className="pf-grimoire-focus-tag">Фокусное</span>}</button>
               <small>{spellCast(spell)}</small>
-              <button type="button" aria-label={'Подготовить '+spell.name} className={saved?.prepared?'chosen':''} onClick={()=>update(spell)}>{saved?.prepared?'Подготовлено':saved?'Подготовить':'Добавить'}</button>
+              {!saved?<button type="button" aria-label={'Добавить '+spell.name} onClick={()=>add(spell)}>Добавить</button>:
+                spell.spell.kind==='spell'?<button type="button" aria-label={(saved.prepared?'Снять подготовку ':'Подготовить ')+spell.name}
+                  className={saved.prepared?'chosen':''} onClick={()=>togglePrepared(spell)}>
+                  {saved.prepared?'Подготовлено':'Подготовить'}
+                </button>:<span className="pf-grimoire-no-slot" title="Без подготовки через ячейки">Добавлено</span>}
               {saved&&<button type="button" aria-label={'Удалить '+spell.name} onClick={()=>remove(spell.id)}>×</button>}
             </div>})}</section>:null;
         })}</div>}
