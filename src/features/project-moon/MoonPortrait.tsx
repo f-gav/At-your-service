@@ -19,7 +19,7 @@ type Props = {
  */
 export default function MoonPortrait({url, frame, name = '', onEditPortrait}: Props) {
   return <div className="moon-portrait-art">
-    <img className="moon-portrait-art-frame" src={MOON_PORTRAIT_FRAME} alt="" draggable={false} />
+    <img className="moon-portrait-art-frame" src={MOON_PORTRAIT_FRAME} alt="" draggable={false} fetchPriority="high" />
     <span className="moon-portrait-art-mask-layer">
       {url
         ? <span className="moon-portrait-art-window">
