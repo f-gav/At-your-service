@@ -552,7 +552,7 @@ export default function SpellLibrary({onBack}:Props){
             return <button type="button" role="listitem" className="spell-result" key={spell.id}
               onClick={()=>setSelectedId(spell.id)} aria-label={`${spell.name}, ${spellTypeLabel(spell)}`}>
               <div className="spell-result-heading">
-                <div className="spell-result-identity"><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span></div>
+                <div className="spell-result-identity"><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}{spell.spell.kind==='focus'&&' · Фокусное'}</span></div>
                 <span className="spell-source-label" title={sourceName(spell)} aria-label={`Книга: ${sourceName(spell)}`}>
                   {sourceAbbreviation(spell)}</span>
               </div>
