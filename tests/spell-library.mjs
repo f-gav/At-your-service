@@ -773,7 +773,7 @@ assert.ok(app.includes('Персонажи</button>')&&app.includes('Библи�
 assert.ok(app.includes("<SpellLibrary onBack="));
 assert.ok(app.includes("currentSiteRoute()") && app.includes("siteRoutePath({kind:tab},import.meta.env.BASE_URL)"),'Library supports clean path links');
 assert.ok(!page.includes('spell-library/pf2e.json'),'Base system catalogs retain independent dynamic paths');
-assert.ok(page.includes('parseSpellCatalog(await response.json(),system)'));
+assert.ok(page.includes('loadSpellCatalog(system,controller.signal,import.meta.env.BASE_URL)'));
 assert.ok(page.includes('section===\'mine\''));
 assert.ok(page.includes('rules.ritual===true'),'D&D ritual flag remains distinct');
 assert.ok(page.includes('setSelectedId(spell.id)'),'Spell details work after later import');
@@ -809,7 +809,7 @@ assert.ok(necroViews.find(v=>v.spell.slug==='create-thrall')?.description.includ
 assert.equal(necroViews.find(v=>v.spell.slug==='bone-spear')?.rules.savingThrow,'Обычный спасбросок Рефлекса');
 assert.equal(necroViews.find(v=>v.spell.slug==='dead-weight')?.rules.outcomes?.criticalFailure,'Существо замедлено 2 и застигнуто врасплох.');
 assert.equal(necroViews.find(v=>v.spell.slug==='necrotic-bomb')?.rules.heightened?.['+1'],'Урон увеличивается на 1d12.');
-assert.ok(page.includes('pf2e-necromancer.json'),'React library merges new class spell pack');
+assert.ok(source('../src/features/spell-library/load-catalog.ts').includes('pf2e-necromancer.json'),'Shared loader merges class spell pack');
 assert.ok(page.includes('Классы заклинаний')&&page.includes('Все классы'),
   'The Necromancer class must have a visible quick-selection row');
 console.log('PASS: Necromancer 10 remaster grave spells, Russian cards, class filter, focus resources');
