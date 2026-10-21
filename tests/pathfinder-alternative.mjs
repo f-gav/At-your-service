@@ -13,7 +13,7 @@ assert.match(sheet,/const spellViewsById=useMemo\(\(\)=>new Map\(spellViews\.map
 assert.match(sheet,/const preparedSpellViews=useMemo\(/,'Prepared spell views must be shared across pages');
 assert.match(sheet,/preparedSpells=\{preparedSpellViews\}/,'Alternative pages must reuse memoized prepared spells');
 const commonLoader=read('../src/features/spell-library/load-catalog.ts');
-assert.match(spellLoader,/loadSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,
+assert.match(spellLoader,/loadCachedSpellCatalog\('pf2e',signal,import\.meta\.env\.BASE_URL\)/,
   'Grimoire must use the shared spell catalog loader');
 assert.match(commonLoader,/base\.translations\.push\(\.\.\.necro\.translations\)/,
   'The shared loader merges class-specific localizations once');
