@@ -46,16 +46,45 @@ try{
         'Switching columns must not leave hidden editors in layout');
       await columns.selectOption('4');
 
+      const equipment=moon.locator('.moon-page-equipment');
+      assert.equal(await equipment.locator('.moon-outfit-card').count(),2);
+      assert.equal(await equipment.locator('.moon-augment-card').count(),2);
+      await equipment.getByRole('textbox',{name:'Название брони 1'}).fill('Броня '+width);
+      await equipment.getByRole('checkbox',{name:'Надета броня 1'}).check();
+      await equipment.getByRole('textbox',{name:'Название аугмента 1'}).fill('Аугмент '+width);
+      await equipment.getByRole('textbox',{name:'Положительные EP аугмента 1'}).fill('2');
+      await equipment.getByRole('button',{name:'Добавить броню'}).click();
+      await equipment.getByRole('button',{name:'Добавить аугмент'}).click();
+      assert.equal(await equipment.locator('.moon-outfit-card').count(),3);
+      assert.equal(await equipment.locator('.moon-augment-card').count(),3);
+      assert.ok(await equipment.getByRole('button',{name:'Предыдущая броня'}).isEnabled(),
+        'Carousel should allow navigating back to old armor');
+      const offscreen=await equipment.evaluate(element=>{
+        const carousels=element.querySelectorAll('.moon-equipment-carousel');
+        return Array.from(carousels).some(carousel=>carousel.getBoundingClientRect().right>window.innerWidth+1);
+      });
+      assert.equal(offscreen,false,'Equipment carousels must remain within viewport at '+width);
+
       await page.waitForFunction(()=>window.__pfSaveEvents?.some(entry=>
         entry.name.startsWith('Тест Moon')&&entry.details.projectMoonSheet?.fields?.occupation==='Отдел анализа'&&
-        entry.details.projectMoonSheet?.inventoryColumns===4),{timeout:15000});
+        entry.details.projectMoonSheet?.inventoryColumns===4&&
+        entry.details.projectMoonSheet?.outfits?.length===3&&
+        entry.details.projectMoonSheet?.augments?.length===3&&
+        entry.details.projectMoonSheet?.outfits?.[0]?.name==='Броня '+window.innerWidth&&
+        entry.details.projectMoonSheet?.augments?.[0]?.name==='Аугмент '+window.innerWidth),{timeout:15000});
       await moon.locator('.auto-save-saved').waitFor();
       const last=await page.evaluate(()=>window.__pfSaveEvents.at(-1));
       assert.equal(last.name,'Тест Moon '+width);
       assert.equal(last.details.projectMoonSheet.fields.occupation,'Отдел анализа');
       assert.equal(last.details.projectMoonSheet.inventoryColumns,4);
+      assert.equal(last.details.projectMoonSheet.outfits[0].name,'Броня '+width);
+      assert.equal(last.details.projectMoonSheet.equippedOutfitId,'outfit-1');
+      assert.equal(last.details.projectMoonSheet.augments[0].name,'Аугмент '+width);
+      assert.equal(last.details.projectMoonSheet.augments[0].positiveEp,'2');
+      assert.equal(last.details.projectMoonSheet.outfits.length,3);
+      assert.equal(last.details.projectMoonSheet.augments.length,3);
       assert.deepEqual(errors,[],'Moon browser must have no JS errors at '+width);
-      console.log('PASS: Project Moon edit, autosave and four-column controls at '+width);
+      console.log('PASS: Project Moon outfit/augment carousels, autosave and inventory at '+width);
     }finally{await context.close();}
   }
 
