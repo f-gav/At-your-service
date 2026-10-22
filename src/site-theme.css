@@ -272,3 +272,190 @@
 :root[data-ays-theme="dark"] :is(.pf-grimoire,.pf-grimoire-detail) :is(input,select,textarea){
   color-scheme:light;
 }
+
+
+/* Dark controls AROUND the character paper. Never scope these to the sheet
+   pages themselves: PF2e/Project Moon artwork and form fields stay white. */
+@media screen {
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) :is(.pf-toolbar,.moon-toolbar) .text-button,
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-minimal-title {
+    color:#d5e2f5;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-save-status {
+    color:#a8b8d1;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-unsaved {
+    color:#f3bd83;
+  }
+
+  /* Classic / Alternative PF2e switch */
+  :root[data-ays-theme="dark"] .pf-toolbar>.pf-alt-variant-picker {
+    background:#191e29;
+    border-color:#3b4960;
+  }
+  :root[data-ays-theme="dark"] .pf-toolbar>.pf-alt-variant-picker button {
+    background:transparent;
+    color:#ccd9ed;
+  }
+  :root[data-ays-theme="dark"] .pf-toolbar>.pf-alt-variant-picker button:hover:not([aria-pressed="true"]) {
+    background:#283750;
+    color:#f0f5ff;
+  }
+  :root[data-ays-theme="dark"] .pf-toolbar>.pf-alt-variant-picker button[aria-pressed="true"] {
+    background:#315d91;
+    color:#fff;
+  }
+
+  /* Detached PDF action tabs on both character sheets. Preserve their
+     existing absolute position on desktop and inline layout on mobile. */
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .sheet-pdf-export-tab {
+    background:#1e293b;
+    border-color:#4e6c91;
+    color:#e0ecff;
+    box-shadow:2px 3px 12px #0005;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .sheet-pdf-export-tab:hover:not(:disabled),
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .sheet-pdf-export-tab:focus-visible {
+    background:#2f4766;
+    border-color:#76a6e6;
+    color:#fff;
+  }
+
+  /* Toolbar settings are application chrome; not paper editing widgets. */
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-button {
+    background:#1b2534;
+    border-color:#435a79;
+    color:#d7e6ff;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-button:hover,
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-button[aria-expanded="true"] {
+    background:#2b3e58;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-popover {
+    color-scheme:dark;
+    background:#1a202d;
+    border-color:#465571;
+    color:#e2e9f8;
+    box-shadow:0 14px 32px #0008;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-option input {
+    accent-color:#5c9de9;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-pages-button {
+    color:#aaccff;
+    border-top-color:#38475f;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-pages-button:hover {
+    color:#e0eeff;
+  }
+  :root[data-ays-theme="dark"] .moon-editor .moon-settings-popover p {
+    color:#a8b7ca;
+  }
+
+  /* Floating 'Страницы' navigator in both PF2e and Project Moon. */
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help {
+    background:#1a202c;
+    color:#d6e3f7;
+    border-color:#40536e;
+    box-shadow:0 10px 28px #0008;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-title {
+    color:#b4c4db;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-link {
+    color:#c6d6ed;
+    background:transparent;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-link:hover,
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-link:focus-visible {
+    background:#283c57;
+    color:#f0f6ff;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-link.pf-navigation-help-active {
+    background:#2a4969;
+    color:#e3f1ff;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-number {
+    background:#232f42;
+    border-color:#4b6282;
+    color:inherit;
+  }
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-active .pf-navigation-help-number {
+    background:#315d90;
+    border-color:#638fc1;
+  }
+
+  /* Project Moon page tabs, located above the white sheets. */
+  :root[data-ays-theme="dark"] .moon-editor .moon-tab {
+    background:transparent;
+    color:#aebdd2;
+  }
+  :root[data-ays-theme="dark"] .moon-editor .moon-tab:hover {
+    background:#26364e;
+    color:#edf5ff;
+  }
+  :root[data-ays-theme="dark"] .moon-editor .moon-tab.moon-tab-active {
+    background:#2b4c70;
+    color:#f3f7ff;
+    border-bottom-color:#6fa9f0;
+  }
+  :root[data-ays-theme="dark"] .moon-editor .moon-tab span {
+    color:#9dafc8;
+  }
+
+  /* Page-order dialog is rendered in a portal, separately from the paper. */
+  :root[data-ays-theme="dark"] .pf-pages-backdrop {
+    background:#080b14dc;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-dialog {
+    color-scheme:dark;
+    background:#1b202c;
+    border-color:#42516a;
+    color:#e7edf7;
+    box-shadow:0 20px 54px #000a;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-dialog p,
+  :root[data-ays-theme="dark"] .pf-pages-label small,
+  :root[data-ays-theme="dark"] .pf-pages-grip {
+    color:#a4b2c9;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-item {
+    background:#242c3b;
+    border-color:#42526b;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-item.pf-pages-drag-target {
+    background:#314968;
+    border-color:#70a6e5;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-number,
+  :root[data-ays-theme="dark"] .pf-pages-actions button {
+    background:#293a52;
+    border-color:#4b6285;
+    color:#e3efff;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-close {
+    color:#c8dcf7;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-actions button:hover:enabled,
+  :root[data-ays-theme="dark"] .pf-pages-close:hover {
+    background:#38557a;
+    color:#fff;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-footer button {
+    background:#315e94;
+    border-color:#5b8dc4;
+    color:#fff;
+  }
+  :root[data-ays-theme="dark"] .pf-pages-notice {
+    border-color:#3c4659;
+  }
+
+  /* Keyboard focus remains visible against night backgrounds. */
+  :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor)
+    :is(.pf-alt-variant-picker button,.sheet-pdf-export-tab,.pf-settings-button,
+        .pf-navigation-help-link,.pf-navigation-help-title button,.moon-tab):focus-visible,
+  :root[data-ays-theme="dark"] .pf-pages-dialog button:focus-visible {
+    outline:2px solid #83b8ff;
+    outline-offset:2px;
+  }
+}
