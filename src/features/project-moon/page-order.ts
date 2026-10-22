@@ -1,6 +1,6 @@
 import type { MoonPage } from './model';
 
-export const DEFAULT_MOON_ORDER: MoonPage[] = ['dossier', 'combat', 'about', 'notes'];
+export const DEFAULT_MOON_ORDER: MoonPage[] = ['dossier', 'combat', 'equipment', 'about', 'notes'];
 const KNOWN_MOON_PAGES = new Set<string>(DEFAULT_MOON_ORDER);
 
 export function parseMoonOrder(raw: unknown): MoonPage[] {
@@ -10,6 +10,12 @@ export function parseMoonOrder(raw: unknown): MoonPage[] {
     if (typeof item === 'string' && KNOWN_MOON_PAGES.has(item) && !ordered.includes(item as MoonPage)) {
       ordered.push(item as MoonPage);
     }
+  }
+  // Legacy four-page sheets did not have equipment. Insert the new page after
+  // combat without changing the relative order selected by the player.
+  if (!ordered.includes('equipment')) {
+    const combatIndex=ordered.indexOf('combat');
+    ordered.splice(combatIndex<0?ordered.length:combatIndex+1,0,'equipment');
   }
   for (const item of DEFAULT_MOON_ORDER) if (!ordered.includes(item)) ordered.push(item);
   return ordered;
