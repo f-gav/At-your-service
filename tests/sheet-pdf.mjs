@@ -12,10 +12,10 @@ const deps=JSON.parse(read('../package.json')).dependencies;
 
 assert.deepEqual(PDF_A4,{width:210,height:297});
 assert.equal(EXTRA_CARDS_PER_PAGE,4);
-assert.deepEqual(exportPagePlan('pf2e',4),{basePages:4,extraWeapons:0,extraSkills:0,extraPages:0});
+assert.deepEqual(exportPagePlan('pf2e',4),{basePages:4,extraWeapons:0,extraSkills:0,extraOutfits:0,extraAugments:0,extraPages:0});
 assert.equal(exportPagePlan('pf2e',5).basePages,5,'Optional Pathfinder notes remain fifth page');
-assert.deepEqual(exportPagePlan('prmoon',4,2,6),{basePages:5,extraWeapons:0,extraSkills:0,extraPages:0});
-assert.deepEqual(exportPagePlan('prmoon',4,6,11),{basePages:5,extraWeapons:4,extraSkills:5,extraPages:3});
+assert.deepEqual(exportPagePlan('prmoon',4,2,6),{basePages:5,extraWeapons:0,extraSkills:0,extraOutfits:0,extraAugments:0,extraPages:0});
+assert.deepEqual(exportPagePlan('prmoon',4,6,11),{basePages:5,extraWeapons:4,extraSkills:5,extraOutfits:0,extraAugments:0,extraPages:3});
 assert.ok(app.includes('duplicateCharacter(character:Character,includePortrait:boolean)'));
 assert.ok(app.includes('JSON.parse(JSON.stringify(character.details))'),'Nested character details are independent');
 assert.ok(app.includes('downloadPortraitBlob(character.portrait_source_path)'));
@@ -33,6 +33,8 @@ assert.ok(pdf.includes('mirrorFormValues(original,copy)'),'PDF captures current 
 assert.ok(pdf.includes("'.pf-sheet-stack > .pf-sheet-page'")===false || pdf.includes('.pf-sheet-stack > .pf-sheet-page'));
 assert.ok(pdf.includes("'.moon-sheet-scroll > .moon-paper'") || pdf.includes('.moon-sheet-scroll > .moon-paper'));
 assert.ok(pdf.includes("slice(2)")&&pdf.includes("slice(6)"),'Extra weapons/skills separated from base combat page');
+assert.ok(pdf.includes("'moon-outfit-card'")||pdf.includes("'.moon-outfit-card'"),'Outfit cards must be exported');
+assert.ok(pdf.includes("'.moon-augment-card'"),'Augment cards must be exported');
 assert.ok(pdf.includes('pdf.save(safeFileName'),'PDF is a downloadable file, not merely browser print');
 assert.ok(pdf.includes("Math.max(page.scrollHeight,page.offsetHeight)"),'Overflow must not be cropped');
 assert.ok(pdf.includes('document.fonts.ready'));
