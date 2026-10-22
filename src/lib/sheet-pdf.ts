@@ -3,21 +3,24 @@
  * The game data is never modified. Portraits, original Pathfinder art, and
  * user-entered fields are captured from the same markup players see.
  *
- * Extra Project Moon weapons/skills live in a carousel / extendable list;
- * they are moved to their own PDF pages instead of being clipped or omitted.
+ * Extra Project Moon weapons, outfits, augments and skills remain available
+ * in supplementary PDF pages even when hidden behind an on-screen carousel.
  */
 export type PdfSystem = 'pf2e' | 'prmoon';
 
 export const PDF_A4 = {width:210,height:297} as const;
 export const EXTRA_CARDS_PER_PAGE = 4;
-export function exportPagePlan(system:PdfSystem,basePages:number,weapons=2,skills=6){
+export function exportPagePlan(system:PdfSystem,basePages:number,weapons=2,skills=6,outfits=2,augments=2){
   const extraWeapons=system==='prmoon'?Math.max(0,weapons-2):0;
   const extraSkills=system==='prmoon'?Math.max(0,skills-6):0;
+  const extraOutfits=system==='prmoon'?Math.max(0,outfits-2):0;
+  const extraAugments=system==='prmoon'?Math.max(0,augments-2):0;
   return {
     basePages:system==='prmoon'?basePages+1:basePages,
     extraWeapons,
-    extraSkills,
-    extraPages:Math.ceil(extraWeapons/EXTRA_CARDS_PER_PAGE)+Math.ceil(extraSkills/EXTRA_CARDS_PER_PAGE),
+    extraSkills,extraOutfits,extraAugments,
+    extraPages:[extraWeapons,extraSkills,extraOutfits,extraAugments]
+      .reduce((sum,n)=>sum+Math.ceil(n/EXTRA_CARDS_PER_PAGE),0),
   };
 }
 
@@ -73,6 +76,15 @@ function prepareMoonCombat(page:HTMLElement){
   });
   const carousel=page.querySelector<HTMLElement>('.moon-weapon-carousel');
   if(carousel)carousel.scrollLeft=0;
+}
+
+function prepareMoonEquipment(page:HTMLElement){
+  for(const kind of ['outfit','augment']){
+    page.querySelectorAll('.moon-'+kind+'-card').forEach((card,index)=>{
+      if(index>=2)card.remove();else card.removeAttribute('inert');
+    });
+  }
+  page.querySelectorAll<HTMLElement>('.moon-equipment-carousel').forEach(view=>view.scrollLeft=0);
 }
 
 function cloneSupplementCards(nodes:HTMLElement[]):HTMLElement[]{
@@ -150,6 +162,7 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
     }
     if(system==='prmoon'){
       prepareMoonCombat(page);
+      if(page.classList.contains('moon-page-equipment'))prepareMoonEquipment(page);
       page.style.width='210mm';
     }
     // Handles and insert/delete controls are editor UI, not printed spells.
@@ -167,7 +180,11 @@ export async function exportRenderedSheetPdf(root:HTMLElement,name:string,system
   if(system==='prmoon'){
     const weapons=Array.from(root.querySelectorAll<HTMLElement>('.moon-weapon-card')).slice(2);
     const skills=Array.from(root.querySelectorAll<HTMLElement>('.moon-skill-card')).slice(6);
+    const outfits=Array.from(root.querySelectorAll<HTMLElement>('.moon-outfit-card')).slice(2);
+    const augments=Array.from(root.querySelectorAll<HTMLElement>('.moon-augment-card')).slice(2);
     if(weapons.length)appendSupplementPages(stack,'Дополнительное оружие',weapons);
+    if(outfits.length)appendSupplementPages(stack,'Дополнительная броня',outfits);
+    if(augments.length)appendSupplementPages(stack,'Дополнительные аугменты',augments);
     if(skills.length)appendSupplementPages(stack,'Дополнительные приёмы',skills);
   }
   document.body.append(stage);
