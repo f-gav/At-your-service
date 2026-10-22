@@ -28,4 +28,47 @@ try{
  await page.goto(base+'#library',{waitUntil:'networkidle'});
  await page.waitForURL(url=>url.pathname==='/At-your-service/library/'&&url.hash==='');
  console.log('PASS: production static paths, character 404 recovery, query preservation, legacy links and library refresh');
+ // Production UI: dark appearance is independent from any saved character data.
+ await page.goto(base,{waitUntil:'networkidle'});
+ const darkButton=page.getByRole('button',{name:'Включить тёмную тему'});
+ await darkButton.click();
+ assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'dark');
+ assert.equal(await page.evaluate(()=>localStorage.getItem('ays-site-theme')),'dark');
+ assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).colorScheme),'dark');
+ const night=await page.evaluate(()=>({
+   background:getComputedStyle(document.documentElement).backgroundColor,
+   header:getComputedStyle(document.querySelector('.site-header')).backgroundColor
+ }));
+ assert.equal(night.background,'rgb(13, 15, 21)','WreckTrack-blue night background');
+ assert.equal(night.header,'rgb(17, 19, 25)','Dark app header');
+ const paperColors=await page.evaluate(()=>{
+   const samples=['pf-sheet-page','pf-alt-page','moon-paper'];
+   return samples.map(name=>{
+     const element=document.createElement('article');
+     element.className=name;
+     document.body.append(element);
+     const styles=getComputedStyle(element);
+     const color={name,background:styles.backgroundColor,scheme:styles.colorScheme};
+     element.remove();
+     return color;
+   });
+ });
+ for(const sample of paperColors){
+   assert.equal(sample.background,'rgb(255, 255, 255)',sample.name+' stays white');
+   assert.equal(sample.scheme,'light',sample.name+' keeps light native controls');
+ }
+ await page.reload({waitUntil:'networkidle'});
+ assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'dark',
+   'Saved appearance must be active after reloading, before clicking any UI');
+ await page.getByRole('button',{name:'Включить светлую тему'}).click();
+ assert.equal(await page.evaluate(()=>localStorage.getItem('ays-site-theme')),'light');
+ assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'light');
+ await page.setViewportSize({width:390,height:800});
+ const mobileToggle=page.getByRole('button',{name:'Включить тёмную тему'});
+ await mobileToggle.click();
+ assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'dark');
+ const mobileBounds=await mobileToggle.boundingBox();
+ assert.ok(mobileBounds.x>=0&&mobileBounds.x+mobileBounds.width<=390,
+   'Mobile theme toggle must remain within viewport');
+ console.log('PASS: persistent WreckTrack-blue appearance, mobile toggle, and white character-sheet paper');
 }finally{await browser.close();await new Promise(r=>server.close(r));}
