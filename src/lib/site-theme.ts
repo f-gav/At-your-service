@@ -9,6 +9,7 @@ export function readSiteTheme():SiteTheme {
 
 export function applySiteTheme(theme:SiteTheme):void {
   document.documentElement.dataset.aysTheme=theme;
+  document.documentElement.style.colorScheme=theme;
   const color=document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   if(color)color.content=theme==='dark'?'#0d0f15':'#f7f7f5';
 }
