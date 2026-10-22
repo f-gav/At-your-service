@@ -18,6 +18,7 @@ import {
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
+import MoonEquipmentPage from './MoonEquipmentPage';
 import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';
 import type { MoonLayout } from './layout-settings';
 import './ProjectMoonSheet.css';
@@ -215,7 +216,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       noteTitle:'.moon-notes-title',bodyText:'.moon-long-field .pf-rich-editable, .moon-rich-group .pf-rich-editable, .moon-note .pf-rich-editable, .moon-conditions-extra .pf-rich-editable',
     };
     const layout=layoutOverride ?? DEFAULT_MOON_LAYOUT;
-    for(const page of ['dossier','combat','about','notes']){
+    for(const page of ['dossier','combat','equipment','about','notes']){
       const paper=root.querySelector('.moon-page-'+page);
       if(!paper)continue;
       for(const [group,selector] of Object.entries(selectors)){
@@ -681,6 +682,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           </button>
         </section>
       </>}
+
+      {page === 'equipment' && <MoonEquipmentPage sheet={sheet} setSheet={setSheet} disabled={editLocked}/>}
 
       {page === 'about' && <>
         <section className="moon-section moon-first-section">
