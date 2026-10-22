@@ -103,11 +103,11 @@ const weapon = (raw: unknown, fallbackId: string): MoonWeapon => {
 
 const outfit = (raw:unknown,fallbackId:string):MoonOutfit => {
   const r=record(raw),base=newMoonOutfit(text(r.id)||fallbackId);
-  return Object.fromEntries(Object.keys(base).map(key=>[key,text(r[key])||''])) as MoonOutfit;
+  return {...Object.fromEntries(Object.keys(base).filter(key=>key!=='id').map(key=>[key,text(r[key])])),id:base.id} as MoonOutfit;
 };
 const augment = (raw:unknown,fallbackId:string):MoonAugment => {
   const r=record(raw),base=newMoonAugment(text(r.id)||fallbackId);
-  return Object.fromEntries(Object.keys(base).map(key=>[key,text(r[key])||''])) as MoonAugment;
+  return {...Object.fromEntries(Object.keys(base).filter(key=>key!=='id').map(key=>[key,text(r[key])])),id:base.id} as MoonAugment;
 };
 export function readMoonSheet(details: CharacterDetails): MoonSheetData {
   const stored = record(details.projectMoonSheet);
