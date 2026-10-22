@@ -7,7 +7,7 @@ import {
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 const blank = emptyMoonSheet();
-assert.equal(MOON_PAGES.length, 4);
+assert.equal(MOON_PAGES.length, 5);
 assert.equal(MOON_ATTRIBUTES.length, 6);
 assert.equal(blank.weapons.length, 2);
 assert.equal(blank.skills.length, 6);
