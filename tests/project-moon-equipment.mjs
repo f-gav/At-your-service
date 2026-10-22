@@ -7,9 +7,29 @@ import {
   moonAugmentEpSummary,
 } from '../src/features/project-moon/model.ts';
 import {parseMoonOrder} from '../src/features/project-moon/page-order.ts';
+import {MOON_AUGMENT_TYPES,moonAugmentTypeLabel,moonAugmentTypeValue} from '../src/features/project-moon/augment-types.ts';
 import {exportPagePlan} from '../src/lib/sheet-pdf.ts';
 const source=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 
+for(const [saved,label] of [
+  ['Combat Part','Боевой компонент'],
+  ['Specialized Part','Специализированный компонент'],
+  ['Functional Part','Функциональный компонент'],
+]){
+  assert.equal(moonAugmentTypeLabel(saved),label,'Existing English types must display in Russian');
+  assert.equal(moonAugmentTypeValue(label),saved,'Russian input must retain canonical saved values');
+}
+assert.deepEqual(MOON_AUGMENT_TYPES.map(type=>type.label),[
+  'Биологический','Протез','Боевой компонент',
+  'Специализированный компонент','Функциональный компонент','Иной',
+]);
+assert.equal(moonAugmentTypeLabel('Собственный тип'),'Собственный тип');
+assert.equal(moonAugmentTypeValue('Собственный тип'),'Собственный тип');
+const oldAugment=readMoonSheet({projectMoonSheet:{augments:[{id:'augment-1',name:'Старый',category:'Combat Part'}]}});
+assert.equal(moonAugmentTypeLabel(oldAugment.augments[0].category),'Боевой компонент');
+assert.equal(saveMoonSheet({},oldAugment).projectMoonSheet.augments[0].category,'Combat Part');
+assert.match(source('../src/features/project-moon/MoonEquipmentPage.tsx'),/moonAugmentTypeLabel\(item.category\)/);
+assert.match(source('../src/features/project-moon/MoonEquipmentPage.tsx'),/moonAugmentTypeValue\(e.target.value\)/);
 const empty=emptyMoonSheet();
 assert.equal(empty.outfits.length,2);
 assert.equal(empty.augments.length,2);
