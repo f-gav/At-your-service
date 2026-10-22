@@ -264,3 +264,11 @@
   .site-header .theme-toggle-mobile{display:inline-flex;margin-left:auto}
   .site-header .theme-toggle{width:40px;height:40px}
 }
+
+/* These overlays retain white editorial cards, so reset inherited night ink. */
+:root[data-ays-theme="dark"] :is(.pf-grimoire,.pf-grimoire-detail,.spell-viewer){
+  color-scheme:light;color:#26302d;
+}
+:root[data-ays-theme="dark"] :is(.pf-grimoire,.pf-grimoire-detail) :is(input,select,textarea){
+  color-scheme:light;
+}
