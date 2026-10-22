@@ -57,12 +57,67 @@ try{
    assert.equal(sample.background,'rgb(255, 255, 255)',sample.name+' stays white');
    assert.equal(sample.scheme,'light',sample.name+' keeps light native controls');
  }
+ // Check actual computed CSS of the editor controls in the production bundle.
+ const captureEditorChrome=()=>page.evaluate(()=>{
+   const host=document.createElement('div');
+   host.innerHTML=`
+     <main class="page pf-editor">
+       <div class="pf-toolbar">
+         <div class="pf-alt-variant-picker">
+           <button>Классический PF2e</button>
+           <button aria-pressed="true">Альтернативный PF2e</button>
+         </div>
+         <button class="sheet-pdf-export-tab">PDF</button>
+         <button class="pf-settings-button">Настройки</button>
+         <div class="pf-settings-popover"><span>Опции</span></div>
+       </div>
+       <nav class="pf-navigation-help">
+         <button class="pf-navigation-help-link pf-navigation-help-active">Страница</button>
+       </nav>
+       <article class="pf-sheet-page"></article>
+     </main>
+     <main class="page moon-editor">
+       <div class="moon-tabs"><button class="moon-tab moon-tab-active">Досье</button></div>
+       <article class="moon-paper"></article>
+     </main>`;
+   document.body.append(host);
+   const color=selector=>getComputedStyle(host.querySelector(selector)).backgroundColor;
+   const result={
+     variant:color('.pf-alt-variant-picker'),
+     activeVariant:color('.pf-alt-variant-picker button[aria-pressed="true"]'),
+     pdf:color('.sheet-pdf-export-tab'),
+     settings:color('.pf-settings-popover'),
+     nav:color('.pf-navigation-help'),
+     activeNav:color('.pf-navigation-help-active'),
+     moonTab:color('.moon-tab-active'),
+     pfPaper:color('.pf-sheet-page'),
+     moonPaper:color('.moon-paper'),
+   };
+   host.remove();
+   return result;
+ });
+ const darkChrome=await captureEditorChrome();
+ assert.deepEqual(darkChrome,{
+   variant:'rgb(25, 30, 41)',
+   activeVariant:'rgb(49, 93, 145)',
+   pdf:'rgb(30, 41, 59)',
+   settings:'rgb(26, 32, 45)',
+   nav:'rgb(26, 32, 44)',
+   activeNav:'rgb(42, 73, 105)',
+   moonTab:'rgb(43, 76, 112)',
+   pfPaper:'rgb(255, 255, 255)',
+   moonPaper:'rgb(255, 255, 255)',
+ },'Dark-theme editor buttons and navigators must be blue; character sheets remain white');
  await page.reload({waitUntil:'networkidle'});
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'dark',
    'Saved appearance must be active after reloading, before clicking any UI');
  await page.getByRole('button',{name:'Включить светлую тему'}).click();
  assert.equal(await page.evaluate(()=>localStorage.getItem('ays-site-theme')),'light');
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'light');
+ const lightChrome=await captureEditorChrome();
+ for(const key of ['variant','activeVariant','pdf','settings','nav','activeNav','moonTab']){
+   assert.notEqual(lightChrome[key],darkChrome[key],key+' must return to light appearance');
+ }
  await page.setViewportSize({width:390,height:800});
  const mobileToggle=page.getByRole('button',{name:'Включить тёмную тему'});
  const mobileBounds=await mobileToggle.boundingBox();
