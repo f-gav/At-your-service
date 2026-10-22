@@ -65,10 +65,10 @@ try{
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'light');
  await page.setViewportSize({width:390,height:800});
  const mobileToggle=page.getByRole('button',{name:'Включить тёмную тему'});
+ const mobileBounds=await mobileToggle.boundingBox();
+ assert.ok(mobileBounds&&mobileBounds.x>=0&&mobileBounds.x+mobileBounds.width<=390,
+   'Mobile theme toggle must remain within viewport');
  await mobileToggle.click();
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'dark');
- const mobileBounds=await mobileToggle.boundingBox();
- assert.ok(mobileBounds.x>=0&&mobileBounds.x+mobileBounds.width<=390,
-   'Mobile theme toggle must remain within viewport');
  console.log('PASS: persistent WreckTrack-blue appearance, mobile toggle, and white character-sheet paper');
 }finally{await browser.close();await new Promise(r=>server.close(r));}
