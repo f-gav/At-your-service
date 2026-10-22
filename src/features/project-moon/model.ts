@@ -61,14 +61,6 @@ export const newMoonAugment = (id:string):MoonAugment => ({
 });
 
 export function emptyMoonSheet(): MoonSheetData {
-  const outfits=Array.isArray(stored.outfits)
-    ? stored.outfits.slice(0,100).map((item,index)=>outfit(item,'outfit-'+(index+1)))
-    : initial.outfits;
-  const augments=Array.isArray(stored.augments)
-    ? stored.augments.slice(0,100).map((item,index)=>augment(item,'augment-'+(index+1)))
-    : initial.augments;
-  if(!outfits.length)outfits.push(newMoonOutfit('outfit-1'));
-  if(!augments.length)augments.push(newMoonAugment('augment-1'));
   return {
     schemaVersion: 1,
     fields: {},
@@ -116,6 +108,14 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
   const overrides = record(stored.maxOverrides);
   const readItems = (value: unknown, fallback: MoonItem[], idPrefix: 'skill' | 'note') => Array.isArray(value)
     ? value.slice(0, 100).map((entry, index) => item(entry, idPrefix + '-' + (index + 1))) : fallback;
+  const outfits=Array.isArray(stored.outfits)
+    ? stored.outfits.slice(0,100).map((item,index)=>outfit(item,'outfit-'+(index+1)))
+    : initial.outfits;
+  const augments=Array.isArray(stored.augments)
+    ? stored.augments.slice(0,100).map((item,index)=>augment(item,'augment-'+(index+1)))
+    : initial.augments;
+  if(!outfits.length)outfits.push(newMoonOutfit('outfit-1'));
+  if(!augments.length)augments.push(newMoonAugment('augment-1'));
   return {
     schemaVersion: 1,
     fields: Object.fromEntries(Object.entries(fields).filter((entry): entry is [string, string] =>
