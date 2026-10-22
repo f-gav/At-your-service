@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Apply the saved appearance before the first paint to avoid a light flash.
+      try {
+        if (localStorage.getItem('ays-site-theme') === 'dark') {
+          document.documentElement.dataset.aysTheme = 'dark';
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch { /* Local storage can be disabled. */ }
+    </script>
     <meta name="theme-color" content="#f7f7f5" />
     <meta name="application-name" content="At your service!" />
     <meta name="mobile-web-app-capable" content="yes" />
