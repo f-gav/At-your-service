@@ -4,6 +4,8 @@ import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
+import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
+import type {SiteTheme} from './lib/site-theme';
 import type { FormEvent, ChangeEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import {
@@ -15,6 +17,8 @@ import {
   LogIn,
   LogOut,
   Menu,
+  Moon,
+  Sun,
   Plus,
   ShieldCheck,
   Trash2,
@@ -219,6 +223,25 @@ function CharacterEditor({
 initializeSiteRoute();
 
 export default function App() {
+  const [theme,setTheme]=useState<SiteTheme>(readSiteTheme);
+  useEffect(()=>{
+    applySiteTheme(theme);
+    const onStorage=(event:StorageEvent)=>{
+      if(event.key===SITE_THEME_KEY){
+        const next:SiteTheme=event.newValue==='dark'?'dark':'light';
+        setTheme(next);
+      }
+    };
+    window.addEventListener('storage',onStorage);
+    return()=>window.removeEventListener('storage',onStorage);
+  },[theme]);
+  const toggleTheme=()=>{
+    const next:SiteTheme=theme==='dark'?'light':'dark';
+    saveSiteTheme(next);
+    setTheme(next);
+  };
+  const themeLabel=theme==='dark'?'Включить светлую тему':'Включить тёмную тему';
+  const themeIcon=theme==='dark'?<Sun size={18}/>:<Moon size={18}/>;
   const [session, setSession] = useState<Session | null>(null);
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
@@ -700,6 +723,8 @@ export default function App() {
               disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы открыть библиотеку':undefined} onClick={()=>navigateTo('library')}>Библиотека</button>
           </nav>
           <div className="header-links">
+            <button type="button" className="theme-toggle" aria-label={themeLabel} title={themeLabel}
+              aria-pressed={theme==='dark'} onClick={toggleTheme}>{themeIcon}</button>
             {!authReady ? <span className="muted">Подключение…</span> : user ? (
               <div className="account-actions">
                 <span className="account-identity" aria-label={`Аккаунт: ${displayName}`} title={displayName}>
@@ -709,6 +734,8 @@ export default function App() {
               </div>
             ) : <button className="button button-header" type="button" onClick={() => void signIn()}><LogIn size={16} /> Войти через Google</button>}
           </div>
+          <button type="button" className="theme-toggle theme-toggle-mobile" aria-label={themeLabel} title={themeLabel}
+            aria-pressed={theme==='dark'} onClick={toggleTheme}>{themeIcon}</button>
           <button type="button" className="mobile-menu-button" aria-label="Меню" aria-expanded={mobileMenu} aria-controls="ays-header-menu" onClick={() => setMobileMenu(open => !open)}>{mobileMenu ? <X size={22} /> : <Menu size={22} />}</button>
         </div>
         {mobileMenu && <div className="mobile-menu-panel" id="ays-header-menu">
