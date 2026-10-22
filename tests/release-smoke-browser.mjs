@@ -27,7 +27,7 @@ try{
       await page.goto(base+'?system=prmoon&save=test',{waitUntil:'networkidle'});
       const moon=page.locator('.moon-editor');
       await moon.waitFor();
-      assert.equal(await moon.locator('.moon-paper').count(),4,'All Moon pages mount at '+width);
+      assert.equal(await moon.locator('.moon-paper').count(),5,'All Moon pages mount at '+width);
       const bounds=await moon.boundingBox();
       assert.ok(bounds.x>=-1&&bounds.x+bounds.width<=width+1,
         'Moon editor must fit within viewport at '+width+': '+JSON.stringify(bounds));
