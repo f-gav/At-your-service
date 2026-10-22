@@ -19,14 +19,14 @@ try {
   assert.ok(ready,'Vite preview server did not start');
   browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   const cases=[
-    {system:'prmoon',notes:false,extras:false,expected:5},
-    {system:'prmoon',notes:false,extras:false,inventory:true,expected:5},
+    {system:'prmoon',notes:false,extras:false,expected:6},
+    {system:'prmoon',notes:false,extras:false,inventory:true,expected:6},
     {system:'pf2e',notes:false,extras:false,expected:4},
     {system:'pf2e',notes:true,extras:false,expected:5},
     {system:'pf2e',notes:false,extras:false,variant:'alternative',expected:4},
     {system:'pf2e',notes:true,extras:false,variant:'alternative',expected:5},
     {system:'pf2e',notes:false,extras:false,variant:'alternative',long:true,expectedMin:5,expectedMax:10},
-    {system:'prmoon',notes:false,extras:true,expected:7},
+    {system:'prmoon',notes:false,extras:true,expected:8},
   ];
   for(const [index,test] of cases.entries()){
     const page=await browser.newPage({viewport:{width:1440,height:1000},acceptDownloads:true});
@@ -37,7 +37,7 @@ try {
       await page.goto(address+`?system=${test.system}&notes=${test.notes?'1':'0'}&extras=${test.extras?'1':'0'}&variant=${test.variant||'classic'}&long=${test.long?'1':'0'}&inventory=${test.inventory?'1':'0'}`,{waitUntil:'domcontentloaded'});
       const selector=test.system==='pf2e'?(test.variant==='alternative'?'.pf-alt-page':'.pf-sheet-page'):'.moon-paper';
       await page.waitForSelector(selector);
-      const expectedDom=test.system==='pf2e'?(test.notes?5:4):4;
+      const expectedDom=test.system==='pf2e'?(test.notes?5:4):5;
       assert.equal(await page.locator(selector).count(),expectedDom,'HTML sheet page count');
       if(test.inventory){
         const columns=page.locator('.moon-inventory-column');
