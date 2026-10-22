@@ -780,3 +780,64 @@
 @media print {
   .moon-damage-calculator { display: none !important; }
 }
+
+
+/* Outfit / Augment cards. Two-up on a sheet, one at 660px and below. */
+.moon-equipment-page{min-width:0}
+.moon-equipment-section .moon-weapon-section-heading{margin-bottom:7px}
+.moon-equipment-pagination button{width:27px;height:28px}
+.moon-equipment-carousel{
+  width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+}
+.moon-equipment-carousel::-webkit-scrollbar{display:none}
+.moon-equipment-track{display:flex;align-items:stretch;gap:12px;min-width:100%}
+.moon-equipment-track>.moon-equipment-card{
+  flex:0 0 calc((100% - 12px)/2);min-width:0;min-height:333px;
+  box-sizing:border-box;scroll-snap-align:start;padding:9px 10px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.moon-equipment-card-heading{display:flex;align-items:center;gap:5px;min-width:0}
+.moon-equipment-card-heading .moon-weapon-title{flex:1;min-width:0}
+.moon-outfit-equipped{display:flex;align-items:center;gap:3px;font-size:9px;color:#405348;white-space:nowrap}
+.moon-outfit-equipped input{accent-color:#365d47}
+.moon-equipment-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.moon-equipment-fields-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.moon-equipment-fields label,.moon-equipment-summary-field{
+  display:flex;flex-direction:column;gap:2px;min-width:0;font-size:9px;
+  color:#646d74;font-weight:700;
+}
+.moon-equipment-fields input,.moon-equipment-fields select,.moon-equipment-summary-field input{
+  box-sizing:border-box;min-width:0;width:100%;height:25px;background:#fff;
+  color:#222;border:1px solid #c8cdd0;border-radius:3px;padding:2px 4px;
+  font:500 11px/1.2 'DejaVu Sans','Noto Sans',Arial,sans-serif;
+}
+.moon-equipment-resistances{border-collapse:collapse;width:100%;table-layout:fixed}
+.moon-equipment-resistances th,.moon-equipment-resistances td{
+  padding:2px 3px;border-bottom:1px solid #e3e5e6;font-size:9px;text-align:left;
+}
+.moon-equipment-resistances thead th{background:#eef0f1;font-weight:800}
+.moon-equipment-resistances th:first-child{width:43%}
+.moon-equipment-resistances input{box-sizing:border-box;width:100%;min-width:0;border:0;background:transparent;font-size:10px;padding:2px}
+.moon-equipment-card .moon-rich-group{min-width:0;margin-top:0}
+.moon-equipment-card .moon-rich-group .pf-rich-editable{min-height:55px;overflow-wrap:anywhere}
+.moon-equipment-ep-section{margin:12px 0 0}
+.moon-equipment-ep{
+  display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;
+  padding:7px 9px;background:#edf0f1;border:1px solid #c7cdd0;
+  font-size:10px;color:#333e42;
+}
+.moon-equipment-ep strong{font-size:11px}
+.moon-equipment-hint{font-size:9px;line-height:1.4;color:#697278;margin:5px 0 2px}
+.moon-equipment-page :is(input,select,button):focus-visible{outline:2px solid #426e9b;outline-offset:1px}
+@media(max-width:660px){
+  .moon-equipment-track>.moon-equipment-card{flex-basis:100%}
+  .moon-equipment-pagination button{width:37px;height:37px}
+  .moon-equipment-fields-three{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media print{
+  .moon-equipment-pagination{display:none!important}
+  .moon-equipment-carousel{overflow:visible;scroll-snap-type:none}
+  .moon-equipment-track{flex-wrap:wrap}
+  .moon-equipment-track>.moon-equipment-card{flex-basis:calc((100% - 12px)/2)}
+}
