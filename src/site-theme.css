@@ -243,3 +243,24 @@
   :root[data-ays-theme="dark"]{color-scheme:light;background:#fff}
   :root[data-ays-theme="dark"] body{background:#fff}
 }
+
+/* Header control: immediately before Google avatar on desktop, before menu on phone. */
+.site-header .theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:40px;height:40px;padding:0;border:1px solid #d2d9d5;
+  background:#fff;border-radius:999px;color:#455754;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.site-header .theme-toggle:hover{background:#edf3ef;border-color:#96a99f}
+.site-header .theme-toggle:focus-visible{outline:2px solid #568ac9;outline-offset:3px}
+.site-header .theme-toggle-mobile{display:none}
+:root[data-ays-theme="dark"] .site-header .theme-toggle{
+  background:#1d2636;border-color:#4773a9;color:#82b8ff;
+}
+:root[data-ays-theme="dark"] .site-header .theme-toggle:hover{
+  background:#273a54;border-color:#68aaff;color:#d5e8ff;
+}
+@media(max-width:650px){
+  .site-header .theme-toggle-mobile{display:inline-flex;margin-left:auto}
+  .site-header .theme-toggle{width:40px;height:40px}
+}
