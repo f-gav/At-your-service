@@ -1,0 +1,245 @@
+/* WreckTrack blue night mode. Only application chrome is recolored.
+   Character-sheet paper and PDF capture nodes intentionally stay white. */
+:root[data-ays-theme="dark"]{
+  color-scheme:dark;
+  background:#0d0f15;
+  color:#e7e7e8;
+  --ays-night:#0d0f15;
+  --ays-night-panel:#181a22;
+  --ays-night-hover:#222633;
+  --ays-night-border:#303542;
+  --ays-night-muted:#a5a9b9;
+  --ays-night-blue:#58a0ff;
+}
+:root[data-ays-theme="dark"] body,
+:root[data-ays-theme="dark"] .site-shell{background:#0d0f15;color:#e7e7e8}
+:root[data-ays-theme="dark"] .site-header{
+  background:#111319;border-top-color:#3e86e0;border-bottom-color:#30343e;
+}
+:root[data-ays-theme="dark"] .site-header .brand-wordmark,
+:root[data-ays-theme="dark"] .page-home .hero h1 img{
+  filter:brightness(0) invert(.9);
+}
+:root[data-ays-theme="dark"] .site-nav button,
+:root[data-ays-theme="dark"] .site-tabs-mobile button{color:#a6adbd}
+:root[data-ays-theme="dark"] .site-nav button:hover:not(:disabled),
+:root[data-ays-theme="dark"] .site-tabs-mobile button:hover:not(:disabled),
+:root[data-ays-theme="dark"] .site-nav button.is-active,
+:root[data-ays-theme="dark"] .site-tabs-mobile button.is-active{color:#f0f2f6}
+:root[data-ays-theme="dark"] .site-nav button.is-active::after,
+:root[data-ays-theme="dark"] .site-tabs-mobile button.is-active::after{background:#58a0ff}
+:root[data-ays-theme="dark"] .site-tabs-mobile{
+  background:#111319;border-color:#2c303b
+}
+:root[data-ays-theme="dark"] .avatar{background:#2e3443;color:#f0f2fa}
+:root[data-ays-theme="dark"] .site-header .icon-button,
+:root[data-ays-theme="dark"] .site-header .mobile-menu-button{
+  background:#191d27;border-color:#343d51;color:#b9d6ff
+}
+:root[data-ays-theme="dark"] .site-header .icon-button:hover,
+:root[data-ays-theme="dark"] .site-header .mobile-menu-button:hover{background:#28344b}
+:root[data-ays-theme="dark"] .button-header,
+:root[data-ays-theme="dark"] .button-primary,
+:root[data-ays-theme="dark"] .site-header .mobile-menu-panel button{
+  background:#28466d;border-color:#416e9d;color:#f4f8ff
+}
+:root[data-ays-theme="dark"] .button-header:hover:not(:disabled),
+:root[data-ays-theme="dark"] .button-primary:hover:not(:disabled){background:#376092}
+:root[data-ays-theme="dark"] .site-header .mobile-menu-panel{
+  background:#141721;border-color:#353c4b;color:#e8ecf5;
+  box-shadow:0 20px 30px #0008;
+}
+:root[data-ays-theme="dark"] .site-header .mobile-menu-panel .muted{color:#a9b3c4}
+:root[data-ays-theme="dark"] .site-header .mobile-menu-links a{color:#e7eeff}
+:root[data-ays-theme="dark"] .site-header .mobile-menu-links a:hover{background:#2a3750}
+:root[data-ays-theme="dark"] .hero{border-color:#2b303b}
+:root[data-ays-theme="dark"] .hero p{color:#9da9bf}
+:root[data-ays-theme="dark"] .hero-emblem{fill:#496eaa}
+:root[data-ays-theme="dark"] .library-heading h2{color:#e9e6df}
+:root[data-ays-theme="dark"] .filter-separator{color:#4b5362}
+:root[data-ays-theme="dark"] .system-filter{color:#8495b1}
+:root[data-ays-theme="dark"] .system-filter:hover,
+:root[data-ays-theme="dark"] .system-filter.is-active{color:#69aafc}
+:root[data-ays-theme="dark"] .json-import-button{
+  background:#181b24;border-color:#374153;color:#b7c9e3;
+}
+:root[data-ays-theme="dark"] .json-import-button:hover{background:#232a38}
+:root[data-ays-theme="dark"] .character-card{
+  background:#181a22;border-color:#353a46;
+  box-shadow:0 5px 22px #0001
+}
+:root[data-ays-theme="dark"] .character-card:hover,
+:root[data-ays-theme="dark"] .character-card:focus-within{
+  background:#202430;border-color:#53759c;box-shadow:0 12px 28px #0003
+}
+:root[data-ays-theme="dark"] .character-card.is-moving{border-color:#5c9be2;box-shadow:0 0 0 2px #305581}
+:root[data-ays-theme="dark"] .character-card.is-move-target{
+  border-color:#4f6180;background:#141b2b
+}
+:root[data-ays-theme="dark"] .character-card.is-move-target:hover{background:#202b3f}
+:root[data-ays-theme="dark"] .character-open,
+:root[data-ays-theme="dark"] .character-menu-button{color:#ececf1}
+:root[data-ays-theme="dark"] .character-data>span{color:#a0a8bc}
+:root[data-ays-theme="dark"] .character-portrait{border-color:#535e73;background:#272d39}
+:root[data-ays-theme="dark"] .character-prmoon .character-portrait{
+  border-color:#526477;background:#272d39
+}
+:root[data-ays-theme="dark"] .character-menu-button:hover{background:#333b4e}
+:root[data-ays-theme="dark"] .character-menu{
+  background:#1c202b;border-color:#3b455b;box-shadow:0 14px 40px #0008
+}
+:root[data-ays-theme="dark"] .character-menu button{color:#dee5f2}
+:root[data-ays-theme="dark"] .character-menu button:hover{background:#2b3447}
+:root[data-ays-theme="dark"] .character-menu .menu-delete{color:#ffa09f}
+:root[data-ays-theme="dark"] .character-menu .menu-delete:hover{background:#462733}
+:root[data-ays-theme="dark"] .add-character{
+  border-color:#394255;background:#171b26;color:#82b4ff
+}
+:root[data-ays-theme="dark"] .add-character:hover{
+  background:#232d3f;border-color:#578fd0
+}
+:root[data-ays-theme="dark"] .library-state,
+:root[data-ays-theme="dark"] .move-toolbar{
+  background:#181b24;color:#aab7cb;border-color:#394154
+}
+:root[data-ays-theme="dark"] .library-state button{color:#77b8ff}
+:root[data-ays-theme="dark"] .move-step,
+:root[data-ays-theme="dark"] .move-finish{
+  background:#252b3a;color:#d7e6ff;border-color:#45526a
+}
+:root[data-ays-theme="dark"] .library-help,
+:root[data-ays-theme="dark"] .muted{color:#a4aec2}
+:root[data-ays-theme="dark"] .site-footer{
+  background:#101218;color:#8b97ad;border-color:#2e3543
+}
+:root[data-ays-theme="dark"] .footer-alpha{color:#637999}
+:root[data-ays-theme="dark"] .modal-backdrop{background:#05080fd0}
+:root[data-ays-theme="dark"] .create-modal{
+  background:#181c27;border-color:#45516a;color:#e9ecf4;box-shadow:0 24px 80px #000b
+}
+:root[data-ays-theme="dark"] .modal-top{color:#7aaff7}
+:root[data-ays-theme="dark"] .create-modal h2{color:#f3f1ec}
+:root[data-ays-theme="dark"] .create-modal p{color:#aeb7c8}
+:root[data-ays-theme="dark"] .modal-close{
+  background:#242b3b;border-color:#394459;color:#d9e9ff
+}
+:root[data-ays-theme="dark"] .create-system-list button,
+:root[data-ays-theme="dark"] .pf-variant-choices label{
+  background:#212635;border-color:#3f4a60;color:#e8eaf1
+}
+:root[data-ays-theme="dark"] .create-system-list button:hover,
+:root[data-ays-theme="dark"] .pf-variant-choices label:has(input:checked){
+  background:#293b57;border-color:#578bcb
+}
+:root[data-ays-theme="dark"] .create-system-list small,
+:root[data-ays-theme="dark"] .duplicate-portrait-option{color:#adb9ce}
+:root[data-ays-theme="dark"] .create-modal .form-label{color:#e5e8f0}
+:root[data-ays-theme="dark"] .create-modal input:not([type="radio"]):not([type="checkbox"]){
+  background:#111722;border:1px solid #46536b;color:#f0f2f7
+}
+:root[data-ays-theme="dark"] .create-modal input::placeholder{color:#8190a6}
+:root[data-ays-theme="dark"] .text-button{color:#a3caff}
+:root[data-ays-theme="dark"] .global-error{background:#3e2530;color:#ffbab8;border-color:#774452}
+:root[data-ays-theme="dark"] .setup-notice{
+  background:#192434;color:#b4c7db;border-color:#2d4f79
+}
+
+/* The library is app chrome, not a character-sheet page. */
+:root[data-ays-theme="dark"] .spell-library-page{color:#e7eaf1}
+:root[data-ays-theme="dark"] .spell-back-link,
+:root[data-ays-theme="dark"] .spell-library-intro p,
+:root[data-ays-theme="dark"] .spell-library-count,
+:root[data-ays-theme="dark"] .spell-eyebrow,
+:root[data-ays-theme="dark"] .spell-total{color:#a4aec1}
+:root[data-ays-theme="dark"] .spell-back-link:hover{color:#76b3ff}
+:root[data-ays-theme="dark"] .spell-intro-heading,
+:root[data-ays-theme="dark"] .spell-content-heading h2,
+:root[data-ays-theme="dark"] .spell-library-count strong{
+  color:#eeeae5
+}
+:root[data-ays-theme="dark"] .spell-intro-heading svg{color:#65a8fc}
+:root[data-ays-theme="dark"] .spell-system-tabs{border-color:#323947}
+:root[data-ays-theme="dark"] .spell-system-tab{color:#a0adc1}
+:root[data-ays-theme="dark"] .spell-system-tab small{color:#8796aa}
+:root[data-ays-theme="dark"] .spell-system-tab:hover,
+:root[data-ays-theme="dark"] .spell-system-tab.is-active{color:#e7efff}
+:root[data-ays-theme="dark"] .spell-system-tab.is-active{border-color:#58a0ff}
+:root[data-ays-theme="dark"] .spell-system-tab.is-active small{color:#9bbbe6}
+:root[data-ays-theme="dark"] .spell-sidebar h2,
+:root[data-ays-theme="dark"] .spell-quick-label{color:#9faac0}
+:root[data-ays-theme="dark"] .spell-category{color:#a9b8cd}
+:root[data-ays-theme="dark"] .spell-category:hover,
+:root[data-ays-theme="dark"] .spell-category.is-active{
+  background:#242d41;border-color:#456495;color:#deeaff
+}
+:root[data-ays-theme="dark"] .spell-sidebar-note{border-color:#353d4d;color:#8f9cb1}
+:root[data-ays-theme="dark"] .spell-search,
+:root[data-ays-theme="dark"] .spell-filter-toggle,
+:root[data-ays-theme="dark"] .spell-reset-main,
+:root[data-ays-theme="dark"] .spell-rank-chip,
+:root[data-ays-theme="dark"] .spell-kind-chip,
+:root[data-ays-theme="dark"] .spell-filter-panel,
+:root[data-ays-theme="dark"] .spell-filter-grid select{
+  background:#1a1f2a;color:#dce7f6;border-color:#3a4458
+}
+:root[data-ays-theme="dark"] .spell-search input{color:#e8eefb}
+:root[data-ays-theme="dark"] .spell-search input::placeholder{color:#96a4bb}
+:root[data-ays-theme="dark"] .spell-filter-grid label{color:#aeb8c9}
+:root[data-ays-theme="dark"] .spell-filter-toggle:hover,
+:root[data-ays-theme="dark"] .spell-filter-toggle.is-active,
+:root[data-ays-theme="dark"] .spell-rank-chip:hover:not(.is-active),
+:root[data-ays-theme="dark"] .spell-kind-chip:hover:not(.is-active){
+  background:#27354e;border-color:#5688c7;color:#e5f0ff
+}
+:root[data-ays-theme="dark"] .spell-rank-chip.is-active,
+:root[data-ays-theme="dark"] .spell-kind-chip.is-active{
+  background:#335d92;border-color:#5ba0ea;color:#fff
+}
+:root[data-ays-theme="dark"] .spell-result{
+  background:#1b202b;border-color:#343e51;color:#e5eaf2;box-shadow:none
+}
+:root[data-ays-theme="dark"] .spell-result:hover,
+:root[data-ays-theme="dark"] .spell-result:focus-visible{
+  background:#273146;border-color:#638cbe;box-shadow:0 7px 19px #0005
+}
+:root[data-ays-theme="dark"] .spell-result-identity span,
+:root[data-ays-theme="dark"] .spell-result span,
+:root[data-ays-theme="dark"] .spell-mini-stat{color:#a6b4ca!important}
+:root[data-ays-theme="dark"] .spell-result-stats{border-color:#3b4558}
+:root[data-ays-theme="dark"] .spell-source-label{
+  background:#29384a;border-color:#405774;color:#bbd4f2!important
+}
+:root[data-ays-theme="dark"] .spell-mini-stat svg,
+:root[data-ays-theme="dark"] .spell-open-icon{color:#7fb6f4}
+:root[data-ays-theme="dark"] .spell-empty,
+:root[data-ays-theme="dark"] .spell-load-more{
+  background:#181e29;border-color:#3d4960;color:#aab8cc
+}
+:root[data-ays-theme="dark"] .spell-load-more button,
+:root[data-ays-theme="dark"] .spell-empty button{
+  background:#2b3b55;border-color:#567398;color:#e4eeff
+}
+:root[data-ays-theme="dark"] .spell-empty h3{color:#e1e8f3}
+:root[data-ays-theme="dark"] .spell-empty-symbol{
+  background:#242c3b;border-color:#3d5878;color:#91bdfa
+}
+/* Keep grimoire details legible on paper-like cards; recolor their framing. */
+:root[data-ays-theme="dark"] .spell-modal-overlay{background:#080b13dc}
+:root[data-ays-theme="dark"] .spell-modal{
+  border:1px solid #536070;box-shadow:0 15px 60px #000a
+}
+:root[data-ays-theme="dark"] .spell-viewer{color-scheme:light}
+:root[data-ays-theme="dark"] .spell-viewer :is(input,select,textarea){color-scheme:light}
+
+/* White character sheets, even when the surrounding workspace is dark. */
+:root[data-ays-theme="dark"] :is(.pf-sheet-page,.pf-alt-page,.moon-paper,.paper){
+  color-scheme:light;background-color:#fff;color:#202526;
+}
+:root[data-ays-theme="dark"] .sheet-pdf-stage,
+:root[data-ays-theme="dark"] .sheet-pdf-stage :is(.pf-sheet-page,.pf-alt-page,.moon-paper){
+  color-scheme:light;
+}
+@media print{
+  :root[data-ays-theme="dark"]{color-scheme:light;background:#fff}
+  :root[data-ays-theme="dark"] body{background:#fff}
+}
