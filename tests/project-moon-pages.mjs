@@ -4,17 +4,20 @@ import {DEFAULT_MOON_ORDER,parseMoonOrder,moveMoonPage,shiftMoonPage} from '../s
 import {emptyMoonSheet,readMoonSheet,saveMoonSheet} from '../src/features/project-moon/model.ts';
 
 const content = path => readFileSync(new URL(path,import.meta.url),'utf8');
-assert.deepEqual(DEFAULT_MOON_ORDER,['dossier','combat','about','notes']);
+assert.deepEqual(DEFAULT_MOON_ORDER,['dossier','combat','equipment','about','notes']);
 assert.deepEqual(parseMoonOrder(null),DEFAULT_MOON_ORDER);
-assert.deepEqual(parseMoonOrder(['notes','combat','combat','bad']),['notes','combat','dossier','about']);
-assert.deepEqual(moveMoonPage(DEFAULT_MOON_ORDER,'notes','dossier'),['notes','dossier','combat','about']);
-assert.deepEqual(shiftMoonPage(DEFAULT_MOON_ORDER,'combat',-1),['combat','dossier','about','notes']);
+assert.deepEqual(parseMoonOrder(['notes','combat','dossier','about']),
+  ['notes','combat','equipment','dossier','about'],
+  'Old custom page orders must retain their relative positions');
+assert.deepEqual(parseMoonOrder(['notes','combat','combat','bad']),['notes','combat','equipment','dossier','about']);
+assert.deepEqual(moveMoonPage(DEFAULT_MOON_ORDER,'notes','dossier'),['notes','dossier','combat','equipment','about']);
+assert.deepEqual(shiftMoonPage(DEFAULT_MOON_ORDER,'combat',-1),['combat','dossier','equipment','about','notes']);
 assert.deepEqual(shiftMoonPage(DEFAULT_MOON_ORDER,'dossier',-1),DEFAULT_MOON_ORDER);
 assert.deepEqual(shiftMoonPage(DEFAULT_MOON_ORDER,'notes',1),DEFAULT_MOON_ORDER);
 const before=emptyMoonSheet();before.notes[0].body='<p>Запись кампании</p>';before.skills[0].title='Удар';
 const after={...before,pageOrder:moveMoonPage(before.pageOrder,'notes','dossier')};
 const loaded=readMoonSheet(saveMoonSheet({oldKey:'still here'},after));
-assert.deepEqual(loaded.pageOrder,['notes','dossier','combat','about']);
+assert.deepEqual(loaded.pageOrder,['notes','dossier','combat','equipment','about']);
 assert.equal(loaded.notes[0].body,'<p>Запись кампании</p>');
 assert.equal(loaded.skills[0].title,'Удар');
 assert.deepEqual(readMoonSheet({projectMoonSheet:{fields:{rank:'2'}}}).pageOrder,DEFAULT_MOON_ORDER);
