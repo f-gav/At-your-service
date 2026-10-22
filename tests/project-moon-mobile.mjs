@@ -38,7 +38,7 @@ assert.ok(css.includes('.moon-about-info { grid-template-columns: minmax(0,1fr);
 assert.ok(css.includes('@media print {') && css.includes('width: 210mm; min-height: 297mm;'),
   'Printed document retains exact A4 page dimensions');
 assert.ok(markup.includes('pageOrder.map(page => <article'));
-assert.deepEqual(MOON_PAGES.map(x=>x.id), ['dossier','combat','about','notes']);
+assert.deepEqual(MOON_PAGES.map(x=>x.id), ['dossier','combat','equipment','about','notes']);
 assert.ok(markup.includes('<MoonPortrait url={portraitUrl}'));
 assert.ok(markup.includes('onEditPortrait={previewMode ? undefined : onEditPortrait}'));
 assert.ok(markup.includes('Помощь в навигации'));
