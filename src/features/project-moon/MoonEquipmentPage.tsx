@@ -2,6 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import type {Dispatch,ReactNode,SetStateAction} from 'react';
 import {ChevronLeft,ChevronRight,Plus,X} from 'lucide-react';
 import RichField from '../pathfinder/RichField';
+import {MOON_AUGMENT_TYPES,moonAugmentTypeLabel,moonAugmentTypeValue} from './augment-types';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import type {MoonAugment,MoonOutfit,MoonSheetData} from './model';
 import {
@@ -166,9 +167,9 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
             onChange={e=>updateAugment(item.id,{name:e.target.value})}/>
         </div>
         <div className="moon-equipment-fields moon-equipment-fields-three">
-          <label>Тип <input disabled={disabled} value={item.category} list="moon-augment-types"
+          <label>Тип <input disabled={disabled} value={moonAugmentTypeLabel(item.category)} list="moon-augment-types"
             aria-label={'Тип аугмента '+(index+1)}
-            onChange={e=>updateAugment(item.id,{category:e.target.value})}/></label>
+            onChange={e=>updateAugment(item.id,{category:moonAugmentTypeValue(e.target.value)})}/></label>
           <label>Часть тела / источник <input disabled={disabled} value={item.location}
             aria-label={'Часть тела аугмента '+(index+1)}
             onChange={e=>updateAugment(item.id,{location:e.target.value})}/></label>
@@ -200,9 +201,7 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
         </div>
       </>}/>
     <datalist id="moon-augment-types">
-      <option value="Биологический"/><option value="Протез"/>
-      <option value="Combat Part"/><option value="Specialized Part"/>
-      <option value="Functional Part"/><option value="Иной"/>
+      {MOON_AUGMENT_TYPES.map(type=><option key={type.value} value={type.label}/>)}
     </datalist>
     {pending&&<MoonWeaponDeleteDialog kind={pending.kind} label={pending.label}
       disabled={disabled} onCancel={()=>setPending(null)} onConfirm={confirm}/>}
