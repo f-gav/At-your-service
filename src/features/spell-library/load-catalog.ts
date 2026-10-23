@@ -71,5 +71,14 @@ export async function loadSpellCatalog(
   base.versions.push(...clericWave1e.versions);
   base.translations.push(...clericWave1e.translations);
   base.sources.push(...clericWave1e.sources);
+  // Cleric second wave: each class-only pack remains separate and additive.
+  const clericWave2a=await read('pf2e-cleric-wave2a.json');
+  check('заклинания',base.spells.map(x=>x.id),clericWave2a.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),clericWave2a.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),clericWave2a.sources.map(x=>x.id));
+  base.spells.push(...clericWave2a.spells);
+  base.versions.push(...clericWave2a.versions);
+  base.translations.push(...clericWave2a.translations);
+  base.sources.push(...clericWave2a.sources);
   return base;
 }
