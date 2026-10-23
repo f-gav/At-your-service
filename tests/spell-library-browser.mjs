@@ -390,6 +390,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),150,'Third rank-one page loads 50 entries');
   await page.getByRole('button',{name:'Показать ещё'}).click();
+  assert.equal(await page.locator('.spell-result').count(),200,'First 200 rank-one spells render in four pages');
+  await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),204,'Rank 1 includes five cleric domain focus spells plus the existing classes');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Воздушный пузырь');
   assert.equal(await page.locator('.spell-result').count(),1,'Search Russian rank-one spell');
