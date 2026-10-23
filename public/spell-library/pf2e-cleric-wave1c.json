@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-pushing-gust",
+      "system": "pf2e",
+      "slug": "pushing-gust",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "air",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Воздух"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-disperse-into-air",
+      "system": "pf2e",
+      "slug": "disperse-into-air",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "air",
+        "polymorph",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Воздух"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-cloak-of-shadow",
+      "system": "pf2e",
+      "slug": "cloak-of-shadow",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "darkness",
+        "shadow",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Тьма"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-darkened-eyes",
+      "system": "pf2e",
+      "slug": "darkened-eyes",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "darkness",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Тьма"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-protectors-sacrifice",
+      "system": "pf2e",
+      "slug": "protectors-sacrifice",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Защита"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-protectors-sphere",
+      "system": "pf2e",
+      "slug": "protectors-sphere",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "aura",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Защита"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-dazzling-flash",
+      "system": "pf2e",
+      "slug": "dazzling-flash",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "light",
+        "visual",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Солнце"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-positive-luminance",
+      "system": "pf2e",
+      "slug": "positive-luminance",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "light",
+        "positive",
+        "necromancy"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Солнце"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-tidal-surge",
+      "system": "pf2e",
+      "slug": "tidal-surge",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "water",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Вода"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-downpour",
+      "system": "pf2e",
+      "slug": "downpour",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "water",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "subclass": {
+        "type": "domain",
+        "name": "Вода"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-pushing-gust-legacy",
+      "spellId": "pf2e-cleric-domain-pushing-gust",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "500 футов",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости",
+      "outcomes": {
+        "criticalSuccess": "Цель не подвергается воздействию.",
+        "success": "Цель отталкивается на 5 футов от вас.",
+        "failure": "Цель отталкивается на 10 футов от вас.",
+        "criticalFailure": "Цель отталкивается на 10 футов от вас и падает ничком."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-disperse-into-air-legacy",
+      "spellId": "pf2e-cleric-domain-disperse-into-air",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "trigger": "Вы получаете урон от врага или опасности."
+    },
+    {
+      "id": "pf2e-cleric-domain-cloak-of-shadow-legacy",
+      "spellId": "pf2e-cleric-domain-cloak-of-shadow",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "Касание",
+      "targets": "1 согласное существо",
+      "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-cleric-domain-darkened-eyes-legacy",
+      "spellId": "pf2e-cleric-domain-darkened-eyes",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости",
+      "duration": "Зависит от результата спасброска",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Ночное и сумеречное зрение подавляются на 1 раунд.",
+        "failure": "Ночное и сумеречное зрение подавляются на 1 минуту.",
+        "criticalFailure": "Зрение подавляется на 1 минуту; цель также слепнет и может повторять спасбросок в конце каждого своего хода, чтобы снять слепоту."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-protectors-sacrifice-legacy",
+      "spellId": "pf2e-cleric-domain-protectors-sacrifice",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "30 футов",
+      "trigger": "Союзник в пределах 30 футов должен получить урон.",
+      "heightened": {
+        "+1": "Максимальное количество предотвращённого союзнику и перенаправленного вам урона увеличивается на 3."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-protectors-sphere-legacy",
+      "spellId": "pf2e-cleric-domain-protectors-sphere",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "area": "15-футовая эманация",
+      "duration": "Поддерживаемое, до 1 минуты",
+      "heightened": {
+        "+1": "Предоставляемое сопротивление всему урону увеличивается на 1."
+      },
+      "sustain": true
+    },
+    {
+      "id": "pf2e-cleric-domain-dazzling-flash-legacy",
+      "spellId": "pf2e-cleric-domain-dazzling-flash",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "savingThrow": "Спасбросок Стойкости",
+      "area": "15-футовый конус",
+      "outcomes": {
+        "criticalSuccess": "Эффекта нет.",
+        "success": "Ослеплён (dazzled) на 1 раунд.",
+        "failure": "Слепота (blinded) на 1 раунд и ослеплён (dazzled) на 1 минуту; действие «Взаимодействовать» может прекратить слепоту.",
+        "criticalFailure": "Слепота (blinded) на 1 раунд и ослеплён (dazzled) на 1 час."
+      },
+      "heightened": {
+        "3": "Конус увеличивается до 30 футов."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-positive-luminance-legacy",
+      "spellId": "pf2e-cleric-domain-positive-luminance",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Начальный резервуар свечения и добавляемое в начале каждого хода количество увеличиваются на 1."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-tidal-surge-legacy",
+      "spellId": "pf2e-cleric-domain-tidal-surge",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Стойкости",
+      "outcomes": {
+        "criticalSuccess": "Цель не перемещается.",
+        "success": "Цель не перемещается.",
+        "failure": "5 футов по земле или 10 футов через воду в любом направлении.",
+        "criticalFailure": "До 10 футов по земле или до 20 футов через воду в любом направлении."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-downpour-legacy",
+      "spellId": "pf2e-cleric-domain-downpour",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1c",
+      "range": "120 футов",
+      "area": "30-футовый взрыв",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Сопротивление огню увеличивается на 2."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-pushing-gust",
+      "versionId": "pf2e-cleric-domain-pushing-gust-legacy",
+      "locale": "ru",
+      "name": "Отталкивающий порыв ветра",
+      "summary": "Спасбросок Стойкости определяет, насколько далеко порыв ветра оттолкнёт цель; при критическом провале она также падает ничком.",
+      "description": "Молитвой вы направляете в выбранное существо мощный порыв воздуха. Цель совершает спасбросок Стойкости. Даже при обычном успехе её отталкивает от вас на 5 футов; при провале — на 10 футов. При критическом провале существо отталкивается на 10 футов от вас и падает ничком. Только критический успех позволяет полностью избежать воздействия.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-pushing-gust",
+      "versionId": "pf2e-cleric-domain-pushing-gust-legacy",
+      "locale": "en",
+      "name": "Pushing Gust",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-disperse-into-air",
+      "versionId": "pf2e-cleric-domain-disperse-into-air-legacy",
+      "locale": "ru",
+      "name": "Раствориться в воздухе",
+      "summary": "После получения урона вы до конца текущего хода исчезаете, становясь недосягаемым воздухом, и возвращаетесь в пределах 15 футов.",
+      "description": "Реакция применяется после получения урона, вызвавшего срабатывание. Ваше тело на короткое время превращается в воздух. До окончания текущего хода вас нельзя атаковать или выбирать целью; вы не занимаете пространства и не способны выполнять действия. Действие ваших аур и эманаций на это время приостанавливается. В конце текущего хода вы принимаете прежнюю форму в любом свободном пространстве в пределах 15 футов от точки исчезновения, которое можете занимать. Ауры возобновляют действие, если срок их существования ещё не истёк.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-disperse-into-air",
+      "versionId": "pf2e-cleric-domain-disperse-into-air-legacy",
+      "locale": "en",
+      "name": "Disperse into Air",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-cloak-of-shadow",
+      "versionId": "pf2e-cleric-domain-cloak-of-shadow-legacy",
+      "locale": "ru",
+      "name": "Плащ тени",
+      "summary": "Теневой покров приглушает яркое освещение в 20-футовой эманации, даёт возможность Спрятаться и может остаться приманкой.",
+      "description": "Вы окутываете согласное существо движущимися тенями. В 20-футовой эманации вокруг него яркое освещение становится тусклым: это магическая тьма, преодолевающая обычный свет и способная противодействовать магическим источникам света. Цель может использовать предоставляемую тенями скрытость для действия «Спрятаться», хотя заметная движущаяся теневая аура мешает ей стать полностью необнаруженной. Цель способна действием «Взаимодействовать» снять плащ и оставить его на месте в качестве приманки; после снятия он продолжает приглушать свет до конца действия заклинания. Если другое существо подбирает снятый плащ, тот исчезает и заклинание завершается.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-cloak-of-shadow",
+      "versionId": "pf2e-cleric-domain-cloak-of-shadow-legacy",
+      "locale": "en",
+      "name": "Cloak of Shadow",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-darkened-eyes",
+      "versionId": "pf2e-cleric-domain-darkened-eyes-legacy",
+      "locale": "ru",
+      "name": "Потемневшие глаза",
+      "summary": "Временно подавляет сумеречное или ночное зрение; критический провал дополнительно вызывает слепоту.",
+      "description": "Вы затуманиваете зрение цели магической темнотой. Она совершает спасбросок Стойкости, после чего получает иммунитет к этому заклинанию на 24 часа. При успехе её сумеречное и ночное зрение подавляются на 1 раунд; при провале — на 1 минуту. При критическом провале подавление длится 1 минуту, кроме того, цель слепнет. В конце каждого своего хода она может снова попытаться совершить спасбросок Стойкости: успех снимает слепоту, но не прекращает подавление сумеречного и ночного зрения. При критическом успехе первоначального спасброска эффект отсутствует.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-darkened-eyes",
+      "versionId": "pf2e-cleric-domain-darkened-eyes-legacy",
+      "locale": "en",
+      "name": "Darkened Eyes",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-protectors-sacrifice",
+      "versionId": "pf2e-cleric-domain-protectors-sacrifice-legacy",
+      "locale": "ru",
+      "name": "Жертва защитника",
+      "summary": "Вы уменьшаете урон союзнику на 3 и получаете предотвращённое количество урона сами; повышение усиливает перенаправление.",
+      "description": "Вы берёте на себя часть удара, предназначавшегося союзнику, вызвавшему реакцию. Снизьте получаемый им урон на 3 (не более величины самого урона), а предотвращённое количество урона перенаправьте себе. Ваши иммунитеты, слабости, сопротивления и другие подобные свойства к этому перенаправленному урону не применяются. Вы не получаете состояния или дополнительные эффекты из-за источника атаки союзника, например яд от укуса; сам союзник по-прежнему подвержен таким эффектам, даже если весь непосредственный урон был предотвращён. Повышенное (+1): максимальное количество перенаправляемого урона увеличивается на 3.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-protectors-sacrifice",
+      "versionId": "pf2e-cleric-domain-protectors-sacrifice-legacy",
+      "locale": "en",
+      "name": "Protector's Sacrifice",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-protectors-sphere",
+      "versionId": "pf2e-cleric-domain-protectors-sphere-legacy",
+      "locale": "ru",
+      "name": "Сфера защитника",
+      "summary": "Поддерживаемая защитная аура даёт вам и союзникам в пределах 15 футов сопротивление 3 всему урону.",
+      "description": "От вас исходит область божественной защиты радиусом 15 футов. Пока вы поддерживаете заклинание, вы получаете сопротивление 3 ко всем видам урона. Союзники, которые находятся внутри эманации, также получают сопротивление 3 ко всему урону. Те, кто покидает область, перестают пользоваться этой защитой; союзники, входящие в неё, получают её на время пребывания. Заклинание можно поддерживать не дольше 1 минуты. Повышенное (+1): сопротивление для вас и союзников увеличивается на 1.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-protectors-sphere",
+      "versionId": "pf2e-cleric-domain-protectors-sphere-legacy",
+      "locale": "en",
+      "name": "Protector's Sphere",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-dazzling-flash",
+      "versionId": "pf2e-cleric-domain-dazzling-flash-legacy",
+      "locale": "ru",
+      "name": "Ослепляющая вспышка",
+      "summary": "Яркая вспышка ослепляет или лишает зрения существ в конусе; на 3-м круге конус увеличивается до 30 футов.",
+      "description": "Вы поднимаете религиозный символ и испускаете ослепительно яркий свет в пределах 15-футового конуса. Каждое существо в области проходит спасбросок Стойкости. При успехе оно ослеплено (dazzled) на 1 раунд. При провале существо получает слепоту (blinded) на 1 раунд и состояние ослеплён (dazzled) на 1 минуту; оно может потратить действие «Взаимодействовать», протирая глаза, чтобы досрочно снять слепоту. При критическом провале слепота длится 1 раунд, а ослепление — 1 час. Критический успех полностью защищает от эффекта. Повышенное (3-й круг): длина конуса увеличивается до 30 футов.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-dazzling-flash",
+      "versionId": "pf2e-cleric-domain-dazzling-flash-legacy",
+      "locale": "en",
+      "name": "Dazzling Flash",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-positive-luminance",
+      "versionId": "pf2e-cleric-domain-positive-luminance-legacy",
+      "locale": "ru",
+      "name": "Позитивное свечение",
+      "summary": "Создаёт нарастающий резервуар света: отражает урон нежити; при завершении превращается в лечение живой цели или урон нежити.",
+      "description": "Вы становитесь источником яркого света, первоначально освещая 10-футовую эманацию. Одновременно образуется резервуар свечения со значением 4. В начале каждого вашего хода можно свободным действием увеличить резервуар на 4; при этом радиус света растёт ещё на 10 футов. Если нежить, находящаяся внутри вашего света, причиняет вам урон атакой или заклинанием, она получает позитивный урон, равный половине текущего резервуара; одна и та же нежить получает такой урон лишь при первом успешном нанесении вам урона за раунд. Вы можете прекратить действие заклинания действием «Развеять», выбрав согласное живое существо или нежить внутри света: живое существо восстанавливает ПЗ, равные накопленному значению, а нежить получает такое же количество позитивного урона. Новое сотворение заклинания прекращает прежний действующий на вас экземпляр. Повышенное (+1): начальный резервуар и его увеличение в начале хода повышаются на 1.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-positive-luminance",
+      "versionId": "pf2e-cleric-domain-positive-luminance-legacy",
+      "locale": "en",
+      "name": "Positive Luminance",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-tidal-surge",
+      "versionId": "pf2e-cleric-domain-tidal-surge-legacy",
+      "locale": "ru",
+      "name": "Приливная волна",
+      "summary": "Волна перемещает цель по земле или в воде; расстояние зависит от результата спасброска Стойкости.",
+      "description": "Вы создаёте могучий поток воды, который способен сдвинуть существо с места. Цель совершает спасбросок Стойкости. При провале вы перемещаете её в любом выбранном направлении на 5 футов по земле или на 10 футов через водоём. При критическом провале разрешено переместить её на расстояние до 10 футов по земле либо до 20 футов в воде. При успехе или критическом успехе спасброска заклинание не перемещает цель.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-tidal-surge",
+      "versionId": "pf2e-cleric-domain-tidal-surge-legacy",
+      "locale": "en",
+      "name": "Tidal Surge",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-downpour",
+      "versionId": "pf2e-cleric-domain-downpour-legacy",
+      "locale": "ru",
+      "name": "Ливень",
+      "summary": "Ливень тушит немагическое пламя, скрывает существ в области и даёт им сопротивление огню 10; слабые к воде существа получают соответствующий урон.",
+      "description": "Вы вызываете проливной дождь в 30-футовом взрыве на дистанции до 120 футов. Дождь гасит немагическое пламя. Находящиеся в области существа становятся скрытыми и получают сопротивление огню 10; находящиеся вне области существа также скрыты от тех, кто смотрит на них изнутри дождя. Существо со слабостью к воде, заканчивающее свой ход внутри области, получает урон, равный величине этой слабости. Ливень сохраняется 1 минуту. Повышенное (+1): предоставляемое сопротивление огню возрастает на 2.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-downpour",
+      "versionId": "pf2e-cleric-domain-downpour-legacy",
+      "locale": "en",
+      "name": "Downpour",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-legacy-core-wave1c",
+      "name": "Pathfinder Core Rulebook — доменные фокусные заклинания Жреца (Legacy), сверено с Pathfinder 2E RU",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html",
+      "page": "Cleric Domain Spells"
+    }
+  ]
+}

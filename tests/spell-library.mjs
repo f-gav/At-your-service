@@ -885,18 +885,58 @@ assert.equal(clericViewsB.find(x=>x.spell.slug==='localized-quake').rules.outcom
   'Двойной дробящий урон и падение ничком.');
 assert.equal(clericViewsB.find(x=>x.spell.slug==='fire-ray').rules.heightened['+1'],
   'Начальный урон +2d6; продолжительный урон при критическом успехе +1d4.');
+const clericPackC=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-cleric-wave1c.json')),'pf2e');
+const threeClericPacks=[clericPack,clericPackB,clericPackC];
+assert.equal(clericPackC.spells.length,10,'Third batch of first Cleric wave contains ten cards');
+assert.equal(clericPackC.spells.filter(x=>x.rank===1).length,5);
+assert.equal(clericPackC.spells.filter(x=>x.rank===4).length,5);
+assert.equal(clericPackC.versions.length,10);
+assert.equal(clericPackC.translations.filter(x=>x.locale==='ru').length,10);
+assert.ok(clericPackC.spells.every(x=>x.kind==='focus'&&x.classes.includes('cleric')
+  &&x.traditions.length===0&&x.subclass?.type==='domain'&&x.subclass.name.trim()));
+assert.equal(new Set(clericPackC.spells.map(x=>x.subclass.name)).size,5);
+assert.ok(clericPackC.versions.every(x=>x.edition==='pf2e-legacy'&&x.resource==='focus-point'));
+assert.ok(clericPackC.translations.filter(x=>x.locale==='ru')
+  .every(x=>x.translationOrigin==='at-your-service'&&x.description.length>180));
+assert.equal(clericPackC.translations.filter(x=>x.locale==='en').length,10,
+  'Original English names are retained separately');
+const allClericSpells=threeClericPacks.flatMap(x=>x.spells);
+assert.equal(allClericSpells.length,30);
+assert.equal(new Set(allClericSpells.map(x=>x.id)).size,30,'Unique IDs across Cleric packs');
+assert.equal(new Set(allClericSpells.map(x=>x.slug)).size,30,'No duplicated English spell identities');
+assert.equal(new Set(allClericSpells.map(x=>x.subclass.name)).size,15,'Exactly fifteen Cleric domains');
+assert.equal(spellSubclassLabel(clericPackC.spells.find(x=>x.slug==='positive-luminance')),
+  'Домен — Солнце');
+const clericViewsC=toSpellViews(clericPackC,'pf2e-remaster');
+assert.equal(filterSpellViews(clericViewsC,{...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,10);
+assert.equal(filterSpellViews(clericViewsC,{...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0,
+  'Class-specific focus spells must not leak into the Divine tradition');
+assert.equal(clericViewsC.find(x=>x.spell.slug==='pushing-gust')?.rules.range,'500 футов');
+assert.equal(clericViewsC.find(x=>x.spell.slug==='pushing-gust')?.rules.outcomes.success,
+  'Цель отталкивается на 5 футов от вас.');
+assert.equal(clericViewsC.find(x=>x.spell.slug==='disperse-into-air')?.rules.cast.time,'Реакция');
+assert.equal(clericViewsC.find(x=>x.spell.slug==='protectors-sacrifice')?.rules.cast.time,'Реакция');
+assert.equal(clericViewsC.find(x=>x.spell.slug==='downpour')?.rules.heightened['+1'],
+  'Сопротивление огню увеличивается на 2.');
+const combinedClericViews=threeClericPacks.flatMap(x=>toSpellViews(x,'pf2e-remaster'));
+assert.deepEqual(availableGrimoireClasses(combinedClericViews,['cleric','necromancer']),
+  [{id:'cleric',count:30}],'Selected Cleric has thirty class-specific spells in Grimoire');
+assert.equal(filterGrimoireEntries(combinedClericViews,'all','all','',new Map(),'cleric').length,30);
+assert.equal(filterGrimoireEntries(combinedClericViews,1,'all','',new Map(),'cleric').length,15);
+assert.equal(filterGrimoireEntries(combinedClericViews,4,'all','',new Map(),'cleric').length,15);
+assert.equal(filterGrimoireEntries(combinedClericViews,'all','all','',new Map(),'necromancer').length,0);
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);
