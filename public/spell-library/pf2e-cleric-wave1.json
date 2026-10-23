@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-agile-feet",
+      "system": "pf2e",
+      "slug": "agile-feet",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Путешествия"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-travelers-transit",
+      "system": "pf2e",
+      "slug": "travelers-transit",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Путешествия"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-athletic-rush",
+      "system": "pf2e",
+      "slug": "athletic-rush",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Мощь"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-enduring-might",
+      "system": "pf2e",
+      "slug": "enduring-might",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Мощь"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-unimpeded-stride",
+      "system": "pf2e",
+      "slug": "unimpeded-stride",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Свобода"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-word-of-freedom",
+      "system": "pf2e",
+      "slug": "word-of-freedom",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "concentrate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Свобода"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-healers-blessing",
+      "system": "pf2e",
+      "slug": "healers-blessing",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "concentrate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Исцеление"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-rebuke-death",
+      "system": "pf2e",
+      "slug": "rebuke-death",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "healing",
+        "vitality",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Исцеление"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-appearance-of-wealth",
+      "system": "pf2e",
+      "slug": "appearance-of-wealth",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "illusion",
+        "concentrate",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Богатство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-precious-metals",
+      "system": "pf2e",
+      "slug": "precious-metals",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "manipulate"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domains-core-rulebook",
+      "subclass": {
+        "type": "domain",
+        "name": "Богатство"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-agile-feet-legacy",
+      "spellId": "pf2e-cleric-domain-agile-feet",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "До конца текущего хода",
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-travelers-transit-legacy",
+      "spellId": "pf2e-cleric-domain-travelers-transit",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "duration": "1 минута",
+      "heightened": {
+        "5": "Можно получить Скорость полёта."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-athletic-rush-legacy",
+      "spellId": "pf2e-cleric-domain-athletic-rush",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "duration": "1 раунд",
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-enduring-might-legacy",
+      "spellId": "pf2e-cleric-domain-enduring-might",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "trigger": "Атака или эффект должны причинить вам урон.",
+      "heightened": {
+        "+1": "Сопротивление увеличивается на 2."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-unimpeded-stride-legacy",
+      "spellId": "pf2e-cleric-domain-unimpeded-stride",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-word-of-freedom-legacy",
+      "spellId": "pf2e-cleric-domain-word-of-freedom",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "1 раунд",
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-healers-blessing-legacy",
+      "spellId": "pf2e-cleric-domain-healers-blessing",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "30 футов",
+      "targets": "1 согласное живое существо",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Дополнительное исцеление увеличивается на 2 ПЗ."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-rebuke-death-legacy",
+      "spellId": "pf2e-cleric-domain-rebuke-death",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1–3 действия"
+      },
+      "targets": "По 1 живому существу за каждое потраченное действие",
+      "area": "20-футовая эманация",
+      "heightened": {
+        "+1": "Исцеление каждой цели увеличивается на 1d6."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-appearance-of-wealth-legacy",
+      "spellId": "pf2e-cleric-domain-appearance-of-wealth",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "range": "30 футов",
+      "area": "5-футовый взрыв",
+      "duration": "Поддерживаемое, до 1 минуты",
+      "savingThrow": "Спасбросок Воли",
+      "outcomes": {
+        "criticalSuccess": "Существо распознаёт иллюзию и не подвергается воздействию.",
+        "success": "Заворожено до конца первого действия в следующем ходу.",
+        "failure": "Заворожено, пока действует иллюзия или не распознает её."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    },
+    {
+      "id": "pf2e-cleric-domain-precious-metals-legacy",
+      "spellId": "pf2e-cleric-domain-precious-metals",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "range": "Касание",
+      "targets": "1 металлическое оружие, до 10 металлических боеприпасов, 1 металлический доспех или до 1 Массы металла",
+      "duration": "1 минута",
+      "heightened": {
+        "8": "Доступны адамантин и мифрил."
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domains-core-rulebook"
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-agile-feet",
+      "versionId": "pf2e-cleric-domain-agile-feet-legacy",
+      "locale": "ru",
+      "name": "Проворные ноги",
+      "summary": "Бонус +5 футов к Скорости, игнорирование сложной местности и перемещение одним действием.",
+      "description": "До конца текущего хода вы получаете бонус состояния +5 футов к Скорости и не учитываете сложную местность. Сотворяя заклинание, вы можете немедленно совершить Шаг, Перемещение или Пройти сквозь. Вместо этого можно Рыть, Карабкаться, Лететь или Плыть, если у вас имеется соответствующий вид Скорости.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-agile-feet",
+      "versionId": "pf2e-cleric-domain-agile-feet-legacy",
+      "locale": "en",
+      "name": "Agile Feet",
+      "summary": "Agile Feet",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-travelers-transit",
+      "versionId": "pf2e-cleric-domain-travelers-transit-legacy",
+      "locale": "ru",
+      "name": "Проход путешественника",
+      "summary": "Получение скорости карабканья или плавания; на 5-м круге доступен полёт.",
+      "description": "Выберите Скорость карабканья или Скорость плавания. На 1 минуту вы получаете выбранную Скорость, равную вашей наземной Скорости. Повышенное (5-й круг): вместо этого можно выбрать Скорость полёта.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-travelers-transit",
+      "versionId": "pf2e-cleric-domain-travelers-transit-legacy",
+      "locale": "en",
+      "name": "Traveler's Transit",
+      "summary": "Traveler's Transit",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-athletic-rush",
+      "versionId": "pf2e-cleric-domain-athletic-rush-legacy",
+      "locale": "ru",
+      "name": "Атлетическое стремление",
+      "summary": "Бонус состояния +10 футов к Скорости и +2 к Атлетике с немедленным перемещением.",
+      "description": "На 1 раунд вы получаете бонус состояния +10 футов к Скорости и +2 к проверкам Атлетики. В рамках сотворения совершите одно действие на выбор: Перемещение, Прыжок, Карабкаться или Плыть. Бонусы уже действуют во время этого действия.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-athletic-rush",
+      "versionId": "pf2e-cleric-domain-athletic-rush-legacy",
+      "locale": "en",
+      "name": "Athletic Rush",
+      "summary": "Athletic Rush",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-enduring-might",
+      "versionId": "pf2e-cleric-domain-enduring-might-legacy",
+      "locale": "ru",
+      "name": "Несокрушимая мощь",
+      "summary": "Реакция: сопротивление всему урону от вызвавшего её эффекта.",
+      "description": "Когда атака или эффект должны нанести вам урон, вы реакцией получаете сопротивление ко всему урону только от этого срабатывающего воздействия. Значение сопротивления равно 8 + ваш модификатор Силы. Повышенное (+1): сопротивление увеличивается на 2.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-enduring-might",
+      "versionId": "pf2e-cleric-domain-enduring-might-legacy",
+      "locale": "en",
+      "name": "Enduring Might",
+      "summary": "Enduring Might",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-unimpeded-stride",
+      "versionId": "pf2e-cleric-domain-unimpeded-stride-legacy",
+      "locale": "ru",
+      "name": "Беспрепятственное перемещение",
+      "summary": "Освобождение от некоторых магических ограничений и Перемещение без штрафов.",
+      "description": "Вы немедленно освобождаетесь от магических эффектов, из-за которых вы обездвижены или схвачены, если круг такого эффекта не выше круга этого заклинания. Затем вы совершаете Перемещение, игнорируя сложную местность, а также штрафы состояния и обстоятельства к Скорости на время этого Перемещения.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-unimpeded-stride",
+      "versionId": "pf2e-cleric-domain-unimpeded-stride-legacy",
+      "locale": "en",
+      "name": "Unimpeded Stride",
+      "summary": "Unimpeded Stride",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-word-of-freedom",
+      "versionId": "pf2e-cleric-domain-word-of-freedom-legacy",
+      "locale": "ru",
+      "name": "Слово свободы",
+      "summary": "Временное подавление выбранного состояния и освобождение от захвата.",
+      "description": "Выберите одно состояние цели: замешательство, напуган, схвачен, сдерживаем или парализован. На 1 раунд выбранное состояние не действует. Если подавлены схвачен или сдерживаем, цель немедленно освобождается от соответствующего захвата или удержания. Если источник состояния не устранён, после окончания заклинания его действие возобновляется с оставшейся продолжительностью.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-word-of-freedom",
+      "versionId": "pf2e-cleric-domain-word-of-freedom-legacy",
+      "locale": "en",
+      "name": "Word of Freedom",
+      "summary": "Word of Freedom",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-healers-blessing",
+      "versionId": "pf2e-cleric-domain-healers-blessing-legacy",
+      "locale": "ru",
+      "name": "Благословение целителя",
+      "summary": "Получатель восстанавливает дополнительно 2 ПЗ при исцелении заклинанием.",
+      "description": "В течение минуты каждый раз, когда цель восстанавливает ПЗ благодаря исцеляющему заклинанию, она получает дополнительно 2 ПЗ. Для одного и того же исцеляющего заклинания этот бонус срабатывает лишь при первом восстановлении ПЗ, даже если оно исцеляет многократно. Повышенное (+1): дополнительное исцеление возрастает ещё на 2 ПЗ.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-healers-blessing",
+      "versionId": "pf2e-cleric-domain-healers-blessing-legacy",
+      "locale": "en",
+      "name": "Healer's Blessing",
+      "summary": "Healer's Blessing",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-rebuke-death",
+      "versionId": "pf2e-cleric-domain-rebuke-death-legacy",
+      "locale": "ru",
+      "name": "Упрекнуть смерть",
+      "summary": "Лечение 3d6 ПЗ нескольким целям без повышения состояния «ранен».",
+      "description": "Потратьте от 1 до 3 действий на сотворение. В пределах 20-футовой эманации выберите столько живых существ, сколько действий вы потратили. Каждая выбранная цель восстанавливает 3d6 ПЗ. Если исцеление выводит цель из состояния «при смерти», её состояние «ранен» не увеличивается вследствие этого восстановления. Повышенное (+1): исцеление каждой цели увеличивается на 1d6.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-rebuke-death",
+      "versionId": "pf2e-cleric-domain-rebuke-death-legacy",
+      "locale": "en",
+      "name": "Rebuke Death",
+      "summary": "Rebuke Death",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-appearance-of-wealth",
+      "versionId": "pf2e-cleric-domain-appearance-of-wealth-legacy",
+      "locale": "ru",
+      "name": "Кажущееся богатство",
+      "summary": "Иллюзорные сокровища отвлекают тех, кого привлекает богатство.",
+      "description": "Создайте иллюзию сокровищ в 5-футовом взрыве. Все существа в пределах 20 футов от этой области, которых может заинтересовать материальное богатство, совершают спасбросок Воли. Критический успех: существо распознаёт иллюзию и не получает эффекта. Успех: существо заворожено до завершения своего первого действия в следующем ходу. Провал: существо заворожено иллюзией на время её действия. Вошедшее в область существо автоматически перестаёт верить в иллюзию, прекращая своё заворожение от этого заклинания. При поддержании заклинания иллюзия сохраняется, но не может заворожить новые цели.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-appearance-of-wealth",
+      "versionId": "pf2e-cleric-domain-appearance-of-wealth-legacy",
+      "locale": "en",
+      "name": "Appearance of Wealth",
+      "summary": "Appearance of Wealth",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-precious-metals",
+      "versionId": "pf2e-cleric-domain-precious-metals-legacy",
+      "locale": "ru",
+      "name": "Драгоценные металлы",
+      "summary": "Временное превращение металла предмета в другой материал, включая холодное железо и серебро.",
+      "description": "На 1 минуту металл цели превращается в один из перечисленных: холодное железо, медь, золото, железо, серебро или сталь. Это влияет на взаимодействие предмета с уязвимостями и сопротивлениями существ, но не повышает его стоимость: магическое превращение заметно и временно. Повышенное (8-й круг): к возможным материалам добавляются адамантин и мифрил.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-precious-metals",
+      "versionId": "pf2e-cleric-domain-precious-metals-legacy",
+      "locale": "en",
+      "name": "Precious Metals",
+      "summary": "Precious Metals",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domains-core-rulebook",
+      "name": "Pathfinder Core Rulebook — доменные заклинания Жреца (Legacy)",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2.ru/classes/cleric?legacy=true&tab=focus-spells"
+    }
+  ]
+}
