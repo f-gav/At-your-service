@@ -846,7 +846,7 @@ assert.deepEqual(parseSiteRoute('#library'),{kind:'library'});
 assert.deepEqual(parseSiteRoute('/character/invalid/'),{kind:'characters'});
 
 const clericPack=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-cleric-wave1.json')),'pf2e');
-assert.equal(clericPack.spells.length,10,'Cleric's first staged domain import contains ten spells');
+assert.equal(clericPack.spells.length,10,'The first staged Cleric domain import contains ten spells');
 assert.equal(clericPack.spells.filter(x=>x.kind==='focus').length,10);
 assert.equal(clericPack.spells.filter(x=>x.rank===1).length,5);
 assert.equal(clericPack.spells.filter(x=>x.rank===4).length,5);
