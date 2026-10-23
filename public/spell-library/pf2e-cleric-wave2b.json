@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-overstuff",
+      "system": "pf2e",
+      "slug": "overstuff",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Потворство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-take-its-course",
+      "system": "pf2e",
+      "slug": "take-its-course",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Потворство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-vibrant-thorns",
+      "system": "pf2e",
+      "slug": "vibrant-thorns",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "plant",
+        "polymorph",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Природа"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-natures-bounty",
+      "system": "pf2e",
+      "slug": "natures-bounty",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "conjuration",
+        "plant",
+        "positive"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Природа"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-waking-nightmare",
+      "system": "pf2e",
+      "slug": "waking-nightmare",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "fear",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Кошмары"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-shared-nightmare",
+      "system": "pf2e",
+      "slug": "shared-nightmare",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "mental",
+        "incapacitation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Кошмары"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-savor-the-sting",
+      "system": "pf2e",
+      "slug": "savor-the-sting",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Боль"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-retributive-pain",
+      "system": "pf2e",
+      "slug": "retributive-pain",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "mental",
+        "nonlethal"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "subclass": {
+        "type": "domain",
+        "name": "Боль"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-overstuff-legacy",
+      "spellId": "pf2e-cleric-domain-overstuff",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "30 футов",
+      "targets": "1 живое существо",
+      "savingThrow": "Стойкость",
+      "outcomes": {
+        "criticalSuccess": "Нет негативного эффекта; питание сохраняется.",
+        "success": "Тошнота 1; действие для прекращения состояния автоматически успешно.",
+        "failure": "Тошнота 1.",
+        "criticalFailure": "Тошнота 2."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-take-its-course-legacy",
+      "spellId": "pf2e-cleric-domain-take-its-course",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "Касание",
+      "targets": "1 существо",
+      "savingThrow": "Воля (если существо не согласно)",
+      "heightened": {
+        "7": "Разрешено обработать любое число подходящих недугов и случаев продолжительного урона ядом на цели."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-vibrant-thorns-legacy",
+      "spellId": "pf2e-cleric-domain-vibrant-thorns",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Обычный ответный урон +1, ответный урон после позитивного заклинания +1d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-natures-bounty-legacy",
+      "spellId": "pf2e-cleric-domain-natures-bounty",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "heightened": {
+        "+1": "Лечение увеличивается на 6 ПЗ за каждый дополнительный круг."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-waking-nightmare-legacy",
+      "spellId": "pf2e-cleric-domain-waking-nightmare",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "duration": "Зависит от спасброска",
+      "outcomes": {
+        "criticalSuccess": "Заклинание не действует.",
+        "success": "Испуган 1.",
+        "failure": "Испуган 2; если цель была без сознания, она просыпается и бежит 1 раунд.",
+        "criticalFailure": "Испуган 3; если цель была без сознания, она просыпается и бежит 1 раунд."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-shared-nightmare-legacy",
+      "spellId": "pf2e-cleric-domain-shared-nightmare",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "duration": "Зависит от спасброска",
+      "outcomes": {
+        "criticalSuccess": "Заклинатель получает замешательство на 1 раунд.",
+        "success": "Заклинатель тратит первое действие следующего хода в замешательстве.",
+        "failure": "Цель тратит первое действие каждого своего хода в замешательстве в течение 1 минуты.",
+        "criticalFailure": "Цель полностью получает замешательство на 1 минуту."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-savor-the-sting-legacy",
+      "spellId": "pf2e-cleric-domain-savor-the-sting",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "Касание",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "outcomes": {
+        "criticalSuccess": "Никакого урона.",
+        "success": "Половина 1d4 начального ментального урона; без продолжительного урона.",
+        "failure": "1d4 начального и 1d4 продолжительного ментального урона.",
+        "criticalFailure": "Двойной начальный урон и 1d4 продолжительного ментального урона."
+      },
+      "heightened": {
+        "+1": "Начальный и продолжительный ментальный урон увеличиваются каждый на 1d4."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-retributive-pain-legacy",
+      "spellId": "pf2e-cleric-domain-retributive-pain",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2b",
+      "range": "30 футов",
+      "targets": "Существо, вызвавшее реакцию",
+      "savingThrow": "Обычный спасбросок Стойкости",
+      "trigger": "Существо в пределах 30 футов наносит вам урон.",
+      "outcomes": {
+        "criticalSuccess": "Отражённого урона нет.",
+        "success": "Половина отражённого ментального урона.",
+        "failure": "Полный отражённый ментальный урон.",
+        "criticalFailure": "Двойной отражённый ментальный урон."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-overstuff",
+      "versionId": "pf2e-cleric-domain-overstuff-legacy",
+      "locale": "ru",
+      "name": "Переедание",
+      "summary": "Цель получает питание полноценного приёма пищи и рискует получить тошноту 1–2 со штрафом Скорости −10 футов.",
+      "description": "Вы магически наполняете живое существо пищей и питьём — этого достаточно, чтобы насытить его как после полноценной трапезы. Цель совершает спасбросок Стойкости. При критическом успехе никаких неблагоприятных последствий нет. При успехе цель получает состояние «тошнота 1» (sickened 1), но если тратит действие на попытку убрать тошноту, эта попытка автоматически успешна. При провале цель получает «тошнота 1» обычным образом, а при критическом провале — «тошнота 2». Пока сохраняется тошнота, вызванная этим заклинанием, цель также получает штраф состояния −10 футов к Скорости. Успешное устранение тошноты снимает и штраф к Скорости.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-overstuff",
+      "versionId": "pf2e-cleric-domain-overstuff-legacy",
+      "locale": "en",
+      "name": "Overstuff",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-take-its-course",
+      "versionId": "pf2e-cleric-domain-take-its-course-legacy",
+      "locale": "ru",
+      "name": "Идти своим чередом",
+      "summary": "Продвигает болезнь, яд или продолжительный урон ядом, помогая избавиться от эффекта либо обостряя его.",
+      "description": "Вы ускоряете течение одного действующего на существо недуга или вредоносного эффекта: болезни, яда либо продолжительного урона ядом. Если известно несколько подходящих эффектов, выберите один известный вам; если неизвестны, ведущий определяет случайный. Несогласное существо вправе совершить спасбросок Воли: успех отменяет заклинание. Затем для выбранного эффекта действуют отдельные правила. Болезнь или яд (недуг): цель немедленно совершает свой следующий спасбросок против недуга. Вы выбираете, дать ли бонус состояния +2 или штраф состояния −2 к этому спасброску; он может улучшить или ухудшить стадию недуга по обычным правилам. Продолжительный урон ядом: вы можете заставить цель немедленно получить одну порцию такого урона при сотворении (не заменяя обычный урон в конце следующего хода). Независимо от этого цель получает дополнительную чистую проверку для прекращения продолжительного урона; вы выбираете её СЛ — 5 либо 20 вместо обычной. Усиление (7-й круг): разрешено продвинуть любое количество действующих на цель подходящих недугов и продолжительных эффектов яда, а не только один.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-take-its-course",
+      "versionId": "pf2e-cleric-domain-take-its-course-legacy",
+      "locale": "en",
+      "name": "Take Its Course",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-vibrant-thorns",
+      "versionId": "pf2e-cleric-domain-vibrant-thorns-legacy",
+      "locale": "ru",
+      "name": "Живучие шипы",
+      "summary": "Колючки на вашем теле ранят прилегающих атакующих на 1 колющего урона, усиливаясь до 1d6 после позитивного заклинания.",
+      "description": "Ваше тело покрывается острыми шипами и колючими побегами. Каждый раз, когда находящееся вплотную к вам существо попадает по вам атакой оружием ближнего боя или безоружной атакой, шипы наносят этому существу 1 колющего урона. Если вы сотворяете заклинание с признаком «позитивный» (positive), с этого момента до начала вашего следующего хода урон шипов становится 1d6 за каждое такое попадание. Действие «Живучих шипов» продолжается 1 минуту. Усиление (+1): обычный фиксированный урон шипов увеличивается на 1, а усиленный позитивной магией урон — на 1d6. Например, на 2-м круге это 2 колющего урона либо 2d6 после позитивного заклинания.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-vibrant-thorns",
+      "versionId": "pf2e-cleric-domain-vibrant-thorns-legacy",
+      "locale": "en",
+      "name": "Vibrant Thorns",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-natures-bounty",
+      "versionId": "pf2e-cleric-domain-natures-bounty-legacy",
+      "locale": "ru",
+      "name": "Дар природы",
+      "summary": "Создаёт фрукт или овощ, который действием «Взаимодействовать» восстанавливает 3d10+12 ПЗ и насыщает; несъеденный исчезает за 1 минуту.",
+      "description": "Требование: у вас должна быть свободная рука. В вашей открытой ладони возникает сырой фрукт или овощ размером с ладонь. Вы выбираете его вид при сотворении заклинания. Существо, съевшее созданную пищу действием «Взаимодействовать», восстанавливает 3d10+12 ПЗ (Hit Points) и считается сытым, как после полноценного приёма пищи. Это реальное магически созданное питание, а не дистанционное исцеление: цель должна воспользоваться пищей. Если её не съели, через 1 минуту она гниёт и рассыпается в пыль. Усиление (+1): количество восстанавливаемых ПЗ увеличивается на 6 за каждый дополнительный круг.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-natures-bounty",
+      "versionId": "pf2e-cleric-domain-natures-bounty-legacy",
+      "locale": "en",
+      "name": "Nature's Bounty",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-waking-nightmare",
+      "versionId": "pf2e-cleric-domain-waking-nightmare-legacy",
+      "locale": "ru",
+      "name": "Кошмар наяву",
+      "summary": "Мысленный кошмар накладывает «испуган 1/2/3»; спящая или бессознательная цель просыпается и при провале спасброска убегает на 1 раунд.",
+      "description": "Вы наполняете мысли существа пугающим видением из его собственных кошмаров. Цель совершает спасбросок Воли. При критическом успехе заклинание не действует. При успехе цель получает состояние «испуган 1», при провале — «испуган 2», при критическом провале — «испуган 3». Если цель находилась без сознания в момент сотворения, она немедленно просыпается перед этим спасброском. Если такая цель проваливает спасбросок (обычно или критически), вдобавок к состоянию «испуган» она получает состояние «бегство» (fleeing) на 1 раунд. В иных случаях заклинание не накладывает «бегство». Обычное снижение состояния «испуган» происходит по стандартным правилам.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-waking-nightmare",
+      "versionId": "pf2e-cleric-domain-waking-nightmare-legacy",
+      "locale": "en",
+      "name": "Waking Nightmare",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-shared-nightmare",
+      "versionId": "pf2e-cleric-domain-shared-nightmare-legacy",
+      "locale": "ru",
+      "name": "Общий кошмар",
+      "summary": "Заклинатель и цель обмениваются видениями: степень спасброска определяет, кто и как надолго получает замешательство.",
+      "description": "Вы соединяете сознание с существом и обмениваетесь тревожными образами кошмаров. Цель совершает спасбросок Воли; заклинание имеет признак «недееспособность» (incapacitation). При критическом успехе цели вы сами получаете состояние «замешательство» (confused) на 1 раунд. При обычном успехе цели вы в начале своего следующего хода тратите первое действие, находясь в состоянии «замешательство», а затем действуете нормально. При провале цели это происходит с ней, а не с вами: в начале каждого своего хода она тратит первое действие в состоянии «замешательство», а затем действует нормально, на протяжении 1 минуты. При критическом провале цели она получает «замешательство» на полную минуту, не ограниченное первым действием. Заклинание не позволяет заклинателю выбирать, кто будет поражён: это полностью определяется спасброском цели.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-shared-nightmare",
+      "versionId": "pf2e-cleric-domain-shared-nightmare-legacy",
+      "locale": "en",
+      "name": "Shared Nightmare",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-savor-the-sting",
+      "versionId": "pf2e-cleric-domain-savor-the-sting-legacy",
+      "locale": "ru",
+      "name": "Наслаждение болью",
+      "summary": "1d4 ментального и 1d4 продолжительного ментального урона; пока продолжается урон, даёт +1 к атакам и навыкам против цели.",
+      "description": "Вы причиняете существу резкую душевную боль: базовый эффект наносит 1d4 ментального урона и 1d4 продолжительного ментального урона. Цель совершает спасбросок Воли. Критический успех полностью предотвращает урон. При успехе цель получает половину начального урона без продолжительного урона. При провале она получает полный начальный и продолжительный урон. При критическом провале начальный урон удваивается и применяется продолжительный урон. Пока цель продолжает получать периодический урон, вызванный этим заклинанием, вы получаете бонус состояния +1 к броскам атаки и проверкам навыков против неё. Усиление (+1): и начальный, и продолжительный урон увеличиваются на 1d4. Это версия Legacy после errata Core Rulebook r1: у заклинания нет признака «атака», несмотря на касание; используется спасбросок Воли.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-savor-the-sting",
+      "versionId": "pf2e-cleric-domain-savor-the-sting-legacy",
+      "locale": "en",
+      "name": "Savor the Sting",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-retributive-pain",
+      "versionId": "pf2e-cleric-domain-retributive-pain-legacy",
+      "locale": "ru",
+      "name": "Карающая боль",
+      "summary": "После получения урона отражает на обидчика ментальный несмертельный урон в размере половины полученного вами, с обычным спасброском Стойкости.",
+      "description": "Когда существо в пределах 30 футов наносит вам урон, вы можете использовать реакцию и отразить часть своей боли на причинителя. Рассчитайте величину ментального несмертельного урона как половину того урона, который только что был нанесён вам. Вызвавшее реакцию существо совершает обычный спасбросок Стойкости (basic Fortitude): критический успех — не получает отражённого урона; успех — получает половину рассчитанной величины; провал — получает весь рассчитанный отражённый урон; критический провал — получает двойную величину. Заклинание не предотвращает и не уменьшает полученный вами исходный урон; оно лишь наносит ответный урон существу.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-retributive-pain",
+      "versionId": "pf2e-cleric-domain-retributive-pain-legacy",
+      "locale": "en",
+      "name": "Retributive Pain",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-core-legacy-wave2b",
+      "name": "Pathfinder Core Rulebook (Legacy), Cleric Domain Focus Spells; Pathfinder 2E RU, PF2.ru",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html"
+    }
+  ]
+}
