@@ -15,7 +15,11 @@ import type {
 import {loadCachedSpellCatalog} from './cached-catalog';
 import './SpellLibrary.css';
 
-const PF_CLASS_LABELS:Record<string,string>={necromancer:'Некромант'};
+const PF_CLASS_LABELS:Record<string,string>={
+  bard:'Бард',cleric:'Жрец',druid:'Друид',wizard:'Волшебник',magus:'Магус',
+  oracle:'Оракул',psychic:'Экстрасенс',witch:'Ведьма',sorcerer:'Чародей',
+  summoner:'Призыватель',necromancer:'Некромант',
+};
 const classLabel=(id:string)=>PF_CLASS_LABELS[id]??id;
 
 type Props={onBack:()=>void};
