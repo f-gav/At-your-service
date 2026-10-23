@@ -68,7 +68,8 @@ assert.equal(fromTransfer.custom_new_counter, '8');
 assert.match(sheetSource, /initialSheetValues\(character\.details,\s*character\.name\)/);
 assert.match(sheetSource, /persistSheetValues\(character\.details,\s*stored,\s*cleanName\)/);
 assert.doesNotMatch(sheetSource, /for\s*\(const field of FIELDS\)/);
-assert.match(jsonSource, /details:\s*normalizeDetails\(c\.details\)/);
+assert.match(jsonSource, /packPathfinderSheet\(details\.pathfinderSheet\)/);
+assert.match(jsonSource, /delete details\.pathfinderSheet/);
 
 console.log('PF2e: custom admin fields restore, save, clear, preserve hidden values, JSON roundtrip.');
 

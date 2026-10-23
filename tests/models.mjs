@@ -55,8 +55,8 @@ assert.ok(ownerPortraits.includes('storage.foldername(storage.objects.name)'),
   'Portrait policies must use the Storage object path, not the character name');
 assert.ok(portraits.includes('source[.]webp'),
   'Current portrait upload rules must permit single optimized source assets');
-assert.ok(json.includes("data.version !== 1"),
-  'Unknown character JSON versions must be rejected');
+assert.ok(json.includes('data.version !== 1 && data.version !== 2'),
+  'Only known character JSON versions (v1 and v2) may be imported');
 assert.ok(json.includes('JSON слишком большой')&&json.includes('normalizeDetails(data.character.details)'),
   'Character JSON must enforce size limits and normalize incoming details');
 assert.ok(systems.includes("creatableSystemKeys = ['pf2e', 'prmoon']"),
@@ -87,7 +87,7 @@ assert.match(appSecurity,/setIsTemplateAdmin\(false\);\s*setShowTemplateAdmin\(f
   'Switching users must immediately revoke stale template admin UI privileges');
 console.log('PASS: live security inventory remains read-only and admin controls reset on account switch');
 
-console.log('PASS: v0.2 static SQL/RLS, private portrait, JSON v1 and system availability guards');
+console.log('PASS: v0.2 static SQL/RLS, private portrait, JSON v1/v2 and system availability guards');
 
 const packageInfo=JSON.parse(read('../package.json'));
 assert.equal(packageInfo.version,'0.2.0','0.2 release must use matching package version');

@@ -36,7 +36,11 @@ const character={
  }},
 };
 const exported=exportCharacter(character);
-assert.equal(exported.version,1);
+assert.equal(exported.version,2);
+assert.ok(!('pathfinderSheet' in exported.character.details),'v2 keeps sheet values outside common metadata');
+assert.equal(exported.character.sheet.fields.unknown_custom_field,'Оставить');
+assert.equal(exported.character.sheet.page.layout,'classic');
+assert.deepEqual(exported.character.sheet.spells.selection,[{id:'spell-1',prepared:true}]);
 assert.ok(!('user_id' in exported.character),'Exported JSON must not carry previous ownership');
 const legacy=parseCharacterJson(JSON.stringify(exported));
 assert.equal(legacy.system,'pf2e');
@@ -54,13 +58,15 @@ for(const layout of ['alternative','classic','alternative']){
   assert.deepEqual(saved.pathfinderSheet.futureObject,{value:37});
   assert.equal(saved.notes,'Нельзя потерять');
 }
-const oldPf={...exported,character:{...exported.character,details:{pathfinderSheet:{level:'3'}}}};
+// A real v1 payload still imports using the original flat data model.
+const oldPf={system:'Pathfinder',format:'at-your-service-character',version:1,
+ character:{name:'Персонаж',details:{pathfinderSheet:{level:'3'}}}};
 const parsedOldPf=parseCharacterJson(JSON.stringify(oldPf));
 assert.equal(parsedOldPf.details.pathfinderSheet.level,'3');
 assert.equal(parsedOldPf.details.pathfinderSheet.pf2e_layout,undefined,'Missing layout is valid legacy JSON');
-assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,version:2})),/формат|версия/);
+assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,version:3})),/формат|версия/);
 assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,system:'DnD'})),/позже/);
-assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,character:{...exported.character,details:{pathfinderSheet:[]}}})),/Pathfinder/);
+assert.throws(()=>parseCharacterJson(JSON.stringify({...oldPf,character:{...oldPf.character,details:{pathfinderSheet:[]}}})),/Pathfinder/);
 
 const moonExport={
  system:'Project Moon',format:'at-your-service-character',version:1,
@@ -107,4 +113,49 @@ const app=read('../src/App.tsx');
 assert.ok(app.includes('saveLegacyPortrait(') && app.includes('savePortrait('));
 assert.ok(app.includes('pf2e_layout:variant'));
 assert.ok(app.includes('setPendingImport(parsed)'));
-console.log('PASS: 0.2.3 JSON v1, two PF2e layouts, removed template fields, Moon legacy notes and both portrait transfers');
+// The former spell text tables do not belong in exports that already use the
+// library. Layout must not resurrect removed or unprepared spell positions.
+const spellSample={...character,details:{notes:'Сюжет',pathfinderSheet:{
+  schemaVersion:1,name:'Персонаж',level:'1',pf2e_layout:'alternative',
+  cantrip_names:'Старый текст',cantrip_actions:'<br>',
+  pf_spell_library_selection:JSON.stringify([
+    {id:'pf2e-harm',prepared:true},{id:'pf2e-unprepared',prepared:false}
+  ]),
+  pf_spell_library_layout_v1:JSON.stringify({version:1,items:[
+    {kind:'spell',id:'pf2e-harm',zone:'spellbook-left'},
+    {kind:'spell',id:'pf2e-orphan',zone:'spellbook-left'},
+    {kind:'spell',id:'pf2e-unprepared',zone:'spellbook-left'},
+    {kind:'divider',id:'divider:note',zone:'spellbook-left',title:'Подготовлено'}
+  ]}),
+  pf_spell_available_classes:'["necromancer"]',
+  pf2e_page_order:'1,2,3,4,notes',
+  pf2e_notes_enabled:true,
+  pf2e_notes_content:'История персонажа',
+  custom_template_field:'Сохранить навсегда',
+}}};
+const portable=exportCharacter(spellSample);
+assert.equal(portable.version,2);
+assert.ok(!('cantrip_names' in portable.character.sheet.fields));
+assert.ok(!('cantrip_actions' in portable.character.sheet.fields));
+assert.deepEqual(portable.character.sheet.spells.layout.items.map(x=>x.id),['pf2e-harm','divider:note']);
+assert.deepEqual(portable.character.sheet.spells.classes,['necromancer']);
+const restored=parseCharacterJson(JSON.stringify(portable));
+assert.equal(restored.details.pathfinderSheet.custom_template_field,'Сохранить навсегда');
+assert.equal(restored.details.pathfinderSheet.pf2e_notes_content,'История персонажа');
+assert.equal(restored.details.pathfinderSheet.pf2e_page_order,'1,2,3,4,notes');
+assert.deepEqual(JSON.parse(restored.details.pathfinderSheet.pf_spell_library_selection),[
+ {id:'pf2e-harm',prepared:true},{id:'pf2e-unprepared',prepared:false}]);
+assert.deepEqual(JSON.parse(restored.details.pathfinderSheet.pf_spell_library_layout_v1).items.map(x=>x.id),
+ ['pf2e-harm','divider:note']);
+const textVersion={...spellSample,details:{...spellSample.details,
+ pathfinderSheet:{...spellSample.details.pathfinderSheet,pf_spell_display_mode:'text'}}};
+assert.equal(exportCharacter(textVersion).character.sheet.fields.cantrip_names,'Старый текст',
+ 'Text-mode spells are still editable and must not be discarded');
+assert.equal(parseCharacterJson(JSON.stringify(oldPf)).details.pathfinderSheet.level,'3');
+assert.throws(()=>parseCharacterJson(JSON.stringify({...portable,
+ character:{...portable.character,sheet:{fields:[]}}})),/Pathfinder/);
+const moonV2=exportCharacter({...character,system:'prmoon',details:moon.details});
+assert.equal(moonV2.version,2);
+assert.equal(moonV2.character.sheet.fields.rank,'4');
+assert.equal(parseCharacterJson(JSON.stringify(moonV2)).details.projectMoonSheet.futureRules.keep,true);
+console.log('PASS: JSON v2 grouped roundtrip, cleaned library tables, current PF fields, v1 import, Project Moon and portraits');

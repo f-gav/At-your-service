@@ -112,7 +112,7 @@ try{
   const json=source('../src/lib/character-json.ts');
   const pdf=source('../src/lib/sheet-pdf.ts');
   assert.match(app,/parseCharacterJson\(await file\.text\(\)\)/,'JSON import must remain wired');
-  assert.match(app,/downloadCharacter\(character\)/,'JSON export must remain wired');
+  assert.match(app,/downloadCharacter\(freshest\)/,'JSON export must load the latest saved snapshot');
   assert.match(app,/exportCharacterPdf\(character\)/,'PDF export must remain wired');
   assert.match(json,/format: 'at-your-service-character'/,'JSON v1 compatibility must remain');
   assert.match(pdf,/exportRenderedSheetPdf/,'Sheet PDF export must remain wired');
