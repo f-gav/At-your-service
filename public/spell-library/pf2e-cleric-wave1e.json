@@ -1,0 +1,480 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-cry-of-destruction",
+      "system": "pf2e",
+      "slug": "cry-of-destruction",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation",
+        "sonic"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Разрушение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-destructive-aura",
+      "system": "pf2e",
+      "slug": "destructive-aura",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "aura",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Разрушение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-soothing-words",
+      "system": "pf2e",
+      "slug": "soothing-words",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Семья"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-unity",
+      "system": "pf2e",
+      "slug": "unity",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Семья"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-magics-vessel",
+      "system": "pf2e",
+      "slug": "magics-vessel",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Магия"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-mystic-beacon",
+      "system": "pf2e",
+      "slug": "mystic-beacon",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Магия"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-weapon-surge",
+      "system": "pf2e",
+      "slug": "weapon-surge",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Рвение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-zeal-for-battle",
+      "system": "pf2e",
+      "slug": "zeal-for-battle",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "fortune",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "subclass": {
+        "type": "domain",
+        "name": "Рвение"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-cry-of-destruction-legacy",
+      "spellId": "pf2e-cleric-domain-cry-of-destruction",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "area": "15-футовый конус",
+      "savingThrow": "Обычный спасбросок Стойкости",
+      "outcomes": {
+        "criticalSuccess": "Урона нет.",
+        "success": "Половина урона звуком.",
+        "failure": "Полный урон звуком.",
+        "criticalFailure": "Двойной урон звуком."
+      },
+      "heightened": {
+        "+1": "Базовый урон звуком увеличивается на 1d8."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-destructive-aura-legacy",
+      "spellId": "pf2e-cleric-domain-destructive-aura",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "area": "15-футовая эманация",
+      "duration": "1 минута",
+      "heightened": {
+        "+2": "Сопротивления существ в области уменьшаются ещё на 2."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-soothing-words-legacy",
+      "spellId": "pf2e-cleric-domain-soothing-words",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "30 футов",
+      "targets": "1 союзник",
+      "duration": "1 раунд",
+      "heightened": {
+        "5": "Бонус состояния к спасброскам Воли увеличивается до +2, а против эффектов эмоций — до +3."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-unity-legacy",
+      "spellId": "pf2e-cleric-domain-unity",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "30 футов",
+      "targets": "Все союзники в пределах дистанции, которых затрагивает вызвавший реакцию эффект",
+      "trigger": "Вы и как минимум один союзник в пределах дистанции становитесь целями заклинания или способности, допускающей спасбросок."
+    },
+    {
+      "id": "pf2e-cleric-domain-magics-vessel-legacy",
+      "spellId": "pf2e-cleric-domain-magics-vessel",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "Касание",
+      "targets": "1 существо",
+      "duration": "Поддерживаемое, до 1 минуты"
+    },
+    {
+      "id": "pf2e-cleric-domain-mystic-beacon-legacy",
+      "spellId": "pf2e-cleric-domain-mystic-beacon",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "До начала вашего следующего хода"
+    },
+    {
+      "id": "pf2e-cleric-domain-weapon-surge-legacy",
+      "spellId": "pf2e-cleric-domain-weapon-surge",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "Касание",
+      "targets": "1 оружие, которым вы владеете",
+      "duration": "До начала вашего следующего хода или ближайшего Удара этим оружием"
+    },
+    {
+      "id": "pf2e-cleric-domain-zeal-for-battle-legacy",
+      "spellId": "pf2e-cleric-domain-zeal-for-battle",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1e",
+      "range": "10 футов",
+      "targets": "Вы и один союзник, спровоцировавший реакцию",
+      "trigger": "Вы и как минимум один союзник готовитесь совершить броски инициативы."
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-cry-of-destruction",
+      "versionId": "pf2e-cleric-domain-cry-of-destruction-legacy",
+      "locale": "ru",
+      "name": "Крик разрушения",
+      "summary": "Звуковой конус наносит 1d8 урона существам и ничейным предметам; после нанесённого вами урона врагу в этот ход используется кость d12.",
+      "description": "Ваш голос обрушивается на всё перед вами подобно ударной волне. Каждое существо и каждый ничейный (не находящийся во владении существа) предмет в 15-футовом конусе получают 1d8 урона звуком с обычным спасброском Стойкости: при критическом успехе урона нет, при успехе наносится половина, при провале — полный урон, при критическом провале — двойной. Если до сотворения этого заклинания в текущем ходу вы уже нанесли урон врагу Ударом (Strike) либо заклинанием, основной урон вместо 1d8 составляет 1d12. Повышенное (+1): базовый урон увеличивается на 1d8.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-cry-of-destruction",
+      "versionId": "pf2e-cleric-domain-cry-of-destruction-legacy",
+      "locale": "en",
+      "name": "Cry of Destruction",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-destructive-aura",
+      "versionId": "pf2e-cleric-domain-destructive-aura-legacy",
+      "locale": "ru",
+      "name": "Разрушительная аура",
+      "summary": "Аура уменьшает на 2 сопротивления любого существа в области, включая самого жреца; при повышении на 2 круга ослабляет ещё сильнее.",
+      "description": "Вокруг вас возникает 15-футовая эманация разрушающей божественной силы, постоянно перемещающаяся вместе с вами. На время действия заклинания каждое сопротивление урону у всех существ в области, включая вас самих и союзников, снижается на 2 (но не ниже 0). Снижение действует только пока существо находится внутри эманации. Заклинание не понижает слабости и не меняет иммунитеты; оно воздействует именно на значения сопротивлений. Продолжительность составляет 1 минуту. Повышенное (+2): величина снижения каждого сопротивления увеличивается ещё на 2.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-destructive-aura",
+      "versionId": "pf2e-cleric-domain-destructive-aura-legacy",
+      "locale": "en",
+      "name": "Destructive Aura",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-soothing-words",
+      "versionId": "pf2e-cleric-domain-soothing-words-legacy",
+      "locale": "ru",
+      "name": "Успокаивающие слова",
+      "summary": "Союзник получает +1 к спасброскам Воли (+2 против эмоций); заклинатель может противодействовать одному эмоциональному эффекту.",
+      "description": "Вы произносите спокойные ободряющие слова, поддерживая выбранного союзника. В течение 1 раунда он получает бонус состояния +1 к спасброскам Воли. Если спасбросок совершается против эффекта эмоций, бонус вместо этого равен +2. В момент сотворения вы также можете попытаться противодействовать одному действующему на союзника эффекту с признаком «эмоция»; используйте обычные правила противодействия и свой показатель заклинания. Повышенное (5-й круг): бонус к спасброскам Воли становится +2, а против эффектов эмоций — +3.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-soothing-words",
+      "versionId": "pf2e-cleric-domain-soothing-words-legacy",
+      "locale": "en",
+      "name": "Soothing Words",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-unity",
+      "versionId": "pf2e-cleric-domain-unity-legacy",
+      "locale": "ru",
+      "name": "Единство",
+      "summary": "Реакция позволяет каждому затронутому союзнику самостоятельно выбрать ваш модификатор спасброска вместо собственного.",
+      "description": "Когда заклинание или способность одновременно заставляет вас и хотя бы одного союзника в пределах 30 футов совершать спасбросок, вы объединяете волю и защиту. Каждый союзник в пределах дистанции, являющийся целью вызвавшего реакцию эффекта, может заменить свой собственный модификатор соответствующего спасброска вашим модификатором того же вида спасброска. Каждый союзник самостоятельно решает, использовать ли ваш модификатор или оставить свой. Заклинание не передаёт результат вашего d20: все существа по-прежнему совершают собственные броски. На каждый спасбросок это заклинание расходует 1 ФП, как и прочие фокусные.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-unity",
+      "versionId": "pf2e-cleric-domain-unity-legacy",
+      "locale": "en",
+      "name": "Unity",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-magics-vessel",
+      "versionId": "pf2e-cleric-domain-magics-vessel-legacy",
+      "locale": "ru",
+      "name": "Сосуд магии",
+      "summary": "Цель получает +1 к спасброскам; каждое ваше ячеечное заклинание автоматически поддерживает эффект и даёт сопротивление урону заклинаний по кругу сотворённого заклинания.",
+      "description": "Вы наделяете прикосновением существо силой божественной магии. Пока заклинание действует, цель получает бонус состояния +1 ко всем спасброскам. Если вы сотворяете другое заклинание с использованием своей ячейки заклинания, вы автоматически Поддерживаете «Сосуд магии» без дополнительного отдельного действия Поддержания. При этом цель получает сопротивление урону от заклинаний до начала вашего следующего хода. Величина сопротивления равна кругу того заклинания, которое вы сотворили из ячейки. Сопротивление не распространяется на обычные Удары, способности или опасности, не являющиеся заклинаниями. Если заклинание не поддерживается, его действие завершается; максимальная продолжительность — 1 минута.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-magics-vessel",
+      "versionId": "pf2e-cleric-domain-magics-vessel-legacy",
+      "locale": "en",
+      "name": "Magic's Vessel",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-mystic-beacon",
+      "versionId": "pf2e-cleric-domain-mystic-beacon-legacy",
+      "locale": "ru",
+      "name": "Таинственный маяк",
+      "summary": "Следующее наносящее урон или восстанавливающее ПЗ заклинание цели работает для урона или исцеления как заклинание на один круг выше.",
+      "description": "Вы направляете союзнику магический импульс. Следующее заклинание цели, которое наносит урон либо восстанавливает ПЗ и будет сотворено до начала вашего следующего хода, рассчитывает только величину урона или исцеления так, как если бы оно было усилено на один круг. Остальные свойства — фактический круг, дистанция, цели, продолжительность, СЛ, ограничения и иные эффекты — остаются такими, какими были бы при обычном сотворении из исходной ячейки. Если повышение не изменяет урон или исцеление этого заклинания, улучшать нечего. Как только цель сотворяет подходящее заклинание, «Таинственный маяк» немедленно заканчивается.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-mystic-beacon",
+      "versionId": "pf2e-cleric-domain-mystic-beacon-legacy",
+      "locale": "en",
+      "name": "Mystic Beacon",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-weapon-surge",
+      "versionId": "pf2e-cleric-domain-weapon-surge-legacy",
+      "locale": "ru",
+      "name": "Усиление оружия",
+      "summary": "Следующий Удар выбранным оружием получает бонус состояния +1 к атаке и дополнительную кость урона; разящая руна усиливается особым образом.",
+      "description": "Подняв оружие, вы заряжаете его божественной энергией. При следующем Ударе этим оружием до начала вашего следующего хода вы получаете бонус состояния +1 к броску атаки, а оружие наносит урон ещё одной костью оружия. Если на нём есть разящая руна (striking rune), вместо добавления отдельной кости увеличьте число дополнительных костей урона от этой руны на одну, не превышая предельные три дополнительные кости оружия. Эффект расходуется при этом Ударе; если до применения вы перестаёте владеть выбранным оружием, заклинание немедленно завершается. Заклинание само по себе не даёт права на дополнительный Удар.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-weapon-surge",
+      "versionId": "pf2e-cleric-domain-weapon-surge-legacy",
+      "locale": "en",
+      "name": "Weapon Surge",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-zeal-for-battle",
+      "versionId": "pf2e-cleric-domain-zeal-for-battle-legacy",
+      "locale": "ru",
+      "name": "Рвение в бой",
+      "summary": "Два союзника получают лучший из двух результатов d20 при броске инициативы, сохраняя каждый свой модификатор.",
+      "description": "Непосредственно перед броском инициативы вы воодушевляете себя и выбранного союзника в пределах 10 футов. Вы оба бросаете по одной кости d20, затем каждый из вас использует больший из двух выпавших результатов d20 при определении своей инициативы. К этому общему выбранному результату каждый персонаж применяет собственный модификатор Восприятия или другого показателя, используемого в конкретной проверке инициативы, поэтому итоговые значения инициативы могут отличаться. Заклинание является реакцией с признаком удача и расходует 1 ФП.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-zeal-for-battle",
+      "versionId": "pf2e-cleric-domain-zeal-for-battle-legacy",
+      "locale": "en",
+      "name": "Zeal for Battle",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-core-legacy-wave1e",
+      "name": "Pathfinder Core Rulebook (Legacy), жреческие доменные фокусные заклинания; PF2.ru и Pathfinder 2E RU",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2.ru/classes/cleric?legacy=true&tab=details"
+    }
+  ]
+}
