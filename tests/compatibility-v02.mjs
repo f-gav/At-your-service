@@ -66,7 +66,7 @@ assert.equal(parsedOldPf.details.pathfinderSheet.level,'3');
 assert.equal(parsedOldPf.details.pathfinderSheet.pf2e_layout,undefined,'Missing layout is valid legacy JSON');
 assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,version:3})),/формат|версия/);
 assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,system:'DnD'})),/позже/);
-assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,character:{...exported.character,details:{pathfinderSheet:[]}}})),/Pathfinder/);
+assert.throws(()=>parseCharacterJson(JSON.stringify({...oldPf,character:{...oldPf.character,details:{pathfinderSheet:[]}}})),/Pathfinder/);
 
 const moonExport={
  system:'Project Moon',format:'at-your-service-character',version:1,
