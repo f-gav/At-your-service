@@ -1148,7 +1148,7 @@ assert.deepEqual(availableGrimoireClasses(allClericViews2c,['cleric','necromance
 assert.equal(filterGrimoireEntries(allClericViews2c,'all','all','',new Map(),'cleric').length,68);
 assert.equal(filterGrimoireEntries(allClericViews2c,1,'all','',new Map(),'cleric').length,34);
 assert.equal(filterGrimoireEntries(allClericViews2c,4,'all','',new Map(),'cleric').length,34);
-assert.equal(filterGrimoireEntries(allClericViews2c,'all','',new Map(),'necromancer').length,0);
+assert.equal(filterGrimoireEntries(allClericViews2c,'all','all','',new Map(),'necromancer').length,0);
 const spell2c=slug=>clericPack2c.spells.find(x=>x.slug===slug);
 const rules2c=slug=>clericPack2c.versions.find(x=>x.spellId==='pf2e-cleric-domain-'+slug);
 assert.equal(spellSubclassLabel(spell2c('charming-touch')),'Домен — Страсть');
