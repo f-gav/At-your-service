@@ -22,7 +22,17 @@ export type SpellIdentity = {
   sourceId:string;
   /** Optional class feature granting a focus spell / innate magic. */
   grants?:string[];
+  /** A genuine class specialization that grants this spell (not a general spell tradition). */
+  subclass?:{type:'domain'|'bloodline'|'mystery'|'school'|'order'|'patron'|'hybrid-study'|'other';name:string};
 };
+const PF_SUBCLASS_LABELS:Record<NonNullable<SpellIdentity['subclass']>['type'],string>={
+  domain:'Домен',bloodline:'Наследие',mystery:'Тайна',school:'Школа',
+  order:'Орден',patron:'Покровитель', 'hybrid-study':'Гибридное обучение',other:'Специализация',
+};
+export function spellSubclassLabel(spell:SpellIdentity):string|null{
+  const value=spell.subclass;
+  return value?PF_SUBCLASS_LABELS[value.type]+' — '+value.name:null;
+}
 export type SpellRulesVersion = {
   id:string;
   spellId:string;
@@ -153,7 +163,10 @@ export function parseSpellCatalog(raw:unknown, expected:SpellSystem):SpellCatalo
     if(!record(spell)||typeof spell.id!=='string'||!spell.id||ids.has(spell.id)||
        spell.system!==expected||!isKind(spell.kind)||
        !Number.isInteger(spell.rank)||spell.rank<0||spell.rank>SPELL_SYSTEMS[expected].maxRank||
-       !Array.isArray(spell.traditions)||!Array.isArray(spell.classes)||!Array.isArray(spell.traits))
+       !Array.isArray(spell.traditions)||!Array.isArray(spell.classes)||!Array.isArray(spell.traits)||
+       (spell.subclass!==undefined&&(!record(spell.subclass)||
+        typeof spell.subclass.name!=='string'||!spell.subclass.name.trim()||
+        !Object.hasOwn(PF_SUBCLASS_LABELS,String(spell.subclass.type)))))
       throw new Error('Неверная или повторяющаяся запись заклинания.');
     ids.add(spell.id);
   }
