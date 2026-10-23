@@ -786,6 +786,7 @@ export default function App() {
         <main className="page page-home">
           <section className="hero" aria-labelledby="main-title">
             <div className="hero-copy">
+              <span className="hero-eyebrow">ПЛАТФОРМА ДЛЯ ПЕРСОНАЖЕЙ</span>
               <h1 id="main-title"><img src={`${import.meta.env.BASE_URL}wordmark.svg`} alt="At your service!" /></h1>
               <p>Храни свою историю, чтобы она не превратилась в Осколки!</p>
             </div>
