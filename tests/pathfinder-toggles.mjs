@@ -58,6 +58,6 @@ assert.match(styles,/\[data-mode="fill"\]\[data-checked="true"\] \.pf-toggle-fil
 
 assert.doesNotMatch(styles,/\.pf-portrait-button:hover\s*\{/);
 assert.match(styles,/\.pf-portrait-button:focus-visible/);
-// Shape is template presentation metadata; no modification to JSON v1 character values.
-assert.match(json,/version: 1/);
-console.log('Toggle geometry, shape preview, legacy behavior, portrait hover and JSON v1 preserved.');
+// Shape is template presentation metadata; v2 transport remains independent of the UI template.
+assert.match(json,/version: 2/);
+console.log('Toggle geometry, shape preview, legacy behavior, portrait hover and JSON v2 compatible with v1 imports.');
