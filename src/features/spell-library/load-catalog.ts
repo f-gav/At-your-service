@@ -63,5 +63,13 @@ export async function loadSpellCatalog(
   base.versions.push(...clericWave1d.versions);
   base.translations.push(...clericWave1d.translations);
   base.sources.push(...clericWave1d.sources);
+  const clericWave1e=await read('pf2e-cleric-wave1e.json');
+  check('заклинания',base.spells.map(x=>x.id),clericWave1e.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),clericWave1e.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),clericWave1e.sources.map(x=>x.id));
+  base.spells.push(...clericWave1e.spells);
+  base.versions.push(...clericWave1e.versions);
+  base.translations.push(...clericWave1e.translations);
+  base.sources.push(...clericWave1e.sources);
   return base;
 }
