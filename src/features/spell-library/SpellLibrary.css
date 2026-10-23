@@ -239,6 +239,14 @@
   margin:15px 0 0;
 }
 .spell-source-book strong {color:#314b37;}
+.spell-focus-indicator,.spell-subclass-indicator{
+  color:#356287;font-size:12px;font-weight:620;line-height:1.4;
+}
+.spell-viewer-heading .spell-focus-indicator,.spell-viewer-heading .spell-subclass-indicator{
+  margin:8px 0 0;
+}
+.spell-result-identity span.spell-subclass-indicator{color:#315d83;font-weight:650;}
+
 .spell-result > div:last-child {
   color:#82958a;
 }
