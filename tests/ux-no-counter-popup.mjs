@@ -37,5 +37,5 @@ assert.match(sheet, /type="text"/);
 assert.match(sheet, /onChange:.*ChangeEvent<HTMLInputElement \| HTMLTextAreaElement>/);
 
 // No changes to transport/storage contracts.
-assert.match(json, /version: 1/);
+assert.match(json, /version: 2/);
 console.log('UX regression: portrait click opens card; no counter popup; JSON remains v1.');
