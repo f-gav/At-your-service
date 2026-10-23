@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-charming-touch",
+      "system": "pf2e",
+      "slug": "charming-touch",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "incapacitation",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Страсть"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-captivating-adoration",
+      "system": "pf2e",
+      "slug": "captivating-adoration",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "mental",
+        "visual"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Страсть"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-perfected-mind",
+      "system": "pf2e",
+      "slug": "perfected-mind",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Совершенство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-perfected-form",
+      "system": "pf2e",
+      "slug": "perfected-form",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Совершенство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-forced-quiet",
+      "system": "pf2e",
+      "slug": "forced-quiet",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Тайна"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-safeguard-secret",
+      "system": "pf2e",
+      "slug": "safeguard-secret",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "subclass": {
+        "type": "domain",
+        "name": "Тайна"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-charming-touch-legacy",
+      "spellId": "pf2e-cleric-domain-charming-touch",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "range": "Касание",
+      "targets": "1 существо, которое может считать вас привлекательным",
+      "duration": "10 минут",
+      "savingThrow": "Воля",
+      "outcomes": {
+        "criticalSuccess": "Эффекта нет; цель знает, что вы пытались её очаровать.",
+        "success": "Эффекта нет; если заклинание не опознано, цель считает его безобидным.",
+        "failure": "Отношение становится дружественным (или любезным, если уже было дружественным); цель не может действовать враждебно против вас.",
+        "criticalFailure": "Отношение становится любезным; цель не может действовать враждебно против вас."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-captivating-adoration-legacy",
+      "spellId": "pf2e-cleric-domain-captivating-adoration",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "duration": "1 минута",
+      "area": "15-футовая эманация",
+      "savingThrow": "Воля",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта; временный иммунитет на 1 час.",
+        "success": "Заворожённость на следующее действие; затем временный иммунитет на 1 час.",
+        "failure": "Заворожённость, пока существо остаётся внутри эманации.",
+        "criticalFailure": "Как провал; отношение существа к вам улучшается на одну ступень."
+      },
+      "heightened": {
+        "+1": "Размер эманации увеличивается на 15 футов."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-perfected-mind-legacy",
+      "spellId": "pf2e-cleric-domain-perfected-mind",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c"
+    },
+    {
+      "id": "pf2e-cleric-domain-perfected-form-legacy",
+      "spellId": "pf2e-cleric-domain-perfected-form",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "trigger": "Вы проваливаете спасбросок против эффекта трансформации (morph), окаменения или полиморфа (polymorph)."
+    },
+    {
+      "id": "pf2e-cleric-domain-forced-quiet-legacy",
+      "spellId": "pf2e-cleric-domain-forced-quiet",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "duration": "Зависит от результата спасброска",
+      "savingThrow": "Стойкость",
+      "outcomes": {
+        "criticalSuccess": "Цель не подвергается воздействию.",
+        "success": "Эффект действует 1 раунд.",
+        "failure": "Эффект действует 1 минуту.",
+        "criticalFailure": "Эффект действует 10 минут."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-safeguard-secret-legacy",
+      "spellId": "pf2e-cleric-domain-safeguard-secret",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 минута"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2c",
+      "range": "10 футов",
+      "targets": "Вы и любое количество согласных союзников в пределах дистанции",
+      "duration": "1 час"
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-charming-touch",
+      "versionId": "pf2e-cleric-domain-charming-touch-legacy",
+      "locale": "ru",
+      "name": "Очаровывающее касание",
+      "summary": "Привлекает расположение существа на 10 минут; при угрозах от вас или союзников цель получает +4 обстоятельства к спасброску Воли.",
+      "description": "Вы магически вызываете у существа симпатию и влечение к вам. Цель должна быть способна счесть вас привлекательным, но не обязана быть гуманоидом (Legacy с errata CR r2). Цель совершает спасбросок Воли с бонусом обстоятельства +4, если вы либо ваши союзники недавно угрожали ей или вели себя враждебно.\nКритический успех: заклинание не действует, а цель понимает, что вы пытались её очаровать.\nУспех: эффекта нет; цель принимает сотворённое за что-то безобидное, если только не опознает это заклинание.\nПровал: отношение цели к вам становится дружественным, либо любезным, если оно уже было дружественным. Цель не может совершать против вас враждебные действия.\nКритический провал: отношение цели становится любезным, и она не может совершать против вас враждебные действия.\nВы можете развеять заклинание. Если вы сами совершаете враждебное действие против цели, действие заклинания немедленно заканчивается. После его окончания цель не обязательно осознаёт, что была очарована: это зависит от того, насколько произошедшее противоречит её представлениям и ожиданиям. Признак «недееспособность» применяется по обычным правилам. Устаревшее усиление 4-го круга на негуманоидов не применяется.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-charming-touch",
+      "versionId": "pf2e-cleric-domain-charming-touch-legacy",
+      "locale": "en",
+      "name": "Charming Touch",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-captivating-adoration",
+      "versionId": "pf2e-cleric-domain-captivating-adoration-legacy",
+      "locale": "ru",
+      "name": "Пленительное обожание",
+      "summary": "15-футовая эманация вызывает заворожённость с разными результатами Воли; при критическом провале также улучшает отношение цели.",
+      "description": "Вы становитесь поразительно притягательными, и существа, находящиеся внутри эманации, отвлекаются на вас. При сотворении вы можете исключить из эффекта любых существ по вашему выбору. Когда существо впервые попадает в область, оно совершает спасбросок Воли. Если оно выходит из области и позже возвращается, применяется результат его первоначального спасброска, а не новый бросок.\nКритический успех: существо не подвергается воздействию и получает временный иммунитет к этому заклинанию на 1 час.\nУспех: существо заворожено вами на своё следующее действие, после чего получает временный иммунитет к заклинанию на 1 час.\nПровал: существо заворожено вами, пока остаётся в области действия.\nКритический провал: как провал, однако его отношение к вам улучшается на одну ступень.\nЗаклинание продолжается 1 минуту, а действие заворожённости привязано к пребыванию в эманации, если только результат спасброска не устанавливает более короткий срок. Усиление (+1): радиус эманации увеличивается на 15 футов.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-captivating-adoration",
+      "versionId": "pf2e-cleric-domain-captivating-adoration-legacy",
+      "locale": "en",
+      "name": "Captivating Adoration",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-perfected-mind",
+      "versionId": "pf2e-cleric-domain-perfected-mind-legacy",
+      "locale": "ru",
+      "name": "Совершенный разум",
+      "summary": "Повторный спасбросок Воли против действующего ментального эффекта: новый результат применяется, только если не хуже первоначального.",
+      "description": "Сосредоточившись на ясности и безупречности собственного разума, вы отбрасываете отвлекающие переживания. Выберите один уже действующий на вас эффект с признаком «ментальный», для которого вы ранее совершали спасбросок Воли. Немедленно совершите новый спасбросок Воли против этого эффекта и определите результат по обычным правилам для данного эффекта. Если новая степень успеха лучше первоначальной или равна ей, используйте результат нового спасброска для определения дальнейшего действия эффекта. Если новая степень успеха хуже первоначальной, ничего не меняется: исходный результат остаётся в силе. Для каждого отдельного действующего эффекта можно применить «Совершенный разум» лишь один раз. Заклинание не позволяет повторять спасброски Стойкости или Рефлекса и не воздействует на нементальные эффекты.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-perfected-mind",
+      "versionId": "pf2e-cleric-domain-perfected-mind-legacy",
+      "locale": "en",
+      "name": "Perfected Mind",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-perfected-form",
+      "versionId": "pf2e-cleric-domain-perfected-form-legacy",
+      "locale": "ru",
+      "name": "Совершенная форма",
+      "summary": "Реакцией перебрасываете проваленный спасбросок против трансформации, окаменения или полиморфа и оставляете лучший результат.",
+      "description": "Вы обращаетесь к божественному идеалу совершенного тела, чтобы противостоять нежелательному изменению формы. Когда вы проваливаете спасбросок против эффекта с признаком «трансформация» (morph), против окаменения либо полиморфа (polymorph), вы можете сотворить это заклинание реакцией. Немедленно повторите вызвавший реакцию спасбросок, используя тот же применимый модификатор и СЛ. Выберите лучший из двух результатов и примените его последствия. Поскольку заклинание имеет признак «удача» (fortune), соблюдайте обычное правило несовместимости нескольких эффектов удачи на одном броске. Повторять спасброски от иных эффектов этим заклинанием нельзя.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-perfected-form",
+      "versionId": "pf2e-cleric-domain-perfected-form-legacy",
+      "locale": "en",
+      "name": "Perfected Form",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-forced-quiet",
+      "versionId": "pf2e-cleric-domain-forced-quiet-legacy",
+      "locale": "ru",
+      "name": "Вынужденная тишина",
+      "summary": "Заглушает голос цели: существа дальше 10 футов слышат её шёпот только при успешной проверке Восприятия против вашей СЛ заклинания.",
+      "description": "Вы магически приглушаете голос выбранного существа, чтобы оно не могло легко разглашать важные секреты. Оно по-прежнему может разговаривать и обеспечивать словесные компоненты заклинаний, но любой слушатель на расстоянии более 10 футов от цели должен успешно пройти проверку Восприятия против вашей СЛ заклинания, чтобы расслышать её шёпот. Это ограничение может препятствовать обычному общению, а также использованию слуховых и языковых эффектов.\nЦель совершает спасбросок Стойкости.\nКритический успех: заклинание не действует.\nУспех: голос приглушён на 1 раунд.\nПровал: эффект продолжается 1 минуту.\nКритический провал: эффект продолжается 10 минут.\nПосле попытки спасброска существо становится временно невосприимчивым к «Вынужденной тишине» на 24 часа, независимо от степени успеха. Заклинание не накладывает состояние «немота» и не запрещает сотворять заклинания со словесными компонентами.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-forced-quiet",
+      "versionId": "pf2e-cleric-domain-forced-quiet-legacy",
+      "locale": "en",
+      "name": "Forced Quiet",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-safeguard-secret",
+      "versionId": "pf2e-cleric-domain-safeguard-secret-legacy",
+      "locale": "ru",
+      "name": "Сохранение тайны",
+      "summary": "Одну минуту охраняете конкретный секрет: знающие его цели получают бонус состояния +4 к сокрытию информации и спасброскам против её извлечения.",
+      "description": "Во время минутного сотворения вы защищаете один конкретный фрагмент информации от чужого внимания. Выберите секрет, известный хотя бы некоторым из целей. Целями могут быть вы и любое количество согласных союзников; каждый союзник должен находиться в пределах 10 футов от вас в течение всей минуты сотворения. Пользу от защиты получают только те из выбранных целей, кто действительно знает выбранный секрет.\nПока действует заклинание, такие цели получают бонус состояния +4 к проверкам навыков (обычно Обмана), предпринимаемым для сокрытия именно этих сведений, а также к спасброскам против заклинаний, прямо направленных на получение этих сведений, и иных эффектов, заставляющих сообщить их. Заклинание не скрывает всю память цели и не распространяется на любые сведения вообще: защита ограничена выбранной информацией.\nПродолжительность — 1 час. Если вы вновь сотворяете «Сохранение тайны», все прежние экземпляры данного заклинания, сотворённые вами, немедленно заканчиваются.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-safeguard-secret",
+      "versionId": "pf2e-cleric-domain-safeguard-secret-legacy",
+      "locale": "en",
+      "name": "Safeguard Secret",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-core-legacy-wave2c",
+      "name": "Pathfinder Core Rulebook (2019), Cleric focus spells (Legacy, errata); сверено с Pathfinder 2E RU / PF2.ru",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html",
+      "page": "Домены: Страсть, Совершенство, Тайна (Core Rulebook pp. 390–396)"
+    }
+  ]
+}
