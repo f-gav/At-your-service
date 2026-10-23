@@ -89,7 +89,7 @@ try{
 
   // Cleric domains are class-only, tagged with their own domain, never Divine-tradition spells.
   await page.getByRole('button',{name:'Жрец',exact:true}).click();
-  assert.equal(await page.locator('.spell-total').textContent(),'54 записи');
+  assert.equal(await page.locator('.spell-total').textContent(),'54 записей');
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),54);
