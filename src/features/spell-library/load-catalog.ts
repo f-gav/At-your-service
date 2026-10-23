@@ -29,5 +29,15 @@ export async function loadSpellCatalog(
   base.versions.push(...necro.versions);
   base.translations.push(...necro.translations);
   base.sources.push(...necro.sources);
+  // Class packs are additive and loaded by both the Library and the character Grimoire.
+  // Keep this file for wave 2/3 even as the class's catalogue grows.
+  const cleric=await read('pf2e-cleric-wave1.json');
+  check('заклинания',base.spells.map(x=>x.id),cleric.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),cleric.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),cleric.sources.map(x=>x.id));
+  base.spells.push(...cleric.spells);
+  base.versions.push(...cleric.versions);
+  base.translations.push(...cleric.translations);
+  base.sources.push(...cleric.sources);
   return base;
 }

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,SPELL_SYSTEMS,
-  emptySpellCatalog,parseSpellCatalog,toSpellViews,filterSpellViews,
+  emptySpellCatalog,parseSpellCatalog,toSpellViews,filterSpellViews,spellSubclassLabel,
 } from '../src/features/spell-library/catalog.ts';
 const source=p=>readFileSync(new URL(p,import.meta.url),'utf8');
 
@@ -845,18 +845,35 @@ for(const base of ['/','/At-your-service/']){
 assert.deepEqual(parseSiteRoute('#library'),{kind:'library'});
 assert.deepEqual(parseSiteRoute('/character/invalid/'),{kind:'characters'});
 
+const clericPack=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-cleric-wave1.json')),'pf2e');
+assert.equal(clericPack.spells.length,10,'The first staged Cleric domain import contains ten spells');
+assert.equal(clericPack.spells.filter(x=>x.kind==='focus').length,10);
+assert.equal(clericPack.spells.filter(x=>x.rank===1).length,5);
+assert.equal(clericPack.spells.filter(x=>x.rank===4).length,5);
+assert.ok(clericPack.spells.every(x=>x.classes.includes('cleric')&&x.traditions.length===0));
+assert.ok(clericPack.spells.every(x=>x.subclass?.type==='domain'&&x.subclass.name));
+assert.equal(new Set(clericPack.spells.map(x=>x.subclass.name)).size,5);
+assert.ok(clericPack.versions.every(x=>x.edition==='pf2e-legacy'&&x.resource==='focus-point'));
+assert.ok(clericPack.translations.filter(x=>x.locale==='ru').every(x=>x.description.length>100));
+assert.equal(spellSubclassLabel(clericPack.spells.find(x=>x.slug==='agile-feet')),
+  'Домен — Путешествия');
+assert.equal(filterSpellViews(toSpellViews(clericPack,'pf2e-remaster'),
+  {...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,10);
+assert.equal(filterSpellViews(toSpellViews(clericPack,'pf2e-remaster'),
+  {...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0,
+  'Cleric domain spells must not leak into unrestricted Divine tradition');
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);

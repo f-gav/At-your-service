@@ -7,7 +7,7 @@ import {
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
   RARITY_LABELS,SPELL_SYSTEMS,
-  emptySpellCatalog,filterSpellViews,toSpellViews,
+  emptySpellCatalog,filterSpellViews,spellSubclassLabel,toSpellViews,
 } from './catalog';
 import type {
   PfTradition,SpellCatalog,SpellFilters,SpellKind,SpellSystem,SpellView,
@@ -15,7 +15,11 @@ import type {
 import {loadCachedSpellCatalog} from './cached-catalog';
 import './SpellLibrary.css';
 
-const PF_CLASS_LABELS:Record<string,string>={necromancer:'Некромант'};
+const PF_CLASS_LABELS:Record<string,string>={
+  bard:'Бард',cleric:'Жрец',druid:'Друид',wizard:'Волшебник',magus:'Магус',
+  oracle:'Оракул',psychic:'Экстрасенс',witch:'Ведьма',sorcerer:'Чародей',
+  summoner:'Призыватель',necromancer:'Некромант',
+};
 const classLabel=(id:string)=>PF_CLASS_LABELS[id]??id;
 
 type Props={onBack:()=>void};
@@ -233,6 +237,8 @@ function SpellDetails({spell,onClose}: {spell:SpellView;onClose:()=>void}){
           {spell.translationOrigin==='at-your-service'&&<span className="spell-translation-origin">Перевод от At your service!</span>}
         </div>
         <p className="spell-source-book"><strong>Источник:</strong> {sourceName(spell)}</p>
+        {entry.kind==='focus'&&<p className="spell-focus-indicator">Фокусное · 1 ФП</p>}
+        {spellSubclassLabel(entry)&&<p className="spell-subclass-indicator">Подкласс: {spellSubclassLabel(entry)}</p>}
       </div>
       <button type="button" className="spell-close" aria-label="Закрыть описание" onClick={onClose}><X size={18}/></button>
     </div>
@@ -527,7 +533,7 @@ export default function SpellLibrary({onBack}:Props){
             return <button type="button" role="listitem" className="spell-result" key={spell.id}
               onClick={()=>setSelectedId(spell.id)} aria-label={`${spell.name}, ${spellTypeLabel(spell)}`}>
               <div className="spell-result-heading">
-                <div className="spell-result-identity"><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span></div>
+                <div className="spell-result-identity"><strong>{spell.name}</strong><span>{spellTypeLabel(spell)}</span>{spellSubclassLabel(spell.spell)&&<span className="spell-subclass-indicator">Подкласс: {spellSubclassLabel(spell.spell)}</span>}</div>
                 <span className="spell-source-label" title={sourceName(spell)} aria-label={`Книга: ${sourceName(spell)}`}>
                   {sourceAbbreviation(spell)}</span>
               </div>
