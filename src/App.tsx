@@ -45,7 +45,8 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
-import { emptyMoonSheet, moonSubtitle } from './features/project-moon/model';
+import { emptyMoonSheet, moonSubtitle, readMoonSheet } from './features/project-moon/model';
+import { initialSheetValues } from './features/pathfinder/sheet-values';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
 import type { PortraitCrops } from './features/portrait/crop';
@@ -552,6 +553,32 @@ export default function App() {
     return true;
   }
 
+  // A dashboard card can hold an older snapshot than the currently saved
+  // character. Always fetch the authoritative row immediately before exporting.
+  async function exportCharacterJson(character:Character) {
+    if (!supabase || !user || busy) return;
+    setOpenMenuId(null); setError(''); setBusy(true);
+    try {
+      const {data,error:readError} = await supabase.from('characters')
+        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
+        .eq('id',character.id).eq('user_id',user.id).single();
+      if (readError || !data) throw readError ?? new Error('Не удалось получить актуальную версию персонажа.');
+      const freshest = {...data,details:normalizeDetails(data.details)} as Character;
+      const key = characterDraftKey(user.id,character.id);
+      const baseline = freshest.system === 'pf2e'
+        ? JSON.stringify(initialSheetValues(freshest.details,freshest.name))
+        : freshest.system === 'prmoon'
+          ? JSON.stringify([freshest.name,readMoonSheet(freshest.details)])
+          : null;
+      if (baseline && recoverLocalDraft(key,baseline)) {
+        throw new Error('У этого персонажа есть несохранённый черновик на устройстве. Откройте лист и сохраните изменения перед экспортом JSON.');
+      }
+      await downloadCharacter(freshest);
+      setCharacters(current=>current.map(entry=>entry.id===freshest.id?freshest:entry));
+    } catch (cause) { setError(messageFromError(cause)); }
+    finally { setBusy(false); }
+  }
+
   async function completeImport(parsed:ReturnType<typeof parseCharacterJson>,variant?:'classic'|'alternative'){
     if(!supabase||!user||importingJson)return;
     setImportingJson(true);setError('');
@@ -871,7 +898,7 @@ export default function App() {
                           (character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'classic':'alternative')}>
                         <FilePenLine size={15}/> Переключить на {(character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'классический PF2e':'Альтернативный PF2e'}
                       </button>}
-                      <button type="button" onClick={() => {setOpenMenuId(null);void downloadCharacter(character).catch(cause=>setError(messageFromError(cause)));}}><Download size={15} /> Экспорт JSON</button>
+                      <button type="button" disabled={busy} onClick={() => void exportCharacterJson(character)}><Download size={15} /> Экспорт JSON</button>
                       <button type="button" onClick={() => {const url=window.location.origin+siteRoutePath({kind:'character',id:character.id},import.meta.env.BASE_URL);void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" onClick={() => {setOpenMenuId(null);setDuplicatePortrait(true);setDuplicateTarget(character);}} disabled={busy}><Copy size={15}/> Дублировать</button>
