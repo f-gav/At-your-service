@@ -40,7 +40,30 @@ try{
    header:getComputedStyle(document.querySelector('.site-header')).backgroundColor
  }));
  assert.equal(night.background,'rgb(13, 15, 21)','WreckTrack-blue night background');
- assert.equal(night.header,'rgb(17, 19, 25)','Dark app header');
+ assert.equal(night.header,'rgb(15, 16, 21)','Dark app header');
+ // WreckTrack reference: atmospheric gradients, graphite cards and pale-blue label.
+ const wrecktrackStyle=await page.evaluate(()=>{
+   const home=document.querySelector('.page-home');
+   const card=document.createElement('div');
+   card.className='character-card';
+   home.append(card);
+   const style={
+     shellBackground:getComputedStyle(document.querySelector('.site-shell')).backgroundImage,
+     cardBackground:getComputedStyle(card).backgroundImage,
+     cardBorder:getComputedStyle(card).borderColor,
+     label:getComputedStyle(home.querySelector('.hero-eyebrow')).color,
+     labelDisplay:getComputedStyle(home.querySelector('.hero-eyebrow')).display,
+   };
+   card.remove();
+   return style;
+ });
+ assert.match(wrecktrackStyle.shellBackground,/radial-gradient/,
+   'Night mode should have an atmospheric blue-black backdrop');
+ assert.match(wrecktrackStyle.cardBackground,/linear-gradient/,
+   'Night character cards should have soft graphite gradients');
+ assert.equal(wrecktrackStyle.cardBorder,'rgb(54, 56, 67)');
+ assert.equal(wrecktrackStyle.label,'rgb(97, 166, 237)');
+ assert.notEqual(wrecktrackStyle.labelDisplay,'none');
  const paperColors=await page.evaluate(()=>{
    const samples=['pf-sheet-page','pf-alt-page','moon-paper'];
    return samples.map(name=>{
@@ -98,13 +121,13 @@ try{
  });
  const darkChrome=await captureEditorChrome();
  assert.deepEqual(darkChrome,{
-   variant:'rgb(25, 30, 41)',
+   variant:'rgb(26, 27, 36)',
    activeVariant:'rgb(49, 93, 145)',
-   pdf:'rgb(30, 41, 59)',
-   settings:'rgb(26, 32, 45)',
-   nav:'rgb(26, 32, 44)',
-   activeNav:'rgb(42, 73, 105)',
-   moonTab:'rgb(43, 76, 112)',
+   pdf:'rgb(28, 39, 54)',
+   settings:'rgb(26, 27, 36)',
+   nav:'rgb(26, 27, 36)',
+   activeNav:'rgb(38, 60, 86)',
+   moonTab:'rgb(38, 60, 86)',
    pfPaper:'rgb(255, 255, 255)',
    moonPaper:'rgb(255, 255, 255)',
  },'Dark-theme editor buttons and navigators must be blue; character sheets remain white');
@@ -114,6 +137,8 @@ try{
  await page.getByRole('button',{name:'Включить светлую тему'}).click();
  assert.equal(await page.evaluate(()=>localStorage.getItem('ays-site-theme')),'light');
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'light');
+ assert.equal(await page.locator('.hero-eyebrow').evaluate(node=>getComputedStyle(node).display),'none',
+   'Editorial kicker must be confined to dark mode');
  const lightChrome=await captureEditorChrome();
  for(const key of ['variant','activeVariant','pdf','settings','nav','activeNav','moonTab']){
    assert.notEqual(lightChrome[key],darkChrome[key],key+' must return to light appearance');
