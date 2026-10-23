@@ -1,5 +1,6 @@
 import {parseSiteRoute,siteRoutePath} from '../src/lib/routes.ts';
 import {loadSpellCatalog} from '../src/features/spell-library/load-catalog.ts';
+import {availableGrimoireClasses,filterGrimoireEntries} from '../src/features/pathfinder/grimoire-selectors.ts';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
@@ -792,6 +793,25 @@ assert.ok(necro.spells.every(s=>s.traditions.length===0),'Class-exclusive grave 
 assert.equal(necro.sources.length,1);
 const necroViews=toSpellViews(necro,'pf2e-remaster');
 assert.equal(necroViews.length,10);
+const classOptions=availableGrimoireClasses(necroViews,['necromancer','bard']);
+assert.deepEqual(classOptions,[{id:'necromancer',count:10}],
+  'Only chosen classes with actual class spells produce a quick-filter button');
+const allNecro=filterGrimoireEntries(necroViews,'all','all','',new Map(),'necromancer');
+assert.equal(allNecro.length,10);
+assert.equal(filterGrimoireEntries(necroViews,0,'all','',new Map(),'necromancer').length,2,
+  'Class-specific rank-one cantrips must appear in the Cantrips section');
+assert.equal(filterGrimoireEntries(necroViews,1,'all','',new Map(),'necromancer').length,8);
+assert.equal(filterGrimoireEntries(necroViews,'all','all','',new Map(),'bard').length,0,
+  'Other class filters must never leak Necromancer-only spells');
+const mixedGrimoire=toSpellViews({...wave,spells:[...wave.spells,...necro.spells],
+  versions:[...wave.versions,...necro.versions],
+  translations:[...wave.translations,...necro.translations],
+  sources:[...wave.sources,...necro.sources]},'pf2e-remaster');
+assert.equal(filterGrimoireEntries(mixedGrimoire,'all','all','',new Map(),'necromancer').length,10,
+  'Class filter must exclude normal occult spells even if the tradition is available');
+assert.equal(filterGrimoireEntries(necroViews,'all','prepared','',
+  new Map([[necroViews[0].id,{id:necroViews[0].id,prepared:true}]]),'necromancer').length,1,
+  'Prepared-only mode and class filtering work together');
 assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,className:'necromancer'}).length,10);
 assert.equal(filterSpellViews(necroViews,{...DEFAULT_SPELL_FILTERS,query:'Некромант'}).length,10,
   'Russian class name searches all ten class-specific spells');

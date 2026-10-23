@@ -9,14 +9,30 @@ export function filterGrimoireEntries(
   show:'all'|'prepared',
   search:string,
   selected:ReadonlyMap<string,SavedEntry>,
+  classId:string|'all'='all',
 ):SpellView[]{
   const needle=search.toLowerCase();
   return spells.filter(spell=>{
     const displayedRank=spell.spell.kind==='cantrip'?0:spell.spell.rank;
-    return (rank==='all'||displayedRank===rank)&&
+    return (classId==='all'||spell.spell.classes.some(id=>id.toLowerCase()===classId.toLowerCase()))&&
+      (rank==='all'||displayedRank===rank)&&
       (show==='all'||selected.get(spell.id)?.prepared===true)&&
       (!needle||[spell.name,spell.englishName].some(name=>name.toLowerCase().includes(needle)));
   });
+}
+
+/** Only display class quick-filters that have actual class-tagged magic.
+ * A selected magical tradition alone never grants a class's private spells. */
+export function availableGrimoireClasses(spells:readonly SpellView[],selectedClasses:readonly string[]){
+  const selected=new Set(selectedClasses.map(id=>id.toLowerCase()));
+  const counts=new Map<string,number>();
+  for(const spell of spells){
+    for(const id of new Set(spell.spell.classes.map(id=>id.toLowerCase()))){
+      if(selected.has(id))counts.set(id,(counts.get(id)??0)+1);
+    }
+  }
+  return selectedClasses.map(id=>({id,count:counts.get(id.toLowerCase())??0}))
+    .filter(option=>option.count>0);
 }
 
 /** Build each rank's list once instead of rescanning all results 11 times. */

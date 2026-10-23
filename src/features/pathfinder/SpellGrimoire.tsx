@@ -4,7 +4,7 @@ import {X,Search} from 'lucide-react';
 import {toSpellViews} from '../spell-library/catalog';
 import {loadCachedSpellCatalog} from '../spell-library/cached-catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
-import {filterGrimoireEntries,groupGrimoireEntries,summarizeGrimoire} from './grimoire-selectors';
+import {availableGrimoireClasses,filterGrimoireEntries,groupGrimoireEntries,summarizeGrimoire} from './grimoire-selectors';
 import type {SpellView} from '../spell-library/catalog';
 import './SpellGrimoire.css';
 
@@ -69,6 +69,7 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
   const [error,setError]=useState('');
   const [search,setSearch]=useState('');
   const [rank,setRank]=useState<number|'all'>('all');
+  const [classFilter,setClassFilter]=useState<string|'all'>('all');
   const [show,setShow]=useState<'all'|'prepared'>('all');
   const [details,setDetails]=useState<SpellView|null>(null);
   const dialogRef=useRef<HTMLElement>(null);
@@ -124,9 +125,11 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
         s.spell.classes.some(c=>classes.includes(c.toLowerCase()));
     });
   },[spells,traditions,classes]);
+  const classOptions=useMemo(()=>availableGrimoireClasses(spells,classes),[spells,classes]);
+  const activeClassCount=classFilter==='all'?allowed.length:classOptions.find(x=>x.id===classFilter)?.count??0;
   const selectedById=useMemo(()=>new Map(selection.map(entry=>[entry.id,entry] as const)),[selection]);
-  const results=useMemo(()=>filterGrimoireEntries(allowed,rank,show,search,selectedById),
-    [allowed,rank,show,search,selectedById]);
+  const results=useMemo(()=>filterGrimoireEntries(allowed,rank,show,search,selectedById,classFilter),
+    [allowed,rank,show,search,selectedById,classFilter]);
   const groups=useMemo(()=>groupGrimoireEntries(results),[results]);
   const knownCount=selection.length;
   const {selectedCount,preparedCount,slotWarnings}=useMemo(
@@ -140,7 +143,7 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
       <header><h2>Гримуар</h2><span>В ячейках: {preparedCount} · Отмечено: {selectedCount} · Добавлено: {knownCount}</span>
         <button ref={closeRef} type="button" aria-label="Закрыть гримуар" onClick={onClose}><X size={20}/></button></header>
       <div className="pf-grimoire-tabs">
-        <button className={show==='all'?'active':''} onClick={()=>setShow('all')}>Все доступные ({allowed.length})</button>
+        <button className={show==='all'?'active':''} onClick={()=>setShow('all')}>Все доступные ({activeClassCount})</button>
         <button className={show==='prepared'?'active':''} onClick={()=>setShow('prepared')}>Подготовленные ({selectedCount})</button>
       </div>
       <div className="pf-grimoire-filters">
@@ -149,6 +152,15 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
           <option value="all">Все круги</option>{Array.from({length:11},(_,i)=><option key={i} value={i}>{i===0?'Чары':i+'-й круг'}</option>)}
         </select>
       </div>
+      {classOptions.length>0&&<div className="pf-grimoire-class-filters" role="group" aria-label="Классовые заклинания">
+        <button type="button" className={classFilter==='all'?'active':''} aria-pressed={classFilter==='all'}
+          onClick={()=>setClassFilter('all')}>Все классы</button>
+        {classOptions.map(({id,count})=><button type="button" key={id}
+          className={classFilter===id?'active':''} aria-pressed={classFilter===id}
+          onClick={()=>setClassFilter(current=>current===id?'all':id)}>
+          {PF_CLASS_LIST.find(([key])=>key===id)?.[1]??id} ({count})
+        </button>)}
+      </div>}
       <div className="pf-grimoire-traditions">Выбранные классы: {classes.length?PF_CLASS_LIST.filter(([id])=>classes.includes(id)).map(([,label])=>label).join(', '):'не указаны'} · Доступные традиции: {traditions.length?GROUPS.filter(([id])=>traditions.includes(id)).map(([,label])=>label).join(', '):'все (настройте в параметрах заклинаний)'}</div>
       {slotWarnings.length>0&&<p className="pf-grimoire-slot-warning" role="status">Проверьте ячейки по кругам: {slotWarnings.join('; ')}. Это подсказка, а не ограничение подготовки.</p>}
       {loading?<p>Загружаем библиотеку…</p>:error?<p role="alert">{error}</p>:
