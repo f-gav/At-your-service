@@ -1,7 +1,7 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {X,Search} from 'lucide-react';
-import {toSpellViews} from '../spell-library/catalog';
+import {spellSubclassLabel,toSpellViews} from '../spell-library/catalog';
 import {loadCachedSpellCatalog} from '../spell-library/cached-catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
 import {availableGrimoireClasses,filterGrimoireEntries,groupGrimoireEntries,summarizeGrimoire} from './grimoire-selectors';
@@ -168,7 +168,7 @@ export default function SpellGrimoire({initialSpellId,selection,traditions,class
           const group=groups[level];
           return group.length?<section key={level}><h3>{level===0?'Чары':'Заклинания '+level+'-го круга'} ({group.length})</h3>
             {group.map(spell=>{const saved=selectedById.get(spell.id);return <div className="pf-grimoire-item" key={spell.id}>
-              <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}{spell.spell.kind==='focus'&&<span className="pf-grimoire-focus-tag">Фокусное</span>}</button>
+              <button type="button" className="pf-grimoire-name" onClick={()=>setDetails(spell)}>{spell.name}{spell.spell.kind==='focus'&&<span className="pf-grimoire-focus-tag">Фокусное</span>}{spellSubclassLabel(spell.spell)&&<span className="pf-grimoire-subclass-tag">Подкласс: {spellSubclassLabel(spell.spell)}</span>}</button>
               <small>{spellCast(spell)}</small>
               {!saved?<button type="button" aria-label={'Добавить '+spell.name} onClick={()=>add(spell)}>Добавить</button>:
                 spell.spell.kind==='spell'?<button type="button" aria-label={(saved.prepared?'Снять подготовку ':'Подготовить ')+spell.name}
