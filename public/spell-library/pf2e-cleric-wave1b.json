@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-fire-ray",
+      "system": "pf2e",
+      "slug": "fire-ray",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "attack",
+        "fire",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Огонь"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-flame-barrier",
+      "system": "pf2e",
+      "slug": "flame-barrier",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Огонь"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-hurtling-stone",
+      "system": "pf2e",
+      "slug": "hurtling-stone",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "earth",
+        "attack",
+        "evocation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Земля"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-localized-quake",
+      "system": "pf2e",
+      "slug": "localized-quake",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "earth",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Земля"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-scholarly-recollection",
+      "system": "pf2e",
+      "slug": "scholarly-recollection",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Знания"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-know-the-enemy",
+      "system": "pf2e",
+      "slug": "know-the-enemy",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Знания"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-bit-of-luck",
+      "system": "pf2e",
+      "slug": "bit-of-luck",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Везение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-lucky-break",
+      "system": "pf2e",
+      "slug": "lucky-break",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "fortune"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Везение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-deaths-call",
+      "system": "pf2e",
+      "slug": "deaths-call",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Смерть"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-eradicate-undeath",
+      "system": "pf2e",
+      "slug": "eradicate-undeath",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy",
+        "positive"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Смерть"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-fire-ray-legacy",
+      "spellId": "pf2e-cleric-domain-fire-ray",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "range": "60 футов",
+      "targets": "1 существо",
+      "outcomes": {
+        "criticalSuccess": "Двойной начальный урон и 1d4 продолжительного урона огнём.",
+        "success": "Полные 2d6 урона огнём.",
+        "failure": "Урон не наносится.",
+        "criticalFailure": "Урон не наносится."
+      },
+      "heightened": {
+        "+1": "Начальный урон +2d6; продолжительный урон при критическом успехе +1d4."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-flame-barrier-legacy",
+      "spellId": "pf2e-cleric-domain-flame-barrier",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "range": "60 футов",
+      "targets": "1 существо, которое должно получить урон огнём",
+      "trigger": "Эффект должен нанести урон огнём вам или союзнику в пределах дистанции.",
+      "heightened": {
+        "+2": "Сопротивление огню увеличивается на 5."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-hurtling-stone-legacy",
+      "spellId": "pf2e-cleric-domain-hurtling-stone",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "range": "60 футов",
+      "targets": "1 существо",
+      "outcomes": {
+        "criticalSuccess": "Двойной урон от 1d6 плюс модификатор Силы.",
+        "success": "1d6 дробящего урона плюс модификатор Силы.",
+        "failure": "Урон не наносится."
+      },
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-localized-quake-legacy",
+      "spellId": "pf2e-cleric-domain-localized-quake",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "area": "15-футовая эманация или 15-футовый конус",
+      "savingThrow": "Спасбросок Рефлекса",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Половина дробящего урона.",
+        "failure": "Полный дробящий урон и падение ничком.",
+        "criticalFailure": "Двойной дробящий урон и падение ничком."
+      },
+      "heightened": {
+        "+1": "Базовый урон увеличивается на 2d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-scholarly-recollection-legacy",
+      "spellId": "pf2e-cleric-domain-scholarly-recollection",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "trigger": "Вы совершаете проверку Восприятия для действия «Поиск» или проверку изученного навыка для «Вспомнить информацию»."
+    },
+    {
+      "id": "pf2e-cleric-domain-know-the-enemy-legacy",
+      "spellId": "pf2e-cleric-domain-know-the-enemy",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "trigger": "Вы бросаете инициативу и видите существо; успешно попадаете по существу атакой; или существо проваливает спасбросок против одного из ваших заклинаний."
+    },
+    {
+      "id": "pf2e-cleric-domain-bit-of-luck-legacy",
+      "spellId": "pf2e-cleric-domain-bit-of-luck",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "range": "30 футов",
+      "targets": "1 согласное существо",
+      "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-cleric-domain-lucky-break-legacy",
+      "spellId": "pf2e-cleric-domain-lucky-break",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "trigger": "Вы провалили спасбросок, но результат не является критическим провалом."
+    },
+    {
+      "id": "pf2e-cleric-domain-deaths-call-legacy",
+      "spellId": "pf2e-cleric-domain-deaths-call",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "trigger": "Живое существо умирает в пределах 20 футов от вас либо в этих пределах уничтожена нежить.",
+      "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-cleric-domain-eradicate-undeath-legacy",
+      "spellId": "pf2e-cleric-domain-eradicate-undeath",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-legacy-core-wave1b",
+      "area": "30-футовый конус",
+      "savingThrow": "Обычный спасбросок Стойкости",
+      "outcomes": {
+        "criticalSuccess": "Нет урона.",
+        "success": "Половина урона.",
+        "failure": "Полный урон.",
+        "criticalFailure": "Двойной урон."
+      },
+      "heightened": {
+        "+1": "Базовый позитивный урон увеличивается на 1d12."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-fire-ray",
+      "versionId": "pf2e-cleric-domain-fire-ray-legacy",
+      "locale": "ru",
+      "name": "Огненный луч",
+      "summary": "Атака огненным лучом: 2d6 урона; при критическом попадании — двойной урон и 1d4 продолжительного урона огнём.",
+      "description": "Пылающий луч направляется в выбранное существо. Сделайте бросок атаки заклинанием против КБ цели. При успехе цель получает 2d6 урона огнём. При критическом успехе начальный урон удваивается, а цель дополнительно получает 1d4 продолжительного урона огнём. Промах не наносит урона. Повышенное (+1): начальный урон увеличивается на 2d6, а продолжительный урон при критическом успехе — на 1d4.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-fire-ray",
+      "versionId": "pf2e-cleric-domain-fire-ray-legacy",
+      "locale": "en",
+      "name": "Fire Ray",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-flame-barrier",
+      "versionId": "pf2e-cleric-domain-flame-barrier-legacy",
+      "locale": "ru",
+      "name": "Огненная преграда",
+      "summary": "Реакция даёт цели сопротивление огню 15 против вызвавшего её эффекта.",
+      "description": "Божественной силой вы заслоняете цель от наступающего пламени. Выбранное существо — вы или союзник в пределах 60 футов, которому угрожает огненный урон, — получает сопротивление огню 15 исключительно против вызвавшего эту реакцию эффекта. Повышенное (+2): значение предоставленного сопротивления огню увеличивается на 5.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-flame-barrier",
+      "versionId": "pf2e-cleric-domain-flame-barrier-legacy",
+      "locale": "en",
+      "name": "Flame Barrier",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-hurtling-stone",
+      "versionId": "pf2e-cleric-domain-hurtling-stone-legacy",
+      "locale": "ru",
+      "name": "Летящий камень",
+      "summary": "Магический камень: атака заклинанием на 1d6 дробящего урона плюс модификатор Силы.",
+      "description": "Вы создаёте камень и метаете его в противника; божественная сила направляет полёт снаряда. Выполните бросок атаки заклинанием по КБ цели. При успехе нанесите 1d6 дробящего урона плюс ваш модификатор Силы. При критическом успехе полученный урон удваивается. При провале камень не наносит урона. Повышенное (+1): урон увеличивается на 1d6.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-hurtling-stone",
+      "versionId": "pf2e-cleric-domain-hurtling-stone-legacy",
+      "locale": "en",
+      "name": "Hurtling Stone",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-localized-quake",
+      "versionId": "pf2e-cleric-domain-localized-quake-legacy",
+      "locale": "ru",
+      "name": "Локальное землетрясение",
+      "summary": "Сотрясение земли наносит до 4d6 дробящего урона и сбивает с ног при провале спасброска.",
+      "description": "Выберите при сотворении форму области: 15-футовая эманация вокруг вас либо 15-футовый конус. Каждое существо в области, стоящее на твёрдой земле, совершает спасбросок Рефлекса. Критический успех: не получает урона. Успех: получает половину 4d6 дробящего урона. Провал: получает полный урон и падает ничком. Критический провал: получает двойной урон и падает ничком. Повышенное (+1): основной урон увеличивается на 2d6.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-localized-quake",
+      "versionId": "pf2e-cleric-domain-localized-quake-legacy",
+      "locale": "en",
+      "name": "Localized Quake",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-scholarly-recollection",
+      "versionId": "pf2e-cleric-domain-scholarly-recollection-legacy",
+      "locale": "ru",
+      "name": "Сосредоточенность учёного",
+      "summary": "Реакция позволяет дважды бросить проверку Поиска или Вспомнить информацию и выбрать лучший результат.",
+      "description": "Когда вы пытаетесь разглядеть скрытое с помощью Поиска или вспомнить сведения при помощи навыка, которому обучены, произнесённая молитва направляет ваши мысли. Выполните вызывающую реакцию проверку дважды и примените лучший результат. Это эффект удачи; его использование определяется указанным триггером и не превращает другие проверки навыков в повторяемые броски.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-scholarly-recollection",
+      "versionId": "pf2e-cleric-domain-scholarly-recollection-legacy",
+      "locale": "en",
+      "name": "Scholarly Recollection",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-know-the-enemy",
+      "versionId": "pf2e-cleric-domain-know-the-enemy-legacy",
+      "locale": "ru",
+      "name": "Знай своего врага",
+      "summary": "После подходящего боевого события вы вспоминаете сведения о противнике, бросая проверку дважды.",
+      "description": "После указанного триггера вы можете в качестве реакции использовать действие «Вспомнить информацию» о существе, вызвавшем реакцию. Выберите навык, подходящий для определения его способностей, и сделайте соответствующую проверку. Бросьте её дважды и используйте лучший результат. Заклинание не даёт автоматического успеха: проверка по-прежнему сопоставляется с установленной ведущим СЛ.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-know-the-enemy",
+      "versionId": "pf2e-cleric-domain-know-the-enemy-legacy",
+      "locale": "en",
+      "name": "Know the Enemy",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-bit-of-luck",
+      "versionId": "pf2e-cleric-domain-bit-of-luck-legacy",
+      "locale": "ru",
+      "name": "Чуть-чуть удачи",
+      "summary": "Один раз за минуту цель может перебросить спасбросок и выбрать лучший результат.",
+      "description": "Вы немного склоняете удачу в пользу согласного существа. Когда в течение следующей минуты цель должна совершить спасбросок, она вправе бросить дважды и использовать лучший результат; после такого применения заклинание завершается. Если вы повторно сотворите «Чуть-чуть удачи», прежний ещё действующий экземпляр этого заклинания завершится. Существо, на которое вы применили заклинание, затем получает временный иммунитет к нему на 24 часа.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-bit-of-luck",
+      "versionId": "pf2e-cleric-domain-bit-of-luck-legacy",
+      "locale": "en",
+      "name": "Bit of Luck",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-lucky-break",
+      "versionId": "pf2e-cleric-domain-lucky-break-legacy",
+      "locale": "ru",
+      "name": "Счастливый случай",
+      "summary": "Реакция позволяет перебросить неудачный спасбросок и взять лучший результат.",
+      "description": "Когда вы провалили спасбросок, однако не критически, можете сразу применить эту реакцию. Повторите бросок того же спасброска и используйте лучший из двух результатов. После применения заклинания вы становитесь временно иммунны к «Счастливому случаю» на 10 минут. Этот эффект удачи нельзя использовать при критическом провале первоначального броска.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-lucky-break",
+      "versionId": "pf2e-cleric-domain-lucky-break-legacy",
+      "locale": "en",
+      "name": "Lucky Break",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-deaths-call",
+      "versionId": "pf2e-cleric-domain-deaths-call-legacy",
+      "locale": "ru",
+      "name": "Зов смерти",
+      "summary": "Смерть поблизости дарует временные ПЗ: уровень существа плюс модификатор характеристики колдовства; за нежить — вдвое больше.",
+      "description": "Вы черпаете силы в момент, когда находящееся рядом существо покидает мир. Получите временные ПЗ в количестве, равном уровню вызвавшего реакцию существа плюс ваш модификатор ключевой характеристики колдовства. Если вызвавшее реакцию существо было нежитью, удвойте число получаемых временных ПЗ. Они сохраняются до 1 минуты, однако заклинание завершается раньше, если все предоставленные им временные ПЗ будут утрачены.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-deaths-call",
+      "versionId": "pf2e-cleric-domain-deaths-call-legacy",
+      "locale": "en",
+      "name": "Death's Call",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-eradicate-undeath",
+      "versionId": "pf2e-cleric-domain-eradicate-undeath-legacy",
+      "locale": "ru",
+      "name": "Истребление нежити",
+      "summary": "Все существа-нежить в конусе получают 4d12 позитивного урона с обычным спасброском Стойкости.",
+      "description": "Вы изливаете мощный поток позитивной жизненной энергии, разрушающий тела нежити. Каждое существо-нежить в пределах 30-футового конуса получает 4d12 позитивного урона, совершая обычный спасбросок Стойкости: при критическом успехе урона нет, при успехе половина, при провале полный урон, при критическом провале двойной урон. Повышенное (+1): базовый урон по каждой цели увеличивается на 1d12.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-eradicate-undeath",
+      "versionId": "pf2e-cleric-domain-eradicate-undeath-legacy",
+      "locale": "en",
+      "name": "Eradicate Undeath",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-legacy-core-wave1b",
+      "name": "Pathfinder Core Rulebook — домены Жреца (Legacy)",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2.ru/classes/cleric?legacy=true&tab=details"
+    }
+  ]
+}

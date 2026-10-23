@@ -862,18 +862,41 @@ assert.equal(filterSpellViews(toSpellViews(clericPack,'pf2e-remaster'),
 assert.equal(filterSpellViews(toSpellViews(clericPack,'pf2e-remaster'),
   {...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0,
   'Cleric domain spells must not leak into unrestricted Divine tradition');
+const clericPackB=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-cleric-wave1b.json')),'pf2e');
+assert.equal(clericPackB.spells.length,10,'Second batch of the first cleric wave must have ten spells');
+assert.equal(clericPackB.spells.filter(x=>x.rank===1).length,5);
+assert.equal(clericPackB.spells.filter(x=>x.rank===4).length,5);
+assert.equal(clericPackB.versions.filter(x=>x.rules?.resource==='spell-slot').length,0);
+assert.ok(clericPackB.versions.every(x=>x.edition==='pf2e-legacy'&&x.resource==='focus-point'));
+assert.ok(clericPackB.spells.every(x=>x.kind==='focus'&&x.classes.includes('cleric')
+  &&x.traditions.length===0&&x.subclass?.type==='domain'&&x.subclass.name));
+assert.equal(new Set(clericPackB.spells.map(x=>x.subclass.name)).size,5);
+assert.equal(new Set([...clericPack.spells,...clericPackB.spells].map(x=>x.id)).size,20);
+assert.equal(new Set([...clericPack.spells,...clericPackB.spells].map(x=>x.slug)).size,20);
+assert.ok(clericPackB.translations.filter(x=>x.locale==='ru')
+  .every(x=>x.description.length>130&&x.translationOrigin==='at-your-service'));
+assert.equal(spellSubclassLabel(clericPackB.spells.find(x=>x.slug==='localized-quake')),
+  'Домен — Земля');
+const clericViewsB=toSpellViews(clericPackB,'pf2e-remaster');
+assert.equal(filterSpellViews(clericViewsB,{...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,10);
+assert.equal(filterSpellViews(clericViewsB,{...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0);
+assert.equal(clericViewsB.find(x=>x.spell.slug==='flame-barrier').rules.cast.time,'Реакция');
+assert.equal(clericViewsB.find(x=>x.spell.slug==='localized-quake').rules.outcomes.criticalFailure,
+  'Двойной дробящий урон и падение ничком.');
+assert.equal(clericViewsB.find(x=>x.spell.slug==='fire-ray').rules.heightened['+1'],
+  'Начальный урон +2d6; продолжительный урон при критическом успехе +1d4.');
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);
