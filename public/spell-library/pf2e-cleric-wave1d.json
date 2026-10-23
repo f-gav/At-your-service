@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-veil-of-confidence",
+      "system": "pf2e",
+      "slug": "veil-of-confidence",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Уверенность"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-delusional-pride",
+      "system": "pf2e",
+      "slug": "delusional-pride",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Уверенность"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-splash-of-art",
+      "system": "pf2e",
+      "slug": "splash-of-art",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "illusion",
+        "visual"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Творение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-artistic-flourish",
+      "system": "pf2e",
+      "slug": "artistic-flourish",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "transmutation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Творение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-moonbeam",
+      "system": "pf2e",
+      "slug": "moonbeam",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "attack",
+        "evocation",
+        "fire",
+        "light"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Луна"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-the-moon",
+      "system": "pf2e",
+      "slug": "touch-of-the-moon",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "light"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Луна"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-word-of-truth",
+      "system": "pf2e",
+      "slug": "word-of-truth",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Истина"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-glimpse-the-truth",
+      "system": "pf2e",
+      "slug": "glimpse-the-truth",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "revelation"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "subclass": {
+        "type": "domain",
+        "name": "Истина"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-veil-of-confidence-legacy",
+      "spellId": "pf2e-cleric-domain-veil-of-confidence",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-cleric-domain-delusional-pride-legacy",
+      "spellId": "pf2e-cleric-domain-delusional-pride",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Спасбросок Воли",
+      "duration": "Зависит от спасброска",
+      "outcomes": {
+        "criticalSuccess": "Нет эффекта.",
+        "success": "Длится 1 раунд.",
+        "failure": "Длится 10 минут.",
+        "criticalFailure": "Длится 24 часа."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-splash-of-art-legacy",
+      "spellId": "pf2e-cleric-domain-splash-of-art",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "range": "30 футов",
+      "area": "5-футовый взрыв",
+      "savingThrow": "Спасбросок Воли",
+      "duration": "Зависит от эффекта",
+      "outcomes": {
+        "criticalSuccess": "Не действует.",
+        "success": "Не действует.",
+        "failure": "Эффект указанного цвета (1d4), обычный провал.",
+        "criticalFailure": "Эффект указанного цвета (1d4), критический провал."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-artistic-flourish-legacy",
+      "spellId": "pf2e-cleric-domain-artistic-flourish",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "range": "15 футов",
+      "targets": "1 целиком находящийся в области предмет или произведение искусства",
+      "duration": "10 минут",
+      "heightened": {
+        "7": "При мастерском Ремесле бонус предмета увеличивается до +2.",
+        "10": "При легендарном Ремесле бонус предмета увеличивается до +3."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-moonbeam-legacy",
+      "spellId": "pf2e-cleric-domain-moonbeam",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "range": "120 футов",
+      "targets": "1 существо",
+      "outcomes": {
+        "criticalSuccess": "Удвоенный огненный урон и «ослеплён» на 1 минуту.",
+        "success": "1d6 огненного урона и «ослеплён» на 1 раунд.",
+        "failure": "Промах.",
+        "criticalFailure": "Промах."
+      },
+      "heightened": {
+        "+1": "Урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-the-moon-legacy",
+      "spellId": "pf2e-cleric-domain-touch-of-the-moon",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "range": "Касание",
+      "targets": "1 существо",
+      "duration": "1 минута"
+    },
+    {
+      "id": "pf2e-cleric-domain-word-of-truth-legacy",
+      "spellId": "pf2e-cleric-domain-word-of-truth",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "duration": "Поддерживаемое, до 1 минуты"
+    },
+    {
+      "id": "pf2e-cleric-domain-glimpse-the-truth-legacy",
+      "spellId": "pf2e-cleric-domain-glimpse-the-truth",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave1d",
+      "area": "30-футовая эманация",
+      "duration": "1 раунд",
+      "heightened": {
+        "7": "Все существа в эманации могут видеть сквозь иллюзии, для которых проверка противодействия прошла успешно."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-veil-of-confidence",
+      "versionId": "pf2e-cleric-domain-veil-of-confidence-legacy",
+      "locale": "ru",
+      "name": "Напускная уверенность",
+      "summary": "Снижает состояние «испуган» на 1; критический провал против страха обращает эффект вспять.",
+      "description": "Вы получаете защиту от страха: немедленно снижаете текущее значение состояния «испуган» на 1, а всякий раз, когда должны получить это состояние в течение минуты, снижаете его величину на 1. Однако при критическом провале спасброска против страха заклинание сразу прекращается и вместо уменьшения увеличивает полученную от этого критического провала величину состояния «испуган» на 1.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-veil-of-confidence",
+      "versionId": "pf2e-cleric-domain-veil-of-confidence-legacy",
+      "locale": "en",
+      "name": "Veil of Confidence",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-delusional-pride",
+      "versionId": "pf2e-cleric-domain-delusional-pride-legacy",
+      "locale": "ru",
+      "name": "Обманчивая самоуверенность",
+      "summary": "После неудачных бросков цель получает штраф к атакам и навыкам; повторный провал усугубляет его.",
+      "description": "Цель становится самоуверенной, предпочитая винить обстоятельства в собственных ошибках. Если она проваливает бросок атаки либо проверку навыка, то получает штраф состояния −1 к броскам атаки и проверкам навыков до конца текущего хода, а если проверка происходила не в её ход — до конца следующего. Если цель вновь проваливает такую проверку, пока штраф действует, он увеличивается до −2. По результату первоначального спасброска Воли эффект не действует (критический успех), длится 1 раунд (успех), 10 минут (провал) или 24 часа (критический провал). После первоначального спасброска цель приобретает временную невосприимчивость к этому заклинанию на 24 часа.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-delusional-pride",
+      "versionId": "pf2e-cleric-domain-delusional-pride-legacy",
+      "locale": "en",
+      "name": "Delusional Pride",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-splash-of-art",
+      "versionId": "pf2e-cleric-domain-splash-of-art-legacy",
+      "locale": "ru",
+      "name": "Всплеск искусства",
+      "summary": "Существа в области подвергаются эффекту одного из четырёх цветов иллюзии.",
+      "description": "Область наполняется пёстрыми иллюзорными красками и инструментами. Один раз бросьте 1d4 для цвета. Каждое существо в области совершает спасбросок Воли; при успехе или критическом успехе оно не получает эффекта. При провале или критическом провале примените результат выпавшего цвета:\n1 — белый: состояние «ослеплён» (dazzled) на 1 раунд / 1 минуту.\n2 — красный: «ослаблен 1» на 1 раунд / «ослаблен 2» на 1 раунд.\n3 — жёлтый: «испуган 1» / «испуган 2».\n4 — синий: «неуклюж 1» на 1 раунд / «неуклюж 2» на 1 раунд.\nДля каждой строки первое значение относится к провалу, второе — к критическому провалу.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-splash-of-art",
+      "versionId": "pf2e-cleric-domain-splash-of-art-legacy",
+      "locale": "en",
+      "name": "Splash of Art",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-artistic-flourish",
+      "versionId": "pf2e-cleric-domain-artistic-flourish-legacy",
+      "locale": "ru",
+      "name": "Художественная доработка",
+      "summary": "Художественно преображает предмет; эксперт Ремесла может придать оружию либо инструменту бонус предмета +1.",
+      "description": "Вы временно преображаете предмет или произведение искусства согласно своему художественному видению. Если вы эксперт Ремесла, оружие получает бонус предмета +1 к броскам атаки, а инструмент навыка — бонус предмета +1 к соответствующим проверкам навыка. Преображённый предмет выглядит особенно впечатляюще, однако временный эффект очевиден и не повышает его денежную стоимость. Если вы вновь сотворяете «Художественную доработку», предыдущая созданная вами версия прекращается. При повышении до 7 круга мастер Ремесла получает бонус предмета +2, а при повышении до 10 круга легенда Ремесла — +3.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-artistic-flourish",
+      "versionId": "pf2e-cleric-domain-artistic-flourish-legacy",
+      "locale": "en",
+      "name": "Artistic Flourish",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-moonbeam",
+      "versionId": "pf2e-cleric-domain-moonbeam-legacy",
+      "locale": "ru",
+      "name": "Лунный свет",
+      "summary": "Атака лунным лучом: 1d6 огненного урона с признаками серебра и ослеплением при попадании.",
+      "description": "Из ваших рук вырывается серебристый лунный луч. Совершите бросок атаки заклинанием против КБ цели. При успехе цель получает 1d6 огненного урона и состояние «ослеплён» (dazzled) на 1 раунд. При критическом успехе урон удваивается, а состояние «ослеплён» продолжается 1 минуту. При промахе эффекта нет. Для взаимодействия со слабостями, сопротивлением и другими свойствами урон этого луча считается серебряным. Повышенное (+1): урон увеличивается на 1d6. Важно: базовый 1d6 — значение версии Legacy (Core Rulebook), а не изменённой версии Remaster.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-moonbeam",
+      "versionId": "pf2e-cleric-domain-moonbeam-legacy",
+      "locale": "en",
+      "name": "Moonbeam",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-the-moon",
+      "versionId": "pf2e-cleric-domain-touch-of-the-moon-legacy",
+      "locale": "ru",
+      "name": "Лунное прикосновение",
+      "summary": "Лунный знак на лбу цели изменяет фазу каждый ход, попеременно усиливая атаки, урон, КБ и спасброски.",
+      "description": "На лбу цели появляется сияющий символ луны; цель испускает тусклый свет в радиусе 20 футов. Он проходит четыре фазы, сменяющиеся в конце каждого хода цели, начиная с новолуния. Новолуние — бонусов нет. Растущая луна — бонус состояния +1 к броскам атаки и +4 к урону. Полнолуние — бонус состояния +1 к броскам атаки, КБ и спасброскам, а также +4 к урону. Убывающая луна — бонус состояния +1 к КБ и спасброскам. После убывающей луны снова наступает новолуние. Продолжительность заклинания составляет 1 минуту.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-the-moon",
+      "versionId": "pf2e-cleric-domain-touch-of-the-moon-legacy",
+      "locale": "en",
+      "name": "Touch of the Moon",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-word-of-truth",
+      "versionId": "pf2e-cleric-domain-word-of-truth-legacy",
+      "locale": "ru",
+      "name": "Слово правды",
+      "summary": "Ваше честное утверждение (не больше 25 слов) сопровождается символом божества, свидетельствующим об искренности.",
+      "description": "Вы произносите утверждение не длиннее 25 слов, в которое искренне верите сами, не пытаясь обмануть слушателей посредством умолчаний, двусмысленностей или искажения смысла. Над головой сияет символ вашего божества. Каждый, кто видит символ и слышит утверждение, понимает, что вы действительно считаете сказанное правдой. Заклинание не устанавливает объективную истинность утверждения, а лишь вашу искренность. Всякий раз, поддерживая заклинание, вы можете повторить такой эффект с очередным искренним утверждением; максимальная продолжительность — 1 минута.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-word-of-truth",
+      "versionId": "pf2e-cleric-domain-word-of-truth-legacy",
+      "locale": "en",
+      "name": "Word of Truth",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-glimpse-the-truth",
+      "versionId": "pf2e-cleric-domain-glimpse-the-truth-legacy",
+      "locale": "ru",
+      "name": "Проблеск истины",
+      "summary": "Позволяет видеть сквозь иллюзии в эманации после тайной проверки противодействия, не уничтожая иллюзии.",
+      "description": "На 1 раунд вы обретаете способность видеть сквозь иллюзии в 30-футовой эманации. Ведущий тайно совершает проверку противодействия каждой иллюзии, хотя бы частично находящейся в области. При успешной проверке вы видите реальный облик или объект, скрытый этой иллюзией; сама иллюзия не рассеивается и не прекращает действие. Эманация движется вместе с вами. Если во время действия заклинания в ней появляется новая иллюзия, ведущий тайно выполняет новую проверку противодействия. Повышенное (7-й круг): видеть сквозь иллюзии, против которых удалось провести проверку, могут все находящиеся в эманации существа, а не только вы.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-glimpse-the-truth",
+      "versionId": "pf2e-cleric-domain-glimpse-the-truth-legacy",
+      "locale": "en",
+      "name": "Glimpse the Truth",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-core-legacy-wave1d",
+      "name": "Pathfinder Core Rulebook — доменные фокусные заклинания Жреца (Legacy), сверено с PF2.ru",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2.ru/classes/cleric?legacy=true&tab=focus-spells"
+    }
+  ]
+}
