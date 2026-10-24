@@ -1361,18 +1361,86 @@ assert.ok(apo1bRu.every(x=>x.description.includes('Апокрифическое'
 assert.ok(apocryphal1b.versions.every(v=>!v.savingThrow&&!v.outcomes),
   'These four spells do not call for target saves or four invented saving throw outcomes');
 console.log('PASS: Legacy Cleric Dark Archive batch 1B — 84 unique cards in 37 domains, RU descriptions, proper reaction, area/heightening, Library/Grimoire');
+const apocryphal1c=parseSpellCatalog(
+  JSON.parse(source('../public/spell-library/pf2e-cleric-apocryphal-wave1c.json')),'pf2e');
+assert.equal(apocryphal1c.spells.length,3,'Third Dark Archive apocryphal pack has 3 focus spells');
+assert.equal(apocryphal1c.versions.length,3);
+assert.ok(apocryphal1c.spells.every(s=>s.rank===4&&s.rarity==='rare'&&s.kind==='focus'
+  &&s.classes.length===1&&s.classes[0]==='cleric'&&s.traditions.length===0
+  &&s.subclass?.type==='domain'));
+assert.ok(apocryphal1c.versions.every(v=>v.cast.actions===2
+  &&v.edition==='pf2e-legacy'&&v.resource==='focus-point'));
+const apo1cRu=apocryphal1c.translations.filter(t=>t.locale==='ru');
+assert.equal(apo1cRu.length,3,'All 3 apocryphal entries have Russian descriptions');
+assert.ok(apo1cRu.every(t=>t.name.length>5&&t.description.length>750
+  &&t.summary.startsWith('Апокрифическ')&&t.translationOrigin==='at-your-service'));
+const allApoPacks=[apocryphal1a,apocryphal1b,apocryphal1c];
+const allApoSpells=allApoPacks.flatMap(p=>p.spells);
+const allApoVersions=allApoPacks.flatMap(p=>p.versions);
+const allApoRu=allApoPacks.flatMap(p=>p.translations.filter(t=>t.locale==='ru'));
+assert.equal(allApoSpells.length,13,'All 13 Dark Archive alternate domain focus spells');
+assert.equal(new Set(allApoSpells.map(s=>s.slug)).size,13);
+assert.equal(new Set(allApoSpells.map(s=>s.id)).size,13);
+assert.equal(new Set(allApoVersions.map(v=>v.id)).size,13);
+assert.equal(allApoRu.length,13);
+assert.ok(allApoSpells.every(s=>s.rarity==='rare'&&s.kind==='focus'&&s.traditions.length===0
+  &&s.classes.length===1&&s.classes[0]==='cleric'&&s.subclass?.type==='domain'));
+assert.ok(allApoVersions.every(v=>v.edition==='pf2e-legacy'&&v.resource==='focus-point'));
+assert.ok(allApoRu.every(t=>t.description?.length>150&&t.name&&t.translationOrigin==='at-your-service'));
+const allClericExpanded=[...allFinalClericSpells,...allApoSpells];
+assert.equal(allClericExpanded.length,87);
+assert.equal(new Set(allClericExpanded.map(s=>s.id)).size,87,'Unique across 74 core and 13 apocryphal');
+assert.equal(new Set(allClericExpanded.map(s=>s.slug)).size,87,'No repeated English spell');
+assert.equal(new Set(allClericExpanded.map(s=>s.subclass.name)).size,37,'Apocrypha adds no new domain');
+assert.equal(allClericExpanded.filter(s=>s.rank===1).length,42);
+assert.equal(allClericExpanded.filter(s=>s.rank===4).length,45);
+const allExpandedRules=[...allFinalClericVersions,...allApoVersions];
+assert.equal(new Set(allExpandedRules.map(v=>v.id)).size,87);
+const lastApoViews=toSpellViews(apocryphal1c,'pf2e-remaster');
+const allPublishedClericViews=[...allApoClericViews,...lastApoViews];
+assert.equal(filterSpellViews(allPublishedClericViews,{...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,87);
+assert.equal(filterSpellViews(allPublishedClericViews,{...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0);
+assert.deepEqual(availableGrimoireClasses(allPublishedClericViews,['cleric','necromancer']),
+  [{id:'cleric',count:87}]);
+assert.equal(filterGrimoireEntries(allPublishedClericViews,'all','all','',new Map(),'cleric').length,87);
+assert.equal(filterGrimoireEntries(allPublishedClericViews,1,'all','',new Map(),'cleric').length,42);
+assert.equal(filterGrimoireEntries(allPublishedClericViews,4,'all','',new Map(),'cleric').length,45);
+assert.equal(filterGrimoireEntries(allPublishedClericViews,'all','all','',new Map(),'necromancer').length,0);
+const lastApoSpell=slug=>apocryphal1c.spells.find(s=>s.slug===slug);
+const lastApoRule=slug=>apocryphal1c.versions.find(v=>v.spellId==='pf2e-cleric-apocryphal-'+slug);
+assert.equal(spellSubclassLabel(lastApoSpell('weaponize-secret')),'Домен — Тайна');
+assert.equal(spellSubclassLabel(lastApoSpell('inevitable-destination')),'Домен — Путешествия');
+assert.equal(spellSubclassLabel(lastApoSpell('purifying-veil')),'Домен — Вода');
+assert.deepEqual(Object.keys(lastApoRule('weaponize-secret').outcomes).sort(),
+  ['criticalFailure','criticalSuccess','failure','success'].sort());
+assert.equal(lastApoRule('weaponize-secret').cast.actions,2,'Weaponize initial casting is 2 actions');
+assert.equal(lastApoRule('weaponize-secret').heightened['+1'],
+  'Урон от разрядки руны увеличивается на 2d6, а продолжительный ментальный урон при критическом провале — на 1.');
+assert.ok(apo1cRu.find(t=>t.spellId==='pf2e-cleric-apocryphal-weaponize-secret')
+ .description.includes('реакцией'),'Weaponize rune is discharged by a later reaction');
+assert.equal(lastApoRule('inevitable-destination').duration,'2 раунда');
+assert.equal(lastApoRule('inevitable-destination').outcomes.criticalFailure,
+  'Как провал, плюс цель притягивается на 10 футов к заклинателю и падает ничком.');
+assert.equal(lastApoRule('purifying-veil').duration,'1 минута');
+assert.ok(lastApoSpell('purifying-veil').traits.includes('good'),
+  'Legacy Good trait must not be replaced with Remaster Holy');
+assert.equal(lastApoRule('purifying-veil').heightened['+1'],
+  'Урон добром при пересечении завесы увеличивается на 1d6 за каждый дополнительный круг.');
+assert.deepEqual(Object.keys(lastApoRule('purifying-veil').outcomes).sort(),
+  ['criticalFailure','criticalSuccess','failure','success'].sort());
+console.log('PASS: 13 Dark Archive apocryphal Legacy foci complete; 87 unique Cleric spells in 37 existing domains, 42 initial / 45 advanced; Library + Grimoire + mechanics');
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'pf2e-cleric-wave2d.json':clericPack2d,'pf2e-cleric-apocryphal-wave1a.json':apocryphal1a,'pf2e-cleric-apocryphal-wave1b.json':apocryphal1b,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'pf2e-cleric-wave2d.json':clericPack2d,'pf2e-cleric-apocryphal-wave1a.json':apocryphal1a,'pf2e-cleric-apocryphal-wave1b.json':apocryphal1b,'pf2e-cleric-apocryphal-wave1c.json':apocryphal1c,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length+clericPack2d.spells.length+apocryphal1a.spells.length+apocryphal1b.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length+clericPack2d.translations.length+apocryphal1a.translations.length+apocryphal1b.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json','/At-your-service/spell-library/pf2e-cleric-wave2d.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1a.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1b.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length+clericPack2d.spells.length+apocryphal1a.spells.length+apocryphal1b.spells.length+apocryphal1c.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length+clericPack2d.translations.length+apocryphal1a.translations.length+apocryphal1b.translations.length+apocryphal1c.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json','/At-your-service/spell-library/pf2e-cleric-wave2d.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1a.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1b.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1c.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);
