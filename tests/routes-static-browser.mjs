@@ -135,8 +135,8 @@ try{
  await page.getByRole('button',{name:'Включить светлую тему'}).click();
  assert.equal(await page.evaluate(()=>localStorage.getItem('ays-site-theme')),'light');
  assert.equal(await page.evaluate(()=>document.documentElement.dataset.aysTheme),'light');
- assert.equal(await page.locator('.hero-eyebrow').evaluate(node=>getComputedStyle(node).display),'none',
-   'Editorial kicker must be confined to dark mode');
+ assert.equal(await page.locator('.hero-eyebrow').count(),0,
+   'Removed homepage eyebrow must be absent in light and dark themes');
  const lightChrome=await captureEditorChrome();
  for(const key of ['variant','activeVariant','pdf','settings','nav','activeNav','moonTab']){
    assert.notEqual(lightChrome[key],darkChrome[key],key+' must return to light appearance');
