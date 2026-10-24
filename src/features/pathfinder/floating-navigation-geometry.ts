@@ -35,9 +35,16 @@ export function moveNavigationRect(rect:NavigationRect,dx:number,dy:number,viewp
 export function resizeNavigationRect(rect:NavigationRect,dx:number,dy:number,viewport:NavigationViewport):NavigationRect {
   const availableWidth=Math.max(1,viewport.width-MARGIN-rect.x);
   const availableHeight=Math.max(1,viewport.height-MARGIN-rect.y);
+  // When the menu is docked near the right edge, grow it *to the left*.
+  // Otherwise a right-bottom resize handle would be pinned against the screen.
+  const fromLeft=rect.x+rect.width/2>=viewport.width/2;
+  const fixedRight=rect.x+rect.width;
+  const maxWidth=fromLeft?Math.max(1,fixedRight-MARGIN):availableWidth;
+  const width=clamp(rect.width+(fromLeft?-dx:dx),Math.min(MIN_WIDTH,maxWidth),maxWidth);
   return clampNavigationRect({
     ...rect,
-    width:clamp(rect.width+dx,Math.min(MIN_WIDTH,availableWidth),availableWidth),
+    x:fromLeft?fixedRight-width:rect.x,
+    width,
     height:clamp(rect.height+dy,Math.min(MIN_HEIGHT,availableHeight),availableHeight),
   },viewport);
 }
@@ -48,6 +55,9 @@ export function parseNavigationRect(raw:string|null,viewport:NavigationViewport)
     if(!value||typeof value!=='object'||Array.isArray(value))return null;
     const rect=value as Record<string,unknown>;
     if(['x','y','width','height'].some(k=>typeof rect[k]!=='number'||!Number.isFinite(rect[k])))return null;
-    return clampNavigationRect(rect as NavigationRect,viewport);
+    return clampNavigationRect({
+      x:rect.x as number,y:rect.y as number,
+      width:rect.width as number,height:rect.height as number,
+    },viewport);
   }catch{return null;}
 }
