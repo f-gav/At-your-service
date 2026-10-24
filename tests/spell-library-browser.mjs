@@ -107,7 +107,7 @@ try{
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.locator('.spell-result').filter({hasText:'Мастер слова'}).click();
   await page.getByRole('dialog').getByText('Подкласс: Домен — Знания').waitFor();
-  await page.getByRole('dialog').getByText('3 действия',{exact:true}).waitFor();
+  await page.getByRole('dialog').getByText('3 действ.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.locator('.spell-result').filter({hasText:'Победный клич'}).click();
   await page.getByRole('dialog').getByText('Подкласс: Домен — Мощь').waitFor();
