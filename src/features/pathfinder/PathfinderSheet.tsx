@@ -25,6 +25,7 @@ import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank 
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
 import AlternativePathfinderPages from './AlternativePathfinderPages';
+import FloatingPageNavigation from './FloatingPageNavigation';
 import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
@@ -593,22 +594,9 @@ export default function PathfinderSheet({
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
     {openSpellCard&&<SpellModal spell={openSpellCard} onClose={()=>setOpenSpellCard(null)}/>}
-    {navigationHelp&&<nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
-      <div className="pf-navigation-help-title">
-        <span>Страницы</span>
-        <button type="button" onClick={()=>setNavigationHelp(false)} aria-label="Скрыть помощь в навигации">
-          <X size={14}/>
-        </button>
-      </div>
-      {visiblePages.map((page,index)=><button key={page} type="button"
-        className={`pf-navigation-help-link${activePage===page?' pf-navigation-help-active':''}`}
-        onClick={()=>navigatePage(page)}
-        aria-label={`Страница ${index+1}: ${PAGE_LABELS[page]}`}
-        aria-current={activePage===page?'page':undefined}
-        title={PAGE_LABELS[page]}>
-        <span className="pf-navigation-help-number">{index+1}</span>
-        <span className="pf-navigation-help-label">{PAGE_LABELS[page]}</span>
-      </button>)}
-    </nav>}
+    {navigationHelp&&<FloatingPageNavigation system="pf2e"
+      pages={visiblePages.map(page=>({id:page,label:PAGE_LABELS[page]}))}
+      activePage={activePage} onNavigate={navigatePage}
+      onClose={()=>setNavigationHelp(false)}/>}
   </main>;
 }
