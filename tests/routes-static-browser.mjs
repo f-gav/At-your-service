@@ -41,7 +41,7 @@ try{
  }));
  assert.equal(night.background,'rgb(13, 15, 21)','WreckTrack-blue night background');
  assert.equal(night.header,'rgb(15, 16, 21)','Dark app header');
- // WreckTrack reference: atmospheric gradients, graphite cards and pale-blue label.
+ // WreckTrack reference: atmospheric gradients and graphite cards; no obsolete eyebrow.
  const wrecktrackStyle=await page.evaluate(()=>{
    const home=document.querySelector('.page-home');
    const card=document.createElement('div');
@@ -51,8 +51,7 @@ try{
      shellBackground:getComputedStyle(document.querySelector('.site-shell')).backgroundImage,
      cardBackground:getComputedStyle(card).backgroundImage,
      cardBorder:getComputedStyle(card).borderColor,
-     label:getComputedStyle(home.querySelector('.hero-eyebrow')).color,
-     labelDisplay:getComputedStyle(home.querySelector('.hero-eyebrow')).display,
+     hasObsoleteEyebrow:!!home.querySelector('.hero-eyebrow'),
    };
    card.remove();
    return style;
@@ -62,8 +61,7 @@ try{
  assert.match(wrecktrackStyle.cardBackground,/linear-gradient/,
    'Night character cards should have soft graphite gradients');
  assert.equal(wrecktrackStyle.cardBorder,'rgb(54, 56, 67)');
- assert.equal(wrecktrackStyle.label,'rgb(97, 166, 237)');
- assert.notEqual(wrecktrackStyle.labelDisplay,'none');
+ assert.equal(wrecktrackStyle.hasObsoleteEyebrow,false,'Home hero must not show the removed platform eyebrow');
  const paperColors=await page.evaluate(()=>{
    const samples=['pf-sheet-page','pf-alt-page','moon-paper'];
    return samples.map(name=>{
