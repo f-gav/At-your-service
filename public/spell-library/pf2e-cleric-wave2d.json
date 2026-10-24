@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-domain-sudden-shift",
+      "system": "pf2e",
+      "slug": "sudden-shift",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "illusion"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Обман"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-tricksters-twin",
+      "system": "pf2e",
+      "slug": "tricksters-twin",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "illusion",
+        "visual"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Обман"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-obedience",
+      "system": "pf2e",
+      "slug": "touch-of-obedience",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Тирания"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-commanding-lash",
+      "system": "pf2e",
+      "slug": "commanding-lash",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "incapacitation",
+        "mental"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Тирания"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-undeath",
+      "system": "pf2e",
+      "slug": "touch-of-undeath",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy",
+        "negative"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Нежить"
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-malignant-sustenance",
+      "system": "pf2e",
+      "slug": "malignant-sustenance",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy",
+        "negative"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "subclass": {
+        "type": "domain",
+        "name": "Нежить"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-domain-sudden-shift-legacy",
+      "spellId": "pf2e-cleric-domain-sudden-shift",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "duration": "До конца вашего следующего хода",
+      "trigger": "Противник промахивается по вам атакой ближнего боя."
+    },
+    {
+      "id": "pf2e-cleric-domain-tricksters-twin-legacy",
+      "spellId": "pf2e-cleric-domain-tricksters-twin",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "duration": "1 минута",
+      "outcomes": {
+        "criticalSuccess": "Эффекта нет.",
+        "success": "Цель видит вас только в точке двойника; при несовместимом действии или взаимодействии с иллюзией автоматически её разоблачает.",
+        "failure": "Как при успехе, но при разоблачающем событии требуется успешный спасбросок Воли.",
+        "criticalFailure": "Как при успехе, но при разоблачающем событии требуется критически успешный спасбросок Воли."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-obedience-legacy",
+      "spellId": "pf2e-cleric-domain-touch-of-obedience",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "range": "Касание",
+      "targets": "1 живое существо",
+      "savingThrow": "Воля",
+      "duration": "Зависит от спасброска",
+      "outcomes": {
+        "criticalSuccess": "Цель не подвергается воздействию.",
+        "success": "Одурманен 1 до конца текущего хода заклинателя.",
+        "failure": "Одурманен 1 до конца следующего хода заклинателя.",
+        "criticalFailure": "Одурманен 1 на 1 минуту."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-commanding-lash-legacy",
+      "spellId": "pf2e-cleric-domain-commanding-lash",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "range": "100 футов",
+      "targets": "Существо, которому вы нанесли урон предыдущим действием",
+      "savingThrow": "Воля",
+      "duration": "До конца следующего хода цели",
+      "trigger": "Требование: непосредственно предшествующим действием вы нанесли урон выбранной цели.",
+      "outcomes": {
+        "criticalSuccess": "Приказ не действует.",
+        "success": "Приказ не действует.",
+        "failure": "Первое действие следующего хода цели должно исполнять приказ.",
+        "criticalFailure": "Все доступные действия следующего хода цели должны исполнять приказ."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-touch-of-undeath-legacy",
+      "spellId": "pf2e-cleric-domain-touch-of-undeath",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "range": "Касание",
+      "targets": "1 живое существо",
+      "savingThrow": "Стойкость",
+      "outcomes": {
+        "criticalSuccess": "Без урона и без ограничения исцеления.",
+        "success": "Половина негативного урона.",
+        "failure": "Полный негативный урон; позитивное исцеление уменьшено наполовину на 1 раунд.",
+        "criticalFailure": "Двойной негативный урон; позитивное исцеление уменьшено наполовину на 1 минуту."
+      },
+      "heightened": {
+        "+1": "Базовый негативный урон увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-domain-malignant-sustenance-legacy",
+      "spellId": "pf2e-cleric-domain-malignant-sustenance",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-domain-core-legacy-wave2d",
+      "range": "Касание",
+      "targets": "1 согласное существо-нежить",
+      "duration": "1 минута",
+      "heightened": {
+        "+1": "Быстрое исцеление увеличивается на 2."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-domain-sudden-shift",
+      "versionId": "pf2e-cleric-domain-sudden-shift-legacy",
+      "locale": "ru",
+      "name": "Внезапное перемещение",
+      "summary": "Реакция после промаха атаки ближнего боя: вы делаете Шаг и становитесь сокрытым до конца следующего хода.",
+      "description": "Когда противник промахивается по вам атакой ближнего боя, вы незамедлительно перемещаетесь с помощью действия «Шаг» (Step) и окутываете себя иллюзией. Вы становитесь сокрытым (concealed) до конца своего следующего хода. Это именно состояние «сокрыт» (concealed), а не «спрятан» (hidden): его последствия определяются обычными правилами видимости. «Шаг» выполняется как часть реакции, не требуя отдельного действия. Триггером должен служить именно промах противника атакой ближнего боя; успешное попадание или дальнобойная атака не позволяют применить эту реакцию.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-sudden-shift",
+      "versionId": "pf2e-cleric-domain-sudden-shift-legacy",
+      "locale": "en",
+      "name": "Sudden Shift",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-tricksters-twin",
+      "versionId": "pf2e-cleric-domain-tricksters-twin-legacy",
+      "locale": "ru",
+      "name": "Двойник трикстера",
+      "summary": "Создаёт видимого только цели двойника на расстоянии до 100 футов от неё; Воля определяет, насколько легко цель разоблачает иллюзию.",
+      "description": "Вы создаёте иллюзорную копию себя, которую видит только выбранное существо. Сначала выберите точку в пределах 100 футов от цели, которую она способна видеть; именно там появится копия. Двойник воспроизводит все ваши действия, но не существует для других наблюдателей. Цель совершает спасбросок Воли. При критическом успехе она не подвергается воздействию. При успехе цель верит, что вы находитесь в точке двойника, и перестаёт видеть ваше настоящее местоположение. Однако она автоматически разоблачает иллюзию, если вы совершаете действие, несовместимое с местом расположения двойника, либо сама атакует, касается, выполняет «Поиск» (Seek) или иным образом взаимодействует с иллюзией. Если вы совершаете враждебное действие против цели, заклинание заканчивается. При провале исходный эффект как при успехе, но для разоблачения иллюзии в указанных обстоятельствах цель должна успешно пройти дополнительный спасбросок Воли. При критическом провале дополнительный спасбросок Воли должен быть критически успешным. Максимальная продолжительность — 1 минута.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-tricksters-twin",
+      "versionId": "pf2e-cleric-domain-tricksters-twin-legacy",
+      "locale": "en",
+      "name": "Trickster's Twin",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-obedience",
+      "versionId": "pf2e-cleric-domain-touch-of-obedience-legacy",
+      "locale": "ru",
+      "name": "Подчиняющее касание",
+      "summary": "Ослабляет разум живой цели: состояние «одурманен 1» на срок от конца текущего хода до минуты, в зависимости от спасброска.",
+      "description": "Ваше властное прикосновение подтачивает волю живого существа, облегчая дальнейшие попытки подчинить его. Цель совершает спасбросок Воли против вашей СЛ заклинания. При критическом успехе касание не оказывает эффекта. При обычном успехе существо получает состояние «одурманен 1» (stupefied 1) до конца вашего текущего хода. При провале оно получает «одурманен 1» до конца вашего следующего хода. При критическом провале «одурманен 1» длится 1 минуту. Во всех трёх случаях, когда состояние накладывается, его величина равна именно 1; изменяется только срок действия. Это описание использует Core Rulebook Legacy: значения и сроки Remaster-версии не подменяют первоначальную редакцию.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-obedience",
+      "versionId": "pf2e-cleric-domain-touch-of-obedience-legacy",
+      "locale": "en",
+      "name": "Touch of Obedience",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-commanding-lash",
+      "versionId": "pf2e-cleric-domain-commanding-lash-legacy",
+      "locale": "ru",
+      "name": "Помыкающая плеть",
+      "summary": "После причинённого предыдущим действием урона отдаёт одно приказание как заклинанием «Приказ»; имеет признак недееспособности.",
+      "description": "Требование: ваше непосредственно предыдущее действие нанесло урон существу, которое вы выбираете целью. Угрожая дальнейшей болью, вы отдаёте ему приказ в пределах 100 футов. Заклинание работает по правилам «Приказа» (Command), но имеет собственное сотворение за одно действие и требует предварительно нанести урон. Выберите одно простое указание: приблизиться к вам, убежать (как при состоянии «бегство»), выпустить удерживаемые предметы, упасть ничком или оставаться на месте. Цель совершает спасбросок Воли. При критическом успехе или успехе она не обязана повиноваться. При провале она тратит первое действие своего следующего хода на исполнение вашего указания. При критическом провале на исполнение приказа она обязана потратить все доступные действия своего следующего хода. До исполнения указания цель не может использовать реакции или откладывать ход. Это фокусное заклинание обладает признаком «недееспособность» (incapacitation), который учитывается при определении степеней успеха спасброска. Оно не повышает число целей на 5-м круге автоматически, поскольку это отдельное заклинание 4-го круга, лишь использующее эффекты «Приказа».",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-commanding-lash",
+      "versionId": "pf2e-cleric-domain-commanding-lash-legacy",
+      "locale": "en",
+      "name": "Commanding Lash",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-undeath",
+      "versionId": "pf2e-cleric-domain-touch-of-undeath-legacy",
+      "locale": "ru",
+      "name": "Касание нежити",
+      "summary": "1d6 негативного урона со спасброском Стойкости; при провале положительная энергия исцеляет цель только наполовину на 1 раунд или 1 минуту.",
+      "description": "Вы касанием вводите в жизненную силу существа негативную энергию, причиняя 1d6 негативного урона. Живая цель совершает спасбросок Стойкости. При критическом успехе эффекта нет. При обычном успехе она получает половину урона. При провале она получает полный урон и в течение 1 раунда эффекты позитивной энергии восстанавливают ей только половину обычного количества ПЗ. При критическом провале она получает двойной урон, а позитивные эффекты восстанавливают ей только половину ПЗ на протяжении 1 минуты. Ограничение позитивного исцеления не затрагивает иные способы восстановления ПЗ, не являющиеся позитивными эффектами. Повышенное (+1): урон увеличивается на 1d6 за каждый дополнительный круг. Важно: в Core Rulebook Legacy errata r1 из этого заклинания удалён признак «атака», поэтому вы совершаете спасбросок цели против СЛ заклинания, а не бросок атаки заклинанием.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-touch-of-undeath",
+      "versionId": "pf2e-cleric-domain-touch-of-undeath-legacy",
+      "locale": "en",
+      "name": "Touch of Undeath",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-malignant-sustenance",
+      "versionId": "pf2e-cleric-domain-malignant-sustenance-legacy",
+      "locale": "ru",
+      "name": "Пагубное насыщение",
+      "summary": "Нежить получает быстрое исцеление 7 на 1 минуту; за каждый дополнительный круг быстрое исцеление увеличивается на 2.",
+      "description": "Вы помещаете в согласное существо-нежить источник негативной энергии, подпитывающий его противоестественную жизненную силу. На 1 минуту цель получает способность «быстрое исцеление 7» (fast healing 7), восстанавливающую по 7 ПЗ в начале каждого её хода согласно стандартным правилам быстрого исцеления. Хотя энергия заклинания негативная, она исцеляет нежить, а не наносит ей урон. Живые существа не являются допустимыми целями; нежить должна согласиться на эффект. Повышенное (+1): величина быстрого исцеления увеличивается на 2 за каждый круг выше четвёртого (например, 9 на 5-м круге и 11 на 6-м).",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-domain-malignant-sustenance",
+      "versionId": "pf2e-cleric-domain-malignant-sustenance-legacy",
+      "locale": "en",
+      "name": "Malignant Sustenance",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-domain-core-legacy-wave2d",
+      "name": "Paizo Pathfinder Core Rulebook (Legacy, errata); PF2.ru и Pathfinder 2E RU — жреческие доменные заклинания",
+      "publisher": "Paizo",
+      "year": 2019,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html",
+      "page": "Домены Trickery, Tyranny, Undeath"
+    }
+  ]
+}
