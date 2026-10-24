@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-gods-magic-adapt-self",
+      "system": "pf2e",
+      "slug": "adapt-self",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "transmutation",
+        "morph"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Изменение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-adaptive-ablation",
+      "system": "pf2e",
+      "slug": "adaptive-ablation",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Изменение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-winter-bolt",
+      "system": "pf2e",
+      "slug": "winter-bolt",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation",
+        "attack",
+        "cold"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Холод"
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-diamond-dust",
+      "system": "pf2e",
+      "slug": "diamond-dust",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation",
+        "cold"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Холод"
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-withering-grasp",
+      "system": "pf2e",
+      "slug": "withering-grasp",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy",
+        "negative"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Разложение"
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-fallow-field",
+      "system": "pf2e",
+      "slug": "fallow-field",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy",
+        "negative"
+      ],
+      "rarity": "uncommon",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Разложение"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-gods-magic-adapt-self-legacy",
+      "spellId": "pf2e-cleric-gods-magic-adapt-self",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "duration": "1 минута (10 минут для защиты от сильной жары или холода)"
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-adaptive-ablation-legacy",
+      "spellId": "pf2e-cleric-gods-magic-adaptive-ablation",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "duration": "1 минута",
+      "trigger": "Вы получаете урон кислотой, холодом, электричеством, огнём или звуком.",
+      "heightened": {
+        "+2": "Сопротивление к спровоцировавшему типу урона увеличивается на 5."
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-winter-bolt-legacy",
+      "spellId": "pf2e-cleric-gods-magic-winter-bolt",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "range": "60 футов",
+      "targets": "1 существо",
+      "savingThrow": "Нет; бросок атаки заклинанием против КБ цели",
+      "outcomes": {
+        "criticalSuccess": "Начальный колющий урон обычный, не двойной. Для извлечения нужно 2 Взаимодействия; последующий взрыв наносит двойной урон холодом.",
+        "success": "1d8 колющего урона и застрявшая сосулька; в конце следующего хода цели — 1d12 холодом ей и всем смежным существам.",
+        "failure": "Промах: сосулька не закрепляется, отложенного взрыва нет.",
+        "criticalFailure": "Как провал; отдельного эффекта не установлено."
+      },
+      "heightened": {
+        "+1": "Начальный колющий урон +1d8; урон холодом при взрыве +1d12."
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-diamond-dust-legacy",
+      "spellId": "pf2e-cleric-gods-magic-diamond-dust",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "savingThrow": "Обычный спасбросок Стойкости (basic Fortitude) при получении урона",
+      "duration": "1 минута",
+      "area": "15-футовая эманация вокруг вас",
+      "outcomes": {
+        "criticalSuccess": "Без урона холодом от данного срабатывания.",
+        "success": "Половина урона холодом.",
+        "failure": "Полные 2d6 урона холодом.",
+        "criticalFailure": "Двойной урон холодом."
+      },
+      "heightened": {
+        "+2": "Урон холодом области увеличивается на 1d6."
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-withering-grasp-legacy",
+      "spellId": "pf2e-cleric-gods-magic-withering-grasp",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "range": "Касание",
+      "targets": "1 существо либо ничейный предмет (по уточнению PFS)",
+      "savingThrow": "Нет; бросок ближней атаки заклинанием против КБ",
+      "outcomes": {
+        "criticalSuccess": "Двойной начальный и двойной продолжительный негативный урон; Твёрдость предмета −4 на 1 минуту.",
+        "success": "Полные 1d12 негативного и 1d4 продолжительного негативного урона; Твёрдость предмета −2 на 1 минуту.",
+        "failure": "Промах: эффекта нет.",
+        "criticalFailure": "Как провал, без дополнительных эффектов."
+      },
+      "heightened": {
+        "+1": "Начальный негативный урон +1d12; продолжительный негативный урон +1. Снижение Твёрдости предмета при попадании дополнительно усиливается на 1."
+      }
+    },
+    {
+      "id": "pf2e-cleric-gods-magic-fallow-field-legacy",
+      "spellId": "pf2e-cleric-gods-magic-fallow-field",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "range": "60 футов",
+      "savingThrow": "Воля при каждой попытке восстановления ПЗ",
+      "duration": "Поддерживаемое, не более 1 минуты",
+      "area": "15-футовая эманация (указание источника Legacy при дистанции 60 футов)",
+      "outcomes": {
+        "criticalSuccess": "Полный объём исцеления; временный иммунитет к Желтоватому полю на 1 минуту.",
+        "success": "Полный объём исцеления; без иммунитета.",
+        "failure": "Восстанавливается половина обычного количества ПЗ.",
+        "criticalFailure": "Эта попытка не восстанавливает ПЗ."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-gods-magic-adapt-self",
+      "versionId": "pf2e-cleric-gods-magic-adapt-self-legacy",
+      "locale": "ru",
+      "name": "Адаптировать себя",
+      "summary": "Приспосабливает вас к текущим условиям: плавание, дыхание под водой, ночное зрение либо защита от сильной жары/холода.",
+      "description": "**Фокусное заклинание домена Изменения, Legacy.** Вы меняете особенности своего организма, чтобы справиться с конкретными условиями окружающей среды. При сотворении выберите **ровно один** из четырёх вариантов, требования которого выполняются в этот момент:\n\n• **Плавание:** если вы находитесь в воде, на время действия приобретаете Скорость плавания, равную **половине вашей обычной Скорости**.\n• **Дыхание в воде:** если вы находитесь в воде, можете дышать под водой, как на воздухе.\n• **Зрение во тьме:** если в текущей обстановке вам слишком темно, чтобы видеть, получаете **ночное зрение (darkvision)**.\n• **Защита от экстремальной температуры:** если вы находитесь в условиях **сильной жары или сильного холода** (severe heat / severe cold), защищены от соответствующих природных последствий этой температуры. Только при выборе данного варианта продолжительность повышается до **10 минут**.\n\nВ остальных случаях заклинание продолжается **1 минуту**. Вы не можете одновременно получить все перечисленные преимущества от одного сотворения. Ни спасброска, ни атаки, ни дополнительного усиления по кругам источник не предусматривает.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-adapt-self",
+      "versionId": "pf2e-cleric-gods-magic-adapt-self-legacy",
+      "locale": "en",
+      "name": "Adapt Self",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-adaptive-ablation",
+      "versionId": "pf2e-cleric-gods-magic-adaptive-ablation-legacy",
+      "locale": "ru",
+      "name": "Адаптивная абляция",
+      "summary": "Реакцией после получения энергетического урона даёт сопротивление 5 тому же типу на минуту; усиливается на +5 каждые два круга.",
+      "description": "**Продвинутое фокусное заклинание домена Изменения, Legacy.** **Триггер:** вы получаете урон **кислотой, холодом, электричеством, огнём или звуком**. Используя **реакцию**, вы меняете энергетическую устойчивость своего тела в ответ на воздействие.\n\nВы получаете **сопротивление 5** исключительно к тому типу урона, который вызвал реакцию. Сопротивление возникает **после получения спровоцировавшего урона**: оно **не уменьшает уже полученный урон**, зато уменьшает следующие подходящие порции урона в течение **1 минуты**. Тип сопротивления определяется триггером, а не произвольным выбором. Не охватываются другие типы урона, например негативный, позитивный, ядом или силой.\n\n**Усиление (+2):** значение сопротивления увеличивается на **5 за каждые два круга выше 4-го**: 10 на 6-м, 15 на 8-м и так далее. Заклинание не требует отдельного спасброска, броска атаки или действия поддержки.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-adaptive-ablation",
+      "versionId": "pf2e-cleric-gods-magic-adaptive-ablation-legacy",
+      "locale": "en",
+      "name": "Adaptive Ablation",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-winter-bolt",
+      "versionId": "pf2e-cleric-gods-magic-winter-bolt-legacy",
+      "locale": "ru",
+      "name": "Зимний снаряд",
+      "summary": "Сосулька причиняет 1d8 колющего урона, затем в конце следующего хода цели взрывается на 1d12 холодом по ней и смежным существам; +1d8/+1d12 за круг.",
+      "description": "**Начальное фокусное заклинание домена Холода, Legacy.** Вы запускаете полую магическую сосульку в **одно существо на расстоянии до 60 футов** и совершаете **бросок атаки заклинанием против КБ**. В редакции Legacy после **errata Lost Omens: Gods & Magic (2-я волна)** объект нельзя выбирать целью: доступно только существо.\n\n**Успех атаки:** сосулька наносит **1d8 колющего урона** и остаётся в существе. **В конце следующего хода цели** сосулька раскалывается, нанося **1d12 урона холодом как самой цели, так и всем существам, стоящим вплотную к ней**. Закрепившуюся сосульку можно убрать действием **«Взаимодействовать» (Interact)**, после чего она тает без взрыва.\n\n**Критический успех атаки:** начальный урон **не удваивается** — он остаётся обычным **1d8**; сосулька прикрепляется прочнее и для удаления требует **двух действий «Взаимодействовать»**, а её последующий взрыв наносит **двойной** урон холодом от обычного взрыва.\n\n**Провал или критический провал атаки:** попадания и застрявшей сосульки нет; специальных дополнительных последствий источник не определяет.\n\n**Усиление (+1):** колющий начальный урон увеличивается на **1d8**, а урон холодом при взрыве — на **1d12** за каждый дополнительный круг.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-winter-bolt",
+      "versionId": "pf2e-cleric-gods-magic-winter-bolt-legacy",
+      "locale": "en",
+      "name": "Winter Bolt",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-diamond-dust",
+      "versionId": "pf2e-cleric-gods-magic-diamond-dust-legacy",
+      "locale": "ru",
+      "name": "Алмазная пыль",
+      "summary": "Аура ледяных кристаллов наносит 2d6 холодом при входе или завершении хода (раз за ход), защищает от света +2 к КБ/спасброскам; +1d6 каждые два круга.",
+      "description": "**Продвинутое фокусное заклинание домена Холода, Legacy.** Вы создаёте **15-футовую эманацию** мерцающих кристаллов льда **с центром на себе**, действующую **1 минуту**.\n\nЛюбое существо **кроме вас**, которое **входит в область** либо **заканчивает внутри неё свой ход**, подвергается **2d6 урона холодом** с **обычным спасброском Стойкости** (basic Fortitude): критический успех — никакого урона; успех — половина; провал — полный урон; критический провал — двойной урон. Одно существо может получить этот урон **не более одного раза за ход**, даже если неоднократно входит в область.\n\nЛедяные кристаллы преломляют свет: если **эффект с признаком «свет»** (light) входит в эманацию, **все существа, которых этот эффект затем затрагивает**, получают **бонус состояния +2 к КБ и спасброскам против данного светового эффекта**. Бонус не ограничен союзниками или вами, если условие выполняется.\n\nПока заклинание продолжается, вы можете **одним действием с признаком «концентрация»** включать или выключать действие этой ауры; также заклинание можно **Развеять (Dismiss)**. Это не требуется для первичного сотворения.\n\n**Усиление (+2):** урон холодом увеличивается на **1d6 за каждые два круга выше 4-го**.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-diamond-dust",
+      "versionId": "pf2e-cleric-gods-magic-diamond-dust-legacy",
+      "locale": "en",
+      "name": "Diamond Dust",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-withering-grasp",
+      "versionId": "pf2e-cleric-gods-magic-withering-grasp-legacy",
+      "locale": "ru",
+      "name": "Хватка увядания",
+      "summary": "1d12 негативного плюс 1d4 продолжительного негативного урона; повреждает предметы и конструкты, уменьшает Твёрдость предметов, +1d12/+1 за круг.",
+      "description": "**Начальное фокусное заклинание домена Разложения, Legacy.** Вы касанием вызываете стремительное гниение живой материи и разрушение твёрдых предметов. Выберите **одно существо либо бесхозный (ничейный) предмет** в досягаемости касания и совершите **ближнюю атаку заклинанием** против его КБ. Выбор **только ничейного предмета** соответствует опубликованному уточнению Pathfinder Society; в первоначальном общем описании указано «существо или предмет».\n\n**Успех атаки:** цель получает **1d12 негативного урона и 1d4 продолжительного негативного урона**. Если целью является предмет, его **Твёрдость (Hardness)** дополнительно уменьшается на **2** в течение **1 минуты**.\n\n**Критический успех атаки:** оба значения урона — **начальный и продолжительный** — **удваиваются**. Если целью является предмет, его Твёрдость снижается на **4** на 1 минуту.\n\n**Провал или критический провал атаки:** эффект попадания не возникает; дополнительное наказание не предусмотрено.\n\n**Особые взаимодействия:** негативный урон этого заклинания, в отличие от обычного негативного урона, **может повреждать неживые предметы и конструктов**. Если существо защищается предметом, например реакцией **«Блок щитом» (Shield Block)**, урон **приходится по блокирующему предмету**, а **существо не получает его вовсе**, даже когда после применения Твёрдости предмета остался бы излишек урона. Согласно уточнению PFS, продолжительный урон, применённый к ничейному предмету, срабатывает в **ваш следующий ход**.\n\n**Усиление (+1):** начальный урон увеличивается на **1d12**, продолжительный негативный урон увеличивается на **1** за круг. При попадании по предмету его Твёрдость дополнительно уменьшается ещё на **1 за круг**, в дополнение к исходному снижению за успех или критический успех.\n\nПризнаки в исходном Legacy-справочнике: «некромантия», «негативный»; **не заменять их** ремастерными «пустота» и другими признаками.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-withering-grasp",
+      "versionId": "pf2e-cleric-gods-magic-withering-grasp-legacy",
+      "locale": "en",
+      "name": "Withering Grasp",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-fallow-field",
+      "versionId": "pf2e-cleric-gods-magic-fallow-field-legacy",
+      "locale": "ru",
+      "name": "Желтоватое поле",
+      "summary": "Болезненное поле блокирует лечение существ: Воля при каждом восстановлении ПЗ; критический успех лечит полностью с иммунитетом на минуту, провал — половину, критический провал — ничего.",
+      "description": "**Продвинутое фокусное заклинание домена Разложения, Legacy.** Вы наполняете область болезненным жёлтым свечением, напоённым энтропией. Заклинание сотворяется за **2 действия**, имеет **дистанцию 60 футов**, **область 15-футовая эманация** (именно такие поля приведены в тексте Lost Omens: Gods & Magic Legacy) и длится, **пока поддерживается, но не дольше 1 минуты**.\n\nКогда **любое существо в области собирается восстановить ПЗ** — от заклинания лечения, **быстрого исцеления** (fast healing), **регенерации** (regeneration) или другого эффекта — оно обязано совершить **спасбросок Воли**. Определите итог именно для **этого случая восстановления ПЗ**, а не заранее одним спасброском на всё время действия:\n\n• **Критический успех:** цель восстанавливает **полное** положенное количество ПЗ и приобретает **временный иммунитет к данному заклинанию на 1 минуту**.\n• **Успех:** цель восстанавливает **полное** положенное количество ПЗ, но не получает иммунитета.\n• **Провал:** восстанавливается только **половина** положенного количества ПЗ.\n• **Критический провал:** цель **не восстанавливает ПЗ** от спровоцировавшего лечебного эффекта.\n\nЗаклинание **не причиняет негативного урона** и не требует спасброска просто за вхождение в область; Воля проверяется **в момент попытки лечения**. В первичном Legacy-описании нет усиления по кругам. Параметры «60 футов + эманация» сохранены как опубликованы, без самовольной замены формы области на «взрыв».",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-gods-magic-fallow-field",
+      "versionId": "pf2e-cleric-gods-magic-fallow-field-legacy",
+      "locale": "en",
+      "name": "Fallow Field",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-lost-omens-gods-magic-wave1a",
+      "name": "Paizo Pathfinder Lost Omens: Gods & Magic (Legacy), pp. 112–113; errata LOGM 2",
+      "publisher": "Paizo",
+      "year": 2020,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html",
+      "page": "112–113"
+    }
+  ]
+}

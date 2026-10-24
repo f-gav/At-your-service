@@ -129,5 +129,13 @@ export async function loadSpellCatalog(
   base.versions.push(...clericApocryphal1c.versions);
   base.translations.push(...clericApocryphal1c.translations);
   base.sources.push(...clericApocryphal1c.sources);
+  const godsMagic1a=await read('pf2e-cleric-gods-magic-wave1a.json');
+  check('заклинания',base.spells.map(x=>x.id),godsMagic1a.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),godsMagic1a.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),godsMagic1a.sources.map(x=>x.id));
+  base.spells.push(...godsMagic1a.spells);
+  base.versions.push(...godsMagic1a.versions);
+  base.translations.push(...godsMagic1a.translations);
+  base.sources.push(...godsMagic1a.sources);
   return base;
 }
