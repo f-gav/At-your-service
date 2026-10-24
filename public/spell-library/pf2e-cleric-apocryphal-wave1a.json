@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-apocryphal-hollow-heart",
+      "system": "pf2e",
+      "slug": "hollow-heart",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "fear",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Амбиция"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-string-of-fate",
+      "system": "pf2e",
+      "slug": "string-of-fate",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "abjuration",
+        "fortune"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Судьба"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-cinder-gaze",
+      "system": "pf2e",
+      "slug": "cinder-gaze",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "divination",
+        "prediction"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Огонь"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-wind-whispers",
+      "system": "pf2e",
+      "slug": "wind-whispers",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "linguistic",
+        "mental"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Воздух"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-shaken-confidence",
+      "system": "pf2e",
+      "slug": "shaken-confidence",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "misfortune",
+        "enchantment",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Уверенность"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-isolation",
+      "system": "pf2e",
+      "slug": "isolation",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "illusion"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "subclass": {
+        "type": "domain",
+        "name": "Тьма"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-apocryphal-hollow-heart-legacy",
+      "spellId": "pf2e-cleric-apocryphal-hollow-heart",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "duration": "Зависит от спасброска",
+      "outcomes": {
+        "criticalSuccess": "Без эффекта.",
+        "success": "Цель не считает других существ союзниками в течение 1 раунда.",
+        "failure": "Цель не считает других существ союзниками в течение 3 раундов.",
+        "criticalFailure": "Как провал, дополнительно испуган 1."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-string-of-fate-legacy",
+      "spellId": "pf2e-cleric-apocryphal-string-of-fate",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 1
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "range": "60 футов",
+      "targets": "Вы и 1 союзник",
+      "duration": "Поддерживаемое, до 1 минуты"
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-cinder-gaze-legacy",
+      "spellId": "pf2e-cleric-apocryphal-cinder-gaze",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 минута"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "duration": "10 минут или до использования",
+      "heightened": {
+        "+1": "Вариант «Новая жизнь»: временные ПЗ увеличиваются на 2."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-wind-whispers-legacy",
+      "spellId": "pf2e-cleric-apocryphal-wind-whispers",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "1 час"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "range": "1 миля",
+      "duration": "Слух распространяется в течение следующего часа; последствия некоторых исходов — 1 неделя",
+      "outcomes": {
+        "criticalSuccess": "Слух распространяется широко на 1 неделю; +2 обстоятельства к убеждению в его правдивости.",
+        "success": "Слух можно узнать успешным Сбором информации 1 неделю; +1 обстоятельства к убеждению.",
+        "failure": "Слух сочтён неправдоподобным, механического эффекта нет.",
+        "criticalFailure": "Вместо исходного слуха распространяется противоречащий; −2 обстоятельства к убеждению в исходном."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-shaken-confidence-legacy",
+      "spellId": "pf2e-cleric-apocryphal-shaken-confidence",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "savingThrow": "Воля",
+      "duration": "До следующего подходящего броска цели или до конца её следующего хода",
+      "trigger": "Враг в пределах 30 футов от вас критически проваливает бросок атаки, проверку Восприятия или проверку навыка.",
+      "outcomes": {
+        "criticalSuccess": "Как успех: цель не подвергается воздействию (отдельного эффекта нет).",
+        "success": "Без эффекта.",
+        "failure": "Следующую проверку того же вида бросить дважды, принять худший результат; истекает в конце следующего хода, если не сработало.",
+        "criticalFailure": "Как провал: отдельного усиленного эффекта источник не указывает."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-isolation-legacy",
+      "spellId": "pf2e-cleric-apocryphal-isolation",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "range": "30 футов",
+      "targets": "1 существо",
+      "savingThrow": "Воля",
+      "duration": "3 раунда",
+      "outcomes": {
+        "criticalSuccess": "Без эффекта.",
+        "success": "Цель невидима только для своих союзников 3 раунда; эффекты её действий остаются заметными.",
+        "failure": "Как успех, но союзники также не могут слышать или ощущать цель другими чувствами.",
+        "criticalFailure": "Как провал; отдельное усиление не установлено источником."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-apocryphal-hollow-heart",
+      "versionId": "pf2e-cleric-apocryphal-hollow-heart-legacy",
+      "locale": "ru",
+      "name": "Полое сердце",
+      "summary": "Апокрифическое: заставляет цель не считать других существ союзниками на 1 или 3 раунда; при критическом провале добавляется испуг 1.",
+      "description": "Апокрифическое начальное заклинание домена Амбиции из Dark Archive. Вы разжигаете в существе чрезмерные амбиции и недоверие: цель начинает считать, что никто не способен ей помочь и полагаться можно лишь на себя. Она совершает спасбросок Воли.\n\n**Критический успех:** заклинание не действует.\n**Успех:** в течение 1 раунда цель не считает других существ своими союзниками. При проверке правил, зависящих от статуса союзника, остальные существа не являются союзниками этой цели.\n**Провал:** тот же эффект длится 3 раунда.\n**Критический провал:** как при провале, но дополнительно цель становится испуганной 1 (frightened 1), осознавая своё одиночество.\n\nЭто альтернативное апокрифическое заклинание, которое с разрешения ведущего выбирают вместо стандартного начального заклинания домена, а не одновременно с ним.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-hollow-heart",
+      "versionId": "pf2e-cleric-apocryphal-hollow-heart-legacy",
+      "locale": "en",
+      "name": "Hollow Heart",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-string-of-fate",
+      "versionId": "pf2e-cleric-apocryphal-string-of-fate-legacy",
+      "locale": "ru",
+      "name": "Нить судьбы",
+      "summary": "Апокрифическое: если общий эффект даёт одному из двух существ успех, а другому критический провал, оба по обоюдному согласию могут получить обычный провал.",
+      "description": "Апокрифическое начальное заклинание домена Судьбы. Вы связываете свою судьбу с судьбой дорогого вам союзника, клянясь разделить успех и беду. Связь действует, пока вы поддерживаете заклинание, но не дольше 1 минуты.\n\nВсякий раз, когда один и тот же эффект требует, чтобы и вы, и выбранный союзник совершили спасброски, сравните степени успеха обоих бросков. Если один из вас получил **успех**, а другой **критический провал**, вы вправе предложить заменить обе степени на **обычный провал**. Изменение применяется только при согласии **вас обоих**; если кто-либо не согласен, сохраняются первоначальные результаты. В любых иных сочетаниях результатов заклинание ничего не меняет. Новый бросок d20 не совершается: меняются степени уже совершённых спасбросков.\n\nЗаклинание имеет признак «удача» (fortune); при его применении учитывайте правила несовместимых эффектов удачи. Это альтернативный апокрифический начальный фокус домена Судьбы.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-string-of-fate",
+      "versionId": "pf2e-cleric-apocryphal-string-of-fate-legacy",
+      "locale": "en",
+      "name": "String of Fate",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-cinder-gaze",
+      "versionId": "pf2e-cleric-apocryphal-cinder-gaze-legacy",
+      "locale": "ru",
+      "name": "Угольный взгляд",
+      "summary": "Апокрифическое: возле огня целую минуту читаете знамения; 1d4 определяет разовый бонус к инициативе, временные ПЗ, повтор Проверки знаний или спасброска.",
+      "description": "Апокрифическое начальное заклинание домена Огня из Dark Archive. **Требование:** всё время сотворения, занимающего **1 минуту**, вы должны находиться возле огня любого размера. Вы читаете знамения в языках пламени и дыме. После сотворения бросьте **1d4** и определите одно из четырёх предзнаменований; его преимущество действует **10 минут или до первого применения**, в зависимости от того, что наступит раньше. После сотворения этого заклинания вы **не можете сотворить его снова в течение 10 минут**.\n\n**1 — Ужасная опасность (Terrible Danger):** бонус состояния +2 к вашему следующему броску инициативы.\n**2 — Новая жизнь (New Life):** непосредственно перед следующим получением урона вы получаете временные ПЗ, равные **1 + вашему модификатору характеристики заклинателя**. Эти ПЗ применяются до получения спровоцировавшего урона.\n**3 — Яркая проницательность (Vivid Insight, удача):** при следующей проверке действия «Вспомнить информацию» (Recall Knowledge) бросьте дважды и возьмите лучший результат.\n**4 — Счастливое везение (Good Fortune, удача):** при следующем спасброске бросьте дважды и возьмите лучший результат.\n\n**Усиление (+1):** временные ПЗ варианта «Новая жизнь» увеличиваются на 2 за каждый дополнительный круг.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-cinder-gaze",
+      "versionId": "pf2e-cleric-apocryphal-cinder-gaze-legacy",
+      "locale": "en",
+      "name": "Cinder Gaze",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-wind-whispers",
+      "versionId": "pf2e-cleric-apocryphal-wind-whispers-legacy",
+      "locale": "ru",
+      "name": "Шепоты ветра",
+      "summary": "Апокрифическое: час распространяете выбранный слух ветром на милю; проверка СЛ заклинания −10 против трудной СЛ уровня, четыре исхода и бонусы к убеждению.",
+      "description": "Апокрифическое продвинутое заклинание домена Воздуха из Dark Archive. Вы в течение **1 часа** направляете множество лёгких ветров, вплетая в них слух об одной выбранной теме. Сообщение может быть правдивым или вымышленным. Существа в пределах **1 мили** в какой-то момент в течение следующего часа услышат слух, но не смогут выяснить источник. Совершите проверку с модификатором **СЛ вашего заклинания −10** против **трудной СЛ для вашего уровня**. Ведущий вправе изменить СЛ в зависимости от правдоподобности слуха. Повторять сотворение для того же самого слуха бесполезно, если только обстоятельства, по решению ведущего, существенно не изменились.\n\n**Критический успех:** слух становится широко распространённым, вытесняя другие слухи по теме. В течение **1 недели** все, кто успешно собирает информацию по этой теме, узнают ваш слух; проверки, которыми пытаются убедить кого-либо в его истинности, получают **бонус обстоятельства +2**.\n**Успех:** слух попадает в обращение, но в него необязательно верят. В течение **1 недели** он входит в сведения, которые можно узнать успешным «Сбором информации» по теме. Проверки на убеждение в истинности слуха получают **бонус обстоятельства +1**.\n**Провал:** большинство людей считают эту историю невероятной сплетней; ощутимого эффекта нет.\n**Критический провал:** рассказ исказился, и распространяется слух, противоречащий задуманному. Проверки на убеждение в правдивости **исходного** слуха получают **штраф обстоятельства −2**.\n\nЧетыре результата относятся к описанной проверке распространения слухов, **а не к спасброску цели**.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-wind-whispers",
+      "versionId": "pf2e-cleric-apocryphal-wind-whispers-legacy",
+      "locale": "en",
+      "name": "Wind Whispers",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-shaken-confidence",
+      "versionId": "pf2e-cleric-apocryphal-shaken-confidence-legacy",
+      "locale": "ru",
+      "name": "Пошатнувшаяся уверенность",
+      "summary": "Апокрифическое: реакция на критический провал врага, Воля; при провале цель должна дважды бросить следующий такой же тип проверки и выбрать худший результат.",
+      "description": "Апокрифическое продвинутое заклинание домена Уверенности из Dark Archive. **Триггер:** враг в пределах **30 футов** критически проваливает бросок атаки, проверку Восприятия или проверку навыка. Вы высмеиваете его неудачу, подрывая самоуверенность. Он совершает спасбросок **Воли**.\n\n**Успех:** цель не подвергается воздействию.\n**Провал:** при следующем броске **того же вида, что и спровоцировавший критический провал**, цель обязана **бросить дважды и принять худший результат**. Например, после критического провала Акробатики это относится именно к следующей проверке Акробатики, а не к любому навыку. Если к концу своего следующего хода цель не совершила подходящий бросок, заклинание заканчивается.\n\nВ исходном тексте Dark Archive подробно указаны только «Успех» и «Провал»; дополнительных самостоятельных последствий для критического успеха или критического провала источники не задают. По общему применению этих исходов критический успех не даёт эффекта, критический провал применяет последствие провала. Признак **«неудача» (misfortune)** влияет на совместимость с эффектами удачи.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-shaken-confidence",
+      "versionId": "pf2e-cleric-apocryphal-shaken-confidence-legacy",
+      "locale": "en",
+      "name": "Shaken Confidence",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-isolation",
+      "versionId": "pf2e-cleric-apocryphal-isolation-legacy",
+      "locale": "ru",
+      "name": "Изоляция",
+      "summary": "Апокрифическое: на три раунда скрывает цель только от её союзников; провал также делает цель неслышимой и невоспринимаемой прочими чувствами для союзников.",
+      "description": "Апокрифическое продвинутое заклинание домена Тьмы из Dark Archive. Вы насылаете на существо иллюзорное одиночество, изолируя его от чувств собственных союзников. Цель совершает спасбросок **Воли**; длительность эффекта — **3 раунда**.\n\n**Критический успех:** эффекта нет.\n**Успех:** цель становится **невидимой только для собственных союзников**. Существа, не являющиеся её союзниками, видят цель нормально. Союзники по-прежнему знают о присутствии цели и могут наблюдать **эффекты её действий**; способности видеть невидимое, например соответствующее заклинание, позволяют союзникам снова увидеть цель.\n**Провал:** как при успехе, но цель также становится **неслышимой и невоспринимаемой другими чувствами** для своих союзников.\n**Критический провал:** применяется последствие провала; отдельной более тяжёлой степени источник не описывает.\n\nВажно: заклинание не делает цель невидимой для противников и не отменяет эффекты её действий. Это апокрифическая альтернатива продвинутому фокусу домена Тьмы.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-isolation",
+      "versionId": "pf2e-cleric-apocryphal-isolation-legacy",
+      "locale": "en",
+      "name": "Isolation",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-dark-archive-apocryphal-1a",
+      "name": "Dark Archive — Apocryphal Domain Spells (Legacy)",
+      "publisher": "Paizo",
+      "year": 2022,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html"
+    }
+  ]
+}
