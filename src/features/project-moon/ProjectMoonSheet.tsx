@@ -17,6 +17,7 @@ import {
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
+import FloatingPageNavigation from '../pathfinder/FloatingPageNavigation';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import MoonEquipmentPage from './MoonEquipmentPage';
 import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';
@@ -737,23 +738,10 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     {pageSettingsOpen && <MoonPageSettingsDialog
       order={pageOrder} disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
-    {!previewMode && navigationHelp && <nav className="pf-navigation-help" aria-label="Быстрая навигация по листу">
-      <div className="pf-navigation-help-title">
-        <span>Страницы</span>
-        <button type="button" onClick={() => setNavigationHelp(false)} aria-label="Скрыть помощь в навигации">
-          <X size={14}/>
-        </button>
-      </div>
-      {pageOrder.map((page,index) => <button key={page} type="button"
-        className={'pf-navigation-help-link' + (activePage === page ? ' pf-navigation-help-active' : '')}
-        onClick={() => navigatePage(page)}
-        aria-label={'Страница ' + (index + 1) + ': ' + MOON_PAGES.find(p => p.id === page)?.title}
-        aria-current={activePage === page ? 'page' : undefined}
-        title={MOON_PAGES.find(p => p.id === page)?.title}>
-        <span className="pf-navigation-help-number">{index + 1}</span>
-        <span className="pf-navigation-help-label">{MOON_PAGES.find(p => p.id === page)?.title}</span>
-      </button>)}
-    </nav>}
+    {!previewMode && navigationHelp && <FloatingPageNavigation system="prmoon"
+      pages={pageOrder.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
+      activePage={activePage} onNavigate={navigatePage}
+      onClose={()=>setNavigationHelp(false)}/>}
     {error && <p role="alert" className="form-error">{error}</p>}
   </main>;
 }
