@@ -43,9 +43,9 @@ try{
   }
   assert.equal(libraryHeader.top,0,'Header stays at the top of the viewport');
   await page.getByRole('heading',{name:'Библиотека заклинаний'}).waitFor();
-  await page.getByText('561 записей',{exact:true}).waitFor();
+  await page.getByText('567 записей',{exact:true}).waitFor();
   assert.equal(await page.locator('.spell-result').count(),50,'First 50 spells rendered');
-  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 561 spells');
+  assert.ok(await page.getByRole('button',{name:'Показать ещё'}).isVisible(),'Page controls available with 567 spells');
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),100,'Second page loads 50 more cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
@@ -67,8 +67,8 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),550,'Eleventh page loads another 50 cards');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),561,'Twelfth page loads final 11 cards');
-  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 561 loaded: no more button');
+  assert.equal(await page.locator('.spell-result').count(),567,'Twelfth page loads final 17 cards');
+  assert.equal(await page.getByRole('button',{name:'Показать ещё'}).count(),0,'All 567 loaded: no more button');
   // All approved author translations must replace English labels in actual rendered cards.
   const authorEntries=(await Promise.all(['pf2e-ays-rank2-cycle1.json','pf2e-ays-rank2-cycle2.json']
     .map(async name=>(await (await fetch(base+'spell-library/'+name)).json()).entries))).flat();
@@ -87,15 +87,28 @@ try{
   assert.equal(await page.locator('.spell-total').textContent(),'10 записей');
   assert.equal(await page.locator('.spell-result').count(),10);
   await page.getByRole('button',{name:'Все классы',exact:true}).click();
-  assert.equal(await page.locator('.spell-total').textContent(),'561 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'567 записей');
 
   // Cleric domains are class-only, tagged with their own domain, never Divine-tradition spells.
   await page.getByRole('button',{name:'Жрец',exact:true}).click();
-  assert.equal(await page.locator('.spell-total').textContent(),'68 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'74 записей');
   assert.equal(await page.locator('.spell-result').count(),50);
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),68);
+  assert.equal(await page.locator('.spell-result').count(),74);
   assert.ok((await page.locator('.spell-result').first().textContent()).includes('Подкласс: Домен'));
+  await page.locator('.spell-result').filter({hasText:'Внезапное перемещение'}).click();
+  await page.getByRole('dialog').getByText('Реакция',{exact:true}).waitFor();
+  await page.getByRole('dialog').getByText('Подкласс: Домен — Обман').waitFor();
+  await page.getByRole('dialog').getByText('Фокусное · 1 ФП').waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.locator('.spell-result').filter({hasText:'Подчиняющее касание'}).click();
+  await page.getByRole('dialog').getByText('Подкласс: Домен — Тирания').waitFor();
+  await page.getByRole('dialog').getByText(/одурманен 1/i).first().waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
+  await page.locator('.spell-result').filter({hasText:'Пагубное насыщение'}).click();
+  await page.getByRole('dialog').getByText('Подкласс: Домен — Нежить').waitFor();
+  await page.getByRole('dialog').getByText(/быстрое исцеление 7/i).first().waitFor();
+  await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.locator('.spell-result').filter({hasText:'Очаровывающее касание'}).click();
   await page.getByRole('dialog').getByText('Фокусное · 1 ФП').waitFor();
   await page.getByRole('dialog').getByText('Подкласс: Домен — Страсть').waitFor();
@@ -178,13 +191,13 @@ try{
   await page.getByRole('button',{name:'Закрыть описание'}).click();
   await page.getByRole('combobox',{name:'Класс'}).selectOption('all');
   await page.locator('.spell-filter-toggle').click();
-  assert.equal(await page.locator('.spell-total').textContent(),'561 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'567 записей');
   // Changing filters intentionally resets pagination; restore the full list for
   // the existing responsive/layout assertions below.
   while(await page.getByRole('button',{name:'Показать ещё'}).count()){
     await page.getByRole('button',{name:'Показать ещё'}).click();
   }
-  assert.equal(await page.locator('.spell-result').count(),561);
+  assert.equal(await page.locator('.spell-result').count(),567);
 
   // TЗ: responsive wide catalog uses exactly 4 / 3 / 2 / 1 tiles per row.
   for(const [width,columns] of [[1700,4],[1280,3],[820,2],[390,1]]){
@@ -201,7 +214,7 @@ try{
   await page.setViewportSize({width:1360,height:860});
   assert.ok(await page.locator('.spell-library-page').evaluate(el=>el.getBoundingClientRect().width)>1150,
     'Library expands beyond the old 1180px narrow page on desktop');
-  assert.equal(await page.locator('.spell-result-stats').count(),561,
+  assert.equal(await page.locator('.spell-result-stats').count(),567,
     'Compact tiles show three metadata fields');
   // Legibility regression: open the accordion before measuring field heights.
   await page.locator('.spell-filter-toggle').click();
@@ -228,7 +241,7 @@ try{
   await page.locator('.spell-filter-toggle').click();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),
     'Desktop library must have no horizontal overflow');
-  assert.equal(await page.locator('.spell-total').textContent(),'561 записей');
+  assert.equal(await page.locator('.spell-total').textContent(),'567 записей');
   // Regression: Read Aura is a one-minute cast, not one action; metadata must be Russian.
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Чтение ауры');
   await page.locator('.spell-result').first().click();
@@ -457,7 +470,7 @@ try{
   await page.getByRole('button',{name:'Показать ещё'}).click();
   assert.equal(await page.locator('.spell-result').count(),200,'First 200 rank-one spells render in four pages');
   await page.getByRole('button',{name:'Показать ещё'}).click();
-  assert.equal(await page.locator('.spell-result').count(),233,'Rank 1 includes 34 cleric initial domain spells plus existing classes');
+  assert.equal(await page.locator('.spell-result').count(),236,'Rank 1 includes 37 cleric initial domain spells plus existing classes');
   await page.getByRole('searchbox',{name:'Поиск заклинаний'}).fill('Воздушный пузырь');
   assert.equal(await page.locator('.spell-result').count(),1,'Search Russian rank-one spell');
   await page.locator('.spell-result').first().click();
@@ -572,7 +585,7 @@ try{
     status:200,contentType:'application/json',body:JSON.stringify({entries:[]})
   }));
   // Keep this synthetic 55-item fixture independent from production class packs.
-  for(const pack of ['pf2e-necromancer.json','pf2e-cleric-wave1.json','pf2e-cleric-wave1b.json','pf2e-cleric-wave1c.json','pf2e-cleric-wave1d.json','pf2e-cleric-wave1e.json','pf2e-cleric-wave2a.json','pf2e-cleric-wave2b.json','pf2e-cleric-wave2c.json']){
+  for(const pack of ['pf2e-necromancer.json','pf2e-cleric-wave1.json','pf2e-cleric-wave1b.json','pf2e-cleric-wave1c.json','pf2e-cleric-wave1d.json','pf2e-cleric-wave1e.json','pf2e-cleric-wave2a.json','pf2e-cleric-wave2b.json','pf2e-cleric-wave2c.json','pf2e-cleric-wave2d.json']){
     await preview.route('**/spell-library/'+pack,route=>route.fulfill({
       status:200,contentType:'application/json',
       body:JSON.stringify({schemaVersion:1,system:'pf2e',spells:[],versions:[],translations:[],sources:[]})
