@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
-import { ArrowLeft, Settings2, BookOpen, X, Files, FileDown } from 'lucide-react';
+import { ArrowLeft, Settings2, BookOpen, Files, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
 import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
