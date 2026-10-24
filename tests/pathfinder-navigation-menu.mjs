@@ -57,7 +57,7 @@ assert.ok(phone.width<=50,'Phone starts with a compact navigator');
 const dragged=moveNavigationRect(desktop,-900,-2000,{width:1440,height:900});
 assert.equal(dragged.y,8,'Drag never moves outside the top viewport edge');
 assert.ok(dragged.x>=8);
-const expanded=resizeNavigationRect(phone,190,150,{width:375,height:667});
+const expanded=resizeNavigationRect(phone,-190,150,{width:375,height:667});
 assert.ok(expanded.width>150&&expanded.width<=359,'Compact mobile navigator can be expanded by its handle');
 assert.ok(expanded.height>phone.height);
 const constrained=clampNavigationRect({x:1400,y:860,width:900,height:500},{width:375,height:667});
