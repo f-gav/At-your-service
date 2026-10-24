@@ -91,6 +91,7 @@ export default function FloatingPageNavigation<Page extends string>({
   }
 
   return <nav className="pf-navigation-help" aria-label="Быстрая навигация по листу"
+    data-compact={rect.width<=114?'true':'false'}
     style={{left:rect.x,top:rect.y,width:rect.width,height:rect.height}}>
     <div className="pf-navigation-help-title" tabIndex={0}
       aria-label="Переместить меню страниц клавишами со стрелками"
