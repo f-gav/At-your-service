@@ -127,8 +127,8 @@
   outline:2px solid #557760;
   outline-offset:-2px;
 }
+.pf-navigation-help[data-compact="true"] {padding:3px 3px 14px;}
 @container (max-width: 114px) {
-  .pf-navigation-help {padding:0;}
   .pf-navigation-help-title {padding:2px 0 5px;gap:1px;justify-content:center;}
   .pf-navigation-help-title > span {display:none;}
   .pf-navigation-help-link {padding:4px 0;justify-content:center;}
