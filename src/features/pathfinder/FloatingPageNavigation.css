@@ -117,6 +117,7 @@
   cursor:nwse-resize;
   touch-action:none;
 }
+.pf-navigation-help-resize[data-side="left"] {left:0;right:auto;cursor:nesw-resize;border-radius:0 5px 0 6px;}
 .pf-navigation-help-resize:hover,
 .pf-navigation-help-resize:focus-visible {opacity:1;background:#edf3ed;}
 .pf-navigation-help-title:focus-visible,
