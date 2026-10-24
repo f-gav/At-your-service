@@ -104,5 +104,14 @@ export async function loadSpellCatalog(
   base.versions.push(...clericWave2d.versions);
   base.translations.push(...clericWave2d.translations);
   base.sources.push(...clericWave2d.sources);
+  // Apocryphal domain spells from Dark Archive are alternative, not replacement versions.
+  const clericApocryphal1a=await read('pf2e-cleric-apocryphal-wave1a.json');
+  check('заклинания',base.spells.map(x=>x.id),clericApocryphal1a.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),clericApocryphal1a.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),clericApocryphal1a.sources.map(x=>x.id));
+  base.spells.push(...clericApocryphal1a.spells);
+  base.versions.push(...clericApocryphal1a.versions);
+  base.translations.push(...clericApocryphal1a.translations);
+  base.sources.push(...clericApocryphal1a.sources);
   return base;
 }
