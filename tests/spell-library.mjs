@@ -1300,18 +1300,79 @@ assert.ok(apoSpell('shaken-confidence').traits.includes('misfortune'));
 assert.equal(apoRules('isolation').cast.actions,2);
 assert.equal(apoRules('isolation').duration,'3 раунда');
 console.log('PASS: 74 orthodox Legacy + 6 distinct Dark Archive apocryphal focus cards, 80 Cleric, class-only Grimoire, mixed casting mechanics');
+const apocryphal1b=parseSpellCatalog(
+  JSON.parse(source('../public/spell-library/pf2e-cleric-apocryphal-wave1b.json')),'pf2e');
+assert.equal(apocryphal1b.spells.length,4,'Dark Archive 1B has four new apocryphal spells');
+assert.equal(apocryphal1b.versions.length,4);
+assert.equal(apocryphal1b.spells.filter(s=>s.rank===1).length,2);
+assert.equal(apocryphal1b.spells.filter(s=>s.rank===4).length,2);
+assert.ok(apocryphal1b.spells.every(s=>s.rarity==='rare'&&s.kind==='focus'
+  &&s.classes.length===1&&s.classes[0]==='cleric'&&s.traditions.length===0
+  &&s.subclass?.type==='domain'));
+assert.ok(apocryphal1b.versions.every(v=>v.edition==='pf2e-legacy'&&v.resource==='focus-point'));
+const apo1bRu=apocryphal1b.translations.filter(x=>x.locale==='ru');
+assert.equal(apo1bRu.length,4,'All four have a complete Russian card');
+assert.ok(apo1bRu.every(t=>t.name.length>5&&t.description.length>450
+  &&t.summary.startsWith('Апокрифическое')&&t.translationOrigin==='at-your-service'));
+assert.equal(apocryphal1b.translations.filter(t=>t.locale==='en').length,4);
+const orthAndApocryphal=[...allFinalClericSpells,...apocryphal1a.spells,...apocryphal1b.spells];
+assert.equal(orthAndApocryphal.length,84,'74 core + 10 apocryphal spells');
+assert.equal(new Set(orthAndApocryphal.map(s=>s.id)).size,84,'No duplicate IDs');
+assert.equal(new Set(orthAndApocryphal.map(s=>s.slug)).size,84,'No duplicate English names');
+assert.equal(new Set(orthAndApocryphal.map(s=>s.subclass.name)).size,37,'No extra domain names');
+assert.equal(orthAndApocryphal.filter(s=>s.rank===1).length,42);
+assert.equal(orthAndApocryphal.filter(s=>s.rank===4).length,42);
+assert.equal(new Set([...allFinalClericVersions,...apocryphal1a.versions,...apocryphal1b.versions]
+  .map(v=>v.id)).size,84,'No version collisions');
+const apo1bViews=toSpellViews(apocryphal1b,'pf2e-remaster');
+const allApoClericViews=[...expandedViews,...apo1bViews];
+assert.equal(filterSpellViews(allApoClericViews,{...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,84);
+assert.equal(filterSpellViews(allApoClericViews,{...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0,
+  'Domain-only focus spells are not standard Divine spells');
+assert.deepEqual(availableGrimoireClasses(allApoClericViews,['cleric','necromancer']),
+  [{id:'cleric',count:84}]);
+assert.equal(filterGrimoireEntries(allApoClericViews,'all','all','',new Map(),'cleric').length,84);
+assert.equal(filterGrimoireEntries(allApoClericViews,1,'all','',new Map(),'cleric').length,42);
+assert.equal(filterGrimoireEntries(allApoClericViews,4,'all','',new Map(),'cleric').length,42);
+assert.equal(filterGrimoireEntries(allApoClericViews,'all','all','',new Map(),'necromancer').length,0);
+const apo1bRule=slug=>apocryphal1b.versions.find(v=>v.spellId==='pf2e-cleric-apocryphal-'+slug);
+const apo1bSpell=slug=>apocryphal1b.spells.find(s=>s.slug===slug);
+assert.equal(spellSubclassLabel(apo1bSpell('euphoric-renewal')),'Домен — Смерть');
+assert.equal(spellSubclassLabel(apo1bSpell('frenzied-revelry')),'Домен — Потворство');
+assert.equal(spellSubclassLabel(apo1bSpell('wordsmith')),'Домен — Знания');
+assert.equal(spellSubclassLabel(apo1bSpell('victory-cry')),'Домен — Мощь');
+assert.equal(apo1bRule('euphoric-renewal').cast.actions,2);
+assert.equal(apo1bRule('euphoric-renewal').duration,'10 минут');
+assert.equal(apo1bRule('euphoric-renewal').heightened['+1'],
+  'При каждом возвращении в сознание временные ПЗ увеличиваются на 2 за каждый дополнительный круг.');
+assert.equal(apo1bRule('frenzied-revelry').cast.actions,2);
+assert.equal(apo1bRule('frenzied-revelry').area,'5-футовая эманация');
+assert.equal(apo1bRule('frenzied-revelry').heightened['4'],
+  'Радиус эманации 10 футов; бонус состояния к спасброскам против ментальных эффектов +2.');
+assert.equal(apo1bRule('frenzied-revelry').heightened['7'],
+  'Радиус эманации 15 футов; бонус состояния к спасброскам против ментальных эффектов +3.');
+assert.equal(apo1bRule('wordsmith').cast.actions,3);
+assert.equal(apo1bRule('wordsmith').duration,'До вашего следующего Фокусирования (Refocus)');
+assert.equal(apo1bRule('victory-cry').cast.time,'Реакция');
+assert.equal(apo1bRule('victory-cry').range,'30 футов');
+assert.equal(apo1bRule('victory-cry').heightened['+2'],
+  'Дополнительный урон звуком увеличивается на 1d6 за каждые 2 круга выше 1-го; критическое попадание не удваивает его.');
+assert.ok(apo1bRu.every(x=>x.description.includes('Апокрифическое')));
+assert.ok(apocryphal1b.versions.every(v=>!v.savingThrow&&!v.outcomes),
+  'These four spells do not call for target saves or four invented saving throw outcomes');
+console.log('PASS: Legacy Cleric Dark Archive batch 1B — 84 unique cards in 37 domains, RU descriptions, proper reaction, area/heightening, Library/Grimoire');
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'pf2e-cleric-wave2d.json':clericPack2d,'pf2e-cleric-apocryphal-wave1a.json':apocryphal1a,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'pf2e-cleric-wave2d.json':clericPack2d,'pf2e-cleric-apocryphal-wave1a.json':apocryphal1a,'pf2e-cleric-apocryphal-wave1b.json':apocryphal1b,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length+clericPack2d.spells.length+apocryphal1a.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length+clericPack2d.translations.length+apocryphal1a.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json','/At-your-service/spell-library/pf2e-cleric-wave2d.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1a.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length+clericPack2d.spells.length+apocryphal1a.spells.length+apocryphal1b.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length+clericPack2d.translations.length+apocryphal1a.translations.length+apocryphal1b.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json','/At-your-service/spell-library/pf2e-cleric-wave2d.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1a.json','/At-your-service/spell-library/pf2e-cleric-apocryphal-wave1b.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);

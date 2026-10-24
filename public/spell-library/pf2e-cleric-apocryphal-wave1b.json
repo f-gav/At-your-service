@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "system": "pf2e",
+  "spells": [
+    {
+      "id": "pf2e-cleric-apocryphal-euphoric-renewal",
+      "system": "pf2e",
+      "slug": "euphoric-renewal",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "necromancy"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Смерть"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-frenzied-revelry",
+      "system": "pf2e",
+      "slug": "frenzied-revelry",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "enchantment",
+        "emotion",
+        "mental"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Потворство"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-wordsmith",
+      "system": "pf2e",
+      "slug": "wordsmith",
+      "kind": "focus",
+      "rank": 4,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "transmutation"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Знания"
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-victory-cry",
+      "system": "pf2e",
+      "slug": "victory-cry",
+      "kind": "focus",
+      "rank": 1,
+      "traditions": [],
+      "classes": [
+        "cleric"
+      ],
+      "traits": [
+        "focus",
+        "cleric",
+        "evocation",
+        "sonic"
+      ],
+      "rarity": "rare",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "subclass": {
+        "type": "domain",
+        "name": "Мощь"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "id": "pf2e-cleric-apocryphal-euphoric-renewal-legacy",
+      "spellId": "pf2e-cleric-apocryphal-euphoric-renewal",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "duration": "10 минут",
+      "heightened": {
+        "+1": "При каждом возвращении в сознание временные ПЗ увеличиваются на 2 за каждый дополнительный круг."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-frenzied-revelry-legacy",
+      "spellId": "pf2e-cleric-apocryphal-frenzied-revelry",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 2
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "targets": "Вы и союзники в области",
+      "area": "5-футовая эманация",
+      "duration": "1 минута",
+      "heightened": {
+        "4": "Радиус эманации 10 футов; бонус состояния к спасброскам против ментальных эффектов +2.",
+        "7": "Радиус эманации 15 футов; бонус состояния к спасброскам против ментальных эффектов +3."
+      }
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-wordsmith-legacy",
+      "spellId": "pf2e-cleric-apocryphal-wordsmith",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "actions": 3
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "range": "Касание",
+      "targets": "1 документ, написанный одним автором, содержащий письменный текст на одном языке",
+      "duration": "До вашего следующего Фокусирования (Refocus)"
+    },
+    {
+      "id": "pf2e-cleric-apocryphal-victory-cry-legacy",
+      "spellId": "pf2e-cleric-apocryphal-victory-cry",
+      "edition": "pf2e-legacy",
+      "cast": {
+        "time": "Реакция"
+      },
+      "resource": "focus-point",
+      "sourceId": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "range": "30 футов",
+      "targets": "Союзник, вызвавший реакцию",
+      "trigger": "Союзник в пределах 30 футов достигает критического успеха при Ударе (Strike) ближнего боя.",
+      "heightened": {
+        "+2": "Дополнительный урон звуком увеличивается на 1d6 за каждые 2 круга выше 1-го; критическое попадание не удваивает его."
+      }
+    }
+  ],
+  "translations": [
+    {
+      "spellId": "pf2e-cleric-apocryphal-euphoric-renewal",
+      "versionId": "pf2e-cleric-apocryphal-euphoric-renewal-legacy",
+      "locale": "ru",
+      "name": "Эйфорическое восстановление",
+      "summary": "Апокрифическое: после каждого выхода из состояния «при смерти» наделяет ускорением для вставания, +1 к спасброскам на минуту и 8 временными ПЗ; усиление +2 ПЗ за круг.",
+      "description": "Апокрифическое продвинутое заклинание домена Смерти (Dark Archive, с. 142). Вы воспринимаете возвращение с порога смерти как возможность начать всё заново. В течение 10 минут действует особая защита, которая срабатывает всякий раз, когда выполняются оба условия: **вы получаете состояние «при смерти» (dying), а затем вновь приходите в сознание**, пока заклинание ещё действует.\n\nКаждое такое возвращение в сознание даёт три отдельных преимущества:\n\n• **Ускорение:** на своём следующем ходу вы получаете состояние «ускорен» (quickened); его дополнительное действие можно потратить **только на действие «Встать» (Stand)**.\n• **Спасброски:** в течение 1 минуты вы получаете **бонус обстоятельства +1** ко всем спасброскам.\n• **Временные ПЗ:** вы получаете **8 временных ПЗ** на 1 минуту. Они не являются восстановлением обычных ПЗ и подчиняются общим правилам временных ПЗ.\n\nПовторный переход в состояние «при смерти» и последующее возвращение в сознание может снова активировать эти преимущества, если заклинание ещё действует. Одного получения урона, пребывания без сознания без состояния «при смерти» или простого восстановления ПЗ без описанной последовательности недостаточно. **Усиление (+1):** временные ПЗ за такое возвращение увеличиваются на 2 за каждый круг выше 4-го. Заклинание не требует спасброска или броска атаки; эффекты возникают у самого заклинателя.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-euphoric-renewal",
+      "versionId": "pf2e-cleric-apocryphal-euphoric-renewal-legacy",
+      "locale": "en",
+      "name": "Euphoric Renewal",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-frenzied-revelry",
+      "versionId": "pf2e-cleric-apocryphal-frenzied-revelry-legacy",
+      "locale": "ru",
+      "name": "Неистовое веселье",
+      "summary": "Апокрифическое: даёт союзникам в эманации +1 к спасброскам против ментальных эффектов; после критического успеха против вражеского ментального эффекта также +1 к атакам и урону на раунд.",
+      "description": "Апокрифическое начальное заклинание домена Потворства (Dark Archive, с. 142). Вы вспоминаете шумные обряды и разжигаете заразительный восторг, вовлекая союзников в боевой азарт. Пока заклинание действует, **вы и ваши союзники, находящиеся в 5-футовой эманации**, получаете **бонус состояния +1 к спасброскам против ментальных эффектов**. Эманация исходит от вас; существо получает её преимущество только когда находится в области.\n\nКаждый раз, когда существо, пользующееся этим бонусом, достигает **критического успеха на спасброске против ментального эффекта противника**, его восторг усиливается: в течение **1 раунда** оно получает **бонус состояния +1 к броскам атаки и броскам урона**. Это не заменяет основной защитный бонус к спасброскам. Обычный успех на спасброске, а также критический успех против не-вражеского или нементального эффекта не активируют бонус к атакам и урону.\n\nЗаклинание длится **1 минуту** и не требует спасброска от существ в области.\n\n**Усиление (4-й круг):** радиус эманации становится **10 футов**, бонус состояния к спасброскам против ментальных эффектов — **+2**.\n\n**Усиление (7-й круг):** радиус эманации становится **15 футов**, бонус состояния к указанным спасброскам — **+3**.\n\nБонус +1 к броскам атаки и урона после критического успеха не повышается с кругом; исходный источник не устанавливает такого увеличения.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-frenzied-revelry",
+      "versionId": "pf2e-cleric-apocryphal-frenzied-revelry-legacy",
+      "locale": "en",
+      "name": "Frenzied Revelry",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-wordsmith",
+      "versionId": "pf2e-cleric-apocryphal-wordsmith-legacy",
+      "locale": "ru",
+      "name": "Мастер слова",
+      "summary": "Апокрифическое: переводит текст документа одного автора с одного языка на любой известный вам язык, не меняя содержание; действует до следующего Фокусирования.",
+      "description": "Апокрифическое продвинутое заклинание домена Знаний (Dark Archive, с. 144). Вы касаетесь **одного документа, созданного одним автором и содержащего письменный текст на одном языке**, и магически изменяете язык этого текста на **любой язык, который знаете сами**. Сотворение требует **3 действия** (материальный, жестовый и словесный компоненты в редакции Legacy).\n\nСмысл, факты и прочие сведения документа остаются прежними: возможны лишь небольшие расхождения, неизбежные при переводе. Изменяется именно **язык написанного текста**, а не мысли читателей и не содержание послания. Читатель не получает знания первоначального языка, а заклинатель не приобретает способность понимать язык, которого раньше не знал.\n\nИзменение сохраняется **до следующего раза, когда вы выполняете деятельность «Фокусирование» (Refocus)**; это не фиксированные 10 минут и не поддерживаемый эффект. Заклинание не предусматривает броска атаки, спасброска, отдельных степеней успеха или усиления по кругам. Если документ написан несколькими авторами либо содержит текст на нескольких языках, он не соответствует указанным условиям выбора цели.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-wordsmith",
+      "versionId": "pf2e-cleric-apocryphal-wordsmith-legacy",
+      "locale": "en",
+      "name": "Wordsmith",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-victory-cry",
+      "versionId": "pf2e-cleric-apocryphal-victory-cry-legacy",
+      "locale": "ru",
+      "name": "Победный клич",
+      "summary": "Апокрифическое: реакция на критический Удар союзника; +1d6 звукового урона без удвоения и немедленный Толчок с бонусами к Атлетике.",
+      "description": "Апокрифическое начальное заклинание домена Мощи (Dark Archive, с. 143). **Триггер:** союзник в пределах **30 футов** добился **критического успеха Ударом ближнего боя**. Вы возглашаете его победу, усиливая успешную атаку и подталкивая союзника к дальнейшему наступлению.\n\nОружие, которым союзник выполнил спровоцировавший Удар, наносит **дополнительно 1d6 урона звуком**. Этот дополнительный урон **не удваивается из-за критического попадания**, хотя сам Удар уже критический.\n\nЗатем союзник может **немедленно попытаться Толкнуть (Shove) существо, по которому попал**, даже если обе его руки заняты. Для проверки **Атлетики** этого Толчка союзник вправе использовать **бонус предмета**, который применялся к броску атаки спровоцировавшего Удара, если такой бонус был. Если Удар был нанесён оружием или безоружной атакой с признаком **«опрокидывание» (trip)**, союзник дополнительно получает **бонус состояния +1 к этой проверке Атлетики**. Указанные бонусы относятся к немедленной проверке Толчка, а не ко всем последующим проверкам Атлетики.\n\nСотворение является **реакцией** и расходует **1 ФП**; собственного спасброска или броска атаки заклинание не требует.\n\n**Усиление (+2):** дополнительный урон звуком увеличивается на **1d6** за каждые два круга сверх 1-го (например, 2d6 при сотворении на 3-м круге, 3d6 — на 5-м). Этот урон по-прежнему **не удваивается** от критического попадания.",
+      "translationStatus": "verified",
+      "translationOrigin": "at-your-service",
+      "translatorCredit": "Перевод от At your service!"
+    },
+    {
+      "spellId": "pf2e-cleric-apocryphal-victory-cry",
+      "versionId": "pf2e-cleric-apocryphal-victory-cry-legacy",
+      "locale": "en",
+      "name": "Victory Cry",
+      "summary": "",
+      "description": "",
+      "translationStatus": "missing"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pf2e-cleric-dark-archive-apocryphal-1b",
+      "name": "Paizo, Dark Archive: Apocryphal Domain Spells (Legacy), pages 142–144",
+      "publisher": "Paizo",
+      "year": 2022,
+      "url": "https://pf2e-ru-translation.readthedocs.io/ru/latest/spells/focus/Cleric.html",
+      "page": "142–144"
+    }
+  ]
+}

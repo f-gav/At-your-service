@@ -113,5 +113,13 @@ export async function loadSpellCatalog(
   base.versions.push(...clericApocryphal1a.versions);
   base.translations.push(...clericApocryphal1a.translations);
   base.sources.push(...clericApocryphal1a.sources);
+  const clericApocryphal1b=await read('pf2e-cleric-apocryphal-wave1b.json');
+  check('заклинания',base.spells.map(x=>x.id),clericApocryphal1b.spells.map(x=>x.id));
+  check('версии',base.versions.map(x=>x.id),clericApocryphal1b.versions.map(x=>x.id));
+  check('источники',base.sources.map(x=>x.id),clericApocryphal1b.sources.map(x=>x.id));
+  base.spells.push(...clericApocryphal1b.spells);
+  base.versions.push(...clericApocryphal1b.versions);
+  base.translations.push(...clericApocryphal1b.translations);
+  base.sources.push(...clericApocryphal1b.sources);
   return base;
 }
