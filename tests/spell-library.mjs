@@ -1175,18 +1175,92 @@ assert.equal(rules2c('safeguard-secret').duration,'1 час');
 assert.ok(ru2c.find(x=>x.spellId==='pf2e-cleric-domain-safeguard-secret')
   .description.includes('бонус состояния +4'));
 console.log('PASS: Cleric 2C: 68 unique focus spells, 34 Legacy domain pairs, actions/reaction/minute casting, full Russian rules, class-only filters');
+const clericPack2d=parseSpellCatalog(JSON.parse(source('../public/spell-library/pf2e-cleric-wave2d.json')),'pf2e');
+assert.equal(clericPack2d.spells.length,6,'Final Cleric wave 2D has six cards');
+assert.equal(clericPack2d.spells.filter(s=>s.rank===1).length,3);
+assert.equal(clericPack2d.spells.filter(s=>s.rank===4).length,3);
+assert.equal(clericPack2d.versions.length,6);
+assert.equal(clericPack2d.translations.filter(x=>x.locale==='ru').length,6);
+assert.equal(clericPack2d.translations.filter(x=>x.locale==='en').length,6);
+assert.ok(clericPack2d.translations.filter(x=>x.locale==='ru').every(t=>
+  t.translationOrigin==='at-your-service'&&t.description.length>200&&t.name.length>4));
+assert.ok(clericPack2d.spells.every(s=>s.kind==='focus'&&s.classes.length===1&&
+  s.classes[0]==='cleric'&&s.traditions.length===0&&s.subclass?.type==='domain'));
+assert.ok(clericPack2d.versions.every(v=>v.edition==='pf2e-legacy'&&v.resource==='focus-point'));
+const allClericPacks=[clericPack,clericPackB,clericPackC,clericPackD,clericPackE,
+  clericPack2a,clericPack2b,clericPack2c,clericPack2d];
+const allFinalClericSpells=allClericPacks.flatMap(p=>p.spells);
+const allFinalClericVersions=allClericPacks.flatMap(p=>p.versions);
+const allFinalClericRu=allClericPacks.flatMap(p=>p.translations.filter(t=>t.locale==='ru'));
+assert.equal(allFinalClericSpells.length,74,'Exactly 74 Core Rulebook Legacy domain focus spells');
+assert.equal(new Set(allFinalClericSpells.map(s=>s.id)).size,74,'Unique spell IDs, waves 1+2');
+assert.equal(new Set(allFinalClericSpells.map(s=>s.slug)).size,74,'Unique English identities, waves 1+2');
+assert.equal(new Set(allFinalClericVersions.map(s=>s.id)).size,74,'Unique version IDs');
+assert.equal(allFinalClericRu.length,74,'Every domain spell has a Russian card');
+assert.equal(new Set(allFinalClericRu.map(t=>t.spellId)).size,74,'Only one Russian card per spell');
+assert.ok(allFinalClericRu.every(t=>t.name.length>2&&t.description.length>100));
+assert.ok(allFinalClericVersions.every(v=>v.edition==='pf2e-legacy'&&v.resource==='focus-point'));
+const finalDomains=new Map();
+for(const s of allFinalClericSpells){
+ const key=s.subclass.name;
+ finalDomains.set(key,[...(finalDomains.get(key)??[]),s.rank]);
+}
+assert.equal(finalDomains.size,37,'37 distinct Core Legacy domains');
+for(const [domain,ranks] of finalDomains)
+ assert.deepEqual(ranks.sort((a,b)=>a-b),[1,4],'Each domain must have exactly rank 1 and rank 4: '+domain);
+const lastViews=toSpellViews(clericPack2d,'pf2e-remaster');
+const combinedFinalClericViews=[...allClericViews2c,...lastViews];
+assert.equal(filterSpellViews(combinedFinalClericViews,{...DEFAULT_SPELL_FILTERS,className:'cleric'}).length,74);
+assert.equal(filterSpellViews(combinedFinalClericViews,{...DEFAULT_SPELL_FILTERS,tradition:'divine'}).length,0,
+  'Private class focus spells must not leak into unrestricted divine spell lists');
+assert.deepEqual(availableGrimoireClasses(combinedFinalClericViews,['cleric','necromancer']),
+  [{id:'cleric',count:74}]);
+assert.equal(filterGrimoireEntries(combinedFinalClericViews,'all','all','',new Map(),'cleric').length,74);
+assert.equal(filterGrimoireEntries(combinedFinalClericViews,1,'all','',new Map(),'cleric').length,37);
+assert.equal(filterGrimoireEntries(combinedFinalClericViews,4,'all','',new Map(),'cleric').length,37);
+assert.equal(filterGrimoireEntries(combinedFinalClericViews,'all','all','',new Map(),'necromancer').length,0);
+const lastSpell=slug=>clericPack2d.spells.find(s=>s.slug===slug);
+const lastRule=slug=>clericPack2d.versions.find(v=>v.spellId==='pf2e-cleric-domain-'+slug);
+assert.equal(spellSubclassLabel(lastSpell('sudden-shift')),'Домен — Обман');
+assert.equal(spellSubclassLabel(lastSpell('touch-of-obedience')),'Домен — Тирания');
+assert.equal(spellSubclassLabel(lastSpell('touch-of-undeath')),'Домен — Нежить');
+assert.equal(lastRule('sudden-shift').cast.time,'Реакция');
+assert.equal(lastRule('sudden-shift').duration,'До конца вашего следующего хода');
+assert.ok(lastSpell('sudden-shift').traits.includes('illusion'));
+assert.equal(lastRule('tricksters-twin').cast.actions,2);
+assert.equal(lastRule('tricksters-twin').outcomes.criticalFailure,
+  'Как при успехе, но при разоблачающем событии требуется критически успешный спасбросок Воли.');
+assert.equal(lastRule('touch-of-obedience').cast.actions,1);
+assert.ok(Object.values(lastRule('touch-of-obedience').outcomes)
+  .filter(s=>s.includes('Одурманен')).every(s=>s.includes('Одурманен 1')),
+  'Legacy touch of obedience only uses stupefied 1');
+assert.equal(lastRule('commanding-lash').cast.actions,1);
+assert.ok(lastSpell('commanding-lash').traits.includes('incapacitation'));
+assert.equal(lastRule('commanding-lash').outcomes.criticalFailure,
+  'Все доступные действия следующего хода цели должны исполнять приказ.');
+assert.ok(!lastSpell('touch-of-undeath').traits.includes('attack'),
+  'Core Rulebook errata r1: Touch of Undeath has no attack trait');
+assert.equal(lastRule('touch-of-undeath').heightened['+1'],
+  'Базовый негативный урон увеличивается на 1d6.');
+assert.equal(lastRule('touch-of-undeath').outcomes.criticalFailure,
+  'Двойной негативный урон; позитивное исцеление уменьшено наполовину на 1 минуту.');
+assert.equal(lastRule('malignant-sustenance').cast.actions,2);
+assert.equal(lastRule('malignant-sustenance').duration,'1 минута');
+assert.equal(lastRule('malignant-sustenance').heightened['+1'],
+  'Быстрое исцеление увеличивается на 2.');
+console.log('PASS: 74 Legacy cleric focus spells, 37 domain pairs, no duplicates, 74 RU cards, Grimoire and Library filters');
 const necroPack=JSON.parse(source('../public/spell-library/pf2e-necromancer.json'));
 const requested=[];
 const mockedFetch=async(url)=>{
   requested.push(url);
   const file=url.split('/').at(-1);
-  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'dnd5e.json':dnd}[file];
+  const data={'pf2e.json':wave,'pf2e-necromancer.json':necroPack,'pf2e-cleric-wave1.json':clericPack,'pf2e-cleric-wave1b.json':clericPackB,'pf2e-cleric-wave1c.json':clericPackC,'pf2e-cleric-wave1d.json':clericPackD,'pf2e-cleric-wave1e.json':clericPackE,'pf2e-cleric-wave2a.json':clericPack2a,'pf2e-cleric-wave2b.json':clericPack2b,'pf2e-cleric-wave2c.json':clericPack2c,'pf2e-cleric-wave2d.json':clericPack2d,'dnd5e.json':dnd}[file];
   return {ok:Boolean(data),status:data?200:404,json:async()=>structuredClone(data)};
 };
 const shared=await loadSpellCatalog('pf2e',new AbortController().signal,'/At-your-service/',mockedFetch);
-assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length);
-assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length);
-assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json']);
+assert.equal(shared.spells.length,wave.spells.length+necroPack.spells.length+clericPack.spells.length+clericPackB.spells.length+clericPackC.spells.length+clericPackD.spells.length+clericPackE.spells.length+clericPack2a.spells.length+clericPack2b.spells.length+clericPack2c.spells.length+clericPack2d.spells.length);
+assert.equal(shared.translations.length,wave.translations.length+necroPack.translations.length+clericPack.translations.length+clericPackB.translations.length+clericPackC.translations.length+clericPackD.translations.length+clericPackE.translations.length+clericPack2a.translations.length+clericPack2b.translations.length+clericPack2c.translations.length+clericPack2d.translations.length);
+assert.deepEqual(requested,['/At-your-service/spell-library/pf2e.json','/At-your-service/spell-library/pf2e-necromancer.json','/At-your-service/spell-library/pf2e-cleric-wave1.json','/At-your-service/spell-library/pf2e-cleric-wave1b.json','/At-your-service/spell-library/pf2e-cleric-wave1c.json','/At-your-service/spell-library/pf2e-cleric-wave1d.json','/At-your-service/spell-library/pf2e-cleric-wave1e.json','/At-your-service/spell-library/pf2e-cleric-wave2a.json','/At-your-service/spell-library/pf2e-cleric-wave2b.json','/At-your-service/spell-library/pf2e-cleric-wave2c.json','/At-your-service/spell-library/pf2e-cleric-wave2d.json']);
 assert.ok(!requested.some(x=>x.includes('cycle')),'Old localization overlays must not load');
 const sharedDnd=await loadSpellCatalog('dnd5e',new AbortController().signal,'/',mockedFetch);
 assert.equal(sharedDnd.spells.length,dnd.spells.length);
