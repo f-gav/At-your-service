@@ -114,6 +114,7 @@ export default function FloatingPageNavigation<Page extends string>({
       </button>)}
     </div>
     <button type="button" className="pf-navigation-help-resize"
+      data-side={rect.x+rect.width/2>=viewport().width/2?'left':'right'}
       aria-label="Изменить размер меню страниц клавишами со стрелками"
       title="Перетащите, чтобы изменить размер · стрелки — изменить размер"
       onPointerDown={event=>start(event,'resize')} onPointerMove={pointerMove}
