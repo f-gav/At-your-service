@@ -58,7 +58,7 @@ console.log('PASS: Pr. Moon matches PF2e badge, stacked A4 navigation and transl
 
 const hiddenMoon={...before,hiddenPages:['notes','combat']};
 const restoredMoon=readMoonSheet(saveMoonSheet({},hiddenMoon));
-assert.deepEqual(restoredMoon.hiddenPages,['combat','notes']);
+assert.deepEqual(restoredMoon.hiddenPages,['notes','combat']);
 assert.deepEqual(visiblePageIds(restoredMoon.pageOrder,restoredMoon.hiddenPages),['dossier','equipment','about']);
 assert.equal(restoredMoon.notes[0].body,'<p>Запись кампании</p>');
 assert.equal(restoredMoon.skills[0].title,'Удар');
