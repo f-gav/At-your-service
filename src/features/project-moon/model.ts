@@ -1,6 +1,6 @@
 import type { CharacterDetails } from '../../lib/models';
 import { DEFAULT_MOON_ORDER, parseMoonOrder } from './page-order.ts';
-import {parseHiddenPageIds} from '../../lib/page-visibility';
+import {parseHiddenPageIds} from '../../lib/page-visibility.ts';
 
 export const MOON_PAGES = [
   { id: 'dossier', title: 'Досье' },
