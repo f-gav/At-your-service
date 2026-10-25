@@ -62,3 +62,7 @@
   .pf-pages-dialog {padding:16px;}
   .pf-pages-item {padding:7px;gap:6px;}
 }
+
+.pf-pages-item-hidden{opacity:.76;background:#f1f3f1;border-style:dashed}
+.pf-pages-item-hidden .pf-pages-label{color:#67756b}
+.pf-pages-actions button[aria-pressed="false"]{color:#777f7a}
