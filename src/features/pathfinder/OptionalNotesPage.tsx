@@ -37,6 +37,12 @@ export default function OptionalNotesPage({values, disabled = false, onChange}: 
           return (
             <div key={noteBodyKey(index)} className="pf-optional-note-card"
               aria-label={`Блок заметок ${index + 1}: ${title}`}>
+              <input type="text" className="pf-optional-note-title"
+                aria-label={`Название заметки ${index + 1}`}
+                placeholder="Заметки" maxLength={100} disabled={disabled}
+                value={String(values[noteTitleKey(index)] ?? '')}
+                onChange={event => onChange(noteTitleKey(index), event.target.value)}
+              />
               <RichField
                 id={`pf-optional-notes-block-${index + 1}`}
                 label={`Содержимое блока заметок ${index + 1}: ${title}`}

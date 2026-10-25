@@ -64,10 +64,10 @@ const SECTION_ICONS:Record<string,typeof Shield>={
  'Врождённые заклинания':Star,'Ритуалы':Scroll,
  'Заметки':ScrollText,'Дополнительные поля':ScrollText,
 };
-function Section({index,title,children,wide=false,className=''}:{index:string;title:string;children:ReactNode;wide?:boolean;className?:string}){
+function Section({index,title,titleEditor,children,wide=false,className=''}:{index:string;title:string;titleEditor?:ReactNode;children:ReactNode;wide?:boolean;className?:string}){
  const Icon=SECTION_ICONS[title]||ScrollText;
  return <section className={'pf-alt-section'+(wide?' pf-alt-wide':'')+(className?' '+className:'')}>
-   <h3><Icon size={14} strokeWidth={1.8} aria-hidden="true"/><span className="pf-alt-section-index">{index}</span>{title}</h3>
+   <h3><Icon size={14} strokeWidth={1.8} aria-hidden="true"/><span className="pf-alt-section-index">{index}</span>{titleEditor??title}</h3>
    {children}
   </section>;
 }
@@ -238,7 +238,11 @@ export default function AlternativePathfinderPages({
  }
  if(page==='notes')return <article className="pf-alt-page" id="pf-sheet-page-notes" aria-label="Альтернативный PF2e: заметки">
   <header className="pf-alt-heading"><small>AT YOUR SERVICE! / PF2E</small><h2>Заметки</h2><p>Дополнительная страница</p></header>
-  <div className="pf-alt-two-col">{Array.from({length:PF_NOTES_BLOCK_COUNT},(_,i)=><Section key={i} index={String(i+1).padStart(2,'0')} title={noteBlockTitle(values[noteTitleKey(i)])}>
+  <div className="pf-alt-two-col">{Array.from({length:PF_NOTES_BLOCK_COUNT},(_,i)=><Section key={i} index={String(i+1).padStart(2,'0')} title={noteBlockTitle(values[noteTitleKey(i)])}
+    titleEditor={<input className="pf-alt-note-title" type="text" maxLength={100}
+      aria-label={'Название заметки '+(i+1)} placeholder="Заметки"
+      disabled={disabled} value={String(values[noteTitleKey(i)]??'')}
+      onChange={event=>onChange(noteTitleKey(i),event.target.value)}/>} >
    <RichField id={'pf-alt-note-'+i} label={'Заметки '+(i+1)} className="pf-alt-rich pf-alt-notes" grow
      textSize={textSize(noteBodyKey(i))} onTextSizeChange={size=>onChange('pf_text_size_'+noteBodyKey(i),String(size))}
      value={String(values[noteBodyKey(i)]??'')} resourceContext={values} disabled={disabled}

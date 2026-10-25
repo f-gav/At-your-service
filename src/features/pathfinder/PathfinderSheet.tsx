@@ -8,6 +8,7 @@ import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
+import {parseHiddenPageIds,setPageVisible} from '../../lib/page-visibility';
 import { initialSheetValues, persistSheetValues } from './sheet-values';
 import type { FieldValue, SheetValues } from './sheet-values';
 import { supabase } from '../../lib/supabase';
@@ -33,7 +34,7 @@ import {PF_SPELL_LAYOUT,spellClassicFieldZone} from './spell-layout';
 import {useSpellLayoutUi,SpellDragHandle,SpellDivider,SpellDividerAdd} from './SpellLayoutControls';
 import PageSettingsDialog from './PageSettingsDialog';
 import OptionalNotesPage from './OptionalNotesPage';
-import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
+import {PF_PAGE_ORDER_KEY,PF_NOTES_ENABLED_KEY,PF_HIDDEN_PAGES_KEY,PAGE_LABELS,parsePageOrder,notesPageEnabled,visiblePageOrder,serializePageOrder} from './page-order';
 import type {PfPageId} from './page-order';
 import { calculateNativeCombat, isNativeCombatComputedField, isNativeWeaponAttackField, isClassDcConfigured } from './rules-combat';
 import { formulaDisplayValue } from './formula-display';
@@ -112,7 +113,8 @@ export default function PathfinderSheet({
   // global admin PDF template. Hidden notes remain saved in the character.
   const notesEnabled=notesPageEnabled(values[PF_NOTES_ENABLED_KEY]);
   const pageOrder=useMemo(()=>parsePageOrder(values[PF_PAGE_ORDER_KEY]),[values[PF_PAGE_ORDER_KEY]]);
-  const visiblePages=useMemo(()=>visiblePageOrder(pageOrder,notesEnabled),[pageOrder,notesEnabled]);
+  const hiddenPages=useMemo(()=>parseHiddenPageIds(values[PF_HIDDEN_PAGES_KEY],pageOrder),[values[PF_HIDDEN_PAGES_KEY],pageOrder]);
+  const visiblePages=useMemo(()=>visiblePageOrder(pageOrder,notesEnabled,hiddenPages),[pageOrder,notesEnabled,hiddenPages]);
   useEffect(() => {
     if(!supabase)return;
     let active=true;
@@ -309,6 +311,18 @@ export default function PathfinderSheet({
   }
   function setNotesPageEnabled(enabled:boolean){
     setValues(previous=>({...previous,[PF_NOTES_ENABLED_KEY]:enabled}));
+  }
+  function setPageVisibility(page:PfPageId,visible:boolean){
+    setValues(previous=>{
+      const current=parseHiddenPageIds(previous[PF_HIDDEN_PAGES_KEY],pageOrder);
+      const enabled=notesPageEnabled(previous[PF_NOTES_ENABLED_KEY]);
+      const available=pageOrder.filter(id=>id!=='notes'||enabled);
+      const next=setPageVisible(available,current,page,visible);
+      const serialized=next.join(',');
+      return previous[PF_HIDDEN_PAGES_KEY]===serialized?previous:{
+        ...previous,[PF_HIDDEN_PAGES_KEY]:serialized,
+      };
+    });
   }
   function setPageOrder(order:PfPageId[]){
     const serialized=serializePageOrder(order);
@@ -580,7 +594,8 @@ export default function PathfinderSheet({
     </div>
     {spellLayout.contextMenu}
     {pageSettingsOpen&&<PageSettingsDialog
-      order={pageOrder} notesEnabled={notesEnabled} disabled={editLocked}
+      order={pageOrder} notesEnabled={notesEnabled} hiddenPages={hiddenPages} disabled={editLocked}
+      onPageVisibility={setPageVisibility}
       onNotesEnabled={setNotesPageEnabled}
       onOrderChange={setPageOrder}
       onClose={()=>setPageSettingsOpen(false)}/>}

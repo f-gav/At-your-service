@@ -77,7 +77,7 @@ assert.ok(app.includes("active.system === 'prmoon'"));
 assert.ok(app.includes("createPanel === 'prmoon'"));
 assert.ok(app.includes("'PR. MOON'"));
 assert.ok(sql.includes("'prmoon'"));
-assert.ok(sheet.includes("pageOrder.map(page => <article"));
+assert.ok(sheet.includes("visibleMoonPages.map(page => <article"));
 assert.ok(sheet.includes("addMoonSkill"));
 assert.ok(sheet.includes("Автоматический подсчёт HP / ST / SP"));
 assert.ok(sheet.includes("RichField"));

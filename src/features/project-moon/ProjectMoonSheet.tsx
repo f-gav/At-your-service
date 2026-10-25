@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
@@ -8,6 +8,7 @@ import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
+import {setPageVisible,visiblePageIds} from '../../lib/page-visibility';
 import MoonPortrait from './MoonPortrait';
 import RichField from '../pathfinder/RichField';
 import type { CropFrame } from '../portrait/crop';
@@ -165,6 +166,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   }, []);
 
   const pageOrder = sheet.pageOrder;
+  const visibleMoonPages = useMemo(()=>previewMode?pageOrder:visiblePageIds(pageOrder,sheet.hiddenPages),[previewMode,pageOrder,sheet.hiddenPages]);
   useEffect(() => {
     try { window.localStorage.setItem('ays-prmoon-navigation-help', navigationHelp ? '1' : '0'); }
     catch { /* Navigation remains usable without local storage. */ }
@@ -174,8 +176,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     let frame = 0;
     const update = () => {
       frame = 0;
-      let current: MoonPage = pageOrder[0] ?? 'dossier';
-      for (const page of pageOrder) {
+      let current: MoonPage = visibleMoonPages[0] ?? 'dossier';
+      for (const page of visibleMoonPages) {
         const rect = document.getElementById('moon-sheet-page-' + page)?.getBoundingClientRect();
         if (rect && rect.top <= window.innerHeight * .33) current = page;
       }
@@ -190,7 +192,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       window.removeEventListener('resize', onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [navigationHelp, previewMode, pageOrder]);
+  }, [navigationHelp, previewMode, visibleMoonPages]);
   function navigatePage(page: MoonPage) {
     document.getElementById('moon-sheet-page-' + page)?.scrollIntoView({
       block: 'start',
@@ -200,6 +202,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   }
   const changePageOrder = (order: MoonPage[]) =>
     setSheet(old => ({ ...old, pageOrder: order }));
+  const changePageVisibility = (page: MoonPage, visible: boolean) =>
+    setSheet(old => ({...old, hiddenPages:setPageVisible(old.pageOrder,old.hiddenPages,page,visible)}));
   // The approved published appearance is the only normal sheet layout.
   // The administration preview can still supply an explicit layoutOverride.
   // Never swap geometry asynchronously after the sheet becomes visible.
@@ -393,7 +397,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
 
     {pdfError && <p role="alert" className="form-error">{pdfError}</p>}
     <div className="moon-sheet-scroll" aria-label="Страницы листа Project Moon">
-      {pageOrder.map(page => <article key={page} id={'moon-sheet-page-' + page}
+      {visibleMoonPages.map(page => <article key={page} id={'moon-sheet-page-' + page}
         className={'moon-paper moon-page-' + page}
         aria-label={'Страница: ' + MOON_PAGES.find(p => p.id === page)?.title}>
       <header className="moon-page-heading">
@@ -736,10 +740,11 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       disabled={editLocked} onCancel={() => setPendingSkillDelete(null)}
       onConfirm={confirmSkillDeletion} />}
     {pageSettingsOpen && <MoonPageSettingsDialog
-      order={pageOrder} disabled={editLocked} onOrderChange={changePageOrder}
+      order={pageOrder} hiddenPages={sheet.hiddenPages} onPageVisibility={changePageVisibility}
+      disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
     {!previewMode && navigationHelp && <FloatingPageNavigation system="prmoon"
-      pages={pageOrder.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
+      pages={visibleMoonPages.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
       activePage={activePage} onNavigate={navigatePage}
       onClose={()=>setNavigationHelp(false)}/>}
     {error && <p role="alert" className="form-error">{error}</p>}

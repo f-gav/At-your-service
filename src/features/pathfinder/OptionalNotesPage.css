@@ -55,3 +55,16 @@
   outline: 1px solid #92afa0;
   outline-offset: -1px;
 }
+
+/* Editing a title does not affect the saved rich body or the source artwork. */
+.pf-optional-note-title {
+  position:absolute;top:.03cqw;left:.5cqw;z-index:2;
+  width:calc(100% - 1cqw);min-width:0;box-sizing:border-box;
+  border:1px solid transparent;border-radius:2px;
+  background:#fff;color:#254333;
+  font:700 1.35cqw/1.2 'Segoe UI',Arial,sans-serif;
+  padding:.12cqw .3cqw;outline:0;
+}
+.pf-optional-note-title::placeholder{color:#254333;opacity:.9}
+.pf-optional-note-title:focus{outline:1px solid #597d65}
+.pf-optional-note-card-body .pf-rich-editable{padding-top:2.45cqw}
