@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
@@ -166,7 +166,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   }, []);
 
   const pageOrder = sheet.pageOrder;
-  const visibleMoonPages = previewMode ? pageOrder : visiblePageIds(pageOrder,sheet.hiddenPages);
+  const visibleMoonPages = useMemo(()=>previewMode?pageOrder:visiblePageIds(pageOrder,sheet.hiddenPages),[previewMode,pageOrder,sheet.hiddenPages]);
   useEffect(() => {
     try { window.localStorage.setItem('ays-prmoon-navigation-help', navigationHelp ? '1' : '0'); }
     catch { /* Navigation remains usable without local storage. */ }
