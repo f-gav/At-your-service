@@ -6,6 +6,7 @@
  */
 export const PF_PAGE_ORDER_KEY='pf2e_page_order';
 export const PF_NOTES_ENABLED_KEY='pf2e_notes_enabled';
+export const PF_HIDDEN_PAGES_KEY='pf2e_hidden_pages';
 export const PF_NOTES_CONTENT_KEY='pf2e_notes_content';
 
 export const PAGE_IDS=['1','2','3','4','notes'] as const;
@@ -33,9 +34,9 @@ export function parsePageOrder(raw:unknown):PfPageId[]{
   for(const id of PAGE_IDS)if(!ordered.includes(id))ordered.push(id);
   return ordered;
 }
-export function visiblePageOrder(order:readonly PfPageId[],notesEnabled:boolean):PfPageId[]{
+export function visiblePageOrder(order:readonly PfPageId[],notesEnabled:boolean,hidden:readonly PfPageId[]=[]):PfPageId[]{
   const canonical=parsePageOrder(order.join(','));
-  return canonical.filter(id=>notesEnabled||id!=='notes');
+  return canonical.filter(id=>(notesEnabled||id!=='notes')&&!hidden.includes(id));
 }
 export function movePage(order:readonly PfPageId[],source:PfPageId,destination:PfPageId):PfPageId[]{
   const ids=parsePageOrder(order.join(','));
