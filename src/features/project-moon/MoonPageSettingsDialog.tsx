@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { DragEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowDown, ArrowUp, GripVertical, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, Eye, EyeOff, GripVertical, X } from 'lucide-react';
 import { MOON_PAGES } from './model';
 import { moveMoonPage, shiftMoonPage } from './page-order';
 import type { MoonPage } from './model';
@@ -12,9 +12,11 @@ const labels: Record<MoonPage, string> = Object.fromEntries(
 ) as Record<MoonPage, string>;
 
 export default function MoonPageSettingsDialog({
-  order, disabled = false, onOrderChange, onClose,
+  order, hiddenPages, onPageVisibility, disabled = false, onOrderChange, onClose,
 }: {
   order: MoonPage[];
+  hiddenPages: MoonPage[];
+  onPageVisibility: (page:MoonPage,visible:boolean)=>void;
   disabled?: boolean;
   onOrderChange: (order: MoonPage[]) => void;
   onClose: () => void;
@@ -25,6 +27,7 @@ export default function MoonPageSettingsDialog({
   const dragFrom = useRef<MoonPage | null>(null);
   const [over, setOver] = useState<MoonPage | null>(null);
   closeCallback.current = onClose;
+  const visibleCount = order.filter(id=>!hiddenPages.includes(id)).length;
 
   useEffect(() => {
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -64,11 +67,11 @@ export default function MoonPageSettingsDialog({
       </div>
       <p id="moon-pages-description">
         Перетащи страницы за значок слева или используй стрелки.
-        Изменяется только порядок отображения: текст, ресурсы и остальные данные сохраняются.
+        Скрой ненужные страницы значком глаза или меняй их порядок стрелками и перетаскиванием. Текст, ресурсы и остальные данные сохраняются.
       </p>
       <ol className="pf-pages-list" aria-label="Порядок страниц">
         {order.map((id,index) => <li key={id} draggable={!disabled}
-          className={'pf-pages-item' + (over === id ? ' pf-pages-drag-target' : '')}
+          className={'pf-pages-item' + (over === id ? ' pf-pages-drag-target' : '')+(hiddenPages.includes(id)?' pf-pages-item-hidden':'')}
           onDragStart={event => {
             if (disabled) { event.preventDefault(); return; }
             dragFrom.current = id;
@@ -81,8 +84,15 @@ export default function MoonPageSettingsDialog({
           onDrop={event => drop(event,id)}>
           <GripVertical className="pf-pages-grip" size={18} aria-hidden="true"/>
           <span className="pf-pages-number">{index + 1}</span>
-          <span className="pf-pages-label">{labels[id]}</span>
+          <span className="pf-pages-label">{labels[id]}{hiddenPages.includes(id)&&<small>Скрыта — содержимое сохранено</small>}</span>
           <div className="pf-pages-actions">
+            <button type="button" disabled={disabled||(!hiddenPages.includes(id)&&visibleCount<=1)}
+              aria-pressed={!hiddenPages.includes(id)}
+              title={hiddenPages.includes(id)?'Показать страницу':'Скрыть страницу'}
+              aria-label={(hiddenPages.includes(id)?'Показать':'Скрыть')+' страницу «'+labels[id]+'»'}
+              onClick={()=>onPageVisibility(id,hiddenPages.includes(id))}>
+              {hiddenPages.includes(id)?<EyeOff size={17}/>:<Eye size={17}/>}
+            </button>
             <button type="button" disabled={disabled || index === 0}
               aria-label={'Переместить «' + labels[id] + '» выше'}
               onClick={() => onOrderChange(shiftMoonPage(order, id, -1))}><ArrowUp size={17}/></button>
@@ -92,6 +102,7 @@ export default function MoonPageSettingsDialog({
           </div>
         </li>)}
       </ol>
+      <p className="pf-pages-notice">Скрытие страницы не удаляет её содержимое. В любой момент верни страницу кнопкой с глазом.</p>
       <div className="pf-pages-footer"><button type="button" onClick={onClose}>Готово</button></div>
     </div>
   </div>, document.body);
