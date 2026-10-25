@@ -8,6 +8,7 @@ import {resourceMarkup,resourceFromElement,stepResource,restoreResource,chooseRe
 import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
 import {insertionMenuPosition} from './insert-menu-position';
+import {richToolbarPosition} from './rich-toolbar-position';
 import './RichField.css';
 
 type Props={
@@ -20,14 +21,13 @@ type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
 type Spot={left:number;top:number};
 type InsertKind='spoiler'|'divider'|'resource';
 function popupPosition(rect:DOMRect):Spot {
-  // A 370px toolbar cannot fit inside a 320–360px phone viewport.
-  // Clamp to the actual available width rather than positioning it offscreen.
-  const viewport=window.visualViewport;
-  const width=Math.min(370,Math.max(0,(viewport?.width??window.innerWidth)-16));
-  const offset=viewport?.offsetLeft??0;
-  const left=Math.max(offset+8,Math.min(offset+(viewport?.width??window.innerWidth)-width-8,
-    rect.left+rect.width/2-width/2));
-  return {left,top:Math.max((viewport?.offsetTop??0)+8,rect.top-57)};
+  const visual=window.visualViewport;
+  return richToolbarPosition(rect,{
+    width:visual?.width??window.innerWidth,
+    height:visual?.height??window.innerHeight,
+    offsetLeft:visual?.offsetLeft??0,
+    offsetTop:visual?.offsetTop??0,
+  },window.matchMedia('(max-width:760px), (pointer:coarse)').matches);
 }
 export default function RichField({id,label,value,onChange,placeholder,disabled,className='',style,grow=false,resourceContext={},spellColumns,textSize,onTextSizeChange}:Props){
   const root=useRef<HTMLDivElement>(null);
