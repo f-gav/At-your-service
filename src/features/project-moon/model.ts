@@ -1,5 +1,6 @@
 import type { CharacterDetails } from '../../lib/models';
 import { DEFAULT_MOON_ORDER, parseMoonOrder } from './page-order.ts';
+import {parseHiddenPageIds} from '../../lib/page-visibility';
 
 export const MOON_PAGES = [
   { id: 'dossier', title: 'Досье' },
@@ -39,6 +40,7 @@ export type MoonSheetData = {
   inventoryColumns: number;
   textSizes: Record<string, number>;
   pageOrder: MoonPage[];
+  hiddenPages: MoonPage[];
   maxOverrides: Partial<Record<MoonResourceId, string>>;
   weapons: MoonWeapon[];
   outfits: MoonOutfit[];
@@ -69,6 +71,7 @@ export function emptyMoonSheet(): MoonSheetData {
     inventoryColumns: 1,
     textSizes: {},
     pageOrder: [...DEFAULT_MOON_ORDER],
+    hiddenPages: [],
     maxOverrides: {},
     weapons: [newMoonWeapon('weapon-1'), newMoonWeapon('weapon-2')],
     outfits: [newMoonOutfit('outfit-1'), newMoonOutfit('outfit-2')],
@@ -127,6 +130,7 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
     inventoryColumns: typeof stored.inventoryColumns === 'number' && Number.isInteger(stored.inventoryColumns)
       ? Math.max(1, Math.min(4, stored.inventoryColumns)) : 1,
     pageOrder: parseMoonOrder(stored.pageOrder),
+    hiddenPages: parseHiddenPageIds(stored.hiddenPages,DEFAULT_MOON_ORDER),
     maxOverrides: Object.fromEntries(['hp','st','sp','light']
       .filter(key => typeof overrides[key] === 'string')
       .map(key => [key, overrides[key] as string])),
