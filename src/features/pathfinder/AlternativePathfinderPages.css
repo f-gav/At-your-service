@@ -873,3 +873,13 @@
 .pf-alt-page .pf-alt-heading h2 {
   -webkit-text-stroke-width: .5px;
 }
+
+/* Titles use existing stable pf2e_notes_title_N IDs, alongside the original notes. */
+.pf-alt-section>h3 .pf-alt-note-title {
+  flex:1 1 auto;min-width:0;padding:3px 4px;
+  border:1px solid transparent;border-radius:3px;background:transparent;
+  color:inherit;font:inherit;letter-spacing:inherit;text-transform:none;
+}
+.pf-alt-section>h3 .pf-alt-note-title:hover:not(:disabled){border-color:#aabdaf}
+.pf-alt-section>h3 .pf-alt-note-title:focus{outline:2px solid #648a72;background:#fff}
+.pf-alt-note-title::placeholder{color:inherit;opacity:.85}
