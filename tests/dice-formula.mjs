@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
   rollDiceFormula,normalizeDiceFormula,splitDiceLabel,diceVariables,
-  DICE_ROLL_EVENT,DICE_ERROR_EVENT,
+  DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceValidationVariables,
 } from '../src/lib/dice-engine.ts';
 import {diceMarkup} from '../src/features/pathfinder/dice-markup.ts';
 
@@ -42,6 +42,16 @@ assert.throws(()=>rollDiceFormula('1d6',{},()=>1),/источник/);
 assert.equal(DICE_ROLL_EVENT,'ays:dice-roll');
 assert.equal(DICE_ERROR_EVENT,'ays:dice-error');
 assert.match(diceMarkup('1d8 (Огонь)'),/data-pf-dice="1"/);
+const bound=diceMarkup('2d8+3','Ледяные пальцы');
+assert.match(bound,/>Ледяные пальцы<\/span>/);
+assert.match(bound,/data-formula="2d8\+3"/);
+assert.doesNotMatch(bound,/>2d8\+3<\/span>/);
+assert.match(diceMarkup('1d20+5','Атака','<b>Атака</b>'),/<b>Атака<\/b>/);
+assert.match(diceMarkup('1d6','<img src=x>'),/&lt;img src=x&gt;/);
+assert.equal(diceValidationVariables().STR,0);
+assert.equal(diceValidationVariables({ability_str:'+4'}).STR,4);
+assert.equal(rollDiceFormula('d20+[STR]',diceValidationVariables(),low).total,1);
+assert.throws(()=>rollDiceFormula('d20+[FOO]',diceValidationVariables(),low),/Неизвестная/);
 assert.match(diceMarkup('" onclick="alert(1)'),/&quot; onclick=&quot;alert\(1\)/);
 assert.doesNotMatch(diceMarkup('<img src=x onerror=alert(1)>'),/<img/);
 const rich=read('../src/features/pathfinder/RichField.tsx');
@@ -50,8 +60,14 @@ const panel=read('../src/lib/DiceRollPanel.tsx');
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const moon=read('../src/features/project-moon/ProjectMoonSheet.tsx');
 assert.match(codec,/if\(el\.dataset\.pfDice==='1'\)/);
-assert.match(codec,/diceMarkup\(formula\)/);
+assert.match(codec,/diceMarkup\(formula,visibleText,safeContents/);
 assert.match(rich,/onClick=\{\(\)=>apply\('dice'\)\}/);
+assert.match(rich,/setDiceDialog\(\{text:selection.toString\(\),formula:'',editing:false\}\)/);
+assert.match(rich,/onSubmit=\{event=>\{event.preventDefault\(\);saveDiceDialog\(\);\}\}/);
+assert.match(rich,/token.replaceChildren\(range.extractContents\(\)\)/);
+assert.match(rich,/node.dataset.formula=formula/);
+assert.match(rich,/node.replaceWith\(\.\.\.Array.from\(node.childNodes\)\)/);
+assert.match(rich,/diceValidationVariables\(resourceContext\)/);
 assert.match(rich,/onContextMenu=\{handleDiceContextMenu\}/);
 assert.match(rich,/event\.ctrlKey\|\|event\.metaKey/);
 assert.match(rich,/rollInlineFormula/);

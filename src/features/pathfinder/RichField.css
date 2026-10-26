@@ -423,3 +423,56 @@
     border:0;background:transparent;color:inherit;font-weight:inherit;padding:0;
   }
 }
+
+/* Formula editing works on the text itself; no dice notation is inserted into
+   the character's prose. The dialog lives outside paper/PDF and toolbars. */
+.pf-dice-dialog-backdrop{
+  position:fixed;inset:0;z-index:12010;display:flex;align-items:center;
+  justify-content:center;padding:16px;box-sizing:border-box;
+  background:#0b1527a8;font:14px/1.45 'Segoe UI',Arial,sans-serif;
+}
+.pf-dice-dialog{
+  box-sizing:border-box;width:min(430px,100%);max-height:calc(100dvh - 32px);
+  overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  border:1px solid #5b7090;border-radius:13px;padding:16px;
+  background:#1c2636;color:#edf3fc;box-shadow:0 15px 60px #050b1b80;
+}
+.pf-dice-dialog header{display:flex;align-items:center;gap:9px;font-size:16px}
+.pf-dice-dialog header strong{flex:1}
+.pf-dice-dialog header button{
+  flex:none;border:0;background:transparent;color:#b4c7dd;
+  cursor:pointer;font-size:24px;line-height:1;padding:0 3px;
+}
+.pf-dice-dialog p{margin:0;color:#c4d0e0}
+.pf-dice-dialog-text{
+  margin:0;padding:9px 11px;border:1px solid #415575;
+  border-radius:6px;background:#111c2d;color:white;
+  max-height:90px;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;
+}
+.pf-dice-dialog label{font-weight:650}
+.pf-dice-dialog input{
+  box-sizing:border-box;width:100%;padding:10px;border-radius:7px;
+  border:1px solid #7087a4;background:#101b2d;color:#f9fbff;
+  font:inherit;font-size:16px;
+}
+.pf-dice-dialog input:focus{outline:2px solid #78ace9;outline-offset:1px}
+.pf-dice-dialog small{color:#aabbd2}
+.pf-dice-dialog-error{color:#ffb1ad!important;font-size:12px}
+.pf-dice-dialog footer{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:7px;
+}
+.pf-dice-dialog footer button{
+  border:1px solid #647b9c;padding:8px 11px;border-radius:7px;
+  background:#2b3950;color:#f1f6ff;cursor:pointer;font:inherit;
+}
+.pf-dice-dialog footer button:hover{background:#3a506e}
+.pf-dice-dialog footer .pf-dice-dialog-save{background:#335e91;border-color:#7a9fcd}
+.pf-dice-dialog footer .pf-dice-dialog-remove{
+  margin-right:auto;border-color:#755967;background:#4d303e;
+}
+@media(max-width:600px){
+  .pf-dice-dialog-backdrop{align-items:flex-start;overflow:auto;
+    padding: max(10px,env(safe-area-inset-top)) 10px 12px;}
+  .pf-dice-dialog{max-height:min(540px,calc(100dvh - 25px));}
+}
+@media print{.pf-dice-dialog-backdrop{display:none!important}}
