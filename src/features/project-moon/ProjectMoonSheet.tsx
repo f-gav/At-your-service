@@ -744,7 +744,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       order={pageOrder} hiddenPages={sheet.hiddenPages} onPageVisibility={changePageVisibility}
       disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
-    {!previewMode && <DiceRollPanel system="prmoon"/>}
+    {!previewMode && <DiceRollPanel system="prmoon" characterId={character.id}/>}
     {!previewMode && navigationHelp && <FloatingPageNavigation system="prmoon"
       pages={visibleMoonPages.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
       activePage={activePage} onNavigate={navigatePage}
