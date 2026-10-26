@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ChangeEvent } from 'react';
 import { ArrowLeft, Settings2, BookOpen, Files, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import DiceRollPanel from '../../lib/DiceRollPanel';
 import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
@@ -609,6 +610,7 @@ export default function PathfinderSheet({
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
     {openSpellCard&&<SpellModal spell={openSpellCard} onClose={()=>setOpenSpellCard(null)}/>}
+    <DiceRollPanel/>
     {navigationHelp&&<FloatingPageNavigation system="pf2e"
       pages={visiblePages.map(page=>({id:page,label:PAGE_LABELS[page]}))}
       activePage={activePage} onNavigate={navigatePage}

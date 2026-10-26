@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react';
-import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus, PanelTopOpen, BatteryCharging } from 'lucide-react';
+import { Bold, Italic, Underline, List, ListChecks, Link2, Diamond, Plus, Minus, PanelTopOpen, BatteryCharging, Dices } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { toRichHtml, serializeRichHtml } from './rich-codec';
 import { dividerMarkup, spoilerMarkup } from './rich-blocks';
@@ -8,6 +8,8 @@ import {resourceMarkup,resourceFromElement,stepResource,restoreResource,chooseRe
 import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
 import {insertionMenuPosition} from './insert-menu-position';
+import {diceMarkup} from './dice-markup';
+import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceVariables,rollDiceFormula} from '../../lib/dice-engine';
 import {richToolbarPosition} from './rich-toolbar-position';
 import './RichField.css';
 
@@ -17,7 +19,7 @@ type Props={
   textSize?:number;onTextSizeChange?:(size:number)=>void;
   style?:CSSProperties;grow?:boolean;resourceContext?:FormulaContext;spellColumns?:number[];
 };
-type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link';
+type Tool = 'bold'|'italic'|'underline'|'bullet'|'task'|'resource'|'link'|'dice';
 type Spot={left:number;top:number};
 type InsertKind='spoiler'|'divider'|'resource';
 function popupPosition(rect:DOMRect):Spot {
@@ -255,8 +257,31 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     emit();
     setSpot(null);setInsertSpot(null);
   }
+  function reportDiceError(error:unknown){
+    window.dispatchEvent(new CustomEvent(DICE_ERROR_EVENT,{
+      detail:error instanceof Error?error.message:'Не удалось разобрать формулу.',
+    }));
+  }
+  function rollInlineFormula(source:string){
+    try {
+      const result=rollDiceFormula(source,diceVariables(resourceContext));
+      window.dispatchEvent(new CustomEvent(DICE_ROLL_EVENT,{detail:result}));
+    }catch(error){reportDiceError(error);}
+    setSpot(null);
+  }
   function apply(tool:Tool){
     restore();
+    if(tool==='dice'){
+      const selected=window.getSelection()?.toString().trim()??'';
+      if(!selected)return;
+      try {
+        // Parsing with a deterministic stub checks syntax without spending dice.
+        rollDiceFormula(selected,diceVariables(resourceContext),()=>0.5);
+        document.execCommand('insertHTML',false,diceMarkup(selected));
+        emit();setSpot(null);
+      }catch(error){reportDiceError(error);}
+      return;
+    }
     if(tool==='link'){setLinkMode(true);setTimeout(()=>linkInput.current?.focus(),0);return;}
     if(tool==='bold')document.execCommand('bold',false);
     if(tool==='italic')document.execCommand('italic',false);
@@ -316,6 +341,12 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(disabled)return;
     const target=event.target instanceof HTMLElement?event.target:null;
     if(!target||!root.current?.contains(target))return;
+    const inlineDice=target.closest<HTMLElement>('[data-pf-dice="1"]');
+    if(inlineDice){
+      event.preventDefault();
+      rollInlineFormula(inlineDice.dataset.formula??inlineDice.textContent??'');
+      return;
+    }
     const cell=target.closest<HTMLElement>('[data-pf-resource-cell]');
     if(cell){
       const widget=cell.closest<HTMLElement>('[data-pf-resource-widget]');
@@ -351,6 +382,15 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     }
     const token=target.closest<HTMLElement>('[data-pf-resource],[data-pf-task]');
     if(token){event.preventDefault();toggleToken(token);}
+  }
+  function handleDiceContextMenu(event:React.MouseEvent<HTMLDivElement>){
+    const clicked=event.target instanceof HTMLElement
+      ? event.target.closest<HTMLElement>('[data-pf-dice="1"]') : null;
+    if(!clicked||disabled)return;
+    event.preventDefault();
+    clicked.replaceWith(document.createTextNode(clicked.dataset.formula??clicked.textContent??''));
+    emit();
+    setSpot(null);
   }
   function handlePaste(event:React.ClipboardEvent<HTMLDivElement>){
     if(disabled){event.preventDefault();return;}
@@ -395,6 +435,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             <span className="pf-rich-toolbar-separator"/>
             <button type="button" aria-label="Ссылка" title="Ссылка" onClick={()=>apply('link')}><Link2 size={17}/></button>
             <button type="button" aria-label="Ресурс" title="Ресурс — отмечаемая ячейка" onClick={()=>apply('resource')}><Diamond size={18}/></button>
+            <button type="button" aria-label="Формула кубиков" title="Сделать формулой кубиков (Ctrl+D)" onClick={()=>apply('dice')}><Dices size={18}/></button>
           </>}
     </div>,document.body);
   return <>
@@ -408,7 +449,18 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
         onMouseUp={event=>{pointerRef.current={x:event.clientX,y:event.clientY};refresh();}}
         onKeyUp={event=>{if(event.key!=='Shift')pointerRef.current=null;refresh();}}
         onClick={handleTokenClick}
+        onContextMenu={handleDiceContextMenu}
         onKeyDown={event=>{
+          if(!disabled&&(event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='d'){
+            event.preventDefault();apply('dice');return;
+          }
+          const focused=event.target instanceof HTMLElement
+            ? event.target.closest<HTMLElement>('[data-pf-dice="1"]') : null;
+          if(focused&&(event.key==='Enter'||event.key===' ')){
+            event.preventDefault();
+            if(!disabled)rollInlineFormula(focused.dataset.formula??focused.textContent??'');
+            return;
+          }
           if(disabled){if(event.key==='Enter'||event.key===' '){
             const target=event.target instanceof HTMLElement?event.target:null;
             if(target?.closest('[data-pf-resource-cell],[data-pf-resource-action],[data-pf-resource],[data-pf-task]'))event.preventDefault();

@@ -1,0 +1,64 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {
+  rollDiceFormula,normalizeDiceFormula,splitDiceLabel,diceVariables,
+  DICE_ROLL_EVENT,DICE_ERROR_EVENT,
+} from '../src/lib/dice-engine.ts';
+import {diceMarkup} from '../src/features/pathfinder/dice-markup.ts';
+
+const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
+const low=()=>0;
+const high=()=>0.999999999;
+const lowRoll=rollDiceFormula('2к8+3',{},low);
+assert.equal(lowRoll.total,5);
+assert.equal(lowRoll.dice[0].notation,'2d8');
+assert.deepEqual(lowRoll.dice[0].faces,[1,1]);
+assert.equal(rollDiceFormula('d20 + 3',{},high).total,23);
+assert.equal(rollDiceFormula('(1d6+2)*2',{},low).total,6);
+assert.equal(rollDiceFormula('1d6/2',{},high).total,3);
+assert.equal(rollDiceFormula('floor(4d10/3)',{},high).total,13);
+assert.equal(rollDiceFormula('min(2d8,6)',{},high).total,6);
+assert.equal(rollDiceFormula('1d20+5 (Атака)',{},low).label,'Атака');
+assert.equal(rollDiceFormula('2d6 # Огонь',{},low).label,'Огонь');
+assert.deepEqual(splitDiceLabel('1d20+5 (Атака)'),{expression:'1d20+5',label:'Атака'});
+assert.equal(normalizeDiceFormula('1К8 − 2×3 ÷ 4'),'1d8 - 2*3 / 4');
+const seq=[0,0.999999,0.25,0.5];
+const kept=rollDiceFormula('4d6dl1',{},()=>seq.shift()??0);
+assert.equal(kept.total,12);
+assert.deepEqual(kept.dice[0].kept,[false,true,true,true]);
+const adv=rollDiceFormula('2d20kh1+[STR]',{STR:4},(x=>()=>[0,0.99999][x++])(0));
+assert.equal(adv.total,24);
+assert.equal(rollDiceFormula('2d20kl1',{},(x=>()=>[0,0.99999][x++])(0)).total,1);
+assert.deepEqual(diceVariables({ability_str:'+3',level:'7',ability_int:'-1',rank:'4',fortitude:'2'}),
+  {STR:3,INT:-1,LVL:7,RANK:4,FORTITUDE:2});
+assert.throws(()=>rollDiceFormula('1d20 + [STR]',{},low),/Неизвестная/);
+assert.throws(()=>rollDiceFormula('1001d6',{},low),/1000/);
+assert.throws(()=>rollDiceFormula('2d0',{},low),/граней/);
+assert.throws(()=>rollDiceFormula('2d6kh3',{},low),/Некорректное количество/);
+assert.throws(()=>rollDiceFormula('1d6/0',{},low),/Деление на ноль/);
+assert.throws(()=>rollDiceFormula('1d6;alert(1)',{},low),/символ/);
+assert.throws(()=>rollDiceFormula('if(1,2,3)',{},low),/Неизвестная функция/);
+assert.throws(()=>rollDiceFormula('1d6',{},()=>1),/источник/);
+assert.equal(DICE_ROLL_EVENT,'ays:dice-roll');
+assert.equal(DICE_ERROR_EVENT,'ays:dice-error');
+assert.match(diceMarkup('1d8 (Огонь)'),/data-pf-dice="1"/);
+assert.match(diceMarkup('" onclick="alert(1)'),/&quot; onclick=&quot;alert\(1\)/);
+assert.doesNotMatch(diceMarkup('<img src=x onerror=alert(1)>'),/<img/);
+const rich=read('../src/features/pathfinder/RichField.tsx');
+const codec=read('../src/features/pathfinder/rich-codec.ts');
+const panel=read('../src/lib/DiceRollPanel.tsx');
+const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
+const moon=read('../src/features/project-moon/ProjectMoonSheet.tsx');
+assert.match(codec,/if\(el\.dataset\.pfDice==='1'\)/);
+assert.match(codec,/diceMarkup\(formula\)/);
+assert.match(rich,/onClick=\{\(\)=>apply\('dice'\)\}/);
+assert.match(rich,/onContextMenu=\{handleDiceContextMenu\}/);
+assert.match(rich,/event\.ctrlKey\|\|event\.metaKey/);
+assert.match(rich,/rollInlineFormula/);
+assert.match(rich,/serializeRichHtml/);
+assert.match(panel,/ays-dice-result/);
+assert.match(panel,/rollDiceFormula\(formula\)/);
+assert.match(sheet,/<DiceRollPanel\/>/);
+assert.match(moon,/<DiceRollPanel\/>/);
+assert.match(moon,/resourceContext=\{sheet\.fields\}/);
+console.log('PASS: dice notation, arithmetic, keep/drop, character variables, safe rich tokens, local history and both sheets');

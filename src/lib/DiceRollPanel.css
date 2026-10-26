@@ -1,0 +1,46 @@
+/* Floating app chrome is separate from the white printed character paper. */
+.ays-dice-dock{
+  position:fixed;right:16px;bottom:16px;z-index:11000;
+  display:flex;flex-direction:column;align-items:flex-end;gap:7px;
+  font:13px/1.4 'Segoe UI',Arial,sans-serif;
+  color:#dfe9f6;
+}
+.ays-dice-toggle{
+  min-width:54px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 12px;border:1px solid #5e8abe;border-radius:11px;
+  background:#253a54;color:#f1f5fb;cursor:pointer;box-shadow:0 5px 20px #10192455;
+  font:inherit;font-weight:700;
+}
+.ays-dice-toggle:hover,.ays-dice-toggle:focus-visible{background:#33557a}
+.ays-dice-toggle output{font-variant-numeric:tabular-nums;font-size:16px}
+.ays-dice-panel{
+  box-sizing:border-box;width:min(350px,calc(100vw - 24px));max-height:min(510px,calc(100dvh - 86px));
+  display:flex;flex-direction:column;gap:10px;padding:12px;
+  border:1px solid #415877;border-radius:12px;background:#1b2330;
+  box-shadow:0 10px 40px #070a13a8;overflow:hidden;
+}
+.ays-dice-title{display:flex;align-items:center;justify-content:space-between;gap:7px}
+.ays-dice-title>span{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700}
+.ays-dice-title>div{display:flex;gap:3px}
+.ays-dice-title button{border:0;color:#bfcde1;background:transparent;padding:4px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ays-dice-title button:hover{color:white}
+.ays-dice-form{display:flex;gap:5px}
+.ays-dice-form input{flex:1;min-width:0;border:1px solid #4c607b;border-radius:6px;padding:8px 9px;color:#eff4fa;background:#101827;font:inherit}
+.ays-dice-form button{border:1px solid #6f9bd1;border-radius:6px;padding:6px 9px;color:white;background:#335c8d;cursor:pointer;font:inherit}
+.ays-dice-form button:hover{background:#4176b2}
+.ays-dice-history{display:flex;flex-direction:column;gap:7px;overflow:auto;min-height:0;overscroll-behavior:contain}
+.ays-dice-result{background:#253246;border:1px solid #3e526c;border-radius:7px;padding:8px 10px}
+.ays-dice-result-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-weight:650}
+.ays-dice-result-head>span{overflow-wrap:anywhere}
+.ays-dice-result-head strong{font-size:24px;line-height:1.1;color:#acd0ff;font-variant-numeric:tabular-nums}
+.ays-dice-result small{display:block;margin:3px 0;color:#a8bad0}
+.ays-dice-faces{font-size:12px;color:#d7e2f1;overflow-wrap:anywhere}
+.ays-dice-faces b{color:#b1cff4}
+.ays-dice-dropped{text-decoration:line-through;opacity:.45}
+.ays-dice-footnote,.ays-dice-empty{font-size:11px;color:#acbcd0;margin:0}
+.ays-dice-error{font-size:12px;color:#ffb0a8;margin:0}
+@media(max-width:600px){
+ .ays-dice-dock{right:8px;bottom:max(8px,env(safe-area-inset-bottom))}
+ .ays-dice-panel{max-height:min(430px,calc(100dvh - 95px))}
+}
+@media print{.ays-dice-dock{display:none!important}}

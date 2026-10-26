@@ -64,5 +64,6 @@ assert.match(css,/position: fixed/,'No clipping inside PDF');
 
 assert.match(dynamic,/import RichField from '.\/RichField'/);
 assert.match(sheet,/if \(field\.kind === 'long'\)[\s\S]*?return <RichField/);
-assert.doesNotMatch(rich,/insertOrderedList|dice|d20|roller/);
+assert.doesNotMatch(rich,/insertOrderedList/);
+assert.match(rich,/data-pf-dice/,'Formula click handling belongs to shared RichField');
 console.log('PF2e spoiler/divider: insertion, editable centered title, --- shortcut, folding persistence, nesting and safe old storage checks passed.');

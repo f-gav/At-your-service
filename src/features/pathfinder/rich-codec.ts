@@ -6,6 +6,7 @@
  */
 import { dividerMarkup, spoilerMarkup } from './rich-blocks.ts';
 import { resourceMarkup, resourceFromElement } from './resource-widget.ts';
+import { diceMarkup } from './dice-markup.ts';
 
 export const RICH_PREFIX='ays:rich:v1:';
 
@@ -72,6 +73,10 @@ export function sanitizeRichHtml(html:string):string {
       return '<a href="'+escapeRichText(href)+'" target="_blank" rel="noopener noreferrer">'+inner+'</a>';
     }
     if(el.tagName==='SPAN'){
+      if(el.dataset.pfDice==='1') {
+        const formula=el.getAttribute('data-formula')??el.textContent??'';
+        return formula.length<=1000?diceMarkup(formula):escapeRichText(formula.slice(0,1000));
+      }
       const resource=el.dataset.pfResource==='1';
       const task=el.dataset.pfTask==='1';
       if(resource||task){

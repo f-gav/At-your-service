@@ -409,3 +409,17 @@
     min-height:32px;
   }
 }
+
+/* Persisted dice chips are inert text in saved JSON/PDF, clickable on screen. */
+.pf-rich-editable [data-pf-dice="1"]{
+  display:inline;cursor:pointer;color:#3466a1;
+  border-bottom:1px dashed currentColor;font-weight:650;
+  border-radius:2px;padding:0 1px;
+}
+.pf-rich-editable [data-pf-dice="1"]:hover{background:#e5eff9}
+.pf-rich-editable [data-pf-dice="1"]:focus-visible{outline:2px solid #4e86c1;outline-offset:1px}
+@media print{
+  .pf-rich-editable [data-pf-dice="1"]{
+    border:0;background:transparent;color:inherit;font-weight:inherit;padding:0;
+  }
+}

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import DiceRollPanel from '../../lib/DiceRollPanel';
 import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
@@ -315,7 +316,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   const longField = (label: string, key: string, placeholder = '', extraClass = '') =>
     <section className={'moon-long-field moon-resizable-text ' + extraClass} key={key} style={{ '--moon-editor-text-size': (sheet.textSizes[key] ?? 12) + 'px' } as CSSProperties}>
       <RichField id={'moon-' + key} label={label} value={sheet.fields[key] ?? ''}
-        onChange={value => change(key, value)} placeholder={placeholder} disabled={editLocked} grow />
+        onChange={value => change(key, value)} resourceContext={sheet.fields} placeholder={placeholder} disabled={editLocked} grow />
       {!previewMode && textSizeControls(key)}
     </section>;
   const sectionTitle = (index: number, title: string) =>
@@ -578,7 +579,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                 <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
                   <RichField id={'moon-' + weapon.id} label={'Эффекты оружия ' + (index + 1)}
                     value={weapon.description} onChange={value=>updateWeaponById(weapon.id,{description:value})}
-                    disabled={editLocked} grow placeholder="Эффекты и условия…" />
+                    disabled={editLocked} resourceContext={sheet.fields} grow placeholder="Эффекты и условия…" />
                 </div>
                 <label className="moon-compact-field moon-bonus-field"><span>Доп. бонус:</span>
                   <input disabled={editLocked} value={weapon.bonus} onChange={e=>updateWeaponById(weapon.id,{bonus:e.target.value})}
@@ -614,7 +615,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               </table>
               <div className="moon-conditions-extra"><RichField id="moon-conditions" label="Дополнительные состояния"
                 value={sheet.fields.conditions ?? ''} onChange={value=>change('conditions',value)}
-                disabled={editLocked} grow placeholder="Другие состояния…" /></div>
+                disabled={editLocked} resourceContext={sheet.fields} grow placeholder="Другие состояния…" /></div>
               <p className="moon-mechanics-hint">CR 3.x: ST = 0 — ошеломление (−5 SP, +1 Light); SP = 0 — паника; HP = 0 — кровотечение. Подсказки не изменяют ресурсы и состояния.</p>
             </div>
           </div>
@@ -676,7 +677,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
               <div className="moon-rich-group"><span>УСЛОВИЯ / ЭФФЕКТ:</span>
                 <RichField id={'moon-' + skill.id} label={'Приём ' + (index + 1)}
                   value={skill.body} onChange={value=>updateSkill(skill.id,{body:value})}
-                  disabled={editLocked} grow placeholder="Условия, эффекты и описание…" />
+                  disabled={editLocked} resourceContext={sheet.fields} grow placeholder="Условия, эффекты и описание…" />
               </div>
             </div>)}
           </div>
@@ -725,7 +726,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
           </div>
           <RichField id={'moon-' + note.id} label={'Заметка ' + (index + 1)}
             value={note.body} onChange={value => updateNote(index, { body: value })}
-            disabled={editLocked} grow placeholder="Текст заметки…" />
+            disabled={editLocked} resourceContext={sheet.fields} grow placeholder="Текст заметки…" />
           {!previewMode && textSizeControls('note:' + note.id)}
         </section>)}
       </div>}
@@ -743,6 +744,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       order={pageOrder} hiddenPages={sheet.hiddenPages} onPageVisibility={changePageVisibility}
       disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
+    {!previewMode && <DiceRollPanel/>}
     {!previewMode && navigationHelp && <FloatingPageNavigation system="prmoon"
       pages={visibleMoonPages.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
       activePage={activePage} onNavigate={navigatePage}

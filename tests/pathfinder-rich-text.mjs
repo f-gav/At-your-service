@@ -45,7 +45,8 @@ assert.match(rich,/if\(disabled\)\{event\.preventDefault\(\);return;\}/,
 assert.match(rich,/selectionchange/);
 for(const action of ["bold","italic","underline","insertUnorderedList","createLink","resource","task"])
  assert.ok(rich.includes(action),'Missing formatting '+action);
-assert.doesNotMatch(rich,/insertOrderedList|dice|d20|roller/);
+assert.doesNotMatch(rich,/insertOrderedList/);
+assert.match(rich,/apply\('dice'\)/,'Dice formulas can be marked from text editor');
 assert.match(rich,/serializeRichHtml/);
 assert.match(rich,/data-pf-resource="1"/);
 assert.match(rich,/data-pf-task="1"/);
