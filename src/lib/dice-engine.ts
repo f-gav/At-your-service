@@ -3,7 +3,7 @@
  * separately by the sheet, and dice are sampled with crypto.getRandomValues.
  */
 export type DieResult={notation:string;faces:number[];kept:boolean[];subtotal:number};
-export type DiceResult={formula:string;label:string;total:number;dice:DieResult[]};
+export type DiceResult={formula:string;label:string;total:number;dice:DieResult[];calculation:string};
 export type DiceVariables=Record<string,number>;
 type Random=()=>number;
 const MAX_DICE=1000,MAX_SIDES=100000,MAX_DEPTH=32;
@@ -32,6 +32,7 @@ class DiceParser{
   private at=0;
   private count=0;
   private dice:DieResult[]=[];
+  private substitutions:{start:number;end:number;text:string}[]=[];
   private depth=0;
   private source:string;
   private vars:DiceVariables;
@@ -57,7 +58,23 @@ class DiceParser{
     this.spaces();
     if(this.at<this.source.length)this.fail('Неизвестный символ или оператор');
     if(!Number.isFinite(total)||Math.abs(total)>1e12)this.fail('Слишком большое число');
-    return {total:Math.floor(total),dice:this.dice};
+    // Preserve actual die faces and modifiers in the final result line:
+    // "1d11: 6 + 2 = 8", rather than "1d11: 6 = 6".
+    let expanded='';
+    let last=0;
+    for(const replacement of this.substitutions.sort((a,b)=>a.start-b.start)){
+      expanded+=this.source.slice(last,replacement.start)+replacement.text;
+      last=replacement.end;
+    }
+    expanded+=this.source.slice(last);
+    expanded=expanded.trim()
+      .replace(/\s*([+*/])\s*/g,' $1 ')
+      .replace(/(?<=[\d)])\s*-\s*(?=[\d(a-z])/gi,' - ')
+      .replace(/\s+/g,' ');
+    if(!Number.isInteger(total))expanded='floor('+expanded+')';
+    const notation=this.dice.map(part=>part.notation).join(' + ');
+    const calculation=(notation?notation+': ':'')+expanded+' = '+Math.floor(total);
+    return {total:Math.floor(total),dice:this.dice,calculation};
   }
   private expression():number{
     let n=this.term();
@@ -93,6 +110,7 @@ class DiceParser{
       if(!this.take(')'))this.fail('Не закрыта скобка');
       return value;
     }
+    const variableStart=this.at;
     if(this.take('[')){
       const match=/^[\w]+/.exec(this.source.slice(this.at));
       if(!match)this.fail('Некорректная переменная');
@@ -101,8 +119,10 @@ class DiceParser{
       const id=match[0].toUpperCase();
       if(!Object.prototype.hasOwnProperty.call(this.vars,id)||!Number.isFinite(this.vars[id]))
         this.fail('Неизвестная или пустая переменная ['+id+']');
+      this.substitutions.push({start:variableStart,end:this.at,text:String(this.vars[id])});
       return this.vars[id];
     }
+    const diceStart=this.at;
     const head=this.numeric();
     if(head!==null)count=head;
     this.spaces();
@@ -136,6 +156,12 @@ class DiceParser{
       }
       const subtotal=faces.reduce((total,face,i)=>total+(kept[i]?face:0),0);
       this.dice.push({notation:`${n}d${sides}${modifier?.[0]??''}`,faces,kept,subtotal});
+      const selected=faces.filter((_,index)=>kept[index]);
+      const visible=selected.length===0?'0':selected.join(' + ');
+      this.substitutions.push({
+        start:diceStart,end:this.at,
+        text:selected.length>1?'('+visible+')':visible,
+      });
       return subtotal;
     }
     if(count!==null)return count;
@@ -165,12 +191,13 @@ export function rollDiceFormula(source:string,variables:DiceVariables={},random:
   const {expression,label}=splitDiceLabel(source);
   if(!expression)throw new Error('Введите формулу броска.');
   const parsed=new DiceParser(normalizeDiceFormula(expression),variables,random).parse();
-  return {formula:expression,label,total:parsed.total,dice:parsed.dice};
+  return {formula:expression,label,total:parsed.total,dice:parsed.dice,calculation:parsed.calculation};
 }
 const DICE_VARIABLE_FIELDS:Record<string,string>={
     STR:'ability_str',DEX:'ability_dex',CON:'ability_con',INT:'ability_int',WIS:'ability_wis',CHA:'ability_cha',
     LVL:'level',RANK:'rank',FORTITUDE:'fortitude',PRUDENCE:'prudence',
-    DETERMINATION:'determination',CHARM:'charm',DISCERNMENT:'discernment',TEMPERANCE:'temperance',
+    JUSTICE:'determination',DETERMINATION:'determination',
+    CHARM:'charm',INSIGHT:'discernment',DISCERNMENT:'discernment',TEMPERANCE:'temperance',
 };
 export function diceVariables(context:Record<string,unknown>={}):DiceVariables{
   const result:DiceVariables={};

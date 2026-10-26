@@ -2,13 +2,14 @@ import {useEffect,useState} from 'react';
 import {Dices,X,Trash2,ChevronDown,ChevronUp} from 'lucide-react';
 import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,rollDiceFormula} from './dice-engine';
 import type {DiceResult} from './dice-engine';
+import DiceFormulaExamples from './DiceFormulaExamples';
 import './DiceRollPanel.css';
 
 /** A character-local journal for now. Roll events contain no network requests.
  * When rooms are introduced, this event can be forwarded to the room log
  * only with the player's explicit permission.
  */
-export default function DiceRollPanel(){
+export default function DiceRollPanel({system='pf2e'}:{system?:'pf2e'|'prmoon'}){
   const [history,setHistory]=useState<(DiceResult & {id:number})[]>([]);
   const [open,setOpen]=useState(false);
   const [formula,setFormula]=useState('1d20');
@@ -54,6 +55,7 @@ export default function DiceRollPanel(){
           maxLength={1000} placeholder="2d6+3 или 1к20" aria-label="Формула кубиков"/>
         <button type="submit">Бросить</button>
       </form>
+      <DiceFormulaExamples system={system}/>
       {error&&<p className="ays-dice-error" role="alert">{error}</p>}
       <div className="ays-dice-history" aria-live="polite">
         {history.length===0&&<p className="ays-dice-empty">Выделите текст на листе и привяжите к нему формулу кнопкой кубиков. Для свободного броска введите формулу выше.</p>}
@@ -63,14 +65,15 @@ export default function DiceRollPanel(){
             <strong aria-label={'Итог броска '+roll.total}>{roll.total}</strong>
           </div>
           <small>{roll.formula}{index===0?' · последний бросок':''}</small>
-          {roll.dice.length>0&&<div className="ays-dice-faces">
-            {roll.dice.map((part,partIndex)=><div key={partIndex}>
-              <b>{part.notation}:</b>{' '}
-              {part.faces.map((face,faceIndex)=><span key={faceIndex}
-                className={part.kept[faceIndex]?'':'ays-dice-dropped'}>{face}{faceIndex===part.faces.length-1?'':', '}</span>)}
-              {' '}= {part.subtotal}
-            </div>)}
-          </div>}
+          <div className="ays-dice-faces">
+            <div className="ays-dice-calculation">{roll.calculation??(roll.formula+' = '+roll.total)}</div>
+            {roll.dice.map((part,partIndex)=>part.kept.some(kept=>!kept)&&
+              <div className="ays-dice-excluded" key={partIndex}>
+                {part.notation} — отброшено: {' '}
+                {part.faces.filter((_,i)=>!part.kept[i]).map((face,i)=>
+                  <span className="ays-dice-dropped" key={i}>{i>0?', ':''}{face}</span>)}
+              </div>)}
+          </div>
         </section>)}
       </div>
       <p className="ays-dice-footnote">Броски пока локальные. Отправка в комнаты появится отдельно.</p>

@@ -9,6 +9,7 @@ import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
 import {insertionMenuPosition} from './insert-menu-position';
 import {diceMarkup} from './dice-markup';
+import DiceFormulaExamples from '../../lib/DiceFormulaExamples';
 import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceVariables,diceValidationVariables,rollDiceFormula} from '../../lib/dice-engine';
 import {richToolbarPosition} from './rich-toolbar-position';
 import './RichField.css';
@@ -627,7 +628,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             onChange={event=>{setDiceError('');setDiceDialog(previous=>previous?{
               ...previous,formula:event.target.value,
             }:null);}}/>
-          <small>Поддерживаются d20, 2к8+3, 2d20kh1, [STR] и другие формулы.</small>
+          <DiceFormulaExamples system={id.startsWith('moon-')?'prmoon':'pf2e'}/>
           {diceError&&<p className="pf-dice-dialog-error" role="alert">{diceError}</p>}
           <footer>
             {diceDialog.editing&&<button className="pf-dice-dialog-remove" type="button"
