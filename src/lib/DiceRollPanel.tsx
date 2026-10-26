@@ -63,14 +63,15 @@ export default function DiceRollPanel(){
             <strong aria-label={'Итог броска '+roll.total}>{roll.total}</strong>
           </div>
           <small>{roll.formula}{index===0?' · последний бросок':''}</small>
-          {roll.dice.length>0&&<div className="ays-dice-faces">
-            {roll.dice.map((part,partIndex)=><div key={partIndex}>
-              <b>{part.notation}:</b>{' '}
-              {part.faces.map((face,faceIndex)=><span key={faceIndex}
-                className={part.kept[faceIndex]?'':'ays-dice-dropped'}>{face}{faceIndex===part.faces.length-1?'':', '}</span>)}
-              {' '}= {part.subtotal}
-            </div>)}
-          </div>}
+          <div className="ays-dice-faces">
+            <div className="ays-dice-calculation">{roll.calculation??(roll.formula+' = '+roll.total)}</div>
+            {roll.dice.map((part,partIndex)=>part.kept.some(kept=>!kept)&&
+              <div className="ays-dice-excluded" key={partIndex}>
+                {part.notation} — отброшено: {' '}
+                {part.faces.filter((_,i)=>!part.kept[i]).map((face,i)=>
+                  <span className="ays-dice-dropped" key={i}>{i>0?', ':''}{face}</span>)}
+              </div>)}
+          </div>
         </section>)}
       </div>
       <p className="ays-dice-footnote">Броски пока локальные. Отправка в комнаты появится отдельно.</p>
