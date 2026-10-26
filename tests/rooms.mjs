@@ -32,7 +32,7 @@ assert.doesNotMatch(migration,/grant insert on public\.game_room_rolls to authen
 assert.match(migration,/post_game_room_roll/);
 assert.match(migration,/m\.user_id=caller/);
 assert.match(migration,/m\.casts_enabled=true and r\.closed=false/);
-assert.match(migration,/if not exists \(select 1 from public\.game_room_members/);
+assert.match(migration,/if exists\(select 1 from public\.game_room_members/);
 assert.match(migration,/alter publication supabase_realtime add table public\.game_room_members/);
 assert.match(hub,/Создать как мастер/);
 assert.match(hub,/Подключить персонажа/);
