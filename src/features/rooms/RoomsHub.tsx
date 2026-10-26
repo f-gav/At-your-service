@@ -1,0 +1,283 @@
+import {useCallback,useEffect,useMemo,useState} from 'react';
+import type {FormEvent} from 'react';
+import {ArrowLeft,Copy,Dices,Heart,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X} from 'lucide-react';
+import type {Character} from '../../lib/models';
+import {supabase} from '../../lib/supabase';
+import './RoomsHub.css';
+
+export type RoomSystem='pf2e'|'prmoon';
+type Room={id:string;owner_id:string;title:string;system:RoomSystem;invite_code:string;closed:boolean;created_at:string};
+type Snapshot={name?:string;hpCurrent?:string;hpMax?:string;hpTemp?:string;ac?:string;level?:string;
+  stCurrent?:string;stMax?:string;spCurrent?:string;spMax?:string;rank?:string};
+type Member={room_id:string;character_id:string;user_id:string;casts_enabled:boolean;joined_at:string;snapshot:Snapshot};
+type Roll={id:string;room_id:string;character_id:string;formula:string;label:string;total:number;
+  calculation:string;created_at:string;dice:unknown[]};
+type Props={userId:string|null;characters:Character[];onOpenCharacter:(id:string)=>void};
+const systemLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
+const friendlyError=(error:unknown)=>{
+  const message=error&&typeof error==='object'&&'message'in error?String(error.message):String(error);
+  if(/Could not find the table|schema cache|PGRST205|Could not find the function/.test(message))
+    return 'Комнаты ещё не подключены к Supabase. Необходимо применить миграцию supabase/migrations/20261026_game_rooms.sql к базе At your service!.';
+  if(/already in a room|duplicate key/i.test(message))return 'Этот персонаж уже состоит в комнате.';
+  if(/does not match room/i.test(message))return 'Система персонажа не совпадает с системой комнаты.';
+  if(/Room not found|closed/i.test(message))return 'Комната с таким кодом не найдена или закрыта.';
+  return message;
+};
+function stat(value:unknown){return typeof value==='string'&&value.trim()?value:'—';}
+function ratio(current:unknown,max:unknown){
+  const a=Number(current),b=Number(max);
+  return typeof current==='string'&&current.trim()!==''&&typeof max==='string'&&max.trim()!==''&&
+    Number.isFinite(a)&&Number.isFinite(b)&&b>0 ? Math.max(0,Math.min(100,a/b*100)) : null;
+}
+function Resource({label,current,max}:{label:string;current?:string;max?:string}){
+  const progress=ratio(current,max);
+  return <div className="ays-room-stat">
+    <div className="ays-room-stat-top"><span>{label}</span><strong>{stat(current)} / {stat(max)}</strong></div>
+    <div className="ays-room-stat-bar">{progress!==null&&<div style={{width:progress+'%'}}/>}</div>
+  </div>;
+}
+export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
+  const [rooms,setRooms]=useState<Room[]>([]);
+  const [mine,setMine]=useState<Member[]>([]);
+  const [selected,setSelected]=useState<string|null>(null);
+  const [members,setMembers]=useState<Member[]>([]);
+  const [rolls,setRolls]=useState<Roll[]>([]);
+  const [createTitle,setCreateTitle]=useState('');
+  const [createSystem,setCreateSystem]=useState<RoomSystem>('pf2e');
+  const [inviteCode,setInviteCode]=useState('');
+  const [inviteCharacter,setInviteCharacter]=useState('');
+  const [error,setError]=useState('');
+  const [busy,setBusy]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const [expandedMember,setExpandedMember]=useState<string|null>(null);
+  const room=rooms.find(r=>r.id===selected);
+  const isOwner=!!room&&room.owner_id===userId;
+  const eligible=characters.filter(c=>(c.system==='pf2e'||c.system==='prmoon')&&!mine.some(m=>m.character_id===c.id));
+  const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
+  const loadOverview=useCallback(async()=>{
+    if(!supabase||!userId){setRooms([]);setMine([]);return;}
+    const [roomsResponse,mineResponse]=await Promise.all([
+      supabase.from('game_rooms').select('id,owner_id,title,system,invite_code,closed,created_at').order('created_at',{ascending:false}),
+      supabase.from('game_room_members').select('room_id,character_id,user_id,casts_enabled,joined_at,snapshot').eq('user_id',userId),
+    ]);
+    if(roomsResponse.error||mineResponse.error)throw roomsResponse.error??mineResponse.error;
+    setRooms((roomsResponse.data??[]) as Room[]);
+    setMine((mineResponse.data??[]) as Member[]);
+  },[userId]);
+  const loadRoom=useCallback(async(roomId:string)=>{
+    if(!supabase||!userId)return;
+    const [people,events]=await Promise.all([
+      supabase.from('game_room_members').select('room_id,character_id,user_id,casts_enabled,joined_at,snapshot').eq('room_id',roomId).order('joined_at'),
+      supabase.from('game_room_rolls').select('id,room_id,character_id,formula,label,total,calculation,created_at,dice').eq('room_id',roomId).order('created_at',{ascending:false}).limit(80),
+    ]);
+    if(people.error||events.error)throw people.error??events.error;
+    setMembers((people.data??[]) as Member[]);
+    setRolls((events.data??[]) as Roll[]);
+  },[userId]);
+  useEffect(()=>{
+    if(!userId)return;
+    let active=true;
+    setLoading(true);
+    void loadOverview().catch(cause=>{if(active)setError(friendlyError(cause));})
+      .finally(()=>{if(active)setLoading(false);});
+    return()=>{active=false;};
+  },[loadOverview,userId]);
+  useEffect(()=>{
+    if(!selected||!userId||!supabase)return;
+    const client=supabase;
+    let live=true;
+    const refresh=()=>{void loadRoom(selected).catch(cause=>{if(live)setError(friendlyError(cause));});};
+    refresh();
+    const channel=client.channel('ays-room-'+selected)
+      .on('postgres_changes',{event:'*',schema:'public',table:'game_room_members',filter:'room_id=eq.'+selected},refresh)
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'game_room_rolls',filter:'room_id=eq.'+selected},refresh)
+      .subscribe();
+    // Fallback when Realtime is unavailable or network reconnects.
+    const timer=window.setInterval(()=>{refresh();void loadOverview().catch(()=>{});},8000);
+    return()=>{live=false;window.clearInterval(timer);void client.removeChannel(channel);};
+  },[selected,userId,loadRoom,loadOverview]);
+  async function operate(action:()=>Promise<void>){
+    if(busy)return;setBusy(true);setError('');
+    try{await action();await loadOverview();if(selected)await loadRoom(selected);}
+    catch(cause){setError(friendlyError(cause));}
+    finally{setBusy(false);}
+  }
+  async function createRoom(event:FormEvent){
+    event.preventDefault();
+    if(!supabase||!userId)return;
+    await operate(async()=>{
+      const {data,error:failure}=await supabase!.from('game_rooms')
+        .insert({owner_id:userId,title:createTitle.trim(),system:createSystem})
+        .select('id').single();
+      if(failure||!data)throw failure??new Error('Не удалось создать комнату');
+      setSelected(data.id);setCreateTitle('');
+    });
+  }
+  async function joinRoom(event:FormEvent){
+    event.preventDefault();
+    if(!supabase||!inviteCharacter)return;
+    await operate(async()=>{
+      const {data,error:failure}=await supabase!.rpc('join_game_room',{
+        p_code:inviteCode.trim().toUpperCase(),p_character:inviteCharacter,
+      });
+      if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
+      setSelected(data as string);setInviteCode('');setInviteCharacter('');
+    });
+  }
+  async function leaveRoom(member:Member){
+    if(!supabase)return;
+    if(!window.confirm(member.user_id===userId?'Вывести своего персонажа из комнаты?':'Исключить персонажа из комнаты?'))return;
+    await operate(async()=>{
+      const {error:failure}=await supabase!.from('game_room_members').delete()
+        .eq('room_id',member.room_id).eq('character_id',member.character_id);
+      if(failure)throw failure;
+    });
+  }
+  async function toggleRolls(member:Member){
+    if(!supabase)return;
+    await operate(async()=>{
+      const {error:failure}=await supabase!.from('game_room_members')
+        .update({casts_enabled:!member.casts_enabled})
+        .eq('room_id',member.room_id).eq('character_id',member.character_id).eq('user_id',userId!);
+      if(failure)throw failure;
+    });
+  }
+  async function closeRoom(){
+    if(!supabase||!room||!isOwner)return;
+    const next=!room.closed;
+    await operate(async()=>{
+      const {error:failure}=await supabase!.from('game_rooms').update({closed:next}).eq('id',room.id);
+      if(failure)throw failure;
+    });
+  }
+  async function deleteRoom(){
+    if(!supabase||!room||!isOwner||!window.confirm('Удалить комнату и историю бросков? Листы персонажей останутся без изменений.'))return;
+    await operate(async()=>{
+      const {error:failure}=await supabase!.from('game_rooms').delete().eq('id',room.id);
+      if(failure)throw failure;
+      setSelected(null);setMembers([]);setRolls([]);
+    });
+  }
+  if(!userId)return <main className="ays-rooms"><h1>Комнаты</h1><p>Войди через Google, чтобы создавать комнаты или подключать своих персонажей.</p></main>;
+  return <main className="ays-rooms">
+    <div className="ays-rooms-heading">
+      <div>
+        <span className="ays-rooms-kicker">СОВМЕСТНАЯ ИГРА</span>
+        <h1>Комнаты</h1>
+        <p>Персонажи одной игровой системы, ключевые ресурсы и общий журнал бросков.</p>
+      </div>
+      <button type="button" onClick={()=>void loadOverview().catch(cause=>setError(friendlyError(cause)))}
+        title="Обновить список" aria-label="Обновить комнаты"><RefreshCw size={20}/></button>
+    </div>
+    {error&&<div className="ays-room-error" role="alert">{error}<button type="button" onClick={()=>setError('')} aria-label="Закрыть ошибку"><X size={16}/></button></div>}
+    {selected&&room?<section className="ays-room-open">
+      <div className="ays-room-heading">
+        <button type="button" className="ays-room-back" onClick={()=>{setSelected(null);setError('');}}><ArrowLeft size={17}/> Все комнаты</button>
+        <span className="ays-room-system">{systemLabels[room.system]}</span>
+        <h2>{room.title}</h2>
+        <div className="ays-room-meta">
+          <span><Users size={15}/> {members.length} персонажей</span>
+          <span>{isOwner?'Ты мастер':'Участник'}</span>
+          {room.closed&&<span>Приглашения закрыты</span>}
+        </div>
+        <div className="ays-room-code">
+          <span>Код приглашения <strong>{room.invite_code}</strong></span>
+          <button type="button" title="Скопировать код" onClick={()=>void navigator.clipboard.writeText(room.invite_code).catch(()=>setError('Не удалось скопировать код.'))}><Copy size={16}/> Копировать</button>
+        </div>
+        {isOwner&&<div className="ays-room-owner-actions">
+          <button type="button" disabled={busy} onClick={()=>void closeRoom()}>{room.closed?'Открыть приглашения':'Закрыть приглашения'}</button>
+          <button type="button" disabled={busy} onClick={()=>void deleteRoom()}><Trash2 size={15}/> Удалить комнату</button>
+        </div>}
+      </div>
+      <div className="ays-room-two-columns">
+        <section>
+          <h3>Персонажи</h3>
+          {members.length===0&&<p className="ays-room-empty">Пока никого нет. Поделись кодом с игроками или подключи собственного персонажа.</p>}
+          <div className="ays-room-member-grid">
+            {members.map(member=>{
+              const snap=member.snapshot??{};
+              const own=member.user_id===userId;
+              const expanded=expandedMember===member.character_id;
+              const local=characters.find(c=>c.id===member.character_id);
+              return <article className="ays-room-member" key={member.character_id}>
+                <div className="ays-room-member-title">
+                  <button type="button" onClick={()=>setExpandedMember(expanded?null:member.character_id)}
+                    aria-expanded={expanded} title="Подробнее о персонаже">
+                    <span className="ays-room-member-avatar"><Users size={19}/></span>
+                    <span><strong>{snap.name||'Персонаж'}</strong><small>{own?'Твой персонаж':'Игрок'}{room.system==='pf2e'&&snap.level?' · Ур. '+snap.level:room.system==='prmoon'&&snap.rank?' · Ранг '+snap.rank:''}</small></span>
+                  </button>
+                  {own&&local&&<button type="button" title="Открыть свой лист" onClick={()=>onOpenCharacter(local.id)}>Лист</button>}
+                </div>
+                {room.system==='pf2e'?<>
+                  <Resource label="ПЗ" current={snap.hpCurrent} max={snap.hpMax}/>
+                  <div className="ays-room-member-secondary"><span><Shield size={15}/> КД <b>{stat(snap.ac)}</b></span>
+                    {snap.hpTemp&&<span>Врем. ПЗ {snap.hpTemp}</span>}</div>
+                </>:<>
+                  <Resource label="HP" current={snap.hpCurrent} max={snap.hpMax}/>
+                  <Resource label="ST" current={snap.stCurrent} max={snap.stMax}/>
+                  <Resource label="SP" current={snap.spCurrent} max={snap.spMax}/>
+                </>}
+                {expanded&&<div className="ays-room-member-extra">
+                  {own&&<label><input type="checkbox" checked={member.casts_enabled} disabled={busy}
+                    onChange={()=>void toggleRolls(member)}/> Отправлять броски в комнату</label>}
+                  {(own||isOwner)&&<button type="button" disabled={busy} onClick={()=>void leaveRoom(member)}>
+                    <LogOut size={14}/> {own?'Покинуть комнату':'Исключить персонажа'}
+                  </button>}
+                  {!own&&<small>Полный лист доступен только его владельцу.</small>}
+                </div>}
+              </article>;
+            })}
+          </div>
+        </section>
+        <section className="ays-room-events">
+          <h3><Dices size={18}/> Журнал бросков</h3>
+          <p className="ays-room-hint">Броски подключённых персонажей попадают сюда при включённой отправке.</p>
+          {rolls.length===0?<p className="ays-room-empty">Бросков ещё не было.</p>:
+            <div className="ays-room-event-list">{rolls.map(roll=><article key={roll.id} className="ays-room-event">
+              <div><strong>{members.find(m=>m.character_id===roll.character_id)?.snapshot?.name??'Персонаж'}</strong>
+                <span>{new Date(roll.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</span></div>
+              <h4>{roll.label||roll.formula}<b>{roll.total}</b></h4>
+              <p>{roll.calculation||roll.formula+' = '+roll.total}</p>
+            </article>)}</div>}
+        </section>
+      </div>
+    </section>:<div className="ays-rooms-start">
+      <section className="ays-rooms-panel">
+        <h2>Создать комнату</h2>
+        <p>Мастер выбирает систему один раз. Персонажи другой системы подключиться не смогут.</p>
+        <form onSubmit={event=>void createRoom(event)}>
+          <label>Название комнаты<input maxLength={100} minLength={1} required value={createTitle}
+            placeholder="Название кампании" onChange={e=>setCreateTitle(e.target.value)}/></label>
+          <label>Игровая система<select value={createSystem} onChange={e=>setCreateSystem(e.target.value as RoomSystem)}>
+            <option value="pf2e">Pathfinder 2e</option><option value="prmoon">Project Moon</option>
+          </select></label>
+          <button type="submit" disabled={busy||!createTitle.trim()}><Plus size={17}/> Создать как мастер</button>
+        </form>
+      </section>
+      <section className="ays-rooms-panel">
+        <h2>Подключить персонажа</h2>
+        <p>Получи код от мастера и выбери персонажа подходящей системы.</p>
+        <form onSubmit={event=>void joinRoom(event)}>
+          <label>Код комнаты<input required minLength={8} maxLength={8} autoCapitalize="characters"
+            autoComplete="off" value={inviteCode} placeholder="8 символов"
+            onChange={e=>setInviteCode(e.target.value.toUpperCase().replace(/[^A-F0-9]/g,''))}/></label>
+          <label>Персонаж<select required value={inviteCharacter} onChange={e=>setInviteCharacter(e.target.value)}>
+            <option value="">Выбрать персонажа</option>
+            {eligible.map(c=><option value={c.id} key={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}</option>)}
+          </select></label>
+          <button type="submit" disabled={busy||inviteCode.length!==8||!inviteCharacter}><Users size={17}/> Подключиться</button>
+        </form>
+      </section>
+      <section className="ays-rooms-panel ays-room-list">
+        <h2>Мои комнаты {rooms.length>0&&'('+rooms.length+')'}</h2>
+        {loading?<p>Загружаем комнаты…</p>:sortedRooms.length===0?
+          <p className="ays-room-empty">Пока нет комнат. Создай свою или подключись по коду.</p>:
+          <div className="ays-room-links">{sortedRooms.map(item=><button type="button" key={item.id}
+            onClick={()=>{setSelected(item.id);setMembers([]);setRolls([]);setError('');}}>
+            <span><strong>{item.title}</strong><small>{systemLabels[item.system]} · {item.owner_id===userId?'Мастер':'Игрок'}{item.closed?' · Закрыта':''}</small></span>
+            <span>Открыть →</span>
+          </button>)}</div>}
+      </section>
+    </div>}
+  </main>;
+}
