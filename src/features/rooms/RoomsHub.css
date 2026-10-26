@@ -1,0 +1,88 @@
+/* Rooms live in the app shell, not on printable character paper. */
+.ays-rooms{width:min(1320px,calc(100% - 32px));margin:36px auto 80px;color:var(--text,#253b30)}
+.ays-rooms-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:26px}
+.ays-rooms-kicker{color:#6a92bd;font-weight:800;letter-spacing:.15em;font-size:12px}
+.ays-rooms-heading h1{font-size:clamp(28px,3vw,40px);margin:6px 0}
+.ays-rooms-heading p{margin:0;color:var(--muted,#66766b)}
+.ays-rooms-heading>button{background:transparent;color:inherit;border:1px solid #91a0a0;border-radius:8px;padding:10px;cursor:pointer}
+.ays-room-error{border:1px solid #bd6d6d;background:#4e2024;color:#fff;border-radius:9px;
+ display:flex;justify-content:space-between;gap:14px;padding:12px;margin:10px 0 18px}
+.ays-room-error button{color:inherit;background:none;border:0;cursor:pointer}
+.ays-rooms-start{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.ays-rooms-panel,.ays-room-heading,.ays-room-two-columns>section{
+  min-width:0;box-sizing:border-box;background:var(--surface,#fff);
+  border:1px solid var(--border,#dce2de);border-radius:14px;padding:21px;
+  box-shadow:0 5px 18px #0000000a;
+}
+.ays-rooms-panel h2,.ays-room-two-columns h3{margin:0 0 8px;font-size:20px}
+.ays-rooms-panel p{margin:0 0 18px;color:var(--muted,#677680)}
+.ays-rooms-panel form{display:grid;gap:13px}
+.ays-rooms-panel label{display:grid;gap:5px;font-weight:650}
+.ays-rooms-panel input,.ays-rooms-panel select{box-sizing:border-box;width:100%;border:1px solid #9facba;
+ border-radius:7px;padding:10px 12px;background:var(--surface,#fff);color:inherit;font-size:16px}
+.ays-rooms-panel form>button{display:flex;align-items:center;justify-content:center;gap:7px;
+ border:1px solid #527ba5;background:#386797;color:#fff;border-radius:8px;padding:10px;cursor:pointer;font-weight:700}
+.ays-rooms-panel button:disabled,.ays-room-open button:disabled{opacity:.5;cursor:not-allowed}
+.ays-room-list{grid-column:1/-1}
+.ays-room-links{display:grid;gap:9px}
+.ays-room-links button{display:flex;gap:14px;justify-content:space-between;align-items:center;text-align:left;
+ background:var(--surface,#fff);border:1px solid #8296a8;color:inherit;
+ padding:13px;border-radius:9px;cursor:pointer}
+.ays-room-links button:hover{border-color:#5796cb;background:#739bc510}
+.ays-room-links button span:first-child{display:grid;gap:4px}
+.ays-room-links button small{color:var(--muted,#657585)}
+.ays-room-system{display:inline-block;margin:10px 0 0;background:#607eae22;color:#6c99d1;
+ border-radius:5px;padding:3px 8px;font-size:12px;font-weight:800}
+.ays-room-heading h2{font-size:clamp(24px,3vw,34px);margin:6px 0 9px}
+.ays-room-back{display:flex;gap:5px;align-items:center;cursor:pointer;color:#6f97c3;
+ border:0;background:transparent;font-weight:700;padding:3px 0}
+.ays-room-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted,#71808a)}
+.ays-room-meta span{display:flex;align-items:center;gap:5px}
+.ays-room-code{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:17px}
+.ays-room-code>span{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ays-room-code strong{font-family:monospace;letter-spacing:.14em;background:#7293bc22;padding:7px;border-radius:5px}
+.ays-room-code button,.ays-room-owner-actions button,.ays-room-member-extra button,
+.ays-room-member-title>button:last-child{border:1px solid #829bb6;background:#486f9b17;color:inherit;
+ border-radius:7px;padding:8px 10px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.ays-room-owner-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.ays-room-two-columns{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(270px,1fr);
+ gap:17px;margin-top:17px;align-items:start}
+.ays-room-two-columns h3{display:flex;gap:8px;align-items:center}
+.ays-room-member-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ays-room-member{border:1px solid #8da4b94f;border-radius:10px;padding:12px;background:#9bbad10d;display:grid;gap:10px;min-width:0}
+.ays-room-member-title{display:flex;justify-content:space-between;align-items:start;gap:6px}
+.ays-room-member-title>button:first-child{border:0;display:flex;gap:8px;text-align:left;align-items:center;
+ padding:0;background:transparent;color:inherit;min-width:0;cursor:pointer}
+.ays-room-member-title>button:first-child>span:last-child{min-width:0;display:grid;gap:3px;overflow-wrap:anywhere}
+.ays-room-member-title small{font-size:11px;color:var(--muted,#8294a6)}
+.ays-room-member-avatar{flex:0 0 auto;display:grid;place-items:center;background:#7794b32b;
+ width:35px;height:35px;border-radius:50%}
+.ays-room-stat{display:grid;gap:4px}
+.ays-room-stat-top,.ays-room-member-secondary{display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:8px;font-size:12px}
+.ays-room-stat-top strong{font-variant-numeric:tabular-nums}
+.ays-room-stat-bar{background:#8a9aa42e;height:6px;border-radius:6px;overflow:hidden}
+.ays-room-stat-bar>div{height:100%;border-radius:6px;background:#5e9f86}
+.ays-room-member-secondary{color:var(--muted,#596f77)}
+.ays-room-member-secondary span{display:flex;align-items:center;gap:4px}
+.ays-room-member-extra{padding-top:10px;border-top:1px solid #8da4b94f;display:grid;gap:8px}
+.ays-room-member-extra label{display:flex;align-items:center;gap:7px;font-size:12px}
+.ays-room-member-extra button{justify-self:start}
+.ays-room-member-extra small{color:var(--muted,#697981)}
+.ays-room-events .ays-room-hint{font-size:12px;color:var(--muted,#74818b)}
+.ays-room-empty{color:var(--muted,#657580);font-size:14px}
+.ays-room-event-list{display:grid;gap:9px;max-height:600px;overflow:auto}
+.ays-room-event{padding:10px;border-radius:9px;border:1px solid #8caac155;background:#7898be0d}
+.ays-room-event>div{display:flex;justify-content:space-between;gap:7px;color:var(--muted,#60717f);font-size:12px}
+.ays-room-event h4{display:flex;justify-content:space-between;align-items:center;gap:12px;
+ font-size:14px;margin:7px 0;overflow-wrap:anywhere}
+.ays-room-event h4 b{font-size:23px;color:#6292cf;font-variant-numeric:tabular-nums}
+.ays-room-event p{font-size:12px;margin:0;overflow-wrap:anywhere}
+@media(max-width:940px){.ays-room-two-columns{grid-template-columns:1fr}}
+@media(max-width:690px){
+ .ays-rooms{width:calc(100% - 24px);margin:18px auto 55px}
+ .ays-rooms-start,.ays-room-member-grid{grid-template-columns:1fr}
+ .ays-rooms-panel,.ays-room-heading,.ays-room-two-columns>section{padding:15px}
+ .ays-room-heading h2{font-size:24px}
+ .ays-room-owner-actions button{font-size:12px}
+}
