@@ -134,6 +134,23 @@ create trigger room_refresh_on_character
 after update of details,name on public.characters
 for each row execute function private.room_refresh_member();
 
+-- Prevent direct UPDATE of a character's system while it is attached to a
+-- room. Changing the system only becomes possible after leaving the room.
+create or replace function private.room_character_lock()
+returns trigger language plpgsql set search_path='' as $
+begin
+  if (new.system is distinct from old.system or new.user_id is distinct from old.user_id)
+    and exists(select 1 from public.game_room_members m where m.character_id=old.id)
+  then raise exception 'Cannot change system or owner while in a room' using errcode='23514';
+  end if;
+  return new;
+end;
+$;
+drop trigger if exists room_character_lock on public.characters;
+create trigger room_character_lock
+before update of system,user_id on public.characters
+for each row execute function private.room_character_lock();
+
 -- Character system/owner must be immutable while linked. Explicit check
 -- prevents cross-system reclassification by direct client UPDATE.
 create or replace function private.room_check_member()
