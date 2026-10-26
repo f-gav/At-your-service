@@ -69,7 +69,7 @@ class DiceParser{
     expanded+=this.source.slice(last);
     expanded=expanded.trim()
       .replace(/\s*([+*/])\s*/g,' $1 ')
-      .replace(/\s+-\s*/g,' - ')
+      .replace(/(?<=[\d)])\s*-\s*(?=[\d(a-z])/gi,' - ')
       .replace(/\s+/g,' ');
     if(!Number.isInteger(total))expanded='floor('+expanded+')';
     const notation=this.dice.map(part=>part.notation).join(' + ');
