@@ -228,7 +228,7 @@ begin
     select 1 from public.game_room_members m
     join public.game_rooms r on r.id=m.room_id
     where m.room_id=p_room and m.character_id=p_character and m.user_id=caller
-      and m.casts_enabled=true and r.closed=false
+      and m.casts_enabled=true
   ) then raise exception 'Not allowed to send rolls' using errcode='42501'; end if;
   if p_formula is null or char_length(p_formula) not between 1 and 1000
     or coalesce(char_length(p_label),0)>120
