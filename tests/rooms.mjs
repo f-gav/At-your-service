@@ -20,7 +20,7 @@ assert.match(migration,/char_owner is distinct from new\.user_id or char_system 
 assert.match(migration,/room_character_lock/);
 assert.match(migration,/references public\.characters\(id\) on delete cascade/);
 assert.match(migration,/after update of details,name on public\.characters/);
-assert.match(migration,/private\.room_snapshot/);
+assert.match(migration,/ays_rooms_private\.room_snapshot/);
 assert.match(migration,/room_can_view\(room_id\)/);
 assert.match(migration,/alter table public\.game_rooms enable row level security/);
 assert.match(migration,/alter table public\.game_room_members enable row level security/);
