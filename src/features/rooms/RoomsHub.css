@@ -86,3 +86,99 @@
  .ays-room-heading h2{font-size:24px}
  .ays-room-owner-actions button{font-size:12px}
 }
+
+
+/* Rooms are application chrome: match the WreckTrack-inspired blue night theme.
+   Keep the light appearance above untouched, and never recolor printable sheets. */
+:root[data-ays-theme="dark"] .ays-rooms{
+  color:#e7eaf1;
+  --text:#e7eaf1;
+  --muted:#a5aec0;
+  --surface:#181a22;
+  --border:#353c4a;
+}
+:root[data-ays-theme="dark"] .ays-rooms-heading h1,
+:root[data-ays-theme="dark"] .ays-rooms-panel h2,
+:root[data-ays-theme="dark"] .ays-room-heading h2,
+:root[data-ays-theme="dark"] .ays-room-two-columns h3{color:#eef2f9}
+:root[data-ays-theme="dark"] .ays-rooms-kicker{color:#78b2ff}
+:root[data-ays-theme="dark"] .ays-rooms-heading p,
+:root[data-ays-theme="dark"] .ays-rooms-panel p,
+:root[data-ays-theme="dark"] .ays-room-meta,
+:root[data-ays-theme="dark"] .ays-room-member-secondary,
+:root[data-ays-theme="dark"] .ays-room-member-title small,
+:root[data-ays-theme="dark"] .ays-room-links button small,
+:root[data-ays-theme="dark"] .ays-room-member-extra small,
+:root[data-ays-theme="dark"] .ays-room-events .ays-room-hint,
+:root[data-ays-theme="dark"] .ays-room-empty,
+:root[data-ays-theme="dark"] .ays-room-event>div{color:#a5aec0}
+:root[data-ays-theme="dark"] .ays-rooms-panel,
+:root[data-ays-theme="dark"] .ays-room-heading,
+:root[data-ays-theme="dark"] .ays-room-two-columns>section{
+  background:#181a22;border-color:#353c4a;color:#e7eaf1;
+  box-shadow:0 8px 22px #00000020;
+}
+:root[data-ays-theme="dark"] .ays-rooms-panel label{color:#e6edf8}
+:root[data-ays-theme="dark"] .ays-rooms-panel input,
+:root[data-ays-theme="dark"] .ays-rooms-panel select{
+  background:#111722;border-color:#46536b;color:#edf2fc;
+  color-scheme:dark;
+}
+:root[data-ays-theme="dark"] .ays-rooms-panel input::placeholder{color:#97a5bb;opacity:1}
+:root[data-ays-theme="dark"] .ays-rooms-panel input:focus-visible,
+:root[data-ays-theme="dark"] .ays-rooms-panel select:focus-visible{
+  outline:2px solid #75b2ff;outline-offset:2px;border-color:#75b2ff;
+}
+:root[data-ays-theme="dark"] .ays-rooms-panel form>button{
+  background:#335e94;border-color:#5286c2;color:#f7faff;
+}
+:root[data-ays-theme="dark"] .ays-rooms-panel form>button:hover:not(:disabled){
+  background:#4479b9;border-color:#76acdf;
+}
+:root[data-ays-theme="dark"] .ays-rooms-panel form>button:disabled{
+  background:#293e5d;border-color:#415574;color:#b6c4d9;opacity:.72;
+}
+:root[data-ays-theme="dark"] .ays-rooms-heading>button,
+:root[data-ays-theme="dark"] .ays-room-code button,
+:root[data-ays-theme="dark"] .ays-room-owner-actions button,
+:root[data-ays-theme="dark"] .ays-room-member-extra button,
+:root[data-ays-theme="dark"] .ays-room-member-title>button:last-child{
+  background:#222a39;border-color:#43546e;color:#dceaff;
+}
+:root[data-ays-theme="dark"] .ays-rooms-heading>button:hover,
+:root[data-ays-theme="dark"] .ays-room-code button:hover,
+:root[data-ays-theme="dark"] .ays-room-owner-actions button:hover:not(:disabled),
+:root[data-ays-theme="dark"] .ays-room-member-extra button:hover:not(:disabled),
+:root[data-ays-theme="dark"] .ays-room-member-title>button:last-child:hover{
+  background:#2c3b52;border-color:#6599d6;
+}
+:root[data-ays-theme="dark"] .ays-room-links button{
+  background:#202531;border-color:#3a4558;color:#eef2fa;
+}
+:root[data-ays-theme="dark"] .ays-room-links button:hover{
+  background:#29354a;border-color:#6192ca;
+}
+:root[data-ays-theme="dark"] .ays-room-member,
+:root[data-ays-theme="dark"] .ays-room-event{
+  background:#202633;border-color:#3b4659;color:#e7eaf1;
+}
+:root[data-ays-theme="dark"] .ays-room-member-avatar{
+  background:#314666;color:#b9d6ff;
+}
+:root[data-ays-theme="dark"] .ays-room-member-extra{border-top-color:#465167}
+:root[data-ays-theme="dark"] .ays-room-stat-bar{background:#394255}
+:root[data-ays-theme="dark"] .ays-room-stat-bar>div{background:#58a0ff}
+:root[data-ays-theme="dark"] .ays-room-stat-top strong,
+:root[data-ays-theme="dark"] .ays-room-member-secondary b{color:#f0f4fc}
+:root[data-ays-theme="dark"] .ays-room-code strong{
+  background:#273f62;color:#d2e6ff;
+}
+:root[data-ays-theme="dark"] .ays-room-back,
+:root[data-ays-theme="dark"] .ays-room-event h4 b{color:#84baff}
+:root[data-ays-theme="dark"] .ays-room-system{
+  background:#304a702b;color:#a9cfff;border:1px solid #405879;
+}
+:root[data-ays-theme="dark"] .ays-room-event p{color:#c1cce0}
+:root[data-ays-theme="dark"] .ays-room-member-extra input[type="checkbox"]{
+  accent-color:#58a0ff;
+}
