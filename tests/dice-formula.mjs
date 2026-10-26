@@ -24,7 +24,7 @@ assert.deepEqual(splitDiceLabel('1d20+5 (Атака)'),{expression:'1d20+5',labe
 assert.equal(normalizeDiceFormula('1К8 − 2×3 ÷ 4'),'1d8 - 2*3 / 4');
 const seq=[0,0.999999,0.25,0.5];
 const kept=rollDiceFormula('4d6dl1',{},()=>seq.shift()??0);
-assert.equal(kept.total,13);
+assert.equal(kept.total,12);
 assert.deepEqual(kept.dice[0].kept,[false,true,true,true]);
 const adv=rollDiceFormula('2d20kh1+[STR]',{STR:4},(x=>()=>[0,0.99999][x++])(0));
 assert.equal(adv.total,24);
