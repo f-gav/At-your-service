@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {MOON_ATTRIBUTES} from '../features/project-moon/model';
+import './DiceFormulaExamples.css';
 
 /** The examples intentionally contain only expressions the current parser
  * understands. Project Moon uses its own attribute names, not PF2e's STR/DEX.
