@@ -167,14 +167,14 @@ export function rollDiceFormula(source:string,variables:DiceVariables={},random:
   const parsed=new DiceParser(normalizeDiceFormula(expression),variables,random).parse();
   return {formula:expression,label,total:parsed.total,dice:parsed.dice};
 }
-export function diceVariables(context:Record<string,unknown>={}):DiceVariables{
-  const keys:Record<string,string>={
+const DICE_VARIABLE_FIELDS:Record<string,string>={
     STR:'ability_str',DEX:'ability_dex',CON:'ability_con',INT:'ability_int',WIS:'ability_wis',CHA:'ability_cha',
     LVL:'level',RANK:'rank',FORTITUDE:'fortitude',PRUDENCE:'prudence',
     DETERMINATION:'determination',CHARM:'charm',DISCERNMENT:'discernment',TEMPERANCE:'temperance',
-  };
+};
+export function diceVariables(context:Record<string,unknown>={}):DiceVariables{
   const result:DiceVariables={};
-  for(const [variable,key] of Object.entries(keys)){
+  for(const [variable,key] of Object.entries(DICE_VARIABLE_FIELDS)){
     const v=context[key];
     if((typeof v==='string' && /^[-+]?\d+(?:\.\d+)?$/.test(v.trim()))||typeof v==='number'){
       const n=Number(v);
@@ -182,4 +182,13 @@ export function diceVariables(context:Record<string,unknown>={}):DiceVariables{
     }
   }
   return result;
+}
+
+/** Only for input validation before binding a formula. Empty but supported
+ * ability references are temporarily replaced by zero. Real clicks always
+ * use the character's live value and still report missing characteristics.
+ */
+export function diceValidationVariables(context:Record<string,unknown>={}):DiceVariables{
+  const known=diceVariables(context);
+  return Object.fromEntries(Object.keys(DICE_VARIABLE_FIELDS).map(key=>[key,known[key]??0]));
 }
