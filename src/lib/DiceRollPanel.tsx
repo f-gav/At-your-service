@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react';
 import {Dices,X,Trash2,ChevronDown,ChevronUp} from 'lucide-react';
-import {DICE_ROLL_EVENT,rollDiceFormula} from './dice-engine';
+import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,rollDiceFormula} from './dice-engine';
 import type {DiceResult} from './dice-engine';
 import './DiceRollPanel.css';
 
@@ -20,8 +20,17 @@ export default function DiceRollPanel(){
       setHistory(previous=>[{...roll,id:Date.now()+Math.random()},...previous].slice(0,20));
       setError('');setOpen(true);
     };
+    const fail=(event:Event)=>{
+      const message=(event as CustomEvent<string>).detail;
+      setError(typeof message==='string'?message:'Ошибка формулы');
+      setOpen(true);
+    };
     window.addEventListener(DICE_ROLL_EVENT,receive);
-    return()=>window.removeEventListener(DICE_ROLL_EVENT,receive);
+    window.addEventListener(DICE_ERROR_EVENT,fail);
+    return()=>{
+      window.removeEventListener(DICE_ROLL_EVENT,receive);
+      window.removeEventListener(DICE_ERROR_EVENT,fail);
+    };
   },[]);
   const makeRoll=()=>{
     try {
