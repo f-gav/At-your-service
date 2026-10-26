@@ -1,6 +1,6 @@
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
-import {ArrowLeft,Copy,Dices,Heart,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X} from 'lucide-react';
+import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X} from 'lucide-react';
 import type {Character} from '../../lib/models';
 import {supabase} from '../../lib/supabase';
 import './RoomsHub.css';
