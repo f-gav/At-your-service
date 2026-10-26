@@ -36,6 +36,8 @@
 .ays-dice-result small{display:block;margin:3px 0;color:#a8bad0}
 .ays-dice-faces{font-size:12px;color:#d7e2f1;overflow-wrap:anywhere}
 .ays-dice-faces b{color:#b1cff4}
+.ays-dice-calculation{color:#c4ddfc;font-weight:650;overflow-wrap:anywhere}
+.ays-dice-excluded{margin-top:4px;font-size:11px;color:#a9bad0}
 .ays-dice-dropped{text-decoration:line-through;opacity:.45}
 .ays-dice-footnote,.ays-dice-empty{font-size:11px;color:#acbcd0;margin:0}
 .ays-dice-error{font-size:12px;color:#ffb0a8;margin:0}
