@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
+import DiceRollPanel from '../../lib/DiceRollPanel';
 import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
@@ -743,6 +744,7 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
       order={pageOrder} hiddenPages={sheet.hiddenPages} onPageVisibility={changePageVisibility}
       disabled={editLocked} onOrderChange={changePageOrder}
       onClose={() => setPageSettingsOpen(false)} />}
+    {!previewMode && <DiceRollPanel/>}
     {!previewMode && navigationHelp && <FloatingPageNavigation system="prmoon"
       pages={visibleMoonPages.map(page=>({id:page,label:MOON_PAGES.find(entry=>entry.id===page)?.title??page}))}
       activePage={activePage} onNavigate={navigatePage}
