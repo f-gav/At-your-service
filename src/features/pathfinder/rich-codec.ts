@@ -75,7 +75,11 @@ export function sanitizeRichHtml(html:string):string {
     if(el.tagName==='SPAN'){
       if(el.dataset.pfDice==='1') {
         const formula=el.getAttribute('data-formula')??el.textContent??'';
-        return formula.length<=1000?diceMarkup(formula):escapeRichText(formula.slice(0,1000));
+        const safeContents=Array.from(el.childNodes).map(clean).join('');
+        const visibleText=el.textContent??formula;
+        return formula.length<=1000
+          ?diceMarkup(formula,visibleText,safeContents||escapeRichText(visibleText))
+          :escapeRichText(visibleText);
       }
       const resource=el.dataset.pfResource==='1';
       const task=el.dataset.pfTask==='1';
