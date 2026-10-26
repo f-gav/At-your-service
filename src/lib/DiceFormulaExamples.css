@@ -1,0 +1,33 @@
+/* Shared, compact help in the rich-text formula modal and the free dice panel. */
+.ays-formula-guide{min-width:0;color:#bfd0e5;font:13px/1.4 'Segoe UI',Arial,sans-serif}
+.ays-formula-guide-trigger{
+  border:0;background:transparent;padding:3px 0;
+  color:#9bc7ff;text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px;cursor:pointer;font:inherit;font-weight:650;
+}
+.ays-formula-guide-trigger:hover,.ays-formula-guide-trigger:focus-visible{
+  color:#e5f2ff;text-decoration-thickness:2px;
+}
+.ays-formula-guide-content{
+  margin-top:5px;padding:9px 10px;max-height:min(310px,36dvh);
+  overflow:auto;overscroll-behavior:contain;border-radius:7px;
+  border:1px solid #4a6080;background:#111d2c;
+  scrollbar-width:thin;
+}
+.ays-formula-guide-content p{margin:7px 0 6px;color:#dce9f7;font-weight:700;font-size:13px}
+.ays-formula-guide-content p:first-child{margin-top:0}
+.ays-formula-guide-content dl{display:grid;grid-template-columns:max-content minmax(0,1fr);
+  gap:5px 10px;margin:0}
+.ays-formula-guide-content .ays-formula-guide-attribute{display:contents}
+.ays-formula-guide-content dt,.ays-formula-guide-content dd{margin:0;min-width:0}
+.ays-formula-guide-content dt code{
+  display:inline-block;white-space:nowrap;padding:1px 4px;border-radius:4px;
+  color:#b9dafa;background:#223954;font:12px/1.5 ui-monospace,monospace;
+}
+.ays-formula-guide-content dd{color:#c7d2e2;overflow-wrap:break-word;font-size:12px}
+.ays-formula-guide-content small{display:block;margin-top:9px;color:#9dafc4;font-size:11px}
+@media(max-width:370px){
+  .ays-formula-guide-content dl{grid-template-columns:1fr;gap:2px}
+  .ays-formula-guide-content dd{margin-bottom:5px}
+}
+@media print{.ays-formula-guide{display:none!important}}
