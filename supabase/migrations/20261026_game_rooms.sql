@@ -1,9 +1,9 @@
 -- At your service! | System-scoped rooms, October 2026.
 -- Apply to the SAME Supabase project as public.characters (not WreckLib).
 -- A room sees only compact resource snapshots, never another user's sheet JSON.
-create schema if not exists private;
-revoke all on schema private from public;
-grant usage on schema private to authenticated;
+create schema if not exists ays_rooms_private;
+revoke all on schema ays_rooms_private from public;
+grant usage on schema ays_rooms_private to authenticated;
 
 create table if not exists public.game_rooms (
   id uuid primary key default gen_random_uuid(),
@@ -45,7 +45,7 @@ create index if not exists game_room_rolls_time_idx on public.game_room_rolls(ro
 
 -- Deliberately scoped privileged helpers: no user metadata, no arbitrary SQL,
 -- no user-provided role IDs; hardcoded tables and empty search_path.
-create or replace function private.room_can_view(p_room uuid)
+create or replace function ays_rooms_private.room_can_view(p_room uuid)
 returns boolean language sql stable security definer set search_path=''
 as $$
   select exists(
@@ -58,16 +58,16 @@ as $$
     )
   );
 $$;
-revoke all on function private.room_can_view(uuid) from public,anon;
-grant execute on function private.room_can_view(uuid) to authenticated;
+revoke all on function ays_rooms_private.room_can_view(uuid) from public,anon;
+grant execute on function ays_rooms_private.room_can_view(uuid) to authenticated;
 
-create or replace function private.room_int(raw text)
+create or replace function ays_rooms_private.room_int(raw text)
 returns integer language sql immutable set search_path='' as $$
   select case when raw ~ '^[-+]?[0-9]{1,7}$' then raw::integer else null end
 $$;
-revoke all on function private.room_int(text) from public,anon;
+revoke all on function ays_rooms_private.room_int(text) from public,anon;
 
-create or replace function private.room_snapshot(p_system text,p_name text,p_details jsonb)
+create or replace function ays_rooms_private.room_snapshot(p_system text,p_name text,p_details jsonb)
 returns jsonb language plpgsql stable set search_path='' as $$
 declare
   sheet jsonb;
@@ -91,18 +91,18 @@ begin
   elsif p_system='prmoon' then
     sheet:=coalesce(p_details->'projectMoonSheet','{}'::jsonb);
     f:=coalesce(sheet->'fields','{}'::jsonb);
-    rank_no:=private.room_int(f->>'rank');
+    rank_no:=ays_rooms_private.room_int(f->>'rank');
     hp_max:=coalesce(sheet#>>'{maxOverrides,hp}',f->>'hpMax','');
     st_max:=coalesce(sheet#>>'{maxOverrides,st}',f->>'stMax','');
     sp_max:=coalesce(sheet#>>'{maxOverrides,sp}',f->>'spMax','');
     if sheet->>'autoVitals'='true' then
-      ability:=private.room_int(f->>'fortitude');
+      ability:=ays_rooms_private.room_int(f->>'fortitude');
       if ability is not null and rank_no is not null and sheet#>>'{maxOverrides,hp}' is null
         then hp_max:=(64+8*ability+32*rank_no)::text; end if;
-      ability:=private.room_int(f->>'charm');
+      ability:=ays_rooms_private.room_int(f->>'charm');
       if ability is not null and rank_no is not null and sheet#>>'{maxOverrides,st}' is null
         then st_max:=(20+4*ability+4*rank_no)::text; end if;
-      ability:=private.room_int(f->>'prudence');
+      ability:=ays_rooms_private.room_int(f->>'prudence');
       if ability is not null and sheet#>>'{maxOverrides,sp}' is null
         then sp_max:=(15+3*ability)::text; end if;
     end if;
@@ -116,15 +116,15 @@ begin
   return '{}'::jsonb;
 end;
 $$;
-revoke all on function private.room_snapshot(text,text,jsonb) from public,anon;
+revoke all on function ays_rooms_private.room_snapshot(text,text,jsonb) from public,anon;
 
 -- This trigger follows the existing autosave. It publishes only the small
 -- explicitly whitelisted snapshot, never a full character's details.
-create or replace function private.room_refresh_member()
+create or replace function ays_rooms_private.room_refresh_member()
 returns trigger language plpgsql security definer set search_path='' as $$
 begin
   update public.game_room_members m
-  set snapshot=private.room_snapshot(new.system,new.name,new.details)
+  set snapshot=ays_rooms_private.room_snapshot(new.system,new.name,new.details)
   where m.character_id=new.id and m.user_id=new.user_id;
   return new;
 end;
@@ -132,11 +132,11 @@ $$;
 drop trigger if exists room_refresh_on_character on public.characters;
 create trigger room_refresh_on_character
 after update of details,name on public.characters
-for each row execute function private.room_refresh_member();
+for each row execute function ays_rooms_private.room_refresh_member();
 
 -- Prevent direct UPDATE of a character's system while it is attached to a
 -- room. Changing the system only becomes possible after leaving the room.
-create or replace function private.room_character_lock()
+create or replace function ays_rooms_private.room_character_lock()
 returns trigger language plpgsql set search_path='' as $
 begin
   if (new.system is distinct from old.system or new.user_id is distinct from old.user_id)
@@ -149,11 +149,11 @@ $;
 drop trigger if exists room_character_lock on public.characters;
 create trigger room_character_lock
 before update of system,user_id on public.characters
-for each row execute function private.room_character_lock();
+for each row execute function ays_rooms_private.room_character_lock();
 
 -- Character system/owner must be immutable while linked. Explicit check
 -- prevents cross-system reclassification by direct client UPDATE.
-create or replace function private.room_check_member()
+create or replace function ays_rooms_private.room_check_member()
 returns trigger language plpgsql set search_path='' as $$
 declare
   target_system text;
@@ -168,14 +168,14 @@ begin
   from public.characters c where c.id=new.character_id;
   if char_owner is distinct from new.user_id or char_system is distinct from target_system
     then raise exception 'System or owner mismatch in room membership' using errcode='23514'; end if;
-  new.snapshot:=private.room_snapshot(char_system,char_name,char_details);
+  new.snapshot:=ays_rooms_private.room_snapshot(char_system,char_name,char_details);
   return new;
 end;
 $$;
 drop trigger if exists game_room_member_check on public.game_room_members;
 create trigger game_room_member_check
 before insert on public.game_room_members
-for each row execute function private.room_check_member();
+for each row execute function ays_rooms_private.room_check_member();
 
 -- Joining by invite code is the one deliberately privileged operation:
 -- the player may see ONLY their own character; room information is not
@@ -207,7 +207,7 @@ begin
     then raise exception 'Room is full' using errcode='22023'; end if;
   insert into public.game_room_members(room_id,character_id,user_id,snapshot)
     values(destination.id,p_character,caller,
-      private.room_snapshot(chosen.system,chosen.name,chosen.details));
+      ays_rooms_private.room_snapshot(chosen.system,chosen.name,chosen.details));
   return destination.id;
 end;
 $$;
@@ -258,7 +258,7 @@ grant select on public.game_room_rolls to authenticated;
 -- Neither inserting members nor posting rolls is possible via direct table REST.
 
 create policy "rooms_participants_read" on public.game_rooms
-for select to authenticated using (private.room_can_view(id));
+for select to authenticated using (ays_rooms_private.room_can_view(id));
 create policy "rooms_owner_create" on public.game_rooms
 for insert to authenticated with check ((select auth.uid())=owner_id);
 create policy "rooms_owner_edit" on public.game_rooms
@@ -268,7 +268,7 @@ create policy "rooms_owner_delete" on public.game_rooms
 for delete to authenticated using ((select auth.uid())=owner_id);
 
 create policy "members_participants_read" on public.game_room_members
-for select to authenticated using (private.room_can_view(room_id));
+for select to authenticated using (ays_rooms_private.room_can_view(room_id));
 create policy "members_toggle_self" on public.game_room_members
 for update to authenticated using ((select auth.uid())=user_id)
 with check ((select auth.uid())=user_id);
@@ -278,7 +278,7 @@ for delete to authenticated using (
   or exists(select 1 from public.game_rooms r where r.id=room_id and r.owner_id=(select auth.uid()))
 );
 create policy "rolls_participants_read" on public.game_room_rolls
-for select to authenticated using (private.room_can_view(room_id));
+for select to authenticated using (ays_rooms_private.room_can_view(room_id));
 
 -- Authenticated Realtime clients receive only authorized room/member/roll rows.
 do $$
