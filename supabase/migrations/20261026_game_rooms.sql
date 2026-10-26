@@ -137,7 +137,7 @@ for each row execute function ays_rooms_private.room_refresh_member();
 -- Prevent direct UPDATE of a character's system while it is attached to a
 -- room. Changing the system only becomes possible after leaving the room.
 create or replace function ays_rooms_private.room_character_lock()
-returns trigger language plpgsql set search_path='' as $
+returns trigger language plpgsql set search_path='' as $$
 begin
   if (new.system is distinct from old.system or new.user_id is distinct from old.user_id)
     and exists(select 1 from public.game_room_members m where m.character_id=old.id)
@@ -145,7 +145,7 @@ begin
   end if;
   return new;
 end;
-$;
+$$;
 drop trigger if exists room_character_lock on public.characters;
 create trigger room_character_lock
 before update of system,user_id on public.characters
