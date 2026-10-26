@@ -8,6 +8,7 @@ export type DiceVariables=Record<string,number>;
 type Random=()=>number;
 const MAX_DICE=1000,MAX_SIDES=100000,MAX_DEPTH=32;
 export const DICE_ROLL_EVENT='ays:dice-roll';
+export const DICE_ERROR_EVENT='ays:dice-error';
 export function normalizeDiceFormula(text:string):string {
   return text.replace(/[кКD]/g,'d').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/');
 }
