@@ -53,6 +53,7 @@ import type { PortraitCrops } from './features/portrait/crop';
 import { cleanupBeforeDelete, portraitPaths, removePortrait, savePortrait, saveLegacyPortrait, signedPortraitUrl, clearSignedPortraitCache, downloadPortraitBlob } from './features/portrait/portrait-storage';
 import SheetAdmin from './features/sheet-admin/SheetAdmin';
 import SpellLibrary from './features/spell-library/SpellLibrary';
+import RoomsHub from './features/rooms/RoomsHub';
 import { pathfinderSubtitle } from './features/pathfinder/summary';
 
 type Filter = GameSystem | 'all';
@@ -246,7 +247,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [isTemplateAdmin,setIsTemplateAdmin]=useState(false);
   const [showTemplateAdmin,setShowTemplateAdmin]=useState(false);
-  const [mainTab,setMainTab]=useState<'characters'|'library'>(()=>currentSiteRoute().kind==='library'?'library':'characters');
+  const [mainTab,setMainTab]=useState<'characters'|'library'|'rooms'>(()=>currentSiteRoute().kind==='rooms'?'rooms':currentSiteRoute().kind==='library'?'library':'characters');
   // Reset the new page position before paint. Scrolling the old page inside
   // navigateTo could visibly move the header when content height changes.
   useLayoutEffect(()=>{
@@ -285,14 +286,14 @@ export default function App() {
     const sync=()=>{
       const route=currentSiteRoute();
       setShowTemplateAdmin(false);
-      setMainTab(route.kind==='library'?'library':'characters');
+      setMainTab(route.kind==='rooms'?'rooms':route.kind==='library'?'library':'characters');
       setActiveId(route.kind==='character'?route.id:null);
       setMobileMenu(false);
     };
     window.addEventListener('popstate',sync);
     return()=>window.removeEventListener('popstate',sync);
   },[]);
-  function navigateTo(tab:'characters'|'library'){
+  function navigateTo(tab:'characters'|'library'|'rooms'){
     if(showTemplateAdmin)setShowTemplateAdmin(false);
     setMainTab(tab);setActiveId(null);setMobileMenu(false);setMovingId(null);setOpenMenuId(null);
     closeCreate();
@@ -748,6 +749,8 @@ export default function App() {
               disabled={showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
             <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
               disabled={!!activeId||showTemplateAdmin} title={activeId?'Вернись к персонажам, чтобы открыть библиотеку':undefined} onClick={()=>navigateTo('library')}>Библиотека</button>
+            <button type="button" aria-current={mainTab==='rooms'?'page':undefined} className={mainTab==='rooms'?'is-active':''}
+              disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('rooms')}>Комнаты</button>
           </nav>
           <div className="header-links">
             <button type="button" className="theme-toggle" aria-label={themeLabel} title={themeLabel}
@@ -786,6 +789,8 @@ export default function App() {
             disabled={showTemplateAdmin} onClick={()=>navigateTo('characters')}>Персонажи</button>
           <button type="button" aria-current={mainTab==='library'?'page':undefined} className={mainTab==='library'?'is-active':''}
             disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('library')}>Библиотека</button>
+          <button type="button" aria-current={mainTab==='rooms'?'page':undefined} className={mainTab==='rooms'?'is-active':''}
+            disabled={!!activeId||showTemplateAdmin} onClick={()=>navigateTo('rooms')}>Комнаты</button>
         </nav>
       </header>
 
@@ -809,6 +814,8 @@ export default function App() {
         )
       ) : mainTab==='library' ? (
         <SpellLibrary onBack={()=>navigateTo('characters')} />
+      ) : mainTab==='rooms' ? (
+        <RoomsHub userId={user?.id??null} characters={characters} onOpenCharacter={openCharacter}/>
       ) : (
         <main className="page page-home">
           <section className="hero" aria-labelledby="main-title">
