@@ -9,7 +9,7 @@ import type {ResourceConfig,FormulaContext} from './resource-widget';
 import ResourceDialog from './ResourceDialog';
 import {insertionMenuPosition} from './insert-menu-position';
 import {diceMarkup} from './dice-markup';
-import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceVariables,rollDiceFormula} from '../../lib/dice-engine';
+import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceVariables,diceValidationVariables,rollDiceFormula} from '../../lib/dice-engine';
 import {richToolbarPosition} from './rich-toolbar-position';
 import './RichField.css';
 
@@ -41,6 +41,11 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   const [linkMode,setLinkMode]=useState(false);
   const [url,setUrl]=useState('https://');
   const linkInput=useRef<HTMLInputElement>(null);
+  const diceInput=useRef<HTMLInputElement>(null);
+  const boundDiceRange=useRef<Range|null>(null);
+  const editedDiceNode=useRef<HTMLElement|null>(null);
+  const [diceDialog,setDiceDialog]=useState<{text:string;formula:string;editing:boolean}|null>(null);
+  const [diceError,setDiceError]=useState('');
   const ownValue=useRef<string|null>(null);
 
   useLayoutEffect(()=>{
@@ -257,31 +262,110 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     emit();
     setSpot(null);setInsertSpot(null);
   }
+  useEffect(()=>{
+    if(diceDialog)diceInput.current?.focus();
+  },[diceDialog?.editing]);
+
+  function closeDiceDialog(){
+    boundDiceRange.current=null;
+    editedDiceNode.current=null;
+    setDiceDialog(null);
+    setDiceError('');
+  }
+  function beginDiceDialog(){
+    restore();
+    const selection=window.getSelection();
+    const range=selection?.rangeCount?selection.getRangeAt(0):null;
+    const editor=root.current;
+    if(!range||!editor||range.collapsed||!selection?.toString().trim()||
+      !editor.contains(range.commonAncestorContainer)){
+      reportDiceError(new Error('Сначала выделите текст, к которому нужно привязать бросок.'));
+      return;
+    }
+    if(range.cloneContents().querySelector('[data-pf-dice]')){
+      reportDiceError(new Error('Сначала снимите прежнюю привязку с выделенного текста.'));
+      return;
+    }
+    boundDiceRange.current=range.cloneRange();
+    editedDiceNode.current=null;
+    setDiceError('');
+    setSpot(null);
+    setInsertSpot(null);
+    setDiceDialog({text:selection.toString(),formula:'',editing:false});
+  }
+  function editDiceDialog(node:HTMLElement){
+    boundDiceRange.current=null;
+    editedDiceNode.current=node;
+    setDiceError('');
+    setSpot(null);
+    setInsertSpot(null);
+    setDiceDialog({text:node.textContent??'',formula:node.dataset.formula??node.textContent??'',editing:true});
+  }
+  function saveDiceDialog(){
+    const formula=diceDialog?.formula.trim()??'';
+    if(!formula){setDiceError('Введите формулу кубиков.');return;}
+    try {
+      // Validating a formula never rolls real dice; live values resolve on click.
+      rollDiceFormula(formula,diceValidationVariables(resourceContext),()=>0.5);
+      if(diceDialog?.editing){
+        const node=editedDiceNode.current;
+        if(!node||!root.current?.contains(node))throw new Error('Фрагмент текста изменился. Выделите его заново.');
+        node.dataset.formula=formula;
+        node.title='Бросить: '+formula+' (ПКМ — изменить формулу)';
+      }else{
+        const range=boundDiceRange.current;
+        const editor=root.current;
+        if(!range||!editor||!editor.contains(range.commonAncestorContainer))
+          throw new Error('Выделение изменилось. Выделите текст заново.');
+        const selected=range.cloneContents();
+        if(!selected.textContent?.trim())throw new Error('Выделите непустой текст.');
+        if(selected.querySelector('div,p,ul,ol,li,[data-pf-dice]'))
+          throw new Error('Выделите текст в пределах одного абзаца.');
+        // Wrap the original DOM fragment so bold/italic and the literal
+        // selected text are retained instead of replacing them by the formula.
+        const template=document.createElement('template');
+        template.innerHTML=diceMarkup(formula,selected.textContent);
+        const token=template.content.firstElementChild as HTMLElement|null;
+        if(!token)throw new Error('Не удалось закрепить формулу.');
+        token.replaceChildren(range.extractContents());
+        range.insertNode(token);
+        range.setStartAfter(token);
+        range.collapse(true);
+        const selection=window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+      emit();
+      closeDiceDialog();
+    }catch(error){
+      setDiceError(error instanceof Error?error.message:'Ошибка формулы.');
+    }
+  }
+  function removeDiceBinding(){
+    const node=editedDiceNode.current;
+    if(!node||!root.current?.contains(node))return;
+    // Remove only the rolling behavior; preserve all text and formatting.
+    node.replaceWith(...Array.from(node.childNodes));
+    emit();
+    closeDiceDialog();
+  }
   function reportDiceError(error:unknown){
     window.dispatchEvent(new CustomEvent(DICE_ERROR_EVENT,{
       detail:error instanceof Error?error.message:'Не удалось разобрать формулу.',
     }));
   }
-  function rollInlineFormula(source:string){
+  function rollInlineFormula(source:string,text:string){
     try {
       const result=rollDiceFormula(source,diceVariables(resourceContext));
-      window.dispatchEvent(new CustomEvent(DICE_ROLL_EVENT,{detail:result}));
+      window.dispatchEvent(new CustomEvent(DICE_ROLL_EVENT,{detail:{
+        ...result,label:result.label||text.trim()||result.formula,
+      }}));
     }catch(error){reportDiceError(error);}
     setSpot(null);
   }
   function apply(tool:Tool){
     restore();
-    if(tool==='dice'){
-      const selected=window.getSelection()?.toString().trim()??'';
-      if(!selected)return;
-      try {
-        // Parsing with a deterministic stub checks syntax without spending dice.
-        rollDiceFormula(selected,diceVariables(resourceContext),()=>0.5);
-        document.execCommand('insertHTML',false,diceMarkup(selected));
-        emit();setSpot(null);
-      }catch(error){reportDiceError(error);}
-      return;
-    }
+    if(tool==='dice'){beginDiceDialog();return;}
     if(tool==='link'){setLinkMode(true);setTimeout(()=>linkInput.current?.focus(),0);return;}
     if(tool==='bold')document.execCommand('bold',false);
     if(tool==='italic')document.execCommand('italic',false);
@@ -344,7 +428,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     const inlineDice=target.closest<HTMLElement>('[data-pf-dice="1"]');
     if(inlineDice){
       event.preventDefault();
-      rollInlineFormula(inlineDice.dataset.formula??inlineDice.textContent??'');
+      rollInlineFormula(inlineDice.dataset.formula??inlineDice.textContent??'',inlineDice.textContent??'');
       return;
     }
     const cell=target.closest<HTMLElement>('[data-pf-resource-cell]');
@@ -388,9 +472,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
       ? event.target.closest<HTMLElement>('[data-pf-dice="1"]') : null;
     if(!clicked||disabled)return;
     event.preventDefault();
-    clicked.replaceWith(document.createTextNode(clicked.dataset.formula??clicked.textContent??''));
-    emit();
-    setSpot(null);
+    editDiceDialog(clicked);
   }
   function handlePaste(event:React.ClipboardEvent<HTMLDivElement>){
     if(disabled){event.preventDefault();return;}
@@ -435,7 +517,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             <span className="pf-rich-toolbar-separator"/>
             <button type="button" aria-label="Ссылка" title="Ссылка" onClick={()=>apply('link')}><Link2 size={17}/></button>
             <button type="button" aria-label="Ресурс" title="Ресурс — отмечаемая ячейка" onClick={()=>apply('resource')}><Diamond size={18}/></button>
-            <button type="button" aria-label="Формула кубиков" title="Сделать формулой кубиков (Ctrl+D)" onClick={()=>apply('dice')}><Dices size={18}/></button>
+            <button type="button" aria-label="Формула кубиков" title="Привязать формулу к выделенному тексту (Ctrl+D)" onClick={()=>apply('dice')}><Dices size={18}/></button>
           </>}
     </div>,document.body);
   return <>
@@ -458,7 +540,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             ? event.target.closest<HTMLElement>('[data-pf-dice="1"]') : null;
           if(focused&&(event.key==='Enter'||event.key===' ')){
             event.preventDefault();
-            if(!disabled)rollInlineFormula(focused.dataset.formula??focused.textContent??'');
+            if(!disabled)rollInlineFormula(focused.dataset.formula??focused.textContent??'',focused.textContent??'');
             return;
           }
           if(disabled){if(event.key==='Enter'||event.key===' '){
@@ -525,6 +607,37 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     </div>
     {toolbar}
     {insertToolbar}
+    {diceDialog&&!disabled&&typeof document!=='undefined'&&createPortal(
+      <div className="pf-dice-dialog-backdrop"
+        onMouseDown={event=>{if(event.target===event.currentTarget)closeDiceDialog();}}>
+        <form className="pf-dice-dialog" role="dialog" aria-modal="true"
+          aria-label={diceDialog.editing?'Изменить формулу кубиков':'Привязать бросок к тексту'}
+          onSubmit={event=>{event.preventDefault();saveDiceDialog();}}>
+          <header>
+            <Dices size={19}/>
+            <strong>{diceDialog.editing?'Изменить формулу кубиков':'Привязать формулу'}</strong>
+            <button type="button" aria-label="Закрыть" onClick={closeDiceDialog}>×</button>
+          </header>
+          <p>Текст на листе останется прежним. При нажатии на него выполняется бросок:</p>
+          <blockquote className="pf-dice-dialog-text">{diceDialog.text}</blockquote>
+          <label htmlFor={id+'-dice-formula'}>Формула броска</label>
+          <input ref={diceInput} id={id+'-dice-formula'} autoComplete="off"
+            maxLength={1000} placeholder="Например: 2к8+3"
+            value={diceDialog.formula}
+            onChange={event=>{setDiceError('');setDiceDialog(previous=>previous?{
+              ...previous,formula:event.target.value,
+            }:null);}}/>
+          <small>Поддерживаются d20, 2к8+3, 2d20kh1, [STR] и другие формулы.</small>
+          {diceError&&<p className="pf-dice-dialog-error" role="alert">{diceError}</p>}
+          <footer>
+            {diceDialog.editing&&<button className="pf-dice-dialog-remove" type="button"
+              onClick={removeDiceBinding}>Снять привязку</button>}
+            <button type="button" onClick={closeDiceDialog}>Отмена</button>
+            <button type="submit" className="pf-dice-dialog-save">Сохранить</button>
+          </footer>
+        </form>
+      </div>,document.body)}
+
     {selectedResource&&!disabled&&<ResourceDialog
       resource={resourceFromElement(selectedResource)}
       resourceContext={resourceContext}
