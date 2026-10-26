@@ -610,7 +610,7 @@ export default function PathfinderSheet({
       onSelection={entries=>change(PF_SPELL_SELECTION,JSON.stringify(entries))}
       onClose={()=>setGrimoireOpen(false)}/>}
     {openSpellCard&&<SpellModal spell={openSpellCard} onClose={()=>setOpenSpellCard(null)}/>}
-    <DiceRollPanel/>
+    <DiceRollPanel system="pf2e"/>
     {navigationHelp&&<FloatingPageNavigation system="pf2e"
       pages={visiblePages.map(page=>({id:page,label:PAGE_LABELS[page]}))}
       activePage={activePage} onNavigate={navigatePage}
