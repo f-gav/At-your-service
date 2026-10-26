@@ -56,7 +56,7 @@ export default function DiceRollPanel(){
       </form>
       {error&&<p className="ays-dice-error" role="alert">{error}</p>}
       <div className="ays-dice-history" aria-live="polite">
-        {history.length===0&&<p className="ays-dice-empty">Выделите формулу в листе и нажмите значок d20 — или введите бросок здесь.</p>}
+        {history.length===0&&<p className="ays-dice-empty">Выделите текст на листе и привяжите к нему формулу кнопкой кубиков. Для свободного броска введите формулу выше.</p>}
         {history.map((roll,index)=><section key={roll.id} className="ays-dice-result">
           <div className="ays-dice-result-head">
             <span>{roll.label||roll.formula}</span>
