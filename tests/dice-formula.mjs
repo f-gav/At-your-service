@@ -41,7 +41,7 @@ assert.throws(()=>rollDiceFormula('if(1,2,3)',{},low),/Неизвестная ф
 assert.throws(()=>rollDiceFormula('1d6',{},()=>1),/источник/);
 assert.equal(DICE_ROLL_EVENT,'ays:dice-roll');
 assert.equal(DICE_ERROR_EVENT,'ays:dice-error');
-assert.match(diceMarkup('1d8 (Огонь)'),'data-pf-dice="1"');
+assert.match(diceMarkup('1d8 (Огонь)'),/data-pf-dice="1"/);
 assert.match(diceMarkup('" onclick="alert(1)'),/&quot; onclick=&quot;alert\(1\)/);
 assert.doesNotMatch(diceMarkup('<img src=x onerror=alert(1)>'),/<img/);
 const rich=read('../src/features/pathfinder/RichField.tsx');
