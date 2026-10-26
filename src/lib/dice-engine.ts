@@ -33,7 +33,12 @@ class DiceParser{
   private count=0;
   private dice:DieResult[]=[];
   private depth=0;
-  constructor(private source:string,private vars:DiceVariables,private random:Random){}
+  private source:string;
+  private vars:DiceVariables;
+  private random:Random;
+  constructor(source:string,vars:DiceVariables,random:Random){
+    this.source=source;this.vars=vars;this.random=random;
+  }
   private spaces(){while(/\s/.test(this.source[this.at]??'')&&this.at<this.source.length)this.at++;}
   private take(char:string){this.spaces();if(this.source.startsWith(char,this.at)){this.at+=char.length;return true;}return false;}
   private fail(reason:string):never{throw new Error(reason+' (позиция '+(this.at+1)+').');}
