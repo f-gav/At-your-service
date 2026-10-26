@@ -17,7 +17,7 @@ assert.equal(lowRoll.calculation,'2d8: (1 + 1) + 3 = 5');
 assert.equal(rollDiceFormula('1к11+2',{},()=>5/11).calculation,'1d11: 6 + 2 = 8');
 assert.equal(rollDiceFormula('1d11-2',{},()=>5/11).calculation,'1d11: 6 - 2 = 4');
 assert.equal(rollDiceFormula('1d11+[STR]',{STR:2},()=>5/11).calculation,'1d11: 6 + 2 = 8');
-assert.equal(rollDiceFormula('1d6/2',{},()=>5/6).calculation,'1d6: floor(6 / 2) = 3');
+assert.equal(rollDiceFormula('1d6/4',{},()=>5/6).calculation,'1d6: floor(6 / 4) = 1');
 assert.equal(rollDiceFormula('d20',{},low).calculation,'1d20: 1 = 1');
 assert.equal(rollDiceFormula('d20 + 3',{},high).total,23);
 assert.equal(rollDiceFormula('(1d6+2)*2',{},low).total,6);
