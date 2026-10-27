@@ -375,3 +375,18 @@
   .ays-room-table .ays-room-events{min-height:210px}
   .ays-room-table .ays-room-events .ays-room-empty{margin:26px 0}
 }
+
+
+/* Match the open room mockup without changing character-sheet paper. */
+.ays-room-table .ays-room-characters-title{grid-column:1/-1;font-size:19px;font-weight:750;margin:2px 0 1px}
+.ays-room-table .ays-room-events{box-sizing:border-box;min-height:330px;padding:22px;
+ background:var(--surface,#fff);border:1px solid var(--border,#dce2de);border-radius:13px;
+ box-shadow:0 5px 18px #00000008}
+.ays-room-table .ays-room-events>.ays-room-empty{display:grid;place-items:center;
+ min-height:185px;text-align:center;margin:0;color:var(--muted,#76858f)}
+.ays-room-dialog-error{background:#fff2f0;color:#9e2727;border:1px solid #e4b7b0;
+ border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.4;margin:-8px 0 18px}
+:root[data-ays-theme="dark"] .ays-room-table .ays-room-events{
+ background:#21242d;border-color:#3b4555;color:#e8ebf1}
+:root[data-ays-theme="dark"] .ays-room-dialog-error{
+ background:#462b33;border-color:#905260;color:#ffcdcf}
