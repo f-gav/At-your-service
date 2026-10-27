@@ -88,6 +88,39 @@ jobs:
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify published Rooms release
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          origin = os.environ['PAGES_URL'].rstrip('/')
+          expected = os.environ['GITHUB_SHA'][:12]
+          for attempt in range(18):
+              try:
+                  def read(path):
+                      url = origin + path + '?release=' + expected + '&check=' + str(attempt)
+                      request = urllib.request.Request(url, headers={
+                          'Cache-Control': 'no-cache',
+                          'Pragma': 'no-cache',
+                      })
+                      with urllib.request.urlopen(request, timeout=20) as response:
+                          return response.read().decode('utf-8')
+                  release = json.loads(read('/release.json'))
+                  page = read('/rooms/')
+                  if release.get('revision') != expected:
+                      raise ValueError('Stale release.json: ' + str(release))
+                  marker = '<meta name="ays-build-revision" content="' + expected + '">'
+                  if marker not in page:
+                      raise ValueError('Rooms HTML still serves a previous build')
+                  print('PASS: published Rooms revision', expected, 'at', origin + '/rooms/')
+                  break
+              except Exception as error:
+                  if attempt == 17:
+                      raise
+                  print(f'Rooms release not propagated ({error}); retry {attempt+1}/18')
+                  time.sleep(8)
+          PY
       - name: Verify live Necromancer catalog
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
