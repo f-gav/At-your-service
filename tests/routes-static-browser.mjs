@@ -4,6 +4,13 @@ import {resolve,extname} from 'node:path';
 import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 const root=resolve('dist');
+// Rooms now ship a real static entrypoint instead of relying on the 404 shim.
+const roomsEntry=(await readFile(resolve(root,'rooms/index.html'))).toString('utf8');
+const indexEntry=(await readFile(resolve(root,'index.html'))).toString('utf8');
+const release=JSON.parse((await readFile(resolve(root,'release.json'))).toString('utf8'));
+assert.match(roomsEntry,/<meta name="ays-build-revision" content="[^"]+">/);
+assert.equal(roomsEntry,indexEntry,'Rooms must use the same stamped entrypoint as the home page');
+assert.ok(roomsEntry.includes(`content="${release.revision}"`),'Build revision must match release.json');
 const server=createServer(async(req,res)=>{
  let path=new URL(req.url,'http://localhost').pathname.replace(/^\/At-your-service\//,'');
  if(!path)path='index.html';
