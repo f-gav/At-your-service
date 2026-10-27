@@ -4,7 +4,7 @@ export function registerServiceWorker():void {
   if(window.location.protocol!=='https:' && window.location.hostname!=='localhost')return;
   window.addEventListener('load',()=>{
     const scope=import.meta.env.BASE_URL;
-    void navigator.serviceWorker.register(scope+'sw.js',{scope}).catch(error=>{
+    void navigator.serviceWorker.register(scope+'sw.js',{scope,updateViaCache:'none'}).catch(error=>{
       console.warn('Не удалось подключить режим приложения:',error);
     });
   },{once:true});
