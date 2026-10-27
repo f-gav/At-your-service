@@ -58,7 +58,7 @@ assert.match(roomsStyle,/ays-room-system-prmoon/);
 assert.match(hub,/Подключить персонажа/);
 assert.match(hub,/join_game_room/);
 assert.match(hub,/setCreateSystem/);
-assert.match(hub,/systemLabels\[item\.system\]/);
+assert.match(hub,/roomBadgeLabels\[item\.system\]/);
 assert.match(hub,/room\.system==='pf2e'/);
 assert.match(hub,/current=\{snap\.stCurrent\}/);
 assert.match(hub,/current=\{snap\.spCurrent\}/);
