@@ -258,7 +258,9 @@ grant select on public.game_room_rolls to authenticated;
 -- Neither inserting members nor posting rolls is possible via direct table REST.
 
 create policy "rooms_participants_read" on public.game_rooms
-for select to authenticated using (ays_rooms_private.room_can_view(id));
+for select to authenticated using (
+  owner_id=(select auth.uid()) or ays_rooms_private.room_can_view(id)
+);
 create policy "rooms_owner_create" on public.game_rooms
 for insert to authenticated with check ((select auth.uid())=owner_id);
 create policy "rooms_owner_edit" on public.game_rooms
