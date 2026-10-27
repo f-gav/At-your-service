@@ -155,7 +155,7 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
         <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
           <RichField id={'moon-outfit-'+item.id} label={'Эффекты брони '+(index+1)}
             value={item.effects} onChange={value=>updateOutfit(item.id,{effects:value})}
-            disabled={disabled} grow placeholder="Эффекты и особые условия брони…"/>
+            disabled={disabled} resourceContext={sheet.fields} grow placeholder="Эффекты и особые условия брони…"/>
         </div>
       </>}/>
     <section className="moon-section moon-equipment-ep-section">
@@ -210,12 +210,12 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
         <div className="moon-rich-group"><span>ЭФФЕКТЫ</span>
           <RichField id={'moon-augment-effects-'+item.id} label={'Эффекты аугмента '+(index+1)}
             value={item.effects} onChange={value=>updateAugment(item.id,{effects:value})}
-            disabled={disabled} grow placeholder="Положительные эффекты…"/>
+            disabled={disabled} resourceContext={sheet.fields} grow placeholder="Положительные эффекты…"/>
         </div>
         <div className="moon-rich-group"><span>НЕДОСТАТКИ</span>
           <RichField id={'moon-augment-drawbacks-'+item.id} label={'Недостатки аугмента '+(index+1)}
             value={item.drawbacks} onChange={value=>updateAugment(item.id,{drawbacks:value})}
-            disabled={disabled} grow placeholder="Отрицательные эффекты…"/>
+            disabled={disabled} resourceContext={sheet.fields} grow placeholder="Отрицательные эффекты…"/>
         </div>
       </>}/>
     <datalist id="moon-augment-types">
