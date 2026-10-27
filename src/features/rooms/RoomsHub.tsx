@@ -217,6 +217,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         <section className="ays-room-table-characters" aria-label="Персонажи">
           <h3>Персонажи</h3>
           <div className="ays-room-member-grid">
+          <h3 className="ays-room-characters-title">Персонажи</h3>
           {members.length===0&&<p className="ays-room-empty">Пока нет персонажей. Передай игрокам код комнаты.</p>}
           {members.map(member=>{
             const snap=member.snapshot??{};
@@ -299,8 +300,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <p>Выбери комнату, чтобы продолжить игру или управлять персонажами.</p>
           </div>
           <div className="ays-rooms-overview-actions">
-            <button type="button" className="ays-rooms-join-button" onClick={()=>setDialog('join')}><UserPlus size={16}/> Подключиться по коду</button>
-            <button type="button" className="ays-rooms-create-button" onClick={()=>setDialog('create')}><Plus size={17}/> Создать комнату</button>
+            <button type="button" className="ays-rooms-join-button" onClick={()=>{setError('');setDialog('join');}}><UserPlus size={16}/> Подключиться по коду</button>
+            <button type="button" className="ays-rooms-create-button" onClick={()=>{setError('');setDialog('create');}}><Plus size={17}/> Создать комнату</button>
           </div>
         </div>
         {loading?<p className="ays-room-empty" role="status">Загружаем комнаты…</p>:sortedRooms.length===0?
@@ -326,6 +327,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <h2 id="ays-room-dialog-title">{dialog==='create'?'Создать комнату':'Подключить персонажа'}</h2>
             <button type="button" onClick={()=>setDialog(null)} disabled={busy} aria-label="Закрыть окно"><X size={20}/></button>
           </div>
+          {error&&<p className="ays-room-dialog-error" role="alert">{error}</p>}
           {dialog==='create'?<form onSubmit={event=>void createRoom(event)}>
             <label>Название комнаты
               <input autoFocus maxLength={100} minLength={1} required
