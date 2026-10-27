@@ -6,10 +6,10 @@ import DiceFormulaExamples from './DiceFormulaExamples';
 import {supabase} from './supabase';
 import './DiceRollPanel.css';
 
-/** A character-local journal for now. Roll events contain no network requests.
- * When rooms are introduced, this event can be forwarded to the room log
- * only with the player's explicit permission.
+/** Character-local roll history. Each connected room has its own optional
+ * roll-sharing setting; the server checks membership for every destination.
  */
+type RoomMembership={room_id:string;casts_enabled:boolean;title:string};
 export default function DiceRollPanel({system='pf2e',characterId}:{
   system?:'pf2e'|'prmoon';characterId?:string;
 }){
@@ -17,21 +17,29 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
   const [open,setOpen]=useState(false);
   const [formula,setFormula]=useState('1d20');
   const [error,setError]=useState('');
-  const [roomMembership,setRoomMembership]=useState<{room_id:string;casts_enabled:boolean}|null>(null);
-  const membershipRef=useRef<{room_id:string;casts_enabled:boolean}|null>(null);
+  const [roomMemberships,setRoomMemberships]=useState<RoomMembership[]>([]);
+  const membershipRef=useRef<RoomMembership[]>([]);
   const [broadcastError,setBroadcastError]=useState('');
   useEffect(()=>{
-    if(!supabase||!characterId){membershipRef.current=null;setRoomMembership(null);return;}
+    if(!supabase||!characterId){membershipRef.current=[];setRoomMemberships([]);return;}
     const client=supabase;
     let active=true;
     const refresh=async()=>{
       const {data,error:failure}=await client.from('game_room_members')
-        .select('room_id,casts_enabled').eq('character_id',characterId).maybeSingle();
+        .select('room_id,casts_enabled').eq('character_id',characterId);
       if(!active)return;
-      // A database without the room migration simply has no connected rooms.
-      if(failure){membershipRef.current=null;setRoomMembership(null);return;}
-      const value=data?{room_id:String(data.room_id),casts_enabled:!!data.casts_enabled}:null;
-      membershipRef.current=value;setRoomMembership(value);
+      // Older installations without the room migration have no connected rooms.
+      if(failure){membershipRef.current=[];setRoomMemberships([]);return;}
+      const ids=(data??[]).map(item=>String(item.room_id));
+      const {data:roomNames}=ids.length?await client.from('game_rooms')
+        .select('id,title').in('id',ids):{data:[]};
+      if(!active)return;
+      const titles=new Map((roomNames??[]).map(item=>[String(item.id),String(item.title)]));
+      const value:RoomMembership[]=(data??[]).map(item=>({
+        room_id:String(item.room_id),casts_enabled:!!item.casts_enabled,
+        title:titles.get(String(item.room_id))??'Комната',
+      }));
+      membershipRef.current=value;setRoomMemberships(value);
     };
     void refresh();
     const timer=window.setInterval(()=>{void refresh();},10000);
@@ -47,16 +55,19 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
       if(!roll||typeof roll.total!=='number')return;
       setHistory(previous=>[{...roll,id:Date.now()+Math.random()},...previous].slice(0,20));
       setError('');setOpen(true);
-      const current=membershipRef.current;
-      if(current?.casts_enabled&&characterId&&supabase){
-        void supabase.rpc('post_game_room_roll',{
-          p_room:current.room_id,p_character:characterId,
-          p_formula:roll.formula,p_label:roll.label,p_total:roll.total,
-          p_calculation:roll.calculation,p_dice:roll.dice,
-        }).then(({error:postError})=>{
-          if(postError)setBroadcastError('Бросок локальный. Не удалось отправить в комнату: '+postError.message);
-          else setBroadcastError('');
-        });
+      const targets=membershipRef.current.filter(member=>member.casts_enabled);
+      if(targets.length&&characterId&&supabase){
+        void Promise.all(targets.map(async member=>{
+          const {error:postError}=await supabase!.rpc('post_game_room_roll',{
+            p_room:member.room_id,p_character:characterId,
+            p_formula:roll.formula,p_label:roll.label,p_total:roll.total,
+            p_calculation:roll.calculation,p_dice:roll.dice,
+          });
+          return postError?member.title+': '+postError.message:null;
+        })).then(results=>{
+          const failures=results.filter((item):item is string=>!!item);
+          setBroadcastError(failures.length?'Бросок сохранён локально. Не удалось отправить: '+failures.join('; '):'');
+        }).catch(cause=>setBroadcastError('Не удалось отправить бросок в комнаты: '+String(cause)));
       }
     };
     const fail=(event:Event)=>{
@@ -94,23 +105,24 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
         <button type="submit">Бросить</button>
       </form>
       <DiceFormulaExamples system={system}/>
-      {roomMembership&&<label className="ays-dice-room-toggle">
-        <input type="checkbox" checked={roomMembership.casts_enabled}
+      {roomMemberships.map(member=><label className="ays-dice-room-toggle" key={member.room_id}>
+        <input type="checkbox" checked={member.casts_enabled}
           onChange={event=>{
             const enabled=event.target.checked;
             if(!supabase||!characterId)return;
             void supabase.from('game_room_members').update({casts_enabled:enabled})
-              .eq('room_id',roomMembership.room_id).eq('character_id',characterId)
+              .eq('room_id',member.room_id).eq('character_id',characterId)
               .then(({error:failure})=>{
                 if(failure)setBroadcastError(failure.message);
                 else {
-                  const next={...roomMembership,casts_enabled:enabled};
-                  membershipRef.current=next;setRoomMembership(next);setBroadcastError('');
+                  const next=membershipRef.current.map(current=>current.room_id===member.room_id?
+                    {...current,casts_enabled:enabled}:current);
+                  membershipRef.current=next;setRoomMemberships(next);setBroadcastError('');
                 }
               });
           }}/>
-        Отправлять броски в комнату
-      </label>}
+        Отправлять броски в комнату «{member.title}»
+      </label>)}
       {error&&<p className="ays-dice-error" role="alert">{error}</p>}
       {broadcastError&&<p className="ays-dice-error" role="alert">{broadcastError}</p>}
       <div className="ays-dice-history" aria-live="polite">
