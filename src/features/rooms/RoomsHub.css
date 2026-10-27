@@ -390,3 +390,59 @@
  background:#21242d;border-color:#3b4555;color:#e8ebf1}
 :root[data-ays-theme="dark"] .ays-room-dialog-error{
  background:#462b33;border-color:#905260;color:#ffcdcf}
+
+
+/* Room list refinement: use the exact character-card label typography,
+   remove the decorative room portrait, and center dialogs in the viewport. */
+.ays-room-tile{gap:14px}
+.ays-room-tile-body{align-items:flex-start;gap:6px}
+.ays-room-tile-body>small{white-space:normal;flex-wrap:wrap}
+.ays-room-system-pill{
+  padding:0;background:transparent;border:0;border-radius:0;
+  font-family:'Tilda Script',Georgia,cursive;
+  font-size:18px;font-weight:600;font-style:normal;letter-spacing:0;line-height:1.25;
+}
+.ays-room-system-pf2e{color:#b86b25;background:transparent}
+.ays-room-system-prmoon{
+  color:#29445f;background:transparent;
+  font-family:'Tilda Script Moon','Tilda Script',Georgia,cursive;
+}
+.ays-room-identity .ays-room-system{
+  font-family:'Tilda Script',Georgia,cursive;
+  font-size:18px;font-weight:600;line-height:1.2;
+  padding:0;border:0;border-radius:0;background:transparent;
+}
+.ays-room-identity .ays-room-system-pf2e{color:#b86b25}
+.ays-room-identity .ays-room-system-prmoon{
+  color:#29445f;font-family:'Tilda Script Moon','Tilda Script',Georgia,cursive;
+}
+.ays-room-dialog-backdrop{
+  display:grid;place-items:center;
+  align-items:center;justify-content:center;
+  padding:20px;
+  overflow-y:auto;overscroll-behavior:contain;
+}
+.ays-room-dialog{
+  margin:auto;max-height:calc(100dvh - 40px);
+  overflow-y:auto;
+}
+.ays-room-dialog-error{
+  border:1px solid #cd7373;border-radius:8px;padding:10px 12px;
+  background:#fff0f0;color:#963c3c;font-size:13px;
+  margin:0 0 14px;overflow-wrap:anywhere;
+}
+:root[data-ays-theme="dark"] .ays-room-system-pill.ays-room-system-pf2e,
+:root[data-ays-theme="dark"] .ays-room-identity .ays-room-system-pf2e{
+  color:#dfa369;background:transparent;
+}
+:root[data-ays-theme="dark"] .ays-room-system-pill.ays-room-system-prmoon,
+:root[data-ays-theme="dark"] .ays-room-identity .ays-room-system-prmoon{
+  color:#b4cbe6;background:transparent;
+}
+:root[data-ays-theme="dark"] .ays-room-dialog-error{
+  background:#4d252b;color:#ffc9c9;border-color:#814650;
+}
+@media(max-width:520px){
+  .ays-room-dialog-backdrop{padding:12px}
+  .ays-room-dialog{max-height:calc(100dvh - 24px)}
+}
