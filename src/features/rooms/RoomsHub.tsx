@@ -214,7 +214,9 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         <button type="button" className={roomTab==='settings'?'active':''} aria-current={roomTab==='settings'?'page':undefined} onClick={()=>{setRoomTitleDraft(room.title);setRoomTab('settings');}}><Settings size={17}/> Настройки</button>
       </nav>
       {roomTab==='table'&&<div className="ays-room-table">
-        <div className="ays-room-member-grid">
+        <section className="ays-room-table-characters" aria-label="Персонажи">
+          <h3>Персонажи</h3>
+          <div className="ays-room-member-grid">
           {members.length===0&&<p className="ays-room-empty">Пока нет персонажей. Передай игрокам код комнаты.</p>}
           {members.map(member=>{
             const snap=member.snapshot??{};
@@ -236,7 +238,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
               </>}
             </article>;
           })}
-        </div>
+          </div>
+        </section>
         <aside className="ays-room-events">
           <h3><Dices size={18}/> История событий <small>(последние 80)</small></h3>
           {rolls.length===0?<p className="ays-room-empty">Бросков ещё не было.</p>:
