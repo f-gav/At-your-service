@@ -446,3 +446,28 @@
   .ays-room-dialog-backdrop{padding:12px}
   .ays-room-dialog{max-height:calc(100dvh - 24px)}
 }
+
+
+/* Full system names in room cards.
+   The bundled "Tilda Script Moon" webfont deliberately contains glyphs only
+   for "Pr. Moon". Using it for "Project Moon" triggers a mixed-font fallback,
+   so the full name uses one consistently rendered serif face instead.
+   Character cards elsewhere retain their original short script label. */
+.ays-room-system-pill,
+.ays-room-identity .ays-room-system{
+  display:inline-block;
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:break-word;
+  text-overflow:clip;
+  font-synthesis:none;
+}
+.ays-room-system-pill.ays-room-system-prmoon,
+.ays-room-identity .ays-room-system-prmoon{
+  font-family:Georgia,'Times New Roman',serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:17px;
+  line-height:1.3;
+  letter-spacing:0;
+}
