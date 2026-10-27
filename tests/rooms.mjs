@@ -73,6 +73,8 @@ assert.match(dice,/post_game_room_roll/);
 assert.match(dice,/membershipRef\.current/);
 assert.match(dice,/filter\(member=>member\.casts_enabled\)/);
 assert.doesNotMatch(dice,/maybeSingle\(\)/);
+assert.doesNotMatch(dice,/\broomMembership\b/); // Old single-room state must not return.
+assert.match(dice,/roomMemberships\.some\(member=>member\.casts_enabled\)/);
 assert.match(dice,/roomMemberships\.map/);
 assert.match(multiRoomMigration,/drop constraint if exists game_room_members_character_id_key/);
 assert.match(multiRoomMigration,/m\.room_id=destination\.id and m\.character_id=p_character/);
