@@ -2,7 +2,7 @@
  * Only same-origin PUBLIC assets are cached. Supabase sessions, API responses,
  * private portraits, JSON character data and OAuth callbacks are NEVER cached.
  */
-const CACHE_NAME='ays-shell-v2';
+const CACHE_NAME='ays-shell-v3';
 const SCOPE=self.registration.scope;
 const CORE=[
   SCOPE,
@@ -28,7 +28,7 @@ self.addEventListener('fetch',event=>{
   if(req.mode==='navigate') {
     // Never store the requested URL: OAuth query codes and sessions may appear.
     // Always try the network first; an offline shell cannot access cloud data.
-    event.respondWith(fetch(req).then(response=>{
+    event.respondWith(fetch(req,{cache:'no-store'}).then(response=>{
       if(response.ok&&response.type==='basic'&&url.pathname===new URL(SCOPE).pathname) {
         const copy=response.clone();
         void caches.open(CACHE_NAME).then(cache=>cache.put(SCOPE,copy));
