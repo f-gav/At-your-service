@@ -85,6 +85,8 @@ assert.match(hub,/roomBadgeLabels:Record<RoomSystem,string>=\{pf2e:'Pathfinder 2
 assert.doesNotMatch(hub,/prmoon:'Pr\. Moon'/);
 assert.match(roomsStyle,/\.ays-room-system-pill\.ays-room-system-prmoon/);
 assert.match(roomsStyle,/font-family:Georgia,'Times New Roman',serif/);
+assert.match(roomsStyle,/\.ays-room-system-pill\.ays-room-system-pf2e,[\s\S]*?\.ays-room-identity \.ays-room-system-pf2e\s*\{[\s\S]*?font-family:Georgia,'Times New Roman',serif/);
+assert.match(roomsStyle,/\.ays-room-system-pill\.ays-room-system-prmoon,[\s\S]*?\.ays-room-identity \.ays-room-system-prmoon\s*\{[\s\S]*?font-family:Georgia,'Times New Roman',serif/);
 assert.match(roomsStyle,/font-synthesis:none/);
 assert.doesNotMatch(hub,/ays-room-tile-avatar/);
 assert.match(roomsStyle,/place-items:center/);
