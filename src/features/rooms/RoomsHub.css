@@ -251,3 +251,95 @@
  .ays-room-player-heading,.ays-room-player-body{padding:13px}
  .ays-room-settings>section{padding:15px}
 }
+
+
+/* Rooms overview v2: compact cards, real create/join dialogs, sticky page footer. */
+.site-shell > .ays-rooms{flex:1 0 auto}
+.ays-rooms:not(.ays-rooms-in-room){width:min(1140px,calc(100% - 44px));margin:28px auto 48px}
+.ays-rooms:not(.ays-rooms-in-room) .ays-rooms-heading{margin-bottom:30px}
+.ays-rooms-overview{width:100%}
+.ays-rooms-overview-heading{display:flex;justify-content:space-between;align-items:start;gap:22px;margin-bottom:20px}
+.ays-rooms-overview-heading h2{font-size:clamp(23px,2.5vw,31px);line-height:1.2;margin:0 0 6px}
+.ays-rooms-overview-heading h2 span{color:var(--muted,#72808a);font-size:.7em;font-weight:500}
+.ays-rooms-overview-heading p{font-size:14px;line-height:1.5;color:var(--muted,#72808a);margin:0;max-width:650px}
+.ays-rooms-overview-actions{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.ays-rooms-overview-actions button{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ padding:9px 13px;border-radius:8px;font:600 13px/1.3 inherit;white-space:nowrap;cursor:pointer;
+ transition:background .15s,border-color .15s}
+.ays-rooms-create-button{background:#e9f1fe;border:1px solid #a7c4ed;color:#2861b8}
+.ays-rooms-create-button:hover{background:#dceafd;border-color:#6f9bd7}
+.ays-rooms-join-button{background:var(--surface,#fff);border:1px solid var(--border,#cfd8dd);color:inherit}
+.ays-rooms-join-button:hover{background:#769cb015}
+.ays-room-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ays-room-tile{display:flex;align-items:center;gap:14px;width:100%;min-height:116px;text-align:left;
+ color:inherit;background:var(--surface,#fff);border:1px solid var(--border,#dce2de);
+ border-radius:11px;padding:18px 20px;cursor:pointer;min-width:0;
+ box-shadow:0 3px 14px #00000008;transition:border-color .17s,transform .17s,box-shadow .17s}
+.ays-room-tile:hover{border-color:#7b9fc8;transform:translateY(-1px);box-shadow:0 6px 20px #00000013}
+.ays-room-tile:focus-visible,.ays-rooms-overview-actions button:focus-visible,
+.ays-room-dialog button:focus-visible{outline:2px solid #4d8be0;outline-offset:3px}
+.ays-room-tile-avatar{flex:0 0 auto;width:48px;height:48px;display:grid;place-items:center;
+ background:#edf1f4;color:#657b88;border-radius:50%}
+.ays-room-tile-body{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;flex:1}
+.ays-room-tile-body>strong{font-size:18px;font-weight:750;line-height:1.3;max-width:100%;overflow-wrap:anywhere}
+.ays-room-tile-body>small{display:flex;align-items:center;gap:7px;margin-top:2px;font-size:12px;color:var(--muted,#687982)}
+.ays-room-tile-arrow{flex:0 0 auto;color:#8499a6}
+.ays-room-system-pill{display:inline-flex;max-width:100%;align-items:center;font-weight:600;font-size:17px;
+ line-height:1.1;border-radius:6px;padding:4px 9px;font-family:'Tilda Script',Georgia,serif}
+.ays-room-system-pf2e{background:#f8eadc;color:#a95f20}
+.ays-room-system-prmoon{background:#e1ebf4;color:#29445f;font-family:'Tilda Script Moon','Tilda Script',Georgia,serif}
+.ays-rooms-empty{display:grid;justify-items:center;gap:10px;padding:48px 16px;border:1px dashed
+ var(--border,#dce2de);border-radius:11px;text-align:center;color:var(--muted,#72808a)}
+.ays-rooms-empty p{margin:0}
+.ays-room-dialog-backdrop{position:fixed;inset:0;z-index:1100;display:flex;
+ align-items:flex-start;justify-content:center;overflow-y:auto;padding:clamp(52px,10vh,110px) 20px 28px;
+ background:#11192391}
+.ays-room-dialog{box-sizing:border-box;width:min(100%,480px);padding:26px 28px 24px;
+ background:var(--surface,#fff);color:inherit;border:1px solid var(--border,#dce2de);
+ border-radius:16px;box-shadow:0 22px 70px #00000039}
+.ays-room-dialog-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:23px}
+.ays-room-dialog h2{font-size:22px;margin:0}
+.ays-room-dialog-header button{display:grid;place-items:center;border:0;background:transparent;color:inherit;
+ padding:6px;border-radius:7px;cursor:pointer}
+.ays-room-dialog-header button:hover{background:#8090a021}
+.ays-room-dialog form{display:grid;gap:18px}
+.ays-room-dialog label{display:grid;gap:8px;font-weight:650;font-size:14px}
+.ays-room-dialog input,.ays-room-dialog select{box-sizing:border-box;width:100%;padding:12px 13px;font:inherit;
+ background:var(--surface,#fff);color:inherit;border:1px solid #acb9c7;border-radius:8px}
+.ays-room-dialog input:focus,.ays-room-dialog select:focus{outline:2px solid #77a9e4;outline-offset:1px}
+.ays-room-dialog input::placeholder{color:#8894a3}
+.ays-room-dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:5px}
+.ays-room-dialog-actions button{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+ padding:10px 15px;border:1px solid var(--border,#dce2de);border-radius:8px;
+ background:#f0f1f2;color:#52606c;cursor:pointer;font-weight:700}
+.ays-room-dialog-actions .ays-room-dialog-primary{background:#316ad6;border-color:#316ad6;color:white}
+.ays-room-dialog-actions .ays-room-dialog-primary:hover:not(:disabled){background:#245ab8}
+.ays-room-dialog-actions button:disabled{opacity:.52;cursor:not-allowed}
+:root[data-ays-theme="dark"] .ays-room-tile{background:#21242d;border-color:#3b4555;color:#eff2f9}
+:root[data-ays-theme="dark"] .ays-room-tile:hover{background:#292f3d;border-color:#6289c4}
+:root[data-ays-theme="dark"] .ays-room-tile-avatar{background:#343c4b;color:#bdcfe0}
+:root[data-ays-theme="dark"] .ays-room-tile-arrow{color:#a9b8ca}
+:root[data-ays-theme="dark"] .ays-room-system-pf2e{background:#4c321f;color:#ffc58b}
+:root[data-ays-theme="dark"] .ays-room-system-prmoon{background:#263d58;color:#bad4f0}
+:root[data-ays-theme="dark"] .ays-rooms-create-button{background:#2b476d;color:#d8eaff;border-color:#537cab}
+:root[data-ays-theme="dark"] .ays-rooms-create-button:hover{background:#385b85}
+:root[data-ays-theme="dark"] .ays-rooms-join-button{background:#252b37;color:#e4ebf7;border-color:#46536a}
+:root[data-ays-theme="dark"] .ays-room-dialog{background:#1c2029;border-color:#414a5a;color:#edf1f8}
+:root[data-ays-theme="dark"] .ays-room-dialog input,
+:root[data-ays-theme="dark"] .ays-room-dialog select{background:#111823;border-color:#506078;color:#edf1f8;color-scheme:dark}
+:root[data-ays-theme="dark"] .ays-room-dialog-actions button:not(.ays-room-dialog-primary){background:#2d3441;color:#ecf1f8;border-color:#455267}
+:root[data-ays-theme="dark"] .ays-room-dialog-actions .ays-room-dialog-primary{background:#335f9e;border-color:#547fb8}
+:root[data-ays-theme="dark"] .ays-rooms-empty{color:#a9b5c9}
+@media(max-width:760px){
+ .ays-rooms-overview-heading{flex-direction:column;gap:14px}
+ .ays-room-cards{grid-template-columns:1fr}
+ .ays-rooms-overview-actions{flex-wrap:wrap}
+}
+@media(max-width:520px){
+ .ays-rooms:not(.ays-rooms-in-room){width:calc(100% - 26px);margin:18px auto 34px}
+ .ays-rooms-overview-actions{width:100%}
+ .ays-rooms-overview-actions button{flex:1;white-space:normal;text-align:center}
+ .ays-room-tile{padding:15px;min-height:105px}
+ .ays-room-dialog{padding:19px 18px}
+ .ays-room-dialog-actions button{padding:10px}
+}
