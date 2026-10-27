@@ -23,6 +23,23 @@ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
 try{
  const page=await browser.newPage();
  const base='http://127.0.0.1:4196/At-your-service/';
+ // Regression: room system labels must never mix partial Tilda Script glyph
+ // coverage with fallbacks. Check the production CSS cascade in Chromium.
+ await page.goto(base+'rooms/',{waitUntil:'networkidle'});
+ const labelStyle=await page.evaluate(()=>{
+   const host=document.createElement('div');
+   host.className='ays-rooms';
+   host.innerHTML='<div class="ays-room-tile"><span class="ays-room-system-pill ays-room-system-pf2e">Pathfinder 2e</span></div>';
+   document.body.append(host);
+   const style=getComputedStyle(host.querySelector('.ays-room-system-pill'));
+   const result={family:style.fontFamily,style:style.fontStyle,color:style.color};
+   host.remove();
+   return result;
+ });
+ assert.match(labelStyle.family,/Georgia|Times New Roman|serif/);
+ assert.equal(labelStyle.style,'normal','Pathfinder room badge uses one complete font');
+ assert.equal(labelStyle.color,'rgb(184, 107, 37)');
+
  const character='character/550e8400-e29b-41d4-a716-446655440000/';
  await page.goto(base+character+'?source=shared',{waitUntil:'networkidle'});
  await page.waitForURL(url=>url.pathname==='/At-your-service/'+character);
