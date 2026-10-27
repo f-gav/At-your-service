@@ -12,7 +12,7 @@ export function moonInlinePlain(rich:string):string {
     if(node.nodeType===Node.TEXT_NODE)return node.textContent??'';
     if(node.nodeType!==Node.ELEMENT_NODE&&node.nodeType!==Node.DOCUMENT_FRAGMENT_NODE)return '';
     if(node.nodeType===Node.ELEMENT_NODE&&(node as Element).tagName==='BR')return '\n';
-    const children=Array.from(element.childNodes);
+    const children=Array.from(node.childNodes);
     const contents=children.map(visit);
     return contents.map((part,index)=>{
       if(index===0)return part;
