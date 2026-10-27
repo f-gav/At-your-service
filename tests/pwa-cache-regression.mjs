@@ -15,7 +15,7 @@ const cache={
 };
 const caches={
   async open(){return cache;},
-  async keys(){return ['ays-shell-v2'];},
+  async keys(){return ['ays-shell-v3'];},
   async delete(){return true;},
   async match(req){return cached.get(typeof req==='string'?req:req.url);},
 };
