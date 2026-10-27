@@ -152,6 +152,12 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
   };
 }
 
+/** Remove rich formatting only for a deleted card, without touching other cards. */
+function withoutInlineFormatting(sheet:MoonSheetData,prefix:string):Record<string,string>{
+  return Object.fromEntries(Object.entries(sheet.inlineFormatting)
+    .filter(([key])=>!key.startsWith(prefix)));
+}
+
 /** Stable equipment IDs keep rich-text callbacks from modifying neighbors after deletion. */
 export function addMoonOutfit(sheet:MoonSheetData,id:string):MoonSheetData {
   return sheet.outfits.length>=100?sheet:{...sheet,outfits:[...sheet.outfits,newMoonOutfit(id)]};
@@ -159,6 +165,7 @@ export function addMoonOutfit(sheet:MoonSheetData,id:string):MoonSheetData {
 export function removeMoonOutfit(sheet:MoonSheetData,id:string):MoonSheetData {
   if(sheet.outfits.length<=1||!sheet.outfits.some(item=>item.id===id))return sheet;
   return {...sheet,outfits:sheet.outfits.filter(item=>item.id!==id),
+    inlineFormatting:withoutInlineFormatting(sheet,'outfit:'+id+':'),
     equippedOutfitId:sheet.equippedOutfitId===id?'':sheet.equippedOutfitId};
 }
 export function updateMoonOutfit(sheet:MoonSheetData,id:string,patch:Partial<MoonOutfit>):MoonSheetData {
@@ -170,7 +177,8 @@ export function addMoonAugment(sheet:MoonSheetData,id:string):MoonSheetData {
 }
 export function removeMoonAugment(sheet:MoonSheetData,id:string):MoonSheetData {
   if(sheet.augments.length<=1||!sheet.augments.some(item=>item.id===id))return sheet;
-  return {...sheet,augments:sheet.augments.filter(item=>item.id!==id)};
+  return {...sheet,augments:sheet.augments.filter(item=>item.id!==id),
+    inlineFormatting:withoutInlineFormatting(sheet,'augment:'+id+':')};
 }
 export function updateMoonAugment(sheet:MoonSheetData,id:string,patch:Partial<MoonAugment>):MoonSheetData {
   if(!sheet.augments.some(item=>item.id===id))return sheet;
@@ -289,7 +297,8 @@ export function addMoonWeapon(sheet: MoonSheetData, id: string): MoonSheetData {
 /** Remove a chosen weapon but retain the two initial slots at minimum. */
 export function removeMoonWeapon(sheet: MoonSheetData, id: string): MoonSheetData {
   if (sheet.weapons.length <= 2 || !sheet.weapons.some(weapon => weapon.id === id)) return sheet;
-  return { ...sheet, weapons: sheet.weapons.filter(weapon => weapon.id !== id) };
+  return { ...sheet, weapons: sheet.weapons.filter(weapon => weapon.id !== id),
+    inlineFormatting:withoutInlineFormatting(sheet,'weapon:'+id+':') };
 }
 
 /** Labels are A–Z then AA, AB…; stored weapon IDs remain independent of labels. */
