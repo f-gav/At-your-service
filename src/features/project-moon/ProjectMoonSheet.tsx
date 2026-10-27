@@ -12,6 +12,7 @@ import { normalizedName } from '../../lib/models';
 import {setPageVisible,visiblePageIds} from '../../lib/page-visibility';
 import MoonPortrait from './MoonPortrait';
 import RichField from '../pathfinder/RichField';
+import MoonInlineRichField from './MoonInlineRichField';
 import type { CropFrame } from '../portrait/crop';
 import {
   MOON_PAGES, MOON_ATTRIBUTES, readMoonSheet, saveMoonSheet,
@@ -277,6 +278,11 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
     setSheet(old => ({ ...old, notes: old.notes.map((entry, i) => i === index ? { ...entry, ...patch } : entry) }));
   const updateWeaponById = (id: string, patch: Partial<MoonWeapon>) =>
     setSheet(old => ({ ...old, weapons: old.weapons.map(entry => entry.id === id ? { ...entry, ...patch } : entry) }));
+  const updateWeaponRich = (id:string,key:'dice'|'form'|'grip'|'bonus',plain:string,formatted:string) =>
+    setSheet(old=>({...old,
+      weapons:old.weapons.map(weapon=>weapon.id===id?{...weapon,[key]:plain}:weapon),
+      inlineFormatting:{...old.inlineFormatting,['weapon:'+id+':'+key]:formatted},
+    }));
   const changeMax = (id: MoonResourceId, value: string) => setSheet(old => {
     if (moonCalculatedMax(old, id) !== null) {
       return { ...old, maxOverrides: { ...old.maxOverrides, [id]: value } };
@@ -568,22 +574,34 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
                     onChange={()=>updateWeaponById(weapon.id,{damage:value})}/>{label}</label>)}
                 </div>
                 <div className="moon-weapon-secondary">
-                  <label>Кости <input disabled={editLocked} aria-label={'Кости оружия ' + (index + 1)}
-                    value={weapon.dice} onChange={e=>updateWeaponById(weapon.id,{dice:e.target.value})} /></label>
-                  <label>Форма <input disabled={editLocked} aria-label={'Форма оружия ' + (index + 1)}
-                    value={weapon.form ?? ''} onChange={e=>updateWeaponById(weapon.id,{form:e.target.value})} /></label>
+                  <label>Кости <MoonInlineRichField id={'moon-inline-weapon-dice-'+weapon.id}
+                    label={'Кости оружия '+(index+1)} disabled={editLocked}
+                    resourceContext={sheet.fields} value={weapon.dice}
+                    formatted={sheet.inlineFormatting['weapon:'+weapon.id+':dice']}
+                    onChange={(plain,rich)=>updateWeaponRich(weapon.id,'dice',plain,rich)}/></label>
+                  <label>Форма <MoonInlineRichField id={'moon-inline-weapon-form-'+weapon.id}
+                    label={'Форма оружия '+(index+1)} disabled={editLocked}
+                    resourceContext={sheet.fields} value={weapon.form??''}
+                    formatted={sheet.inlineFormatting['weapon:'+weapon.id+':form']}
+                    onChange={(plain,rich)=>updateWeaponRich(weapon.id,'form',plain,rich)}/></label>
                 </div>
                 <label className="moon-compact-field"><span>Хват / свойства:</span>
-                  <input disabled={editLocked} value={weapon.grip ?? ''} onChange={e=>updateWeaponById(weapon.id,{grip:e.target.value})}
-                    aria-label={'Хват и свойства оружия ' + (index + 1)} /></label>
+                  <MoonInlineRichField id={'moon-inline-weapon-grip-'+weapon.id}
+                    label={'Хват и свойства оружия '+(index+1)} disabled={editLocked}
+                    resourceContext={sheet.fields} value={weapon.grip??''}
+                    formatted={sheet.inlineFormatting['weapon:'+weapon.id+':grip']}
+                    onChange={(plain,rich)=>updateWeaponRich(weapon.id,'grip',plain,rich)}/></label>
                 <div className="moon-rich-group"><span>ЭФФЕКТЫ / УСЛОВИЯ</span>
                   <RichField id={'moon-' + weapon.id} label={'Эффекты оружия ' + (index + 1)}
                     value={weapon.description} onChange={value=>updateWeaponById(weapon.id,{description:value})}
                     disabled={editLocked} resourceContext={sheet.fields} grow placeholder="Эффекты и условия…" />
                 </div>
                 <label className="moon-compact-field moon-bonus-field"><span>Доп. бонус:</span>
-                  <input disabled={editLocked} value={weapon.bonus} onChange={e=>updateWeaponById(weapon.id,{bonus:e.target.value})}
-                    aria-label={'Дополнительный бонус оружия ' + (index + 1)} /></label>
+                  <MoonInlineRichField id={'moon-inline-weapon-bonus-'+weapon.id}
+                    label={'Дополнительный бонус оружия '+(index+1)} disabled={editLocked}
+                    resourceContext={sheet.fields} value={weapon.bonus}
+                    formatted={sheet.inlineFormatting['weapon:'+weapon.id+':bonus']}
+                    onChange={(plain,rich)=>updateWeaponRich(weapon.id,'bonus',plain,rich)}/></label>
               </div>)}
             </div>
           </div>
