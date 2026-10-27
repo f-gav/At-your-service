@@ -304,7 +304,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         {loading?<p>Загружаем комнаты…</p>:sortedRooms.length===0?
           <p className="ays-room-empty">Пока нет комнат. Создай свою или подключись по коду.</p>:
           <div className="ays-room-links">{sortedRooms.map(item=><button type="button" key={item.id}
-            onClick={()=>{setSelected(item.id);setMembers([]);setRolls([]);setError('');}}>
+            onClick={()=>{setSelected(item.id);setRoomTab('table');setMembers([]);setRolls([]);setError('');}}>
             <span><strong>{item.title}</strong><small>{systemLabels[item.system]} · {item.owner_id===userId?'Мастер':'Игрок'}{item.closed?' · Закрыта':''}</small></span>
             <span>Открыть →</span>
           </button>)}</div>}
