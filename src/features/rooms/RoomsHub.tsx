@@ -14,11 +14,16 @@ type Roll={id:string;room_id:string;character_id:string;formula:string;label:str
   calculation:string;created_at:string;dice:unknown[]};
 type Props={userId:string|null;characters:Character[];onOpenCharacter:(id:string)=>void};
 const systemLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
+const roomBadgeLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Pr. Moon'};
+function participantLabel(n:number):string {
+  const m100=n%100,m10=n%10;
+  return m100>=11&&m100<=14?'участников':m10===1?'участник':m10>=2&&m10<=4?'участника':'участников';
+}
 const friendlyError=(error:unknown)=>{
   const message=error&&typeof error==='object'&&'message'in error?String(error.message):String(error);
   if(/Could not find the table|schema cache|PGRST205|Could not find the function/.test(message))
     return 'Комнаты ещё не подключены к Supabase. Необходимо применить миграцию supabase/migrations/20261026_game_rooms.sql к базе At your service!.';
-  if(/already in a room|duplicate key/i.test(message))return 'Этот персонаж уже состоит в комнате.';
+  if(/already in this room|already in a room|duplicate key/i.test(message))return 'Этот персонаж уже подключён к этой комнате.';
   if(/does not match room/i.test(message))return 'Система персонажа не совпадает с системой комнаты.';
   if(/Room not found|closed/i.test(message))return 'Комната с таким кодом не найдена или закрыта.';
   return message;
@@ -56,7 +61,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const room=rooms.find(r=>r.id===selected);
   const isOwner=!!room&&room.owner_id===userId;
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
-  const eligible=characters.filter(c=>(c.system==='pf2e'||c.system==='prmoon')&&!mine.some(m=>m.character_id===c.id));
+  const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon');
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
   useEffect(()=>{
     if(!dialog)return;
@@ -201,7 +206,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         <div className="ays-room-identity">
           <button type="button" className="ays-room-back" onClick={()=>{setSelected(null);setError('');}}><ArrowLeft size={16}/> Комнаты</button>
           <h2>{room.title}</h2>
-          <span className="ays-room-system">{systemLabels[room.system]}</span>
+          <span className={'ays-room-system ays-room-system-'+room.system}>{roomBadgeLabels[room.system]}</span>
         </div>
         <div className="ays-room-code">
           <span>Код комнаты: <strong>{room.invite_code}</strong></span>
@@ -312,11 +317,10 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
           <div className="ays-room-cards">{sortedRooms.map(item=><button type="button"
             className="ays-room-tile" key={item.id}
             onClick={()=>{setSelected(item.id);setRoomTab('table');setMembers([]);setRolls([]);setError('');}}>
-            <span className="ays-room-tile-avatar"><Users size={23}/></span>
             <span className="ays-room-tile-body">
               <strong>{item.title}</strong>
-              <span className={'ays-room-system-pill ays-room-system-'+item.system}>{systemLabels[item.system]}</span>
-              <small><Users size={14}/> {roomCounts[item.id]??0} участников{item.closed?' · Приглашения закрыты':''}</small>
+              <span className={'ays-room-system-pill ays-room-system-'+item.system}>{roomBadgeLabels[item.system]}</span>
+              <small><Users size={14}/> {roomCounts[item.id]??0} {participantLabel(roomCounts[item.id]??0)}{item.closed?' · Приглашения закрыты':''}</small>
             </span>
             <ChevronRight className="ays-room-tile-arrow" size={23}/>
           </button>)}</div>}
@@ -328,10 +332,11 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <button type="button" onClick={()=>setDialog(null)} disabled={busy} aria-label="Закрыть окно"><X size={20}/></button>
           </div>
           {error&&<p className="ays-room-dialog-error" role="alert">{error}</p>}
+          {error&&<p className="ays-room-dialog-error" role="alert">{error}</p>}
           {dialog==='create'?<form onSubmit={event=>void createRoom(event)}>
             <label>Название комнаты
               <input autoFocus maxLength={100} minLength={1} required
-                placeholder="Например, Кампания в Абсаломе" value={createTitle} onChange={e=>setCreateTitle(e.target.value)}/>
+                placeholder="Например, Запалка" value={createTitle} onChange={e=>setCreateTitle(e.target.value)}/>
             </label>
             <label>Игровая система
               <select value={createSystem} onChange={e=>setCreateSystem(e.target.value as RoomSystem)}>
@@ -350,7 +355,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <label>Персонаж
               <select required value={inviteCharacter} onChange={e=>setInviteCharacter(e.target.value)}>
                 <option value="">Выбрать персонажа</option>
-                {eligible.map(c=><option key={c.id} value={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}</option>)}
+                {eligible.map(c=><option key={c.id} value={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}{mine.some(m=>m.character_id===c.id)?' · уже в комнате':''}</option>)}
               </select>
             </label>
             <div className="ays-room-dialog-actions">
