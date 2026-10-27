@@ -1,6 +1,6 @@
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
-import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X} from 'lucide-react';
+import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save} from 'lucide-react';
 import type {Character} from '../../lib/models';
 import {supabase} from '../../lib/supabase';
 import './RoomsHub.css';
@@ -50,8 +50,11 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const [busy,setBusy]=useState(false);
   const [loading,setLoading]=useState(false);
   const [expandedMember,setExpandedMember]=useState<string|null>(null);
+  const [roomTab,setRoomTab]=useState<'table'|'players'|'settings'>('table');
+  const [roomTitleDraft,setRoomTitleDraft]=useState('');
   const room=rooms.find(r=>r.id===selected);
   const isOwner=!!room&&room.owner_id===userId;
+  const roomMembersOwn=members.filter(m=>m.user_id===userId);
   const eligible=characters.filter(c=>(c.system==='pf2e'||c.system==='prmoon')&&!mine.some(m=>m.character_id===c.id));
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
   const loadOverview=useCallback(async()=>{
@@ -110,7 +113,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         .insert({owner_id:userId,title:createTitle.trim(),system:createSystem})
         .select('id').single();
       if(failure||!data)throw failure??new Error('Не удалось создать комнату');
-      setSelected(data.id);setCreateTitle('');
+      setSelected(data.id);setRoomTab('table');setCreateTitle('');
     });
   }
   async function joinRoom(event:FormEvent){
@@ -121,7 +124,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         p_code:inviteCode.trim().toUpperCase(),p_character:inviteCharacter,
       });
       if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
-      setSelected(data as string);setInviteCode('');setInviteCharacter('');
+      setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');
     });
   }
   async function leaveRoom(member:Member){
@@ -142,6 +145,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
       if(failure)throw failure;
     });
   }
+  async function renameRoom(event:FormEvent){
+    event.preventDefault();
+    if(!supabase||!room||!isOwner||!roomTitleDraft.trim())return;
+    await operate(async()=>{
+      const {error:failure}=await supabase!.from('game_rooms').update({title:roomTitleDraft.trim()}).eq('id',room.id);
+      if(failure)throw failure;
+    });
+  }
   async function closeRoom(){
     if(!supabase||!room||!isOwner)return;
     const next=!room.closed;
@@ -159,8 +170,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     });
   }
   if(!userId)return <main className="ays-rooms"><h1>Комнаты</h1><p>Войди через Google, чтобы создавать комнаты или подключать своих персонажей.</p></main>;
-  return <main className="ays-rooms">
-    <div className="ays-rooms-heading">
+  return <main className={'ays-rooms'+(selected&&room?' ays-rooms-in-room':'')}>
+    {!(selected&&room)&&<div className="ays-rooms-heading">
       <div>
         <span className="ays-rooms-kicker">СОВМЕСТНАЯ ИГРА</span>
         <h1>Комнаты</h1>
@@ -168,70 +179,51 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
       </div>
       <button type="button" onClick={()=>void loadOverview().catch(cause=>setError(friendlyError(cause)))}
         title="Обновить список" aria-label="Обновить комнаты"><RefreshCw size={20}/></button>
-    </div>
+    </div>}
     {error&&<div className="ays-room-error" role="alert">{error}<button type="button" onClick={()=>setError('')} aria-label="Закрыть ошибку"><X size={16}/></button></div>}
     {selected&&room?<section className="ays-room-open">
-      <div className="ays-room-heading">
-        <button type="button" className="ays-room-back" onClick={()=>{setSelected(null);setError('');}}><ArrowLeft size={17}/> Все комнаты</button>
-        <span className="ays-room-system">{systemLabels[room.system]}</span>
-        <h2>{room.title}</h2>
-        <div className="ays-room-meta">
-          <span><Users size={15}/> {members.length} персонажей</span>
-          <span>{isOwner?'Ты мастер':'Участник'}</span>
-          {room.closed&&<span>Приглашения закрыты</span>}
+      <header className="ays-room-topline">
+        <div className="ays-room-identity">
+          <button type="button" className="ays-room-back" onClick={()=>{setSelected(null);setError('');}}><ArrowLeft size={16}/> Комнаты</button>
+          <h2>{room.title}</h2>
+          <span className="ays-room-system">{systemLabels[room.system]}</span>
         </div>
         <div className="ays-room-code">
-          <span>Код приглашения <strong>{room.invite_code}</strong></span>
-          <button type="button" title="Скопировать код" onClick={()=>void navigator.clipboard.writeText(room.invite_code).catch(()=>setError('Не удалось скопировать код.'))}><Copy size={16}/> Копировать</button>
+          <span>Код комнаты: <strong>{room.invite_code}</strong></span>
+          <button type="button" title="Скопировать код" aria-label="Скопировать код" onClick={()=>void navigator.clipboard.writeText(room.invite_code).catch(()=>setError('Не удалось скопировать код.'))}><Copy size={18}/></button>
         </div>
-        {isOwner&&<div className="ays-room-owner-actions">
-          <button type="button" disabled={busy} onClick={()=>void closeRoom()}>{room.closed?'Открыть приглашения':'Закрыть приглашения'}</button>
-          <button type="button" disabled={busy} onClick={()=>void deleteRoom()}><Trash2 size={15}/> Удалить комнату</button>
-        </div>}
-      </div>
-      <div className="ays-room-two-columns">
-        <section>
-          <h3>Персонажи</h3>
-          {members.length===0&&<p className="ays-room-empty">Пока никого нет. Поделись кодом с игроками или подключи собственного персонажа.</p>}
-          <div className="ays-room-member-grid">
-            {members.map(member=>{
-              const snap=member.snapshot??{};
-              const own=member.user_id===userId;
-              const expanded=expandedMember===member.character_id;
-              const local=characters.find(c=>c.id===member.character_id);
-              return <article className="ays-room-member" key={member.character_id}>
-                <div className="ays-room-member-title">
-                  <button type="button" onClick={()=>setExpandedMember(expanded?null:member.character_id)}
-                    aria-expanded={expanded} title="Подробнее о персонаже">
-                    <span className="ays-room-member-avatar"><Users size={19}/></span>
-                    <span><strong>{snap.name||'Персонаж'}</strong><small>{own?'Твой персонаж':'Игрок'}{room.system==='pf2e'&&snap.level?' · Ур. '+snap.level:room.system==='prmoon'&&snap.rank?' · Ранг '+snap.rank:''}</small></span>
-                  </button>
-                  {own&&local&&<button type="button" title="Открыть свой лист" onClick={()=>onOpenCharacter(local.id)}>Лист</button>}
+      </header>
+      <nav className="ays-room-tabs" aria-label="Разделы комнаты">
+        <button type="button" className={roomTab==='table'?'active':''} aria-current={roomTab==='table'?'page':undefined} onClick={()=>setRoomTab('table')}><LayoutDashboard size={17}/> Стол</button>
+        <button type="button" className={roomTab==='players'?'active':''} aria-current={roomTab==='players'?'page':undefined} onClick={()=>setRoomTab('players')}><Users size={17}/> Игроки и персонажи</button>
+        <button type="button" className={roomTab==='settings'?'active':''} aria-current={roomTab==='settings'?'page':undefined} onClick={()=>{setRoomTitleDraft(room.title);setRoomTab('settings');}}><Settings size={17}/> Настройки</button>
+      </nav>
+      {roomTab==='table'&&<div className="ays-room-table">
+        <div className="ays-room-member-grid">
+          {members.length===0&&<p className="ays-room-empty">Пока нет персонажей. Передай игрокам код комнаты.</p>}
+          {members.map(member=>{
+            const snap=member.snapshot??{};
+            const local=characters.find(c=>c.id===member.character_id);
+            return <article className="ays-room-member" key={member.character_id}>
+              <div className="ays-room-member-title">
+                <div className="ays-room-member-name"><span className="ays-room-member-avatar"><Users size={19}/></span>
+                  <span><strong>{snap.name||'Персонаж'}</strong><small>{room.system==='pf2e'&&snap.level?'Уровень '+snap.level:room.system==='prmoon'&&snap.rank?'Ранг '+snap.rank:''}</small></span>
                 </div>
-                {room.system==='pf2e'?<>
-                  <Resource label="ПЗ" current={snap.hpCurrent} max={snap.hpMax}/>
-                  <div className="ays-room-member-secondary"><span><Shield size={15}/> КД <b>{stat(snap.ac)}</b></span>
-                    {snap.hpTemp&&<span>Врем. ПЗ {snap.hpTemp}</span>}</div>
-                </>:<>
-                  <Resource label="HP" current={snap.hpCurrent} max={snap.hpMax}/>
-                  <Resource label="ST" current={snap.stCurrent} max={snap.stMax}/>
-                  <Resource label="SP" current={snap.spCurrent} max={snap.spMax}/>
-                </>}
-                {expanded&&<div className="ays-room-member-extra">
-                  {own&&<label><input type="checkbox" checked={member.casts_enabled} disabled={busy}
-                    onChange={()=>void toggleRolls(member)}/> Отправлять броски в комнату</label>}
-                  {(own||isOwner)&&<button type="button" disabled={busy} onClick={()=>void leaveRoom(member)}>
-                    <LogOut size={14}/> {own?'Покинуть комнату':'Исключить персонажа'}
-                  </button>}
-                  {!own&&<small>Полный лист доступен только его владельцу.</small>}
-                </div>}
-              </article>;
-            })}
-          </div>
-        </section>
-        <section className="ays-room-events">
-          <h3><Dices size={18}/> Журнал бросков</h3>
-          <p className="ays-room-hint">Броски подключённых персонажей попадают сюда при включённой отправке.</p>
+                {member.user_id===userId&&local&&<button type="button" title="Открыть свой лист" onClick={()=>onOpenCharacter(local.id)}>Лист</button>}
+              </div>
+              {room.system==='pf2e'?<>
+                <Resource label="ПЗ" current={snap.hpCurrent} max={snap.hpMax}/>
+                <div className="ays-room-member-secondary"><span><Shield size={15}/> КД <b>{stat(snap.ac)}</b></span>{snap.hpTemp&&<span>Врем. ПЗ {snap.hpTemp}</span>}</div>
+              </>:<>
+                <Resource label="HP" current={snap.hpCurrent} max={snap.hpMax}/>
+                <Resource label="ST" current={snap.stCurrent} max={snap.stMax}/>
+                <Resource label="SP" current={snap.spCurrent} max={snap.spMax}/>
+              </>}
+            </article>;
+          })}
+        </div>
+        <aside className="ays-room-events">
+          <h3><Dices size={18}/> История событий <small>(последние 80)</small></h3>
           {rolls.length===0?<p className="ays-room-empty">Бросков ещё не было.</p>:
             <div className="ays-room-event-list">{rolls.map(roll=><article key={roll.id} className="ays-room-event">
               <div><strong>{members.find(m=>m.character_id===roll.character_id)?.snapshot?.name??'Персонаж'}</strong>
@@ -239,8 +231,47 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
               <h4>{roll.label||roll.formula}<b>{roll.total}</b></h4>
               <p>{roll.calculation||roll.formula+' = '+roll.total}</p>
             </article>)}</div>}
+        </aside>
+      </div>}
+      {roomTab==='players'&&<div className="ays-room-players">
+        <h3>Игроки и персонажи <small>({members.length})</small></h3>
+        {members.length===0&&<p className="ays-room-empty">В комнате ещё нет персонажей.</p>}
+        {members.map(member=>{
+          const own=member.user_id===userId;
+          const local=characters.find(c=>c.id===member.character_id);
+          return <article key={member.character_id} className="ays-room-player">
+            <div className="ays-room-player-heading"><strong>{own?'Вы':'Игрок'}</strong><span>{own?'Ваш аккаунт':'Участник комнаты'}</span></div>
+            <div className="ays-room-player-body">
+              <span className="ays-room-member-avatar"><Users size={18}/></span>
+              <div><strong>{member.snapshot?.name||'Персонаж'}</strong><small>{systemLabels[room.system]}</small></div>
+              {own&&local&&<button type="button" onClick={()=>onOpenCharacter(local.id)}>Открыть лист</button>}
+              {(own||isOwner)&&<button className="ays-room-kick" type="button" disabled={busy} onClick={()=>void leaveRoom(member)}><LogOut size={16}/>{own?'Покинуть':'Выгнать'}</button>}
+            </div>
+            {own&&<label className="ays-room-roll-toggle"><input type="checkbox" checked={member.casts_enabled} disabled={busy} onChange={()=>void toggleRolls(member)}/> Отправлять броски в журнал комнаты</label>}
+          </article>;
+        })}
+      </div>}
+      {roomTab==='settings'&&<div className="ays-room-settings">
+        <section>
+          <h3>Настройки комнаты</h3>
+          <form onSubmit={event=>void renameRoom(event)}>
+            <label>Название<input maxLength={100} minLength={1} required value={isOwner?roomTitleDraft:room.title} disabled={!isOwner||busy} onChange={e=>setRoomTitleDraft(e.target.value)}/></label>
+            {isOwner&&<button type="submit" disabled={busy||!roomTitleDraft.trim()||roomTitleDraft.trim()===room.title}><Save size={16}/> Сохранить изменения</button>}
+          </form>
         </section>
-      </div>
+        <section>
+          <h3>Доступ в комнату</h3>
+          <p>Система: {systemLabels[room.system]} · {members.length} персонажей</p>
+          <p>Приглашения: {room.closed?'закрыты':'открыты'}</p>
+          {isOwner&&<button type="button" disabled={busy} onClick={()=>void closeRoom()}>{room.closed?'Открыть приглашения':'Закрыть приглашения'}</button>}
+        </section>
+        {isOwner&&<section className="ays-room-danger">
+          <h3>Удаление комнаты</h3>
+          <p>Комната и журнал бросков будут удалены. Листы персонажей сохранятся.</p>
+          <button type="button" disabled={busy} onClick={()=>void deleteRoom()}><Trash2 size={16}/> Удалить комнату</button>
+        </section>}
+        {!isOwner&&roomMembersOwn.length>0&&<section><h3>Участие</h3><p>Вы можете покинуть комнату во вкладке «Игроки и персонажи».</p></section>}
+      </div>}
     </section>:<div className="ays-rooms-start">
       <section className="ays-rooms-panel">
         <h2>Создать комнату</h2>
