@@ -39,6 +39,8 @@ export type MoonSheetData = {
   smoothWeaponSwitch: boolean;
   inventoryColumns: number;
   textSizes: Record<string, number>;
+  /** Per-field rich markup; legacy numerical/text values remain plain. */
+  inlineFormatting: Record<string,string>;
   pageOrder: MoonPage[];
   hiddenPages: MoonPage[];
   maxOverrides: Partial<Record<MoonResourceId, string>>;
@@ -70,6 +72,7 @@ export function emptyMoonSheet(): MoonSheetData {
     smoothWeaponSwitch: true,
     inventoryColumns: 1,
     textSizes: {},
+    inlineFormatting: {},
     pageOrder: [...DEFAULT_MOON_ORDER],
     hiddenPages: [],
     maxOverrides: {},
@@ -125,6 +128,8 @@ export function readMoonSheet(details: CharacterDetails): MoonSheetData {
       typeof entry[1] === 'string')),
     autoVitals: stored.autoVitals === true,
     smoothWeaponSwitch: stored.smoothWeaponSwitch !== false,
+    inlineFormatting: Object.fromEntries(Object.entries(record(stored.inlineFormatting))
+      .filter((entry): entry is [string,string] => typeof entry[1]==='string' && entry[1].length<=12000)),
     textSizes: Object.fromEntries(Object.entries(record(stored.textSizes))
       .filter((entry): entry is [string, number] => typeof entry[1] === 'number' && Number.isInteger(entry[1]) && entry[1] >= 8 && entry[1] <= 28)),
     inventoryColumns: typeof stored.inventoryColumns === 'number' && Number.isInteger(stored.inventoryColumns)
