@@ -1,6 +1,6 @@
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
-import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save} from 'lucide-react';
+import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save,ChevronRight,UserPlus} from 'lucide-react';
 import type {Character} from '../../lib/models';
 import {supabase} from '../../lib/supabase';
 import './RoomsHub.css';
@@ -39,6 +39,8 @@ function Resource({label,current,max}:{label:string;current?:string;max?:string}
 export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const [rooms,setRooms]=useState<Room[]>([]);
   const [mine,setMine]=useState<Member[]>([]);
+  const [roomCounts,setRoomCounts]=useState<Record<string,number>>({});
+  const [dialog,setDialog]=useState<'create'|'join'|null>(null);
   const [selected,setSelected]=useState<string|null>(null);
   const [members,setMembers]=useState<Member[]>([]);
   const [rolls,setRolls]=useState<Roll[]>([]);
@@ -56,15 +58,29 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
   const eligible=characters.filter(c=>(c.system==='pf2e'||c.system==='prmoon')&&!mine.some(m=>m.character_id===c.id));
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
+  useEffect(()=>{
+    if(!dialog)return;
+    const closeOnEscape=(event:KeyboardEvent)=>{if(event.key==='Escape'&&!busy)setDialog(null);};
+    document.addEventListener('keydown',closeOnEscape);
+    return()=>document.removeEventListener('keydown',closeOnEscape);
+  },[dialog,busy]);
   const loadOverview=useCallback(async()=>{
-    if(!supabase||!userId){setRooms([]);setMine([]);return;}
-    const [roomsResponse,mineResponse]=await Promise.all([
+    if(!supabase||!userId){setRooms([]);setMine([]);setRoomCounts({});return;}
+    const [roomsResponse,mineResponse,countsResponse]=await Promise.all([
       supabase.from('game_rooms').select('id,owner_id,title,system,invite_code,closed,created_at').order('created_at',{ascending:false}),
       supabase.from('game_room_members').select('room_id,character_id,user_id,casts_enabled,joined_at,snapshot').eq('user_id',userId),
+      supabase.from('game_room_members').select('room_id,user_id'),
     ]);
     if(roomsResponse.error||mineResponse.error)throw roomsResponse.error??mineResponse.error;
     setRooms((roomsResponse.data??[]) as Room[]);
     setMine((mineResponse.data??[]) as Member[]);
+    // Count distinct players, not sheets. A user can attach several characters.
+    // Counts come only from rows that existing room-member RLS makes readable.
+    const roomUsers:Record<string,Set<string>>={};
+    if(!countsResponse.error){for(const entry of countsResponse.data??[]){
+      (roomUsers[entry.room_id]??=new Set<string>()).add(entry.user_id);
+    }}
+    setRoomCounts(Object.fromEntries(Object.entries(roomUsers).map(([id,people])=>[id,people.size])));
   },[userId]);
   const loadRoom=useCallback(async(roomId:string)=>{
     if(!supabase||!userId)return;
@@ -112,7 +128,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         .insert({owner_id:userId,title:createTitle.trim(),system:createSystem})
         .select('id').single();
       if(failure||!data)throw failure??new Error('Не удалось создать комнату');
-      setSelected(data.id);setRoomTab('table');setCreateTitle('');
+      setSelected(data.id);setRoomTab('table');setCreateTitle('');setDialog(null);
     });
   }
   async function joinRoom(event:FormEvent){
@@ -123,7 +139,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         p_code:inviteCode.trim().toUpperCase(),p_character:inviteCharacter,
       });
       if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
-      setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');
+      setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');setDialog(null);
     });
   }
   async function leaveRoom(member:Member){
@@ -271,43 +287,74 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         </section>}
         {!isOwner&&roomMembersOwn.length>0&&<section><h3>Участие</h3><p>Вы можете покинуть комнату во вкладке «Игроки и персонажи».</p></section>}
       </div>}
-    </section>:<div className="ays-rooms-start">
-      <section className="ays-rooms-panel">
-        <h2>Создать комнату</h2>
-        <p>Мастер выбирает систему один раз. Персонажи другой системы подключиться не смогут.</p>
-        <form onSubmit={event=>void createRoom(event)}>
-          <label>Название комнаты<input maxLength={100} minLength={1} required value={createTitle}
-            placeholder="Название кампании" onChange={e=>setCreateTitle(e.target.value)}/></label>
-          <label>Игровая система<select value={createSystem} onChange={e=>setCreateSystem(e.target.value as RoomSystem)}>
-            <option value="pf2e">Pathfinder 2e</option><option value="prmoon">Project Moon</option>
-          </select></label>
-          <button type="submit" disabled={busy||!createTitle.trim()}><Plus size={17}/> Создать как мастер</button>
-        </form>
-      </section>
-      <section className="ays-rooms-panel">
-        <h2>Подключить персонажа</h2>
-        <p>Получи код от мастера и выбери персонажа подходящей системы.</p>
-        <form onSubmit={event=>void joinRoom(event)}>
-          <label>Код комнаты<input required minLength={8} maxLength={8} autoCapitalize="characters"
-            autoComplete="off" value={inviteCode} placeholder="8 символов"
-            onChange={e=>setInviteCode(e.target.value.toUpperCase().replace(/[^A-F0-9]/g,''))}/></label>
-          <label>Персонаж<select required value={inviteCharacter} onChange={e=>setInviteCharacter(e.target.value)}>
-            <option value="">Выбрать персонажа</option>
-            {eligible.map(c=><option value={c.id} key={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}</option>)}
-          </select></label>
-          <button type="submit" disabled={busy||inviteCode.length!==8||!inviteCharacter}><Users size={17}/> Подключиться</button>
-        </form>
-      </section>
-      <section className="ays-rooms-panel ays-room-list">
-        <h2>Мои комнаты {rooms.length>0&&'('+rooms.length+')'}</h2>
-        {loading?<p>Загружаем комнаты…</p>:sortedRooms.length===0?
-          <p className="ays-room-empty">Пока нет комнат. Создай свою или подключись по коду.</p>:
-          <div className="ays-room-links">{sortedRooms.map(item=><button type="button" key={item.id}
+
+    </section>:<>
+      <section className="ays-rooms-overview" aria-labelledby="ays-my-rooms">
+        <div className="ays-rooms-overview-heading">
+          <div>
+            <h2 id="ays-my-rooms">Мои комнаты <span>({rooms.length})</span></h2>
+            <p>Выбери комнату, чтобы продолжить игру или управлять персонажами.</p>
+          </div>
+          <div className="ays-rooms-overview-actions">
+            <button type="button" className="ays-rooms-join-button" onClick={()=>setDialog('join')}><UserPlus size={16}/> Подключиться по коду</button>
+            <button type="button" className="ays-rooms-create-button" onClick={()=>setDialog('create')}><Plus size={17}/> Создать комнату</button>
+          </div>
+        </div>
+        {loading?<p className="ays-room-empty" role="status">Загружаем комнаты…</p>:sortedRooms.length===0?
+          <div className="ays-rooms-empty">
+            <Users size={30}/>
+            <p>Пока нет комнат. Создай свою или присоединись по коду мастера.</p>
+          </div>:
+          <div className="ays-room-cards">{sortedRooms.map(item=><button type="button"
+            className="ays-room-tile" key={item.id}
             onClick={()=>{setSelected(item.id);setRoomTab('table');setMembers([]);setRolls([]);setError('');}}>
-            <span><strong>{item.title}</strong><small>{systemLabels[item.system]} · {item.owner_id===userId?'Мастер':'Игрок'}{item.closed?' · Закрыта':''}</small></span>
-            <span>Открыть →</span>
+            <span className="ays-room-tile-avatar"><Users size={23}/></span>
+            <span className="ays-room-tile-body">
+              <strong>{item.title}</strong>
+              <span className={'ays-room-system-pill ays-room-system-'+item.system}>{systemLabels[item.system]}</span>
+              <small><Users size={14}/> {roomCounts[item.id]??0} участников{item.closed?' · Приглашения закрыты':''}</small>
+            </span>
+            <ChevronRight className="ays-room-tile-arrow" size={23}/>
           </button>)}</div>}
       </section>
-    </div>}
+      {dialog&&<div className="ays-room-dialog-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget&&!busy)setDialog(null);}}>
+        <section className="ays-room-dialog" role="dialog" aria-modal="true" aria-labelledby="ays-room-dialog-title">
+          <div className="ays-room-dialog-header">
+            <h2 id="ays-room-dialog-title">{dialog==='create'?'Создать комнату':'Подключить персонажа'}</h2>
+            <button type="button" onClick={()=>setDialog(null)} disabled={busy} aria-label="Закрыть окно"><X size={20}/></button>
+          </div>
+          {dialog==='create'?<form onSubmit={event=>void createRoom(event)}>
+            <label>Название комнаты
+              <input autoFocus maxLength={100} minLength={1} required
+                placeholder="Например, Кампания в Абсаломе" value={createTitle} onChange={e=>setCreateTitle(e.target.value)}/>
+            </label>
+            <label>Игровая система
+              <select value={createSystem} onChange={e=>setCreateSystem(e.target.value as RoomSystem)}>
+                <option value="pf2e">Pathfinder 2e</option><option value="prmoon">Project Moon</option>
+              </select>
+            </label>
+            <div className="ays-room-dialog-actions">
+              <button type="button" onClick={()=>setDialog(null)} disabled={busy}>Отмена</button>
+              <button type="submit" className="ays-room-dialog-primary" disabled={busy||!createTitle.trim()}><Plus size={16}/> Создать комнату</button>
+            </div>
+          </form>:<form onSubmit={event=>void joinRoom(event)}>
+            <label>Код комнаты
+              <input autoFocus required minLength={8} maxLength={8} autoCapitalize="characters" autoComplete="off"
+                value={inviteCode} placeholder="8 символов" onChange={e=>setInviteCode(e.target.value.toUpperCase().replace(/[^A-F0-9]/g,''))}/>
+            </label>
+            <label>Персонаж
+              <select required value={inviteCharacter} onChange={e=>setInviteCharacter(e.target.value)}>
+                <option value="">Выбрать персонажа</option>
+                {eligible.map(c=><option key={c.id} value={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}</option>)}
+              </select>
+            </label>
+            <div className="ays-room-dialog-actions">
+              <button type="button" onClick={()=>setDialog(null)} disabled={busy}>Отмена</button>
+              <button type="submit" className="ays-room-dialog-primary" disabled={busy||inviteCode.length!==8||!inviteCharacter}><UserPlus size={16}/> Подключиться</button>
+            </div>
+          </form>}
+        </section>
+      </div>}
+    </>}
   </main>;
 }
