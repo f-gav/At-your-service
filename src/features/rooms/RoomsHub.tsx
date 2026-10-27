@@ -245,7 +245,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
               <span className="ays-room-member-avatar"><Users size={18}/></span>
               <div><strong>{member.snapshot?.name||'Персонаж'}</strong><small>{systemLabels[room.system]}</small></div>
               {own&&local&&<button type="button" onClick={()=>onOpenCharacter(local.id)}>Открыть лист</button>}
-              {(own||isOwner)&&<button className="ays-room-kick" type="button" disabled={busy} onClick={()=>void leaveRoom(member)}><LogOut size={16}/>{own?'Покинуть':'Выгнать'}</button>}
+              {(own||isOwner)&&<button className="ays-room-kick" title={own?'Покинуть комнату':'Исключить персонажа'} type="button" disabled={busy} onClick={()=>void leaveRoom(member)}><LogOut size={16}/>{own?'Покинуть':'Выгнать'}</button>}
             </div>
             {own&&<label className="ays-room-roll-toggle"><input type="checkbox" checked={member.casts_enabled} disabled={busy} onChange={()=>void toggleRolls(member)}/> Отправлять броски в журнал комнаты</label>}
           </article>;
