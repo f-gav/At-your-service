@@ -14,7 +14,7 @@ type Roll={id:string;room_id:string;character_id:string;formula:string;label:str
   calculation:string;created_at:string;dice:unknown[]};
 type Props={userId:string|null;characters:Character[];onOpenCharacter:(id:string)=>void};
 const systemLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
-const roomBadgeLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Pr. Moon'};
+const roomBadgeLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
 function participantLabel(n:number):string {
   const m100=n%100,m10=n%10;
   return m100>=11&&m100<=14?'участников':m10===1?'участник':m10>=2&&m10<=4?'участника':'участников';
