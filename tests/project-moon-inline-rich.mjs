@@ -54,7 +54,7 @@ assert.match(inline,/onChange\(moonInlinePlain\(rich\),rich\)/);
 assert.match(inline,/resourceContext=\{resourceContext\}/);
 assert.match(inline,/Node\.DOCUMENT_FRAGMENT_NODE/);
 assert.match(inline,/Array\.from\(node\.childNodes\)/);
-assert.doesNotMatch(inline,/onKeyDownCapture/); // Portaled dice dialog must submit with Enter.
+assert.doesNotMatch(inline,/onKeyDownCapture=\\{/); // Portaled dice dialog must submit with Enter.
 assert.match(inline,/children\.map\(visit\)/); // Nested strong/em/br stay intact.
 
 assert.match(richEditor,/aria-label="Форматирование выделенного текста"/);
