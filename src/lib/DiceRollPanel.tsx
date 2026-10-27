@@ -144,8 +144,10 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
           </div>
         </section>)}
       </div>
-      <p className="ays-dice-footnote">{roomMembership
-        ?roomMembership.casts_enabled?'Броски отправляются участникам комнаты.':'Отправка в комнату отключена; броски остаются локальными.'
+      <p className="ays-dice-footnote">{roomMemberships.length>0
+        ?roomMemberships.some(member=>member.casts_enabled)
+          ?'Броски отправляются в выбранные комнаты.'
+          :'Отправка во все комнаты отключена; броски остаются локальными.'
         :'Броски локальные, пока персонаж не подключён к комнате.'}</p>
     </div>}
     <button className="ays-dice-toggle" type="button" onClick={()=>setOpen(x=>!x)}
