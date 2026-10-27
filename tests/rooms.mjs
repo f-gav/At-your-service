@@ -51,7 +51,7 @@ assert.match(hub,/roomTab==='settings'/);
 assert.match(hub,/renameRoom/);
 assert.match(hub,/update\(\{title:roomTitleDraft.trim\(\)\}\)/);
 assert.match(hub,/ays-room-tabs/);
-assert.match(roomsStyle,/site-shell > \\.ays-rooms\\{flex:1 0 auto\\}/);
+assert.match(roomsStyle,/site-shell > \.ays-rooms\{flex:1 0 auto\}/);
 assert.match(roomsStyle,/ays-room-system-pf2e/);
 assert.match(roomsStyle,/ays-room-system-prmoon/);
 assert.match(hub,/Подключить персонажа/);
