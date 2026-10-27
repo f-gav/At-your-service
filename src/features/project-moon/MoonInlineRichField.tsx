@@ -10,9 +10,8 @@ export function moonInlinePlain(rich:string):string {
   fragment.innerHTML=toRichHtml(rich);
   const visit=(node:Node):string=>{
     if(node.nodeType===Node.TEXT_NODE)return node.textContent??'';
-    if(node.nodeType!==Node.ELEMENT_NODE)return '';
-    const element=node as HTMLElement;
-    if(element.tagName==='BR')return '\n';
+    if(node.nodeType!==Node.ELEMENT_NODE&&node.nodeType!==Node.DOCUMENT_FRAGMENT_NODE)return '';
+    if(node.nodeType===Node.ELEMENT_NODE&&(node as Element).tagName==='BR')return '\n';
     const children=Array.from(element.childNodes);
     const contents=children.map(visit);
     return contents.map((part,index)=>{
