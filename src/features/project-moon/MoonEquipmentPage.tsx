@@ -2,6 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import type {Dispatch,ReactNode,SetStateAction} from 'react';
 import {ChevronLeft,ChevronRight,Plus,X} from 'lucide-react';
 import RichField from '../pathfinder/RichField';
+import MoonInlineRichField from './MoonInlineRichField';
 import {MOON_AUGMENT_TYPES,moonAugmentTypeLabel,moonAugmentTypeValue} from './augment-types';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import type {MoonAugment,MoonOutfit,MoonSheetData} from './model';
@@ -82,6 +83,12 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
   const [pending,setPending]=useState<{kind:'outfit'|'augment';id:string;label:string}|null>(null);
   const updateOutfit=(id:string,patch:Partial<MoonOutfit>)=>setSheet(old=>updateMoonOutfit(old,id,patch));
   const updateAugment=(id:string,patch:Partial<MoonAugment>)=>setSheet(old=>updateMoonAugment(old,id,patch));
+  const updateOutfitRich=(id:string,key:'block'|'evade',plain:string,formatted:string)=>
+    setSheet(old=>({...updateMoonOutfit(old,id,{[key]:plain}),
+      inlineFormatting:{...old.inlineFormatting,['outfit:'+id+':'+key]:formatted}}));
+  const updateAugmentRich=(id:string,key:'location'|'description',plain:string,formatted:string)=>
+    setSheet(old=>({...updateMoonAugment(old,id,{[key]:plain}),
+      inlineFormatting:{...old.inlineFormatting,['augment:'+id+':'+key]:formatted}}));
   const ep=moonAugmentEpSummary(sheet);
   const confirm=()=>{
     if(!pending||disabled)return;
@@ -119,10 +126,16 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
           </label>
         </div>
         <div className="moon-equipment-fields">
-          <label>Блок <input disabled={disabled} aria-label={'Блок брони '+(index+1)}
-            placeholder="1d10+0" value={item.block} onChange={e=>updateOutfit(item.id,{block:e.target.value})}/></label>
-          <label>Уклонение <input disabled={disabled} aria-label={'Уклонение брони '+(index+1)}
-            placeholder="1d12+0" value={item.evade} onChange={e=>updateOutfit(item.id,{evade:e.target.value})}/></label>
+          <label>Блок <MoonInlineRichField id={'moon-inline-outfit-block-'+item.id}
+            label={'Блок брони '+(index+1)} value={item.block} disabled={disabled}
+            placeholder="1d10+0" resourceContext={sheet.fields}
+            formatted={sheet.inlineFormatting['outfit:'+item.id+':block']}
+            onChange={(plain,rich)=>updateOutfitRich(item.id,'block',plain,rich)}/></label>
+          <label>Уклонение <MoonInlineRichField id={'moon-inline-outfit-evade-'+item.id}
+            label={'Уклонение брони '+(index+1)} value={item.evade} disabled={disabled}
+            placeholder="1d12+0" resourceContext={sheet.fields}
+            formatted={sheet.inlineFormatting['outfit:'+item.id+':evade']}
+            onChange={(plain,rich)=>updateOutfitRich(item.id,'evade',plain,rich)}/></label>
         </div>
         <table className="moon-equipment-resistances">
           <thead><tr><th>Сопротивление</th><th>HP</th><th>ST</th></tr></thead>
@@ -170,9 +183,11 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
           <label>Тип <input disabled={disabled} value={moonAugmentTypeLabel(item.category)} list="moon-augment-types"
             aria-label={'Тип аугмента '+(index+1)}
             onChange={e=>updateAugment(item.id,{category:moonAugmentTypeValue(e.target.value)})}/></label>
-          <label>Часть тела / источник <input disabled={disabled} value={item.location}
-            aria-label={'Часть тела аугмента '+(index+1)}
-            onChange={e=>updateAugment(item.id,{location:e.target.value})}/></label>
+          <label>Часть тела / источник <MoonInlineRichField id={'moon-inline-augment-location-'+item.id}
+            label={'Часть тела аугмента '+(index+1)} value={item.location} disabled={disabled}
+            resourceContext={sheet.fields}
+            formatted={sheet.inlineFormatting['augment:'+item.id+':location']}
+            onChange={(plain,rich)=>updateAugmentRich(item.id,'location',plain,rich)}/></label>
           <label>Ранг <input disabled={disabled} value={item.rank}
             aria-label={'Ранг аугмента '+(index+1)}
             onChange={e=>updateAugment(item.id,{rank:e.target.value})}/></label>
@@ -186,8 +201,11 @@ export default function MoonEquipmentPage({sheet,setSheet,disabled}:{
             onChange={e=>updateAugment(item.id,{negativeEp:e.target.value})}/></label>
         </div>
         <label className="moon-equipment-summary-field">Описание / внешний вид
-          <input disabled={disabled} value={item.description} aria-label={'Описание аугмента '+(index+1)}
-            onChange={e=>updateAugment(item.id,{description:e.target.value})}/>
+          <MoonInlineRichField id={'moon-inline-augment-description-'+item.id}
+            label={'Описание аугмента '+(index+1)} value={item.description} disabled={disabled}
+            resourceContext={sheet.fields}
+            formatted={sheet.inlineFormatting['augment:'+item.id+':description']}
+            onChange={(plain,rich)=>updateAugmentRich(item.id,'description',plain,rich)}/>
         </label>
         <div className="moon-rich-group"><span>ЭФФЕКТЫ</span>
           <RichField id={'moon-augment-effects-'+item.id} label={'Эффекты аугмента '+(index+1)}
