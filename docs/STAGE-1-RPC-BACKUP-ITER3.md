@@ -73,16 +73,26 @@ node scripts/security-two-accounts-e2e.mjs
     "versions_with_missing_template": 0, "invalid_room_memberships": 0,
     "broken_room_roll_links": 0, "malformed_member_snapshots": 0,
     "malformed_roll_dice": 0
+  },
+  "fingerprints": {
+    "characters": "REPLACE_WITH_REAL_SHA256",
+    "sheet_admins": "REPLACE_WITH_REAL_SHA256",
+    "sheet_templates": "REPLACE_WITH_REAL_SHA256",
+    "sheet_template_drafts": "REPLACE_WITH_REAL_SHA256",
+    "sheet_template_history": "REPLACE_WITH_REAL_SHA256",
+    "game_rooms": "REPLACE_WITH_REAL_SHA256",
+    "game_room_members": "REPLACE_WITH_REAL_SHA256",
+    "game_room_rolls": "REPLACE_WITH_REAL_SHA256"
   }
 }
 ```
-Заполнять **реальными числовыми агрегатами** из `backup-integrity.sql` в каждой среде; нули выше — только образец формата. Для обеих директорий сохранить пути относительно корня bucket. Команда:
+Заполнять **реальными числовыми агрегатами** из `backup-integrity.sql` и 64-значными SHA-256 из `supabase/restore-row-fingerprints.sql` в каждой среде. Строки `REPLACE_WITH_REAL_SHA256` — намеренно недопустимые заглушки; проверка обязана завершаться ошибкой, пока их не заменят. Для обеих директорий сохранить пути относительно корня bucket. Команда:
 
 ```bash
 node scripts/verify-restore.mjs source.json restored.json private-source/ private-restored/
 ```
 
-PASS означает одинаковые количества строк, отсутствие девяти нарушений связей и точное совпадение путей, размеров и SHA-256 файлов Storage. Это **не полное доказательство** равенства содержимого каждой строки SQL и готовности всей инфраструктуры Auth: дополнительно проверить точечные контрольные JSON/PDF и тест двух JWT.
+PASS означает одинаковые количества строк, отсутствие девяти нарушений связей и точное совпадение путей, размеров и SHA-256 файлов Storage. Теперь дополнительно сравниваются SHA-256 содержимого каждой строки таблиц в стабильном порядке. Это проверка **данных восьми таблиц**, но не доказательство совпадения DDL, Auth/OAuth и всей инфраструктуры: отдельно проверить структуру, роли, точечные JSON/PDF и тест двух JWT.
 
 ## 4. Ограничения частоты
 
