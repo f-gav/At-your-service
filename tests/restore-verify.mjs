@@ -35,7 +35,8 @@ try{
     {...fixture,integrity:{...integrity,broken_room_roll_links:1}},src,dst),
     /Restore integrity violation: broken_room_roll_links/);
   await assert.rejects(compareBackupRestore(
-    {...fixture,counts:{...counts,portrait_objects:2}},fixture,src,dst),
+    {...fixture,counts:{...counts,portrait_objects:2}},
+    {...fixture,counts:{...counts,portrait_objects:2}},src,dst),
     /Source Storage file count differs/);
 }finally{await rm(temp,{recursive:true,force:true});}
 
