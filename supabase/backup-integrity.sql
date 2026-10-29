@@ -11,7 +11,10 @@ select
  (select count(*) from public.sheet_template_history) as template_versions,
  (select count(*) from storage.objects where bucket_id='character-portraits') as portrait_objects,
  (select count(*) from public.characters where portrait_source_path is not null) as new_portrait_references,
- (select count(*) from public.characters where portrait_card_path is not null or portrait_sheet_path is not null) as legacy_portrait_references;
+ (select count(*) from public.characters where portrait_card_path is not null or portrait_sheet_path is not null) as legacy_portrait_references,
+ (select count(*) from public.game_rooms) as game_rooms,
+ (select count(*) from public.game_room_members) as room_members,
+ (select count(*) from public.game_room_rolls) as room_rolls;
 
 select
  (select count(*) from public.characters c
@@ -47,3 +50,23 @@ union all select 'drafts',count(*),
 union all select 'history',count(*),
   count(*) filter(where fields is null or jsonb_typeof(fields)<>'array')
   from public.sheet_template_history;
+
+-- Stage 1 iteration 2: additional restore invariants for rooms and rolls.
+-- Historical rolls may remain after a participant leaves: do not require
+-- every old roll to have a current room-membership row.
+select
+  (select count(*) from public.game_room_members m
+     left join public.game_rooms r on r.id=m.room_id
+     left join public.characters c on c.id=m.character_id
+     where r.id is null or c.id is null
+       or c.user_id is distinct from m.user_id
+       or c.system is distinct from r.system) as invalid_room_memberships,
+  (select count(*) from public.game_room_rolls l
+     left join public.game_rooms r on r.id=l.room_id
+     left join public.characters c on c.id=l.character_id
+     where r.id is null or c.id is null
+       or l.user_id is distinct from c.user_id) as broken_room_roll_links,
+  (select count(*) from public.game_room_members
+     where snapshot is null or jsonb_typeof(snapshot)<>'object') as malformed_member_snapshots,
+  (select count(*) from public.game_room_rolls
+     where dice is null or jsonb_typeof(dice)<>'array') as malformed_roll_dice;
