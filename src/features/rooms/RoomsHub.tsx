@@ -3,6 +3,7 @@ import type {FormEvent} from 'react';
 import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save,ChevronRight,UserPlus} from 'lucide-react';
 import type {Character} from '../../lib/models';
 import {supabase} from '../../lib/supabase';
+import {takeRoomRequestPermit} from '../../lib/room-request-guard';
 import './RoomsHub.css';
 
 export type RoomSystem='pf2e'|'prmoon';
@@ -139,6 +140,10 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   async function joinRoom(event:FormEvent){
     event.preventDefault();
     if(!supabase||!inviteCharacter)return;
+    // Browser-only burst guard. RPC must also enforce limits on the server.
+    if(!takeRoomRequestPermit('join')){
+      setError('Слишком много попыток входа. Повтори попытку через несколько секунд.');return;
+    }
     await operate(async()=>{
       const {data,error:failure}=await supabase!.rpc('join_game_room',{
         p_code:inviteCode.trim().toUpperCase(),p_character:inviteCharacter,
