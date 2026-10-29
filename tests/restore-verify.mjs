@@ -14,7 +14,11 @@ const integrityKeys=['missing_source_objects','missing_card_objects','missing_sh
   'malformed_member_snapshots','malformed_roll_dice'];
 const counts=Object.fromEntries(countKeys.map(k=>[k,k==='portrait_objects'?1:2]));
 const integrity=Object.fromEntries(integrityKeys.map(k=>[k,0]));
-const fixture={counts,integrity};
+const fingerprints=Object.fromEntries([
+  'characters','sheet_admins','sheet_templates','sheet_template_drafts',
+  'sheet_template_history','game_rooms','game_room_members','game_room_rolls',
+].map(table=>[table,'a'.repeat(64)]));
+const fixture={counts,integrity,fingerprints};
 const temp=await mkdtemp(path.join(os.tmpdir(),'ays-restore-test-'));
 const src=path.join(temp,'source'),dst=path.join(temp,'restored');
 try{
@@ -34,6 +38,9 @@ try{
   await assert.rejects(compareBackupRestore(fixture,
     {...fixture,integrity:{...integrity,broken_room_roll_links:1}},src,dst),
     /Restore integrity violation: broken_room_roll_links/);
+  await assert.rejects(compareBackupRestore(fixture,
+    {...fixture,fingerprints:{...fingerprints,characters:'b'.repeat(64)}},src,dst),
+    /Different restored row contents: characters/);
   await assert.rejects(compareBackupRestore(
     {...fixture,counts:{...counts,portrait_objects:2}},
     {...fixture,counts:{...counts,portrait_objects:2}},src,dst),

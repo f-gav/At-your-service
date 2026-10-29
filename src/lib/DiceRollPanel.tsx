@@ -63,12 +63,16 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
           return;
         }
         void Promise.all(targets.map(async member=>{
-          const {error:postError}=await supabase!.rpc('post_game_room_roll',{
+          const {data:postedRollId,error:postError}=await supabase!.rpc('post_game_room_roll',{
             p_room:member.room_id,p_character:characterId,
             p_formula:roll.formula,p_label:roll.label,p_total:roll.total,
             p_calculation:roll.calculation,p_dice:roll.dice,
           });
-          return postError?member.title+': '+postError.message:null;
+          // A future server-side quota may reject with a NULL UUID rather
+          // than SQL error, so that rejected attempts still count.
+          return postError||!postedRollId
+            ?member.title+': '+(postError?.message??'сервер отклонил запрос или временно ограничил частоту бросков')
+            :null;
         })).then(results=>{
           const failures=results.filter((item):item is string=>!!item);
           setBroadcastError(failures.length?'Бросок сохранён локально. Не удалось отправить: '+failures.join('; '):'');
