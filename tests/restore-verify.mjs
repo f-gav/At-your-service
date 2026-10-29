@@ -18,7 +18,7 @@ const fixture={counts,integrity};
 const temp=await mkdtemp(path.join(os.tmpdir(),'ays-restore-test-'));
 const src=path.join(temp,'source'),dst=path.join(temp,'restored');
 try{
-  await Promise.all([mkdir(path.join(src,'private')),mkdir(path.join(dst,'private'))]);
+  await Promise.all([mkdir(path.join(src,'private'),{recursive:true}),mkdir(path.join(dst,'private'),{recursive:true})]);
   await Promise.all([
     writeFile(path.join(src,'private','portrait.webp'),'synthetic test bytes'),
     writeFile(path.join(dst,'private','portrait.webp'),'synthetic test bytes'),
