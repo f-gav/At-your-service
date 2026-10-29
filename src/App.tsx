@@ -1,7 +1,8 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AutoSaveStatus from './lib/AutoSaveStatus';
 import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
+import {saveCharacterIfCurrent} from './lib/character-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
@@ -255,6 +256,9 @@ export default function App() {
   },[mainTab]);
   const [authReady, setAuthReady] = useState(!isConfigured);
   const [characters, setCharacters] = useState<Character[]>([]);
+  // Confirmed snapshots are updated synchronously on save completion. React
+  // may not rerender before useAutoSave immediately flushes the next edit.
+  const lastSavedRows=useRef(new Map<string,Character>());
   const [loadingCharacters, setLoadingCharacters] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   // Opening or closing a character must not inherit the dashboard's scroll
@@ -421,6 +425,7 @@ export default function App() {
 
   useEffect(() => {
     const userId = user?.id;
+    lastSavedRows.current.clear();
     if (!supabase || !userId) {
       setCharacters([]);
       setActiveId(null);
@@ -443,6 +448,7 @@ export default function App() {
         if (loadError) setError(messageFromError(loadError));
         else {
           const owned=(data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[];
+          lastSavedRows.current=new Map(owned.map(character=>[character.id,character]));
           setCharacters(owned);
           const route=currentSiteRoute();
           if(route.kind==='character') {
@@ -541,17 +547,32 @@ export default function App() {
 
   async function saveCharacter(id: string, name: string, details: CharacterDetails): Promise<boolean> {
     if (!supabase || !user) return false;
-    const { data, error: saveError } = await supabase.from('characters')
-      .update({ name, details })
-      .eq('id', id).eq('user_id', user.id)
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
-    if (saveError || !data) {
-      setError(messageFromError(saveError));
-      return false;
+    const baseline=lastSavedRows.current.get(id)??characters.find(c=>c.id===id);
+    if(!baseline || baseline.user_id!==user.id)throw new Error('Не удалось проверить версию персонажа. Перезагрузи список и повтори действие.');
+    const client=supabase;
+    const userId=user.id;
+    try {
+      // The existing updated_at trigger changes on EVERY row update. Compare
+      // the revision atomically; metadata-only changes (portrait/sort) are
+      // safely retried after checking that name/details did not change.
+      const data=await saveCharacterIfCurrent(baseline,
+        async revision=>client.from('characters')
+          .update({name,details})
+          .eq('id',id).eq('user_id',userId).eq('updated_at',revision)
+          .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
+          .maybeSingle(),
+        async()=>client.from('characters')
+          .select('name,details,updated_at').eq('id',id).eq('user_id',userId).maybeSingle(),
+      );
+      setError('');
+      const confirmed={...data,details:normalizeDetails(data.details)} as Character;
+      lastSavedRows.current.set(id,confirmed);
+      setCharacters(current => current.map(c => c.id === id ? confirmed : c));
+      return true;
+    } catch(cause) {
+      setError(messageFromError(cause));
+      throw cause; // Autosave must show the conflict and preserve the local draft.
     }
-    setError('');
-    setCharacters(current => current.map(c => c.id === id ? { ...data, details: normalizeDetails(data.details) } as Character : c));
-    return true;
   }
 
   // A dashboard card can hold an older snapshot than the currently saved
@@ -636,7 +657,8 @@ export default function App() {
       ?original as Record<string,unknown>:{};
     const details={...character.details,pathfinderSheet:{...values,pf2e_layout:variant}};
     setOpenMenuId(null);
-    await saveCharacter(character.id,character.name,details);
+    try { await saveCharacter(character.id,character.name,details); }
+    catch { /* saveCharacter already reports the conflict; do not discard the sheet */ }
   }
 
   async function duplicateCharacter(character:Character,includePortrait:boolean) {
