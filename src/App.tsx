@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import AutoSaveStatus from './lib/AutoSaveStatus';
 import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
@@ -256,6 +256,9 @@ export default function App() {
   },[mainTab]);
   const [authReady, setAuthReady] = useState(!isConfigured);
   const [characters, setCharacters] = useState<Character[]>([]);
+  // Confirmed snapshots are updated synchronously on save completion. React
+  // may not rerender before useAutoSave immediately flushes the next edit.
+  const lastSavedRows=useRef(new Map<string,Character>());
   const [loadingCharacters, setLoadingCharacters] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   // Opening or closing a character must not inherit the dashboard's scroll
@@ -422,6 +425,7 @@ export default function App() {
 
   useEffect(() => {
     const userId = user?.id;
+    lastSavedRows.current.clear();
     if (!supabase || !userId) {
       setCharacters([]);
       setActiveId(null);
@@ -444,6 +448,7 @@ export default function App() {
         if (loadError) setError(messageFromError(loadError));
         else {
           const owned=(data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[];
+          lastSavedRows.current=new Map(owned.map(character=>[character.id,character]));
           setCharacters(owned);
           const route=currentSiteRoute();
           if(route.kind==='character') {
@@ -542,8 +547,8 @@ export default function App() {
 
   async function saveCharacter(id: string, name: string, details: CharacterDetails): Promise<boolean> {
     if (!supabase || !user) return false;
-    const baseline=characters.find(c=>c.id===id && c.user_id===user.id);
-    if(!baseline)throw new Error('Не удалось проверить версию персонажа. Перезагрузи список и повтори действие.');
+    const baseline=lastSavedRows.current.get(id)??characters.find(c=>c.id===id);
+    if(!baseline || baseline.user_id!==user.id)throw new Error('Не удалось проверить версию персонажа. Перезагрузи список и повтори действие.');
     const client=supabase;
     const userId=user.id;
     try {
@@ -560,7 +565,9 @@ export default function App() {
           .select('name,details,updated_at').eq('id',id).eq('user_id',userId).maybeSingle(),
       );
       setError('');
-      setCharacters(current => current.map(c => c.id === id ? { ...data, details: normalizeDetails(data.details) } as Character : c));
+      const confirmed={...data,details:normalizeDetails(data.details)} as Character;
+      lastSavedRows.current.set(id,confirmed);
+      setCharacters(current => current.map(c => c.id === id ? confirmed : c));
       return true;
     } catch(cause) {
       setError(messageFromError(cause));
