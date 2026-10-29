@@ -37,6 +37,11 @@ async function call(jwt,pathname,{method='GET',body}={}){
     ...(body?{body:JSON.stringify(body)}:{}),
     redirect:'error',
   });
+  // Never load private image bytes into the test process or logs.
+  if(pathname.startsWith('/storage/v1/object/')){
+    await response.body?.cancel();
+    return {status:response.status,ok:response.ok,data:null};
+  }
   const data=await response.text();
   let parsed;
   try{parsed=JSON.parse(data);}catch{parsed=null;}
