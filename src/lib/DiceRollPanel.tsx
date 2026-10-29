@@ -4,6 +4,7 @@ import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,rollDiceFormula} from './dice-engine';
 import type {DiceResult} from './dice-engine';
 import DiceFormulaExamples from './DiceFormulaExamples';
 import {supabase} from './supabase';
+import {takeRoomRequestPermit} from './room-request-guard';
 import './DiceRollPanel.css';
 
 /** Character-local roll history. Each connected room has its own optional
@@ -57,6 +58,10 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
       setError('');setOpen(true);
       const targets=membershipRef.current.filter(member=>member.casts_enabled);
       if(targets.length&&characterId&&supabase){
+        if(!takeRoomRequestPermit('roll',characterId)){
+          setBroadcastError('Слишком частые броски: результат остался локально, отправка в комнату временно ограничена.');
+          return;
+        }
         void Promise.all(targets.map(async member=>{
           const {error:postError}=await supabase!.rpc('post_game_room_roll',{
             p_room:member.room_id,p_character:characterId,
