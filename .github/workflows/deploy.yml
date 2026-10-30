@@ -28,6 +28,21 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Verify pinned Supabase CLI recovery command contract
+        run: |
+          version="$(npx --yes supabase@2.122.0 --version)"
+          test "$version" = "2.122.0"
+          npx --yes supabase@2.122.0 db dump --help > /tmp/ays-db-dump-help.txt
+          npx --yes supabase@2.122.0 storage cp --help > /tmp/ays-storage-cp-help.txt
+          npx --yes supabase@2.122.0 status --help > /tmp/ays-status-help.txt
+          for flag in --linked --role-only --data-only --use-copy --file; do
+            grep -Fq -- "$flag" /tmp/ays-db-dump-help.txt
+          done
+          for flag in --linked --local --recursive --experimental; do
+            grep -Fq -- "$flag" /tmp/ays-storage-cp-help.txt
+          done
+          grep -Fq -- '--output' /tmp/ays-status-help.txt
+          echo "PASS: pinned Supabase CLI 2.122.0 recovery flags"
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
