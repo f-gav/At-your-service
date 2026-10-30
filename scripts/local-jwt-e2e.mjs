@@ -9,6 +9,7 @@ import {randomBytes,randomUUID} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {createClient} from '@supabase/supabase-js';
 import {requirePrivateRoot,localDatabase} from './local-recovery.mjs';
 
@@ -72,7 +73,8 @@ try{
   if(upload.error)throw Error('Local synthetic portrait upload failed');
   // Staging RPC SQL is applied strictly on local PostgreSQL AFTER restore was
   // compared with source, leaving all restored fixtures available for E2E.
-  const script=path.resolve('supabase/proposals/room-rpc-quotas-staging.sql');
+  const script=path.resolve(path.dirname(fileURLToPath(import.meta.url)),
+    '../supabase/proposals/room-rpc-quotas-staging.sql');
   const apply=spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-h','127.0.0.1',
     '-p','54322','-U','postgres','-d','postgres','-f',script],{
       cwd:workdir,env:{...process.env,...localDatabase},
