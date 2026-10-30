@@ -77,13 +77,54 @@ jobs:
         with:
           path: ./dist
 
+  rpc-quota-postgres:
+    name: Isolated PostgreSQL RPC quota integration
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: ays_rpc_fixture
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: local-fixture-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ays_rpc_fixture"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: ays_rpc_fixture
+      PGUSER: postgres
+      PGPASSWORD: local-fixture-only
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install PostgreSQL client if unavailable
+        run: |
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y postgresql-client
+          fi
+      - name: Provision synthetic room schema
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/room-rpc-local-schema.sql
+      - name: Apply staging-only quota proposal in isolated Postgres
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/room-rpc-quotas-staging.sql
+      - name: Verify real SQL RPC grants and quota semantics
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/room-rpc-local-assertions.sql
+      - name: Verify concurrent requests cannot bypass SQL quota
+        run: node tests/room-rpc-concurrency.mjs
+
   deploy:
     if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, rpc-quota-postgres]
     steps:
       - name: Deploy to Pages
         id: deployment
