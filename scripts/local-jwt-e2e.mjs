@@ -11,7 +11,8 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createClient} from '@supabase/supabase-js';
-import {requirePrivateRoot,localDatabase} from './local-recovery.mjs';
+import {requirePrivateRoot,localDatabase,safePostgresEnv,assertLocalDatabaseStatus} from './local-recovery.mjs';
+import {collectInventory} from './collect-recovery-manifest.mjs';
 
 function localStatus(workdir){
   const proc=spawnSync('supabase',['status','-o','env'],
@@ -25,6 +26,7 @@ function localStatus(workdir){
   const url=parsed.API_URL;
   assert.ok(url==='http://127.0.0.1:54321'||url==='http://localhost:54321',
     'Local E2E can only target localhost:54321');
+  assertLocalDatabaseStatus(proc.stdout);
   assert.ok(parsed.SERVICE_ROLE_KEY&&parsed.ANON_KEY,
     'Missing local CLI keys, do not use production credentials');
   return {url,serviceKey:parsed.SERVICE_ROLE_KEY,anonKey:parsed.ANON_KEY};
@@ -35,6 +37,9 @@ assert.ok(restored&&restored.fingerprints,
   'Local recovery verification must PASS before creating synthetic users');
 const workdir=path.join(root,'local-only');
 const {url,serviceKey,anonKey}=localStatus(workdir);
+const localEnv=safePostgresEnv(process.env,localDatabase);
+assert.deepEqual(collectInventory(localEnv),restored,
+  'Local restored data changed since verification; do not create JWT fixtures');
 const admin=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const client=()=>createClient(url,anonKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const unique=randomBytes(6).toString('hex');
@@ -77,7 +82,7 @@ try{
     '../supabase/proposals/room-rpc-quotas-staging.sql');
   const apply=spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-h','127.0.0.1',
     '-p','54322','-U','postgres','-d','postgres','-f',script],{
-      cwd:workdir,env:{...process.env,...localDatabase},
+      cwd:workdir,env:localEnv,
       encoding:'utf8',timeout:30000,
     });
   if(apply.error||apply.status!==0)throw Error('Local-only RPC quota proposal failed');
