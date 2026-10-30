@@ -126,10 +126,20 @@ export async function restore(root){
     throw Error('Local workspace unexpectedly linked to a remote project');
   call('supabase',['start'],{cwd:destination,timeout:1200000});
   const localEnv={...process.env,...localDatabase,PGOPTIONS:''};
+  delete localEnv.SUPABASE_ACCESS_TOKEN;
+  delete localEnv.SUPABASE_DB_PASSWORD;
+  delete localEnv.AYS_E2E_OWNER_JWT;
+  delete localEnv.AYS_E2E_OUTSIDER_JWT;
   const db=path.join(root,'db');
   const input=['roles.sql','schema.sql','auth-data.sql','data.sql'];
-  for(const item of input)if(!await exists(path.join(db,item)))
-    throw Error('Missing required backup file: '+item);
+  const digests=JSON.parse(await readFile(path.join(root,'db-digests.json'),'utf8'));
+  for(const item of input){
+    if(!await exists(path.join(db,item)))
+      throw Error('Missing required backup file: '+item);
+    if(!/^[a-f0-9]{64}$/.test(digests[item]??'') ||
+       await hashFile(path.join(db,item))!==digests[item])
+      throw Error('DB dump checksum changed: '+item+' (restore aborted)');
+  }
   // Restore only against a hardcoded loopback endpoint, never --linked.
   call('psql',['-X','-v','ON_ERROR_STOP=1','--single-transaction',
     '-f',path.join(db,'roles.sql'),
