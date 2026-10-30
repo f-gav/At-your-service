@@ -15,7 +15,7 @@ const samples={
     '.system-filter','.character-card','.character-card .character-data strong'],
   library:['.site-header','.spell-library-page .spell-intro-heading h1',
     '.spell-library-page .spell-content-heading h2','.spell-system-tab',
-    '.spell-category','.spell-result-identity strong'],
+    '.spell-rank-chip','.spell-result-identity strong'],
 };
 const metrics=async(page,selectors)=>page.evaluate(selectors=>{
   const result={};
