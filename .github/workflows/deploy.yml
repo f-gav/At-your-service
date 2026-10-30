@@ -83,6 +83,8 @@ jobs:
         run: |
           npm run test:spell-library-browser
           node tests/routes-static-browser.mjs
+      - name: Verify light/dark typography and layout parity on desktop and mobile
+        run: node tests/theme-layout-browser.mjs
       - name: "Release smoke: Project Moon mobile, autosave and export entrypoints"
         run: node tests/release-smoke-browser.mjs
       - name: Configure Pages

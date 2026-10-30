@@ -135,7 +135,7 @@
 :root[data-ays-theme="dark"] .duplicate-portrait-option{color:#adb9ce}
 :root[data-ays-theme="dark"] .create-modal .form-label{color:#e5e8f0}
 :root[data-ays-theme="dark"] .create-modal input:not([type="radio"]):not([type="checkbox"]){
-  background:#111722;border:1px solid #46536b;color:#f0f2f7
+  background:#111722;border-color:#46536b;color:#f0f2f7
 }
 :root[data-ays-theme="dark"] .create-modal input::placeholder{color:#8190a6}
 :root[data-ays-theme="dark"] .text-button{color:#a3caff}
@@ -226,7 +226,7 @@
 /* Keep grimoire details legible on paper-like cards; recolor their framing. */
 :root[data-ays-theme="dark"] .spell-modal-overlay{background:#080b13dc}
 :root[data-ays-theme="dark"] .spell-modal{
-  border:1px solid #536070;box-shadow:0 15px 60px #000a
+  border-color:#536070;box-shadow:0 15px 60px #000a
 }
 :root[data-ays-theme="dark"] .spell-viewer{color-scheme:light}
 :root[data-ays-theme="dark"] .spell-viewer :is(input,select,textarea){color-scheme:light}
@@ -461,290 +461,271 @@
 }
 
 
-/* WreckTrack reference — blue-on-graphite visual refinement.
-   Deliberately limited to dark mode and application chrome. */
+/* WreckTrack-inspired blue/graphite palette.
+ * Theme-dependent CSS below changes PAINT only: not font, text metrics,
+ * visibility, spacing, dimensions, border widths or transforms.
+ * Keeping document geometry identical across modes prevents text reflow. */
 @media screen {
   :root[data-ays-theme="dark"] {
-    --ays-night:#0d0f15;
-    --ays-night-panel:#1d1c23;
-    --ays-night-hover:#262b36;
-    --ays-night-border:#383944;
-    --ays-night-muted:#a5a8b5;
-    --ays-night-blue:#61a6ed;
-    --ays-night-paper:#e7e3dc;
+    --ays-night: #0d0f15;
+    --ays-night-panel: #1d1c23;
+    --ays-night-hover: #262b36;
+    --ays-night-border: #383944;
+    --ays-night-muted: #a5a8b5;
+    --ays-night-blue: #61a6ed;
+    --ays-night-paper: #e7e3dc;
   }
+
   :root[data-ays-theme="dark"] .site-shell {
-    background-color:#0d0f15;
-    background-image:
-      radial-gradient(ellipse 85% 480px at 56% 245px,rgba(35,57,76,.28) 0%,rgba(21,31,43,.16) 55%,transparent 100%),
+    background-color: #0d0f15;
+    background-image: radial-gradient(ellipse 85% 480px at 56% 245px,rgba(35,57,76,.28) 0%,rgba(21,31,43,.16) 55%,transparent 100%),
       linear-gradient(180deg,#0d0f15 0%,#10151c 30%,#0d0f15 84%);
   }
+
   :root[data-ays-theme="dark"] .site-header {
-    background:#0f1015;
-    border-top-color:#224f82;
-    border-bottom-color:#30343d;
-    box-shadow:0 1px 0 #0007;
+    background: #0f1015;
+    border-top-color: #224f82;
+    border-bottom-color: #30343d;
+    box-shadow: 0 1px 0 #0007;
   }
+
   :root[data-ays-theme="dark"] .site-header .theme-toggle,
   :root[data-ays-theme="dark"] .site-header .icon-button,
   :root[data-ays-theme="dark"] .site-header .mobile-menu-button {
-    background:#131923;
-    border:1px solid #365e87;
-    color:#72b2f7;
-    box-shadow:inset 0 0 0 1px #131c29;
+    background: #131923;
+    border-color: #365e87;
+    color: #72b2f7;
+    box-shadow: inset 0 0 0 1px #131c29;
   }
+
   :root[data-ays-theme="dark"] .site-header :is(.theme-toggle,.icon-button,.mobile-menu-button):hover {
-    background:#1b2940;
-    border-color:#66a5eb;
-    color:#d6ebff;
+    background: #1b2940;
+    border-color: #66a5eb;
+    color: #d6ebff;
   }
+
   :root[data-ays-theme="dark"] .site-nav button,
   :root[data-ays-theme="dark"] .site-tabs-mobile button {
-    color:#93a5bf;
-    letter-spacing:.07em;
+    color: #93a5bf;
   }
+
   :root[data-ays-theme="dark"] .site-nav button.is-active,
   :root[data-ays-theme="dark"] .site-tabs-mobile button.is-active {
-    color:#e3e5eb;
+    color: #e3e5eb;
   }
+
   :root[data-ays-theme="dark"] .site-nav button.is-active::after,
   :root[data-ays-theme="dark"] .site-tabs-mobile button.is-active::after {
-    background:#61a6ed;
+    background: #61a6ed;
   }
+
   :root[data-ays-theme="dark"] .site-tabs-mobile {
-    background:#101319;
-    border-color:#2d323d;
+    background: #101319;
+    border-color: #2d323d;
   }
 
   /* Blue editorial eyebrow, like WreckTrack's "Материалы мастера". */
   :root[data-ays-theme="dark"] .page-home .hero {
-    border-bottom:1px solid #343641;
-    min-height:189px;
-    padding:28px 3px 23px;
+    border-bottom-color: #343641;
   }
-  .page-home .hero-eyebrow {display:none}
+
   :root[data-ays-theme="dark"] .page-home .hero-eyebrow {
-    display:block;
-    margin:0 0 16px;
-    color:#61a6ed;
-    font-size:11px;
-    letter-spacing:.2em;
-    font-weight:650;
-    text-transform:uppercase;
+    color: #61a6ed;
   }
+
   :root[data-ays-theme="dark"] .page-home .hero h1 img {
-    filter:brightness(0) invert(.9);
+    filter: brightness(0) invert(.9);
   }
+
   :root[data-ays-theme="dark"] .page-home .hero p {
-    color:#a9acbb;
-    font-size:16px;
-    letter-spacing:0;
-    line-height:1.65;
-    max-width:550px;
+    color: #a9acbb;
   }
-  :root[data-ays-theme="dark"] .hero-emblem {fill:#335d8b}
-  :root[data-ays-theme="dark"] .page-home .library-heading {
-    min-height:85px;
+
+  :root[data-ays-theme="dark"] .hero-emblem {
+    fill: #335d8b;
   }
+
   :root[data-ays-theme="dark"] .page-home .library-heading h2 {
-    color:#e8e3db;
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:clamp(26px,3vw,35px);
-    letter-spacing:-.03em;
-    font-weight:400;
+    color: #e8e3db;
   }
+
   :root[data-ays-theme="dark"] .system-filter {
-    color:#93a3b8;
-    font-size:11px;
-    letter-spacing:.11em;
+    color: #93a3b8;
   }
+
   :root[data-ays-theme="dark"] .system-filter:hover,
   :root[data-ays-theme="dark"] .system-filter.is-active {
-    color:#6aaaf0;
+    color: #6aaaf0;
   }
-  :root[data-ays-theme="dark"] .filter-separator {color:#536070}
+
+  :root[data-ays-theme="dark"] .filter-separator {
+    color: #536070;
+  }
 
   /* Compact character tiles keep their geometry, but gain WreckTrack's
      quiet gradient, fine outline and soft shadow. */
   :root[data-ays-theme="dark"] .page-home .character-card {
-    border:1px solid #363843;
-    border-radius:16px;
-    background-color:#1b1a20;
-    background-image:linear-gradient(153deg,#1e1d24 0%,#19191e 54%,#15151a 100%);
-    box-shadow:0 8px 26px #05070b44;
-    transition:background-color .16s,border-color .16s,box-shadow .16s,transform .16s;
+    border-color: #363843;
+    background-color: #1b1a20;
+    background-image: linear-gradient(153deg,#1e1d24 0%,#19191e 54%,#15151a 100%);
+    box-shadow: 0 8px 26px #05070b44;
   }
+
   :root[data-ays-theme="dark"] .page-home .character-card:hover,
   :root[data-ays-theme="dark"] .page-home .character-card:focus-within {
-    background-color:#23242e;
-    background-image:linear-gradient(153deg,#252530 0%,#1b2531 100%);
-    border-color:#547fa9;
-    box-shadow:0 12px 30px #0009;
-    transform:translateY(-1px);
+    background-color: #23242e;
+    background-image: linear-gradient(153deg,#252530 0%,#1b2531 100%);
+    border-color: #547fa9;
+    box-shadow: 0 12px 30px #0009;
   }
+
   :root[data-ays-theme="dark"] .character-card .character-open {
-    color:#e5e2df;
+    color: #e5e2df;
   }
-  :root[data-ays-theme="dark"] .character-card .character-data strong {
-    font-family:Georgia,'Times New Roman',serif;
-    font-weight:400;
-    letter-spacing:-.02em;
-    font-size:20px;
-  }
+
   :root[data-ays-theme="dark"] .character-card .character-data>span {
-    color:#a1a4b1;
-    font-size:14px;
+    color: #a1a4b1;
   }
+
   :root[data-ays-theme="dark"] .page-home .character-portrait {
-    background:#222530;
-    border:1px solid #505969;
+    background: #222530;
+    border-color: #505969;
   }
+
   :root[data-ays-theme="dark"] .page-home .add-character {
-    border:1px dashed #40526a;
-    border-radius:16px;
-    color:#68a9ee;
-    background-color:#171a22;
-    background-image:linear-gradient(145deg,#1b202a,#14171d);
+    border-color: #40526a;
+    color: #68a9ee;
+    background-color: #171a22;
+    background-image: linear-gradient(145deg,#1b202a,#14171d);
   }
+
   :root[data-ays-theme="dark"] .page-home .add-character:hover {
-    background-color:#253145;
-    background-image:linear-gradient(145deg,#25364a,#1b2637);
-    border-color:#6296ce;
+    background-color: #253145;
+    background-image: linear-gradient(145deg,#25364a,#1b2637);
+    border-color: #6296ce;
   }
+
   :root[data-ays-theme="dark"] .json-import-button,
   :root[data-ays-theme="dark"] .move-toolbar,
   :root[data-ays-theme="dark"] .library-state {
-    background-color:#191c24;
-    background-image:linear-gradient(150deg,#1e222d,#171a21);
-    border-color:#383e4b;
-    color:#b8c5d8;
+    background-color: #191c24;
+    background-image: linear-gradient(150deg,#1e222d,#171a21);
+    border-color: #383e4b;
+    color: #b8c5d8;
   }
+
   :root[data-ays-theme="dark"] .character-menu,
   :root[data-ays-theme="dark"] .site-header .mobile-menu-panel {
-    background:#1a1b23;
-    border-color:#3a404d;
+    background: #1a1b23;
+    border-color: #3a404d;
   }
+
   :root[data-ays-theme="dark"] .character-menu button:hover,
   :root[data-ays-theme="dark"] .site-header .mobile-menu-links a:hover {
-    background:#252d3c;
+    background: #252d3c;
   }
 
   /* Library views use the same restrained graphite, parchment and blue. */
   :root[data-ays-theme="dark"] .spell-library-page h1,
   :root[data-ays-theme="dark"] .spell-library-page .spell-content-heading h2 {
-    color:#e9e5de;
-    font-family:Georgia,'Times New Roman',serif;
-    font-weight:400;
-    letter-spacing:-.025em;
+    color: #e9e5de;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-eyebrow,
   :root[data-ays-theme="dark"] .spell-library-page .spell-quick-label {
-    color:#62a9f2;
-    letter-spacing:.16em;
+    color: #62a9f2;
   }
+
   :root[data-ays-theme="dark"] .spell-library-intro p,
   :root[data-ays-theme="dark"] .spell-library-count,
   :root[data-ays-theme="dark"] .spell-total,
   :root[data-ays-theme="dark"] .spell-mini-stat {
-    color:#a6a9b6;
+    color: #a6a9b6;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-result {
-    background-color:#1b1a20;
-    background-image:linear-gradient(145deg,#1d1c23,#15171d);
-    border-color:#373b47;
-    box-shadow:0 5px 17px #0004;
+    background-color: #1b1a20;
+    background-image: linear-gradient(145deg,#1d1c23,#15171d);
+    border-color: #373b47;
+    box-shadow: 0 5px 17px #0004;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-result:hover,
   :root[data-ays-theme="dark"] .spell-library-page .spell-result:focus-visible {
-    background-color:#252836;
-    background-image:linear-gradient(145deg,#262c3a,#1b202b);
-    border-color:#5d91c7;
-    box-shadow:0 9px 22px #0008;
+    background-color: #252836;
+    background-image: linear-gradient(145deg,#262c3a,#1b202b);
+    border-color: #5d91c7;
+    box-shadow: 0 9px 22px #0008;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-filter-panel,
   :root[data-ays-theme="dark"] .spell-library-page .spell-search,
   :root[data-ays-theme="dark"] .spell-library-page .spell-filter-toggle,
   :root[data-ays-theme="dark"] .spell-library-page .spell-reset-main {
-    background-color:#191c24;
-    border-color:#3a404e;
+    background-color: #191c24;
+    border-color: #3a404e;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-search:focus-within {
-    border-color:#6ba9ee;
-    outline:1px solid #3e648d;
+    border-color: #6ba9ee;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-category.is-active,
   :root[data-ays-theme="dark"] .spell-library-page .spell-category:hover {
-    background:#25374b;
-    border-color:#456b94;
-    color:#e0ecfa;
+    background: #25374b;
+    border-color: #456b94;
+    color: #e0ecfa;
   }
+
   :root[data-ays-theme="dark"] .spell-library-page .spell-empty,
   :root[data-ays-theme="dark"] .spell-library-page .spell-load-more {
-    background-color:#19191f;
-    background-image:linear-gradient(145deg,#1d1d25,#15171b);
-    border-color:#3a414e;
+    background-color: #19191f;
+    background-image: linear-gradient(145deg,#1d1d25,#15171b);
+    border-color: #3a414e;
   }
+
   :root[data-ays-theme="dark"] .create-modal {
-    background-color:#1b1b23;
-    background-image:linear-gradient(156deg,#22222d,#171921);
-    border:1px solid #454957;
+    background-color: #1b1b23;
+    background-image: linear-gradient(156deg,#22222d,#171921);
+    border-color: #454957;
   }
-  :root[data-ays-theme="dark"] .create-modal h2 {
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:29px;
-    font-weight:400;
-  }
+
   :root[data-ays-theme="dark"] .create-system-list button {
-    background:#1c2029;
-    border-color:#414654;
+    background: #1c2029;
+    border-color: #414654;
   }
+
   :root[data-ays-theme="dark"] .create-system-list button:hover {
-    background:#27344a;
-    border-color:#6399d2;
+    background: #27344a;
+    border-color: #6399d2;
   }
 
   /* Same shade language in toolbar, PDF and the detached page navigator. */
   :root[data-ays-theme="dark"] .pf-toolbar>.pf-alt-variant-picker,
   :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-popover,
   :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help {
-    background-color:#1a1b24;
-    background-image:linear-gradient(148deg,#21212a,#161a22);
-    border-color:#3c4555;
+    background-color: #1a1b24;
+    background-image: linear-gradient(148deg,#21212a,#161a22);
+    border-color: #3c4555;
   }
+
   :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .sheet-pdf-export-tab,
   :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-settings-button {
-    background-color:#1c2736;
-    background-image:linear-gradient(145deg,#223149,#171e2a);
-    border-color:#466b94;
-    color:#d5e9ff;
+    background-color: #1c2736;
+    background-image: linear-gradient(145deg,#223149,#171e2a);
+    border-color: #466b94;
+    color: #d5e9ff;
   }
+
   :root[data-ays-theme="dark"] :is(.pf-editor,.moon-editor) .pf-navigation-help-link.pf-navigation-help-active,
   :root[data-ays-theme="dark"] .moon-editor .moon-tab.moon-tab-active {
-    background:#263c56;
-    color:#d9ecff;
+    background: #263c56;
+    color: #d9ecff;
   }
 
   :root[data-ays-theme="dark"] .site-footer {
-    background:#0d0f15;
-    border-top-color:#30333d;
-    color:#979dad;
+    background: #0d0f15;
+    border-top-color: #30333d;
+    color: #979dad;
   }
-}
-@media screen and (max-width:650px) {
-  :root[data-ays-theme="dark"] .page-home .hero {
-    min-height:175px;
-    padding-top:25px;
-    padding-bottom:22px;
-  }
-  :root[data-ays-theme="dark"] .page-home .hero-eyebrow {
-    font-size:10px;
-    margin-bottom:14px;
-  }
-  :root[data-ays-theme="dark"] .page-home .hero p {font-size:15px}
-  :root[data-ays-theme="dark"] .page-home .library-heading h2 {
-    font-size:clamp(24px,6.4vw,30px);
-  }
-}
-@media (prefers-reduced-motion:reduce) {
-  :root[data-ays-theme="dark"] .page-home .character-card {transition:none}
 }
