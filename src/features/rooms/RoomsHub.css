@@ -230,15 +230,15 @@
 .ays-room-settings form button{justify-content:center;font-weight:700}
 .ays-room-settings button:disabled{opacity:.5;cursor:not-allowed}
 .ays-room-settings .ays-room-danger button{color:#bf5d5d;border-color:#b9535355}
-:root[data-ays-theme="dark"] .ays-room-tabs{border-color:#3a3e46}
+:root[data-ays-theme="dark"] .ays-room-tabs{border-color:#3b4b61}
 :root[data-ays-theme="dark"] .ays-room-tabs button.active{border-bottom-color:#397aff;color:#e8efff}
 :root[data-ays-theme="dark"] .ays-room-table .ays-room-member,
 :root[data-ays-theme="dark"] .ays-room-player,
-:root[data-ays-theme="dark"] .ays-room-settings>section{background:#292929;border-color:#424242;color:#e7e7e8}
-:root[data-ays-theme="dark"] .ays-room-player-heading{background:#303030;border-color:#424242}
-:root[data-ays-theme="dark"] .ays-room-settings input{background:#303030;color:#f0f0f3;border-color:#484b52}
+:root[data-ays-theme="dark"] .ays-room-settings>section{background:#1e2430;border-color:#3b4b61;color:#e7edf8}
+:root[data-ays-theme="dark"] .ays-room-player-heading{background:#252f40;border-color:#3b4b61}
+:root[data-ays-theme="dark"] .ays-room-settings input{background:#151e2d;color:#f0f3fa;border-color:#53627c}
 :root[data-ays-theme="dark"] .ays-room-player-body button,
-:root[data-ays-theme="dark"] .ays-room-settings button{border-color:#494c56}
+:root[data-ays-theme="dark"] .ays-room-settings button{border-color:#50627d}
 :root[data-ays-theme="dark"] .ays-room-player-body .ays-room-kick,
 :root[data-ays-theme="dark"] .ays-room-settings .ays-room-danger button{color:#ff9b91}
 @media(max-width:1050px){.ays-room-table{grid-template-columns:1fr}.ays-room-table .ays-room-member-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}}
