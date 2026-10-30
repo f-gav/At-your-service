@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {mkdtemp,rm,mkdir,writeFile} from 'node:fs/promises';
+import {mkdtemp,rm,mkdir,writeFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import path from 'node:path';
 import os from 'node:os';
 import {parseReport,countNames,integrityNames,tableNames}
   from '../scripts/collect-recovery-manifest.mjs';
 import {requirePrivateRoot,verifySourceEnv,localDatabase,
   safePostgresEnv,assertLocalDatabaseStatus,assertCliVersion,
-  resolveStorageObjectsRoot}
+  resolveStorageObjectsRoot,inspectBackup,storageHashes}
   from '../scripts/local-recovery.mjs';
 
 const counts=countNames.map((_,i)=>i===5?1:i+1).join('|');
@@ -27,7 +28,8 @@ assert.throws(()=>parseReport(report,fp.split('\n').slice(1).join('\n')),/Missin
 
 assert.throws(()=>requirePrivateRoot('relative/path'),/absolute private/);
 assert.throws(()=>requirePrivateRoot(process.cwd()+'/local-backup'),/Git checkout/);
-assert.equal(requirePrivateRoot('/tmp/ays-private-recovery'),'/tmp/ays-private-recovery');
+assert.equal(requirePrivateRoot(path.join(os.tmpdir(),'ays-private-recovery')),
+  path.resolve(os.tmpdir(),'ays-private-recovery'));
 const valid={
   AYS_SOURCE_PROJECT_REF:'cvimyqmksxeigjnofexf',
   PGHOST:'db.cvimyqmksxeigjnofexf.supabase.co',
@@ -77,6 +79,53 @@ try{
     path.join(t,'empty'));
 }finally{await rm(t,{recursive:true,force:true});}
 
+// Full offline archive acceptance: a correct private archive passes before
+// any Docker operation, while modified SQL or image bytes are rejected.
+const privateFixture=await mkdtemp(path.join(os.tmpdir(),'ays-backup-acceptance-'));
+try{
+  await mkdir(path.join(privateFixture,'db'));
+  await mkdir(path.join(privateFixture,'storage','character-portraits','owner'),{recursive:true});
+  const hash=value=>createHash('sha256').update(value).digest('hex');
+  const sqlContents=Object.fromEntries(
+    ['roles.sql','schema.sql','auth-data.sql','data.sql'].map(n=>[n,'fixture '+n]));
+  for(const [name,content] of Object.entries(sqlContents))
+    await writeFile(path.join(privateFixture,'db',name),content);
+  const dbDigests=Object.fromEntries(
+    Object.entries(sqlContents).map(([name,content])=>[name,hash(content)]));
+  const storageLocation=path.join(privateFixture,'storage','character-portraits','owner','fixture.webp');
+  await writeFile(storageLocation,'synthetic-pixel');
+  await writeFile(path.join(privateFixture,'source.json'),JSON.stringify(manifest));
+  await writeFile(path.join(privateFixture,'db-digests.json'),JSON.stringify(dbDigests));
+  await writeFile(path.join(privateFixture,'storage-digests.json'),
+    JSON.stringify({'owner/fixture.webp':hash('synthetic-pixel')}));
+  assert.deepEqual((await inspectBackup(privateFixture)).source,manifest);
+  const {main:operatorReport}=await import('../scripts/recovery-acceptance-report.mjs');
+  const oldRoot=process.env.AYS_RECOVERY_ROOT;
+  process.env.AYS_RECOVERY_ROOT=privateFixture;
+  const emitted=[];
+  const oldLog=console.log;
+  try{
+    console.log=(...args)=>emitted.push(args.join(' '));
+    await operatorReport();
+  }finally{
+    console.log=oldLog;
+    if(oldRoot===undefined)delete process.env.AYS_RECOVERY_ROOT;
+    else process.env.AYS_RECOVERY_ROOT=oldRoot;
+  }
+  assert.ok(emitted.includes('BACKUP: PASS'));
+  assert.ok(emitted.includes('RESTORE: NOT_RUN'));
+  assert.ok(emitted.includes('LOCAL_TWO_JWT_E2E: NOT_RUN'));
+  assert.ok(emitted.every(line=>!line.includes(privateFixture)),
+    'Operator report must not disclose private backup paths');
+  assert.deepEqual(await storageHashes(path.join(privateFixture,'storage','character-portraits')),
+    {'owner/fixture.webp':hash('synthetic-pixel')});
+  await writeFile(storageLocation,'tampered-pixel');
+  await assert.rejects(inspectBackup(privateFixture),/Storage backup checksum mismatch/);
+  await writeFile(storageLocation,'synthetic-pixel');
+  await writeFile(path.join(privateFixture,'db','schema.sql'),'tampered-schema');
+  await assert.rejects(inspectBackup(privateFixture),/Database backup checksum mismatch/);
+}finally{await rm(privateFixture,{recursive:true,force:true});}
+
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const recovery=read('../scripts/local-recovery.mjs');
 const collector=read('../scripts/collect-recovery-manifest.mjs');
@@ -99,6 +148,8 @@ assert.match(storagePolicies,/CREATE POLICY "Portrait upload own character"/);
 assert.match(storagePolicies,/storage\.foldername\(storage\.objects\.name\)/);
 assert.match(storagePolicies,/\(card\|sheet\|source\)/);
 assert.match(recovery,/local-restore-portrait-storage\.sql/);
+assert.match(recovery,/const \{source\}=await inspectBackup\(root\)/);
+assert.match(recovery,/restore NOT YET tested/);
 assert.match(jwt,/contentType:'image\/webp'/);
 assert.match(jwt,/-source\.webp/);
 assert.match(jwt,/owner\.characterId/);

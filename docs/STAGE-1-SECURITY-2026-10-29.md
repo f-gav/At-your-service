@@ -93,3 +93,14 @@
 - [ ] Продуктивные RPC/квоты не изменены; проверка Google OAuth отдельно открыта.
 
 Пошаговый Windows runbook: [STAGE-1-ITER7-WINDOWS-2026-10-30.md](STAGE-1-ITER7-WINDOWS-2026-10-30.md).
+
+## Итерация №8 (30 октября 2026)
+
+- [x] `inspect` проверяет полные SHA-256 **SQL-дампов и каждого объекта Storage** до запуска Docker. Экспорт сохраняет отдельный `storage-digests.json`.
+- [x] Добавлен `recovery-acceptance-report.mjs` — приватно безопасные статусы BACKUP/RESTORE/LOCAL_TWO_JWT_E2E. Секреты, имена, идентификаторы и пути не выводятся.
+- [x] Успешный локальный E2E может оставить приватную отметку без JWT и email.
+- [x] Добавлены синтетические тесты обнаружения порчи SQL и Storage и отдельная проверка на `windows-latest`; публикация требует прохождения Windows job.
+- [ ] Настоящий preflight на компьютере оператора, DB+Auth+Storage backup, Docker restore и два локальных Auth JWT остаются **NOT RUN**. Не выдавать успех CI за доказательство восстановления настоящей копии.
+- [ ] Продуктивная Supabase не менялась; серверный rate limiting не применён.
+
+Инструкция приёмки: [STAGE-1-ITER8-OPERATOR-ACCEPTANCE-2026-10-30.md](STAGE-1-ITER8-OPERATOR-ACCEPTANCE-2026-10-30.md).

@@ -15,7 +15,7 @@ import {createReadStream} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {collectInventory,readPsqlFile} from './collect-recovery-manifest.mjs';
-import {compareBackupRestore} from './verify-restore.mjs';
+import {compareBackupRestore,validateInventory} from './verify-restore.mjs';
 
 const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ref='cvimyqmksxeigjnofexf';
@@ -104,6 +104,24 @@ export async function resolveStorageObjectsRoot(folder,expectedCount){
     throw Error('Unexpected Storage copy layout or incomplete object transfer');
   return result;
 }
+export async function storageHashes(folder){
+  const hashes={};
+  async function walk(dir,relative=''){
+    for(const entry of await readdir(dir,{withFileTypes:true})){
+      if(entry.isSymbolicLink())throw Error('Symlink in private Storage backup');
+      const rel=relative?relative+'/'+entry.name:entry.name;
+      const absolute=path.join(dir,entry.name);
+      if(entry.isDirectory())await walk(absolute,rel);
+      else if(entry.isFile()){
+        if(rel==='__proto__'||rel==='constructor'||rel==='prototype')
+          throw Error('Unsupported Storage backup filename');
+        hashes[rel]=await hashFile(absolute);
+      }else throw Error('Unexpected entry in private Storage backup');
+    }
+  }
+  await walk(folder);
+  return hashes;
+}
 async function hashFile(file){
   const h=createHash('sha256');
   for await(const chunk of createReadStream(file))h.update(chunk);
@@ -163,12 +181,43 @@ export async function backup(root,env=process.env){
     digests[name]=await hashFile(path.join(folder,name));
   await writeFile(path.join(root,'source.json'),JSON.stringify(after,null,2)+'\n',
     {flag:'wx',mode:0o600});
+  // Store the *source* Storage object fingerprints so an archive cannot be
+  // silently tampered with between backup and local restore.
+  await writeFile(path.join(root,'storage-digests.json'),
+    JSON.stringify(await storageHashes(objects),null,2)+'\n',
+    {flag:'wx',mode:0o600});
   await writeFile(path.join(root,'db-digests.json'),JSON.stringify(digests,null,2)+'\n',
     {flag:'wx',mode:0o600});
   console.log('PASS: export completed and pre/post inventories match. NOT YET A VERIFIED RESTORE.');
 }
-export async function restore(root){
+export async function inspectBackup(root){
+  // Read-only and safe before Docker/psql startup. No data or private paths
+  // are returned or printed; only a generic PASS marker is emitted by CLI.
   const source=JSON.parse(await readFile(path.join(root,'source.json'),'utf8'));
+  validateInventory(source);
+  const digests=JSON.parse(await readFile(path.join(root,'db-digests.json'),'utf8'));
+  const required=['roles.sql','schema.sql','auth-data.sql','data.sql'];
+  for(const item of required){
+    if(!/^[a-f0-9]{64}$/.test(digests[item]??'') ||
+       await hashFile(path.join(root,'db',item))!==digests[item])
+      throw Error('Database backup checksum mismatch for '+item);
+  }
+  const storageRoot=await resolveStorageObjectsRoot(
+    path.join(root,'storage'),source.counts.portrait_objects);
+  const original=JSON.parse(await readFile(path.join(root,'storage-digests.json'),'utf8'));
+  const actual=await storageHashes(storageRoot);
+  const a=Object.entries(original).sort(([a],[b])=>a.localeCompare(b));
+  const b=Object.entries(actual).sort(([a],[b])=>a.localeCompare(b));
+  if(JSON.stringify(a)!==JSON.stringify(b))
+    throw Error('Private Storage backup checksum mismatch');
+  if(a.length!==source.counts.portrait_objects)
+    throw Error('Private Storage count mismatch');
+  return {source,storageRoot};
+}
+export async function restore(root){
+  // Inspect the entire private archive BEFORE creating/starting Docker.
+  // A corrupt or partial backup should not leave behind a fake test restore.
+  const {source}=await inspectBackup(root);
   const destination=path.join(root,'local-only');
   if(await exists(destination))throw Error('Local restore workspace exists; refusing to overwrite');
   await mkdir(destination,{recursive:true,mode:0o700});
@@ -228,8 +277,8 @@ export async function restore(root){
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const mode=process.argv[2];
-  if(!['backup','restore','preflight'].includes(mode)||process.argv.length!==3)
-    throw Error('Usage: node scripts/local-recovery.mjs preflight|backup|restore');
+  if(!['backup','inspect','restore','preflight'].includes(mode)||process.argv.length!==3)
+    throw Error('Usage: node scripts/local-recovery.mjs preflight|backup|inspect|restore');
   const root=requirePrivateRoot(process.env.AYS_RECOVERY_ROOT);
   if(mode==='preflight'){
     call('docker',['info'],{timeout:30000});
@@ -245,8 +294,10 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   }else if(mode==='backup'){
     assertCliVersion(call('supabase',['--version'],{timeout:30000}));
     await backup(root);
-  }
-  else {
+  }else if(mode==='inspect'){
+    await inspectBackup(root);
+    console.log('PASS: private DB+Storage archive hashes and manifest match (restore NOT YET tested)');
+  }else {
     assertCliVersion(call('supabase',['--version'],{timeout:30000}));
     await restore(root);
   }
