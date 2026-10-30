@@ -99,6 +99,24 @@ try{
   await writeFile(path.join(privateFixture,'storage-digests.json'),
     JSON.stringify({'owner/fixture.webp':hash('synthetic-pixel')}));
   assert.deepEqual((await inspectBackup(privateFixture)).source,manifest);
+  const {main:operatorReport}=await import('../scripts/recovery-acceptance-report.mjs');
+  const oldRoot=process.env.AYS_RECOVERY_ROOT;
+  process.env.AYS_RECOVERY_ROOT=privateFixture;
+  const emitted=[];
+  const oldLog=console.log;
+  try{
+    console.log=(...args)=>emitted.push(args.join(' '));
+    await operatorReport();
+  }finally{
+    console.log=oldLog;
+    if(oldRoot===undefined)delete process.env.AYS_RECOVERY_ROOT;
+    else process.env.AYS_RECOVERY_ROOT=oldRoot;
+  }
+  assert.ok(emitted.includes('BACKUP: PASS'));
+  assert.ok(emitted.includes('RESTORE: NOT_RUN'));
+  assert.ok(emitted.includes('LOCAL_TWO_JWT_E2E: NOT_RUN'));
+  assert.ok(emitted.every(line=>!line.includes(privateFixture)),
+    'Operator report must not disclose private backup paths');
   assert.deepEqual(await storageHashes(path.join(privateFixture,'storage','character-portraits')),
     {'owner/fixture.webp':hash('synthetic-pixel')});
   await writeFile(storageLocation,'tampered-pixel');
