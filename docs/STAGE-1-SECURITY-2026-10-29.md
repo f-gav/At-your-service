@@ -81,3 +81,15 @@
 - [ ] Серверные квоты не установлены в production.
 
 Подробная инструкция: [STAGE-1-ITER6-LOCAL-RECOVERY-2026-10-30.md](STAGE-1-ITER6-LOCAL-RECOVERY-2026-10-30.md).
+
+## Итерация №7 (30 октября 2026)
+
+- [x] Защита локального восстановления от libpq override `PGHOSTADDR`/`PGSERVICE`, фактическая проверка `DB_URL` на localhost:54322.
+- [x] Поддержка двух реальных вариантов расположения объектов при рекурсивном Storage cp и пустого bucket.
+- [x] Добавлен локальный SQL для актуальных private bucket/RLS-политик; drift guard выполнен на рабочей Supabase **только для чтения**, результат `PASS`.
+- [x] Исправлен локальный E2E: реальный формат пути и WebP MIME для тестового портрета.
+- [x] Пин CLI 2.122.0, проверка флагов через GitHub Actions, проверка TLS и live fingerprints перед E2E.
+- [ ] **Реальные** DB+Storage backup/restore на компьютере пользователя и два Auth JWT в восстановленной локальной среде не исполнены.
+- [ ] Продуктивные RPC/квоты не изменены; проверка Google OAuth отдельно открыта.
+
+Пошаговый Windows runbook: [STAGE-1-ITER7-WINDOWS-2026-10-30.md](STAGE-1-ITER7-WINDOWS-2026-10-30.md).

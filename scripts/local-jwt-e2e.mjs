@@ -5,13 +5,14 @@
  * local-only Postgres. Never prints keys, JWTs, user IDs or passwords.
  */
 import assert from 'node:assert/strict';
-import {randomBytes,randomUUID} from 'node:crypto';
+import {randomBytes} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createClient} from '@supabase/supabase-js';
-import {requirePrivateRoot,localDatabase} from './local-recovery.mjs';
+import {requirePrivateRoot,localDatabase,safePostgresEnv,assertLocalDatabaseStatus} from './local-recovery.mjs';
+import {collectInventory} from './collect-recovery-manifest.mjs';
 
 function localStatus(workdir){
   const proc=spawnSync('supabase',['status','-o','env'],
@@ -25,6 +26,7 @@ function localStatus(workdir){
   const url=parsed.API_URL;
   assert.ok(url==='http://127.0.0.1:54321'||url==='http://localhost:54321',
     'Local E2E can only target localhost:54321');
+  assertLocalDatabaseStatus(proc.stdout);
   assert.ok(parsed.SERVICE_ROLE_KEY&&parsed.ANON_KEY,
     'Missing local CLI keys, do not use production credentials');
   return {url,serviceKey:parsed.SERVICE_ROLE_KEY,anonKey:parsed.ANON_KEY};
@@ -35,6 +37,9 @@ assert.ok(restored&&restored.fingerprints,
   'Local recovery verification must PASS before creating synthetic users');
 const workdir=path.join(root,'local-only');
 const {url,serviceKey,anonKey}=localStatus(workdir);
+const localEnv=safePostgresEnv(process.env,localDatabase);
+assert.deepEqual(collectInventory(localEnv),restored,
+  'Local restored data changed since verification; do not create JWT fixtures');
 const admin=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const client=()=>createClient(url,anonKey,{auth:{persistSession:false,autoRefreshToken:false}});
 const unique=randomBytes(6).toString('hex');
@@ -64,12 +69,16 @@ try{
     room_id:room.data.id,character_id:owner.characterId,user_id:owner.id,
   });
   if(member.error)throw Error('Could not add owner fixture to local room');
-  const portraitPath=owner.id+'/ays-local-'+randomUUID()+'.png';
+  // Production RLS requires user-id/character-id/32hex-source.webp and
+  // the bucket allows image/webp only. A PNG would fail or bypass the
+  // meaningful private read test.
+  const portraitPath=owner.id+'/'+owner.characterId+'/' +
+    randomBytes(16).toString('hex')+'-source.webp';
   const imageBytes=Buffer.from(
-    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9oFVaQAAAABJRU5ErkJggg==',
+    'UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA',
     'base64');
   const upload=await admin.storage.from('character-portraits')
-    .upload(portraitPath,imageBytes,{contentType:'image/png',upsert:false});
+    .upload(portraitPath,imageBytes,{contentType:'image/webp',upsert:false});
   if(upload.error)throw Error('Local synthetic portrait upload failed');
   // Staging RPC SQL is applied strictly on local PostgreSQL AFTER restore was
   // compared with source, leaving all restored fixtures available for E2E.
@@ -77,7 +86,7 @@ try{
     '../supabase/proposals/room-rpc-quotas-staging.sql');
   const apply=spawnSync('psql',['-X','-v','ON_ERROR_STOP=1','-h','127.0.0.1',
     '-p','54322','-U','postgres','-d','postgres','-f',script],{
-      cwd:workdir,env:{...process.env,...localDatabase},
+      cwd:workdir,env:localEnv,
       encoding:'utf8',timeout:30000,
     });
   if(apply.error||apply.status!==0)throw Error('Local-only RPC quota proposal failed');

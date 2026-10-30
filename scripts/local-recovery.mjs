@@ -14,13 +14,43 @@ import {createHash} from 'node:crypto';
 import {createReadStream} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {collectInventory} from './collect-recovery-manifest.mjs';
+import {collectInventory,readPsqlFile} from './collect-recovery-manifest.mjs';
 import {compareBackupRestore} from './verify-restore.mjs';
 
 const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ref='cvimyqmksxeigjnofexf';
 const bucket='character-portraits';
 export const localDatabase={PGHOST:'127.0.0.1',PGPORT:'54322',PGUSER:'postgres',PGPASSWORD:'postgres',PGDATABASE:'postgres'};
+export const testedCliVersion='2.122.0';
+
+/** Avoid libpq overrides taking precedence over the intended host or service. */
+export function safePostgresEnv(base,connection){
+  const env={...base};
+  for(const key of ['PGHOSTADDR','PGSERVICE','PGSERVICEFILE','PGPASSFILE',
+    'PGOPTIONS','PGDATABASE','PGHOST','PGPORT','PGUSER','PGPASSWORD','PGSSLMODE',
+    'SUPABASE_ACCESS_TOKEN','SUPABASE_DB_PASSWORD',
+    'AYS_E2E_OWNER_JWT','AYS_E2E_OUTSIDER_JWT']){
+    delete env[key];
+  }
+  return {...env,...connection,PGSSLMODE:connection.PGHOST==='127.0.0.1'?'disable':'require'};
+}
+export function assertCliVersion(raw){
+  const version=raw.trim().replace(/^v/,'').split(/\s+/)[0];
+  if(version!==testedCliVersion)
+    throw Error('Expected Supabase CLI '+testedCliVersion+', got '+version+
+      '. Recheck command flags and upgrade/pin before recovery.');
+  return version;
+}
+export function assertLocalDatabaseStatus(raw){
+  const match=raw.match(/^DB_URL=(.+)$/m);
+  if(!match)throw Error('Supabase local status omitted DB_URL; abort restore');
+  const parsed=new URL(match[1].trim().replace(/^["']|["']$/g,''));
+  if(!['127.0.0.1','localhost'].includes(parsed.hostname) ||
+      parsed.port!==localDatabase.PGPORT || parsed.username!=='postgres' ||
+      parsed.pathname!=='/postgres')
+    throw Error('Local Supabase DB does not match expected loopback 54322');
+  return true;
+}
 
 export function requirePrivateRoot(raw){
   if(!raw||!path.isAbsolute(raw))throw Error('AYS_RECOVERY_ROOT must be an absolute private directory');
@@ -34,9 +64,15 @@ export function verifySourceEnv(env){
   if(env.AYS_SOURCE_PROJECT_REF!==ref)throw Error('Wrong remote project ref');
   const host=env.PGHOST??'',user=env.PGUSER??'';
   if(!env.PGPASSWORD||!user)throw Error('Missing PG* variables; do not put passwords in shell args');
+  if(env.PGHOSTADDR||env.PGSERVICE||env.PGSERVICEFILE)
+    throw Error('Remove PGHOSTADDR/PGSERVICE overrides before source backup');
+  if(!['5432','6543'].includes(env.PGPORT??'5432'))
+    throw Error('Unexpected remote PostgreSQL port');
   const direct=host===`db.${ref}.supabase.co`;
   const pool=/\.pooler\.supabase\.com$/.test(host)&&user.includes(ref);
   if(!direct&&!pool)throw Error('PGHOST/PGUSER do not identify At your service! production');
+  if(env.PGSSLMODE && !['require','verify-ca','verify-full'].includes(env.PGSSLMODE))
+    throw Error('Remote PostgreSQL connections must require TLS');
 }
 function call(program,args,{cwd=repoRoot,env=process.env,timeout=900000}={}){
   // stdin is used for operator authentication; never echo child output which
@@ -55,6 +91,18 @@ async function countFiles(dir){
     else throw Error('Unrecognized Storage file');
   }
   return n;
+}
+export async function resolveStorageObjectsRoot(folder,expectedCount){
+  // Depending on CLI destination conventions, recursive copy may place
+  // objects directly under folder or under folder/<bucket>.
+  const entries=await readdir(folder);
+  const nested=path.join(folder,bucket);
+  const onlyNested=entries.length===1 && entries[0]===bucket &&
+    (await stat(nested)).isDirectory();
+  const result=onlyNested?nested:folder;
+  if(await countFiles(result)!==expectedCount)
+    throw Error('Unexpected Storage copy layout or incomplete object transfer');
+  return result;
 }
 async function hashFile(file){
   const h=createHash('sha256');
@@ -79,7 +127,10 @@ export async function backup(root,env=process.env){
   await checkFresh(root);
   const folder=path.join(root,'db');
   await mkdir(folder,{recursive:true,mode:0o700});
-  const before=collectInventory(env);
+  const remoteEnv={...env,PGSSLMODE:env.PGSSLMODE??'require'};
+  if(readPsqlFile(path.join(repoRoot,'supabase/storage-source-guard.sql'),remoteEnv).trim()!=='PASS')
+    throw Error('Remote portrait Storage policies drifted; abort rather than making an unfaithful restore');
+  const before=collectInventory(remoteEnv);
   const dumps=[
     ['roles.sql',['db','dump','--linked','--role-only']],
     ['schema.sql',['db','dump','--linked']],
@@ -94,14 +145,15 @@ export async function backup(root,env=process.env){
   // auth-data export is mandatory (and will be handled as sensitive).
   const authFile=path.join(folder,'auth-data.sql');
   call('pg_dump',['--data-only','--schema=auth','--no-owner','--no-privileges',
-    '--file',authFile],{env,timeout:900000});
+    '--file',authFile],{env:remoteEnv,timeout:900000});
   const storageRoot=path.join(root,'storage');
   await mkdir(storageRoot,{recursive:true,mode:0o700});
-  call('supabase',['storage','cp','-r',`ss:///${bucket}`,storageRoot,
-    '--linked','--experimental']);
-  const objects=path.join(storageRoot,bucket);
+  if(before.counts.portrait_objects>0)
+    call('supabase',['storage','cp','-r',`ss:///${bucket}`,storageRoot,
+      '--linked','--experimental']);
+  const objects=await resolveStorageObjectsRoot(storageRoot,before.counts.portrait_objects);
   const fileCount=await countFiles(objects);
-  const after=collectInventory(env);
+  const after=collectInventory(remoteEnv);
   if(JSON.stringify(before)!==JSON.stringify(after))
     throw Error('Source changed during export; backup is UNVERIFIED, do not certify it');
   if(fileCount!==after.counts.portrait_objects)
@@ -124,12 +176,9 @@ export async function restore(root){
   // This workspace is deliberately NOT linked to the remote project.
   if(await exists(path.join(destination,'supabase','.temp','project-ref')))
     throw Error('Local workspace unexpectedly linked to a remote project');
-  call('supabase',['start'],{cwd:destination,timeout:1200000});
-  const localEnv={...process.env,...localDatabase,PGOPTIONS:''};
-  delete localEnv.SUPABASE_ACCESS_TOKEN;
-  delete localEnv.SUPABASE_DB_PASSWORD;
-  delete localEnv.AYS_E2E_OWNER_JWT;
-  delete localEnv.AYS_E2E_OUTSIDER_JWT;
+  const localEnv=safePostgresEnv(process.env,localDatabase);
+  call('supabase',['start'],{cwd:destination,env:localEnv,timeout:1200000});
+  assertLocalDatabaseStatus(call('supabase',['status','-o','env'],{cwd:destination,env:localEnv,timeout:30000}));
   const db=path.join(root,'db');
   const input=['roles.sql','schema.sql','auth-data.sql','data.sql'];
   const digests=JSON.parse(await readFile(path.join(root,'db-digests.json'),'utf8'));
@@ -141,26 +190,37 @@ export async function restore(root){
       throw Error('DB dump checksum changed: '+item+' (restore aborted)');
   }
   // Restore only against a hardcoded loopback endpoint, never --linked.
-  call('psql',['-X','-v','ON_ERROR_STOP=1','--single-transaction',
+  call('psql',['-X','-h','127.0.0.1','-p','54322','-U','postgres',
+    '-d','postgres','-v','ON_ERROR_STOP=1','--single-transaction',
     '-f',path.join(db,'roles.sql'),
     '-f',path.join(db,'schema.sql'),
     '-c','SET session_replication_role = replica',
     '-f',path.join(db,'auth-data.sql'),
     '-f',path.join(db,'data.sql')],{cwd:destination,env:localEnv,timeout:900000});
-  // The app dump excludes Storage metadata. Rehydrate via local Storage API,
-  // which creates its own storage.objects records as actual bytes are uploaded.
-  call('psql',['-X','-v','ON_ERROR_STOP=1','-c',
-    `INSERT INTO storage.buckets(id,name,public) VALUES('${bucket}','${bucket}',false) ON CONFLICT(id) DO NOTHING`],
+  // The generic dump excludes managed Storage policies and buckets.
+  // Restore only the audited local definition, after database import.
+  // Supabase Storage API will materialize storage.objects for uploaded bytes.
+  call('psql',['-X','-h','127.0.0.1','-p','54322','-U','postgres',
+    '-d','postgres','-v','ON_ERROR_STOP=1',
+    '-f',path.join(repoRoot,'supabase/proposals/local-restore-portrait-storage.sql')],
     {cwd:destination,env:localEnv});
-  call('supabase',['storage','cp','-r',path.join(root,'storage',bucket),
-    `ss:///${bucket}`,'--local','--experimental'],{cwd:destination});
+  if(readPsqlFile(path.join(repoRoot,'supabase/storage-source-guard.sql'),localEnv).trim()!=='PASS')
+    throw Error('Local private Storage policies differ from validated source');
+  const sourceStorage=await resolveStorageObjectsRoot(
+    path.join(root,'storage'),source.counts.portrait_objects);
+  if(source.counts.portrait_objects>0)
+    call('supabase',['storage','cp','-r',sourceStorage,
+      `ss:///${bucket}`,'--local','--experimental'],{cwd:destination,env:localEnv});
   const restoredStorage=path.join(root,'restored-storage');
   await mkdir(restoredStorage,{recursive:true,mode:0o700});
-  call('supabase',['storage','cp','-r',`ss:///${bucket}`,restoredStorage,
-    '--local','--experimental'],{cwd:destination});
+  if(source.counts.portrait_objects>0)
+    call('supabase',['storage','cp','-r',`ss:///${bucket}`,restoredStorage,
+      '--local','--experimental'],{cwd:destination,env:localEnv});
+  const restoredStorageObjects=await resolveStorageObjectsRoot(
+    restoredStorage,source.counts.portrait_objects);
   const restored=collectInventory(localEnv);
   await compareBackupRestore(source,restored,
-    path.join(root,'storage',bucket),path.join(restoredStorage,bucket));
+    sourceStorage,restoredStorageObjects);
   await writeFile(path.join(root,'restored.json'),JSON.stringify(restored,null,2)+'\n',
     {flag:'wx',mode:0o600});
   console.log('PASS: local DB row fingerprints and private Storage SHA-256 match.');
@@ -173,10 +233,21 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   const root=requirePrivateRoot(process.env.AYS_RECOVERY_ROOT);
   if(mode==='preflight'){
     call('docker',['info'],{timeout:30000});
+    assertCliVersion(call('supabase',['--version'],{timeout:30000}));
     for(const [name,args] of Object.entries({
-      supabase:['--version'],psql:['--version'],pg_dump:['--version'],node:['--version'],
+      supabase:['db','dump','--help'],psql:['--version'],
+      pg_dump:['--version'],node:['--version'],
     }))call(name,args,{timeout:30000});
-    console.log('PASS: Docker, Supabase CLI, PostgreSQL tools and Node available');
-  }else if(mode==='backup')await backup(root);
-  else await restore(root);
+    const storageHelp=call('supabase',['storage','cp','--help'],{timeout:30000});
+    for(const flag of ['--linked','--local','--experimental','--recursive'])
+      if(!storageHelp.includes(flag))throw Error('Supabase CLI missing '+flag);
+    console.log('PASS: pinned CLI '+testedCliVersion+', Docker and recovery commands available');
+  }else if(mode==='backup'){
+    assertCliVersion(call('supabase',['--version'],{timeout:30000}));
+    await backup(root);
+  }
+  else {
+    assertCliVersion(call('supabase',['--version'],{timeout:30000}));
+    await restore(root);
+  }
 }
