@@ -10,11 +10,11 @@ import {fileURLToPath} from 'node:url';
 import {requirePrivateRoot,inspectBackup,resolveStorageObjectsRoot} from './local-recovery.mjs';
 import {compareBackupRestore} from './verify-restore.mjs';
 
-const root=requirePrivateRoot(process.env.AYS_RECOVERY_ROOT);
-const file=async name=>{
-  try{await access(path.join(root,name));return true;}catch{return false;}
-};
 async function main(){
+  const root=requirePrivateRoot(process.env.AYS_RECOVERY_ROOT);
+  const file=async name=>{
+    try{await access(path.join(root,name));return true;}catch{return false;}
+  };
   let backup='NOT_RUN',restore='NOT_RUN',jwt='NOT_RUN';
   if(await file('source.json')){
     try{
