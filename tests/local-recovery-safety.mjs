@@ -28,7 +28,8 @@ assert.throws(()=>parseReport(report,fp.split('\n').slice(1).join('\n')),/Missin
 
 assert.throws(()=>requirePrivateRoot('relative/path'),/absolute private/);
 assert.throws(()=>requirePrivateRoot(process.cwd()+'/local-backup'),/Git checkout/);
-assert.equal(requirePrivateRoot('/tmp/ays-private-recovery'),'/tmp/ays-private-recovery');
+assert.equal(requirePrivateRoot(path.join(os.tmpdir(),'ays-private-recovery')),
+  path.resolve(os.tmpdir(),'ays-private-recovery'));
 const valid={
   AYS_SOURCE_PROJECT_REF:'cvimyqmksxeigjnofexf',
   PGHOST:'db.cvimyqmksxeigjnofexf.supabase.co',
