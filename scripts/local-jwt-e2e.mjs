@@ -7,7 +7,7 @@
 import assert from 'node:assert/strict';
 import {randomBytes} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
-import {readFile} from 'node:fs/promises';
+import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createClient} from '@supabase/supabase-js';
@@ -102,6 +102,10 @@ try{
     AYS_E2E_PRODUCTION_PROJECT_REF:'cvimyqmksxeigjnofexf',
   });
   await import('./security-two-accounts-e2e.mjs?local-verified');
+  // Never store JWTs, account IDs or tokens in evidence.
+  await writeFile(path.join(root,'local-e2e-pass.json'),
+    JSON.stringify({scope:'localhost-only',outcome:'PASS',method:'two-synthetic-auth-jwts',
+      verifiedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx',mode:0o600});
   console.log('PASS: real local Supabase two-JWT Auth/RLS/Storage/negative RPC tests');
   console.log('NOTE: synthetic local users are not production Google OAuth sessions');
 }catch{
