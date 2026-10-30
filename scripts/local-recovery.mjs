@@ -71,6 +71,8 @@ export function verifySourceEnv(env){
   const direct=host===`db.${ref}.supabase.co`;
   const pool=/\.pooler\.supabase\.com$/.test(host)&&user.includes(ref);
   if(!direct&&!pool)throw Error('PGHOST/PGUSER do not identify At your service! production');
+  if(env.PGSSLMODE && !['require','verify-ca','verify-full'].includes(env.PGSSLMODE))
+    throw Error('Remote PostgreSQL connections must require TLS');
 }
 function call(program,args,{cwd=repoRoot,env=process.env,timeout=900000}={}){
   // stdin is used for operator authentication; never echo child output which
@@ -125,7 +127,8 @@ export async function backup(root,env=process.env){
   await checkFresh(root);
   const folder=path.join(root,'db');
   await mkdir(folder,{recursive:true,mode:0o700});
-  const before=collectInventory(env);
+  const remoteEnv={...env,PGSSLMODE:env.PGSSLMODE??'require'};
+  const before=collectInventory(remoteEnv);
   const dumps=[
     ['roles.sql',['db','dump','--linked','--role-only']],
     ['schema.sql',['db','dump','--linked']],
@@ -140,7 +143,7 @@ export async function backup(root,env=process.env){
   // auth-data export is mandatory (and will be handled as sensitive).
   const authFile=path.join(folder,'auth-data.sql');
   call('pg_dump',['--data-only','--schema=auth','--no-owner','--no-privileges',
-    '--file',authFile],{env,timeout:900000});
+    '--file',authFile],{env:remoteEnv,timeout:900000});
   const storageRoot=path.join(root,'storage');
   await mkdir(storageRoot,{recursive:true,mode:0o700});
   if(before.counts.portrait_objects>0)
@@ -148,7 +151,7 @@ export async function backup(root,env=process.env){
       '--linked','--experimental']);
   const objects=await resolveStorageObjectsRoot(storageRoot,before.counts.portrait_objects);
   const fileCount=await countFiles(objects);
-  const after=collectInventory(env);
+  const after=collectInventory(remoteEnv);
   if(JSON.stringify(before)!==JSON.stringify(after))
     throw Error('Source changed during export; backup is UNVERIFIED, do not certify it');
   if(fileCount!==after.counts.portrait_objects)
