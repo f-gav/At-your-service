@@ -5,7 +5,7 @@
  * local-only Postgres. Never prints keys, JWTs, user IDs or passwords.
  */
 import assert from 'node:assert/strict';
-import {randomBytes,randomUUID} from 'node:crypto';
+import {randomBytes} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
@@ -69,12 +69,16 @@ try{
     room_id:room.data.id,character_id:owner.characterId,user_id:owner.id,
   });
   if(member.error)throw Error('Could not add owner fixture to local room');
-  const portraitPath=owner.id+'/ays-local-'+randomUUID()+'.png';
+  // Production RLS requires user-id/character-id/32hex-source.webp and
+  // the bucket allows image/webp only. A PNG would fail or bypass the
+  // meaningful private read test.
+  const portraitPath=owner.id+'/'+owner.characterId+'/' +
+    randomBytes(16).toString('hex')+'-source.webp';
   const imageBytes=Buffer.from(
-    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9oFVaQAAAABJRU5ErkJggg==',
+    'UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA',
     'base64');
   const upload=await admin.storage.from('character-portraits')
-    .upload(portraitPath,imageBytes,{contentType:'image/png',upsert:false});
+    .upload(portraitPath,imageBytes,{contentType:'image/webp',upsert:false});
   if(upload.error)throw Error('Local synthetic portrait upload failed');
   // Staging RPC SQL is applied strictly on local PostgreSQL AFTER restore was
   // compared with source, leaving all restored fixtures available for E2E.
