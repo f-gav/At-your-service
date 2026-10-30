@@ -5,3 +5,13 @@ dist/
 .env.*.local
 *.log
 .DS_Store
+
+# Local Supabase CLI linking, credentials and private disaster recovery snapshots
+supabase/.temp/
+supabase/.branches/
+.ays-recovery/
+private-recovery/
+*AYS-Private-Recovery*/
+*.pgpass
+*.sql.dump
+*.backup

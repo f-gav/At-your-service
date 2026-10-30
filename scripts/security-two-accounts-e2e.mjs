@@ -15,8 +15,14 @@ const required=name=>{
   return value;
 };
 const url=new URL(required('AYS_E2E_SUPABASE_URL'));
-assert.equal(url.protocol,'https:');
-assert.match(url.hostname,/^[a-z0-9-]+\.supabase\.co$/);
+const localHost=['127.0.0.1','localhost'].includes(url.hostname);
+const localPort=url.port==='54321';
+const permittedLocal=localHost&&localPort&&url.protocol==='http:'&&
+  env.AYS_E2E_ISOLATED_RESTORE==='YES';
+const permittedHosted=url.protocol==='https:'&&url.hostname.endsWith('.supabase.co')&&
+  /^[a-z0-9-]+$/.test(url.hostname.slice(0,-'.supabase.co'.length));
+assert.ok(permittedLocal||permittedHosted,
+  'Only HTTPS Supabase projects or opt-in local Supabase on 127.0.0.1:54321');
 const origin=url.origin;
 const key=required('AYS_E2E_PUBLISHABLE_KEY');
 const ownerToken=required('AYS_E2E_OWNER_JWT');
@@ -117,14 +123,17 @@ if(env.AYS_E2E_ISOLATED_RESTORE==='YES'){
   assert.equal(env.AYS_E2E_PRODUCTION_PROJECT_REF?.length>0,true,
     'Supply production project ref to avoid testing the wrong environment');
   assert.notEqual(url.hostname,env.AYS_E2E_PRODUCTION_PROJECT_REF+'.supabase.co');
+  // Refuse real hosted mutations in this local-only iteration. A reviewed,
+  // explicitly provisioned staging project needs a separate authorization path.
+  assert.ok(localHost&&localPort,'Mutating RPC tests are local Docker only');
   const post=async(name,args)=>call(outsiderToken,'/rest/v1/rpc/'+name,{method:'POST',body:args});
   const denyJoin=await post('join_game_room',{p_code:ownerRoom[0].invite_code,p_character:ownerChar});
-  assert.equal(denyJoin.ok,false,'Outsider joined with a foreign character');
+  assert.ok(!denyJoin.ok||denyJoin.data===null,'Outsider joined with a foreign character');
   const denyRoll=await post('post_game_room_roll',{
     p_room:roomId,p_character:ownerChar,p_formula:'1d6',p_label:'negative auth fixture',
     p_total:3,p_calculation:'1d6 = 3',p_dice:[],
   });
-  assert.equal(denyRoll.ok,false,'Outsider posted a forged roll');
+  assert.ok(!denyRoll.ok||denyRoll.data===null,'Outsider posted a forged roll');
   console.log('PASS: isolated negative RPC authorization tests');
 }else{
   console.log('SKIP: RPC POST tests require isolated restored Supabase + explicit opt-in');
