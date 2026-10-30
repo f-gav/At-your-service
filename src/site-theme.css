@@ -135,7 +135,7 @@
 :root[data-ays-theme="dark"] .duplicate-portrait-option{color:#adb9ce}
 :root[data-ays-theme="dark"] .create-modal .form-label{color:#e5e8f0}
 :root[data-ays-theme="dark"] .create-modal input:not([type="radio"]):not([type="checkbox"]){
-  background:#111722;border:1px solid #46536b;color:#f0f2f7
+  background:#111722;border-color:#46536b;color:#f0f2f7
 }
 :root[data-ays-theme="dark"] .create-modal input::placeholder{color:#8190a6}
 :root[data-ays-theme="dark"] .text-button{color:#a3caff}
@@ -226,7 +226,7 @@
 /* Keep grimoire details legible on paper-like cards; recolor their framing. */
 :root[data-ays-theme="dark"] .spell-modal-overlay{background:#080b13dc}
 :root[data-ays-theme="dark"] .spell-modal{
-  border:1px solid #536070;box-shadow:0 15px 60px #000a
+  border-color:#536070;box-shadow:0 15px 60px #000a
 }
 :root[data-ays-theme="dark"] .spell-viewer{color-scheme:light}
 :root[data-ays-theme="dark"] .spell-viewer :is(input,select,textarea){color-scheme:light}
