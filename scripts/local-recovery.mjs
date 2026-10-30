@@ -192,11 +192,12 @@ export async function restore(root){
     '-c','SET session_replication_role = replica',
     '-f',path.join(db,'auth-data.sql'),
     '-f',path.join(db,'data.sql')],{cwd:destination,env:localEnv,timeout:900000});
-  // The app dump excludes Storage metadata. Rehydrate via local Storage API,
-  // which creates its own storage.objects records as actual bytes are uploaded.
+  // The generic dump excludes managed Storage policies and buckets.
+  // Restore only the audited local definition, after database import.
+  // Supabase Storage API will materialize storage.objects for uploaded bytes.
   call('psql',['-X','-h','127.0.0.1','-p','54322','-U','postgres',
-    '-d','postgres','-v','ON_ERROR_STOP=1','-c',
-    `INSERT INTO storage.buckets(id,name,public) VALUES('${bucket}','${bucket}',false) ON CONFLICT(id) DO NOTHING`],
+    '-d','postgres','-v','ON_ERROR_STOP=1',
+    '-f',path.join(repoRoot,'supabase/proposals/local-restore-portrait-storage.sql')],
     {cwd:destination,env:localEnv});
   const sourceStorage=await resolveStorageObjectsRoot(
     path.join(root,'storage'),source.counts.portrait_objects);
