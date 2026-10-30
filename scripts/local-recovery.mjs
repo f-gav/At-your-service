@@ -14,7 +14,7 @@ import {createHash} from 'node:crypto';
 import {createReadStream} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {collectInventory} from './collect-recovery-manifest.mjs';
+import {collectInventory,readPsqlFile} from './collect-recovery-manifest.mjs';
 import {compareBackupRestore} from './verify-restore.mjs';
 
 const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -128,6 +128,8 @@ export async function backup(root,env=process.env){
   const folder=path.join(root,'db');
   await mkdir(folder,{recursive:true,mode:0o700});
   const remoteEnv={...env,PGSSLMODE:env.PGSSLMODE??'require'};
+  if(readPsqlFile(path.join(repoRoot,'supabase/storage-source-guard.sql'),remoteEnv).trim()!=='PASS')
+    throw Error('Remote portrait Storage policies drifted; abort rather than making an unfaithful restore');
   const before=collectInventory(remoteEnv);
   const dumps=[
     ['roles.sql',['db','dump','--linked','--role-only']],
@@ -202,6 +204,8 @@ export async function restore(root){
     '-d','postgres','-v','ON_ERROR_STOP=1',
     '-f',path.join(repoRoot,'supabase/proposals/local-restore-portrait-storage.sql')],
     {cwd:destination,env:localEnv});
+  if(readPsqlFile(path.join(repoRoot,'supabase/storage-source-guard.sql'),localEnv).trim()!=='PASS')
+    throw Error('Local private Storage policies differ from validated source');
   const sourceStorage=await resolveStorageObjectsRoot(
     path.join(root,'storage'),source.counts.portrait_objects);
   if(source.counts.portrait_objects>0)
