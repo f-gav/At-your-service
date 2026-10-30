@@ -19,7 +19,8 @@ const localHost=['127.0.0.1','localhost'].includes(url.hostname);
 const localPort=url.port==='54321';
 const permittedLocal=localHost&&localPort&&url.protocol==='http:'&&
   env.AYS_E2E_ISOLATED_RESTORE==='YES';
-const permittedHosted=url.protocol==='https:'&&/^[a-z0-9-]+\\.supabase\\.co$/.test(url.hostname);
+const permittedHosted=url.protocol==='https:'&&url.hostname.endsWith('.supabase.co')&&
+  /^[a-z0-9-]+$/.test(url.hostname.slice(0,-'.supabase.co'.length));
 assert.ok(permittedLocal||permittedHosted,
   'Only HTTPS Supabase projects or opt-in local Supabase on 127.0.0.1:54321');
 const origin=url.origin;
