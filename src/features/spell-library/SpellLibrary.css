@@ -397,3 +397,22 @@
 @media(max-width:679px){
   .spell-language-switch button{min-width:44px;min-height:44px;}
 }
+
+/* Stage 2: show the full spell name rather than silently clipping it after
+   two lines; let compact stat labels wrap instead of overflowing small cards. */
+.spell-result-identity strong{
+  display:block;-webkit-line-clamp:unset;overflow:visible;
+  text-overflow:clip;overflow-wrap:anywhere;white-space:normal;
+}
+.spell-result-identity span,.spell-source-label{overflow-wrap:anywhere}
+.spell-mini-stat{white-space:normal;overflow:visible;text-overflow:clip;
+  overflow-wrap:anywhere;align-items:flex-start}
+.spell-mini-stat svg{flex:none}
+.spell-modal-overlay{z-index:10020}
+.spell-modal,.spell-viewer,.spell-parameters,.spell-stat-grid{min-width:0}
+.spell-modal .spell-viewer-top h2{overflow-wrap:anywhere}
+.spell-empty p,.spell-trigger,.spell-body-text,.spell-stat-grid dd{overflow-wrap:anywhere}
+@media(max-width:420px){
+  .spell-result-stats{gap:6px}
+  .spell-result{padding:14px 12px}
+}
