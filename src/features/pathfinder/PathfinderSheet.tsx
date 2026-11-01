@@ -7,6 +7,7 @@ import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
+import DeviceDraftNotice from '../../lib/DeviceDraftNotice';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import {parseHiddenPageIds,setPageVisible} from '../../lib/page-visibility';
@@ -521,6 +522,8 @@ export default function PathfinderSheet({
   }
 
   return <main className="page pf-editor" ref={pdfRoot}>
+    <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
+    {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
     <div className="pf-toolbar">
       <button type="button" className="text-button" onClick={() => void goBack()} disabled={editLocked}>
         <ArrowLeft size={17} /> К персонажам
