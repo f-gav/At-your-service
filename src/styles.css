@@ -585,3 +585,49 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .site-tabs-mobile{gap:4px;justify-content:space-around;padding:0 5px}
   .site-tabs-mobile button{flex:1 1 0;min-width:0;padding:13px 2px;font-size:clamp(11px,3.3vw,14px)}
 }
+
+/* Stage 2: long content must not disappear behind fixed card heights. */
+.character-card{height:auto;min-height:78px}
+.character-open{min-height:74px;padding-bottom:20px;align-items:flex-start}
+.character-data{padding-bottom:2px;max-width:100%}
+.character-data strong,.character-data>span{
+  white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;
+}
+.character-data strong{line-height:1.16}
+.create-system-list button span{min-width:0;overflow-wrap:anywhere}
+.create-modal h2,.create-modal p,.duplicate-actions,
+.modal-top,.form-label,.move-toolbar-copy{min-width:0;overflow-wrap:anywhere}
+.create-form input,.form-label input{min-width:0;max-width:100%}
+
+/* Errors were previously rendered only on the home tab, disappearing on
+   Library, Rooms and editor routes. Keep one accessible site-level status. */
+.site-feedback{width:min(100% - 60px,980px);margin:12px auto 0;flex:none;min-width:0}
+.site-feedback .global-error,.site-feedback .global-notice{
+  display:flex;align-items:center;gap:12px;min-width:0;
+  margin:0 0 8px;padding:11px 14px;border-radius:9px;
+  overflow-wrap:anywhere;
+}
+.site-feedback :is(.global-error,.global-notice)>span{flex:1;min-width:0}
+.site-feedback :is(.global-error,.global-notice)>button{
+  flex:none;display:inline-grid;place-items:center;min-width:36px;min-height:36px;
+  border:0;border-radius:7px;cursor:pointer;color:inherit;background:transparent
+}
+.site-feedback :is(.global-error,.global-notice)>button:hover{background:#7f8c9825}
+.site-feedback .global-notice{border:1px solid #b9d8c6;background:#ecf6f0;color:#285e44}
+.modal-inline-error{margin:12px 0;overflow-wrap:anywhere}
+
+/* Header stays sticky during navigation, but must not cover true dialogs. */
+.modal-backdrop{z-index:10020;overflow-y:auto;overscroll-behavior:contain}
+.create-modal{max-height:calc(100dvh - 40px);max-width:100%;min-width:0;overscroll-behavior:contain}
+:root[data-ays-theme="dark"] .site-feedback .global-notice{
+  background:#1c3541;border-color:#436d7b;color:#c0ebee
+}
+@media(max-width:650px){
+  .site-feedback{width:calc(100% - 34px)}
+  .modal-backdrop{padding:12px;align-items:center}
+  .create-modal{max-height:calc(100dvh - 24px);padding:18px 16px;border-radius:12px}
+  .create-modal h2{font-size:clamp(20px,6vw,26px)}
+  .create-system-list button{padding:12px;min-height:48px}
+  .duplicate-actions{flex-wrap:wrap}
+  .duplicate-actions .button{min-width:0}
+}
