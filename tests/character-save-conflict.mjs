@@ -56,7 +56,8 @@ await assert.rejects(saveCharacterIfCurrent(initial,
   async()=>({data:null,error:{message:'read forbidden'}})),/read forbidden/);
 
 const app=readFileSync(new URL('../src/App.tsx',import.meta.url),'utf8');
-assert.ok(app.includes('.eq(\'updated_at\',revision)'),'character writes must be atomic CAS updates');
-assert.ok(app.includes('saveCharacterIfCurrent('),'all character sheets must use the guarded save');
+const repository=readFileSync(new URL('../src/features/character/character-repository.ts',import.meta.url),'utf8');
+assert.ok(repository.includes('.eq(\'updated_at\',revision)'),'character writes must be atomic CAS updates');
+assert.ok(repository.includes('saveCharacterIfCurrent('),'all character sheets must use the guarded save');
 assert.ok(app.includes('throw cause;'),'conflict must reach the autosave error state');
 console.log('PASS: character concurrency guard: normal, metadata-only, stale, race and error paths');

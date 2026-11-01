@@ -1,10 +1,10 @@
+import {nextCharacterOrder,newCharacterDetails,copyCharacterDetails,characterCopyName,confirmedCharacter} from './features/character/character-operations';
+import {SiteLogo,HeroEmblem} from './components/SiteBranding';
+import CharacterEditor from './features/character/CharacterEditor';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import AutoSaveStatus from './lib/AutoSaveStatus';
 import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
-import {useAutoSave} from './lib/use-auto-save';
-import {saveCharacterIfCurrent} from './lib/character-save';
+import {listCharacterRows,insertCharacterRow,readCharacterRow,saveCharacterRow,removeCharacterRow,reorderCharacterRows} from './features/character/character-repository';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
-import DeviceDraftNotice from './lib/DeviceDraftNotice';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
 import type {SiteTheme} from './lib/site-theme';
@@ -34,7 +34,6 @@ import {
 } from 'lucide-react';
 import {
   GAME_SYSTEMS,
-  defaultDetails,
   detailString,
   normalizeDetails,
   normalizedName,
@@ -48,7 +47,7 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
-import { emptyMoonSheet, moonSubtitle, readMoonSheet } from './features/project-moon/model';
+import { moonSubtitle, readMoonSheet } from './features/project-moon/model';
 import { initialSheetValues } from './features/pathfinder/sheet-values';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
@@ -71,27 +70,6 @@ function messageFromError(error: unknown): string {
     return message;
   }
   return 'Неизвестная ошибка. Попробуй ещё раз.';
-}
-
-function SiteLogo() {
-  return (
-    <span className="brand-wrap" aria-label="At your service!">
-      <img className="brand-icon" src={`${import.meta.env.BASE_URL}site-icon.png`} alt="" aria-hidden="true" />
-      <img className="brand-wordmark" src={`${import.meta.env.BASE_URL}wordmark.svg`} alt="At your service!" />
-    </span>
-  );
-}
-
-/** Decorative silhouette from the approved homepage mockup. */
-function HeroEmblem() {
-  return (
-    <svg className="hero-emblem" viewBox="0 0 324 118" aria-hidden="true" focusable="false">
-      <path d="M162 2 181 14H143Z" />
-      <path d="M105 18h114c16 0 29 13 29 29v47H76V47c0-16 13-29 29-29Z" />
-      <path d="M65 80h194c9 0 16 7 16 16v2H49v-2c0-9 7-16 16-16Z" />
-      <path d="M0 100h324l-28 17H28Z" />
-    </svg>
-  );
 }
 
 const WRECKTRACK_URL = 'https://f-gav.github.io/WreckTrack/';
@@ -123,109 +101,7 @@ function EmptySetup() {
   );
 }
 
-function CharacterEditor({
-  character,
-  onSave,
-  onClose,
-}: {
-  character: Character;
-  onSave: (id: string, name: string, details: CharacterDetails) => Promise<boolean>;
-  onClose: () => void;
-}) {
-  const draftKey=characterDraftKey(character.user_id,character.id);
-  const [serverBaseline]=useState(()=>JSON.stringify({
-    name:character.name,
-    concept:detailString(character.details,'concept'),
-    chronicle:detailString(character.details,'chronicle'),
-    notes:detailString(character.details,'notes'),
-  }));
-  const [initialDraft]=useState(()=>{
-    const recovered=recoverLocalDraft(draftKey,serverBaseline);
-    if(!recovered)return null;
-    try {
-      const value:unknown=JSON.parse(recovered);
-      if(value&&typeof value==='object'&&!Array.isArray(value)) {
-        const item=value as Record<string,unknown>;
-        if(['name','concept','chronicle','notes'].every(key=>typeof item[key]==='string'))
-          return item as {name:string;concept:string;chronicle:string;notes:string};
-      }
-    }catch{ /* stale or corrupt device draft */ }
-    return null;
-  });
-  const [name,setName]=useState(()=>initialDraft?.name??character.name);
-  const [concept,setConcept]=useState(()=>initialDraft?.concept??detailString(character.details,'concept'));
-  const [chronicle,setChronicle]=useState(()=>initialDraft?.chronicle??detailString(character.details,'chronicle'));
-  const [notes,setNotes]=useState(()=>initialDraft?.notes??detailString(character.details,'notes'));
-  const auto=useAutoSave({
-    snapshot:JSON.stringify({name,concept,chronicle,notes}),
-    initialSnapshot:serverBaseline,draftKey,
-    persist:async serialized=>{
-      const captured=JSON.parse(serialized) as {name:string;concept:string;chronicle:string;notes:string};
-      const cleanName=normalizedName(captured.name);
-      if(!cleanName)throw new Error('Укажи имя персонажа.');
-      const details:CharacterDetails={
-        ...character.details,
-        concept:captured.concept.slice(0,500),
-        chronicle:captured.chronicle.slice(0,200),
-        notes:captured.notes.slice(0,20000),
-      };
-      return onSave(character.id,cleanName,details);
-    },
-  });
-  const editLocked=false;
-  const {error}=auto;
-  const system = GAME_SYSTEMS[character.system];
 
-  async function goBack() {
-    if(!(await auto.saveNow()))return;
-    onClose();
-  }
-
-  return (
-    <main className="page page-editor">
-      <div className="editor-nav">
-        <button className="text-button" type="button" onClick={() => void goBack()} disabled={editLocked}>
-          <ArrowLeft size={17} /> К персонажам
-        </button>
-        <div className="editor-actions">
-          <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
-        </div>
-      </div>
-      <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
-      {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
-      <div className="sheet-heading">
-        <div className="eyebrow"><span className="small-dot" /> {system.title.toUpperCase()} · {system.edition.toUpperCase()}</div>
-        <h1>Лист персонажа<span className="punctuation">.</span></h1>
-        <p>Черновик до появления игровых макетов. Данные сохраняются в твоём аккаунте, а структура может расширяться.</p>
-      </div>
-
-      <section className="paper" aria-label="Черновик листа персонажа">
-        <div className="paper-topline"><span>AT YOUR SERVICE</span><span>{system.short.toUpperCase()} / CHARACTER SHEET</span></div>
-        <div className="paper-row paper-row-major">
-          <label className="field-label field-name">ИМЯ ПЕРСОНАЖА
-            <input disabled={editLocked} maxLength={100} value={name} onChange={e => { setName(e.target.value); }} placeholder="Например, Авантюрист" autoComplete="off" />
-          </label>
-          <span className="sheet-placeholder-emblem" aria-hidden="true">{system.short}</span>
-        </div>
-        <div className="paper-grid">
-          <label className="field-label">КОНЦЕПЦИЯ / ОПИСАНИЕ
-            <input disabled={editLocked} maxLength={500} value={concept} onChange={e => { setConcept(e.target.value); }} placeholder="Кто этот персонаж?" />
-          </label>
-          <label className="field-label">КАМПАНИЯ / ХРОНИКА
-            <input disabled={editLocked} maxLength={200} value={chronicle} onChange={e => { setChronicle(e.target.value); }} placeholder="Название истории" />
-          </label>
-        </div>
-        <div className="divider-line" />
-        <label className="field-label field-notes">ЗАМЕТКИ ПЕРСОНАЖА
-          <textarea disabled={editLocked} rows={9} maxLength={20000} value={notes} onChange={e => { setNotes(e.target.value); }} placeholder="История, способности, предметы, планы…" />
-        </label>
-        <div className="paper-footer"><span>ПОЛНЫЙ ЛИСТ ПОЯВИТСЯ ПОСЛЕ УТВЕРЖДЕНИЯ МАКЕТА</span><FilePenLine size={18} /></div>
-      </section>
-      {error && <p role="alert" className="form-error">{error}</p>}
-      <p className="editor-hint"><ShieldCheck size={15} /> Можно редактировать свободно. При выходе через «К персонажам» несохранённые изменения будут сохранены автоматически.</p>
-    </main>
-  );
-}
 
 initializeSiteRoute();
 
@@ -440,12 +316,7 @@ export default function App() {
     let cancelled = false;
     setLoadingCharacters(true);
     setCharacters([]);
-    const client = supabase;
-    void client.from('characters')
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-      .eq('user_id', userId)
-      .order('sort_order', { ascending: true })
-      .order('created_at', { ascending: true })
+    void listCharacterRows(userId)
       .then(({ data, error: loadError }) => {
         if (cancelled) return;
         setLoadingCharacters(false);
@@ -537,17 +408,12 @@ export default function App() {
     if (!name) { setError('Укажи имя персонажа.'); return; }
     setBusy(true);
     setError('');
-    const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
-    const { data, error: insertError } = await supabase.from('characters')
-      .insert({ user_id: user.id, system: createPanel, name,
-         details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } :
-           createPanel === 'pf2e' ? { ...defaultDetails(), pathfinderSheet:{pf2e_layout:newPfVariant} } : defaultDetails(),
-         sort_order: nextOrder })
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+    const nextOrder = nextCharacterOrder(characters);
+    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant),nextOrder);
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
-    const created = { ...data, details: normalizeDetails(data.details) } as Character;
+    const created = confirmedCharacter(data as Character);
     setCharacters(current => [...current, created]);
     setCreatePanel(null);
     setShowSystemPicker(false);
@@ -558,23 +424,10 @@ export default function App() {
     if (!supabase || !user) return false;
     const baseline=lastSavedRows.current.get(id)??characters.find(c=>c.id===id);
     if(!baseline || baseline.user_id!==user.id)throw new Error('Не удалось проверить версию персонажа. Перезагрузи список и повтори действие.');
-    const client=supabase;
-    const userId=user.id;
     try {
-      // The existing updated_at trigger changes on EVERY row update. Compare
-      // the revision atomically; metadata-only changes (portrait/sort) are
-      // safely retried after checking that name/details did not change.
-      const data=await saveCharacterIfCurrent(baseline,
-        async revision=>client.from('characters')
-          .update({name,details})
-          .eq('id',id).eq('user_id',userId).eq('updated_at',revision)
-          .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-          .maybeSingle(),
-        async()=>client.from('characters')
-          .select('name,details,updated_at').eq('id',id).eq('user_id',userId).maybeSingle(),
-      );
+      const data=await saveCharacterRow(baseline,user.id,name,details);
       setError('');
-      const confirmed={...data,details:normalizeDetails(data.details)} as Character;
+      const confirmed=confirmedCharacter(data as Character);
       lastSavedRows.current.set(id,confirmed);
       setCharacters(current => current.map(c => c.id === id ? confirmed : c));
       return true;
@@ -590,11 +443,9 @@ export default function App() {
     if (!supabase || !user || busy) return;
     setOpenMenuId(null); setError(''); setBusy(true);
     try {
-      const {data,error:readError} = await supabase.from('characters')
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-        .eq('id',character.id).eq('user_id',user.id).single();
+      const {data,error:readError} = await readCharacterRow(user.id,character.id);
       if (readError || !data) throw readError ?? new Error('Не удалось получить актуальную версию персонажа.');
-      const freshest = {...data,details:normalizeDetails(data.details)} as Character;
+      const freshest = confirmedCharacter(data as Character);
       const key = characterDraftKey(user.id,character.id);
       const baseline = freshest.system === 'pf2e'
         ? JSON.stringify(initialSheetValues(freshest.details,freshest.name))
@@ -619,12 +470,10 @@ export default function App() {
           ...(parsed.details.pathfinderSheet as Record<string,unknown>||{}),
           pf2e_layout:variant??'classic',
         }}:parsed.details;
-      const nextOrder=characters.reduce((maximum,c)=>Math.max(maximum,c.sort_order),0)+1;
-      const {data,error:importError}=await supabase.from('characters')
-        .insert({user_id:user.id,system:parsed.system,name:parsed.name,details,sort_order:nextOrder})
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+      const nextOrder=nextCharacterOrder(characters);
+      const {data,error:importError}=await insertCharacterRow(user.id,parsed.system,parsed.name,details,nextOrder);
       if(importError||!data)throw importError??new Error('Не удалось создать персонажа.');
-      let imported={...data,details:normalizeDetails(data.details)} as Character;
+      let imported=confirmedCharacter(data as Character);
       if(parsed.portrait){
         try{
           const paths=parsed.portrait.type==='source'
@@ -632,7 +481,7 @@ export default function App() {
             :await saveLegacyPortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet);
           imported={...imported,...paths};
         }catch(cause){
-          await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id);
+          await removeCharacterRow(user.id,imported.id);
           throw cause;
         }
       }
@@ -675,15 +524,13 @@ export default function App() {
     setBusy(true);setError('');
     let created:Character|null=null;
     try{
-      const name=normalizedName(character.name+' (копия)').slice(0,100);
-      const nextOrder=characters.reduce((max,c)=>Math.max(max,c.sort_order),0)+1;
+      const name=characterCopyName(character.name);
+      const nextOrder=nextCharacterOrder(characters);
       // JSON clone avoids shared mutable nested sheet data between characters.
-      const details=normalizeDetails(JSON.parse(JSON.stringify(character.details)) as CharacterDetails);
-      const {data,error:insertError}=await supabase.from('characters')
-        .insert({user_id:user.id,system:character.system,name,details,sort_order:nextOrder})
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+      const details=copyCharacterDetails(character.details);
+      const {data,error:insertError}=await insertCharacterRow(user.id,character.system,name,details,nextOrder);
       if(insertError||!data)throw insertError??new Error('Не удалось продублировать лист.');
-      created={...data,details:normalizeDetails(data.details)} as Character;
+      created=confirmedCharacter(data as Character);
       if(includePortrait){
         if(character.portrait_source_path && character.portrait_crops){
           const blob=await downloadPortraitBlob(character.portrait_source_path);
@@ -705,7 +552,7 @@ export default function App() {
     }catch(cause){
       if(created){
         try{await cleanupBeforeDelete(created);}catch{ /* best effort rollback */ }
-        await supabase.from('characters').delete().eq('id',created.id).eq('user_id',user.id);
+        await removeCharacterRow(user.id,created.id);
       }
       setError('Не удалось создать копию: '+messageFromError(cause));
     }finally{setBusy(false);}
@@ -737,9 +584,7 @@ export default function App() {
     setCharacters(reordered.map((character, index) => ({ ...character, sort_order: index + 1 })));
     // One database transaction updates the full order. If it fails, restore the previous list.
     try {
-      const { error: moveError } = await supabase.rpc('reorder_characters', {
-        p_ids: reordered.map(character => character.id),
-      });
+      const { error: moveError } = await reorderCharacterRows(reordered.map(character => character.id));
       if (moveError) throw moveError;
     } catch (moveError) {
       setCharacters(previous);
@@ -756,8 +601,7 @@ export default function App() {
     setError('');
     try { await cleanupBeforeDelete(character); }
     catch(cause) {setBusy(false);setError('Не удалось удалить файлы портрета: '+messageFromError(cause));return;}
-    const { error: deleteError } = await supabase.from('characters').delete()
-      .eq('id', character.id).eq('user_id', user.id);
+    const { error: deleteError } = await removeCharacterRow(user.id,character.id);
     setBusy(false);
     if (deleteError) { setError(messageFromError(deleteError)); return; }
     setCharacters(current => current.filter(c => c.id !== character.id));

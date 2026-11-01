@@ -10,6 +10,7 @@ const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const pf=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const moon=read('../src/features/project-moon/ProjectMoonSheet.tsx');
 const app=read('../src/App.tsx');
+const genericEditor=read('../src/features/character/CharacterEditor.tsx');
 const auto=read('../src/lib/use-auto-save.ts');
 const status=read('../src/lib/AutoSaveStatus.tsx');
 const index=read('../index.html');
@@ -18,7 +19,7 @@ const manifest=JSON.parse(read('../public/manifest.webmanifest'));
 const main=read('../src/main.tsx');
 const register=read('../src/lib/register-service-worker.ts');
 
-for(const sheet of [pf,moon,app]) {
+for(const sheet of [pf,moon,genericEditor]) {
   assert.ok(sheet.includes('useAutoSave('),'All existing character editors use autosave');
   assert.ok(sheet.includes('AutoSaveStatus'),'Every editor shows cloud save status');
   assert.ok(sheet.includes('await auto.saveNow()'),'Going back flushes pending changes');

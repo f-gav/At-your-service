@@ -74,7 +74,7 @@ const app = read('../src/App.tsx');
 const sql = read('../supabase/migrations/20261012_add_project_moon_system.sql');
 const sheet = read('../src/features/project-moon/ProjectMoonSheet.tsx');
 assert.ok(app.includes("active.system === 'prmoon'"));
-assert.ok(app.includes("createPanel === 'prmoon'"));
+assert.ok(read('../src/features/character/character-operations.ts').includes("system==='prmoon'"));
 assert.ok(app.includes("'PR. MOON'"));
 assert.ok(sql.includes("'prmoon'"));
 assert.ok(sheet.includes("visibleMoonPages.map(page => <article"));
