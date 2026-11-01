@@ -1,1 +1,1 @@
-export * from '../rich-editor/floating-navigation-geometry';
+export * from '../rich-editor/floating-navigation-geometry.ts';
