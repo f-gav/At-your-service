@@ -61,9 +61,9 @@ const escaped=resourceMarkup({...cells,maxFormula:'уровень + харизм
 assert.match(escaped,/data-max-formula="уровень \+ харизма"/);
 
 const read=p=>readFileSync(new URL(p,import.meta.url),'utf8');
-const editor=read('../src/features/pathfinder/RichField.tsx');
-const dialog=read('../src/features/pathfinder/ResourceDialog.tsx');
-const codec=read('../src/features/pathfinder/rich-codec.ts');
+const editor=read('../src/features/rich-editor/RichField.tsx');
+const dialog=read('../src/features/rich-editor/ResourceDialog.tsx');
+const codec=read('../src/features/rich-editor/rich-codec.ts');
 const css=read('../src/features/pathfinder/ResourceDialog.css');
 const live=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const advancing=read('../src/features/pathfinder/DynamicAdvancement.tsx');
