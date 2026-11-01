@@ -105,7 +105,9 @@ try{
       assert.equal(await page.evaluate(()=>document.activeElement?.id),'last-button',
         'Shift+Tab must remain in modal');
       await page.keyboard.press('Escape');
-      assert.equal(await modal.count(),0,'Escape closes unlocked modal');
+      await modal.waitFor({state:'detached'});
+      await page.waitForFunction(()=>document.activeElement?.id==='open-dialog',
+        {timeout:3000});
       assert.equal(await page.evaluate(()=>document.activeElement?.id),'open-dialog',
         'Closing restores previous focus');
       assert.equal(await page.evaluate(()=>document.body.style.overflow),'',
