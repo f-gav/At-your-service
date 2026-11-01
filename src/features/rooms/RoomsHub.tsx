@@ -1,3 +1,4 @@
+import {roomViewState,canAttachCharacter,distinctRoomUsers} from './room-state';
 import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
@@ -62,7 +63,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const [roomTab,setRoomTab]=useState<'table'|'players'|'settings'>('table');
   const [roomTitleDraft,setRoomTitleDraft]=useState('');
   const room=rooms.find(r=>r.id===selected);
-  const isOwner=!!room&&room.owner_id===userId;
+  const viewState=roomViewState(userId,selected,room??null,members);
+  const isOwner=viewState.canManage;
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
   const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon');
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
@@ -75,11 +77,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     setMine((mineResponse.data??[]) as Member[]);
     // Count distinct players, not sheets. A user can attach several characters.
     // Counts come only from rows that existing room-member RLS makes readable.
-    const roomUsers:Record<string,Set<string>>={};
-    if(!countsResponse.error){for(const entry of countsResponse.data??[]){
-      (roomUsers[entry.room_id]??=new Set<string>()).add(entry.user_id);
-    }}
-    setRoomCounts(Object.fromEntries(Object.entries(roomUsers).map(([id,people])=>[id,people.size])));
+    if(!countsResponse.error)setRoomCounts(distinctRoomUsers(countsResponse.data??[]));
+    else setRoomCounts({});
   },[userId]);
   const loadRoom=useCallback(async(roomId:string)=>{
     if(!supabase||!userId)return;
