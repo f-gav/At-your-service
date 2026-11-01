@@ -1,3 +1,4 @@
+import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
 import {useModalAccessibility} from '../../lib/use-modal-accessibility';
@@ -68,11 +69,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   useModalAccessibility(!!dialog,()=>{setDialog(null);setError('');},busy);
   const loadOverview=useCallback(async()=>{
     if(!supabase||!userId){setRooms([]);setMine([]);setRoomCounts({});return;}
-    const [roomsResponse,mineResponse,countsResponse]=await Promise.all([
-      supabase.from('game_rooms').select('id,owner_id,title,system,invite_code,closed,created_at').order('created_at',{ascending:false}),
-      supabase.from('game_room_members').select('room_id,character_id,user_id,casts_enabled,joined_at,snapshot').eq('user_id',userId),
-      supabase.from('game_room_members').select('room_id,user_id'),
-    ]);
+    const [roomsResponse,mineResponse,countsResponse]=await roomOverviewRequests(userId);
     if(roomsResponse.error||mineResponse.error)throw roomsResponse.error??mineResponse.error;
     setRooms((roomsResponse.data??[]) as Room[]);
     setMine((mineResponse.data??[]) as Member[]);
@@ -86,10 +83,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   },[userId]);
   const loadRoom=useCallback(async(roomId:string)=>{
     if(!supabase||!userId)return;
-    const [people,events]=await Promise.all([
-      supabase.from('game_room_members').select('room_id,character_id,user_id,casts_enabled,joined_at,snapshot').eq('room_id',roomId).order('joined_at'),
-      supabase.from('game_room_rolls').select('id,room_id,character_id,formula,label,total,calculation,created_at,dice').eq('room_id',roomId).order('created_at',{ascending:false}).limit(80),
-    ]);
+    const [people,events]=await roomDetailRequests(roomId);
     if(people.error||events.error)throw people.error??events.error;
     setMembers((people.data??[]) as Member[]);
     setRolls((events.data??[]) as Roll[]);
@@ -126,9 +120,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     event.preventDefault();
     if(!supabase||!userId)return;
     await operate(async()=>{
-      const {data,error:failure}=await supabase!.from('game_rooms')
-        .insert({owner_id:userId,title:createTitle.trim(),system:createSystem})
-        .select('id').single();
+      const {data,error:failure}=await createRoomRow(userId,createTitle.trim(),createSystem);
       if(failure||!data)throw failure??new Error('Не удалось создать комнату');
       setSelected(data.id);setRoomTab('table');setCreateTitle('');setDialog(null);
     });
@@ -141,9 +133,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
       setError('Слишком много попыток входа. Повтори попытку через несколько секунд.');return;
     }
     await operate(async()=>{
-      const {data,error:failure}=await supabase!.rpc('join_game_room',{
-        p_code:inviteCode.trim().toUpperCase(),p_character:inviteCharacter,
-      });
+      const {data,error:failure}=await joinRoomByCode(inviteCode,inviteCharacter);
       if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
       setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');setDialog(null);
     });
@@ -152,17 +142,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     if(!supabase)return;
     if(!window.confirm(member.user_id===userId?'Вывести своего персонажа из комнаты?':'Исключить персонажа из комнаты?'))return;
     await operate(async()=>{
-      const {error:failure}=await supabase!.from('game_room_members').delete()
-        .eq('room_id',member.room_id).eq('character_id',member.character_id);
+      const {error:failure}=await leaveRoomRow(member.room_id,member.character_id);
       if(failure)throw failure;
     });
   }
   async function toggleRolls(member:Member){
     if(!supabase)return;
     await operate(async()=>{
-      const {error:failure}=await supabase!.from('game_room_members')
-        .update({casts_enabled:!member.casts_enabled})
-        .eq('room_id',member.room_id).eq('character_id',member.character_id).eq('user_id',userId!);
+      const {error:failure}=await updateRoomRollPermissions(member.room_id,member.character_id,userId!,!member.casts_enabled);
       if(failure)throw failure;
     });
   }
@@ -170,7 +157,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     event.preventDefault();
     if(!supabase||!room||!isOwner||!roomTitleDraft.trim())return;
     await operate(async()=>{
-      const {error:failure}=await supabase!.from('game_rooms').update({title:roomTitleDraft.trim()}).eq('id',room.id);
+      const {error:failure}=await renameRoomRow(room.id,roomTitleDraft.trim());
       if(failure)throw failure;
     });
   }
@@ -178,14 +165,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     if(!supabase||!room||!isOwner)return;
     const next=!room.closed;
     await operate(async()=>{
-      const {error:failure}=await supabase!.from('game_rooms').update({closed:next}).eq('id',room.id);
+      const {error:failure}=await setRoomClosed(room.id,next);
       if(failure)throw failure;
     });
   }
   async function deleteRoom(){
     if(!supabase||!room||!isOwner||!window.confirm('Удалить комнату и историю бросков? Листы персонажей останутся без изменений.'))return;
     await operate(async()=>{
-      const {error:failure}=await supabase!.from('game_rooms').delete().eq('id',room.id);
+      const {error:failure}=await deleteRoomRow(room.id);
       if(failure)throw failure;
       setSelected(null);setMembers([]);setRolls([]);
     });
