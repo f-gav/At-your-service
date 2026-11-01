@@ -3,7 +3,7 @@ import {SiteLogo,HeroEmblem} from './components/SiteBranding';
 import CharacterEditor from './features/character/CharacterEditor';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
-import {saveCharacterIfCurrent} from './lib/character-save';
+import {listCharacterRows,insertCharacterRow,readCharacterRow,saveCharacterRow,removeCharacterRow,reorderCharacterRows} from './features/character/character-repository';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
@@ -316,12 +316,7 @@ export default function App() {
     let cancelled = false;
     setLoadingCharacters(true);
     setCharacters([]);
-    const client = supabase;
-    void client.from('characters')
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-      .eq('user_id', userId)
-      .order('sort_order', { ascending: true })
-      .order('created_at', { ascending: true })
+    void listCharacterRows(userId)
       .then(({ data, error: loadError }) => {
         if (cancelled) return;
         setLoadingCharacters(false);
@@ -414,11 +409,7 @@ export default function App() {
     setBusy(true);
     setError('');
     const nextOrder = nextCharacterOrder(characters);
-    const { data, error: insertError } = await supabase.from('characters')
-      .insert({ user_id: user.id, system: createPanel, name,
-         details: newCharacterDetails(createPanel,newPfVariant),
-         sort_order: nextOrder })
-      .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant),nextOrder);
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
@@ -433,21 +424,8 @@ export default function App() {
     if (!supabase || !user) return false;
     const baseline=lastSavedRows.current.get(id)??characters.find(c=>c.id===id);
     if(!baseline || baseline.user_id!==user.id)throw new Error('Не удалось проверить версию персонажа. Перезагрузи список и повтори действие.');
-    const client=supabase;
-    const userId=user.id;
     try {
-      // The existing updated_at trigger changes on EVERY row update. Compare
-      // the revision atomically; metadata-only changes (portrait/sort) are
-      // safely retried after checking that name/details did not change.
-      const data=await saveCharacterIfCurrent(baseline,
-        async revision=>client.from('characters')
-          .update({name,details})
-          .eq('id',id).eq('user_id',userId).eq('updated_at',revision)
-          .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-          .maybeSingle(),
-        async()=>client.from('characters')
-          .select('name,details,updated_at').eq('id',id).eq('user_id',userId).maybeSingle(),
-      );
+      const data=await saveCharacterRow(baseline,user.id,name,details);
       setError('');
       const confirmed=confirmedCharacter(data as Character);
       lastSavedRows.current.set(id,confirmed);
@@ -465,9 +443,7 @@ export default function App() {
     if (!supabase || !user || busy) return;
     setOpenMenuId(null); setError(''); setBusy(true);
     try {
-      const {data,error:readError} = await supabase.from('characters')
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
-        .eq('id',character.id).eq('user_id',user.id).single();
+      const {data,error:readError} = await readCharacterRow(user.id,character.id);
       if (readError || !data) throw readError ?? new Error('Не удалось получить актуальную версию персонажа.');
       const freshest = confirmedCharacter(data as Character);
       const key = characterDraftKey(user.id,character.id);
@@ -495,9 +471,7 @@ export default function App() {
           pf2e_layout:variant??'classic',
         }}:parsed.details;
       const nextOrder=nextCharacterOrder(characters);
-      const {data,error:importError}=await supabase.from('characters')
-        .insert({user_id:user.id,system:parsed.system,name:parsed.name,details,sort_order:nextOrder})
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+      const {data,error:importError}=await insertCharacterRow(user.id,parsed.system,parsed.name,details,nextOrder);
       if(importError||!data)throw importError??new Error('Не удалось создать персонажа.');
       let imported=confirmedCharacter(data as Character);
       if(parsed.portrait){
@@ -507,7 +481,7 @@ export default function App() {
             :await saveLegacyPortrait(imported,user.id,parsed.portrait.card,parsed.portrait.sheet);
           imported={...imported,...paths};
         }catch(cause){
-          await supabase.from('characters').delete().eq('id',imported.id).eq('user_id',user.id);
+          await removeCharacterRow(user.id,imported.id);
           throw cause;
         }
       }
@@ -554,9 +528,7 @@ export default function App() {
       const nextOrder=nextCharacterOrder(characters);
       // JSON clone avoids shared mutable nested sheet data between characters.
       const details=copyCharacterDetails(character.details);
-      const {data,error:insertError}=await supabase.from('characters')
-        .insert({user_id:user.id,system:character.system,name,details,sort_order:nextOrder})
-        .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
+      const {data,error:insertError}=await insertCharacterRow(user.id,character.system,name,details,nextOrder);
       if(insertError||!data)throw insertError??new Error('Не удалось продублировать лист.');
       created=confirmedCharacter(data as Character);
       if(includePortrait){
@@ -580,7 +552,7 @@ export default function App() {
     }catch(cause){
       if(created){
         try{await cleanupBeforeDelete(created);}catch{ /* best effort rollback */ }
-        await supabase.from('characters').delete().eq('id',created.id).eq('user_id',user.id);
+        await removeCharacterRow(user.id,created.id);
       }
       setError('Не удалось создать копию: '+messageFromError(cause));
     }finally{setBusy(false);}
@@ -612,9 +584,7 @@ export default function App() {
     setCharacters(reordered.map((character, index) => ({ ...character, sort_order: index + 1 })));
     // One database transaction updates the full order. If it fails, restore the previous list.
     try {
-      const { error: moveError } = await supabase.rpc('reorder_characters', {
-        p_ids: reordered.map(character => character.id),
-      });
+      const { error: moveError } = await reorderCharacterRows(reordered.map(character => character.id));
       if (moveError) throw moveError;
     } catch (moveError) {
       setCharacters(previous);
@@ -631,8 +601,7 @@ export default function App() {
     setError('');
     try { await cleanupBeforeDelete(character); }
     catch(cause) {setBusy(false);setError('Не удалось удалить файлы портрета: '+messageFromError(cause));return;}
-    const { error: deleteError } = await supabase.from('characters').delete()
-      .eq('id', character.id).eq('user_id', user.id);
+    const { error: deleteError } = await removeCharacterRow(user.id,character.id);
     setBusy(false);
     if (deleteError) { setError(messageFromError(deleteError)); return; }
     setCharacters(current => current.filter(c => c.id !== character.id));
