@@ -4,6 +4,7 @@ import {exportPagePlan,EXTRA_CARDS_PER_PAGE,PDF_A4} from '../src/lib/sheet-pdf.t
 
 const read=path=>readFileSync(new URL(path,import.meta.url),'utf8');
 const app=read('../src/App.tsx');
+const operations=read('../src/features/character/character-operations.ts');
 const pf=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const moon=read('../src/features/project-moon/ProjectMoonSheet.tsx');
 const pdf=read('../src/lib/sheet-pdf.ts');
@@ -17,7 +18,7 @@ assert.equal(exportPagePlan('pf2e',5).basePages,5,'Optional Pathfinder notes rem
 assert.deepEqual(exportPagePlan('prmoon',4,2,6),{basePages:5,extraWeapons:0,extraSkills:0,extraOutfits:0,extraAugments:0,extraPages:0});
 assert.deepEqual(exportPagePlan('prmoon',4,6,11),{basePages:5,extraWeapons:4,extraSkills:5,extraOutfits:0,extraAugments:0,extraPages:3});
 assert.ok(app.includes('duplicateCharacter(character:Character,includePortrait:boolean)'));
-assert.ok(app.includes('JSON.parse(JSON.stringify(character.details))'),'Nested character details are independent');
+assert.ok(app.includes('copyCharacterDetails(character.details)') && operations.includes('JSON.parse(JSON.stringify(details))'),'Nested character details are independent');
 assert.ok(app.includes('downloadPortraitBlob(character.portrait_source_path)'));
 assert.ok(app.includes('savePortrait(created,user.id,blob,character.portrait_crops)'));
 assert.ok(app.includes('saveLegacyPortrait(created,user.id,card,sheet)'));
