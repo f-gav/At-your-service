@@ -948,9 +948,10 @@
   }
   .moon-page-dossier .moon-identity-pairs,
   .moon-page-dossier .moon-identity-inner,
-  .moon-page-dossier .moon-primary-stats,
-  .moon-about-info { grid-template-columns: revert; }
-  .moon-attributes, .moon-resources { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .moon-about-info { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .moon-page-dossier .moon-primary-stats { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .moon-attributes { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .moon-resources { grid-template-columns: repeat(4,minmax(0,1fr)); }
   .moon-combat-fields { grid-template-columns: repeat(7,minmax(0,1fr)); }
   .moon-two-columns, .moon-resistance-layout, .moon-about-duo, .moon-notes {
     grid-template-columns: repeat(2,minmax(0,1fr));
