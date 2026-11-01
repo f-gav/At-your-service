@@ -1,3 +1,4 @@
+import {loadSpellLibraryCatalog,librarySpellViews,filterLibrarySpells,sourceFilteredSpells,hasLibraryFilters,paginateLibrarySpells,RESULTS_PER_PAGE} from './library-query';
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {
@@ -7,12 +8,11 @@ import {
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
   RARITY_LABELS,SPELL_SYSTEMS,
-  emptySpellCatalog,filterSpellViews,spellSubclassLabel,toSpellViews,
+  emptySpellCatalog,spellSubclassLabel,
 } from './catalog';
 import type {
   PfTradition,SpellCatalog,SpellFilters,SpellKind,SpellSystem,SpellView,
 } from './catalog';
-import {loadCachedSpellCatalog} from './cached-catalog';
 import './SpellLibrary.css';
 
 const PF_CLASS_LABELS:Record<string,string>={
@@ -35,7 +35,6 @@ const COMMON_CATEGORIES:Category[]=[
   {id:'mine',label:'Мои заклинания',description:'В будущем'},
 ];
 const DND_CATEGORIES=COMMON_CATEGORIES.filter(x=>x.id!=='focus'&&x.id!=='special');
-const RESULTS_PER_PAGE=50;
 function sourceName(spell:SpellView){
   return spell.source?.name||'Источник не указан';
 }
@@ -342,7 +341,7 @@ export default function SpellLibrary({onBack}:Props){
     const controller=new AbortController();
     setLoadState('loading');
     setLoadError('');
-    void loadCachedSpellCatalog(system,controller.signal,import.meta.env.BASE_URL)
+    void loadSpellLibraryCatalog(system,controller.signal,import.meta.env.BASE_URL)
       .then(data=>{if(active){setCatalog(data);setLoadState('ready');}})
       .catch(error=>{if(active){
         setLoadError(error instanceof Error?error.message:'Ошибка загрузки каталога');
@@ -351,23 +350,14 @@ export default function SpellLibrary({onBack}:Props){
     return ()=>{active=false;controller.abort();};
   },[system]);
 
-  const views=useMemo(()=>toSpellViews(catalog,edition),[catalog,edition]);
+  const views=useMemo(()=>librarySpellViews(catalog,edition),[catalog,edition]);
   const categories=system==='pf2e'?COMMON_CATEGORIES:DND_CATEGORIES;
-  const sectionFilters:SpellFilters={...filters,kind:section==='all'||section==='mine'||(system==='dnd5e'&&section==='ritual')?'all':section};
-  const visible=useMemo(()=>{
-    if(section==='mine')return [];
-    const matches=filterSpellViews(views,sectionFilters);
-    // In D&D, Ritual is a casting option on an ordinary spell, not a
-    // separate spell kind as in Pathfinder.
-    return system==='dnd5e'&&section==='ritual'
-      ?matches.filter(entry=>entry.rules.ritual===true||entry.spell.kind==='ritual')
-      :matches;
-  },[views,system,section,filters]);
+  const visible=useMemo(()=>filterLibrarySpells(views,filters,section,system),[views,system,section,filters]);
   const selected=visible.find(item=>item.id===selectedId);
   const classOptions=useMemo(()=>[...new Set(catalog.spells.flatMap(s=>s.classes))].sort(),[catalog]);
   const sourceOptions=useMemo(()=>catalog.sources.map(s=>s.name).sort(),[catalog]);
   const [sourceFilter,setSourceFilter]=useState('all');
-  const shown=sourceFilter==='all'?visible:visible.filter(x=>x.source?.name===sourceFilter);
+  const shown=sourceFilteredSpells(visible,sourceFilter);
   const displayed=selected&&shown.find(x=>x.id===selected.id);
   useEffect(()=>setVisibleCount(RESULTS_PER_PAGE),[system,edition,section,filters,sourceFilter]);
 
@@ -397,9 +387,7 @@ export default function SpellLibrary({onBack}:Props){
     setFilters(DEFAULT_SPELL_FILTERS);setSourceFilter('all');setSection('all');
     setSelectedId(null);
   }
-  const hasFilters=filters.query!==''||filters.rank!=='all'||filters.tradition!=='all'||
-    filters.className!=='all'||filters.school!=='all'||filters.rarity!=='all'||
-    filters.locale!=='all'||sourceFilter!=='all'||(section!=='all'&&section!=='mine');
+  const hasFilters=hasLibraryFilters(filters,sourceFilter,section);
 
   return <main className="page spell-library-page" id="spell-library" aria-labelledby="spell-library-heading">
     <div className="spell-library-intro">
@@ -526,7 +514,7 @@ export default function SpellLibrary({onBack}:Props){
       </div>}
       {loadState==='ready'&&(shown.length>0
         ? <div className="spell-result-list" role="list">
-          {shown.slice(0,visibleCount).map(spell=>{
+          {paginateLibrarySpells(shown,visibleCount).map(spell=>{
             const casting=cardCasting(spell);
             const defense=cardDefense(spell);
             const range=localizeRuleValue(spell.rules.range||'—','range');
