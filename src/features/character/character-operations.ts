@@ -1,6 +1,6 @@
-import {defaultDetails,normalizeDetails,normalizedName} from '../../lib/models';
+import {defaultDetails,normalizeDetails,normalizedName} from '../../lib/models.ts';
 import type {Character,CharacterDetails,GameSystem} from '../../lib/models';
-import {emptyMoonSheet} from '../project-moon/model';
+import {emptyMoonSheet} from '../project-moon/model.ts';
 
 /** Data preparation for character persistence; UI components only manage presentation. */
 export function nextCharacterOrder(characters:readonly Character[]):number {
