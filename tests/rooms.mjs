@@ -46,7 +46,7 @@ assert.match(hub,/ays-room-dialog/);
 assert.match(hub,/setDialog\('create'\)/);
 assert.match(hub,/setDialog\('join'\)/);
 assert.match(hub,/roomCounts\[item.id\]/);
-assert.match(hub,/roomUsers/);
+assert.match(hub,/distinctRoomUsers/);
 assert.match(hub,/roomTab==='table'/);
 assert.match(hub,/roomTab==='players'/);
 assert.match(hub,/roomTab==='settings'/);
