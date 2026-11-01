@@ -70,9 +70,10 @@ assert.ok(![...storage.values.keys()].some(k=>k.startsWith(key+':archive:')),
   'recovery backups older than retention period must expire');
 
 const app=readFileSync(new URL('../src/App.tsx',import.meta.url),'utf8');
+const generic=readFileSync(new URL('../src/features/character/CharacterEditor.tsx',import.meta.url),'utf8');
 const pf=readFileSync(new URL('../src/features/pathfinder/PathfinderSheet.tsx',import.meta.url),'utf8');
 const moon=readFileSync(new URL('../src/features/project-moon/ProjectMoonSheet.tsx',import.meta.url),'utf8');
-for(const [name,source] of [['generic',app],['Pathfinder',pf],['Project Moon',moon]]){
+for(const [name,source] of [['generic',generic],['Pathfinder',pf],['Project Moon',moon]]){
   assert.match(source,/<DeviceDraftNotice draftKey=\{draftKey\} cloudSnapshot=\{serverBaseline\}/,
     name+' must offer stale draft download');
   assert.match(source,/auto\.localWarning/,name+' must warn on blocked device storage');
