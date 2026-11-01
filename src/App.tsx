@@ -4,6 +4,7 @@ import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
 import {saveCharacterIfCurrent} from './lib/character-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
+import DeviceDraftNotice from './lib/DeviceDraftNotice';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
 import type {SiteTheme} from './lib/site-theme';
@@ -190,6 +191,8 @@ function CharacterEditor({
           <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
         </div>
       </div>
+      <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
+      {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
       <div className="sheet-heading">
         <div className="eyebrow"><span className="small-dot" /> {system.title.toUpperCase()} · {system.edition.toUpperCase()}</div>
         <h1>Лист персонажа<span className="punctuation">.</span></h1>
