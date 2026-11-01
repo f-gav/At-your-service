@@ -1,6 +1,6 @@
-import {DEFAULT_SPELL_FILTERS,filterSpellViews,toSpellViews} from './catalog';
-import type {SpellCatalog,SpellFilters,SpellSystem,SpellView,SpellKind} from './catalog';
-import {loadCachedSpellCatalog} from './cached-catalog';
+import {DEFAULT_SPELL_FILTERS,filterSpellViews,toSpellViews} from './catalog.ts';
+import type {SpellCatalog,SpellFilters,SpellSystem,SpellView,SpellKind} from './catalog.ts';
+import {loadCachedSpellCatalog} from './cached-catalog.ts';
 export type LibrarySection='all'|SpellKind|'mine';
 export const RESULTS_PER_PAGE=50;
 export async function loadSpellLibraryCatalog(system:SpellSystem,signal:AbortSignal,basePath:string){
