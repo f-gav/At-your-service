@@ -1,0 +1,478 @@
+/* In-place rich editing: no native browser editing frame; all formatting
+ * remains inside the source PDF rectangle. Tooltip is portaled to viewport. */
+.pf-rich-host { z-index: 4; position: relative; box-sizing: border-box; min-width: 0; }
+.pf-rich-editable {
+  box-sizing: border-box; width: 100%; height: 100%;
+  font: inherit; color: inherit; text-align: inherit;
+  background: transparent; padding: inherit; border: 0;
+  outline: 0; overflow: auto; overflow-wrap: anywhere;
+  white-space: pre-wrap; line-height: 1.38; cursor: text;
+}
+.pf-rich-editable:focus { outline: 1px solid #a1b6a9; outline-offset: -1px; }
+.pf-rich-editable:empty::before {
+  content: attr(data-placeholder); color: #a3aaa5;
+  pointer-events: none; font-weight: 400;
+}
+.pf-rich-editable a { color: #39735a; text-decoration: underline; }
+.pf-rich-editable ul { padding-left: 1.2em; margin: 2px 0; list-style: disc; }
+.pf-rich-editable li { margin: 0; }
+.pf-rich-editable [data-pf-resource],
+.pf-rich-editable [data-pf-task] {
+  display: inline-block; vertical-align: baseline;
+  color: #416452; padding: 0 2px; cursor: pointer; user-select: none;
+  border-radius: 3px;
+}
+.pf-rich-editable [data-filled="1"] { color: #24462e; }
+.pf-rich-editable [data-pf-resource]:focus-visible,
+.pf-rich-editable [data-pf-task]:focus-visible { outline: 1px solid #436e50; }
+.pf-rich-editable.pf-rich-grow {
+  height: auto;
+  min-height: 3.9cqw;
+  overflow: visible;
+  field-sizing: content;
+}
+.pf-rich-toolbar {
+  position: fixed; z-index: 12000;
+  display: flex; align-items: center; gap: 3px;
+  padding: 5px; box-sizing: border-box; min-height: 38px;
+  border: 1px solid #d8deda; border-radius: 8px;
+  background: #fff; color: #202a25;
+  box-shadow: 0 6px 20px #0003;
+  font-family: Arial,sans-serif;
+  max-width: min(390px, calc(100vw - 16px));
+}
+.pf-rich-toolbar > button,
+.pf-rich-link-form > button {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 4px; min-width: 30px; height: 28px;
+  background: #fff; cursor: pointer; color: inherit; padding: 4px;
+}
+.pf-rich-toolbar button:hover,.pf-rich-toolbar button:focus-visible {
+  background: #e8f0eb;
+}
+.pf-rich-toolbar-separator { width: 1px; height: 21px; background: #d2dcd4; margin: 0 2px; }
+.pf-rich-link-form { display: flex; gap: 4px; align-items: center; margin:0; }
+.pf-rich-link-form input {
+  width: 210px; max-width: 55vw; box-sizing: border-box;
+  border: 1px solid #c3d1c8; border-radius: 4px;
+  padding: 4px; font-size: 12px;
+}
+
+
+/* LSS-style divider is a genuine editable inline title between two rules.
+ * Empty title leaves a continuous, thin horizontal separator. */
+.pf-rich-editable [data-pf-divider="1"] {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 0;
+  min-height: 1.65em;
+  width: 100%;
+  margin: .32em 0;
+  color: #252a26;
+  cursor: text;
+  break-inside: avoid;
+}
+.pf-rich-editable [data-pf-divider="1"]::before,
+.pf-rich-editable [data-pf-divider="1"]::after {
+  content: "";
+  flex: 1 1 0;
+  min-width: 3px;
+  border-top: 1px solid #b5c5ba;
+}
+.pf-rich-editable [data-pf-divider-title="1"] {
+  display: inline-block;
+  color: inherit;
+  flex: 0 1 auto;
+  min-width: 1px;
+  max-width: 86%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-divider-title="1"]:not(:empty) {
+  margin: 0 .55em;
+}
+.pf-rich-editable [data-pf-divider-title="1"]:focus-visible {
+  outline: 1px dotted #738d7c;
+}
+
+/* Spoiler is a structured block and not flattened when collapsed. Its body
+ * remains in saved data and can contain nested spoilers / resources. */
+.pf-rich-editable [data-pf-spoiler="1"] {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  margin: .45em 0;
+  border: 1px solid #becdc2;
+  border-radius: 5px;
+  color: inherit;
+  background: #fff;
+  overflow: visible;
+}
+.pf-rich-editable [data-pf-spoiler-head="1"] {
+  display: flex;
+  align-items: center;
+  min-height: 1.9em;
+  padding: .25em .3em;
+  gap: .3em;
+  background: #f2f5f2;
+  color: #283f32;
+}
+.pf-rich-editable [data-pf-spoiler-title="1"] {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 0 .2em;
+  outline: 0;
+  font-weight: 650;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-spoiler-title="1"]:empty::before {
+  content: "Заголовок спойлера";
+  color: #98a59b;
+  font-weight: 400;
+  pointer-events: none;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"],
+.pf-rich-editable [data-pf-spoiler-remove="1"] {
+  display: inline-flex;
+  flex: 0 0 1.3em;
+  min-height: 1.3em;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.08em;
+  line-height: 1;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"]:hover,
+.pf-rich-editable [data-pf-spoiler-remove="1"]:hover {
+  background: #dce6dc;
+}
+.pf-rich-editable [data-pf-spoiler-remove="1"] {
+  opacity: 0;
+  color: #9a514b;
+  transition: opacity .14s;
+}
+.pf-rich-editable [data-pf-spoiler="1"]:hover [data-pf-spoiler-remove="1"],
+.pf-rich-editable [data-pf-spoiler-remove="1"]:focus-visible {opacity: 1;}
+.pf-rich-editable [data-pf-spoiler-body="1"] {
+  box-sizing: border-box;
+  min-height: 2em;
+  width: 100%;
+  padding: .5em .65em;
+  outline: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.pf-rich-editable [data-pf-spoiler-body="1"]:focus-visible {outline: 1px dotted #91a697;}
+.pf-rich-editable [data-pf-spoiler="1"][data-collapsed="1"] > [data-pf-spoiler-body="1"] {
+  display: none;
+}
+.pf-rich-editable [data-pf-spoiler-toggle="1"]:focus-visible,
+.pf-rich-editable [data-pf-spoiler-remove="1"]:focus-visible {
+  outline: 2px solid #65816a;
+}
+
+/* Visible only when caret is placed on an empty line. Hosted on document.body
+ * to avoid clipping in a PDF rectangle with overflow scrolling. */
+.pf-rich-insert-toolbar {
+  position: fixed;
+  z-index: 12001;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  max-width: min(290px, calc(100vw - 16px));
+  padding: 4px;
+  border: 1px solid #d5e0d6;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 4px 16px #0002;
+  font-family: Arial, sans-serif;
+  color: #293c30;
+}
+.pf-rich-insert-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #63826c;
+  padding: 0 3px;
+}
+.pf-rich-insert-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: none;
+  color: inherit;
+  border-radius: 4px;
+  padding: 5px 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.pf-rich-insert-toolbar button:hover,
+.pf-rich-insert-toolbar button:focus-visible {
+  background: #e9f1e9;
+}
+/* Longer formatting selection toolbar can wrap on narrow mobile viewports. */
+.pf-rich-toolbar { flex-wrap: wrap; }
+
+/*
+ * The three spell tables contain independent rich editors for Name, Actions,
+ * Rank and Prepared. Each RichField is BOTH a .pf-rich-host and a .pf-field-long.
+ * Crucially, .pf-field-long has overflow:auto on the OUTER host: removing
+ * clipping only from .pf-rich-editable was insufficient, so the earlier
+ * full-row spoiler was always cut back down to the source column width.
+ *
+ * Only when an editor contains a spoiler, lift BOTH scrolling boundaries.
+ * Plain columns retain their scrolling behavior. The root remains narrow,
+ * so other columns can still receive clicks outside the actual spoiler card.
+ * :has looks for descendants, not only immediate children: contenteditable
+ * may wrap a widget in an extra <div> when pasting or inserting.
+ */
+.pf-spell-table-rich:has([data-pf-spoiler="1"]) {
+  overflow: visible; /* override .pf-field-long { overflow:auto } on the HOST */
+  z-index: 11;       /* the card, not the whole table, paints over siblings */
+}
+.pf-spell-table-rich:has([data-pf-spoiler="1"]) > .pf-rich-editable {
+  overflow: visible; /* override the INNER contenteditable scroll clipping */
+}
+
+/* Only top-level spoilers span the row. Nested spoilers inside the description
+ * keep their own natural width. A direct child is the normal insert format;
+ * a spoiler in a simple wrapper is supported for legacy/browsers' DOM output.
+ * The width/offset come from the actual PDF template field coordinates,
+ * including adjustments made by the sheet administrator.
+ */
+.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"],
+.pf-spell-table-rich > .pf-rich-editable > div:not([data-pf-spoiler]) > [data-pf-spoiler="1"] {
+  position: relative;
+  left: calc(-1 * var(--pf-spell-span-offset, 0px));
+  width: var(--pf-spell-span-width, 100%);
+  max-width: none;
+  z-index: 1;
+  margin: .42em 0;
+  background: #fff;
+  box-shadow: 0 2px 6px #25362c1f;
+}
+.pf-spell-table-rich > .pf-rich-editable > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"],
+.pf-spell-table-rich > .pf-rich-editable > div:not([data-pf-spoiler]) > [data-pf-spoiler="1"] > [data-pf-spoiler-body="1"] {
+  min-height: 3.3em;
+}
+
+/* Spell-table spoilers have independently editable, column-aligned heading cells. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {flex:initial;}
+.pf-spell-table-rich [data-pf-spell-columns] {display:grid;grid-template-columns:var(--pf-spell-heading-columns);position:relative;padding-left:1.7em;padding-right:1.5em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {min-width:0;padding:0 .2em;overflow-wrap:anywhere;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-toggle="1"] {position:absolute;left:.1em;top:50%;transform:translateY(-50%);}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {position:absolute;right:.1em;top:50%;transform:translateY(-50%);}
+
+/* A single spell spoiler has independently editable headings under printed columns.
+   The left toggle is overlaid so it does not consume a grid column. */
+.pf-spell-table-rich [data-pf-spell-columns] {
+  box-sizing:border-box;
+  grid-template-columns:var(--pf-spell-heading-columns);
+  padding-left:0;
+  padding-right:0;
+  column-gap:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {
+  box-sizing:border-box;
+  display:block;
+  min-height:1.6em;
+  padding:.12em .3em;
+  border-left:1px solid #cad5cb;
+  cursor:text;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:not([data-pf-spell-column]) {
+  padding-left:1.6em;
+  border-left:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {padding-right:1.5em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:focus {outline:1px solid #688c76;outline-offset:-1px;background:#fff;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty:before {content:'·';color:#b5c3b8;pointer-events:none;}
+
+/* Compact visual hints and centered column inputs only for PF2e spell tables.
+ * Hints are CSS generated content, not text saved into character fields. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:empty::before {
+  content:attr(data-pf-spell-placeholder);
+  color:#9ba99e;
+  font-weight:400;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"] {
+  text-align:center;
+  overflow-wrap:normal;
+  padding-left:.25em;
+  padding-right:.25em;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-title="1"]:not([data-pf-spell-column]) {
+  text-align:left;
+  padding-left:1.95em;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {padding-right:.25em;}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:empty::before {
+  content:attr(data-pf-spell-placeholder);
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {
+  top:-.7em;
+  right:-.5em;
+  transform:none;
+  z-index:3;
+  border:1px solid #cad5cb;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 1px 3px #25362c16;
+}
+
+/* Keep short prepared values on one line; put the delete control in the gutter
+   between adjacent spell tables instead of occupying the prepared cell. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:normal;
+  padding-right:0;
+  padding-left:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {
+  top:50%;
+  right:-1.65em;
+  transform:translateY(-50%);
+  width:1.25em;
+  height:1.25em;
+  min-height:1.25em;
+  opacity:0;
+}
+.pf-spell-table-rich [data-pf-spell-columns]:hover [data-pf-spoiler-remove="1"],
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"]:focus-visible {
+  opacity:1;
+}
+
+/* PF spell tables: reserve an actual minimum for Prepared ("Да"/"Нет").
+   A white-space rule alone cannot stop breaks in a track narrower than a word. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spell-column]:last-of-type {
+  min-width:2.5em;
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:keep-all;
+  hyphens:none;
+  text-align:center;
+}
+/* Center the delete control on the outer border, in the narrow gutter.
+   It stays outside the editable Prepared cell and is shown on card hover. */
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"] {
+  right:-.6em;
+  top:50%;
+  transform:translateY(-50%);
+  width:1.1em;
+  height:1.1em;
+  min-height:1.1em;
+  padding:0;
+  z-index:20;
+  opacity:0;
+}
+.pf-spell-table-rich [data-pf-spoiler="1"]:hover > [data-pf-spell-columns] [data-pf-spoiler-remove="1"],
+.pf-spell-table-rich [data-pf-spell-columns] [data-pf-spoiler-remove="1"]:focus-visible {
+  opacity:1;
+}
+.pf-text-size-controls{position:absolute;right:4px;bottom:4px;z-index:6;display:flex;align-items:center;gap:3px;padding:2px 4px;border-radius:12px;background:#f0f3f0e8;color:#263b2e;font:12px Arial,sans-serif}
+.pf-text-size-controls button{border:1px solid #bbcabb;border-radius:50%;width:20px;height:20px;padding:0;background:white;color:#263b2e;cursor:pointer;font:16px/18px Arial,sans-serif}
+.pf-text-size-controls button:disabled{opacity:.35;cursor:default}
+.pf-text-size-controls output{min-width:15px;text-align:center}
+.pf-rich-host:has(>.pf-text-size-controls)>.pf-rich-editable{padding-bottom:27px}
+@media print{.pf-text-size-controls{display:none!important}}
+
+/* Phone interaction: toolbar positions stay inside the visual viewport, even
+   at 320–360px and when zoom/accessibility text scaling is enabled. */
+@media (max-width:680px) {
+  .pf-rich-toolbar,.pf-rich-insert-toolbar {
+    box-sizing:border-box;
+    max-width:calc(100vw - 16px);
+    max-height:calc(100dvh - 16px);
+    overflow-x:auto;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .pf-rich-link-form {min-width:0;max-width:100%;}
+  .pf-rich-link-form input {min-width:0;flex:1 1 auto;}
+  .pf-rich-toolbar > button,.pf-rich-insert-toolbar button {
+    min-height:32px;
+  }
+}
+
+/* Persisted dice chips are inert text in saved JSON/PDF, clickable on screen. */
+.pf-rich-editable [data-pf-dice="1"]{
+  display:inline;cursor:pointer;color:#3466a1;
+  border-bottom:1px dashed currentColor;font-weight:650;
+  border-radius:2px;padding:0 1px;
+}
+.pf-rich-editable [data-pf-dice="1"]:hover{background:#e5eff9}
+.pf-rich-editable [data-pf-dice="1"]:focus-visible{outline:2px solid #4e86c1;outline-offset:1px}
+@media print{
+  .pf-rich-editable [data-pf-dice="1"]{
+    border:0;background:transparent;color:inherit;font-weight:inherit;padding:0;
+  }
+}
+
+/* Formula editing works on the text itself; no dice notation is inserted into
+   the character's prose. The dialog lives outside paper/PDF and toolbars. */
+.pf-dice-dialog-backdrop{
+  position:fixed;inset:0;z-index:12010;display:flex;align-items:center;
+  justify-content:center;padding:16px;box-sizing:border-box;
+  background:#0b1527a8;font:14px/1.45 'Segoe UI',Arial,sans-serif;
+}
+.pf-dice-dialog{
+  box-sizing:border-box;width:min(430px,100%);max-height:calc(100dvh - 32px);
+  overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  border:1px solid #5b7090;border-radius:13px;padding:16px;
+  background:#1c2636;color:#edf3fc;box-shadow:0 15px 60px #050b1b80;
+}
+.pf-dice-dialog header{display:flex;align-items:center;gap:9px;font-size:16px}
+.pf-dice-dialog header strong{flex:1}
+.pf-dice-dialog header button{
+  flex:none;border:0;background:transparent;color:#b4c7dd;
+  cursor:pointer;font-size:24px;line-height:1;padding:0 3px;
+}
+.pf-dice-dialog p{margin:0;color:#c4d0e0}
+.pf-dice-dialog-text{
+  margin:0;padding:9px 11px;border:1px solid #415575;
+  border-radius:6px;background:#111c2d;color:white;
+  max-height:90px;overflow:auto;overflow-wrap:anywhere;white-space:pre-wrap;
+}
+.pf-dice-dialog label{font-weight:650}
+.pf-dice-dialog input{
+  box-sizing:border-box;width:100%;padding:10px;border-radius:7px;
+  border:1px solid #7087a4;background:#101b2d;color:#f9fbff;
+  font:inherit;font-size:16px;
+}
+.pf-dice-dialog input:focus{outline:2px solid #78ace9;outline-offset:1px}
+.pf-dice-dialog small{color:#aabbd2}
+.pf-dice-dialog-error{color:#ffb1ad!important;font-size:12px}
+.pf-dice-dialog footer{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:7px;
+}
+.pf-dice-dialog footer button{
+  border:1px solid #647b9c;padding:8px 11px;border-radius:7px;
+  background:#2b3950;color:#f1f6ff;cursor:pointer;font:inherit;
+}
+.pf-dice-dialog footer button:hover{background:#3a506e}
+.pf-dice-dialog footer .pf-dice-dialog-save{background:#335e91;border-color:#7a9fcd}
+.pf-dice-dialog footer .pf-dice-dialog-remove{
+  margin-right:auto;border-color:#755967;background:#4d303e;
+}
+@media(max-width:600px){
+  .pf-dice-dialog-backdrop{align-items:flex-start;overflow:auto;
+    padding: max(10px,env(safe-area-inset-top)) 10px 12px;}
+  .pf-dice-dialog{max-height:min(540px,calc(100dvh - 25px));}
+}
+@media print{.pf-dice-dialog-backdrop{display:none!important}}

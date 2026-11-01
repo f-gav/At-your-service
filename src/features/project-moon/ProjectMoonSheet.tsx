@@ -12,7 +12,7 @@ import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import {setPageVisible,visiblePageIds} from '../../lib/page-visibility';
 import MoonPortrait from './MoonPortrait';
-import RichField from '../pathfinder/RichField';
+import RichField from '../rich-editor/RichField';
 import MoonInlineRichField from './MoonInlineRichField';
 import type { CropFrame } from '../portrait/crop';
 import {
@@ -21,7 +21,7 @@ import {
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
-import FloatingPageNavigation from '../pathfinder/FloatingPageNavigation';
+import FloatingPageNavigation from '../rich-editor/FloatingPageNavigation';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import MoonEquipmentPage from './MoonEquipmentPage';
 import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';

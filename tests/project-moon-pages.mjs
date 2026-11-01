@@ -40,7 +40,7 @@ assert.ok(sheet.includes('<MoonPageSettingsDialog'));
 assert.ok(sheet.includes('window.localStorage'));
 assert.ok(sheet.includes('<FloatingPageNavigation system="prmoon"'));
 assert.ok(sheet.includes('visibleMoonPages.map(page=>({id:page'));
-assert.ok(content('../src/features/pathfinder/FloatingPageNavigation.tsx').includes('pf-navigation-help-active'));
+assert.ok(content('../src/features/rich-editor/FloatingPageNavigation.tsx').includes('pf-navigation-help-active'));
 assert.ok(sheet.includes('scrollIntoView'));
 assert.ok(sheet.includes("!previewMode && navigationHelp"));
 assert.ok(!sheet.includes('className="moon-tabs"'));

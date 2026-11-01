@@ -7,7 +7,7 @@ const inline=src('../src/features/project-moon/MoonInlineRichField.tsx');
 const weapons=src('../src/features/project-moon/ProjectMoonSheet.tsx');
 const equipment=src('../src/features/project-moon/MoonEquipmentPage.tsx');
 const css=src('../src/features/project-moon/ProjectMoonSheet.css');
-const richEditor=src('../src/features/pathfinder/RichField.tsx');
+const richEditor=src('../src/features/rich-editor/RichField.tsx');
 
 // Rich decoration never replaces raw mechanical strings, including the dice formula.
 const initial=emptyMoonSheet();

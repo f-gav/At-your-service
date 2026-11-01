@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import type {Dispatch,ReactNode,SetStateAction} from 'react';
 import {ChevronLeft,ChevronRight,Plus,X} from 'lucide-react';
-import RichField from '../pathfinder/RichField';
+import RichField from '../rich-editor/RichField';
 import MoonInlineRichField from './MoonInlineRichField';
 import {MOON_AUGMENT_TYPES,moonAugmentTypeLabel,moonAugmentTypeValue} from './augment-types';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
