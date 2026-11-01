@@ -47,6 +47,8 @@ jobs:
         run: node tests/stage2-final-acceptance.mjs
       - name: Stage 3 app boundaries
         run: node --experimental-strip-types tests/stage3-app-boundaries.mjs
+      - name: Stage 3 shared sheet infrastructure contract
+        run: node tests/stage3-sheet-infrastructure.mjs
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
