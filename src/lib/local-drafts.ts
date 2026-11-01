@@ -72,8 +72,9 @@ export function conflictingLocalDrafts(key:string,cloudSnapshot:string):DeviceDr
 export function recoverLocalDraft(key:string,serverSnapshot:string):string|null {
   try{
     const draft=parseRecord(window.localStorage.getItem(key));
+    const expired=!!draft&&Date.now()-draft.updatedAt>MAX_AGE;
     if(!validDraft(draft)) {
-      if(draft&&Date.now()-draft.updatedAt>MAX_AGE)
+      if(expired)
         window.localStorage.removeItem(key);
       return null;
     }
