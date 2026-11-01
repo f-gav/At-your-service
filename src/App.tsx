@@ -34,7 +34,6 @@ import {
 } from 'lucide-react';
 import {
   GAME_SYSTEMS,
-  defaultDetails,
   detailString,
   normalizeDetails,
   normalizedName,
@@ -48,7 +47,7 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
-import { emptyMoonSheet, moonSubtitle, readMoonSheet } from './features/project-moon/model';
+import { moonSubtitle, readMoonSheet } from './features/project-moon/model';
 import { initialSheetValues } from './features/pathfinder/sheet-values';
 import PortraitEditor from './features/portrait/PortraitEditor';
 import PortraitImage from './features/portrait/PortraitImage';
@@ -417,8 +416,7 @@ export default function App() {
     const nextOrder = nextCharacterOrder(characters);
     const { data, error: insertError } = await supabase.from('characters')
       .insert({ user_id: user.id, system: createPanel, name,
-         details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } :
-           createPanel === 'pf2e' ? { ...defaultDetails(), pathfinderSheet:{pf2e_layout:newPfVariant} } : defaultDetails(),
+         details: newCharacterDetails(createPanel,newPfVariant),
          sort_order: nextOrder })
       .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
     setBusy(false);
