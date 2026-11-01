@@ -9,15 +9,32 @@ export function useModalAccessibility(
 ):void {
   const closeRef=useRef(onRequestClose);
   const lockedRef=useRef(locked);
+  const lastOutsideFocus=useRef<HTMLElement|null>(null);
   closeRef.current=onRequestClose;
   lockedRef.current=locked;
+  // React autoFocus can run before a modal's effects. Remember the trigger
+  // while the dialog is still closed, rather than capturing its first input.
+  useEffect(()=>{
+    if(open)return;
+    const remember=(event:FocusEvent)=>{
+      if(event.target instanceof HTMLElement && event.target!==document.body)
+        lastOutsideFocus.current=event.target;
+    };
+    document.addEventListener('focusin',remember,true);
+    const active=document.activeElement;
+    if(active instanceof HTMLElement&&active!==document.body)
+      lastOutsideFocus.current=active;
+    return()=>document.removeEventListener('focusin',remember,true);
+  },[open]);
   useEffect(()=>{
     if(!open)return;
     const dialogs=Array.from(document.querySelectorAll<HTMLElement>(
       '[role="dialog"][aria-modal="true"]'));
     const dialog=dialogs.at(-1);
     if(!dialog)return;
-    const previous=document.activeElement instanceof HTMLElement?document.activeElement:null;
+    const active=document.activeElement;
+    const previous=lastOutsideFocus.current ??
+      (active instanceof HTMLElement&&!dialog.contains(active)?active:null);
     const previousOverflow=document.body.style.overflow;
     const selectFocusable=()=>Array.from(dialog.querySelectorAll<HTMLElement>(
       'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
