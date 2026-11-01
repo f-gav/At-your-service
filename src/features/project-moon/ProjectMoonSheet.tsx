@@ -21,7 +21,7 @@ import {
 } from './model';
 import type { MoonPage, MoonResourceId, MoonItem, MoonWeapon } from './model';
 import MoonPageSettingsDialog from './MoonPageSettingsDialog';
-import FloatingPageNavigation from '../pathfinder/FloatingPageNavigation';
+import FloatingPageNavigation from '../rich-editor/FloatingPageNavigation';
 import MoonWeaponDeleteDialog from './MoonWeaponDeleteDialog';
 import MoonEquipmentPage from './MoonEquipmentPage';
 import { DEFAULT_MOON_LAYOUT, moonLayoutVariables } from './layout-settings';
