@@ -7,6 +7,7 @@ import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
 import type {SiteTheme} from './lib/site-theme';
+import {useModalAccessibility} from './lib/use-modal-accessibility';
 import type { FormEvent, ChangeEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import {
@@ -280,6 +281,7 @@ export default function App() {
   const [filter, setFilter] = useState<Filter>('all');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [mobileMenu, setMobileMenu] = useState(false);
   const [importingJson, setImportingJson] = useState(false);
   const [editingPortraitId,setEditingPortraitId] = useState<string|null>(null);
@@ -393,17 +395,13 @@ export default function App() {
     return () => document.removeEventListener('keydown', onEscape);
   }, [movingId, busy]);
 
-  useEffect(() => {
-    if (!showSystemPicker && !createPanel) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !busy) {
-        setShowSystemPicker(false);
-        setCreatePanel(null);
-      }
-    };
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
-  }, [showSystemPicker, createPanel, busy]);
+  const anyAppDialog=!!(showSystemPicker||createPanel||pendingImport||duplicateTarget);
+  useModalAccessibility(anyAppDialog,()=>{
+    if(busy||importingJson)return;
+    if(pendingImport)setPendingImport(null);
+    else if(duplicateTarget)setDuplicateTarget(null);
+    else {setShowSystemPicker(false);setCreatePanel(null);setNewName('');}
+  },busy||importingJson);
 
   useEffect(() => {
     if (!supabase) return;
@@ -816,6 +814,11 @@ export default function App() {
         </nav>
       </header>
 
+      {(error||notice)&&!anyAppDialog&&<div className="site-feedback">
+        {error&&<div className="global-error" role="alert"><span>{error}</span><button aria-label="Закрыть ошибку" type="button" onClick={()=>setError('')}><X size={16}/></button></div>}
+        {notice&&<div className="global-notice" role="status"><span>{notice}</span><button aria-label="Закрыть уведомление" type="button" onClick={()=>setNotice('')}><X size={16}/></button></div>}
+      </div>}
+
       {showTemplateAdmin && user && isTemplateAdmin ? (
         <SheetAdmin userId={user.id} onClose={()=>setShowTemplateAdmin(false)}/>
       ) : active ? (
@@ -849,8 +852,6 @@ export default function App() {
           </section>
 
           {!isConfigured && <EmptySetup />}
-          {error && <div className="global-error" role="alert"><span>{error}</span><button aria-label="Закрыть ошибку" type="button" onClick={() => setError('')}><X size={16} /></button></div>}
-
           <section className="library-section" aria-labelledby="library-title">
             <div className="library-heading">
               <h2 id="library-title">Мои персонажи: ({characters.length})</h2>
@@ -927,7 +928,7 @@ export default function App() {
                         <FilePenLine size={15}/> Переключить на {(character.details.pathfinderSheet as Record<string,unknown>|undefined)?.pf2e_layout==='alternative'?'классический PF2e':'Альтернативный PF2e'}
                       </button>}
                       <button type="button" disabled={busy} onClick={() => void exportCharacterJson(character)}><Download size={15} /> Экспорт JSON</button>
-                      <button type="button" onClick={() => {const url=window.location.origin+siteRoutePath({kind:'character',id:character.id},import.meta.env.BASE_URL);void navigator.clipboard.writeText(url).then(()=>setError('Ссылка на персонажа скопирована. Она доступна только владельцу аккаунта.')).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
+                      <button type="button" onClick={() => {const url=window.location.origin+siteRoutePath({kind:'character',id:character.id},import.meta.env.BASE_URL);void navigator.clipboard.writeText(url).then(()=>{setError('');setNotice('Ссылка скопирована. Она доступна только владельцу аккаунта.');}).catch(()=>setError('Не удалось скопировать ссылку.'));setOpenMenuId(null);}}><Copy size={15}/> Скопировать ссылку</button>
                       <button type="button" onClick={() => beginMove(character.id)}><MoveHorizontal size={15} /> Переместить</button>
                       <button type="button" onClick={() => {setOpenMenuId(null);setDuplicatePortrait(true);setDuplicateTarget(character);}} disabled={busy}><Copy size={15}/> Дублировать</button>
                       <button type="button" className="menu-delete" disabled={busy} onClick={() => { setOpenMenuId(null); void deleteCharacter(character); }}><Trash2 size={15} /> Удалить</button>
@@ -944,6 +945,7 @@ export default function App() {
           {(showSystemPicker || createPanel) && <div className="modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) closeCreate(); }}>
             <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="create-title">
               <div className="modal-top"><span>НОВЫЙ ПЕРСОНАЖ</span><button type="button" className="modal-close" onClick={closeCreate} disabled={busy} aria-label="Закрыть"><X size={21} /></button></div>
+              {error&&<p className="form-error modal-inline-error" role="alert">{error}</p>}
               {showSystemPicker ? <>
                 <h2 id="create-title">Выбери игровую систему</h2>
                 <p>Для какой истории создаём персонажа?</p>
@@ -977,6 +979,7 @@ export default function App() {
           <div className="modal-top"><span>ИМПОРТ PATHFINDER 2E</span>
             <button type="button" className="modal-close" aria-label="Отмена импорта" disabled={importingJson} onClick={()=>setPendingImport(null)}><X size={20}/></button>
           </div>
+          {error&&<p className="form-error modal-inline-error" role="alert">{error}</p>}
           <h2 id="pf-import-variant-heading">В каком виде открыть «{pendingImport.name}»?</h2>
           <p>Данные JSON одинаковы для обеих версий. Ты сможешь переключить лист позже без потери характеристик.</p>
           <div className="pf-variant-choices" role="radiogroup" aria-label="Вариант листа при импорте">
@@ -996,6 +999,7 @@ export default function App() {
         <section className="create-modal" role="dialog" aria-modal="true" aria-labelledby="duplicate-title">
           <div className="modal-top"><span>ДУБЛИРОВАНИЕ ПЕРСОНАЖА</span>
             <button type="button" className="modal-close" disabled={busy} aria-label="Закрыть" onClick={()=>setDuplicateTarget(null)}><X size={20}/></button></div>
+          {error&&<p className="form-error modal-inline-error" role="alert">{error}</p>}
           <h2 id="duplicate-title">Создать копию «{duplicateTarget.name}»?</h2>
           <p>Характеристики, заметки, оружие и настройки листа будут скопированы без изменений. Копия сохраняется как отдельный персонаж.</p>
           <label className="duplicate-portrait-option"><input type="checkbox" checked={duplicatePortrait}
