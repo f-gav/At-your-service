@@ -1,1 +1,1 @@
-export * from '../rich-editor/rich-codec';
+export * from '../rich-editor/rich-codec.ts';
