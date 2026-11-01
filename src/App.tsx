@@ -461,7 +461,7 @@ export default function App() {
             else {setActiveId(null);setError('Персонаж не найден в твоём аккаунте или доступ к нему отсутствует.');}
           }
         }
-      }).catch(cause=>{
+      }).then(undefined,(cause:unknown)=>{
         if(cancelled)return;
         setLoadingCharacters(false);
         setCharacterLoadError(messageFromError(cause));
