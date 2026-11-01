@@ -129,7 +129,8 @@ assert.deepEqual(restored.pageOrder,moon.pageOrder);
 assert.deepEqual(restored.hiddenPages,moon.hiddenPages);
 assert.deepEqual(restored.outfits,moon.outfits);
 assert.deepEqual(restored.augments,moon.augments);
-assert.deepEqual(restored.weapons,moon.weapons);
+assert.deepEqual(restored.weapons,readMoonSheet(moonChar.details).weapons,
+  'Reopen normalizes optional weapon fields but cannot lose player values');
 assert.equal(restored.equippedOutfitId,moon.equippedOutfitId);
 assert.deepEqual(restored.inlineFormatting,moon.inlineFormatting);
 assert.equal(restored.smoothWeaponSwitch,false);
