@@ -43,6 +43,8 @@ jobs:
           done
           grep -Fq -- '--output' /tmp/ays-status-help.txt
           echo "PASS: pinned Supabase CLI 2.122.0 recovery flags"
+      - name: Stage 2 final acceptance - guard complete regression and deployment coverage
+        run: node tests/stage2-final-acceptance.mjs
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
