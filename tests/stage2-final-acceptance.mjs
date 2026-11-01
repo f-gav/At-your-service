@@ -31,7 +31,8 @@ const browser=[
 ];
 for(const filename of browser){
   assert.ok(existsSync(new URL('../tests/'+filename,import.meta.url)), 'Missing Chromium QA: '+filename);
-  assert.ok(workflow.includes(filename),'Browser test missing from release gate: '+filename);
+  assert.ok(workflow.includes(filename) || Object.entries(pkg.scripts).some(([name,command])=>workflow.includes('npm run '+name) && command.includes(filename)),
+    'Browser test missing from release gate: '+filename);
 }
 assert.match(workflow,/needs: \[build, rpc-quota-postgres, recovery-windows-smoke\]/);
 assert.match(workflow,/if: github\.event_name != 'pull_request'/);
