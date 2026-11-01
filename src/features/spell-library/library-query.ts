@@ -9,7 +9,7 @@ export async function loadSpellLibraryCatalog(system:SpellSystem,signal:AbortSig
 export function librarySpellViews(catalog:SpellCatalog,edition:string){return toSpellViews(catalog,edition);}
 export function filterLibrarySpells(views:SpellView[],filters:SpellFilters,section:LibrarySection,system:SpellSystem){
  if(section==='mine')return [];
- const kind=section==='all'||section==='mine'||(system==='dnd5e'&&section==='ritual')?'all':section;
+ const kind=section==='all'||(system==='dnd5e'&&section==='ritual')?'all':section;
  const matches=filterSpellViews(views,{...filters,kind});
  return system==='dnd5e'&&section==='ritual'?matches.filter(entry=>entry.rules.ritual===true||entry.spell.kind==='ritual'):matches;
 }
