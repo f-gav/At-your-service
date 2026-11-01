@@ -12,7 +12,7 @@ import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import {setPageVisible,visiblePageIds} from '../../lib/page-visibility';
 import MoonPortrait from './MoonPortrait';
-import RichField from '../pathfinder/RichField';
+import RichField from '../rich-editor/RichField';
 import MoonInlineRichField from './MoonInlineRichField';
 import type { CropFrame } from '../portrait/crop';
 import {
