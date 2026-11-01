@@ -45,7 +45,7 @@ try {
           assert.ok(measurements.scrollWidth>measurements.scrollerWidth,
             system+' sheet must pan within its own viewport');
           if(system==='prmoon'){
-            const count=s=>s.trim().split(/\\s+/).length;
+            const count=s=>s.trim().split(/\s+/).length;
             for(const [name,n] of [['about',2],['combat',7],['resources',4],['inventory',4]]){
               assert.equal(count(measurements.columns[name]),n,
                 name+' grid lost its original columns on '+width+'px');
