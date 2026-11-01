@@ -77,7 +77,7 @@ try{
 
       const pfUrl=origin+'?system=pf2e&variant=alternative&save=test&reopen=1';
       await page.goto(pfUrl,{waitUntil:'networkidle'});
-      await page.locator('.pf-alt-p1-name input').fill('Новая героиня');
+      await page.getByRole('textbox',{name:'Имя персонажа',exact:true}).fill('Новая героиня');
       await page.getByRole('button',{name:'Классический PF2e'}).click();
       await saved(page,'pf2e','pf');
       await page.reload({waitUntil:'networkidle'});
