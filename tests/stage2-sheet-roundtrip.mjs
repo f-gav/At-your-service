@@ -36,6 +36,7 @@ const pfFields={
   pf_text_size_pf2e_notes_block_2:'19',
   equipment:'Невидимое снаряжение за пределами шаблона',
   cantrip_names:'Ручные чары до переключения в библиотеку',
+  cantrip_prepared:true,
   spellbook_left_names:'Ручной гримуар до перехода в библиотечный режим',
   pf_spell_display_mode:'library',
   pf_spell_library_selection:JSON.stringify([{id:'spell-1',prepared:true},{id:'spell-2',prepared:false}]),
