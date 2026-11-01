@@ -19,7 +19,7 @@ import { withWeaponSheetFields } from './weapon-fields';
 import ToggleVisual from './ToggleVisual';
 import DyingSkulls from './DyingSkulls';
 import RankSelect from './RankSelect';
-import RichField from './RichField';
+import RichField from '../rich-editor/RichField';
 import {spellTableSpan} from './spell-table-spoilers';
 import { sanitizeSignedNumericInput } from './numeric-input';
 import DynamicAdvancement from './DynamicAdvancement';
