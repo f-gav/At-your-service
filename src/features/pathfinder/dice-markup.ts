@@ -1,1 +1,1 @@
-export * from '../rich-editor/dice-markup';
+export * from '../rich-editor/dice-markup.ts';
