@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function SiteLogo() {
   return (
     <span className="brand-wrap" aria-label="At your service!">
