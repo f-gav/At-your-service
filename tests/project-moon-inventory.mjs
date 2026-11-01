@@ -40,8 +40,8 @@ assert.equal(readMoonSheet({projectMoonSheet:{inventoryColumns:-1}}).inventoryCo
 
 const jsx=read('../src/features/project-moon/ProjectMoonSheet.tsx');
 const css=read('../src/features/project-moon/ProjectMoonSheet.css');
-const rich=read('../src/features/pathfinder/RichField.tsx');
-const markup=read('../src/features/pathfinder/rich-blocks.ts');
+const rich=read('../src/features/rich-editor/RichField.tsx');
+const markup=read('../src/features/rich-editor/rich-blocks.ts');
 assert.match(jsx,/Array\.from\(\{ length: sheet\.inventoryColumns \}/,
   'The grid must display only requested columns without deleting stored data');
 assert.ok(jsx.includes("index === 0 ? 'inventory' : 'inventory' + (index + 1)"));
