@@ -31,9 +31,10 @@ const PF_SPELL_KEYS = [
   'pf_spell_available_traditions',
 ] as const;
 const PF_PAGE_KEYS = ['pf2e_layout', 'pf2e_page_order', 'pf2e_notes_enabled'] as const;
-// These fields were the original hand-written spell tables. In library mode
-// their content is not rendered: the spell IDs and layout are authoritative.
-// Never remove them from a character's cloud save or from text-mode exports.
+// Legacy hand-written spell tables are hidden in library mode but remain
+// player-authored content. Transport them in a separate compatibility group:
+// the active library layout stays canonical, yet importing and switching back
+// to text mode cannot erase historical spell notes.
 const LEGACY_SPELL_TABLE = /^(?:cantrip_(?:names|actions|prepared)|focus_(?:spells|actions)|innate_(?:spells|actions|frequency)|spellbook_(?:left|right)_(?:names|actions|ranks|prepared)|rituals_(?:left|right)_(?:name|rank|cost))$/;
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -87,9 +88,13 @@ export function packPathfinderSheet(source: unknown): Record<string, unknown> {
     typeof stored.pf_spell_library_layout_v1 === 'string';
   const excluded = new Set<string>(['name','schemaVersion',...PF_SPELL_KEYS,...PF_PAGE_KEYS]);
   const fields: Record<string, unknown> = {};
+  const legacyText:Record<string,unknown>={};
   for (const [key,value] of Object.entries(stored)) {
     if (excluded.has(key)) continue;
-    if (mode === 'library' && hasLibrary && LEGACY_SPELL_TABLE.test(key)) continue;
+    if (mode === 'library' && hasLibrary && LEGACY_SPELL_TABLE.test(key)) {
+      legacyText[key]=value; // Hide from active fields, but never delete on export.
+      continue;
+    }
     fields[key] = value; // Preserve active custom template fields, even future IDs.
   }
   const page: Record<string, unknown> = {};
@@ -97,6 +102,7 @@ export function packPathfinderSheet(source: unknown): Record<string, unknown> {
   if (stored.pf2e_page_order !== undefined) page.order = stored.pf2e_page_order;
   if (stored.pf2e_notes_enabled !== undefined) page.notesEnabled = stored.pf2e_notes_enabled;
   const spells: Record<string, unknown> = { mode, selection };
+  if(Object.keys(legacyText).length)spells.legacyText=legacyText;
   const layout = spellLayout(stored.pf_spell_library_layout_v1, selection);
   if (layout) spells.layout = layout;
   if (stored.pf_spell_available_classes !== undefined)
@@ -118,6 +124,17 @@ function unpackPathfinderSheet(source: unknown, characterName: string): Record<s
   const mode = spells.mode === 'text' ? 'text' : 'library';
   const selection = savedSpells(spells.selection);
   const result: Record<string, unknown> = { ...fields, name:characterName, schemaVersion:1 };
+  // Restore dormant text-mode tables after the grouped library payload. These
+  // never drive library-mode rendering, so they cannot revive stale spell IDs.
+  if(spells.legacyText!==undefined) {
+    if(!isPlainObject(spells.legacyText))
+      throw new Error('Некорректные резервные текстовые таблицы заклинаний.');
+    for(const [key,value] of Object.entries(spells.legacyText)){
+      if(!LEGACY_SPELL_TABLE.test(key)||typeof value!=='string')
+        throw new Error('Некорректная резервная таблица заклинаний.');
+      if(!(key in result))result[key]=value;
+    }
+  }
   if (page.layout !== undefined) result.pf2e_layout = page.layout;
   if (page.order !== undefined) result.pf2e_page_order = page.order;
   if (page.notesEnabled !== undefined) result.pf2e_notes_enabled = page.notesEnabled;
@@ -174,7 +191,12 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
       details.projectMoonSheet = {...data.character.sheet};
     }
   }
-  if (JSON.stringify(details).length > 50000) throw new Error('Данные листа превышают допустимый размер.');
+  // Real PF2e and Project Moon sheets can contain four rich-text inventory
+  // columns, notes, weapons, armor and augments. The old 50 KB limit rejected
+  // a valid export when it was imported back, despite the 2 MB file limit.
+  // Keep a bounded size below that file limit without trimming player data.
+  if (JSON.stringify(details).length > 1536*1024)
+    throw new Error('Данные листа превышают допустимый размер (1,5 МБ).');
   const sheet = details.pathfinderSheet;
   if (sheet !== undefined && !isPlainObject(sheet)) throw new Error('Некорректные поля Pathfinder.');
   const moon = details.projectMoonSheet;
