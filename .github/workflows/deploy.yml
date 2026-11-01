@@ -53,6 +53,8 @@ jobs:
         run: node tests/stage3-rich-editor-boundaries.mjs
       - name: Stage 3 rooms and library boundaries
         run: node --experimental-strip-types tests/stage3-rooms-library-boundaries.mjs
+      - name: Stage 3 full architecture regression
+        run: node tests/stage3-architecture-final.mjs
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
