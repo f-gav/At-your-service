@@ -8,7 +8,7 @@ import {
 import {
   DEFAULT_SPELL_FILTERS,DND_SCHOOLS,PF_TRADITIONS,
   RARITY_LABELS,SPELL_SYSTEMS,
-  emptySpellCatalog,filterSpellViews,spellSubclassLabel,toSpellViews,
+  emptySpellCatalog,spellSubclassLabel,
 } from './catalog';
 import type {
   PfTradition,SpellCatalog,SpellFilters,SpellKind,SpellSystem,SpellView,
