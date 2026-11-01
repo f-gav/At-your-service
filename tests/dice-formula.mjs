@@ -65,8 +65,8 @@ assert.equal(rollDiceFormula('d20+[STR]',diceValidationVariables(),low).total,1)
 assert.throws(()=>rollDiceFormula('d20+[FOO]',diceValidationVariables(),low),/Неизвестная/);
 assert.match(diceMarkup('" onclick="alert(1)'),/&quot; onclick=&quot;alert\(1\)/);
 assert.doesNotMatch(diceMarkup('<img src=x onerror=alert(1)>'),/<img/);
-const rich=read('../src/features/pathfinder/RichField.tsx');
-const codec=read('../src/features/pathfinder/rich-codec.ts');
+const rich=read('../src/features/rich-editor/RichField.tsx');
+const codec=read('../src/features/rich-editor/rich-codec.ts');
 const panel=read('../src/lib/DiceRollPanel.tsx');
 const guide=read('../src/lib/DiceFormulaExamples.tsx');
 const moonModel=read('../src/features/project-moon/model.ts');
