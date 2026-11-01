@@ -11,32 +11,23 @@ const json = read('../src/lib/character-json.ts');
 const portraits = read('../src/features/portrait/portrait-json.ts');
 const docs = read('../docs/PROJECT-MOON-PATCH1.md');
 
-// Mobile overrides MUST come after the original desktop-sized portrait and
-// the template-controlled --moon-portrait-shift-y margin. Otherwise the
-// published desktop Y adjustment drags the portrait over "PROJECT MOON".
-const globalShift = css.indexOf('margin-top:var(--moon-portrait-shift-y,0px)');
-const phoneOverride = css.lastIndexOf('@media screen and (max-width: 660px)');
-const portraitOverride = css.indexOf('.moon-page-dossier .moon-dossier-top > .moon-portrait-host {', phoneOverride);
-assert.ok(globalShift > 0 && phoneOverride > globalShift);
-assert.ok(portraitOverride > phoneOverride);
-const portraitRule = css.slice(portraitOverride, css.indexOf('}', portraitOverride));
-assert.match(portraitRule,/grid-row:\s*1;/);
-assert.match(portraitRule,/order:\s*-1;/);
-assert.match(portraitRule,/margin:\s*12px auto 4px;/,
-  'Phone portrait must ignore potentially negative desktop frame shifts');
-assert.ok(!portraitRule.includes('--moon-mask-'),
-  "Preserve the user\'s independent mask crop/offset settings");
-const dossierFieldRule = css.slice(css.indexOf('.moon-page-dossier .moon-dossier-top > .moon-dossier-fields {', phoneOverride));
-assert.ok(dossierFieldRule.includes('grid-row: 2;'),
-  'Phone dossier details follow the portrait, not overlay it');
-assert.ok(css.includes('min-height: 0; /* only print and desktop keep the original A4 minimum */'));
-assert.ok(css.includes('@media screen and (max-width: 360px)'));
-assert.ok(css.includes('.moon-resource-controls button {'));
-assert.ok(css.includes('.moon-identity-pairs {') && css.includes('grid-template-columns: minmax(0,1fr);'));
-assert.ok(css.includes('.moon-weapon-track > .moon-weapon-card { flex: 0 0 100%; }'));
-assert.ok(css.includes('.moon-about-info { grid-template-columns: minmax(0,1fr); }'));
+// Bundle 5: mobile presentation retains fixed paper geometry and pans horizontally.
+// Earlier mobile rules may exist, but the final screen-only override wins.
+const mobilePaper = css.lastIndexOf('/* Stage 2 / bundle 5: paper geometry');
+assert.ok(mobilePaper > 0, 'Mobile paper override must be the last layout patch');
+const phoneCss = css.slice(mobilePaper);
+assert.match(phoneCss, /@media screen and \\(max-width: 660px\\)/);
+assert.match(phoneCss, /overflow-x: auto;/);
+assert.match(phoneCss, /width: 794px;/);
+assert.match(phoneCss, /min-height: 1123px;/);
+assert.match(phoneCss, /moon-two-columns, \\.moon-resistance-layout, \\.moon-about-duo, \\.moon-notes/);
+assert.match(phoneCss, /grid-template-columns: repeat\\(2,minmax\\(0,1fr\\)\\)/);
+assert.match(phoneCss, /moon-combat-fields \\{ grid-template-columns: repeat\\(7,minmax\\(0,1fr\\)\\)/);
+assert.match(phoneCss, /moon-resources \\{ grid-template-columns: repeat\\(4,minmax\\(0,1fr\\)\\)/);
+assert.match(phoneCss, /moon-page-dossier \\.moon-dossier-top > \\.moon-portrait-host/);
+assert.ok(!phoneCss.includes('--moon-mask-'), 'Do not override portrait mask calibration');
 assert.ok(css.includes('@media print {') && css.includes('width: 210mm; min-height: 297mm;'),
-  'Printed document retains exact A4 page dimensions');
+  'Print remains exactly A4');
 assert.ok(markup.includes('visibleMoonPages.map(page => <article'));
 assert.deepEqual(MOON_PAGES.map(x=>x.id), ['dossier','combat','equipment','about','notes']);
 assert.ok(markup.includes('<MoonPortrait url={portraitUrl}'));
