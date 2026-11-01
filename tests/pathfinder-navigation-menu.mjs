@@ -20,9 +20,9 @@ assert.equal(insertionMenuPosition(caret,tall,{width:375,height:800}).left,8,
   'Mobile toolbar is clamped within the screen');
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const css=read('../src/features/pathfinder/PathfinderSheet.css');
-const floating=read('../src/features/pathfinder/FloatingPageNavigation.tsx');
+const floating=read('../src/features/rich-editor/FloatingPageNavigation.tsx');
 const floatingCss=read('../src/features/pathfinder/FloatingPageNavigation.css');
-const rich=read('../src/features/pathfinder/RichField.tsx');
+const rich=read('../src/features/rich-editor/RichField.tsx');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
 const schema=read('../src/features/pathfinder/editor-schema.ts');
 const layout=read('../src/features/pathfinder/layout.ts');
