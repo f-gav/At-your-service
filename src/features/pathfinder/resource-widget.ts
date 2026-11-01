@@ -1,1 +1,1 @@
-export * from '../rich-editor/resource-widget';
+export * from '../rich-editor/resource-widget.ts';
