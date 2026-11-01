@@ -453,3 +453,18 @@
 }
 
 
+
+/* Stage 2: room modal must sit above the sticky header and fit short screens. */
+.ays-room-dialog-backdrop{z-index:10020}
+.ays-room-dialog{min-width:0;overflow-wrap:anywhere;overscroll-behavior:contain}
+.ays-room-dialog h2,.ays-room-dialog label,.ays-room-dialog-error{overflow-wrap:anywhere;min-width:0}
+.ays-room-dialog select,.ays-room-dialog input{min-width:0;max-width:100%}
+.ays-room-dialog-actions{flex-wrap:wrap}
+.ays-room-dialog-actions button{min-height:42px;white-space:normal}
+.ays-room-tile-body{min-width:0;overflow-wrap:anywhere}
+.ays-room-tile-body>strong{white-space:normal;overflow-wrap:anywhere}
+.ays-room-error{overflow-wrap:anywhere}
+.ays-room-error button{min-width:36px;min-height:36px;flex:none}
+@media(max-width:520px){
+  .ays-room-dialog-actions button{flex:1 1 110px}
+}

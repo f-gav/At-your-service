@@ -85,6 +85,8 @@ jobs:
           node tests/routes-static-browser.mjs
       - name: Verify light/dark typography and layout parity on desktop and mobile
         run: node tests/theme-layout-browser.mjs
+      - name: "Stage 2: small-screen forms, global errors, long titles and modal keyboard UX"
+        run: node tests/stage2-ux-browser.mjs
       - name: "Release smoke: Project Moon mobile, autosave and export entrypoints"
         run: node tests/release-smoke-browser.mjs
       - name: Configure Pages

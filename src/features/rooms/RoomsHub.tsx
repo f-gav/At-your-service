@@ -1,5 +1,6 @@
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
+import {useModalAccessibility} from '../../lib/use-modal-accessibility';
 import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save,ChevronRight,UserPlus} from 'lucide-react';
 import type {Character} from '../../lib/models';
 import {supabase} from '../../lib/supabase';
@@ -64,12 +65,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
   const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon');
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
-  useEffect(()=>{
-    if(!dialog)return;
-    const closeOnEscape=(event:KeyboardEvent)=>{if(event.key==='Escape'&&!busy)setDialog(null);};
-    document.addEventListener('keydown',closeOnEscape);
-    return()=>document.removeEventListener('keydown',closeOnEscape);
-  },[dialog,busy]);
+  useModalAccessibility(!!dialog,()=>{setDialog(null);setError('');},busy);
   const loadOverview=useCallback(async()=>{
     if(!supabase||!userId){setRooms([]);setMine([]);setRoomCounts({});return;}
     const [roomsResponse,mineResponse,countsResponse]=await Promise.all([
@@ -202,10 +198,11 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
         <h1>Комнаты</h1>
         <p>Персонажи одной игровой системы, ключевые ресурсы и общий журнал бросков.</p>
       </div>
-      <button type="button" onClick={()=>void loadOverview().catch(cause=>setError(friendlyError(cause)))}
-        title="Обновить список" aria-label="Обновить комнаты"><RefreshCw size={20}/></button>
+      <button type="button" onClick={()=>{if(loading)return;setLoading(true);setError('');
+        void loadOverview().catch(cause=>setError(friendlyError(cause))).finally(()=>setLoading(false));}}
+        disabled={loading} title="Обновить список" aria-label="Обновить комнаты"><RefreshCw size={20}/></button>
     </div>}
-    {error&&<div className="ays-room-error" role="alert">{error}<button type="button" onClick={()=>setError('')} aria-label="Закрыть ошибку"><X size={16}/></button></div>}
+    {error&&!dialog&&<div className="ays-room-error" role="alert">{error}<button type="button" onClick={()=>setError('')} aria-label="Закрыть ошибку"><X size={16}/></button></div>}
     {selected&&room?<section className="ays-room-open">
       <header className="ays-room-topline">
         <div className="ays-room-identity">
@@ -331,12 +328,11 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
           </button>)}</div>}
       </section>
       {dialog&&<div className="ays-room-dialog-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget&&!busy)setDialog(null);}}>
-        <section className="ays-room-dialog" role="dialog" aria-modal="true" aria-labelledby="ays-room-dialog-title">
+        <section className="ays-room-dialog" role="dialog" aria-modal="true" aria-labelledby="ays-room-dialog-title" aria-busy={busy}>
           <div className="ays-room-dialog-header">
             <h2 id="ays-room-dialog-title">{dialog==='create'?'Создать комнату':'Подключить персонажа'}</h2>
             <button type="button" onClick={()=>setDialog(null)} disabled={busy} aria-label="Закрыть окно"><X size={20}/></button>
           </div>
-          {error&&<p className="ays-room-dialog-error" role="alert">{error}</p>}
           {error&&<p className="ays-room-dialog-error" role="alert">{error}</p>}
           {dialog==='create'?<form onSubmit={event=>void createRoom(event)}>
             <label>Название комнаты
@@ -350,7 +346,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             </label>
             <div className="ays-room-dialog-actions">
               <button type="button" onClick={()=>setDialog(null)} disabled={busy}>Отмена</button>
-              <button type="submit" className="ays-room-dialog-primary" disabled={busy||!createTitle.trim()}><Plus size={16}/> Создать комнату</button>
+              <button type="submit" className="ays-room-dialog-primary" disabled={busy||!createTitle.trim()}><Plus size={16}/> {busy?'Создаём…':'Создать комнату'}</button>
             </div>
           </form>:<form onSubmit={event=>void joinRoom(event)}>
             <label>Код комнаты
@@ -365,7 +361,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             </label>
             <div className="ays-room-dialog-actions">
               <button type="button" onClick={()=>setDialog(null)} disabled={busy}>Отмена</button>
-              <button type="submit" className="ays-room-dialog-primary" disabled={busy||inviteCode.length!==8||!inviteCharacter}><UserPlus size={16}/> Подключиться</button>
+              <button type="submit" className="ays-room-dialog-primary" disabled={busy||inviteCode.length!==8||!inviteCharacter}><UserPlus size={16}/> {busy?'Подключаем…':'Подключиться'}</button>
             </div>
           </form>}
         </section>
