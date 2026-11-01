@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import '../src/styles.css';
 import '../src/site-theme.css';
+import '../src/features/rooms/RoomsHub.css';
 import {useModalAccessibility} from '../src/lib/use-modal-accessibility';
 function Test(){
   const [open,setOpen]=useState(false);
