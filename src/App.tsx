@@ -1,3 +1,4 @@
+import {nextCharacterOrder,newCharacterDetails,copyCharacterDetails,characterCopyName,confirmedCharacter} from './features/character/character-operations';
 import {SiteLogo,HeroEmblem} from './components/SiteBranding';
 import CharacterEditor from './features/character/CharacterEditor';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
@@ -413,7 +414,7 @@ export default function App() {
     if (!name) { setError('Укажи имя персонажа.'); return; }
     setBusy(true);
     setError('');
-    const nextOrder = characters.reduce((max, character) => Math.max(max, character.sort_order), 0) + 1;
+    const nextOrder = nextCharacterOrder(characters);
     const { data, error: insertError } = await supabase.from('characters')
       .insert({ user_id: user.id, system: createPanel, name,
          details: createPanel === 'prmoon' ? { ...defaultDetails(), projectMoonSheet: emptyMoonSheet() } :
@@ -423,7 +424,7 @@ export default function App() {
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
-    const created = { ...data, details: normalizeDetails(data.details) } as Character;
+    const created = confirmedCharacter(data as Character);
     setCharacters(current => [...current, created]);
     setCreatePanel(null);
     setShowSystemPicker(false);
@@ -450,7 +451,7 @@ export default function App() {
           .select('name,details,updated_at').eq('id',id).eq('user_id',userId).maybeSingle(),
       );
       setError('');
-      const confirmed={...data,details:normalizeDetails(data.details)} as Character;
+      const confirmed=confirmedCharacter(data as Character);
       lastSavedRows.current.set(id,confirmed);
       setCharacters(current => current.map(c => c.id === id ? confirmed : c));
       return true;
@@ -470,7 +471,7 @@ export default function App() {
         .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops')
         .eq('id',character.id).eq('user_id',user.id).single();
       if (readError || !data) throw readError ?? new Error('Не удалось получить актуальную версию персонажа.');
-      const freshest = {...data,details:normalizeDetails(data.details)} as Character;
+      const freshest = confirmedCharacter(data as Character);
       const key = characterDraftKey(user.id,character.id);
       const baseline = freshest.system === 'pf2e'
         ? JSON.stringify(initialSheetValues(freshest.details,freshest.name))
@@ -495,12 +496,12 @@ export default function App() {
           ...(parsed.details.pathfinderSheet as Record<string,unknown>||{}),
           pf2e_layout:variant??'classic',
         }}:parsed.details;
-      const nextOrder=characters.reduce((maximum,c)=>Math.max(maximum,c.sort_order),0)+1;
+      const nextOrder=nextCharacterOrder(characters);
       const {data,error:importError}=await supabase.from('characters')
         .insert({user_id:user.id,system:parsed.system,name:parsed.name,details,sort_order:nextOrder})
         .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
       if(importError||!data)throw importError??new Error('Не удалось создать персонажа.');
-      let imported={...data,details:normalizeDetails(data.details)} as Character;
+      let imported=confirmedCharacter(data as Character);
       if(parsed.portrait){
         try{
           const paths=parsed.portrait.type==='source'
@@ -551,15 +552,15 @@ export default function App() {
     setBusy(true);setError('');
     let created:Character|null=null;
     try{
-      const name=normalizedName(character.name+' (копия)').slice(0,100);
-      const nextOrder=characters.reduce((max,c)=>Math.max(max,c.sort_order),0)+1;
+      const name=characterCopyName(character.name);
+      const nextOrder=nextCharacterOrder(characters);
       // JSON clone avoids shared mutable nested sheet data between characters.
-      const details=normalizeDetails(JSON.parse(JSON.stringify(character.details)) as CharacterDetails);
+      const details=copyCharacterDetails(character.details);
       const {data,error:insertError}=await supabase.from('characters')
         .insert({user_id:user.id,system:character.system,name,details,sort_order:nextOrder})
         .select('id, user_id, system, name, details, sort_order, created_at, updated_at, portrait_card_path, portrait_sheet_path, portrait_source_path, portrait_crops').single();
       if(insertError||!data)throw insertError??new Error('Не удалось продублировать лист.');
-      created={...data,details:normalizeDetails(data.details)} as Character;
+      created=confirmedCharacter(data as Character);
       if(includePortrait){
         if(character.portrait_source_path && character.portrait_crops){
           const blob=await downloadPortraitBlob(character.portrait_source_path);
