@@ -1,4 +1,4 @@
-import {useEffect,useRef} from 'react';
+import {useEffect,useLayoutEffect,useRef} from 'react';
 
 /** Shared keyboard and scroll behavior for application dialogs.
  * No changes to data, navigation, or the contents of the dialog.
@@ -17,16 +17,18 @@ export function useModalAccessibility(
   useEffect(()=>{
     if(open)return;
     const remember=(event:FocusEvent)=>{
-      if(event.target instanceof HTMLElement && event.target!==document.body)
+      if(event.target instanceof HTMLElement && event.target!==document.body &&
+          !event.target.closest('[role="dialog"][aria-modal="true"]'))
         lastOutsideFocus.current=event.target;
     };
     document.addEventListener('focusin',remember,true);
     const active=document.activeElement;
-    if(active instanceof HTMLElement&&active!==document.body)
+    if(active instanceof HTMLElement&&active!==document.body &&
+        !active.closest('[role="dialog"][aria-modal="true"]'))
       lastOutsideFocus.current=active;
     return()=>document.removeEventListener('focusin',remember,true);
   },[open]);
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     if(!open)return;
     const dialogs=Array.from(document.querySelectorAll<HTMLElement>(
       '[role="dialog"][aria-modal="true"]'));
