@@ -61,5 +61,6 @@ assert.ok(markup.includes('data-pf-divider="1"'));
 assert.ok(rich.includes('serializeRichHtml(editor.innerHTML)'),
   'Rich editor must still persist dividers and spoiler bodies');
 assert.ok(jsx.includes('useAutoSave({'),'Moon inventory must use same autosave pipeline');
-assert.ok(jsx.includes("exportRenderedSheetPdf(pdfRoot.current,name,'prmoon')"));
+assert.ok(jsx.includes("useSheetPdfExport('prmoon'"),"Project Moon must delegate PDF to shared hook");
+assert.ok(readFileSync(new URL("../src/lib/use-sheet-pdf-export.ts",import.meta.url),"utf8").includes("exportRenderedSheetPdf(pdfRoot.current"),"Shared hook must render actual PDF");
 console.log('PASS: inventory 1–4 columns survive JSON, hidden fields remain, notes scale and rich widgets stay column bounded');
