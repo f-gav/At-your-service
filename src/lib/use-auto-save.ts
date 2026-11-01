@@ -30,6 +30,9 @@ export function useAutoSave({
   const [saving,setSaving]=useState(false);
   const [error,setError]=useState('');
   const [savedAt,setSavedAt]=useState<number|null>(null);
+  const [localWarning,setLocalWarning]=useState('');
+  const ownerRef=useRef('');
+  if(!ownerRef.current)ownerRef.current=crypto.randomUUID();
   const [failedSnapshot,setFailedSnapshot]=useState<string|null>(null);
   const mounted=useRef(true);
   currentRef.current=snapshot;
@@ -41,7 +44,7 @@ export function useAutoSave({
       // Internal navigation (including browser Back) unmounts the editor
       // without firing beforeunload/pagehide. Keep its final unsent snapshot.
       if(currentRef.current!==savedRef.current)
-        writeLocalDraft(draftKey,savedRef.current,currentRef.current);
+        writeLocalDraft(draftKey,savedRef.current,currentRef.current,ownerRef.current);
       mounted.current=false;
     };
   },[]);
@@ -62,9 +65,12 @@ export function useAutoSave({
     if(payload===savedRef.current) return true;
     // Persist the latest edits locally before an asynchronous network request.
     // A tab can be closed before React runs its ordinary draft-writing effect.
-    writeLocalDraft(draftKey,savedRef.current,payload);
+    const storedLocally=writeLocalDraft(draftKey,savedRef.current,payload,ownerRef.current);
+    if(!storedLocally&&mounted.current)setLocalWarning('Не удалось сохранить черновик на устройстве. Не закрывайте лист до успешного сохранения в облаке.');
     if(typeof navigator!=='undefined' && !navigator.onLine) {
-      if(mounted.current){setError('Нет соединения с интернетом. Черновик сохранён на устройстве.');setFailedSnapshot(payload);}
+      if(mounted.current){setError(storedLocally?
+        'Нет соединения с интернетом. Черновик сохранён на устройстве.':
+        'Нет сети и не удалось сохранить черновик на устройстве. Не закрывайте лист.');setFailedSnapshot(payload);}
       return false;
     }
     if(mounted.current){setSaving(true);setError('');}
@@ -80,10 +86,11 @@ export function useAutoSave({
           setAcknowledged(payload);
           setSavedAt(Date.now());
           setError('');
+          setLocalWarning('');
           setFailedSnapshot(null);
         }
         if(currentRef.current===payload) clearLocalDraft(draftKey,payload);
-        else writeLocalDraft(draftKey,payload,currentRef.current);
+        else writeLocalDraft(draftKey,payload,currentRef.current,ownerRef.current);
         return true;
       }catch(cause){
         if(mounted.current) {
@@ -104,7 +111,8 @@ export function useAutoSave({
   useEffect(()=>{
     if(!enabled)return;
     if(snapshot===acknowledged) clearLocalDraft(draftKey,snapshot);
-    else writeLocalDraft(draftKey,savedRef.current,snapshot);
+    else if(writeLocalDraft(draftKey,savedRef.current,snapshot,ownerRef.current))setLocalWarning('');
+    else setLocalWarning('Не удалось сохранить черновик на устройстве. Не закрывайте лист до успешного сохранения в облаке.');
   },[snapshot,acknowledged,draftKey,enabled]);
 
   // Editing after a network failure enables another automatic attempt.
@@ -118,7 +126,7 @@ export function useAutoSave({
     if(!enabled)return;
     const preservePending=()=>{
       if(currentRef.current!==savedRef.current)
-        writeLocalDraft(draftKey,savedRef.current,currentRef.current);
+        writeLocalDraft(draftKey,savedRef.current,currentRef.current,ownerRef.current);
     };
     const onVisible=()=>{
       if(document.visibilityState==='hidden'){
@@ -152,7 +160,7 @@ export function useAutoSave({
   },[saveNow,enabled,draftKey]);
 
   return {
-    dirty, saving, error, savedAt,
+    dirty, saving, error, savedAt, localWarning,
     phase: (error && failedSnapshot===snapshot ? 'error' : saving?'saving':dirty?'changed':'saved') as AutoSavePhase,
     saveNow,
     retry:()=>{setFailedSnapshot(null);void saveNow();},
