@@ -1,0 +1,142 @@
+/* Shared floating navigation for Pathfinder 2e and Project Moon.
+   Its pixel geometry is supplied by the component and clamped to the viewport. */
+.pf-navigation-help {
+  position:fixed;
+  z-index:34;
+  box-sizing:border-box;
+  transform:none;
+  right:auto;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:8px 8px 14px;
+  min-width:0;
+  min-height:0;
+  border:1px solid #d3ddd5;
+  border-radius:10px;
+  background:#fffffffa;
+  box-shadow:0 7px 22px #0000001b;
+  color:#304036;
+  font:12px/1.35 Arial,sans-serif;
+  overflow:hidden;
+  container-type:inline-size;
+}
+.pf-navigation-help-title {
+  flex:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:3px;
+  padding:2px 3px 6px;
+  min-height:22px;
+  border-radius:5px;
+  font-size:11px;
+  font-weight:650;
+  color:#68766c;
+  cursor:grab;
+  user-select:none;
+  touch-action:none;
+}
+.pf-navigation-help-title:active {cursor:grabbing;}
+.pf-navigation-drag-icon {flex:none;opacity:.7;}
+.pf-navigation-help-title > span {flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pf-navigation-help-title button {
+  flex:none;
+  border:0;
+  border-radius:4px;
+  padding:2px;
+  background:transparent;
+  display:inline-flex;
+  align-items:center;
+  cursor:pointer;
+  color:inherit;
+}
+.pf-navigation-help-items {
+  min-height:0;
+  flex:1 1 auto;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  overscroll-behavior:contain;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.pf-navigation-help-link {
+  flex:none;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  text-align:left;
+  width:100%;
+  border:0;
+  border-radius:6px;
+  padding:7px 6px;
+  color:#455b4c;
+  background:transparent;
+  cursor:pointer;
+  font:inherit;
+}
+.pf-navigation-help-link:hover,
+.pf-navigation-help-link:focus-visible {background:#edf3ed;}
+.pf-navigation-help-active {
+  background:#e1eae3;
+  font-weight:650;
+  color:#244d31;
+}
+.pf-navigation-help-number {
+  flex:none;
+  width:21px;
+  height:21px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #cad6cc;
+  border-radius:5px;
+  font-variant-numeric:tabular-nums;
+}
+.pf-navigation-help-label {
+  flex:1;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.pf-navigation-help-resize {
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  border-radius:5px 0 6px 0;
+  color:inherit;
+  background:transparent;
+  opacity:.6;
+  cursor:nwse-resize;
+  touch-action:none;
+}
+.pf-navigation-help-resize[data-side="left"] {left:0;right:auto;cursor:nesw-resize;border-radius:0 5px 0 6px;}
+.pf-navigation-help-resize:hover,
+.pf-navigation-help-resize:focus-visible {opacity:1;background:#edf3ed;}
+.pf-navigation-help-title:focus-visible,
+.pf-navigation-help-link:focus-visible,
+.pf-navigation-help-title button:focus-visible,
+.pf-navigation-help-resize:focus-visible {
+  outline:2px solid #557760;
+  outline-offset:-2px;
+}
+.pf-navigation-help[data-compact="true"] {padding:3px 3px 14px;}
+@container (max-width: 114px) {
+  .pf-navigation-help-title {padding:2px 0 5px;gap:1px;justify-content:center;}
+  .pf-navigation-help-title > span {display:none;}
+  .pf-navigation-help-link {padding:4px 0;justify-content:center;}
+  .pf-navigation-help-label {display:none;}
+  .pf-navigation-help-number {width:22px;height:25px;}
+  .pf-navigation-help-items {gap:2px;}
+  .pf-navigation-help-resize {width:16px;height:16px;}
+}
+@media print {
+  .pf-navigation-help {display:none !important;}
+}
