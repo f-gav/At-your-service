@@ -1,6 +1,6 @@
 import {roomViewState,distinctRoomUsers} from './room-state';
 import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
-import {useCallback,useEffect,useMemo,useState} from 'react';
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import type {FormEvent} from 'react';
 import {useModalAccessibility} from '../../lib/use-modal-accessibility';
 import {ArrowLeft,Copy,Dices,LogOut,Plus,RefreshCw,Shield,Trash2,Users,X,LayoutDashboard,Settings,Save,ChevronRight,UserPlus} from 'lucide-react';
@@ -47,6 +47,9 @@ function Resource({label,current,max}:{label:string;current?:string;max?:string}
 }
 export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const [rooms,setRooms]=useState<Room[]>([]);
+  const overviewRequest=useRef(0);
+  const roomRequest=useRef(0);
+  const activeRoom=useRef<string|null>(null);
   const [mine,setMine]=useState<Member[]>([]);
   const [roomCounts,setRoomCounts]=useState<Record<string,number>>({});
   const [dialog,setDialog]=useState<'create'|'join'|null>(null);
@@ -70,8 +73,10 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
   useModalAccessibility(!!dialog,()=>{setDialog(null);setError('');},busy);
   const loadOverview=useCallback(async()=>{
+    const request=++overviewRequest.current;
     if(!supabase||!userId){setRooms([]);setMine([]);setRoomCounts({});return;}
     const [roomsResponse,mineResponse,countsResponse]=await roomOverviewRequests(userId);
+    if(request!==overviewRequest.current)return;
     if(roomsResponse.error||mineResponse.error)throw roomsResponse.error??mineResponse.error;
     setRooms((roomsResponse.data??[]) as Room[]);
     setMine((mineResponse.data??[]) as Member[]);
@@ -82,7 +87,9 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   },[userId]);
   const loadRoom=useCallback(async(roomId:string)=>{
     if(!supabase||!userId)return;
+    const request=++roomRequest.current;
     const [people,events]=await roomDetailRequests(roomId);
+    if(request!==roomRequest.current||activeRoom.current!==roomId)return;
     if(people.error||events.error)throw people.error??events.error;
     setMembers((people.data??[]) as Member[]);
     setRolls((events.data??[]) as Roll[]);
@@ -93,10 +100,12 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     setLoading(true);
     void loadOverview().catch(cause=>{if(active)setError(friendlyError(cause));})
       .finally(()=>{if(active)setLoading(false);});
-    return()=>{active=false;};
+    return()=>{active=false;++overviewRequest.current;};
   },[loadOverview,userId]);
   useEffect(()=>{
-    if(!selected||!userId||!supabase)return;
+    activeRoom.current=selected;
+    ++roomRequest.current;
+    if(!selected||!userId||!supabase){setMembers([]);setRolls([]);return;}
     const client=supabase;
     let live=true;
     const refresh=()=>{void loadRoom(selected).catch(cause=>{if(live)setError(friendlyError(cause));});};
@@ -104,10 +113,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     const channel=client.channel('ays-room-'+selected)
       .on('postgres_changes',{event:'*',schema:'public',table:'game_room_members',filter:'room_id=eq.'+selected},refresh)
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'game_room_rolls',filter:'room_id=eq.'+selected},refresh)
-      .subscribe();
+      .subscribe(status=>{if(status==='SUBSCRIBED'&&live)refresh();});
     // Fallback when Realtime is unavailable or network reconnects.
-    const timer=window.setInterval(()=>{refresh();void loadOverview().catch(()=>{});},8000);
-    return()=>{live=false;window.clearInterval(timer);void client.removeChannel(channel);};
+    const timer=window.setInterval(()=>{if(document.visibilityState!=='hidden'){refresh();void loadOverview().catch(()=>{});}},8000);
+    const reconnect=()=>{if(!live)return;refresh();void loadOverview().catch(()=>{});};
+    const visible=()=>{if(document.visibilityState==='visible')reconnect();};
+    window.addEventListener('online',reconnect);
+    document.addEventListener('visibilitychange',visible);
+    return()=>{live=false;++roomRequest.current;window.clearInterval(timer);window.removeEventListener('online',reconnect);document.removeEventListener('visibilitychange',visible);void client.removeChannel(channel);};
   },[selected,userId,loadRoom,loadOverview]);
   async function operate(action:()=>Promise<void>){
     if(busy)return;setBusy(true);setError('');
