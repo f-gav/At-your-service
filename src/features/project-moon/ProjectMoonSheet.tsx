@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Files, Plus, RotateCcw, Settings2, Trash2, X, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
 import DiceRollPanel from '../../lib/DiceRollPanel';
-import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
+import {useSheetPdfExport} from '../../lib/use-sheet-pdf-export';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
@@ -49,29 +49,7 @@ type Props = {
 
 export default function ProjectMoonSheet({ character, onSave, onClose, portraitUrl, portraitFrame, onEditPortrait, layoutOverride, previewMode = false, autoExport=false, onAutoExportComplete }: Props) {
   const draftKey=characterDraftKey(character.user_id,character.id);
-  const pdfRoot=useRef<HTMLElement>(null);
-  const pdfInFlight=useRef(false);
-  const pdfAutoStarted=useRef(false);
-  const [exportingPdf,setExportingPdf]=useState(false);
-  const [pdfError,setPdfError]=useState('');
-  async function exportPdf(){
-    if(pdfInFlight.current||!pdfRoot.current)return;
-    pdfInFlight.current=true;setExportingPdf(true);setPdfError('');
-    try{await exportRenderedSheetPdf(pdfRoot.current,name,'prmoon');}
-    catch(cause){setPdfError(cause instanceof Error?cause.message:'Ошибка экспорта PDF.');}
-    finally{
-      pdfInFlight.current=false;setExportingPdf(false);
-      if(autoExport)onAutoExportComplete?.();
-    }
-  }
-  useEffect(()=>{
-    if(!autoExport){pdfAutoStarted.current=false;return;}
-    if(pdfAutoStarted.current)return;
-    pdfAutoStarted.current=true;
-    const timer=window.setTimeout(()=>{void exportPdf();},600);
-    return ()=>window.clearTimeout(timer);
-  },[autoExport]);
-
+  const {pdfRoot,exportPdf,exportingPdf,pdfError}=useSheetPdfExport('prmoon',()=>name,autoExport,onAutoExportComplete);
 
   const [serverBaseline]=useState(()=>JSON.stringify([character.name,readMoonSheet(character.details)]));
   const [recovered]=useState(()=>{

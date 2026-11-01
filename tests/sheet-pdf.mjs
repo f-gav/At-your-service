@@ -8,6 +8,7 @@ const operations=read('../src/features/character/character-operations.ts');
 const pf=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const moon=read('../src/features/project-moon/ProjectMoonSheet.tsx');
 const pdf=read('../src/lib/sheet-pdf.ts');
+const pdfHook=read('../src/lib/use-sheet-pdf-export.ts');
 const css=read('../src/lib/sheet-pdf.css');
 const deps=JSON.parse(read('../package.json')).dependencies;
 
@@ -26,8 +27,8 @@ assert.ok(app.includes('Экспорт PDF'));
 assert.ok(app.includes('Дублировать'));
 assert.ok(app.includes('setExportPdfId(character.id)'));
 assert.ok(pf.includes('autoExport={')===false,'Parent supplies auto export prop');
-assert.ok(pf.includes('exportRenderedSheetPdf(pdfRoot.current'));
-assert.ok(moon.includes("exportRenderedSheetPdf(pdfRoot.current,name,'prmoon')"));
+assert.ok(pf.includes("useSheetPdfExport('pf2e'") && pdfHook.includes('exportRenderedSheetPdf(pdfRoot.current'));
+assert.ok(moon.includes("useSheetPdfExport('prmoon'") && pdfHook.includes('nameRef.current(),system'));
 assert.ok(pf.includes('sheet-pdf-export-tab')&&moon.includes('sheet-pdf-export-tab'));
 assert.ok(app.includes('autoExport={exportPdfId===active.id}'));
 assert.ok(pdf.includes('mirrorFormValues(original,copy)'),'PDF captures current edited input values');
