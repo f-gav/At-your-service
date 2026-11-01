@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync,statSync} from 'node:fs';
-import {resolve,dirname,relative,extname,existsSync} from 'node:path';
+import {readFileSync,readdirSync,statSync,existsSync} from 'node:fs';
+import {resolve,dirname,relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../src');
 const files=[];
