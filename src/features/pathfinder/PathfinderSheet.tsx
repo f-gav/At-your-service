@@ -28,7 +28,7 @@ import { calculateCore, isAutomatic, isCoreComputedField, RANK_FIELDS, readRank 
 import {calculateSpellcasting,isSpellcastingConfigured,isSpellcastingComputedField,setSpellcastingProficiency} from './rules-spellcasting';
 import SpellcastingDialog from './SpellcastingDialog';
 import AlternativePathfinderPages from './AlternativePathfinderPages';
-import FloatingPageNavigation from './FloatingPageNavigation';
+import FloatingPageNavigation from '../rich-editor/FloatingPageNavigation';
 import SpellGrimoire,{PF_SPELL_MODE,PF_SPELL_SELECTION,PF_SPELL_TRADITIONS,PF_SPELL_CLASSES,readSavedSpells,selectedTraditions,effectivePfTraditions,PF_TRADITION_IDS,selectedClasses,loadPfSpellViews,spellCast} from './SpellGrimoire';
 import type {SpellView} from '../spell-library/catalog';
 import {SpellModal} from '../spell-library/SpellLibrary';
