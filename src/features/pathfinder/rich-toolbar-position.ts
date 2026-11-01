@@ -1,1 +1,1 @@
-export * from '../rich-editor/rich-toolbar-position';
+export * from '../rich-editor/rich-toolbar-position.ts';
