@@ -22,9 +22,9 @@ for(const html of [open,closed]){
 }
 assert.match(spoilerMarkup('<svg onload=alert(1)>'),/&lt;svg onload=alert\(1\)&gt;/);
 assert.equal(spoilerMarkup('Nested',spoilerMarkup('Inner')).match(/data-pf-spoiler="1"/g)?.length,2);
-const rich=read('../src/features/pathfinder/RichField.tsx');
+const rich=read('../src/features/rich-editor/RichField.tsx');
 const css=read('../src/features/pathfinder/RichField.css');
-const codec=read('../src/features/pathfinder/rich-codec.ts');
+const codec=read('../src/features/rich-editor/rich-codec.ts');
 const dynamic=read('../src/features/pathfinder/DynamicAdvancement.tsx');
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 
