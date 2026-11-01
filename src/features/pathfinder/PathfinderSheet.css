@@ -269,3 +269,10 @@
 .pf-spell-library-entry:hover,.pf-spell-library-entry:focus-visible{background:#dce8f766;text-decoration:underline;outline-offset:-1px}
 .pf-spell-library-empty{display:block;flex:1;min-height:12px;width:100%;border:0;background:transparent;cursor:pointer}
 .pf-spell-library-centered .pf-spell-library-entry{text-align:center}
+
+/* Stage 2 / bundle 5: preserve the coordinate-based original sheet on phones.
+ * Do not scale independent inputs: pan the original page instead. Print stays unchanged. */
+@media screen and (max-width: 760px) {
+  .pf-sheet-scroll { max-width: 100%; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+  .pf-sheet-stack { width: 960px; }
+}

@@ -904,3 +904,63 @@
     outline:0!important;box-shadow:none!important;
   }
 }
+
+/* Stage 2 / bundle 5: paper geometry is stable on phones.
+ * Pan the sheet rather than reflowing its A4 sections into a vertical form.
+ * Screen-only: print/PDF keep their original A4 geometry and page breaks. */
+@media screen and (max-width: 660px) {
+  .moon-editor { min-width: 0; max-width: 100%; }
+  .moon-sheet-scroll {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+  }
+  .moon-sheet-scroll .moon-paper {
+    width: 794px;
+    max-width: none;
+    min-height: 1123px;
+    margin: 0 0 16px;
+    padding: 8mm var(--moon-page-padding, 11mm) 14mm;
+  }
+  .moon-page-dossier .moon-dossier-top {
+    grid-template-columns: minmax(0,3.25fr) minmax(145px,1fr);
+    align-items: stretch;
+    gap: 10px;
+    margin: 20px 0 13px;
+  }
+  .moon-page-dossier .moon-dossier-top > .moon-portrait-host {
+    grid-column: 2;
+    grid-row: 1;
+    order: initial;
+    width: auto;
+    justify-self: stretch;
+    margin: 0;
+  }
+  .moon-page-dossier .moon-dossier-top > .moon-dossier-fields {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 170px;
+  }
+  .moon-page-dossier .moon-identity-pairs,
+  .moon-page-dossier .moon-identity-inner,
+  .moon-about-info { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .moon-page-dossier .moon-primary-stats { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .moon-attributes { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .moon-resources { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .moon-combat-fields { grid-template-columns: repeat(7,minmax(0,1fr)); }
+  .moon-two-columns, .moon-resistance-layout, .moon-about-duo, .moon-notes {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .moon-about-duo .moon-long-field + .moon-long-field {
+    border-left: 1px solid var(--moon-line);
+    border-top: 0;
+  }
+  .moon-inventory .moon-long-field { min-height: 386px; }
+  .moon-weapon-track > .moon-weapon-card { flex: 0 0 auto; }
+  .moon-damage-calculator-controls { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
