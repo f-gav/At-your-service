@@ -33,9 +33,9 @@ assert.match(resourceMarkup({name:'A" onclick="evil()'}),/data-name="A&quot; onc
 assert.doesNotMatch(resourceMarkup({current:4,max:null}),/data-pf-resource-action="restore"/);
 assert.doesNotMatch(resourceMarkup({current:4,max:null}),/\/ ∞/);
 
-const codec=read('../src/features/pathfinder/rich-codec.ts');
-const editor=read('../src/features/pathfinder/RichField.tsx');
-const dialog=read('../src/features/pathfinder/ResourceDialog.tsx');
+const codec=read('../src/features/rich-editor/rich-codec.ts');
+const editor=read('../src/features/rich-editor/RichField.tsx');
+const dialog=read('../src/features/rich-editor/ResourceDialog.tsx');
 const css=read('../src/features/pathfinder/ResourceDialog.css');
 const richCss=read('../src/features/pathfinder/RichField.css');
 assert.match(codec,/el\.dataset\.pfResourceWidget==='1'/);
