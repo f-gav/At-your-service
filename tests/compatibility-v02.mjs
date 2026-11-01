@@ -113,8 +113,8 @@ const app=read('../src/App.tsx');
 assert.ok(app.includes('saveLegacyPortrait(') && app.includes('savePortrait('));
 assert.ok(app.includes('pf2e_layout:variant'));
 assert.ok(app.includes('setPendingImport(parsed)'));
-// The former spell text tables do not belong in exports that already use the
-// library. Layout must not resurrect removed or unprepared spell positions.
+// Dormant spell text stays in its own compatibility group, never in the
+// active library fields. Layout cannot resurrect removed/unprepared spells.
 const spellSample={...character,details:{notes:'Сюжет',pathfinderSheet:{
   schemaVersion:1,name:'Персонаж',level:'1',pf2e_layout:'alternative',
   cantrip_names:'Старый текст',cantrip_actions:'<br>',
@@ -137,12 +137,17 @@ const portable=exportCharacter(spellSample);
 assert.equal(portable.version,2);
 assert.ok(!('cantrip_names' in portable.character.sheet.fields));
 assert.ok(!('cantrip_actions' in portable.character.sheet.fields));
+assert.equal(portable.character.sheet.spells.legacyText.cantrip_names,'Старый текст');
+assert.equal(portable.character.sheet.spells.legacyText.cantrip_actions,'<br>');
 assert.deepEqual(portable.character.sheet.spells.layout.items.map(x=>x.id),['pf2e-harm','divider:note']);
 assert.deepEqual(portable.character.sheet.spells.classes,['necromancer']);
 const restored=parseCharacterJson(JSON.stringify(portable));
 assert.equal(restored.details.pathfinderSheet.custom_template_field,'Сохранить навсегда');
 assert.equal(restored.details.pathfinderSheet.pf2e_notes_content,'История персонажа');
 assert.equal(restored.details.pathfinderSheet.pf2e_page_order,'1,2,3,4,notes');
+assert.equal(restored.details.pathfinderSheet.cantrip_names,'Старый текст',
+  'Switching out of library mode after JSON import must recover old text');
+assert.equal(restored.details.pathfinderSheet.cantrip_actions,'<br>');
 assert.deepEqual(JSON.parse(restored.details.pathfinderSheet.pf_spell_library_selection),[
  {id:'pf2e-harm',prepared:true},{id:'pf2e-unprepared',prepared:false}]);
 assert.deepEqual(JSON.parse(restored.details.pathfinderSheet.pf_spell_library_layout_v1).items.map(x=>x.id),
@@ -158,4 +163,4 @@ const moonV2=exportCharacter({...character,system:'prmoon',details:moon.details}
 assert.equal(moonV2.version,2);
 assert.equal(moonV2.character.sheet.fields.rank,'4');
 assert.equal(parseCharacterJson(JSON.stringify(moonV2)).details.projectMoonSheet.futureRules.keep,true);
-console.log('PASS: JSON v2 grouped roundtrip, cleaned library tables, current PF fields, v1 import, Project Moon and portraits');
+console.log('PASS: JSON v2 grouped roundtrip, dormant spell tables preserved, current PF fields, v1 import, Project Moon and portraits');

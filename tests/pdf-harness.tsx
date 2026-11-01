@@ -73,12 +73,29 @@ const character:Character={
 };
 const noop=()=>{};
 const saveTest=params.get('save')==='test';
+const reopenFixture=params.get('reopen')==='1';
+const testStorageKey='ays-sheet-roundtrip-fixture-'+system;
+// Persist the exact acknowledged edit only in the browser's test session.
+// This is an offline Supabase substitute, never the production database.
+if(reopenFixture){
+  try{
+    const saved=JSON.parse(window.sessionStorage.getItem(testStorageKey)??'null') as
+      {name?:unknown;details?:unknown}|null;
+    if(saved&&typeof saved.name==='string'&&saved.details&&
+        typeof saved.details==='object'&&!Array.isArray(saved.details)){
+      character.name=saved.name;
+      character.details=saved.details as Character['details'];
+    }
+  }catch{/* Ignore invalid test fixture, not user data. */}
+}
 const saveEvents:Array<{name:string;details:Character['details']}>=[];
 Object.assign(window,{__pfSaveEvents:saveEvents});
 async function saveTestCharacter(_id:string,name:string,details:Character['details']):Promise<boolean>{
   saveEvents.push({name,details});
   await new Promise(resolve=>setTimeout(resolve,350));
-  return params.get('fail')!=='1';
+  if(params.get('fail')==='1')return false;
+  if(reopenFixture)window.sessionStorage.setItem(testStorageKey,JSON.stringify({name,details}));
+  return true;
 }
 createRoot(document.getElementById('root')!).render(
   system==='pf2e'
