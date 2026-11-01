@@ -9,6 +9,7 @@ const graph=new Map();let edges=0;let unresolved=[];
 const parse=/\b(?:import|export)\s+(?:[^'";]*?\s+from\s*)?['"]([^'"]+)['"]|\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 for(const file of files){const source=readFileSync(file,'utf8');const neighbors=[];for(const match of source.matchAll(parse)){
  const spec=match[1]??match[2];if(!spec.startsWith('.'))continue;
+ if(/\.(?:css|json|svg|png|jpe?g|webp)$/.test(spec)){if(!existsSync(resolve(dirname(file),spec)))unresolved.push(relative(root,file)+' -> '+spec);continue;}
  const base=resolve(dirname(file),spec);const candidates=[base,base+'.ts',base+'.tsx',resolve(base,'index.ts'),resolve(base,'index.tsx')];
  const dest=candidates.find(p=>existsSync(p)&&/\.(?:ts|tsx)$/.test(p));if(!dest){unresolved.push(relative(root,file)+' -> '+spec);continue;}
  neighbors.push(dest);edges++;
