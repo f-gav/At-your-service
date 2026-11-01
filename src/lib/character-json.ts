@@ -130,7 +130,9 @@ function unpackPathfinderSheet(source: unknown, characterName: string): Record<s
     if(!isPlainObject(spells.legacyText))
       throw new Error('Некорректные резервные текстовые таблицы заклинаний.');
     for(const [key,value] of Object.entries(spells.legacyText)){
-      if(!LEGACY_SPELL_TABLE.test(key)||typeof value!=='string')
+      if(!LEGACY_SPELL_TABLE.test(key)||
+        !(typeof value==='string'||typeof value==='boolean'||
+          (typeof value==='number'&&Number.isFinite(value))))
         throw new Error('Некорректная резервная таблица заклинаний.');
       if(!(key in result))result[key]=value;
     }
