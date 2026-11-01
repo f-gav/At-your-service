@@ -32,7 +32,9 @@ for(const sheet of [pf,moon]) {
 assert.ok(auto.includes('inFlight.current'),'Network writes must be serialized');
 assert.ok(auto.includes('savedRef.current=payload'),'Only acknowledge exact saved payload');
 assert.ok(auto.includes('setFailedSnapshot(payload)'),'Failure must be visible and not silently retried forever');
-assert.ok(auto.includes('writeLocalDraft(draftKey,payload,currentRef.current)'));
+assert.ok(auto.includes('ownerRef.current'),'Device drafts must identify their editing tab');
+assert.ok(auto.includes('setLocalWarning'),'Device storage failures must be shown rather than silently ignored');
+assert.ok(auto.includes('writeLocalDraft(draftKey,payload,currentRef.current,ownerRef.current)'));
 assert.ok(auto.includes('clearLocalDraft(draftKey,payload)'));
 assert.ok(auto.includes('clearLocalDraft(draftKey,snapshot)'));
 assert.ok(auto.includes("window.addEventListener('beforeunload'"));
@@ -40,11 +42,11 @@ assert.ok(auto.includes("window.addEventListener('online'"));
 assert.ok(auto.includes("document.addEventListener('visibilitychange'"));
 assert.ok(auto.includes("window.addEventListener('pagehide'"),
   'Tab closing or bfcache navigation must preserve unsent edits');
-assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,payload)'),
+assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,payload,ownerRef.current)'),
   'Persist the exact unsent snapshot before starting its network request');
 assert.ok(auto.includes('if(currentRef.current!==savedRef.current)'),
   'Unmount recovery must avoid recording already acknowledged state');
-assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,currentRef.current)'),
+assert.ok(auto.includes('writeLocalDraft(draftKey,savedRef.current,currentRef.current,ownerRef.current)'),
   'In-app route unmount and pagehide must retain the latest local edit');
 assert.ok(auto.includes('if(!ok)'),'Server failure cannot be called a success');
 assert.ok(status.includes('Повторить'));
