@@ -87,6 +87,8 @@ jobs:
         run: node tests/theme-layout-browser.mjs
       - name: "Stage 2: small-screen forms, global errors, long titles and modal keyboard UX"
         run: node tests/stage2-ux-browser.mjs
+      - name: "Stage 2: autosave serialization, offline errors, retry and stale drafts"
+        run: node tests/stage2-save-browser.mjs
       - name: "Release smoke: Project Moon mobile, autosave and export entrypoints"
         run: node tests/release-smoke-browser.mjs
       - name: Configure Pages
