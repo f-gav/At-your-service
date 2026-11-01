@@ -26,8 +26,8 @@ assert.match(schema,/field.toggleShape!==undefined&&field.toggleShape!=='semicir
 assert.match(schema,/withMagicTraditionHalfCircles\(withClassDcNumericBonus/);
 const sheet=read('../src/features/pathfinder/PathfinderSheet.tsx');
 const admin=read('../src/features/pathfinder/TemplateAdmin.tsx');
-const rich=read('../src/features/pathfinder/RichField.tsx');
-const codec=read('../src/features/pathfinder/rich-codec.ts');
+const rich=read('../src/features/rich-editor/RichField.tsx');
+const codec=read('../src/features/rich-editor/rich-codec.ts');
 const css=read('../src/features/pathfinder/DynamicAdvancement.css');
 const global=read('../src/styles.css');
 assert.match(sheet,/sanitizeSignedNumericInput\(event\.target\.value\)/);
