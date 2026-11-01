@@ -7,6 +7,7 @@ import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
+import DeviceDraftNotice from '../../lib/DeviceDraftNotice';
 import type { Character, CharacterDetails } from '../../lib/models';
 import { normalizedName } from '../../lib/models';
 import {setPageVisible,visiblePageIds} from '../../lib/page-visibility';
@@ -357,6 +358,8 @@ export default function ProjectMoonSheet({ character, onSave, onClose, portraitU
   </div>;
 
   return <main className="page moon-editor" ref={pdfRoot} style={moonLayoutVariables(layoutOverride ?? DEFAULT_MOON_LAYOUT) as CSSProperties}>
+    {!previewMode&&<DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>}
+    {!previewMode&&auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
     <div className="pf-toolbar moon-toolbar">
       <button type="button" className="text-button" disabled={editLocked} onClick={() => void back()}>
         <ArrowLeft size={17} /> К персонажам

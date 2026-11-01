@@ -4,6 +4,7 @@ import {currentSiteRoute,siteRoutePath,initializeSiteRoute} from './lib/routes';
 import {useAutoSave} from './lib/use-auto-save';
 import {saveCharacterIfCurrent} from './lib/character-save';
 import {characterDraftKey,recoverLocalDraft} from './lib/local-drafts';
+import DeviceDraftNotice from './lib/DeviceDraftNotice';
 import {usePwaInstall} from './lib/use-pwa-install';
 import {readSiteTheme,saveSiteTheme,applySiteTheme,SITE_THEME_KEY} from './lib/site-theme';
 import type {SiteTheme} from './lib/site-theme';
@@ -190,6 +191,8 @@ function CharacterEditor({
           <AutoSaveStatus phase={auto.phase} error={error} savedAt={auto.savedAt} onRetry={auto.retry}/>
         </div>
       </div>
+      <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
+      {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
       <div className="sheet-heading">
         <div className="eyebrow"><span className="small-dot" /> {system.title.toUpperCase()} · {system.edition.toUpperCase()}</div>
         <h1>Лист персонажа<span className="punctuation">.</span></h1>
@@ -261,6 +264,8 @@ export default function App() {
   // may not rerender before useAutoSave immediately flushes the next edit.
   const lastSavedRows=useRef(new Map<string,Character>());
   const [loadingCharacters, setLoadingCharacters] = useState(false);
+  const [characterLoadError,setCharacterLoadError]=useState('');
+  const [characterReload,setCharacterReload]=useState(0);
   const [activeId, setActiveId] = useState<string | null>(null);
   // Opening or closing a character must not inherit the dashboard's scroll
   // position. On mobile that could land the Project Moon sheet on Notes.
@@ -424,6 +429,7 @@ export default function App() {
   useEffect(() => {
     const userId = user?.id;
     lastSavedRows.current.clear();
+    setCharacterLoadError('');
     if (!supabase || !userId) {
       setCharacters([]);
       setActiveId(null);
@@ -443,8 +449,9 @@ export default function App() {
       .then(({ data, error: loadError }) => {
         if (cancelled) return;
         setLoadingCharacters(false);
-        if (loadError) setError(messageFromError(loadError));
-        else {
+        if (loadError) {setCharacterLoadError(messageFromError(loadError));return;}
+        setCharacterLoadError('');
+        {
           const owned=(data ?? []).map(row => ({ ...row, details: normalizeDetails(row.details) })) as Character[];
           lastSavedRows.current=new Map(owned.map(character=>[character.id,character]));
           setCharacters(owned);
@@ -454,9 +461,13 @@ export default function App() {
             else {setActiveId(null);setError('Персонаж не найден в твоём аккаунте или доступ к нему отсутствует.');}
           }
         }
+      }).then(undefined,(cause:unknown)=>{
+        if(cancelled)return;
+        setLoadingCharacters(false);
+        setCharacterLoadError(messageFromError(cause));
       });
     return () => { cancelled = true; };
-  }, [user?.id]);
+  }, [user?.id,characterReload]);
 
   async function signIn() {
     if (!supabase) {
@@ -884,6 +895,14 @@ export default function App() {
             <div className="character-grid">
               {loadingCharacters ? (
                 <div className="library-state" role="status">Загружаем персонажей…</div>
+              ) : characterLoadError ? (
+                <div className="library-state library-load-error" role="alert">
+                  <strong>Не удалось загрузить персонажей</strong>
+                  <span>{characterLoadError}</span>
+                  <button type="button" onClick={()=>setCharacterReload(n=>n+1)} disabled={busy}>
+                    Повторить загрузку
+                  </button>
+                </div>
               ) : filteredCharacters.map(character => (
                 <article className={`character-card character-${character.system}${movingId === character.id ? ' is-moving' : movingId ? ' is-move-target' : ''}`} key={character.id} aria-label={`Персонаж ${character.name}`}>
                   <button type="button" className="character-open" disabled={busy && !!movingId} onClick={() => {
@@ -936,8 +955,8 @@ export default function App() {
                   </div>}
                 </article>
               ))}
-              <button type="button" className="add-character" onClick={openCreate} disabled={loadingCharacters || !!movingId || busy} aria-label="Создать персонажа"><Plus size={33} strokeWidth={2.2} /></button>
-              {!loadingCharacters && filteredCharacters.length === 0 && filter !== 'all' && <div className="library-state">В этой системе пока нет персонажей. <button type="button" onClick={() => setFilter('all')}>Показать всех</button></div>}
+              <button type="button" className="add-character" onClick={openCreate} disabled={loadingCharacters || !!characterLoadError || !!movingId || busy} aria-label="Создать персонажа"><Plus size={33} strokeWidth={2.2} /></button>
+              {!loadingCharacters && !characterLoadError && filteredCharacters.length === 0 && filter !== 'all' && <div className="library-state">В этой системе пока нет персонажей. <button type="button" onClick={() => setFilter('all')}>Показать всех</button></div>}
             </div>
             {!user && authReady && <p className="library-help">Войди через Google, чтобы создавать персонажей и хранить их в своём аккаунте.</p>}
           </section>

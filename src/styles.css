@@ -631,3 +631,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .duplicate-actions{flex-wrap:wrap}
   .duplicate-actions .button{min-width:0}
 }
+
+/* Loading failures are not the same as a legitimately empty character list. */
+.library-load-error{
+  display:flex;flex-direction:column;align-items:flex-start;gap:9px;
+  min-width:0;max-width:100%;overflow-wrap:anywhere;
+}
+.library-load-error strong{font-weight:700}
+.library-load-error button{
+  border:1px solid currentColor;background:transparent;color:inherit;
+  padding:9px 13px;min-height:40px;border-radius:7px;cursor:pointer;
+  font:inherit;font-weight:650;
+}
+.library-load-error button:focus-visible{outline:2px solid currentColor;outline-offset:2px}
