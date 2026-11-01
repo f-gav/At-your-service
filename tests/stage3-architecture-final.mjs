@@ -9,10 +9,11 @@ const graph=new Map();let edges=0;let unresolved=[];
 const parse=/\b(?:import|export)\s+(?:[^'";]*?\s+from\s*)?['"]([^'"]+)['"]|\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
 for(const file of files){const source=readFileSync(file,'utf8');const neighbors=[];for(const match of source.matchAll(parse)){
  const spec=match[1]??match[2];if(!spec.startsWith('.'))continue;
+ const statement=match[0];const typeOnly=/^(?:import|export)\s+type\b/.test(statement);
  if(/\.(?:css|json|svg|png|jpe?g|webp)$/.test(spec)){if(!existsSync(resolve(dirname(file),spec)))unresolved.push(relative(root,file)+' -> '+spec);continue;}
  const base=resolve(dirname(file),spec);const candidates=[base,base+'.ts',base+'.tsx',resolve(base,'index.ts'),resolve(base,'index.tsx')];
  const dest=candidates.find(p=>existsSync(p)&&/\.(?:ts|tsx)$/.test(p));if(!dest){unresolved.push(relative(root,file)+' -> '+spec);continue;}
- neighbors.push(dest);edges++;
+ if(!typeOnly){neighbors.push(dest);edges++;}
  }graph.set(file,neighbors);
 }
 assert.deepEqual(unresolved,[],'Broken local TypeScript imports');
@@ -21,7 +22,7 @@ function visit(node){if(visiting.has(node)){const start=stack.indexOf(node);cycl
  if(visited.has(node))return;visiting.add(node);stack.push(node);for(const dep of graph.get(node)??[])visit(dep);stack.pop();visiting.delete(node);visited.add(node);
 }
 for(const file of files)visit(file);
-assert.deepEqual(cycles,[],'Circular imports in application source');
+assert.deepEqual(cycles,[],'Circular runtime imports in application source');
 for(const name of ['RichField.tsx','FloatingPageNavigation.tsx']){
  const legacy=readFileSync(resolve(root,'features/pathfinder',name),'utf8');
  assert.match(legacy,/export \{default\} from '\.\.\/rich-editor\//,'Old editor/navigation paths must only re-export');
