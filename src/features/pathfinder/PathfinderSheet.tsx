@@ -3,7 +3,7 @@ import type { CSSProperties, ChangeEvent } from 'react';
 import { ArrowLeft, Settings2, BookOpen, Files, FileDown } from 'lucide-react';
 import AutoSaveStatus from '../../lib/AutoSaveStatus';
 import DiceRollPanel from '../../lib/DiceRollPanel';
-import {exportRenderedSheetPdf} from '../../lib/sheet-pdf';
+import {useSheetPdfExport} from '../../lib/use-sheet-pdf-export';
 import '../../lib/sheet-pdf.css';
 import {useAutoSave} from '../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../lib/local-drafts';
@@ -73,29 +73,7 @@ export default function PathfinderSheet({
   onAutoExportComplete?: () => void;
 }) {
   const draftKey=characterDraftKey(character.user_id,character.id);
-  const pdfRoot=useRef<HTMLElement>(null);
-  const pdfInFlight=useRef(false);
-  const pdfAutoStarted=useRef(false);
-  const [exportingPdf,setExportingPdf]=useState(false);
-  const [pdfError,setPdfError]=useState('');
-  async function exportPdf(){
-    if(pdfInFlight.current||!pdfRoot.current)return;
-    pdfInFlight.current=true;setExportingPdf(true);setPdfError('');
-    try{await exportRenderedSheetPdf(pdfRoot.current,String(values.name??character.name),'pf2e');}
-    catch(cause){setPdfError(cause instanceof Error?cause.message:'Ошибка экспорта PDF.');}
-    finally{
-      pdfInFlight.current=false;setExportingPdf(false);
-      if(autoExport)onAutoExportComplete?.();
-    }
-  }
-  useEffect(()=>{
-    if(!autoExport){pdfAutoStarted.current=false;return;}
-    if(pdfAutoStarted.current)return;
-    pdfAutoStarted.current=true;
-    const timer=window.setTimeout(()=>{void exportPdf();},600);
-    return ()=>window.clearTimeout(timer);
-  },[autoExport]);
-
+  const {pdfRoot,exportPdf,exportingPdf,pdfError}=useSheetPdfExport('pf2e',()=>String(values.name??character.name),autoExport,onAutoExportComplete);
 
   const [serverBaseline]=useState(()=>JSON.stringify(initialSheetValues(character.details,character.name)));
   const [values,setValues]=useState<SheetValues>(()=>{
