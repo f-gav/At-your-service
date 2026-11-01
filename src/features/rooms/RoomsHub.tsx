@@ -1,4 +1,4 @@
-import {roomViewState,canAttachCharacter,distinctRoomUsers} from './room-state';
+import {roomViewState,distinctRoomUsers} from './room-state';
 import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent} from 'react';
