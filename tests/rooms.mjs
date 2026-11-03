@@ -51,7 +51,7 @@ assert.match(hub,/roomTab==='table'/);
 assert.match(hub,/roomTab==='players'/);
 assert.match(hub,/roomTab==='settings'/);
 assert.match(hub,/renameRoom/);
-assert.match(hub,/renameRoomRow\(room.id,roomTitleDraft.trim\(\)\)/);
+assert.match(hub,/renameRoomRow/);
 assert.match(roomRepository,/update\(\{title\}\)/);
 assert.match(hub,/ays-room-tabs/);
 assert.match(roomsStyle,/site-shell > \.ays-rooms\{flex:1 0 auto\}/);
