@@ -1,4 +1,5 @@
 import {roomViewState,distinctRoomUsers} from './room-state';
+import {requireRoomMutationRows} from './room-action-guard';
 import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import type {FormEvent} from 'react';
@@ -134,10 +135,6 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     }
     finally{operationLock.current=false;setBusy(false);}
   }
-  function requireChanged(data:readonly unknown[]|null,error:unknown,message:string){
-    if(error)throw error;
-    if(!data?.length)throw new Error(message);
-  }
   async function createRoom(event:FormEvent){
     event.preventDefault();
     if(!supabase||!userId)return;
@@ -165,14 +162,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     if(!window.confirm(member.user_id===userId?'Вывести своего персонажа из комнаты?':'Исключить персонажа из комнаты?'))return;
     await operate(async()=>{
       const {data,error:failure}=await leaveRoomRow(member.room_id,member.character_id);
-      requireChanged(data,failure,'Персонаж уже покинул комнату или нет разрешения на исключение.');
+      requireRoomMutationRows(data,failure,'Персонаж уже покинул комнату или нет разрешения на исключение.');
     });
   }
   async function toggleRolls(member:Member){
     if(!supabase||!userId||member.user_id!==userId)return;
     await operate(async()=>{
       const {data,error:failure}=await updateRoomRollPermissions(member.room_id,member.character_id,userId,!member.casts_enabled);
-      requireChanged(data,failure,'Разрешение на броски уже изменилось в другой вкладке.');
+      requireRoomMutationRows(data,failure,'Разрешение на броски уже изменилось в другой вкладке.');
     });
   }
   async function renameRoom(event:FormEvent){
@@ -180,7 +177,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     if(!supabase||!room||!isOwner||!roomTitleDraft.trim())return;
     await operate(async()=>{
       const {data,error:failure}=await renameRoomRow(room.id,roomTitleDraft.trim(),room.title,userId!);
-      requireChanged(data,failure,'Название комнаты изменилось в другой вкладке или у вас больше нет прав.');
+      requireRoomMutationRows(data,failure,'Название комнаты изменилось в другой вкладке или у вас больше нет прав.');
     });
   }
   async function closeRoom(){
@@ -188,14 +185,14 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     const next=!room.closed;
     await operate(async()=>{
       const {data,error:failure}=await setRoomClosed(room.id,next,userId!);
-      requireChanged(data,failure,'Доступ в комнату уже изменился в другой вкладке или у вас больше нет прав.');
+      requireRoomMutationRows(data,failure,'Доступ в комнату уже изменился в другой вкладке или у вас больше нет прав.');
     });
   }
   async function deleteRoom(){
     if(!supabase||!room||!isOwner||!window.confirm('Удалить комнату и историю бросков? Листы персонажей останутся без изменений.'))return;
     await operate(async()=>{
       const {data,error:failure}=await deleteRoomRow(room.id,userId!);
-      requireChanged(data,failure,'Комната уже удалена или у вас больше нет прав.');
+      requireRoomMutationRows(data,failure,'Комната уже удалена или у вас больше нет прав.');
       setSelected(null);setMembers([]);setRolls([]);
     });
   }
