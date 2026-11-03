@@ -105,7 +105,13 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     setRolls((events.data??[]) as Roll[]);
   },[userId]);
   useEffect(()=>{
-    if(!userId)return;
+    if(!userId){
+      // Clear private room data before the next account can view this component.
+      ++overviewRequest.current;++roomRequest.current;activeRoom.current=null;
+      setRooms([]);setMine([]);setRoomCounts({});setMembers([]);setRolls([]);
+      setSelected(null);setError('');setLoading(false);
+      return;
+    }
     let active=true;
     setLoading(true);
     void loadOverview().catch(cause=>{if(active)setError(friendlyError(cause));})
@@ -150,6 +156,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
       const {data,error:failure}=await createRoomRow(userId,createTitle.trim(),createSystem);
       if(failure||!data)throw failure??new Error('Не удалось создать комнату');
       activeRoom.current=data.id;
+      setMembers([]);setRolls([]);
       setSelected(data.id);setRoomTab('table');setCreateTitle('');setDialog(null);
     });
   }
@@ -164,6 +171,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
       const {data,error:failure}=await joinRoomByCode(inviteCode,inviteCharacter);
       if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
       activeRoom.current=data as string;
+      setMembers([]);setRolls([]);
       setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');setDialog(null);
     });
   }

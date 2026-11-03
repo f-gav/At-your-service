@@ -63,6 +63,8 @@ jobs:
         run: node --experimental-strip-types tests/stage4-rooms-master-actions.mjs
       - name: Rooms V2 player multi-room and resource contract
         run: node tests/stage4-rooms-player-contract.mjs
+      - name: Rooms V2 final session isolation and SQL contract
+        run: node tests/stage4-rooms-final-acceptance.mjs
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
@@ -85,6 +87,8 @@ jobs:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+      - name: Verify Rooms release JSON and HTML match commit
+        run: node tests/stage4-rooms-release-artifact.mjs
       - name: Verify downloadable PDFs in Chromium
         run: |
           npx playwright install chromium
@@ -164,6 +168,8 @@ jobs:
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/room-rpc-local-assertions.sql
       - name: Verify concurrent requests cannot bypass SQL quota
         run: node tests/room-rpc-concurrency.mjs
+      - name: Verify real two-user RLS permissions in isolated PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/rooms-v2-rls-final.sql
 
   recovery-windows-smoke:
     name: Windows 11-compatible recovery safety smoke
