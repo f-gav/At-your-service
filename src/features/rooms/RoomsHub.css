@@ -468,3 +468,22 @@
 @media(max-width:520px){
   .ays-room-dialog-actions button{flex:1 1 110px}
 }
+
+
+/* Rooms V2 / stage 4: preserve the table's visual hierarchy on tablets and
+   keep multi-character cards in columns on reasonably wide mobile screens. */
+.ays-room-table,.ays-room-open,.ays-room-table-characters,.ays-room-member-grid{min-width:0}
+.ays-room-member-name,.ays-room-member-name>span:last-child{min-width:0;overflow-wrap:anywhere}
+.ays-room-member-title{min-width:0;flex-wrap:wrap}
+.ays-room-player-body{flex-wrap:wrap;min-width:0}
+.ays-room-player-body>div{min-width:0;overflow-wrap:anywhere}
+@media(min-width:760px) and (max-width:1050px){
+  .ays-room-table{grid-template-columns:minmax(0,1fr) minmax(250px,32%)}
+  .ays-room-table .ays-room-member-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+}
+@media(min-width:490px) and (max-width:759px){
+  .ays-room-table .ays-room-member-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:489px){
+  .ays-room-table .ays-room-member-grid{grid-template-columns:minmax(0,1fr)}
+}

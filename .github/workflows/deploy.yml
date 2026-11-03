@@ -61,6 +61,8 @@ jobs:
         run: node tests/stage4-rooms-realtime.mjs
       - name: Rooms V2 master operations and conflict regression
         run: node --experimental-strip-types tests/stage4-rooms-master-actions.mjs
+      - name: Rooms V2 player multi-room and resource contract
+        run: node tests/stage4-rooms-player-contract.mjs
       - name: Check data models
         run: npm run test:models
       - name: Validate Supabase browser configuration
@@ -111,6 +113,8 @@ jobs:
         run: node tests/stage2-sheet-reopen-browser.mjs
       - name: "Stage 2 bundle 5: verify paper grids and bounded mobile panning in Chromium"
         run: node tests/stage2-mobile-paper-browser.mjs
+      - name: Rooms V2 player and tablet geometry in Chromium
+        run: node tests/stage4-rooms-player-browser.mjs
       - name: "Release smoke: Project Moon mobile, autosave and export entrypoints"
         run: node tests/release-smoke-browser.mjs
       - name: Configure Pages
