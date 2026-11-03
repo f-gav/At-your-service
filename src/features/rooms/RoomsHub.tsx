@@ -73,6 +73,11 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
   const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon');
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
+  const roomMembershipCounts=useMemo(()=>{
+    const counts=new Map<string,number>();
+    for(const member of mine)counts.set(member.character_id,(counts.get(member.character_id)??0)+1);
+    return counts;
+  },[mine]);
   useModalAccessibility(!!dialog,()=>{setDialog(null);setError('');},busy);
   const loadOverview=useCallback(async()=>{
     const request=++overviewRequest.current;
@@ -80,7 +85,10 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     const [roomsResponse,mineResponse,countsResponse]=await roomOverviewRequests(userId);
     if(request!==overviewRequest.current)return;
     if(roomsResponse.error||mineResponse.error)throw roomsResponse.error??mineResponse.error;
-    setRooms((roomsResponse.data??[]) as Room[]);
+    const availableRooms=(roomsResponse.data??[]) as Room[];
+    setRooms(availableRooms);
+    // Clear a selected room that has been removed or is no longer visible through RLS.
+    setSelected(current=>current&&!availableRooms.some(item=>item.id===current)?null:current);
     setMine((mineResponse.data??[]) as Member[]);
     // Count distinct players, not sheets. A user can attach several characters.
     // Counts come only from rows that existing room-member RLS makes readable.
@@ -141,12 +149,13 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     await operate(async()=>{
       const {data,error:failure}=await createRoomRow(userId,createTitle.trim(),createSystem);
       if(failure||!data)throw failure??new Error('Не удалось создать комнату');
+      activeRoom.current=data.id;
       setSelected(data.id);setRoomTab('table');setCreateTitle('');setDialog(null);
     });
   }
   async function joinRoom(event:FormEvent){
     event.preventDefault();
-    if(!supabase||!inviteCharacter)return;
+    if(!supabase||!inviteCharacter||!eligible.some(c=>c.id===inviteCharacter))return;
     // Browser-only burst guard. RPC must also enforce limits on the server.
     if(!takeRoomRequestPermit('join')){
       setError('Слишком много попыток входа. Повтори попытку через несколько секунд.');return;
@@ -154,6 +163,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     await operate(async()=>{
       const {data,error:failure}=await joinRoomByCode(inviteCode,inviteCharacter);
       if(failure||!data)throw failure??new Error('Не удалось подключить персонажа');
+      activeRoom.current=data as string;
       setSelected(data as string);setRoomTab('table');setInviteCode('');setInviteCharacter('');setDialog(null);
     });
   }
@@ -193,6 +203,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     await operate(async()=>{
       const {data,error:failure}=await deleteRoomRow(room.id,userId!);
       requireRoomMutationRows(data,failure,'Комната уже удалена или у вас больше нет прав.');
+      activeRoom.current=null;
       setSelected(null);setMembers([]);setRolls([]);
     });
   }
@@ -212,7 +223,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     {selected&&room?<section className="ays-room-open">
       <header className="ays-room-topline">
         <div className="ays-room-identity">
-          <button type="button" className="ays-room-back" onClick={()=>{setSelected(null);setError('');}}><ArrowLeft size={16}/> Комнаты</button>
+          <button type="button" className="ays-room-back" onClick={()=>{activeRoom.current=null;setSelected(null);setError('');}}><ArrowLeft size={16}/> Комнаты</button>
           <h2>{room.title}</h2>
           <span className={'ays-room-system ays-room-system-'+room.system}>{roomBadgeLabels[room.system]}</span>
         </div>
@@ -324,7 +335,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
           </div>:
           <div className="ays-room-cards">{sortedRooms.map(item=><button type="button"
             className="ays-room-tile" key={item.id}
-            onClick={()=>{setSelected(item.id);setRoomTab('table');setMembers([]);setRolls([]);setError('');}}>
+            onClick={()=>{activeRoom.current=item.id;setSelected(item.id);setRoomTab('table');setMembers([]);setRolls([]);setError('');}}>
             <span className="ays-room-tile-body">
               <strong>{item.title}</strong>
               <span className={'ays-room-system-pill ays-room-system-'+item.system}>{roomBadgeLabels[item.system]}</span>
@@ -362,7 +373,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <label>Персонаж
               <select required value={inviteCharacter} onChange={e=>setInviteCharacter(e.target.value)}>
                 <option value="">Выбрать персонажа</option>
-                {eligible.map(c=><option key={c.id} value={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}{mine.some(m=>m.character_id===c.id)?' · уже в комнате':''}</option>)}
+                {eligible.map(c=><option key={c.id} value={c.id}>{c.name} · {systemLabels[c.system as RoomSystem]}{roomMembershipCounts.get(c.id)?' · комнат: '+roomMembershipCounts.get(c.id):''}</option>)}
               </select>
             </label>
             <div className="ays-room-dialog-actions">
