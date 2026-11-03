@@ -22,13 +22,13 @@ try{
   try{
    await page.setContent(html);
    const measure=await page.evaluate(()=>{
-    const cols=selector=>getComputedStyle(document.querySelector(selector)).gridTemplateColumns.trim().split(/\\s+/).length;
+    const cols=selector=>getComputedStyle(document.querySelector(selector)).gridTemplateColumns.trim().split(/\s+/).length;
     return {pageWidth:document.documentElement.scrollWidth,tableColumns:cols('.ays-room-table'),
       characterColumns:cols('.ays-room-table .ays-room-member-grid')};
    });
    assert.ok(measure.pageWidth<=width+2,`horizontal overflow at ${width}: ${JSON.stringify(measure)}`);
    assert.equal(measure.tableColumns,width>=760?2:1,`table hierarchy at ${width}`);
-   assert.equal(measure.characterColumns,width>=490&&width<760?2:width<490?1:measure.characterColumns);
+   if(width<760)assert.equal(measure.characterColumns,width>=490?2:1,`member grid at ${width}`);
    console.log('PASS Rooms table viewport',width,measure);
   }finally{await page.close();}
  }
