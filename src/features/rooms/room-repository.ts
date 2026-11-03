@@ -21,17 +21,17 @@ export function joinRoomByCode(code:string,characterId:string){
  return supabase!.rpc('join_game_room',{p_code:code.trim().toUpperCase(),p_character:characterId});
 }
 export function leaveRoomRow(roomId:string,characterId:string){
- return supabase!.from('game_room_members').delete().eq('room_id',roomId).eq('character_id',characterId);
+ return supabase!.from('game_room_members').delete().eq('room_id',roomId).eq('character_id',characterId).select('character_id');
 }
 export function updateRoomRollPermissions(roomId:string,characterId:string,userId:string,enabled:boolean){
- return supabase!.from('game_room_members').update({casts_enabled:enabled}).eq('room_id',roomId).eq('character_id',characterId).eq('user_id',userId);
+ return supabase!.from('game_room_members').update({casts_enabled:enabled}).eq('room_id',roomId).eq('character_id',characterId).eq('user_id',userId).eq('casts_enabled',!enabled).select('character_id');
 }
-export function renameRoomRow(roomId:string,title:string){
- return supabase!.from('game_rooms').update({title}).eq('id',roomId);
+export function renameRoomRow(roomId:string,title:string,previousTitle:string,ownerId:string){
+ return supabase!.from('game_rooms').update({title}).eq('id',roomId).eq('owner_id',ownerId).eq('title',previousTitle).select('id');
 }
-export function setRoomClosed(roomId:string,closed:boolean){
- return supabase!.from('game_rooms').update({closed}).eq('id',roomId);
+export function setRoomClosed(roomId:string,closed:boolean,ownerId:string){
+ return supabase!.from('game_rooms').update({closed}).eq('id',roomId).eq('owner_id',ownerId).eq('closed',!closed).select('id');
 }
-export function deleteRoomRow(roomId:string){
- return supabase!.from('game_rooms').delete().eq('id',roomId);
+export function deleteRoomRow(roomId:string,ownerId:string){
+ return supabase!.from('game_rooms').delete().eq('id',roomId).eq('owner_id',ownerId).select('id');
 }

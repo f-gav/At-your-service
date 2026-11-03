@@ -1,4 +1,5 @@
 import {roomViewState,distinctRoomUsers} from './room-state';
+import {requireRoomMutationRows} from './room-action-guard';
 import {roomOverviewRequests,roomDetailRequests,createRoomRow,joinRoomByCode,leaveRoomRow,updateRoomRollPermissions,renameRoomRow,setRoomClosed,deleteRoomRow} from './room-repository';
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import type {FormEvent} from 'react';
@@ -62,6 +63,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const [inviteCharacter,setInviteCharacter]=useState('');
   const [error,setError]=useState('');
   const [busy,setBusy]=useState(false);
+  const operationLock=useRef(false);
   const [loading,setLoading]=useState(false);
   const [roomTab,setRoomTab]=useState<'table'|'players'|'settings'>('table');
   const [roomTitleDraft,setRoomTitleDraft]=useState('');
@@ -123,10 +125,15 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     return()=>{live=false;++roomRequest.current;window.clearInterval(timer);window.removeEventListener('online',reconnect);document.removeEventListener('visibilitychange',visible);void client.removeChannel(channel);};
   },[selected,userId,loadRoom,loadOverview]);
   async function operate(action:()=>Promise<void>){
-    if(busy)return;setBusy(true);setError('');
-    try{await action();await loadOverview();if(selected)await loadRoom(selected);}
-    catch(cause){setError(friendlyError(cause));}
-    finally{setBusy(false);}
+    // A ref closes the same-tick double-click gap before React renders busy=true.
+    if(operationLock.current)return;
+    operationLock.current=true;setBusy(true);setError('');
+    try{await action();await loadOverview();if(activeRoom.current)await loadRoom(activeRoom.current);}
+    catch(cause){setError(friendlyError(cause));
+      // A failed optimistic write may mean another session already changed the row.
+      try{await loadOverview();if(activeRoom.current)await loadRoom(activeRoom.current);}catch{ /* Keep original error. */ }
+    }
+    finally{operationLock.current=false;setBusy(false);}
   }
   async function createRoom(event:FormEvent){
     event.preventDefault();
@@ -154,38 +161,38 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
     if(!supabase)return;
     if(!window.confirm(member.user_id===userId?'Вывести своего персонажа из комнаты?':'Исключить персонажа из комнаты?'))return;
     await operate(async()=>{
-      const {error:failure}=await leaveRoomRow(member.room_id,member.character_id);
-      if(failure)throw failure;
+      const {data,error:failure}=await leaveRoomRow(member.room_id,member.character_id);
+      requireRoomMutationRows(data,failure,'Персонаж уже покинул комнату или нет разрешения на исключение.');
     });
   }
   async function toggleRolls(member:Member){
-    if(!supabase)return;
+    if(!supabase||!userId||member.user_id!==userId)return;
     await operate(async()=>{
-      const {error:failure}=await updateRoomRollPermissions(member.room_id,member.character_id,userId!,!member.casts_enabled);
-      if(failure)throw failure;
+      const {data,error:failure}=await updateRoomRollPermissions(member.room_id,member.character_id,userId,!member.casts_enabled);
+      requireRoomMutationRows(data,failure,'Разрешение на броски уже изменилось в другой вкладке.');
     });
   }
   async function renameRoom(event:FormEvent){
     event.preventDefault();
     if(!supabase||!room||!isOwner||!roomTitleDraft.trim())return;
     await operate(async()=>{
-      const {error:failure}=await renameRoomRow(room.id,roomTitleDraft.trim());
-      if(failure)throw failure;
+      const {data,error:failure}=await renameRoomRow(room.id,roomTitleDraft.trim(),room.title,userId!);
+      requireRoomMutationRows(data,failure,'Название комнаты изменилось в другой вкладке или у вас больше нет прав.');
     });
   }
   async function closeRoom(){
     if(!supabase||!room||!isOwner)return;
     const next=!room.closed;
     await operate(async()=>{
-      const {error:failure}=await setRoomClosed(room.id,next);
-      if(failure)throw failure;
+      const {data,error:failure}=await setRoomClosed(room.id,next,userId!);
+      requireRoomMutationRows(data,failure,'Доступ в комнату уже изменился в другой вкладке или у вас больше нет прав.');
     });
   }
   async function deleteRoom(){
     if(!supabase||!room||!isOwner||!window.confirm('Удалить комнату и историю бросков? Листы персонажей останутся без изменений.'))return;
     await operate(async()=>{
-      const {error:failure}=await deleteRoomRow(room.id);
-      if(failure)throw failure;
+      const {data,error:failure}=await deleteRoomRow(room.id,userId!);
+      requireRoomMutationRows(data,failure,'Комната уже удалена или у вас больше нет прав.');
       setSelected(null);setMembers([]);setRolls([]);
     });
   }
