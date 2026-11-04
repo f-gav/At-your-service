@@ -208,6 +208,73 @@ jobs:
       - name: Verify recovery report is syntactically valid
         run: node --check scripts/recovery-acceptance-report.mjs
 
+  local-supabase-auth-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Start a disconnected local Supabase stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ays-isolated-supabase
+          cd /tmp/ays-isolated-supabase
+          npx --yes supabase@2.122.0 init
+          npx --yes supabase@2.122.0 start -x studio,imgproxy,logflare,vector,edge-runtime,postgres-meta,supavisor
+          npx --yes supabase@2.122.0 status -o env > "$GITHUB_WORKSPACE/.local-supabase-status"
+      - name: Prepare temporary schema and approval-only proposal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path('tests/fixtures/room-rpc-local-schema.sql').read_text()
+          for needle in ('CREATE ROLE anon NOLOGIN;','CREATE ROLE authenticated NOLOGIN;','CREATE SCHEMA auth;'):
+              assert needle in src, needle
+              src=src.replace(needle,'')
+          begin=src.index('CREATE OR REPLACE FUNCTION auth.uid() RETURNS uuid')
+          end=src.index('CREATE SCHEMA ays_rooms_private;',begin)
+          src=src[:begin]+src[end:]
+          Path('/tmp/ays-auth-baseline.sql').write_text(src)
+          PY
+          export PGPASSWORD=postgres
+          export PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres
+          psql -X -v ON_ERROR_STOP=1 -f /tmp/ays-auth-baseline.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/room-rpc-quotas-staging.sql
+          psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-baseline.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/dnd-rooms-v2-approval-required.sql
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          ALTER TABLE public.game_room_members REPLICA IDENTITY FULL;
+          ALTER PUBLICATION supabase_realtime ADD TABLE public.game_room_members;
+          INSERT INTO storage.buckets (id,name,public) VALUES ('ays-disposable-restore','ays-disposable-restore',false);\n          CREATE POLICY ays_test_storage_insert ON storage.objects
+            FOR INSERT TO authenticated WITH CHECK (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          CREATE POLICY ays_test_storage_select ON storage.objects
+            FOR SELECT TO authenticated USING (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          CREATE POLICY ays_test_storage_delete ON storage.objects
+            FOR DELETE TO authenticated USING (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          SQL
+      - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
+        shell: bash
+        run: |\n          node tests/dnd-rooms-v2-auth-e2e.mjs\n          node tests/dnd-rooms-v2-local-recovery.mjs
+      - name: Stop disposable stack and erase local credentials
+        if: always()
+        shell: bash
+        run: |
+          rm -f .local-supabase-status
+          cd /tmp/ays-isolated-supabase
+          npx --yes supabase@2.122.0 stop --no-backup || true
+
   deploy:
     if: github.event_name != 'pull_request'
     environment:
