@@ -4,7 +4,8 @@
 import {rollDiceFormula} from '../../../lib/dice-engine.ts';
 import {proficiencyBonus,derivedAbility} from './rules.ts';
 import {applyDndBonuses} from './bonuses.ts';
-import type {Dnd5eSheet,DndBonus,DndResource,DndSpell,DndClassLevel,DndEffect} from './model.ts';
+import type {Dnd5eSheet,DndBonus,DndResource,DndClassLevel} from './model.ts';
+type DndSpell=Dnd5eSheet['spellcasting']['spells'][number];
 
 type Random=()=>number;
 const MAX_EXPRESSION=280, MAX_EXTRA_ROLLS=200, MAX_TOTAL_DICE=1000;
@@ -53,8 +54,6 @@ export function selectSpells(sheet:Dnd5eSheet,list:SpellList,level?:number):DndS
     list==='book'?spell.inBook===true:spell.granted===true));
 }
 export function changeSpellFlag(sheet:Dnd5eSheet,id:string,list:SpellList,enabled:boolean):Dnd5eSheet{
-  const prop:listFlag='none';
-  void prop;
   return {...sheet,spellcasting:{...sheet.spellcasting,spells:sheet.spellcasting.spells.map(s=>{
     if(s.id!==id)return s;
     if(list==='granted')return {...s,granted:enabled};
@@ -63,7 +62,6 @@ export function changeSpellFlag(sheet:Dnd5eSheet,id:string,list:SpellList,enable
     return {...s,prepared:enabled};
   })}};
 }
-type listFlag='none';
 export type SpellSlotPool='normal'|'pact';
 export function castSpell(sheet:Dnd5eSheet,spellId:string,pool:SpellSlotPool,slotLevel:number):Dnd5eSheet{
   const spell=sheet.spellcasting.spells.find(s=>s.id===spellId);
@@ -201,15 +199,15 @@ export function rollDndFormula(source:string,sheet:Dnd5eSheet,random:Random){
     for(let i=0;i<n;i++){
       let face=takeRandom(random,sides);faces.push(face);rolls++;
       if(match[3].startsWith('ro=')&&face===threshold){face=takeRandom(random,sides);faces.push(face);rolls++;}
+      total+=face;
       if(match[3]==='!'){
         while(face===sides){
           if(++rolls>MAX_EXTRA_ROLLS)throw Error('D&D: слишком много взрывов кости');
-          face=takeRandom(random,sides);faces.push(face);
+          face=takeRandom(random,sides);faces.push(face);total+=face;
         }
       }
-      total+=face;
     }
-    if(match[5])total+=evaluateDndExpression(match[5].replace(/^\+/,'').trim(),sheet)*(match[5].trim().startsWith('-')?-1:1);
+    if(match[5])total+=evaluateDndExpression(match[5].trim(),sheet);
     return {total,faces};
   }
   const vars=formulaVars(sheet);
