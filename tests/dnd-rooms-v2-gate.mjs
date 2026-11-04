@@ -21,8 +21,10 @@ assert.match(hub,/<Resource label="ХП" current=\{snap\.hpCurrent\} max=\{snap\
 assert.match(hub,/Базовая КЗ/);
 assert.match(hub,/snap\.rulesEdition/);
 assert.match(css,/ays-room-system-dnd5e/);
-assert.doesNotMatch(workflow,/VITE_DND_ROOMS_V2:\s*['"]?true/,
-  'Production workflow must not enable D&D rooms before approved migration');
+assert.match(workflow,/VITE_DND_ROOMS_V2:\s*['"]true['"]/,
+  'Published Vite build must deliberately enable D&D Rooms after applied migration');
+assert.ok(read('supabase/migrations/20261104191201_enable_dnd5e_rooms_v2_guarded.sql').includes("CHECK (system IN ('pf2e','prmoon','dnd5e'))"),
+  'Applied D&D migration must be recorded in repository');
 assert.doesNotMatch(sql,/ALTER TABLE public\.characters/i);
 assert.doesNotMatch(sql,/DROP POLICY|CREATE POLICY/i,'Existing RLS must remain unchanged');
 assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION public\.join_game_room/,
@@ -41,4 +43,4 @@ for(const fixture of [
 assert.match(workflow,/Apply proposed D&D Rooms SQL ONLY to ephemeral CI PostgreSQL/);
 assert.ok(!read('supabase/migrations/20261027_multi_room_characters.sql').includes("'dnd5e'"),
   'User production migration must not be silently changed');
-console.log('PASS: D&D Rooms V2 default-off client, review-only schema proposal, source-limited snapshots and isolated RLS gate');
+console.log('PASS: D&D Rooms V2 approved release flag, applied migration ledger source, whitelisted snapshots and isolated RLS gate');
