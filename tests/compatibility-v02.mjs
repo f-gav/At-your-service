@@ -19,6 +19,7 @@ async function loadForTest(entry){
 }
 const {exportCharacter,parseCharacterJson}=await loadForTest('src/lib/character-json.ts');
 const {parsePortraitTransfer}=await loadForTest('src/features/portrait/portrait-json.ts');
+import {newDndSheet} from '../src/features/dnd5e/domain/model.ts';
 import {initialSheetValues,persistSheetValues} from '../src/features/pathfinder/sheet-values.ts';
 import {readMoonSheet,saveMoonSheet} from '../src/features/project-moon/model.ts';
 import {validCrops} from '../src/features/portrait/crop.ts';
@@ -163,4 +164,24 @@ const moonV2=exportCharacter({...character,system:'prmoon',details:moon.details}
 assert.equal(moonV2.version,2);
 assert.equal(moonV2.character.sheet.fields.rank,'4');
 assert.equal(parseCharacterJson(JSON.stringify(moonV2)).details.projectMoonSheet.futureRules.keep,true);
-console.log('PASS: JSON v2 grouped roundtrip, dormant spell tables preserved, current PF fields, v1 import, Project Moon and portraits');
+const dndSheet=newDndSheet('Бореал','2014');
+dndSheet.abilities.str.score=17;
+dndSheet.content.blocks.note1='ays:rich:v1:<div>Заметки героя</div>';
+dndSheet.spellcasting.slots.normal['1']={maximum:3,used:1};
+const dndPortable=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{notes:'Общая история',dnd5eSheet:dndSheet}});
+assert.equal(dndPortable.system,'DnD');
+assert.equal(dndPortable.version,2);
+assert.ok(!('dnd5eSheet' in dndPortable.character.details),
+  'D&D sheet must only appear in the grouped v2 payload');
+assert.equal(dndPortable.character.sheet.abilities.str.score,17);
+const dndImported=parseCharacterJson(JSON.stringify(dndPortable));
+assert.equal(dndImported.system,'dnd5e');
+assert.equal(dndImported.name,'Бореал');
+assert.equal(dndImported.details.dnd5eSheet.abilities.str.score,17);
+assert.equal(dndImported.details.dnd5eSheet.content.blocks.note1,'ays:rich:v1:<div>Заметки героя</div>');
+assert.equal(dndImported.details.dnd5eSheet.spellcasting.slots.normal['1'].used,1);
+assert.equal(dndImported.details.notes,'Общая история');
+assert.throws(()=>parseCharacterJson(JSON.stringify({...dndPortable,
+ character:{...dndPortable.character,sheet:{...dndPortable.character.sheet,rulesEdition:'2030'}}})),/D&D/);
+console.log('PASS: JSON v2 grouped roundtrip, D&D Classic 2014, dormant PF spell tables, Project Moon and portraits');
