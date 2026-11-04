@@ -75,10 +75,12 @@ export default function DndMechanicsPanel({sheet,edit}:Props){
               Обычная
             </button>
             <button type="button" disabled={spell.level===0}
-              onClick={()=>fail(()=>edit(d=>Object.assign(d,castSpell(d,spell.id,'pact',
-                Number(Object.keys(d.spellcasting.slots.pact).find(level=>
-                  Number(level)>=spell.level&&
-                  d.spellcasting.slots.pact[level].used<d.spellcasting.slots.pact[level].maximum)||spell.level))))}>
+              onClick={()=>fail(()=>edit(d=>{
+                const level=Object.keys(d.spellcasting.slots.pact).find(key=>
+                  Number(key)>=spell.level&&
+                  d.spellcasting.slots.pact[key].used<d.spellcasting.slots.pact[key].maximum);
+                Object.assign(d,castSpell(d,spell.id,'pact',Number(level??spell.level)));
+              }))}>
               Договорная
             </button>
           </div></td>
