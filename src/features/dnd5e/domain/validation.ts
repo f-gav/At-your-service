@@ -79,7 +79,7 @@ export function validateDndSheet(input:unknown):Dnd5eSheet{
   }
   if(input.features!==undefined){
     uniqueRows(input.features,'features',200);
-    for(const item of input.features){
+    for(const item of input.features as Record<string,unknown>[] ){
       requireObject(item,'feature');
       if(typeof item.name!=='string'||typeof item.source!=='string'||
         typeof item.description!=='string')throw Error('D&D: неверная способность');
