@@ -1,0 +1,94 @@
+/* D&D 2014 paper: independent original layout aligned to the Stage 2 A4 wireframes.
+   Deliberately no LSS bitmap, copied CSS, translated text, or third-party art. */
+.dnd14-editor{padding:12px 0 50px;max-width:100%}
+.dnd14-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 auto 12px;max-width:960px;padding:0 10px}
+.dnd14-toolbar-left,.dnd14-toolbar-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-width:0}
+.dnd14-toolbar button{font:inherit}
+.dnd14-toolbar-action{border:1px solid #bac8c6;border-radius:7px;background:#fff;color:#233a3c;padding:8px 11px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.dnd14-toolbar-action:focus-visible,.dnd14-page-nav button:focus-visible{outline:2px solid #39889a;outline-offset:2px}
+.dnd14-toolbar-action:hover{background:#e7f2f0}
+.dnd14-heading{max-width:960px;margin:0 auto 12px;padding:0 10px;display:flex;align-items:baseline;gap:15px;flex-wrap:wrap}
+.dnd14-heading h1{font:600 18px/1.3 'Roboto Condensed','Segoe UI',sans-serif;margin:0}
+.dnd14-heading span{font-size:12px;color:#65777b}
+.dnd14-page-nav{display:flex;flex-wrap:wrap;gap:6px;max-width:960px;margin:0 auto 12px;padding:0 10px}
+.dnd14-page-nav button{border:1px solid #ccd4d2;color:#526663;background:#fff;border-radius:6px;padding:7px 10px;font:600 12px/1.2 'Segoe UI',sans-serif}
+.dnd14-page-nav button[aria-current="page"]{background:#2d4b4d;color:#fff;border-color:#2d4b4d}
+.dnd14-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;scrollbar-gutter:stable;padding:4px 0 20px}
+.dnd14-paper-stack{display:flex;flex-direction:column;gap:18px;width:210mm;margin:0 auto}
+.dnd14-paper{position:relative;box-sizing:border-box;flex:none;width:210mm;height:297mm;min-width:210mm;min-height:297mm;overflow:hidden;background:#fff;color:#223139;border:1px solid #d7e0db;box-shadow:0 3px 10px #10242a17;container-type:inline-size;scroll-margin-top:95px;font:12px/1.25 'Segoe UI',Arial,sans-serif}
+.dnd14-page-stamp{position:absolute;top:1.15%;left:5.72%;font:800 11px/1.2 'Roboto Condensed','Segoe UI',sans-serif;letter-spacing:.11em;color:#355056}
+.dnd14-page-stamp span{color:#8c9e9f;font-weight:500;letter-spacing:.03em}
+.dnd14-page-footer{position:absolute;bottom:1.2%;left:0;width:100%;text-align:center;font:600 9px/1.1 'Roboto Condensed',sans-serif;color:#71888c;letter-spacing:.04em}
+.dnd14-zone{position:absolute;box-sizing:border-box;display:flex;flex-direction:column;min-width:0;min-height:0;border:1px solid #91a8a5;border-radius:4px;background:#fff;overflow:hidden;box-shadow:inset 0 1px 0 #eff4f1}
+.dnd14-zone:focus-within{border-color:#3c8ba1;box-shadow:0 0 0 1px #3c8ba13b}
+.dnd14-zone-title{flex:none;min-height:17px;margin:0;padding:3px 5px 2px;background:#f0f4f2;color:#324d51;text-align:center;letter-spacing:.047em;text-transform:uppercase;font:700 10px/1.2 'Roboto Condensed','Segoe UI',sans-serif}
+.dnd14-zone-body{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto;padding:3px 5px;scrollbar-width:thin}
+.dnd14-field{display:flex;flex-direction:column;min-width:0;gap:2px;font:600 9px/1.05 'Roboto Condensed','Segoe UI',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#637775}
+.dnd14-field>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dnd14-field input,.dnd14-field select{box-sizing:border-box;width:100%;min-width:0;min-height:21px;padding:2px 4px;border:0;border-bottom:1px solid #c2cfcb;background:transparent;border-radius:0;color:#253a3e;outline:0;font:500 12px/1.2 'Segoe UI',Arial,sans-serif}
+.dnd14-field input:focus,.dnd14-field select:focus{background:#eef7f7;border-bottom-color:#3a8193}
+.dnd14-fields-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 8px;min-width:0}
+.dnd14-header-fields{grid-template-columns:2fr 1.35fr 0.55fr;gap:4px 9px}
+.dnd14-identity-zone .dnd14-zone-body{justify-content:center}
+.dnd14-ability{display:grid;grid-template-columns:1fr 36px 38px;align-items:center;gap:3px;min-height:48px;padding:3px;border-bottom:1px solid #dbe4df}
+.dnd14-ability:last-child{border:0}
+.dnd14-ability span{font:700 10px/1.2 'Roboto Condensed',sans-serif;color:#425c60;word-break:break-word}
+.dnd14-ability input{width:35px;min-width:0;border:1px solid #c0d0ce;border-radius:4px;padding:3px 0;text-align:center;font:700 13px 'Segoe UI',sans-serif;background:#f8faf9}
+.dnd14-ability output{padding:4px 1px;text-align:center;font:800 15px/1.1 'Roboto Condensed',sans-serif;color:#263c43}
+.dnd14-ability input::-webkit-outer-spin-button,.dnd14-ability input::-webkit-inner-spin-button{appearance:none;margin:0}
+.dnd14-rank-list{display:flex;flex-direction:column;gap:0}
+.dnd14-rank-caption{font:700 9px/1.4 'Roboto Condensed',sans-serif;background:#ebf0ed;color:#455c5e;padding:2px 3px;position:sticky;top:0;z-index:1}
+.dnd14-rank-row{display:grid;grid-template-columns:27px 28px minmax(0,1fr);align-items:center;gap:2px;min-height:17px;border-bottom:1px dotted #dce5df;font-size:10px}
+.dnd14-rank-row select{width:25px;height:17px;appearance:none;text-align:center;font-size:12px;border:0;background:transparent;cursor:pointer;color:#305c5c}
+.dnd14-rank-result{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.dnd14-rank-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9px}
+.dnd14-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.dnd14-metrics label{display:flex;gap:2px;flex-direction:column;text-align:center;font:700 9px 'Roboto Condensed',sans-serif}
+.dnd14-metrics output{font:800 16px/1 'Roboto Condensed',sans-serif}
+.dnd14-inline-check{font:500 10px 'Segoe UI',sans-serif;display:inline-flex;align-items:center;gap:4px}
+.dnd14-inline-check input{width:12px;height:12px;margin:0}
+.dnd14-vitals{gap:5px}
+.dnd14-vitals .dnd14-field input{font-size:14px;font-weight:700}
+.dnd14-vitals + small{margin-top:5px;font-size:10px}
+.dnd14-death{display:flex;justify-content:space-between;gap:5px;margin-top:4px}
+.dnd14-death>div{display:flex;align-items:center;gap:3px}
+.dnd14-death span{font-size:9px}
+.dnd14-death input{width:12px;height:12px;margin:0}
+.dnd14-attack-list{display:flex;flex-direction:column;gap:5px}
+.dnd14-attack{display:grid;grid-template-columns:minmax(0,1.5fr) 45px minmax(0,1fr) 20px;gap:4px}
+.dnd14-attack input,.dnd14-attack select{box-sizing:border-box;min-width:0;width:100%;font-size:10px;padding:3px;border:1px solid #ccd8d1;border-radius:3px;background:#fff}
+.dnd14-attack button{border:0;background:transparent;color:#9f4f52;cursor:pointer;font-size:14px}
+.dnd14-add{align-self:flex-start;background:#eff5f3;color:#365953;border:1px dashed #7aa29b;border-radius:4px;padding:4px 7px;font-size:10px;cursor:pointer}
+.dnd14-add:hover{background:#d8ebe4}
+.dnd14-coin-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:1px 0 6px}
+.dnd14-coin-list .dnd14-field input{font-size:11px}
+.dnd14-zone-body>.pf-rich-host,.dnd14-rich{flex:1 1 auto;min-height:0;width:100%;max-width:100%;padding:0!important}
+.dnd14-rich .pf-rich-editable{box-sizing:border-box;width:100%;height:100%;min-height:0;overflow:auto;font:11px/1.35 'Segoe UI',Arial,sans-serif;padding:5px!important;color:#25383b}
+.dnd14-rich .pf-rich-editable:empty::before{font-style:italic;font-size:10px}
+.dnd14-portrait-zone .dnd14-zone-body{padding:0}
+.dnd14-portrait-button{width:100%;height:100%;border:0;background:linear-gradient(140deg,#f0f5f2,#d7e4e0);cursor:pointer;position:relative;display:block;padding:0;overflow:hidden}
+.dnd14-portrait-button:hover::after{content:'Изменить портрет';position:absolute;bottom:0;left:0;right:0;background:#243d44d8;color:#fff;padding:7px;text-align:center;font:600 11px 'Segoe UI',sans-serif}
+.dnd14-portrait-empty{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#647b7c;font-size:13px}
+.dnd14-portrait-image,.dnd14-portrait-image img{display:block;width:100%;height:100%;object-fit:cover}
+.dnd14-portrait-button .ays-portrait-loading{height:100%;width:100%}
+.dnd14-bio-head{grid-template-columns:repeat(6,minmax(0,1fr))}
+.dnd14-bio-name{grid-column:span 2;font:700 16px 'Roboto Condensed',sans-serif;overflow:hidden;text-overflow:ellipsis;align-self:center}
+.dnd14-magic-head{display:grid;grid-template-columns:1.8fr 1.3fr 1fr 1fr;gap:8px;align-items:end}
+.dnd14-magic-result{display:flex;flex-direction:column;align-items:center;font:700 10px 'Roboto Condensed',sans-serif}
+.dnd14-magic-result output{font:800 17px 'Roboto Condensed',sans-serif}
+.dnd14-slots{display:flex;gap:9px;flex:none;align-items:center;border-bottom:1px solid #dbe4df;padding:0 0 3px;margin:0 0 3px}
+.dnd14-slots label{display:flex;align-items:center;gap:4px;font:700 10px 'Roboto Condensed',sans-serif}
+.dnd14-slots input{box-sizing:border-box;width:43px;font-size:11px;min-height:20px;border:1px solid #c8d5d0;border-radius:4px;text-align:center;background:#fff}
+.dnd14-slots~.pf-rich-host{flex:1}
+.dnd14-paper input:focus-visible,.dnd14-paper button:focus-visible,.dnd14-paper select:focus-visible{outline:2px solid #438fab;outline-offset:1px}
+@media(max-width:840px){
+  .dnd14-paper-stack{margin-left:6px;margin-right:6px}
+  .dnd14-toolbar,.dnd14-heading,.dnd14-page-nav{padding-left:12px;padding-right:12px}
+}
+@media print{
+  .dnd14-toolbar,.dnd14-heading,.dnd14-page-nav{display:none!important}
+  .dnd14-scroll{overflow:visible!important;padding:0!important}
+  .dnd14-paper-stack{display:block;width:210mm;margin:0}
+  .dnd14-paper{margin:0;box-shadow:none;border:0;break-after:page;page-break-after:always}
+  .dnd14-paper:last-child{break-after:auto}
+}
