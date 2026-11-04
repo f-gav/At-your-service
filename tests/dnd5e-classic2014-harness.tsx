@@ -12,6 +12,11 @@ sheet.combat.hp.current=17;
 sheet.combat.hp.maximumBase=21;
 sheet.abilities.dex.score=14;
 sheet.content.blocks.note2='Сохранённый второй блок';
+if(new URLSearchParams(window.location.search).get('long')==='1'){
+  sheet.content.blocks.note1=('Полное описание, которое обязано сохраниться в PDF. '+ 
+    'Вероятность, история, навыки и заклинания. \n').repeat(210);
+  sheet.content.blocks.spellLevel1='Отдельная строка магии. '.repeat(185);
+}
 const character:Character={
   id:'dnd-browser-test',user_id:'dnd-test-user',system:'dnd5e',name:'Аврора',
   details:{dnd5eSheet:sheet,notes:'Общий дополнительный текст'},
