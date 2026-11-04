@@ -38,7 +38,7 @@ assert.equal(rollDndLssFormula('(ceil([LVL]/2))d6',vars,fixed(0,0,0)).total,3);
 assert.equal(rollDndLssFormula('[[STR]+1]d6',vars,fixed(0,0,0,0)).total,4);
 assert.equal(rollDndLssFormula('if([LVL]>=5,2d6,1d6)',vars,fixed(0,0)).total,2);
 assert.equal(rollDndLssFormula('10d10>=8',{},fixed(...Array(10).fill(.99))).total,10);
-assert.throws(()=>rollDndLssFormula('1001d6',{},fixed(0)),/1000/);
+assert.throws(()=>rollDndLssFormula('1001d6',{},fixed(0)),/слишком много костей|1000/);
 assert.throws(()=>rollDndLssFormula('1d6!',{},fixed(.99)),/100/);
 assert.throws(()=>rollDndLssFormula('1d20+[FAKE]',vars,fixed(0)),/неизвестная переменная/);
 assert.throws(()=>rollDndLssFormula('1d0',{},fixed(0)),/граней/);
