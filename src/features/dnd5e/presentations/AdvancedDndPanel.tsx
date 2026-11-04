@@ -4,12 +4,11 @@
 import {useState} from 'react';
 import RichField from '../../rich-editor/RichField';
 import {DICE_ERROR_EVENT,DICE_ROLL_EVENT} from '../../../lib/dice-engine';
-import type {AbilityId,Dnd5eSheet,DndBonus,DndClassLevel,DndEffect,DndResource} from '../domain/model';
+import type {Dnd5eSheet,DndBonus,DndClassLevel,DndResource} from '../domain/model';
 import {dndFormulaVariables,rollDndLssFormula,evaluateDndNumericFormula} from '../domain/lss-formulas';
-import {activeDndBonuses,applyDndBonuses} from '../domain/bonuses';
+import {activeDndBonuses} from '../domain/bonuses';
 import {advanceDndEffect,applySuggestedSlots,assignDndClasses,castDndSpell,
-  dndConditionModifiers,effectiveCasterLevel,restoreDndRest,suggestDndSpellSlots,updateDndResource} from '../domain/advanced';
-import {derivedAbility,proficiencyBonus} from '../domain/rules';
+  dndConditionModifiers,restoreDndRest,suggestDndSpellSlots,updateDndResource} from '../domain/advanced';
 import type {EditDnd} from './Classic2014Pages';
 import './AdvancedDndPanel.css';
 
@@ -236,6 +235,7 @@ function ClassesTab({sheet,edit}:Props){
 }
 function BonusesTab({sheet,edit}:Props){
   const vars=dndFormulaVariables(sheet);
+  const [rollFormula,setRollFormula]=useState('2d20kh1+[STR]');
   const sources=activeDndBonuses(sheet);
   return <section className="dndadvanced-tab" aria-label="Слои бонусов D&D">
     <header className="dndadvanced-row"><strong>Слои бонусов</strong>
@@ -289,7 +289,14 @@ function BonusesTab({sheet,edit}:Props){
         </div>;
       })}
     </div>
-    <div className="dndadvanced-help">КЗ с учётом слоёв: {applyDndBonuses(10,'ac',sources,vars).value} (пример с базой 10; фактическая КЗ учитывает броню и щит отдельно).</div>
+    <div className="dndadvanced-row">
+      <span>Активных бонусов: {sources.length}</span>
+      <label>Формула броска
+        <input aria-label="D&D формула броска" maxLength={1000} value={rollFormula}
+          onChange={e=>setRollFormula(e.target.value)}/>
+      </label>
+      <button type="button" onClick={()=>emitRoll(()=>rollDndLssFormula(rollFormula,vars))}>Бросить формулу LSS</button>
+    </div>
   </section>;
 }
 function EffectsTab({sheet,edit}:Props){
