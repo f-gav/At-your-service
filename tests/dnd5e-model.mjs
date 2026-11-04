@@ -80,7 +80,7 @@ const envelope={system:'DnD',format:'at-your-service-character',version:2,charac
 const roundtrip=parseDndAysV2(JSON.parse(JSON.stringify(envelope)));
 assert.deepEqual(roundtrip.details,preserved);
 assert.equal(unpackDndSheet(packDndSheet(newer)).layoutEdition,'2014');
-assert.throws(()=>parseDndAysV2({...envelope,version:3}),/версии/);
+assert.throws(()=>parseDndAysV2({...envelope,version:3}),/версия/);
 assert.throws(()=>validateDndSheet({...newer,rulesEdition:'2030'}),/редакция/);
 assert.throws(()=>validateDndSheet({...newer,abilities:{...newer.abilities,str:{score:99}}}),/характеристики/);
 assert.throws(()=>validateDndSheet({...newer,bonuses:[{id:'same'},{id:'same'}]}),/повторный/);
