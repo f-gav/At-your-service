@@ -194,6 +194,9 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
       details.pathfinderSheet = unpackPathfinderSheet(data.character.sheet, name);
     } else if (system === 'dnd5e') {
       const parsedDnd=parseDndAysV2(data);
+      const importedSheet=parsedDnd.details.dnd5eSheet;
+      if (isPlainObject(importedSheet) && importedSheet.layoutEdition !== '2014')
+        throw new Error('Макет D&D 2024 появится в следующем пакете. Данные файла не изменены.');
       delete details.dnd5eSheet;
       Object.assign(details,parsedDnd.details);
     } else {
