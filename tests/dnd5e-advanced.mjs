@@ -72,7 +72,7 @@ const cast=castSpell(prepared,'spell-1','normal',1);
 assert.equal(cast.spellcasting.slots.normal['1'].used,3);
 assert.equal(prepared.spellcasting.slots.normal['1'].used,2);
 assert.equal(castSpell(prepared,'spell-1','pact',2).spellcasting.slots.pact['2'].used,2);
-assert.throws(()=>castSpell(cast,'spell-1','pact',2),/закончились/);
+assert.throws(()=>castSpell(castSpell(prepared,'spell-1','pact',2),'spell-1','pact',2),/закончились/);
 assert.throws(()=>castSpell(prepared,'spell-1','normal',0),/неподходящий/);
 assert.equal(effectiveCasterLevel([
   {id:'a',name:'Wizard',level:5,spellcasting:'full'},
