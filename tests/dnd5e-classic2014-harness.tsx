@@ -4,7 +4,8 @@ import {newDndSheet} from '../src/features/dnd5e/domain/model';
 import type {Character,CharacterDetails} from '../src/lib/models';
 import '../src/styles.css';
 
-const sheet=newDndSheet('Аврора','2014');
+const startEdition=new URLSearchParams(window.location.search).get('edition')==='2024'?'2024':'2014';
+const sheet=newDndSheet('Аврора',startEdition);
 sheet.identity.className='Следопыт';
 sheet.identity.level=3;
 sheet.combat.hp.current=17;
