@@ -628,7 +628,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             onChange={event=>{setDiceError('');setDiceDialog(previous=>previous?{
               ...previous,formula:event.target.value,
             }:null);}}/>
-          <DiceFormulaExamples system={id.startsWith('moon-')?'prmoon':(id.startsWith('dnd14-')||id.startsWith('dnd24-'))?'dnd5e':'pf2e'}/>
+          <DiceFormulaExamples system={id.startsWith('moon-')?'prmoon':(id.startsWith('dnd14-')||id.startsWith('dnd24-')||id.startsWith('dnd-feature-'))?'dnd5e':'pf2e'}/>
           {diceError&&<p className="pf-dice-dialog-error" role="alert">{diceError}</p>}
           <footer>
             {diceDialog.editing&&<button className="pf-dice-dialog-remove" type="button"

@@ -1,0 +1,37 @@
+.dnd-mechanics{max-width:960px;margin:12px auto 18px;padding:14px;background:var(--surface,#fff);color:var(--text,#27383d);border:1px solid #b8c9ca;border-radius:10px;font:13px/1.4 'Segoe UI',sans-serif}
+.dnd-mechanics-head{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.dnd-mechanics-head strong{font-size:15px}.dnd-mechanics-head span{font-size:11px;opacity:.75}
+.dnd-mechanics-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:11px 0;border-bottom:1px solid #d3dedf;padding-bottom:10px}
+.dnd-mechanics-tabs button,.dnd-mechanics-section button{border:1px solid #b5cbcc;border-radius:5px;padding:5px 8px;background:var(--surface,#fff);color:inherit;cursor:pointer}
+.dnd-mechanics-tabs button[aria-selected="true"]{color:#fff;background:#365d69;border-color:#365d69}
+.dnd-mechanics-section{display:flex;flex-direction:column;gap:8px;min-width:0}
+.dnd-mechanics-section input,.dnd-mechanics-section select{box-sizing:border-box;min-width:0;padding:5px;border:1px solid #bbcccf;border-radius:4px;background:var(--surface,#fff);color:inherit;font:inherit}
+.dnd-mechanics-section input[type="checkbox"]{width:16px;height:16px;accent-color:#406b79}
+.dnd-mechanics-summary{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dnd-mechanics-summary strong,.dnd-mechanics-summary span{font-size:12px}
+.dnd-mechanics-table-scroll{max-width:100%;overflow-x:auto;scrollbar-width:thin}
+.dnd-mechanics-table-scroll table{border-collapse:collapse;width:100%;min-width:760px}
+.dnd-mechanics-table-scroll td,.dnd-mechanics-table-scroll th{border-bottom:1px solid #dbe3e4;padding:5px 4px;text-align:left;font-size:11px}
+.dnd-mechanics-table-scroll td:first-child input{width:150px}
+.dnd-mechanics-table-scroll td>select{max-width:110px}
+.dnd-mechanics-cast{display:flex;gap:4px}
+.dnd-mechanics-slot-pools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.dnd-mechanics-slot-pools h4{margin:8px 0;font-size:12px}
+.dnd-mechanics-slot-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.dnd-mechanics-slot-row label{display:flex;align-items:center;gap:2px;font-size:10px}
+.dnd-mechanics-slot-row input{width:39px;max-width:39px;padding:3px;text-align:center}
+.dnd-mechanics-help{font-size:11px;opacity:.85;margin:6px 0}
+.dnd-mechanics-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:5px 0;border-bottom:1px solid #dee7e8}
+.dnd-mechanics-row>input:first-child{flex:1 1 120px}
+.dnd-mechanics-row label{display:inline-flex;align-items:center;gap:4px;font-size:11px}
+.dnd-mechanics-row label input[type="number"]{width:70px}
+.dnd-mechanics-row>input[type="number"]{width:75px}
+.dnd-mechanics-row select{max-width:170px}
+.dnd-mechanics-feature{border:1px solid #d6e3e3;border-radius:6px;padding:8px;display:grid;gap:6px;grid-template-columns:1fr 1fr auto}
+.dnd-mechanics-feature>.pf-rich-host{grid-column:1 / -1;min-height:100px}
+.dnd-mechanics-feature>.pf-rich-host .pf-rich-editable{min-height:90px}
+.dnd-mechanics-formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dnd-mechanics-formula input{flex:1;min-width:180px}
+.dnd-mechanics-error{padding:8px;color:#9e272b;background:#ffebeb;border-radius:6px}
+@media(max-width:700px){.dnd-mechanics{margin:12px 8px;padding:10px}.dnd-mechanics-slot-pools{grid-template-columns:1fr}.dnd-mechanics-feature{grid-template-columns:1fr}.dnd-mechanics-feature>.pf-rich-host{grid-column:1}}
+@media print{.dnd-mechanics{display:none!important}}
