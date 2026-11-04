@@ -292,7 +292,7 @@ jobs:
           auth_code=$?
           node tests/dnd-rooms-v2-local-recovery.mjs
           recovery_code=$?
-          node tests/dnd5e-two-browser-local.mjs
+          node --experimental-strip-types tests/dnd5e-two-browser-local.mjs
           browser_code=$?
           echo "Auth/Realtime E2E exit: $auth_code; Recovery exit: $recovery_code; Two browsers exit: $browser_code"
           test "$auth_code" -eq 0 && test "$recovery_code" -eq 0 && test "$browser_code" -eq 0
