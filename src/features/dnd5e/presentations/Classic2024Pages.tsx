@@ -2,6 +2,7 @@
  * Uses the same sheet data as the 2014 layout, never migrates/rekeys content.
  * Paper geometry is derived from Stage 2's independent 2024 wireframes.
  */
+import {useState} from 'react';
 import type {AbilityId,Dnd5eSheet} from '../domain/model';
 import {ABILITIES} from '../domain/model';
 import {attackCheck,armorClass,derivedAbility,effectiveVitals,exhaustionEffects,initiative,proficiencyBonus,savingThrow,skillCheck} from '../domain/rules';
@@ -64,7 +65,16 @@ function AbilityGroup({sheet,edit,ability}:Pick<P,'sheet'|'edit'>&{ability:Abili
 }
 function MainPage({sheet,name,onName,edit}:Pick<P,'sheet'|'name'|'onName'|'edit'>){
   const hp=effectiveVitals(sheet),effect=exhaustionEffects(sheet);
-  const conditions=sheet.combat.conditions.join(', ');
+  const [conditionEntry,setConditionEntry]=useState('');
+  function addCondition(){
+    const value=conditionEntry.trim();
+    if(!value||value.length>60)return;
+    edit(d=>{
+      if(d.combat.conditions.length<20&&!d.combat.conditions.includes(value))
+        d.combat.conditions.push(value);
+    });
+    setConditionEntry('');
+  }
   return <Paper page={1} title="Основной лист" edition="2024">
     <Zone x={12} y={20} w={186} h={28} title="Персонаж" className="dnd14-identity-zone">
       <Heading sheet={sheet} name={name} onName={onName} edit={edit}/>
@@ -128,9 +138,17 @@ function MainPage({sheet,name,onName,edit}:Pick<P,'sheet'|'name'|'onName'|'edit'
         <NumField label="Базовая скорость" value={Number(sheet.combat.speed.walkBase)||0} max={1000}
           onChange={v=>edit(d=>{d.combat.speed.walkBase=String(v);})}/>
       </div>
-      <TextField label="Состояния (через запятую)" value={conditions} onChange={value=>edit(d=>{
-        d.combat.conditions=[...new Set(value.split(',').map(s=>s.trim()).filter(Boolean))].slice(0,20);
-      })}/>
+      <div className="dnd24-conditions" role="group" aria-label="Состояния персонажа">
+        {sheet.combat.conditions.map(condition=><button key={condition} type="button"
+          title={'Убрать состояние '+condition} aria-label={'Убрать состояние '+condition}
+          onClick={()=>edit(d=>{d.combat.conditions=d.combat.conditions.filter(x=>x!==condition);})}>
+          {condition} ×
+        </button>)}
+        <input aria-label="Новое состояние" maxLength={60} value={conditionEntry}
+          placeholder="Добавить состояние…" onChange={e=>setConditionEntry(e.target.value)}
+          onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();addCondition();}}}/>
+        <button type="button" onClick={addCondition} disabled={!conditionEntry.trim()}>+</button>
+      </div>
     </Zone>
     <Zone x={97} y={137} w={101} h={57} title="Оружие и боевые заговоры">
       <div className="dnd24-attack-list">
