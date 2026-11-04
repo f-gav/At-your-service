@@ -2,9 +2,9 @@
  * Uses the same sheet data as the 2014 layout, never migrates/rekeys content.
  * Paper geometry is derived from Stage 2's independent 2024 wireframes.
  */
-import type {AbilityId, Dnd5eSheet, Proficiency} from '../domain/model';
+import type {AbilityId,Dnd5eSheet} from '../domain/model';
 import {ABILITIES} from '../domain/model';
-import {SKILL_ABILITIES,attackCheck,armorClass,derivedAbility,effectiveVitals,exhaustionEffects,initiative,proficiencyBonus,savingThrow,skillCheck} from '../domain/rules';
+import {attackCheck,armorClass,derivedAbility,effectiveVitals,exhaustionEffects,initiative,proficiencyBonus,savingThrow,skillCheck} from '../domain/rules';
 import type {SkillId} from '../domain/rules';
 import PortraitImage from '../../portrait/PortraitImage';
 import {
