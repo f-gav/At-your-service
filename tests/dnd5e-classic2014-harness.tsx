@@ -1,6 +1,7 @@
 import {createRoot} from 'react-dom/client';
 import Classic2014Sheet from '../src/features/dnd5e/presentations/Classic2014Sheet';
 import {newDndSheet} from '../src/features/dnd5e/domain/model';
+import {createDndPdfStage} from '../src/features/dnd5e/infra/dnd-pdf';
 import type {Character,CharacterDetails} from '../src/lib/models';
 import '../src/styles.css';
 
@@ -24,7 +25,20 @@ const character:Character={
   portrait_source_path:null,portrait_crops:null,
 };
 const harness={saves:[] as {name:string;details:CharacterDetails}[],portraitOpens:0,closed:0,
-  rejectSaves:new URLSearchParams(window.location.search).get('conflict')==='1'};
+  rejectSaves:new URLSearchParams(window.location.search).get('conflict')==='1',
+  auditPdfStage:()=>{
+    const root=document.querySelector<HTMLElement>('main[data-dnd-classic-version]');
+    if(!root)throw Error('D&D paper root not found');
+    const {stage,pages,supplementPages}=createDndPdfStage(root,sheet);
+    try{
+      return {totalPages:pages.length,supplementPages,
+        textPages:Array.from(stage.querySelectorAll<HTMLElement>('.dnd-pdf-supplement')).map(page=>{
+          const body=page.querySelector<HTMLElement>('.dnd-pdf-supplement-body')!;
+          return {clientHeight:body.clientHeight,scrollHeight:body.scrollHeight,
+            text:body.textContent?.length??0};
+        })};
+    }finally{stage.remove();}
+  }};
 (window as unknown as {__AYS_DND_2014_TEST__:typeof harness}).__AYS_DND_2014_TEST__=harness;
 createRoot(document.getElementById('root')!).render(
   <Classic2014Sheet character={character}
