@@ -6,7 +6,7 @@
 import {normalizeDiceFormula,secureDiceRandom,splitDiceLabel} from '../../../lib/dice-engine.ts';
 import type {DiceResult,DieResult,DiceVariables} from '../../../lib/dice-engine.ts';
 import type {Dnd5eSheet} from './model.ts';
-import {derivedAbility,proficiencyBonus} from './rules.ts';
+
 
 type RNG=()=>number;
 const MAX_LENGTH=1000, MAX_DICE=1000, MAX_DEPTH=32, MAX_EXTRA=100;
@@ -22,12 +22,12 @@ function check(a:number,op:Comparator,b:number):boolean {
   }
 }
 export function dndFormulaVariables(sheet:Dnd5eSheet):DiceVariables {
-  const result:DiceVariables={
-    LVL:sheet.identity.level,PROF:proficiencyBonus(sheet.identity.level),
-    HALF_PROF:Math.floor(proficiencyBonus(sheet.identity.level)/2),
-  };
-  for(const a of ['str','dex','con','int','wis','cha'] as const)
-    result[a.toUpperCase()]=derivedAbility(sheet,a).value;
+  const prof=2+Math.floor((sheet.identity.level-1)/4);
+  const result:DiceVariables={LVL:sheet.identity.level,PROF:prof,HALF_PROF:Math.floor(prof/2)};
+  for(const a of ['str','dex','con','int','wis','cha'] as const){
+    const stat=sheet.abilities[a];
+    result[a.toUpperCase()]=stat.manualModifierOverride??Math.floor((stat.score-10)/2);
+  }
   return result;
 }
 class Parser {
