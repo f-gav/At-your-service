@@ -24,28 +24,29 @@ END
 $preflight$;
 
 INSERT INTO public.characters(id,user_id,name,system,details) VALUES
-('a1111111-0000-4000-8000-000000000001','11111111-1111-4111-8111-111111111111','Варвар D&D','dnd5e',
+('a1111111-0000-4000-8000-000000000001','66666666-6666-4666-8666-666666666666','Варвар D&D','dnd5e',
  '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2014","layoutEdition":"2014",
  "combat":{"hp":{"current":18,"maximumBase":24,"temporary":3},"ac":{"baseExpression":"10+[DEX]","shieldEquipped":false,"shieldBonus":2}},
  "abilities":{"dex":{"score":16}},"identity":{"level":4},
  "content":{"blocks":{"note1":"PRIVATE OWNER STORY MUST NOT LEAK"}}}}'),
-('b1111111-0000-4000-8000-000000000002','22222222-2222-4222-8222-222222222222','Бард D&D','dnd5e',
+('b1111111-0000-4000-8000-000000000002','77777777-7777-4777-8777-777777777777','Бард D&D','dnd5e',
  '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2024","layoutEdition":"2024",
  "combat":{"hp":{"current":12,"maximumBase":19,"temporary":7},"ac":{"baseExpression":"10+[DEX]","shieldEquipped":true,"shieldBonus":2}},
  "abilities":{"dex":{"score":16}},"identity":{"level":3},
  "content":{"blocks":{"note1":"PRIVATE BARD STORY MUST NOT LEAK"}}}}'),
-('c1111111-0000-4000-8000-000000000003','33333333-3333-4333-8333-333333333333','Колдун D&D','dnd5e',
+('c1111111-0000-4000-8000-000000000003','88888888-8888-4888-8888-888888888888','Колдун D&D','dnd5e',
  '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2024","layoutEdition":"2014",
  "combat":{"hp":{"current":21,"maximumBase":22,"temporary":0},"ac":{"baseExpression":"13","shieldEquipped":false,"shieldBonus":2}},
  "abilities":{"dex":{"score":12}},"identity":{"level":5},
- "content":{"blocks":{"note1":"PRIVATE WARLOCK BOOK MUST NOT LEAK"}}}}');
+ "content":{"blocks":{"note1":"PRIVATE WARLOCK BOOK MUST NOT LEAK"}}}}'),
+('d1111111-0000-4000-8000-000000000004','99999999-9999-4999-8999-999999999999','Другой PF2e','pf2e','{}');
 
 SET ROLE authenticated;
-SET request.jwt.claim.sub='11111111-1111-4111-8111-111111111111';
+SET request.jwt.claim.sub='66666666-6666-4666-8666-666666666666';
 INSERT INTO public.game_rooms(id,owner_id,system,invite_code)
 VALUES
- ('a1111111-aaaa-4aaa-8aaa-000000000001','11111111-1111-4111-8111-111111111111','dnd5e','D0D0AB12'),
- ('a1111111-aaaa-4aaa-8aaa-000000000002','11111111-1111-4111-8111-111111111111','dnd5e','D0D0CD34');
+ ('a1111111-aaaa-4aaa-8aaa-000000000001','66666666-6666-4666-8666-666666666666','dnd5e','D0D0AB12'),
+ ('a1111111-aaaa-4aaa-8aaa-000000000002','66666666-6666-4666-8666-666666666666','dnd5e','D0D0CD34');
 DO $owner$
 BEGIN
  IF (SELECT count(*) FROM public.game_rooms WHERE system='dnd5e')<>2
@@ -53,7 +54,7 @@ BEGIN
 END
 $owner$;
 
-SET request.jwt.claim.sub='44444444-4444-4444-8444-444444444444';
+SET request.jwt.claim.sub='99999999-9999-4999-8999-999999999999';
 DO $outsider$
 BEGIN
  IF EXISTS(SELECT 1 FROM public.game_rooms WHERE system='dnd5e')
@@ -64,12 +65,12 @@ $outsider$;
 DO $mismatch$
 DECLARE result uuid;
 BEGIN
- result:=public.join_game_room('D0D0AB12','dddddddd-dddd-4ddd-8ddd-dddddddddddd');
+ result:=public.join_game_room('D0D0AB12','d1111111-0000-4000-8000-000000000004');
  IF result IS NOT NULL THEN RAISE EXCEPTION 'Cross-system PF2e joined D&D room'; END IF;
 END
 $mismatch$;
 
-SET request.jwt.claim.sub='22222222-2222-4222-8222-222222222222';
+SET request.jwt.claim.sub='77777777-7777-4777-8777-777777777777';
 DO $member$
 DECLARE result uuid;
 BEGIN
@@ -81,7 +82,7 @@ BEGIN
 END
 $member$;
 
-SET request.jwt.claim.sub='33333333-3333-4333-8333-333333333333';
+SET request.jwt.claim.sub='88888888-8888-4888-8888-888888888888';
 DO $multi$
 DECLARE first_room uuid;second_room uuid;
 BEGIN
@@ -111,7 +112,7 @@ BEGIN
 END
 $inspect$;
 
-SET request.jwt.claim.sub='22222222-2222-4222-8222-222222222222';
+SET request.jwt.claim.sub='77777777-7777-4777-8777-777777777777';
 DO $shield$
 DECLARE snap jsonb;
 BEGIN
@@ -137,7 +138,7 @@ BEGIN
 END
 $refresh$;
 
-SET request.jwt.claim.sub='44444444-4444-4444-8444-444444444444';
+SET request.jwt.claim.sub='99999999-9999-4999-8999-999999999999';
 DO $final$
 BEGIN
  IF EXISTS(SELECT 1 FROM public.game_rooms WHERE system='dnd5e')
