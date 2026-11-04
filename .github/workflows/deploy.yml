@@ -100,8 +100,22 @@ jobs:
         run: node tests/dnd5e-classic2024-browser.mjs
       - name: D&D advanced grimoire and resource autosave in Chromium
         run: node tests/dnd5e-advanced-browser.mjs
+      - name: Ensure Poppler PDF raster inspection tools
+        run: |
+          if ! command -v pdfinfo >/dev/null 2>&1 || ! command -v pdftoppm >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
       - name: Download and validate 2014/2024 long-text A4 PDFs in Chromium
         run: node tests/dnd5e-final-pdf-browser.mjs
+      - name: Upload D&D 2014 and 2024 raster PDF visual audit images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dnd-2014-2024-pdf-visual-audit
+          path: test-artifacts/dnd-*-page-*.png
+          if-no-files-found: ignore
+          retention-days: 7
       - name: D&D two-device conflict, local draft and retry in Chromium
         run: node tests/dnd5e-final-conflict-browser.mjs
       - name: Verify downloadable PDFs in Chromium
@@ -268,6 +282,8 @@ jobs:
           test -n "$realtime_container"
           docker restart "$realtime_container"
           sleep 8
+      - name: Install Chromium for independent local Auth browser sessions
+        run: npx playwright install chromium
       - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
         shell: bash
         run: |
@@ -276,8 +292,10 @@ jobs:
           auth_code=$?
           node tests/dnd-rooms-v2-local-recovery.mjs
           recovery_code=$?
-          echo "Auth/Reatime E2E exit: $auth_code; Recovery exit: $recovery_code"
-          test "$auth_code" -eq 0 && test "$recovery_code" -eq 0
+          node tests/dnd5e-two-browser-local.mjs
+          browser_code=$?
+          echo "Auth/Realtime E2E exit: $auth_code; Recovery exit: $recovery_code; Two browsers exit: $browser_code"
+          test "$auth_code" -eq 0 && test "$recovery_code" -eq 0 && test "$browser_code" -eq 0
       - name: Show local Realtime diagnostics on failure
         if: failure()
         shell: bash
