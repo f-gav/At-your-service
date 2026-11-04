@@ -13,7 +13,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
+  # PR checks must never cancel an active main/Pages deployment.
+  group: github-pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -97,6 +98,10 @@ jobs:
         run: node tests/dnd5e-classic2024-browser.mjs
       - name: D&D advanced grimoire and resource autosave in Chromium
         run: node tests/dnd5e-advanced-browser.mjs
+      - name: Download and validate 2014/2024 long-text A4 PDFs in Chromium
+        run: node tests/dnd5e-final-pdf-browser.mjs
+      - name: D&D two-device conflict, local draft and retry in Chromium
+        run: node tests/dnd5e-final-conflict-browser.mjs
       - name: Verify downloadable PDFs in Chromium
         run: npm run test:pdf-browser
       - name: Check alternative Pathfinder layouts at desktop and mobile resolutions
@@ -177,6 +182,8 @@ jobs:
         run: node tests/room-rpc-concurrency.mjs
       - name: Verify real two-user RLS permissions in isolated PostgreSQL
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/rooms-v2-rls-final.sql
+      - name: Verify isolated two-account D&D RLS, CAS and jsonb limits
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd5e-final-local-rls.sql
 
   recovery-windows-smoke:
     name: Windows 11-compatible recovery safety smoke

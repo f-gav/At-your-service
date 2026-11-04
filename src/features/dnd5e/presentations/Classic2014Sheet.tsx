@@ -1,5 +1,5 @@
-import {useEffect,useMemo,useState} from 'react';
-import {ArrowLeft,Save,BookOpen} from 'lucide-react';
+import {useEffect,useMemo,useRef,useState} from 'react';
+import {ArrowLeft,Save,BookOpen,FileDown} from 'lucide-react';
 import AutoSaveStatus from '../../../lib/AutoSaveStatus';
 import {useAutoSave} from '../../../lib/use-auto-save';
 import {characterDraftKey,recoverLocalDraft} from '../../../lib/local-drafts';
@@ -15,6 +15,9 @@ import {packDndSheet,prepareDndDetails} from '../infra/transfer';
 import Classic2014Pages from './Classic2014Pages';
 import Classic2024Pages from './Classic2024Pages';
 import DndMechanicsPanel from './DndMechanicsPanel';
+import {exportDndSheetPdf} from '../infra/dnd-pdf';
+import {exportOriginalLssJson} from '../infra/lss-import';
+import {exportCharacter} from '../../../lib/character-json';
 import type {EditDnd} from './Classic2014Pages';
 import './Classic2014.css';
 import './Classic2024.css';
@@ -39,6 +42,9 @@ function initialDraft(character:Character):Draft {
 }
 export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,portraitFrame,onEditPortrait}:Props){
   const draftKey=characterDraftKey(character.user_id,character.id);
+  const pdfRoot=useRef<HTMLElement|null>(null);
+  const [pdfBusy,setPdfBusy]=useState(false);
+  const [pdfError,setPdfError]=useState('');
   const [serverBaseline]=useState(()=>JSON.stringify(initialDraft(character)));
   const [draft,setDraft]=useState<Draft>(()=>{
     const initial=JSON.parse(serverBaseline) as Draft;
@@ -80,6 +86,42 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
   async function closeSafely(){
     if(await auto.saveNow())onClose();
   }
+  function offerJsonFile(data:string,name:string){
+    const blob=new Blob([data],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=url;link.download=name.replace(/[^\wА-Яа-яЁё\-. ]/g,'_').slice(0,85)||'dnd-character.json';
+    document.body.append(link);link.click();link.remove();
+    window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function exportCurrentJson(){
+    try{
+      setPdfError('');
+      const normalized=normalizedName(draft.name);
+      if(!normalized)throw Error('Укажите имя героя.');
+      const sheet=validateDndSheet({...draft.sheet,identity:{...draft.sheet.identity,name:normalized}});
+      const payload=exportCharacter({...character,name:normalized,
+        details:{...character.details,dnd5eSheet:sheet}});
+      offerJsonFile(JSON.stringify(payload,null,2),'DnD-'+normalized+'.json');
+    }catch(e){setPdfError(e instanceof Error?e.message:String(e));}
+  }
+  function exportSourceLss(){
+    try{
+      setPdfError('');
+      const original=exportOriginalLssJson(draft.sheet);
+      offerJsonFile(original,'LSS-original-'+(draft.name||'character')+'.json');
+    }catch(e){setPdfError(e instanceof Error?e.message:String(e));}
+  }
+  async function exportPdf(){
+    if(pdfBusy)return;
+    setPdfBusy(true);setPdfError('');
+    try{
+      if(!pdfRoot.current)throw Error('Лист не загружен для экспорта.');
+      await exportDndSheetPdf(pdfRoot.current,draft.sheet,draft.name);
+    }catch(e){
+      setPdfError(e instanceof Error?e.message:'Ошибка формирования PDF.');
+    }finally{setPdfBusy(false);}
+  }
   function go(page:number){
     setActivePage(page);
     document.getElementById('dnd'+(draft.sheet.layoutEdition==='2024'?'24':'14')+'-page-'+page)?.scrollIntoView({
@@ -115,7 +157,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
   }
   const edition=draft.sheet.layoutEdition;
   return <main className={'page page-editor dnd14-editor'+(edition==='2024'?' dnd24-editor':'')}
-    data-dnd-classic-version={edition}>
+    data-dnd-classic-version={edition} ref={pdfRoot}>
     <div className="dnd14-toolbar">
       <div className="dnd14-toolbar-left">
         <button className="dnd14-toolbar-action" type="button" onClick={()=>void closeSafely()}>
@@ -136,6 +178,15 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
       </div>
       <div className="dnd14-toolbar-right">
         <AutoSaveStatus phase={auto.phase} error={auto.error} savedAt={auto.savedAt} onRetry={auto.retry}/>
+        <button className="dnd14-toolbar-action" type="button" onClick={exportCurrentJson}>
+          <FileDown size={15}/> Скачать JSON
+        </button>
+        {draft.sheet.imports.origin==='lss-v2'&&<button className="dnd14-toolbar-action"
+          type="button" title="Исходный LSS-файл до изменений в At your service! — не текущий отредактированный лист"
+          onClick={exportSourceLss}>Исходный LSS JSON</button>}
+        <button className="dnd14-toolbar-action" type="button" onClick={()=>void exportPdf()} disabled={pdfBusy}>
+          <FileDown size={15}/> {pdfBusy?'Формируется PDF…':'Экспорт PDF'}
+        </button>
         <button className="dnd14-toolbar-action" type="button" onClick={()=>void auto.saveNow()} disabled={!auto.dirty||auto.saving}>
           <Save size={15}/> Сохранить
         </button>
@@ -143,6 +194,15 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     </div>
     <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
     {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
+    {pdfError&&<p className="form-error" data-pdf-error="true" role="alert">{pdfError}</p>}
+    {draft.sheet.imports.origin==='lss-v2'&&<aside className="dnd-lss-import-notice" role="note">
+      <strong>Импорт LSS v2: проверенные поля перенесены, часть механик требует сверки.</strong>
+      <span>Исходный файл сохранён отдельно от текущих изменений. Для актуальных правок используйте «Скачать JSON».</span>
+      {Array.isArray(draft.sheet.imports.unmapped.lssWarnings)&&
+        <ul>{draft.sheet.imports.unmapped.lssWarnings
+          .filter((value):value is string=>typeof value==='string').slice(0,8)
+          .map(message=><li key={message}>{message}</li>)}</ul>}
+    </aside>}
     <div className="dnd14-heading">
       <h1>Лист персонажа: {draft.name||'Без имени'}</h1>
       <span>Классический лист D&D {edition} · правила {draft.sheet.rulesEdition} · 4 страницы A4</span>
@@ -159,7 +219,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
         :<Classic2024Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
           portraitUrl={portraitUrl} portraitFrame={portraitFrame} onEditPortrait={onEditPortrait}/>} 
     </div>
-    <p className="dnd14-sheet-note"><BookOpen size={14}/> Расширенный гримуар, дополнительные формулы и PDF появятся в следующих пакетах. Данные листа и заметки уже сохраняются.</p>
+    <p className="dnd14-sheet-note"><BookOpen size={14}/> PDF включает четыре классические страницы и приложения с полным текстом. Дополнительные настройки макета печати появятся позднее.</p>
     <DiceRollPanel system="dnd5e"/>
   </main>;
 }

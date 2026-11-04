@@ -30,8 +30,10 @@ export function transferDndToAysV2(name:string,details:CharacterDetails){
   const clean={...details};
   const sheet=packDndSheet(clean.dnd5eSheet,name);
   delete clean.dnd5eSheet;
-  const verified=prepareDndDetails(clean,sheet);
-  return {details:Object.fromEntries(Object.entries(verified).filter(([key])=>key!=='dnd5eSheet')),sheet};
+  // Local JSON backups must remain available even when a large sheet cannot
+  // fit the live database's 64 KiB jsonb constraint. Never trim user data.
+  // The 48 KB preflight applies at IMPORT/CLOUD SAVE, not at export.
+  return {details:clean,sheet};
 }
 /** Pure parser for later UI enablement. Does not create any character in DB. */
 export function parseDndAysV2(source:unknown):{name:string;details:CharacterDetails}{

@@ -1,5 +1,6 @@
 import type { Character, CharacterDetails, GameSystem } from './models';
 import {transferDndToAysV2,parseDndAysV2,packDndSheet} from '../features/dnd5e/infra/transfer.ts';
+import {parseLssCharacter} from '../features/dnd5e/infra/lss-import.ts';
 import { normalizeDetails, normalizedName } from './models';
 import { portraitToJson, parsePortraitTransfer } from '../features/portrait/portrait-json';
 import type { PortraitTransfer, ParsedPortrait } from '../features/portrait/portrait-json';
@@ -176,6 +177,10 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
   if (source.length > 2*1024*1024) throw new Error('JSON слишком большой (максимум 2 МБ).');
   let data: unknown;
   try { data = JSON.parse(source); } catch { throw new Error('Файл не является корректным JSON.'); }
+  if (isPlainObject(data) && data.jsonType === 'character') {
+    const imported=parseLssCharacter(data);
+    return {system:'dnd5e',name:imported.name,details:imported.details};
+  }
   if (!isPlainObject(data) || data.format !== 'at-your-service-character' ||
       (data.version !== 1 && data.version !== 2) ||
       !Object.hasOwn(systems, String(data.system))) throw new Error('Неизвестный формат или версия листа.');
