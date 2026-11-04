@@ -1,0 +1,74 @@
+/* D&D 2024: independent paper composition. Reuses 2014 sheet primitives only,
+   without sharing its page geometry or duplicating persistent character data. */
+.dnd24-paper .dnd14-zone{border-color:#859fa3;border-radius:3px}
+.dnd24-paper .dnd14-zone-title{background:#e9f0f1;color:#274850}
+.dnd24-paper .dnd14-page-stamp{color:#1e4750}
+.dnd24-paper .dnd14-page-footer{color:#607d80}
+.dnd24-paper .dnd14-zone-body{padding:3px 5px}
+.dnd24-header-grid{display:grid;grid-template-columns:2fr 1.4fr .6fr;gap:3px 8px}
+.dnd24-ability-zone .dnd14-zone-body{padding:2px 3px}
+.dnd24-stat-group{display:flex;flex-direction:column;gap:0;min-height:0}
+.dnd24-stat-score{display:grid;grid-template-columns:1fr 35px 31px;align-items:center;gap:3px;border-bottom:1px solid #dce6e5;padding:2px 1px 4px}
+.dnd24-stat-score span{font:700 10px/1.25 'Roboto Condensed','Segoe UI',sans-serif;color:#375862}
+.dnd24-stat-score input{box-sizing:border-box;min-width:0;width:35px;height:27px;padding:2px;border:1px solid #c5d5d4;border-radius:4px;background:#f6faf9;text-align:center;font:700 14px 'Segoe UI',sans-serif}
+.dnd24-stat-score output{font:800 15px 'Roboto Condensed',sans-serif;text-align:center}
+.dnd24-stat-group .dnd14-rank-row{grid-template-columns:24px 25px minmax(0,1fr);min-height:19px}
+.dnd24-stat-group .dnd14-rank-name{font-size:9px}
+.dnd24-inspiration{display:grid;grid-template-columns:65px 1fr auto;gap:6px;align-items:center}
+.dnd24-inspiration .dnd14-field{flex-direction:row;align-items:center;gap:4px}
+.dnd24-inspiration .dnd14-field input{max-width:35px;font-size:12px;font-weight:700}
+.dnd24-inspiration>label{display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:10px}
+.dnd24-inspiration small{color:#59757b;font-weight:600;font-size:9px}
+.dnd24-combat-summary{display:grid;grid-template-columns:1fr 2.2fr;gap:10px}
+.dnd24-combat-ac{display:flex;flex-direction:column;gap:2px}
+.dnd24-combat-ac strong{display:flex;align-items:center;gap:5px;font:800 10px 'Roboto Condensed',sans-serif}
+.dnd24-combat-ac output{font:800 22px 'Roboto Condensed',sans-serif}
+.dnd24-combat-ac label{display:flex;align-items:center;gap:4px;font-size:9px}
+.dnd24-combat-ac select{max-width:85px;min-width:0;border:1px solid #bfcdce;border-radius:3px;background:#fff;font-size:9px}
+.dnd24-combat-ac input{margin:0;width:11px;height:11px}
+.dnd24-hp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.dnd24-hp-grid input{text-align:center;font-size:14px;font-weight:700}
+.dnd24-combat-bottom{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid #dfe6e7;margin-top:4px;padding-top:3px}
+.dnd24-combat-bottom>.dnd14-field{width:75px;flex:none}
+.dnd24-death{display:flex;align-items:center;gap:2px;font-size:9px}
+.dnd24-death input{width:12px;height:12px;margin:0}
+.dnd24-quick-metrics{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:7px}
+.dnd24-quick-metrics>label:not(.dnd14-field){font:700 9px 'Roboto Condensed',sans-serif;display:flex;align-items:center;gap:4px}
+.dnd24-quick-metrics output{font-size:15px}
+.dnd24-quick-metrics .dnd14-field{display:flex;align-items:center;gap:3px}
+.dnd24-quick-metrics .dnd14-field input{width:40px}
+.dnd24-attack-list{display:flex;flex-direction:column;gap:4px}
+.dnd24-attack-line{display:grid;grid-template-columns:minmax(0,1.5fr) 42px 27px minmax(0,1fr) 15px 18px;gap:3px;align-items:center}
+.dnd24-attack-line input:not([type=checkbox]),.dnd24-attack-line select{box-sizing:border-box;min-width:0;width:100%;padding:3px;border:1px solid #c8d6d5;border-radius:4px;background:#fff;font-size:10px}
+.dnd24-attack-line output{font-weight:700;text-align:center;font-size:11px}
+.dnd24-attack-line input[type=checkbox]{width:14px;height:14px;margin:0}
+.dnd24-attack-line button{background:transparent;border:0;color:#b34242;cursor:pointer}
+.dnd24-casting-header{display:grid;grid-template-columns:1.5fr 1.1fr .75fr .85fr;gap:5px;align-items:end}
+.dnd24-casting-header>label:not(.dnd14-field){display:flex;flex-direction:column;align-items:center;gap:2px;font:600 9px 'Roboto Condensed',sans-serif}
+.dnd24-casting-header output{font:800 18px 'Roboto Condensed',sans-serif}
+.dnd24-slot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px 7px}
+.dnd24-slot{display:grid;grid-template-columns:15px 1fr auto 1fr;gap:4px;align-items:center}
+.dnd24-slot strong{text-align:center;font:800 11px 'Roboto Condensed',sans-serif}
+.dnd24-slot input{box-sizing:border-box;min-width:0;width:100%;height:21px;border:1px solid #cbd9d9;border-radius:3px;background:#fff;text-align:center;font-size:11px}
+.dnd24-spell-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:5px;min-height:100%;height:100%}
+.dnd24-spell-level{display:flex;flex-direction:column;min-height:0;border:1px solid #d4e0df;border-radius:3px;overflow:hidden}
+.dnd24-spell-level-title{display:flex;justify-content:space-between;gap:4px;background:#f2f6f4;padding:2px 5px;font:700 10px 'Roboto Condensed',sans-serif}
+.dnd24-spell-level-title span{font-weight:400;color:#657b7f}
+.dnd24-spell-level .dnd14-rich{flex:1;min-height:0}
+.dnd24-spell-level .pf-rich-editable{font-size:10px;padding:3px!important}
+.dnd24-paper .dnd14-portrait-button{background:linear-gradient(145deg,#eaf2f0,#c5d8d7)}
+.dnd24-coin-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
+.dnd24-coin-grid .dnd14-field span{font-size:8px}
+.dnd24-coin-grid .dnd14-field input{font-size:10px;min-height:17px;padding:1px;text-align:center}
+.dnd24-paper .dnd14-zone[aria-label="Предыстория и качества"] .dnd14-rich{min-height:0;flex:1}
+.dnd24-paper .dnd14-zone[aria-label="Настройка и монеты"] .dnd14-rich .pf-rich-editable{font-size:9px}
+.dnd24-paper .dnd14-zone[aria-label="Истощение и героическое вдохновение"] .dnd14-zone-body{justify-content:center}
+.dnd24-editor .dnd14-toolbar-action[data-active="true"]{background:#264f58;color:#fff;border-color:#264f58}
+.dnd24-layout-switch{display:flex;gap:5px;align-items:center}
+.dnd24-layout-switch button{border:1px solid #b8c8c8;background:#fff;color:#2a5159;border-radius:5px;padding:6px 10px;font:600 12px 'Segoe UI',sans-serif}
+.dnd24-layout-switch button[aria-pressed="true"]{background:#294a53;color:#fff}
+.dnd24-rules-picker{display:flex;align-items:center;gap:5px;font:500 11px 'Segoe UI',sans-serif;color:#426066}
+.dnd24-rules-picker select{background:#fff;color:#18363b;border:1px solid #b0c8ca;border-radius:5px;padding:5px;font-size:12px}
+.dnd24-validation-error{max-width:940px;margin:8px auto;color:#a52e2e;padding:8px 12px}
+@media(max-width:800px){.dnd24-editor .dnd14-toolbar{align-items:flex-start}.dnd24-layout-switch{flex-wrap:wrap}}
+@media print{.dnd24-editor .dnd24-layout-switch,.dnd24-editor .dnd24-rules-picker{display:none!important}}
