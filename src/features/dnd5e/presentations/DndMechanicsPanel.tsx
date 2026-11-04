@@ -1,11 +1,11 @@
 import {useState} from 'react';
-import type {Dnd5eSheet,DndClassLevel,DndResource,DndEffect,DndBonus} from '../domain/model';
+import type {Dnd5eSheet,DndClassLevel,DndResource,DndBonus} from '../domain/model';
 import {ABILITIES} from '../domain/model';
 import type {EditDnd} from './Classic2014Pages';
 import RichField from '../../rich-editor/RichField';
 import {
-  castSpell,changeSpellFlag,selectSpells,resetResources,spendResource,
-  effectiveCasterLevel,multiclassSlots,rollDndFormula,evaluateDndExpression,
+  castSpell,selectSpells,resetResources,spendResource,
+  multiclassSlots,rollDndFormula,evaluateDndExpression,
   tickDndEffects,resourceMaximum
 } from '../domain/advanced';
 import {applyDndBonuses} from '../domain/bonuses';
