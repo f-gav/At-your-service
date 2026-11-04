@@ -159,6 +159,7 @@ export default function App() {
   const [movingId, setMovingId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
   const [newPfVariant,setNewPfVariant]=useState<'classic'|'alternative'>('classic');
+  const [newDndEdition,setNewDndEdition]=useState<'2014'|'2024'>('2014');
   const [pendingImport,setPendingImport]=useState<ReturnType<typeof parseCharacterJson>|null>(null);
   const [importPfVariant,setImportPfVariant]=useState<'classic'|'alternative'>('classic');
   const [filter, setFilter] = useState<Filter>('all');
@@ -399,6 +400,7 @@ export default function App() {
     setShowSystemPicker(false);
     setCreatePanel(system);
     setNewPfVariant('classic');
+    setNewDndEdition('2014');
     setNewName('');
     setError('');
   }
@@ -411,7 +413,7 @@ export default function App() {
     setBusy(true);
     setError('');
     const nextOrder = nextCharacterOrder(characters);
-    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant,name),nextOrder);
+    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant,name,newDndEdition),nextOrder);
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
@@ -838,6 +840,12 @@ export default function App() {
                   {createPanel==='pf2e'&&<div className="pf-variant-choices" role="radiogroup" aria-label="Вид листа Pathfinder">
                     <label><input type="radio" name="new-pf-variant" checked={newPfVariant==='classic'} onChange={()=>setNewPfVariant('classic')}/> Классический PF2e <small>Привычный лист на основе PDF</small></label>
                     <label><input type="radio" name="new-pf-variant" checked={newPfVariant==='alternative'} onChange={()=>setNewPfVariant('alternative')}/> Альтернативный PF2e <small>Новый интерактивный HTML-лист</small></label>
+                  </div>}
+                  {createPanel==='dnd5e'&&<div className="pf-variant-choices" role="radiogroup" aria-label="Редакция D&D при создании">
+                    <label><input type="radio" name="new-dnd-edition" checked={newDndEdition==='2014'}
+                      onChange={()=>setNewDndEdition('2014')}/> D&D 2014 <small>Классические правила и макет</small></label>
+                    <label><input type="radio" name="new-dnd-edition" checked={newDndEdition==='2024'}
+                      onChange={()=>setNewDndEdition('2024')}/> D&D 2024 <small>Обновлённые правила и макет</small></label>
                   </div>}
                   <button disabled={busy || !normalizedName(newName)} type="submit" className="button button-primary"><Plus size={17} /> {busy ? 'Создаю…' : 'Создать лист'}</button>
                 </form>

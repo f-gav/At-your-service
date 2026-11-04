@@ -9,11 +9,14 @@ import {normalizedName} from '../../../lib/models';
 import type {Character,CharacterDetails} from '../../../lib/models';
 import type {CropFrame} from '../../portrait/crop';
 import type {Dnd5eSheet} from '../domain/model';
-import {validateDndSheet} from '../domain/validation';
+import {changeDndLayout,validateDndSheet} from '../domain/validation';
+import type {DndEdition} from '../domain/model';
 import {packDndSheet,prepareDndDetails} from '../infra/transfer';
 import Classic2014Pages from './Classic2014Pages';
+import Classic2024Pages from './Classic2024Pages';
 import type {EditDnd} from './Classic2014Pages';
 import './Classic2014.css';
+import './Classic2024.css';
 
 type Props={
   character:Character;
@@ -24,7 +27,10 @@ type Props={
   onEditPortrait:()=>void;
 };
 type Draft={name:string;sheet:Dnd5eSheet};
-const pages=['Основной лист','Биография','Заметки','Заклинания'] as const;
+const pageTitles={
+  '2014':['Основной лист','Биография','Заметки','Заклинания'],
+  '2024':['Основной лист','История и способности','Заметки','Магия и снаряжение'],
+} as const;
 function initialDraft(character:Character):Draft {
   const sheet=packDndSheet(character.details.dnd5eSheet,character.name);
   // The card name is canonical; never let old nested data rename a character.
@@ -75,7 +81,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
   }
   function go(page:number){
     setActivePage(page);
-    document.getElementById('dnd14-page-'+page)?.scrollIntoView({
+    document.getElementById('dnd'+(draft.sheet.layoutEdition==='2024'?'24':'14')+'-page-'+page)?.scrollIntoView({
       block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',
     });
   }
@@ -84,7 +90,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     const update=()=>{
       frame=0;
       for(let page=4;page>=1;page--){
-        const rect=document.getElementById('dnd14-page-'+page)?.getBoundingClientRect();
+        const rect=document.getElementById('dnd'+(draft.sheet.layoutEdition==='2024'?'24':'14')+'-page-'+page)?.getBoundingClientRect();
         if(rect&&rect.top<=window.innerHeight*.38){setActivePage(page);break;}
         if(page===1)setActivePage(1);
       }
@@ -92,21 +98,40 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     const onScroll=()=>{if(!frame)frame=requestAnimationFrame(update);};
     window.addEventListener('scroll',onScroll,{passive:true});
     return()=>{window.removeEventListener('scroll',onScroll);if(frame)cancelAnimationFrame(frame);};
-  },[]);
-  if(draft.sheet.layoutEdition!=='2014')return <main className="page page-editor dnd14-editor">
-    <button className="dnd14-toolbar-action" type="button" onClick={onClose}><ArrowLeft size={16}/> К персонажам</button>
-    <section className="dnd14-unavailable" role="alert">
-      <h1>Лист D&D 2024 пока недоступен</h1>
-      <p>Этот персонаж использует макет {draft.sheet.layoutEdition}. Данные сохранены без преобразования. Работа с листом 2024 появится в пакете №3.</p>
-    </section>
-  </main>;
-  return <main className="page page-editor dnd14-editor" data-dnd-classic-version="2014">
+  },[draft.sheet.layoutEdition]);
+  function selectLayout(next:DndEdition){
+    if(next===draft.sheet.layoutEdition)return;
+    edit(sheet=>{
+      const changed=changeDndLayout(sheet,next);
+      Object.assign(sheet,changed);
+    });
+    setActivePage(1);
+  }
+  function selectRules(next:DndEdition){
+    if(next===draft.sheet.rulesEdition)return;
+    if(!window.confirm('Изменить игровые правила с '+draft.sheet.rulesEdition+' на '+next+'? Числовые показатели пересчитаются, но все исходные данные сохранятся.'))return;
+    edit(sheet=>{sheet.rulesEdition=next;});
+  }
+  const edition=draft.sheet.layoutEdition;
+  return <main className={'page page-editor dnd14-editor'+(edition==='2024'?' dnd24-editor':'')}
+    data-dnd-classic-version={edition}>
     <div className="dnd14-toolbar">
       <div className="dnd14-toolbar-left">
         <button className="dnd14-toolbar-action" type="button" onClick={()=>void closeSafely()}>
           <ArrowLeft size={16}/> К персонажам
         </button>
-        <span className="dnd14-toolbar-action" aria-label="Редакция D&D">D&D 5e · классический 2014</span>
+        <div className="dnd24-layout-switch" role="group" aria-label="Выбор классического макета D&D">
+          {(['2014','2024'] as const).map(value=><button type="button" key={value}
+            aria-pressed={edition===value} onClick={()=>selectLayout(value)}>
+            Лист {value}
+          </button>)}
+        </div>
+        <label className="dnd24-rules-picker">Правила
+          <select aria-label="Редакция правил D&D" value={draft.sheet.rulesEdition}
+            onChange={event=>selectRules(event.target.value as DndEdition)}>
+            <option value="2014">2014</option><option value="2024">2024</option>
+          </select>
+        </label>
       </div>
       <div className="dnd14-toolbar-right">
         <AutoSaveStatus phase={auto.phase} error={auto.error} savedAt={auto.savedAt} onRetry={auto.retry}/>
@@ -119,15 +144,18 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
     <div className="dnd14-heading">
       <h1>Лист персонажа: {draft.name||'Без имени'}</h1>
-      <span>Классический лист D&D 2014 · правила {draft.sheet.rulesEdition} · 4 страницы A4</span>
+      <span>Классический лист D&D {edition} · правила {draft.sheet.rulesEdition} · 4 страницы A4</span>
     </div>
-    <nav className="dnd14-page-nav" aria-label="Страницы классического листа D&D 2014">
-      {pages.map((title,i)=><button type="button" key={title} aria-current={activePage===i+1?'page':undefined}
+    <nav className="dnd14-page-nav" aria-label={"Страницы классического листа D&D "+edition}>
+      {pageTitles[edition].map((title,i)=><button type="button" key={title} aria-current={activePage===i+1?'page':undefined}
         onClick={()=>go(i+1)}>{i+1}. {title}</button>)}
     </nav>
     <div className="dnd14-scroll" aria-label="Прокрутка бумажного листа по горизонтали">
-      <Classic2014Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
-        portraitUrl={portraitUrl} portraitFrame={portraitFrame} onEditPortrait={onEditPortrait}/>
+      {edition==='2014'
+        ?<Classic2014Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
+          portraitUrl={portraitUrl} portraitFrame={portraitFrame} onEditPortrait={onEditPortrait}/>
+        :<Classic2024Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
+          portraitUrl={portraitUrl} portraitFrame={portraitFrame} onEditPortrait={onEditPortrait}/>} 
     </div>
     <p className="dnd14-sheet-note"><BookOpen size={14}/> Расширенный гримуар, дополнительные формулы и PDF появятся в следующих пакетах. Данные листа и заметки уже сохраняются.</p>
     <DiceRollPanel system="dnd5e"/>
