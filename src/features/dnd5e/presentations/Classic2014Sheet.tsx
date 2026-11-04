@@ -16,6 +16,8 @@ import Classic2014Pages from './Classic2014Pages';
 import Classic2024Pages from './Classic2024Pages';
 import DndMechanicsPanel from './DndMechanicsPanel';
 import {exportDndSheetPdf} from '../infra/dnd-pdf';
+import {exportOriginalLssJson} from '../infra/lss-import';
+import {exportCharacter} from '../../../lib/character-json';
 import type {EditDnd} from './Classic2014Pages';
 import './Classic2014.css';
 import './Classic2024.css';
@@ -84,6 +86,32 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
   async function closeSafely(){
     if(await auto.saveNow())onClose();
   }
+  function offerJsonFile(data:string,name:string){
+    const blob=new Blob([data],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=url;link.download=name.replace(/[^\wА-Яа-яЁё\-. ]/g,'_').slice(0,85)||'dnd-character.json';
+    document.body.append(link);link.click();link.remove();
+    window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function exportCurrentJson(){
+    try{
+      setPdfError('');
+      const normalized=normalizedName(draft.name);
+      if(!normalized)throw Error('Укажите имя героя.');
+      const sheet=validateDndSheet({...draft.sheet,identity:{...draft.sheet.identity,name:normalized}});
+      const payload=exportCharacter({...character,name:normalized,
+        details:{...character.details,dnd5eSheet:sheet}});
+      offerJsonFile(JSON.stringify(payload,null,2),'DnD-'+normalized+'.json');
+    }catch(e){setPdfError(e instanceof Error?e.message:String(e));}
+  }
+  function exportSourceLss(){
+    try{
+      setPdfError('');
+      const original=exportOriginalLssJson(draft.sheet);
+      offerJsonFile(original,'LSS-original-'+(draft.name||'character')+'.json');
+    }catch(e){setPdfError(e instanceof Error?e.message:String(e));}
+  }
   async function exportPdf(){
     if(pdfBusy)return;
     setPdfBusy(true);setPdfError('');
@@ -150,6 +178,12 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
       </div>
       <div className="dnd14-toolbar-right">
         <AutoSaveStatus phase={auto.phase} error={auto.error} savedAt={auto.savedAt} onRetry={auto.retry}/>
+        <button className="dnd14-toolbar-action" type="button" onClick={exportCurrentJson}>
+          <FileDown size={15}/> Скачать JSON
+        </button>
+        {draft.sheet.imports.origin==='lss-v2'&&<button className="dnd14-toolbar-action"
+          type="button" title="Исходный LSS-файл до изменений в At your service! — не текущий отредактированный лист"
+          onClick={exportSourceLss}>Исходный LSS JSON</button>}
         <button className="dnd14-toolbar-action" type="button" onClick={()=>void exportPdf()} disabled={pdfBusy}>
           <FileDown size={15}/> {pdfBusy?'Формируется PDF…':'Экспорт PDF'}
         </button>
