@@ -267,8 +267,13 @@ jobs:
       - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
         shell: bash
         run: |
+          set +e
           node tests/dnd-rooms-v2-auth-e2e.mjs
+          auth_code=$?
           node tests/dnd-rooms-v2-local-recovery.mjs
+          recovery_code=$?
+          echo "Auth/Reatime E2E exit: $auth_code; Recovery exit: $recovery_code"
+          test "$auth_code" -eq 0 && test "$recovery_code" -eq 0
       - name: Stop disposable stack and erase local credentials
         if: always()
         shell: bash
