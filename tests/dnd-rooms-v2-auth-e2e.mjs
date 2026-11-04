@@ -52,10 +52,21 @@ assert.ok(!JSON.stringify(snap).includes('PRIVATE'));
 assert.equal(check(await outsider.c.from('game_room_members').select('room_id'),'private memberships').length,0);
 console.log('PASS: Real JWT RLS, owner-only visibility, cross-system deny, RPC and snapshot secrecy');
 
+// A successful websocket channel join does not guarantee that the disposable
+// PostgreSQL logical replication listener has finished initializing. In a
+// cold local Docker stack, the first UPDATE can predate its replication slot.
+// Probe with distinct real autosaves; pass ONLY if an authenticated client
+// receives a matching actual postgres_changes UPDATE (never a synthetic event).
 let received=false, realtimeEvents=0, realtimeError=null;
+const expectedHp=new Set(['17','16','15']);
 const channel=a.c.channel('e2e-'+randomUUID())
  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'game_room_members'},
- payload=>{realtimeEvents++;if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
+ payload=>{
+  realtimeEvents++;
+  if(payload.new?.room_id===room && expectedHp.has(payload.new?.snapshot?.hpCurrent)){
+   received=true;
+  }
+ });
 try{
  await new Promise((resolve,reject)=>{
   const timeout=setTimeout(()=>reject(Error('Realtime subscription timed out')),15000);
@@ -67,14 +78,23 @@ try{
  await new Promise(r=>setTimeout(r,1500));
 }catch(error){realtimeError=error;console.warn('DIAGNOSTIC: Realtime subscription:',error.message)}
 const mine=check(await b.c.from('characters').select('details').eq('id',bid).single(),'own sheet');
-mine.details.dnd5eSheet.combat.hp.current=17;
-check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),'save HP');
-const persisted=check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'read updated snapshot');
-assert.equal(persisted.snapshot.hpCurrent,'17','trigger must refresh snapshot');
-if(!realtimeError)for(let i=0;i<50&&!received;i++)await new Promise(r=>setTimeout(r,500));
+for(const hp of [17,16,15]){
+ if(received)break;
+ mine.details.dnd5eSheet.combat.hp.current=hp;
+ check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),
+  'authenticated HP save '+hp);
+ const persisted=check(await a.c.from('game_room_members').select('snapshot')
+  .eq('character_id',bid).single(),'read refreshed snapshot '+hp);
+ assert.equal(persisted.snapshot.hpCurrent,String(hp),'trigger must refresh snapshot');
+ if(!realtimeError)for(let i=0;i<16&&!received;i++)await new Promise(r=>setTimeout(r,500));
+ if(!received)console.log('DIAGNOSTIC: waiting for local Postgres Changes replication after HP save',hp);
+}
 if(!received){
- console.log('DIAGNOSTIC: Realtime events',realtimeEvents,'publication table',sql("SELECT count(*) FROM pg_publication_tables WHERE pubname='supabase_realtime' AND tablename='game_room_members'"));
- realtimeError ||= Error('Actual Realtime UPDATE was not delivered');
+ console.log('DIAGNOSTIC: Realtime events',realtimeEvents,'publication table',
+  sql("SELECT count(*) FROM pg_publication_tables WHERE pubname='supabase_realtime' AND tablename='game_room_members'"));
+ console.log('DIAGNOSTIC: logical replication slots',
+  sql("SELECT coalesce(string_agg(slot_name || ':' || active::text, ','), 'none') FROM pg_replication_slots"));
+ realtimeError ||= Error('Actual Realtime UPDATE was not delivered across three distinct authenticated autosaves');
 }
 await a.c.removeChannel(channel);
 if(!realtimeError)console.log('PASS: Real Realtime event delivered after authenticated autosave');
