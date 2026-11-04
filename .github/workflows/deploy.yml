@@ -267,6 +267,7 @@ jobs:
           realtime_container="$(docker ps --format '{{.Names}}' | grep '^supabase_realtime_' | head -n1)"
           test -n "$realtime_container"
           docker restart "$realtime_container"
+          sleep 8
       - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
         shell: bash
         run: |
@@ -277,6 +278,16 @@ jobs:
           recovery_code=$?
           echo "Auth/Reatime E2E exit: $auth_code; Recovery exit: $recovery_code"
           test "$auth_code" -eq 0 && test "$recovery_code" -eq 0
+      - name: Show local Realtime diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          realtime_container="$(docker ps --format '{{.Names}}' | grep '^supabase_realtime_' | head -n1 || true)"
+          if [[ -n "$realtime_container" ]]; then
+            docker logs --tail 120 "$realtime_container" 2>&1 |
+              grep -Ei '(error|warn|replication|subscription|publication|slot|rls)' |
+              sed -E 's/[A-Za-z0-9_-]{60,}/[redacted]/g' | tail -60 || true
+          fi
       - name: Stop disposable stack and erase local credentials
         if: always()
         shell: bash
