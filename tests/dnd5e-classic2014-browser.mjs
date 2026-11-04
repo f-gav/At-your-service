@@ -79,7 +79,9 @@ try{
       assert.equal(saved.details.dnd5eSheet.combat.hp.current,14);
       assert.equal(saved.details.dnd5eSheet.spellcasting.slots.normal['1'].maximum,3);
       assert.equal(saved.details.dnd5eSheet.spellcasting.slots.normal['1'].used,2);
-      assert.equal(saved.details.dnd5eSheet.content.blocks.spellLevel1,'Волшебная стрела');
+      assert.match(saved.details.dnd5eSheet.content.blocks.spellLevel1,/^ays:rich:v1:/,
+        'Formatted fields must persist through the shared rich-text codec');
+      assert.match(saved.details.dnd5eSheet.content.blocks.spellLevel1,/Волшебная стрела/);
       assert.equal(saved.details.dnd5eSheet.content.blocks.note2,'Сохранённый второй блок',
         'Unedited note blocks must survive');
       assert.equal(saved.details.notes,'Общий дополнительный текст',
