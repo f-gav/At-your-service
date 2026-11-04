@@ -64,6 +64,43 @@ export function validateDndSheet(input:unknown):Dnd5eSheet{
     !Array.isArray(combat.conditions)||combat.conditions.some(x=>typeof x!=='string')||
     new Set(combat.conditions).size!==combat.conditions.length)
     throw Error('D&D: неверные боевые показатели');
+  if(input.classes!==undefined){
+    if(!Array.isArray(input.classes)||input.classes.length>20)throw Error('D&D: неверные классы');
+    uniqueRows(input.classes,'classes',20);
+    let total=0;
+    for(const item of input.classes){
+      requireObject(item,'class');
+      if(typeof item.name!=='string'||item.name.length>100||!isInt(item.level,1,20)||
+        (item.spellcasting!==undefined&&!['none','full','half','third','pact'].includes(String(item.spellcasting))))
+        throw Error('D&D: неверный класс');
+      total+=Number(item.level);
+    }
+    if(total>20)throw Error('D&D: сумма уровней выше 20');
+  }
+  if(input.features!==undefined){
+    uniqueRows(input.features,'features',200);
+    for(const item of input.features){
+      requireObject(item,'feature');
+      if(typeof item.name!=='string'||typeof item.source!=='string'||
+        typeof item.description!=='string')throw Error('D&D: неверная способность');
+    }
+  }
+  uniqueRows(input.resources,'resources',120);
+  for(const item of input.resources as Record<string,unknown>[]){
+    if(typeof item.name!=='string'||!isInt(item.maximum,0,9999)||
+      !isInt(item.current,0,Number(item.maximum))||
+      !['short','long','manual'].includes(String(item.reset)))
+      throw Error('D&D: неверный ресурс');
+  }
+  uniqueRows(input.effects,'effects',120);
+  for(const item of input.effects as Record<string,unknown>[]){
+    if(typeof item.name!=='string'||typeof item.active!=='boolean'||
+      (item.rounds!=null&&!isInt(item.rounds,0,99999)))
+      throw Error('D&D: неверный эффект');
+    if(item.bonuses!==undefined){
+      uniqueRows(item.bonuses,'effect.bonuses',50);
+    }
+  }
   uniqueRows(input.attacks,'attacks',100);
   uniqueRows(input.bonuses,'bonuses',300);
   for(const key of ['resources','effects'])if(!Array.isArray(input[key]))throw Error('D&D: неверные '+key);
