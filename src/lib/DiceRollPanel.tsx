@@ -12,7 +12,7 @@ import './DiceRollPanel.css';
  */
 type RoomMembership={room_id:string;casts_enabled:boolean;title:string};
 export default function DiceRollPanel({system='pf2e',characterId}:{
-  system?:'pf2e'|'prmoon';characterId?:string;
+  system?:'pf2e'|'prmoon'|'dnd5e';characterId?:string;
 }){
   const [history,setHistory]=useState<(DiceResult & {id:number})[]>([]);
   const [open,setOpen]=useState(false);
