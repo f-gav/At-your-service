@@ -182,6 +182,10 @@ assert.equal(dndImported.details.dnd5eSheet.abilities.str.score,17);
 assert.equal(dndImported.details.dnd5eSheet.content.blocks.note1,'ays:rich:v1:<div>Заметки героя</div>');
 assert.equal(dndImported.details.dnd5eSheet.spellcasting.slots.normal['1'].used,1);
 assert.equal(dndImported.details.notes,'Общая история');
+const futureDnd=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{dnd5eSheet:newDndSheet('Бореал','2024')}});
+assert.throws(()=>parseCharacterJson(JSON.stringify(futureDnd)),/2024/,
+  'Do not open a 2024 paper layout in the 2014 editor');
 assert.throws(()=>parseCharacterJson(JSON.stringify({...dndPortable,
  character:{...dndPortable.character,sheet:{...dndPortable.character.sheet,rulesEdition:'2030'}}})),/D&D/);
 console.log('PASS: JSON v2 grouped roundtrip, D&D Classic 2014, dormant PF spell tables, Project Moon and portraits');
