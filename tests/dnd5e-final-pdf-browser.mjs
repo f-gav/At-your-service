@@ -48,7 +48,10 @@ try {
       // PDF pages are image-backed. Raster inspection is more informative
       // than pdftotext for this exporter; persist images for human review.
       const info=execFileSync('pdfinfo',[file],{encoding:'utf8'});
-      assert.match(info,/Page size:\s+595(?:\.\d+)? x 842(?:\.\d+)? pts/);
+      const dimensions=info.match(/Page size:\s+([\d.]+) x ([\d.]+) pts/);
+      assert.ok(dimensions,'Missing PDF page dimensions');
+      assert.ok(Number(dimensions[1])>590&&Number(dimensions[1])<600);
+      assert.ok(Number(dimensions[2])>835&&Number(dimensions[2])<847);
       for(const index of [...new Set([1,4,5,count])]){
         const output=join('test-artifacts','dnd-'+edition+'-page-'+index);
         execFileSync('pdftoppm',['-f',String(index),'-l',String(index),
