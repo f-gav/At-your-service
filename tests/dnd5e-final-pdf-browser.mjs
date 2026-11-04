@@ -33,6 +33,16 @@ try {
       assert.equal(await page.locator('.dnd14-paper').count(),4);
       const originalText=await page.locator('#dnd'+(edition==='2024'?'24':'14')+'-note1 .pf-rich-editable').innerText();
       assert.ok(originalText.length>9000,'Long source field must be real data');
+      const layout=await page.evaluate(()=>window.__AYS_DND_2014_TEST__.auditPdfStage());
+      assert.equal(layout.supplementPages,layout.totalPages-4);
+      assert.ok(layout.supplementPages>=1);
+      for(const [index,row] of layout.textPages.entries()){
+        assert.ok(row.text>0,'Empty supplement '+edition+'/'+index);
+        assert.ok(row.scrollHeight<=row.clientHeight+1,
+          'Clipped supplement '+edition+'/'+index+': '+JSON.stringify(row));
+      }
+      console.log('PASS D&D '+edition+' measured '+layout.supplementPages+' complete, non-overflowing supplement pages');
+
       const downloadEvent=page.waitForEvent('download',{timeout:180000});
       await page.getByRole('button',{name:'Экспорт PDF'}).click();
       const download=await downloadEvent;
