@@ -60,7 +60,8 @@ export function RichBlock({sheet,edit,id,label,placeholder='Запиши зде�
       ability_str:derivedAbility(sheet,'str').value,ability_dex:derivedAbility(sheet,'dex').value,
       ability_con:derivedAbility(sheet,'con').value,ability_int:derivedAbility(sheet,'int').value,
       ability_wis:derivedAbility(sheet,'wis').value,ability_cha:derivedAbility(sheet,'cha').value,
-      level:sheet.identity.level,
+      level:sheet.identity.level,proficiency:proficiencyBonus(sheet.identity.level),
+      half_proficiency:Math.floor(proficiencyBonus(sheet.identity.level)/2),
     }}/>
 }
 const rankCodes:Proficiency[]=['none','proficient','expert'];
