@@ -39,7 +39,7 @@ assert.ok(markup.includes('moon-weapon-pagination'));
 // JSON has always existed in code; verify the published format and the real
 // import pathway rather than trusting the historically outdated README.
 assert.ok(json.includes("prmoon: 'Project Moon'"));
-assert.ok(json.includes("if (system !== 'pf2e' && system !== 'prmoon')"));
+assert.ok(json.includes("if (system !== 'pf2e' && system !== 'prmoon' && system !== 'dnd5e')"));
 assert.ok(json.includes('const moon = details.projectMoonSheet'));
 assert.ok(json.includes("c.system === 'prmoon' ? 'PrMoon'"));
 assert.ok(json.includes('const portrait = await portraitToJson(c)'));

@@ -1,7 +1,8 @@
 import {useEffect,useRef,useState} from 'react';
 import {Dices,X,Trash2,ChevronDown,ChevronUp} from 'lucide-react';
 import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,rollDiceFormula} from './dice-engine';
-import type {DiceResult} from './dice-engine';
+import type {DiceResult,DiceVariables} from './dice-engine';
+import {rollDndLssFormula} from '../features/dnd5e/domain/lss-formulas';
 import DiceFormulaExamples from './DiceFormulaExamples';
 import {supabase} from './supabase';
 import {takeRoomRequestPermit} from './room-request-guard';
@@ -11,8 +12,8 @@ import './DiceRollPanel.css';
  * roll-sharing setting; the server checks membership for every destination.
  */
 type RoomMembership={room_id:string;casts_enabled:boolean;title:string};
-export default function DiceRollPanel({system='pf2e',characterId}:{
-  system?:'pf2e'|'prmoon';characterId?:string;
+export default function DiceRollPanel({system='pf2e',characterId,dndVariables}:{
+  system?:'pf2e'|'prmoon'|'dnd5e';characterId?:string;dndVariables?:DiceVariables;
 }){
   const [history,setHistory]=useState<(DiceResult & {id:number})[]>([]);
   const [open,setOpen]=useState(false);
@@ -93,7 +94,7 @@ export default function DiceRollPanel({system='pf2e',characterId}:{
   },[]);
   const makeRoll=()=>{
     try {
-      const result=rollDiceFormula(formula);
+      const result=system==='dnd5e'?rollDndLssFormula(formula,dndVariables??{}):rollDiceFormula(formula);
       window.dispatchEvent(new CustomEvent(DICE_ROLL_EVENT,{detail:result}));
     }catch(err){setError(err instanceof Error?err.message:'Ошибка формулы');setOpen(true);}
   };

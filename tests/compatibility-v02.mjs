@@ -19,6 +19,7 @@ async function loadForTest(entry){
 }
 const {exportCharacter,parseCharacterJson}=await loadForTest('src/lib/character-json.ts');
 const {parsePortraitTransfer}=await loadForTest('src/features/portrait/portrait-json.ts');
+import {newDndSheet} from '../src/features/dnd5e/domain/model.ts';
 import {initialSheetValues,persistSheetValues} from '../src/features/pathfinder/sheet-values.ts';
 import {readMoonSheet,saveMoonSheet} from '../src/features/project-moon/model.ts';
 import {validCrops} from '../src/features/portrait/crop.ts';
@@ -65,7 +66,7 @@ const parsedOldPf=parseCharacterJson(JSON.stringify(oldPf));
 assert.equal(parsedOldPf.details.pathfinderSheet.level,'3');
 assert.equal(parsedOldPf.details.pathfinderSheet.pf2e_layout,undefined,'Missing layout is valid legacy JSON');
 assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,version:3})),/формат|версия/);
-assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,system:'DnD'})),/позже/);
+assert.throws(()=>parseCharacterJson(JSON.stringify({...exported,system:'DnD'})),/D&D/);
 assert.throws(()=>parseCharacterJson(JSON.stringify({...oldPf,character:{...oldPf.character,details:{pathfinderSheet:[]}}})),/Pathfinder/);
 
 const moonExport={
@@ -163,4 +164,35 @@ const moonV2=exportCharacter({...character,system:'prmoon',details:moon.details}
 assert.equal(moonV2.version,2);
 assert.equal(moonV2.character.sheet.fields.rank,'4');
 assert.equal(parseCharacterJson(JSON.stringify(moonV2)).details.projectMoonSheet.futureRules.keep,true);
-console.log('PASS: JSON v2 grouped roundtrip, dormant spell tables preserved, current PF fields, v1 import, Project Moon and portraits');
+const dndSheet=newDndSheet('Бореал','2014');
+dndSheet.abilities.str.score=17;
+dndSheet.content.blocks.note1='ays:rich:v1:<div>Заметки героя</div>';
+dndSheet.spellcasting.slots.normal['1']={maximum:3,used:1};
+const dndPortable=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{notes:'Общая история',dnd5eSheet:dndSheet}});
+assert.equal(dndPortable.system,'DnD');
+assert.equal(dndPortable.version,2);
+assert.ok(!('dnd5eSheet' in dndPortable.character.details),
+  'D&D sheet must only appear in the grouped v2 payload');
+assert.equal(dndPortable.character.sheet.abilities.str.score,17);
+const dndImported=parseCharacterJson(JSON.stringify(dndPortable));
+assert.equal(dndImported.system,'dnd5e');
+assert.equal(dndImported.name,'Бореал');
+assert.equal(dndImported.details.dnd5eSheet.abilities.str.score,17);
+assert.equal(dndImported.details.dnd5eSheet.content.blocks.note1,'ays:rich:v1:<div>Заметки героя</div>');
+assert.equal(dndImported.details.dnd5eSheet.spellcasting.slots.normal['1'].used,1);
+assert.equal(dndImported.details.notes,'Общая история');
+const futureDnd=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{dnd5eSheet:newDndSheet('Бореал','2024')}});
+const reimported2024=parseCharacterJson(JSON.stringify(futureDnd));
+assert.equal(reimported2024.details.dnd5eSheet.rulesEdition,'2024');
+assert.equal(reimported2024.details.dnd5eSheet.layoutEdition,'2024');
+assert.equal(reimported2024.system,'dnd5e');
+const mixedLayout=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{dnd5eSheet:{...dndSheet,rulesEdition:'2024',layoutEdition:'2014'}}});
+const mixedParsed=parseCharacterJson(JSON.stringify(mixedLayout));
+assert.equal(mixedParsed.details.dnd5eSheet.rulesEdition,'2024');
+assert.equal(mixedParsed.details.dnd5eSheet.layoutEdition,'2014');
+assert.throws(()=>parseCharacterJson(JSON.stringify({...dndPortable,
+ character:{...dndPortable.character,sheet:{...dndPortable.character.sheet,rulesEdition:'2030'}}})),/D&D/);
+console.log('PASS: JSON v2 grouped roundtrip, D&D 2014/2024 and mixed editions, dormant PF spell tables, Project Moon and portraits');

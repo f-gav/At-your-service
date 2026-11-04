@@ -11,6 +11,7 @@ import {insertionMenuPosition} from './insert-menu-position';
 import {diceMarkup} from './dice-markup';
 import DiceFormulaExamples from '../../lib/DiceFormulaExamples';
 import {DICE_ROLL_EVENT,DICE_ERROR_EVENT,diceVariables,diceValidationVariables,rollDiceFormula} from '../../lib/dice-engine';
+import {rollDndLssFormula} from '../dnd5e/domain/lss-formulas';
 import {richToolbarPosition} from './rich-toolbar-position';
 import './RichField.css';
 
@@ -307,7 +308,9 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
     if(!formula){setDiceError('Введите формулу кубиков.');return;}
     try {
       // Validating a formula never rolls real dice; live values resolve on click.
-      rollDiceFormula(formula,diceValidationVariables(resourceContext),()=>0.5);
+      if(id.startsWith('dnd14-')||id.startsWith('dnd24-')||id.startsWith('dndadvanced-'))
+        rollDndLssFormula(formula,diceValidationVariables(resourceContext),()=>0.5);
+      else rollDiceFormula(formula,diceValidationVariables(resourceContext),()=>0.5);
       if(diceDialog?.editing){
         const node=editedDiceNode.current;
         if(!node||!root.current?.contains(node))throw new Error('Фрагмент текста изменился. Выделите его заново.');
@@ -357,7 +360,9 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
   }
   function rollInlineFormula(source:string,text:string){
     try {
-      const result=rollDiceFormula(source,diceVariables(resourceContext));
+      const result=(id.startsWith('dnd14-')||id.startsWith('dnd24-')||id.startsWith('dndadvanced-'))
+        ?rollDndLssFormula(source,diceVariables(resourceContext))
+        :rollDiceFormula(source,diceVariables(resourceContext));
       window.dispatchEvent(new CustomEvent(DICE_ROLL_EVENT,{detail:{
         ...result,label:result.label||text.trim()||result.formula,
       }}));
@@ -628,7 +633,7 @@ export default function RichField({id,label,value,onChange,placeholder,disabled,
             onChange={event=>{setDiceError('');setDiceDialog(previous=>previous?{
               ...previous,formula:event.target.value,
             }:null);}}/>
-          <DiceFormulaExamples system={id.startsWith('moon-')?'prmoon':'pf2e'}/>
+          <DiceFormulaExamples system={id.startsWith('moon-')?'prmoon':(id.startsWith('dnd14-')||id.startsWith('dnd24-')||id.startsWith('dndadvanced-'))?'dnd5e':'pf2e'}/>
           {diceError&&<p className="pf-dice-dialog-error" role="alert">{diceError}</p>}
           <footer>
             {diceDialog.editing&&<button className="pf-dice-dialog-remove" type="button"

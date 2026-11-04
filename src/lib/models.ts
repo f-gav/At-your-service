@@ -38,7 +38,7 @@ export const systemKeys = Object.keys(GAME_SYSTEMS) as GameSystem[];
 
 // Systems with playable sheets available for new characters.
 // Keep the full system registry intact for existing saves, filters and imports.
-export const creatableSystemKeys = ['pf2e', 'prmoon'] as const satisfies readonly GameSystem[];
+export const creatableSystemKeys = ['dnd5e', 'pf2e', 'prmoon'] as const satisfies readonly GameSystem[];
 export function canCreateCharacter(system: GameSystem): boolean {
   return creatableSystemKeys.some(available => available === system);
 }

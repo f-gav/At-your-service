@@ -13,10 +13,21 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
+  group: ${{ github.event_name == 'pull_request' && format('checks-{0}', github.head_ref) || 'github-pages' }}
   cancel-in-progress: true
 
 jobs:
+  dnd-advanced-quick:
+    name: D&D advanced engine typecheck and deterministic tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run check
+      - run: node --experimental-strip-types tests/dnd5e-advanced.mjs
   build:
     runs-on: ubuntu-latest
     steps:
@@ -89,10 +100,16 @@ jobs:
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
       - name: Verify Rooms release JSON and HTML match commit
         run: node tests/stage4-rooms-release-artifact.mjs
+      - name: Install Chromium for browser regression
+        run: npx playwright install chromium
+      - name: D&D 2014 four-page editing, autosave and mobile paper geometry
+        run: node tests/dnd5e-classic2014-browser.mjs
+      - name: D&D 2024 four-page paper and 2014/2024 roundtrip in Chromium
+        run: node tests/dnd5e-classic2024-browser.mjs
+      - name: D&D advanced spells, formulas, Pact Magic and resources in Chromium
+        run: node tests/dnd5e-advanced-browser.mjs
       - name: Verify downloadable PDFs in Chromium
-        run: |
-          npx playwright install chromium
-          npm run test:pdf-browser
+        run: npm run test:pdf-browser
       - name: Check alternative Pathfinder layouts at desktop and mobile resolutions
         run: npm run test:pf-alternative-browser
       - name: Upload alternative Pathfinder screenshot snapshots
@@ -103,6 +120,7 @@ jobs:
           path: test-artifacts/pf-alt-*.png
           if-no-files-found: ignore
           retention-days: 7
+
       - name: Verify library navigation in Chromium
         run: |
           npm run test:spell-library-browser
