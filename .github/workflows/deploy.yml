@@ -179,6 +179,8 @@ jobs:
         run: node tests/room-rpc-concurrency.mjs
       - name: Verify real two-user RLS permissions in isolated PostgreSQL
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/rooms-v2-rls-final.sql
+      - name: Verify isolated two-account D&D RLS, CAS and jsonb limits
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd5e-final-local-rls.sql
 
   recovery-windows-smoke:
     name: Windows 11-compatible recovery safety smoke
