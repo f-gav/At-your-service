@@ -57,7 +57,7 @@ try{
       await page.getByLabel('Владение: Скрытность').selectOption('proficient');
       const dex=page.locator('#dnd24-page-1 [data-ability="dex"]');
       assert.match(await dex.innerText(),/\+6/,'Stealth should show DEX+proficiency');
-      await page.getByLabel('Истощение').fill('2');
+      await page.getByRole('spinbutton',{name:'Истощение',exact:true}).fill('2');
       await page.waitForFunction(()=>document.querySelector('#dnd24-page-1 [aria-label="Инициатива · скорость · состояния"]')?.textContent?.includes('20 фт'));
       assert.match(await dex.innerText(),/\+2/,'2024 exhaustion reduces a d20 test by 4');
       await page.getByLabel('Новое состояние').fill('Отравлен');
