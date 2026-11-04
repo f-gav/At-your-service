@@ -1,5 +1,5 @@
 import type { Character, CharacterDetails, GameSystem } from './models';
-import {transferDndToAysV2} from '../features/dnd5e/infra/transfer.ts';
+import {transferDndToAysV2,parseDndAysV2,packDndSheet} from '../features/dnd5e/infra/transfer.ts';
 import { normalizeDetails, normalizedName } from './models';
 import { portraitToJson, parsePortraitTransfer } from '../features/portrait/portrait-json';
 import type { PortraitTransfer, ParsedPortrait } from '../features/portrait/portrait-json';
@@ -180,7 +180,7 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
       (data.version !== 1 && data.version !== 2) ||
       !Object.hasOwn(systems, String(data.system))) throw new Error('Неизвестный формат или версия листа.');
   const system = systems[data.system as CharacterExport['system']];
-  if (system !== 'pf2e' && system !== 'prmoon') throw new Error('Импорт для DnD и VtM появится позже.');
+  if (system !== 'pf2e' && system !== 'prmoon' && system !== 'dnd5e') throw new Error('Импорт для VtM появится позже.');
   if (!isPlainObject(data.character) || typeof data.character.name !== 'string' ||
       !isPlainObject(data.character.details)) throw new Error('Некорректные данные персонажа.');
   const name = normalizedName(data.character.name);
@@ -192,11 +192,19 @@ export function parseCharacterJson(source: string): {system: GameSystem; name: s
     if (system === 'pf2e') {
       delete details.pathfinderSheet;
       details.pathfinderSheet = unpackPathfinderSheet(data.character.sheet, name);
+    } else if (system === 'dnd5e') {
+      const parsedDnd=parseDndAysV2(data);
+      delete details.dnd5eSheet;
+      Object.assign(details,parsedDnd.details);
     } else {
       if (!isPlainObject(data.character.sheet)) throw new Error('Некорректный лист Project Moon JSON v2.');
       delete details.projectMoonSheet;
       details.projectMoonSheet = {...data.character.sheet};
     }
+  }
+  if (system === 'dnd5e' && data.version === 1) {
+    // Legacy D&D notes remain supported; never trust unvalidated nested objects.
+    details.dnd5eSheet=packDndSheet(details.dnd5eSheet,name);
   }
   // Real PF2e and Project Moon sheets can contain four rich-text inventory
   // columns, notes, weapons, armor and augments. The old 50 KB limit rejected
