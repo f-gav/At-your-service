@@ -163,7 +163,7 @@ export function exportCharacter(c: Character): CharacterExport {
     delete details.pathfinderSheet;
   } else if (c.system === 'dnd5e') {
     const transfer=transferDndToAysV2(c.name,details);
-    sheet=transfer.sheet;
+    sheet=transfer.sheet as unknown as Record<string,unknown>;
     delete details.dnd5eSheet;
   } else if (c.system === 'prmoon') {
     sheet = isPlainObject(details.projectMoonSheet) ? {...details.projectMoonSheet} : {};
