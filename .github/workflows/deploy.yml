@@ -184,6 +184,12 @@ jobs:
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/rooms-v2-rls-final.sql
       - name: Verify isolated two-account D&D RLS, CAS and jsonb limits
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd5e-final-local-rls.sql
+      - name: Prepare disposable D&D Rooms V2 migration baseline
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-baseline.sql
+      - name: Apply proposed D&D Rooms SQL ONLY to ephemeral CI PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/dnd-rooms-v2-approval-required.sql
+      - name: Verify two-account D&D Rooms RLS, safe snapshots, cross-system and quota
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-rls.sql
 
   recovery-windows-smoke:
     name: Windows 11-compatible recovery safety smoke
