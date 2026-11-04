@@ -30,7 +30,7 @@ execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e',
  '-t','public.game_room_rolls','-d','postgres'],{env:pg});
 sql('TRUNCATE public.game_room_rolls,public.game_room_members,public.game_rooms,public.characters CASCADE');
 assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),0);
-execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_restore','-h','127.0.0.1','-p','54322','-U','postgres','--disable-triggers','--data-only','--no-owner','--no-privileges','-d','postgres','/backup/ays-disposable-rooms.dump'],{env:pg});
+execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_restore','-h','127.0.0.1','-p','54322','-U','postgres','--data-only','--no-owner','--no-privileges','-d','postgres','/backup/ays-disposable-rooms.dump'],{env:pg});
 assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),before);
 console.log('PASS: disposable Rooms table data backup and destructive local restore');
 ok(await c.storage.from(bucket).remove([name]),'remove object');
