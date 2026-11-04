@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import type {Dnd5eSheet,DndClassLevel,DndResource,DndBonus} from '../domain/model';
-import {ABILITIES} from '../domain/model';
 import type {EditDnd} from './Classic2014Pages';
 import RichField from '../../rich-editor/RichField';
 import {
