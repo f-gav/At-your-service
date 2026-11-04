@@ -14,6 +14,7 @@ import type {DndEdition} from '../domain/model';
 import {packDndSheet,prepareDndDetails} from '../infra/transfer';
 import Classic2014Pages from './Classic2014Pages';
 import Classic2024Pages from './Classic2024Pages';
+import DndMechanicsPanel from './DndMechanicsPanel';
 import type {EditDnd} from './Classic2014Pages';
 import './Classic2014.css';
 import './Classic2024.css';
@@ -150,6 +151,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
       {pageTitles[edition].map((title,i)=><button type="button" key={title} aria-current={activePage===i+1?'page':undefined}
         onClick={()=>go(i+1)}>{i+1}. {title}</button>)}
     </nav>
+    <DndMechanicsPanel sheet={draft.sheet} edit={edit}/>
     <div className="dnd14-scroll" aria-label="Прокрутка бумажного листа по горизонтали">
       {edition==='2014'
         ?<Classic2014Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
