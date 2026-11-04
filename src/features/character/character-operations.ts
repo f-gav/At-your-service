@@ -7,8 +7,8 @@ import {newDndSheet} from '../dnd5e/domain/model.ts';
 export function nextCharacterOrder(characters:readonly Character[]):number {
   return characters.reduce((max,character)=>Math.max(max,character.sort_order),0)+1;
 }
-export function newCharacterDetails(system:GameSystem,pfVariant:'classic'|'alternative'='classic'):CharacterDetails {
-  if(system==='dnd5e')return {...defaultDetails(),dnd5eSheet:newDndSheet()};
+export function newCharacterDetails(system:GameSystem,pfVariant:'classic'|'alternative'='classic',name='Персонаж'):CharacterDetails {
+  if(system==='dnd5e')return {...defaultDetails(),dnd5eSheet:newDndSheet(name)};
   if(system==='prmoon')return {...defaultDetails(),projectMoonSheet:emptyMoonSheet()};
   if(system==='pf2e')return {...defaultDetails(),pathfinderSheet:{pf2e_layout:pfVariant}};
   return defaultDetails();

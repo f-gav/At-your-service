@@ -103,6 +103,8 @@ jobs:
           path: test-artifacts/pf-alt-*.png
           if-no-files-found: ignore
           retention-days: 7
+      - name: D&D 2014 four-page editing, autosave and mobile paper geometry
+        run: node tests/dnd5e-classic2014-browser.mjs
       - name: Verify library navigation in Chromium
         run: |
           npm run test:spell-library-browser

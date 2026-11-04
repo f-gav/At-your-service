@@ -5,7 +5,7 @@ import './DiceFormulaExamples.css';
 /** The examples intentionally contain only expressions the current parser
  * understands. Project Moon uses its own attribute names, not PF2e's STR/DEX.
  */
-export default function DiceFormulaExamples({system}:{system:'pf2e'|'prmoon'}){
+export default function DiceFormulaExamples({system}:{system:'pf2e'|'prmoon'|'dnd5e'}){
   const [expanded,setExpanded]=useState(false);
   return <div className="ays-formula-guide">
     <button type="button" className="ays-formula-guide-trigger"
@@ -24,8 +24,8 @@ export default function DiceFormulaExamples({system}:{system:'pf2e'|'prmoon'}){
         <dt><code>floor(1d8/2)</code></dt><dd>Округлить вниз. Доступны ceil, round, abs, min и max.</dd>
         <dt><code>1d20+5 # Атака</code></dt><dd>Указать название броска (необязательно).</dd>
       </dl>
-      <p>{system==='prmoon'?'Переменные Project Moon':'Переменные Pathfinder 2e'}</p>
-      {system==='pf2e'
+      <p>{system==='prmoon'?'Переменные Project Moon':system==='dnd5e'?'Переменные D&D 5e':'Переменные Pathfinder 2e'}</p>
+      {system!=='prmoon'
         ?<dl>
           <dt><code>[LVL]</code></dt><dd>Уровень персонажа.</dd>
           <dt><code>[STR]</code></dt><dd>Сила.</dd>
