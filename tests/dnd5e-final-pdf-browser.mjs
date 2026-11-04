@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
-import {mkdtemp,readFile,rm} from 'node:fs/promises';
+import {mkdtemp,readFile,rm,mkdir} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {PNG} from 'pngjs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {chromium} from 'playwright';
@@ -10,6 +12,7 @@ const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','1
   {stdio:'ignore',env:{...process.env,VITE_BASE_PATH:'/At-your-service/',
     VITE_SUPABASE_URL:'',VITE_SUPABASE_PUBLISHABLE_KEY:''}});
 const temp=await mkdtemp(join(tmpdir(),'ays-dnd-pdf-'));
+await mkdir('test-artifacts',{recursive:true});
 let browser;
 try {
   let ready=false;
@@ -42,6 +45,24 @@ try {
       assert.ok(data.length>25000,'PDF must contain 4 rendered papers');
       const count=(data.toString('latin1').match(/\/Type\s*\/Page\b/g)||[]).length;
       assert.ok(count>=5&&count<=100,'Expect 4 A4 paper pages plus text supplements; got '+count);
+      // PDF pages are image-backed. Raster inspection is more informative
+      // than pdftotext for this exporter; persist images for human review.
+      const info=execFileSync('pdfinfo',[file],{encoding:'utf8'});
+      assert.match(info,/Page size:\s+595(?:\.\d+)? x 842(?:\.\d+)? pts/);
+      for(const index of [...new Set([1,4,5,count])]){
+        const output=join('test-artifacts','dnd-'+edition+'-page-'+index);
+        execFileSync('pdftoppm',['-f',String(index),'-l',String(index),
+          '-scale-to','1200','-png','-singlefile',file,output]);
+        const raster=PNG.sync.read(await readFile(output+'.png'));
+        assert.ok(raster.width>700&&raster.height>950,'Invalid A4 raster size');
+        let colored=0;
+        for(let y=0;y<raster.height;y+=3)for(let x=0;x<raster.width;x+=3){
+          const i=(y*raster.width+x)*4;
+          if(raster.data[i]<242||raster.data[i+1]<242||raster.data[i+2]<242)colored++;
+        }
+        assert.ok(colored>350,'Nearly blank PDF page '+edition+'/'+index);
+        console.log('PDF RASTER '+edition+' page '+index+' nonwhite samples '+colored);
+      }
       assert.ok(!await page.locator('.dnd-pdf-stage').count(),'Offscreen export stage must be cleaned');
       assert.deepEqual(errors,[],'No browser exceptions');
       console.log('PASS D&D '+edition+' downloadable A4 PDF, '+count+' pages, '+data.length+' bytes');
