@@ -13,18 +13,18 @@ export type Classic2014Props={
   edit:EditDnd;portraitUrl?:string;portraitFrame?:CropFrame;onEditPortrait:()=>void;
 };
 
-const abilityNames:Record<AbilityId,string>={
+export const abilityNames:Record<AbilityId,string>={
   str:'СИЛА',dex:'ЛОВКОСТЬ',con:'ТЕЛОСЛОЖЕНИЕ',int:'ИНТЕЛЛЕКТ',wis:'МУДРОСТЬ',cha:'ХАРИЗМА',
 };
-const skillNames:Record<SkillId,string>={
+export const skillNames:Record<SkillId,string>={
   acrobatics:'Акробатика',animalHandling:'Уход за животными',arcana:'Магия',athletics:'Атлетика',
   deception:'Обман',history:'История',insight:'Проницательность',intimidation:'Запугивание',
   investigation:'Анализ',medicine:'Медицина',nature:'Природа',perception:'Внимательность',
   performance:'Выступление',persuasion:'Убеждение',religion:'Религия',
   sleightOfHand:'Ловкость рук',stealth:'Скрытность',survival:'Выживание',
 };
-const signed=(v:number)=>v>=0?'+'+v:String(v);
-function Zone({x,y,w,h,title,children,className=''}:{
+export const signed=(v:number)=>v>=0?'+'+v:String(v);
+export function Zone({x,y,w,h,title,children,className=''}:{
   x:number;y:number;w:number;h:number;title:string;children:ReactNode;className?:string;
 }){
   return <section className={'dnd14-zone '+className} aria-label={title}
@@ -32,28 +32,28 @@ function Zone({x,y,w,h,title,children,className=''}:{
     <h3 className="dnd14-zone-title">{title}</h3><div className="dnd14-zone-body">{children}</div>
   </section>;
 }
-function Paper({page,title,children}:{page:number;title:string;children:ReactNode}){
-  return <article id={'dnd14-page-'+page} className="dnd14-paper" aria-label={'D&D 2014 — страница '+page+': '+title}>
-    <div className="dnd14-page-stamp">AT YOUR SERVICE <span>· D&D 5e / 2014</span></div>
+export function Paper({page,title,children,edition='2014'}:{page:number;title:string;children:ReactNode;edition?:'2014'|'2024'}){
+  return <article id={'dnd'+(edition==='2024'?'24':'14')+'-page-'+page} className={'dnd14-paper dnd'+(edition==='2024'?'24':'14')+'-paper'} aria-label={'D&D '+edition+' — страница '+page+': '+title}>
+    <div className="dnd14-page-stamp">AT YOUR SERVICE <span>· D&D 5e / {edition}</span></div>
     {children}
     <div className="dnd14-page-footer">КЛАССИЧЕСКИЙ ЛИСТ · {page} / 4</div>
   </article>;
 }
-function TextField({label,value,onChange,wide=false}:{label:string;value:string;onChange:(value:string)=>void;wide?:boolean}){
+export function TextField({label,value,onChange,wide=false}:{label:string;value:string;onChange:(value:string)=>void;wide?:boolean}){
   return <label className={'dnd14-field'+(wide?' dnd14-field-wide':'')}>
     <span>{label}</span><input aria-label={label} value={value} onChange={e=>onChange(e.target.value)} maxLength={240} autoComplete="off"/>
   </label>;
 }
-function NumField({label,value,onChange,min=0,max=9999}:{label:string;value:number;onChange:(value:number)=>void;min?:number;max?:number}){
+export function NumField({label,value,onChange,min=0,max=9999}:{label:string;value:number;onChange:(value:number)=>void;min?:number;max?:number}){
   return <label className="dnd14-field dnd14-field-number">
     <span>{label}</span><input aria-label={label} type="number" inputMode="numeric" min={min} max={max}
       value={value} onChange={e=>onChange(Math.min(max,Math.max(min,Number(e.target.value)||0)))}/>
   </label>;
 }
-function RichBlock({sheet,edit,id,label,placeholder='Запиши здесь…'}:{
-  sheet:Dnd5eSheet;edit:EditDnd;id:string;label:string;placeholder?:string;
+export function RichBlock({sheet,edit,id,label,placeholder='Запиши здесь…',edition='2014'}:{
+  sheet:Dnd5eSheet;edit:EditDnd;id:string;label:string;placeholder?:string;edition?:'2014'|'2024';
 }){
-  return <RichField id={'dnd14-'+id.replace(/[^a-z0-9-]/gi,'-')} label={label}
+  return <RichField id={'dnd'+(edition==='2024'?'24':'14')+'-'+id.replace(/[^a-z0-9-]/gi,'-')} label={label}
     className="dnd14-rich" value={sheet.content.blocks[id]??''}
     onChange={value=>edit(d=>{d.content.blocks[id]=value;})} placeholder={placeholder}
     resourceContext={{
@@ -64,7 +64,7 @@ function RichBlock({sheet,edit,id,label,placeholder='Запиши здесь…'
     }}/>
 }
 const rankCodes:Proficiency[]=['none','proficient','expert'];
-function RankField({label,value,onChange,result}:{
+export function RankField({label,value,onChange,result}:{
   label:string;value:Proficiency|undefined;onChange:(value:Proficiency)=>void;result:number;
 }){
   return <label className="dnd14-rank-row" title={label}>
