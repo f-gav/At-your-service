@@ -25,7 +25,7 @@ try{
       await page.getByRole('button',{name:'+ Заклинание'}).click();
       assert.equal(await panel.locator('tbody tr').count(),1);
       const spellRow=panel.locator('tbody tr').first();
-      await spellRow.locator('input[type="text"]').first().fill('Исцеление');
+      await spellRow.locator('td').first().locator('input').fill('Исцеление');
       await spellRow.locator('input[type="checkbox"]').nth(1).check();
       await page.getByLabel('pact максимум 1').fill('2');
       await page.getByRole('tab',{name:'Ресурсы и состояния'}).click();
