@@ -55,6 +55,24 @@ function NumericInput({label,value,onChange,min=0,max=9999}:{label:string;value:
       value={value} onChange={e=>onChange(clamp(Number(e.target.value),min,max))}/>
   </label>;
 }
+function BonusFormulaEditor({bonus,sheet,onCommit}:{bonus:DndBonus;sheet:Dnd5eSheet;onCommit:(value:string)=>void}){
+  const [draft,setDraft]=useState(bonus.formula??String(bonus.value??0));
+  const [error,setError]=useState('');
+  const commit=()=>{
+    try {
+      if(!draft.trim())throw Error('Введите числовую формулу');
+      evaluateDndNumericFormula(draft,dndFormulaVariables(sheet));
+      onCommit(draft.trim());
+      setError('');
+    }catch(err){setError(err instanceof Error?err.message:'Недопустимая формула');}
+  };
+  return <label>Значение / формула
+    <input aria-label={'Формула бонуса '+bonus.id} maxLength={1000} value={draft}
+      onChange={e=>setDraft(e.target.value)} onBlur={commit}
+      onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}}/>
+    {error&&<small role="alert" className="dndadvanced-error">{error}</small>}
+  </label>;
+}
 function SpellsTab({sheet,edit}:Props){
   const [levelFilter,setLevelFilter]=useState('all');
   const [pool,setPool]=useState<'normal'|'pact'>('normal');
@@ -268,13 +286,10 @@ function BonusesTab({sheet,edit}:Props){
             {([['add','+'],['base','_'],['override','='],['multiply','×'],['min','min'],['max','max'],['advantage','Преим.'],['disadvantage','Помеха']] as const)
               .map(([key,name])=><option key={key} value={key}>{name}</option>)}
           </select></label>
-          <label>Значение / формула
-            <input aria-label={'Формула бонуса '+bonus.id} maxLength={1000} value={bonus.formula??String(bonus.value??0)}
-              onChange={e=>edit(d=>{
-                const row=d.bonuses.find(x=>x.id===bonus.id);
-                if(row){row.formula=e.target.value;delete row.value;}
-              })}/>
-          </label>
+          <BonusFormulaEditor bonus={bonus} sheet={sheet} onCommit={value=>edit(d=>{
+            const row=d.bonuses.find(x=>x.id===bonus.id);
+            if(row){row.formula=value;delete row.value;}
+          })}/>
           <label>Эффект
             <select aria-label={'Источник-эффект бонуса '+bonus.id} value={bonus.effectId??''}
               onChange={e=>edit(d=>{const row=d.bonuses.find(x=>x.id===bonus.id);
