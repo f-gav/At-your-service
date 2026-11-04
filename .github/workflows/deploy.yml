@@ -95,6 +95,8 @@ jobs:
         run: node tests/dnd5e-classic2014-browser.mjs
       - name: D&D 2024 four-page paper and 2014/2024 roundtrip in Chromium
         run: node tests/dnd5e-classic2024-browser.mjs
+      - name: D&D advanced spells, formulas, Pact Magic and resources in Chromium
+        run: node tests/dnd5e-advanced-browser.mjs
       - name: Verify downloadable PDFs in Chromium
         run: npm run test:pdf-browser
       - name: Check alternative Pathfinder layouts at desktop and mobile resolutions
