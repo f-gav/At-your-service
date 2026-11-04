@@ -271,7 +271,7 @@ class Parser {
       if(!Number.isFinite(v)||v<0||v>=1)this.fail('неверный генератор случайных чисел');
       return Math.floor(v*sides)+(fate?-1:1);
     };
-    const cap=(v:number)=>Math.min(clampMax??v,Math.max(clampMin??v,v));
+    const cap=(v:number)=>Math.min(clampMax??Number.POSITIVE_INFINITY,Math.max(clampMin??Number.NEGATIVE_INFINITY,v));
     const counts=new Set<number>();
     for(let k=0;k<count;k++){
       const indices:number[]=[];
