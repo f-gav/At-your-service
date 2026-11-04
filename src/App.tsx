@@ -47,6 +47,7 @@ import { getReturnUrl, isConfigured, supabase } from './lib/supabase';
 import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
+import Classic2014Sheet from './features/dnd5e/presentations/Classic2014Sheet';
 import { moonSubtitle, readMoonSheet } from './features/project-moon/model';
 import { initialSheetValues } from './features/pathfinder/sheet-values';
 import PortraitEditor from './features/portrait/PortraitEditor';
@@ -409,7 +410,7 @@ export default function App() {
     setBusy(true);
     setError('');
     const nextOrder = nextCharacterOrder(characters);
-    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant),nextOrder);
+    const { data, error: insertError } = await insertCharacterRow(user.id,createPanel,name,newCharacterDetails(createPanel,newPfVariant,name),nextOrder);
     setBusy(false);
     if (insertError) { setError(messageFromError(insertError)); return; }
     if (!data) return;
@@ -689,6 +690,12 @@ export default function App() {
             portraitFrame={active.portrait_source_path ? active.portrait_crops?.sheet : undefined}
             onEditPortrait={() => setEditingPortraitId(active.id)}
             onSave={saveCharacter} onClose={closeCharacter} autoExport={exportPdfId===active.id} onAutoExportComplete={()=>setExportPdfId(null)} />
+        ) : active.system === 'dnd5e' ? (
+          <Classic2014Sheet key={active.id} character={active}
+            portraitUrl={active.portrait_source_path ? portraitUrls[active.portrait_source_path] : active.portrait_sheet_path ? portraitUrls[active.portrait_sheet_path] : undefined}
+            portraitFrame={active.portrait_source_path ? active.portrait_crops?.sheet : undefined}
+            onEditPortrait={() => setEditingPortraitId(active.id)}
+            onSave={saveCharacter} onClose={closeCharacter}/>
         ) : (
           <CharacterEditor key={active.id} character={active} onSave={saveCharacter} onClose={closeCharacter} />
         )
