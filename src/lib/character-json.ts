@@ -1,4 +1,5 @@
 import type { Character, CharacterDetails, GameSystem } from './models';
+import {transferDndToAysV2} from '../features/dnd5e/infra/transfer.ts';
 import { normalizeDetails, normalizedName } from './models';
 import { portraitToJson, parsePortraitTransfer } from '../features/portrait/portrait-json';
 import type { PortraitTransfer, ParsedPortrait } from '../features/portrait/portrait-json';
@@ -160,6 +161,10 @@ export function exportCharacter(c: Character): CharacterExport {
   if (c.system === 'pf2e') {
     sheet = packPathfinderSheet(details.pathfinderSheet);
     delete details.pathfinderSheet;
+  } else if (c.system === 'dnd5e') {
+    const transfer=transferDndToAysV2(c.name,details);
+    sheet=transfer.sheet;
+    delete details.dnd5eSheet;
   } else if (c.system === 'prmoon') {
     sheet = isPlainObject(details.projectMoonSheet) ? {...details.projectMoonSheet} : {};
     delete details.projectMoonSheet;
