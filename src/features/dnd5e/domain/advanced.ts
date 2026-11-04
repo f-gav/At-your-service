@@ -189,6 +189,17 @@ export function evaluateDndExpression(source:string,sheet:Dnd5eSheet,random?:Ran
 export function rollDndFormula(source:string,sheet:Dnd5eSheet,random:Random){
   if(source.length>MAX_EXPRESSION)throw Error('D&D: слишком длинная формула');
   const expr=source.replace(/[кКD]/g,'d');
+  const condition=/^\s*if\(\s*(\[[A-Za-z]+\]|\d+)\s*(>=|<=|==|!=|>|<)\s*(-?\d+)\s*,\s*([^,]+)\s*,\s*([^,]+)\s*\)\s*$/s.exec(expr);
+  if(condition){
+    const vars=formulaVars(sheet);
+    const left=condition[1].startsWith('[')?vars[condition[1].slice(1,-1).toUpperCase()]:Number(condition[1]);
+    if(left===undefined)throw Error('D&D: неизвестная переменная условия');
+    const right=Number(condition[3]);
+    const pass=condition[2]==='>='?left>=right:condition[2]==='<='?left<=right:
+      condition[2]==='=='?left===right:condition[2]==='!='?left!==right:
+      condition[2]==='>'?left>right:left<right;
+    return rollDndFormula(pass?condition[4]:condition[5],sheet,random);
+  }
   const match=/^(\d{0,2})d(\d{1,5})(ro=(\d+)|!)\s*([+-]\s*[\w\[\]0-9]+)?$/i.exec(expr.trim());
   if(match){
     const n=Number(match[1]||1),sides=Number(match[2]),threshold=Number(match[4]||0);
