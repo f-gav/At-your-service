@@ -50,32 +50,36 @@ assert.ok(!JSON.stringify(snap).includes('PRIVATE'));
 assert.equal(check(await outsider.c.from('game_room_members').select('room_id'),'private memberships').length,0);
 console.log('PASS: Real JWT RLS, owner-only visibility, cross-system deny, RPC and snapshot secrecy');
 
-let received=false, realtimeEvents=0;
+let received=false, realtimeEvents=0, realtimeError=null;
 const channel=a.c.channel('e2e-'+randomUUID())
  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'game_room_members'},
-   payload=>{realtimeEvents++;console.log('Realtime UPDATE observed, room matches:',payload.new?.room_id===room,'snapshot keys:',Object.keys(payload.new?.snapshot||{}).join(','));if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
-await new Promise((resolve,reject)=>{
- const timeout=setTimeout(()=>reject(Error('Realtime subscription timed out')),15000);
- channel.subscribe(status=>{
-  if(status==='SUBSCRIBED'){clearTimeout(timeout);resolve()}
-  if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){clearTimeout(timeout);reject(Error(status))}
+ payload=>{realtimeEvents++;if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
+try{
+ await new Promise((resolve,reject)=>{
+  const timeout=setTimeout(()=>reject(Error('Realtime subscription timed out')),15000);
+  channel.subscribe(status=>{
+   if(status==='SUBSCRIBED'){clearTimeout(timeout);resolve()}
+   if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){clearTimeout(timeout);reject(Error(status))}
+  });
  });
-});
-await new Promise(r=>setTimeout(r,1500));
+ await new Promise(r=>setTimeout(r,1500));
+}catch(error){realtimeError=error;console.warn('DIAGNOSTIC: Realtime subscription:',error.message)}
 const mine=check(await b.c.from('characters').select('details').eq('id',bid).single(),'own sheet');
 mine.details.dnd5eSheet.combat.hp.current=17;
 check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),'save HP');
 const persisted=check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'read updated snapshot');
-assert.equal(persisted.snapshot.hpCurrent,'17','trigger must refresh snapshot before Realtime test');
-for(let i=0;i<50&&!received;i++)await new Promise(r=>setTimeout(r,500));
-if(!received){console.log('DIAGNOSTIC: event count',realtimeEvents,'publication table',sql("SELECT count(*) FROM pg_publication_tables WHERE pubname='supabase_realtime' AND tablename='game_room_members'"));}
-assert.ok(received,'Actual Realtime UPDATE was not delivered');
-assert.equal(check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'refreshed').snapshot.hpCurrent,'17');
+assert.equal(persisted.snapshot.hpCurrent,'17','trigger must refresh snapshot');
+if(!realtimeError)for(let i=0;i<50&&!received;i++)await new Promise(r=>setTimeout(r,500));
+if(!received){
+ console.log('DIAGNOSTIC: Realtime events',realtimeEvents,'publication table',sql("SELECT count(*) FROM pg_publication_tables WHERE pubname='supabase_realtime' AND tablename='game_room_members'"));
+ realtimeError ||= Error('Actual Realtime UPDATE was not delivered');
+}
 await a.c.removeChannel(channel);
-console.log('PASS: Real Realtime event delivered after authenticated autosave');
+if(!realtimeError)console.log('PASS: Real Realtime event delivered after authenticated autosave');
 
 const racing=await Promise.all([1,2,3].map(()=>racer.c.rpc('join_game_room',{p_code:'A1B2C3D4',p_character:rid})));
 assert.equal(racing.filter(x=>!x.error&&x.data===room).length,1);
 const rows=check(await a.c.from('game_room_members').select('character_id').eq('room_id',room),'members');
 assert.equal(rows.filter(x=>x.character_id===rid).length,1);
 console.log('PASS: Concurrent signed-JWT requests created precisely one membership');
+if(realtimeError)throw realtimeError;
