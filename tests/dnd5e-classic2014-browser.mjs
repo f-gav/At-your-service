@@ -49,6 +49,14 @@ try{
       await page.getByLabel('Значение: ЛОВКОСТЬ').fill('18');
       await page.getByLabel('Владение: Акробатика').selectOption('proficient');
       assert.match(await page.getByRole('region',{name:'Спасброски и навыки'}).innerText(),/\+6/);
+      await page.getByLabel('Формула базового КЗ').selectOption('15');
+      await page.getByLabel('Базовая скорость').fill('35');
+      await page.getByRole('button',{name:/Добавить атаку/}).click();
+      await page.locator('.dnd14-attack select').selectOption('dex');
+      assert.match(await page.locator('.dnd14-attack-bonus').innerText(),/\+6/);
+      await page.locator('.dnd14-attack-trained input').uncheck();
+      assert.match(await page.locator('.dnd14-attack-bonus').innerText(),/\+4/);
+      await page.locator('.dnd14-attack-trained input').check();
       await page.getByLabel('Имя персонажа').fill('Аврора Ночная');
       await page.getByLabel('Текущие ХП').fill('14');
       await page.getByLabel('Ячейки 1 круга: всего').fill('3');
@@ -64,6 +72,10 @@ try{
       await page.waitForFunction(()=>window.__AYS_DND_2014_TEST__.saves.some(x=>x.name==='Аврора Ночная'&&x.details.dnd5eSheet.content.blocks.note1.includes('Первый')));
       const saved=await page.evaluate(()=>window.__AYS_DND_2014_TEST__.saves.at(-1));
       assert.equal(saved.details.dnd5eSheet.abilities.dex.score,18);
+      assert.equal(saved.details.dnd5eSheet.combat.ac.baseExpression,'15');
+      assert.equal(saved.details.dnd5eSheet.combat.speed.walkBase,'35');
+      assert.equal(saved.details.dnd5eSheet.attacks.length,1);
+      assert.equal(saved.details.dnd5eSheet.attacks[0].ability,'dex');
       assert.equal(saved.details.dnd5eSheet.combat.hp.current,14);
       assert.equal(saved.details.dnd5eSheet.spellcasting.slots.normal['1'].maximum,3);
       assert.equal(saved.details.dnd5eSheet.spellcasting.slots.normal['1'].used,2);
