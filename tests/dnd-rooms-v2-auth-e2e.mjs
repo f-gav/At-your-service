@@ -1,33 +1,77 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 import {createClient} from '@supabase/supabase-js';
 
 const variables=Object.fromEntries(readFileSync('.local-supabase-status','utf8')
-  .split(/\r?\n/).filter(line=>line.includes('='))
-  .map(line=>{const index=line.indexOf('=');return [line.slice(0,index),line.slice(index+1).replace(/^["']|["']$/g,'')]}));
-const endpoint=variables.API_URL;
-assert.match(endpoint||'',/^http:\/\/(127\.0\.0\.1|localhost):54321$/);
-const key=variables.ANON_KEY;
+ .split(/\r?\n/).filter(line=>line.includes('='))
+ .map(line=>{const i=line.indexOf('=');return [line.slice(0,i),line.slice(i+1).replace(/^["']|["']$/g,'')]}));
+const url=variables.API_URL, key=variables.ANON_KEY;
+assert.match(url||'',/^http:\/\/(127\.0\.0\.1|localhost):54321$/);
 assert.ok(key);
-const make=()=>createClient(endpoint,key,{auth:{persistSession:false,autoRefreshToken:false}});
+const pg={...process.env,PGHOST:'127.0.0.1',PGPORT:'54322',PGUSER:'postgres',PGPASSWORD:'postgres',PGDATABASE:'postgres'};
+const sql=q=>execFileSync('psql',['-X','-v','ON_ERROR_STOP=1','-At','-c',q],{env:pg,encoding:'utf8'}).trim();
+const check=(r,label)=>{assert.ifError(r.error,label);return r.data};
+const mk=()=>createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
 async function user(label){
-  const c=make();
-  const email='ays-'+label+'-'+randomUUID()+'@example.test';
-  const password='LocalTestOnly-'+randomUUID();
-  const response=await c.auth.signUp({email,password});
-  assert.ifError(response.error);
-  assert.ok(response.data.session?.access_token,'Local email confirmation must be disabled');
-  const jwt=response.data.session.access_token;
-  assert.equal(jwt.split('.').length,3);
-  assert.equal(JSON.parse(Buffer.from(jwt.split('.')[1],'base64url').toString()).sub,response.data.user.id);
-  return {c,id:response.data.user.id};
+ const c=mk(), email='ays-'+label+'-'+randomUUID()+'@example.test',password='Local-'+randomUUID();
+ const r=check(await c.auth.signUp({email,password}),'signup '+label);
+ assert.ok(r.session?.access_token,'Local Auth confirmations must be disabled');
+ assert.equal(r.session.access_token.split('.').length,3);
+ assert.equal(JSON.parse(Buffer.from(r.session.access_token.split('.')[1],'base64url').toString()).sub,r.user.id);
+ return {id:r.user.id,c};
 }
-const alice=await user('alice'),bob=await user('bob');
-assert.notEqual(alice.id,bob.id);
-console.log('PASS: Two genuine locally issued Supabase Auth JWTs; unique subjects');
-const a=await alice.c.from('game_rooms').select('id');
-const b=await bob.c.from('game_rooms').select('id');
-assert.ifError(a.error);
-assert.ifError(b.error);
-console.log('PASS: Both signed JWT sessions reach PostgREST with RLS active');
+const a=await user('owner'),b=await user('member'),outsider=await user('outsider'),racer=await user('racer');
+assert.equal(new Set([a.id,b.id,outsider.id,racer.id]).size,4);
+console.log('PASS: Four genuine locally signed Supabase Auth JWT identities');
+const char=(u,system='dnd5e')=>{
+ const id=randomUUID();
+ const data=JSON.stringify({dnd5eSheet:{schemaVersion:1,rulesEdition:'2024',layoutEdition:'2014',
+ identity:{level:4},combat:{hp:{current:21,maximumBase:25,temporary:2},
+ ac:{baseExpression:'13',shieldEquipped:false}},content:{blocks:{note:'PRIVATE'}}}});
+ sql(`INSERT INTO public.characters(id,user_id,name,system,details) VALUES
+ ('${id}','${u.id}','Fixture','${system}','${system==='dnd5e'?data:'{}'}'::jsonb)`);
+ return id;
+};
+const aid=char(a),bid=char(b),oid=char(outsider,'pf2e'),rid=char(racer);
+const room=randomUUID();
+sql("NOTIFY pgrst, 'reload schema'");
+await new Promise(r=>setTimeout(r,1800));
+check(await a.c.from('game_rooms').insert({id:room,owner_id:a.id,system:'dnd5e',invite_code:'A1B2C3D4'}),'create');
+assert.equal(check(await outsider.c.from('game_rooms').select('id').eq('id',room),'outsider').length,0);
+assert.equal(check(await a.c.from('game_rooms').select('id').eq('id',room),'owner').length,1);
+assert.equal(check(await outsider.c.rpc('join_game_room',{p_code:'A1B2C3D4',p_character:oid}),'cross system'),null);
+assert.equal(check(await b.c.rpc('join_game_room',{p_code:'A1B2C3D4',p_character:bid}),'join'),room);
+const snap=check(await a.c.from('game_room_members').select('snapshot').eq('room_id',room),'snapshot');
+assert.equal(snap.length,1);
+assert.equal(snap[0].snapshot.hpCurrent,'21');
+assert.ok(!JSON.stringify(snap).includes('PRIVATE'));
+assert.equal(check(await outsider.c.from('game_room_members').select('room_id'),'private memberships').length,0);
+console.log('PASS: Real JWT RLS, owner-only visibility, cross-system deny, RPC and snapshot secrecy');
+
+let received=false;
+const channel=a.c.channel('e2e-'+randomUUID())
+ .on('postgres_changes',{event:'UPDATE',schema:'public',table:'game_room_members'},
+   payload=>{if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
+await new Promise((resolve,reject)=>{
+ const timeout=setTimeout(()=>reject(Error('Realtime subscription timed out')),15000);
+ channel.subscribe(status=>{
+  if(status==='SUBSCRIBED'){clearTimeout(timeout);resolve()}
+  if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){clearTimeout(timeout);reject(Error(status))}
+ });
+});
+const mine=check(await b.c.from('characters').select('details').eq('id',bid).single(),'own sheet');
+mine.details.dnd5eSheet.combat.hp.current=17;
+check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),'save HP');
+for(let i=0;i<30&&!received;i++)await new Promise(r=>setTimeout(r,500));
+assert.ok(received,'Actual Realtime UPDATE was not delivered');
+assert.equal(check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'refreshed').snapshot.hpCurrent,'17');
+await a.c.removeChannel(channel);
+console.log('PASS: Real Realtime event delivered after authenticated autosave');
+
+const racing=await Promise.all([1,2,3].map(()=>racer.c.rpc('join_game_room',{p_code:'A1B2C3D4',p_character:rid})));
+assert.equal(racing.filter(x=>!x.error&&x.data===room).length,1);
+const rows=check(await a.c.from('game_room_members').select('character_id').eq('room_id',room),'members');
+assert.equal(rows.filter(x=>x.character_id===rid).length,1);
+console.log('PASS: Concurrent signed-JWT requests created precisely one membership');
