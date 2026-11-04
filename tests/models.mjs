@@ -59,7 +59,7 @@ assert.ok(json.includes('data.version !== 1 && data.version !== 2'),
   'Only known character JSON versions (v1 and v2) may be imported');
 assert.ok(json.includes('JSON слишком большой')&&json.includes('normalizeDetails(data.character.details)'),
   'Character JSON must enforce size limits and normalize incoming details');
-assert.ok(systems.includes("creatableSystemKeys = ['pf2e', 'prmoon']"),
+assert.ok(systems.includes("creatableSystemKeys = ['dnd5e', 'pf2e', 'prmoon']"),
   'Unreleased systems must not be available for new characters');
 const integrity=read('../supabase/backup-integrity.sql');
 const restoreRunbook=read('../docs/BACKUP-RESTORE-RU.md');
