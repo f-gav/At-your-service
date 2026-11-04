@@ -61,6 +61,7 @@ await new Promise((resolve,reject)=>{
   if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){clearTimeout(timeout);reject(Error(status))}
  });
 });
+await new Promise(r=>setTimeout(r,1500));
 const mine=check(await b.c.from('characters').select('details').eq('id',bid).single(),'own sheet');
 mine.details.dnd5eSheet.combat.hp.current=17;
 check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),'save HP');
