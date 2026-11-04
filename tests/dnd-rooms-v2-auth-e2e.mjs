@@ -50,10 +50,10 @@ assert.ok(!JSON.stringify(snap).includes('PRIVATE'));
 assert.equal(check(await outsider.c.from('game_room_members').select('room_id'),'private memberships').length,0);
 console.log('PASS: Real JWT RLS, owner-only visibility, cross-system deny, RPC and snapshot secrecy');
 
-let received=false;
+let received=false, realtimeEvents=0;
 const channel=a.c.channel('e2e-'+randomUUID())
  .on('postgres_changes',{event:'UPDATE',schema:'public',table:'game_room_members'},
-   payload=>{if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
+   payload=>{realtimeEvents++;console.log('Realtime UPDATE observed, room matches:',payload.new?.room_id===room,'snapshot keys:',Object.keys(payload.new?.snapshot||{}).join(','));if(payload.new?.room_id===room && payload.new?.snapshot?.hpCurrent==='17')received=true});
 await new Promise((resolve,reject)=>{
  const timeout=setTimeout(()=>reject(Error('Realtime subscription timed out')),15000);
  channel.subscribe(status=>{
@@ -64,7 +64,10 @@ await new Promise((resolve,reject)=>{
 const mine=check(await b.c.from('characters').select('details').eq('id',bid).single(),'own sheet');
 mine.details.dnd5eSheet.combat.hp.current=17;
 check(await b.c.from('characters').update({details:mine.details}).eq('id',bid).select('id').single(),'save HP');
-for(let i=0;i<30&&!received;i++)await new Promise(r=>setTimeout(r,500));
+const persisted=check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'read updated snapshot');
+assert.equal(persisted.snapshot.hpCurrent,'17','trigger must refresh snapshot before Realtime test');
+for(let i=0;i<50&&!received;i++)await new Promise(r=>setTimeout(r,500));
+if(!received){console.log('DIAGNOSTIC: event count',realtimeEvents,'publication table',sql("SELECT count(*) FROM pg_publication_tables WHERE pubname='supabase_realtime' AND tablename='game_room_members'"));}
 assert.ok(received,'Actual Realtime UPDATE was not delivered');
 assert.equal(check(await a.c.from('game_room_members').select('snapshot').eq('character_id',bid).single(),'refreshed').snapshot.hpCurrent,'17');
 await a.c.removeChannel(channel);
