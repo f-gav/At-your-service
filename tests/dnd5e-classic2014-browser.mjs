@@ -57,7 +57,10 @@ try{
       await page.locator('#dnd14-spellLevel1 .pf-rich-editable').fill('Волшебная стрела');
       await page.getByRole('button',{name:'Изменить портрет D&D'}).click();
       await page.waitForFunction(()=>window.__AYS_DND_2014_TEST__.portraitOpens===1);
-      await page.getByRole('button',{name:'Сохранить',exact:true}).click();
+      // An autosave may finish while Playwright scrolls to page 4. A disabled
+      // manual button is therefore a success state, not a UI failure.
+      const manual=page.getByRole('button',{name:'Сохранить',exact:true});
+      if(await manual.isEnabled())await manual.click();
       await page.waitForFunction(()=>window.__AYS_DND_2014_TEST__.saves.some(x=>x.name==='Аврора Ночная'&&x.details.dnd5eSheet.content.blocks.note1.includes('Первый')));
       const saved=await page.evaluate(()=>window.__AYS_DND_2014_TEST__.saves.at(-1));
       assert.equal(saved.details.dnd5eSheet.abilities.dex.score,18);
