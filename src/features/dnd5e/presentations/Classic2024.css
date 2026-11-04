@@ -72,3 +72,8 @@
 .dnd24-validation-error{max-width:940px;margin:8px auto;color:#a52e2e;padding:8px 12px}
 @media(max-width:800px){.dnd24-editor .dnd14-toolbar{align-items:flex-start}.dnd24-layout-switch{flex-wrap:wrap}}
 @media print{.dnd24-editor .dnd24-layout-switch,.dnd24-editor .dnd24-rules-picker{display:none!important}}
+
+.dnd24-conditions{display:flex;flex-wrap:wrap;gap:3px;align-items:center;margin-top:4px}
+.dnd24-conditions input{flex:1 1 90px;max-width:170px;min-width:70px;border:1px solid #c6d7d6;border-radius:3px;padding:2px 4px;font-size:10px}
+.dnd24-conditions button{background:#e6efed;border:1px solid #b5cccb;border-radius:3px;padding:2px 5px;color:#32565c;font:600 10px 'Segoe UI',sans-serif;cursor:pointer}
+.dnd24-conditions button:disabled{opacity:.4;cursor:not-allowed}
