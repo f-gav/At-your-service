@@ -216,8 +216,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-      - run: npm ci --no-audit --no-fund
+      - run: npm install --no-audit --no-fund
       - name: Start a disconnected local Supabase stack
         shell: bash
         run: |
@@ -275,8 +274,10 @@ jobs:
         shell: bash
         run: |
           rm -f .local-supabase-status
-          cd /tmp/ays-isolated-supabase
-          npx --yes supabase@2.122.0 stop --no-backup || true
+          if [[ -d /tmp/ays-isolated-supabase ]]; then
+            cd /tmp/ays-isolated-supabase
+            npx --yes supabase@2.122.0 stop --no-backup || true
+          fi
 
   deploy:
     if: github.event_name != 'pull_request'
