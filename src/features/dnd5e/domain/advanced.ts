@@ -153,15 +153,17 @@ export function formulaVars(sheet:Dnd5eSheet):Record<string,number>{
 export function evaluateDndExpression(source:string,sheet:Dnd5eSheet,random?:Random):number{
   if(source.length>MAX_EXPRESSION)throw Error('D&D: слишком длинная формула');
   const vars=formulaVars(sheet);
-  const withPowers=source.replace(/\^\s*(\d{1,2})/g,(_,exponent:string)=>'**'+exponent);
+  const withPowers=source.replace(/\^\s*(\d{1,2}|\[[A-Za-z]+\])/g,(_,exponent:string)=>'**'+exponent);
   // The existing dice engine does not support exponentiation, so expand only
   // small integer exponents through a bounded, arithmetic-only recursion.
   if(withPowers.includes('**')){
-    const m=/^\s*(\d+|\[\w+\])\s*\*\*\s*(\d{1,2})\s*$/.exec(withPowers);
+    const m=/^\s*(\d+|\[\w+\])\s*\*\*\s*(\d{1,2}|\[[A-Za-z]+\])\s*$/.exec(withPowers);
     if(!m)throw Error('D&D: степень допустима для одного выражения');
     const base=m[1].startsWith('[')?vars[m[1].slice(1,-1).toUpperCase()]:Number(m[1]);
-    if(base===undefined||Number(m[2])>12)throw Error('D&D: степень вне диапазона');
-    const result=base**Number(m[2]);
+    const exponent=m[2].startsWith('[')?vars[m[2].slice(1,-1).toUpperCase()]:Number(m[2]);
+    if(base===undefined||exponent===undefined||!Number.isInteger(exponent)||exponent<0||exponent>12)
+      throw Error('D&D: степень вне диапазона');
+    const result=base**exponent;
     if(!Number.isFinite(result)||Math.abs(result)>1e10)throw Error('D&D: переполнение степени');
     return result;
   }
