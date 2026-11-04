@@ -92,7 +92,7 @@ export function castDndSpell(sheet:Dnd5eSheet,spellId:string,pool:'normal'|'pact
 }
 export function restoreDndRest(sheet:Dnd5eSheet,rest:'short'|'long'):Dnd5eSheet{
   return validateDndSheet({...sheet,
-    resources:sheet.resources.map(r=>rest==='long'||r.restoreOn==='short'?
+    resources:sheet.resources.map(r=>r.restoreOn==='short'||(rest==='long'&&r.restoreOn==='long')?
       {...r,current:r.maximum}:r),
     spellcasting:{...sheet.spellcasting,
       slots:{normal:rest==='long'
