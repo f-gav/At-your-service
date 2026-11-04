@@ -14,6 +14,8 @@ import type {DndEdition} from '../domain/model';
 import {packDndSheet,prepareDndDetails} from '../infra/transfer';
 import Classic2014Pages from './Classic2014Pages';
 import Classic2024Pages from './Classic2024Pages';
+import AdvancedDndPanel from './AdvancedDndPanel';
+import {dndFormulaVariables} from '../domain/lss-formulas';
 import type {EditDnd} from './Classic2014Pages';
 import './Classic2014.css';
 import './Classic2024.css';
@@ -157,7 +159,8 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
         :<Classic2024Pages sheet={draft.sheet} name={draft.name} onName={onName} edit={edit}
           portraitUrl={portraitUrl} portraitFrame={portraitFrame} onEditPortrait={onEditPortrait}/>} 
     </div>
-    <p className="dnd14-sheet-note"><BookOpen size={14}/> Расширенный гримуар, дополнительные формулы и PDF появятся в следующих пакетах. Данные листа и заметки уже сохраняются.</p>
-    <DiceRollPanel system="dnd5e"/>
+    <AdvancedDndPanel sheet={draft.sheet} edit={edit}/>
+    <p className="dnd14-sheet-note"><BookOpen size={14}/> Данные и расширенные механики сохраняются вместе с листом. Экспорт PDF и импорт LSS запланированы на пакет №5.</p>
+    <DiceRollPanel system="dnd5e" dndVariables={dndFormulaVariables(draft.sheet)}/>
   </main>;
 }
