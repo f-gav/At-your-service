@@ -25,12 +25,12 @@ const sql=q=>execFileSync('psql',['-X','-v','ON_ERROR_STOP=1','-At','-c',q],{env
 const before=Number(sql('SELECT count(*) FROM public.game_room_members'));
 assert.ok(before>0);
 const dump='/tmp/ays-disposable-rooms.dump';
-execFileSync('pg_dump',['-Fc','--data-only','-f',dump,
+execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_dump','-h','127.0.0.1','-p','54322','-U','postgres','-Fc','--data-only','-f','/backup/ays-disposable-rooms.dump',
  '-t','public.characters','-t','public.game_rooms','-t','public.game_room_members',
  '-t','public.game_room_rolls','-d','postgres'],{env:pg});
 sql('TRUNCATE public.game_room_rolls,public.game_room_members,public.game_rooms,public.characters CASCADE');
 assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),0);
-execFileSync('pg_restore',['--disable-triggers','--data-only','--no-owner','--no-privileges','-d','postgres',dump],{env:pg});
+execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_restore','-h','127.0.0.1','-p','54322','-U','postgres','--disable-triggers','--data-only','--no-owner','--no-privileges','-d','postgres','/backup/ays-disposable-rooms.dump'],{env:pg});
 assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),before);
 console.log('PASS: disposable Rooms table data backup and destructive local restore');
 ok(await c.storage.from(bucket).remove([name]),'remove object');
