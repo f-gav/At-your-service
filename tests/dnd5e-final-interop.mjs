@@ -81,6 +81,8 @@ assert.equal(sheet.content.blocks.note2,'Вторая заметка');
 assert.ok(sheet.imports.unmapped.lssOriginal);
 assert.deepEqual(JSON.parse(exportOriginalLssJson(sheet)),LSS,'Original LSS must be archived unmodified');
 assert.ok(parseLssCharacter(LSS).warnings.some(w=>w.includes('Бонусы')));
+assert.ok(sheet.imports.unmapped.lssWarnings.some(w=>w.includes('Бонусы')),
+  'Unmapped LSS mechanics must be reported in persistent UI-visible metadata');
 const exported=exportCharacter(char('Рейна',sheet));
 const imported=parseCharacterJson(JSON.stringify(exported));
 assert.deepEqual(imported.details.dnd5eSheet,sheet);
