@@ -34,6 +34,7 @@ class Parser {
   private source:string;
   private i=0;
   private depth=0;
+  private conditionDepth=0;
   private diceCount=0;
   private dice:DieResult[]=[];
   private random:RNG;
@@ -171,7 +172,9 @@ class Parser {
         if(!name)this.fail('ожидалось число, переменная или кость');
         if(!this.take('('))this.fail('неизвестная функция '+name);
         if(name==='if'){
-          const cond=this.expr(false);
+          this.conditionDepth++;
+          let cond:number;
+          try{cond=this.expr(false);}finally{this.conditionDepth--;}
           if(!this.take(','))this.fail('if требует три аргумента');
           // Conditions are always deterministic. Parse twice only when needed:
           // first branch/other branch still consume syntax, but do not roll.
@@ -219,6 +222,7 @@ class Parser {
     }else sides=this.digit()??0;
     if(!Number.isInteger(sides)||sides<2||sides>100000)this.fail('число граней вне диапазона 2…100000');
     if(this.diceCount+count>MAX_DICE)this.fail('общий предел 1000 костей');
+    if(this.conditionDepth>0)this.fail('случайные кости запрещены в условии if');
     const start=this.i;
     let mode='' as ''|'kh'|'kl'|'dh'|'dl',amount=0,reroll:''|'r'|'ro'|'u'|'uo'='';
     let rerollRule:{op:Comparator;threshold:number}|null=null;
