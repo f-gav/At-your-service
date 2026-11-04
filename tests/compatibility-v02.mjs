@@ -195,4 +195,4 @@ assert.equal(mixedParsed.details.dnd5eSheet.rulesEdition,'2024');
 assert.equal(mixedParsed.details.dnd5eSheet.layoutEdition,'2014');
 assert.throws(()=>parseCharacterJson(JSON.stringify({...dndPortable,
  character:{...dndPortable.character,sheet:{...dndPortable.character.sheet,rulesEdition:'2030'}}})),/D&D/);
-console.log('PASS: JSON v2 grouped roundtrip, D&D Classic 2014, dormant PF spell tables, Project Moon and portraits');
+console.log('PASS: JSON v2 grouped roundtrip, D&D 2014/2024 and mixed editions, dormant PF spell tables, Project Moon and portraits');
