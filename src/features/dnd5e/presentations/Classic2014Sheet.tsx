@@ -93,6 +93,13 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     window.addEventListener('scroll',onScroll,{passive:true});
     return()=>{window.removeEventListener('scroll',onScroll);if(frame)cancelAnimationFrame(frame);};
   },[]);
+  if(draft.sheet.layoutEdition!=='2014')return <main className="page page-editor dnd14-editor">
+    <button className="dnd14-toolbar-action" type="button" onClick={onClose}><ArrowLeft size={16}/> К персонажам</button>
+    <section className="dnd14-unavailable" role="alert">
+      <h1>Лист D&D 2024 пока недоступен</h1>
+      <p>Этот персонаж использует макет {draft.sheet.layoutEdition}. Данные сохранены без преобразования. Работа с листом 2024 появится в пакете №3.</p>
+    </section>
+  </main>;
   return <main className="page page-editor dnd14-editor" data-dnd-classic-version="2014">
     <div className="dnd14-toolbar">
       <div className="dnd14-toolbar-left">
@@ -112,7 +119,7 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
     <div className="dnd14-heading">
       <h1>Лист персонажа: {draft.name||'Без имени'}</h1>
-      <span>Классический лист D&D 2014 · 4 страницы A4</span>
+      <span>Классический лист D&D 2014 · правила {draft.sheet.rulesEdition} · 4 страницы A4</span>
     </div>
     <nav className="dnd14-page-nav" aria-label="Страницы классического листа D&D 2014">
       {pages.map((title,i)=><button type="button" key={title} aria-current={activePage===i+1?'page':undefined}
