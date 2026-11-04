@@ -65,7 +65,9 @@ next.spellcasting.spells.push({id:'spell-1',name:'Свет',level:1,source:'home
 assert.equal(selectSpells(next,'known').length,1);
 assert.equal(selectSpells(next,'book').length,1);
 assert.equal(selectSpells(next,'prepared').length,0);
-assert.throws(()=>castSpell(next,'spell-1','normal',1),/подготовлено/);
+assert.throws(()=>castSpell(changeSpellFlag(next,'spell-1','known',false),'spell-1','normal',1),/подготовлено/);
+assert.equal(castSpell(next,'spell-1','normal',1).spellcasting.slots.normal['1'].used,3,
+  'Known spells such as sorcerer spells can be cast without an extra prepared flag');
 const prepared=changeSpellFlag(next,'spell-1','prepared',true);
 assert.equal(selectSpells(prepared,'prepared').length,1);
 const cast=castSpell(prepared,'spell-1','normal',1);
