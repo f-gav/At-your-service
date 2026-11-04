@@ -10,16 +10,19 @@ import {supabase} from '../../lib/supabase';
 import {takeRoomRequestPermit} from '../../lib/room-request-guard';
 import './RoomsHub.css';
 
-export type RoomSystem='pf2e'|'prmoon';
+export type RoomSystem='pf2e'|'prmoon'|'dnd5e';
+// Off in production until reviewed SQL is explicitly applied and validated.
+export const DND_ROOMS_V2_ENABLED=import.meta.env.VITE_DND_ROOMS_V2==='true';
 type Room={id:string;owner_id:string;title:string;system:RoomSystem;invite_code:string;closed:boolean;created_at:string};
 type Snapshot={name?:string;hpCurrent?:string;hpMax?:string;hpTemp?:string;ac?:string;level?:string;
-  stCurrent?:string;stMax?:string;spCurrent?:string;spMax?:string;rank?:string};
+  stCurrent?:string;stMax?:string;spCurrent?:string;spMax?:string;rank?:string;
+  acBase?:string;rulesEdition?:string};
 type Member={room_id:string;character_id:string;user_id:string;casts_enabled:boolean;joined_at:string;snapshot:Snapshot};
 type Roll={id:string;room_id:string;character_id:string;formula:string;label:string;total:number;
   calculation:string;created_at:string;dice:unknown[]};
 type Props={userId:string|null;characters:Character[];onOpenCharacter:(id:string)=>void};
-const systemLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
-const roomBadgeLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon'};
+const systemLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon',dnd5e:'D&D 5e'};
+const roomBadgeLabels:Record<RoomSystem,string>={pf2e:'Pathfinder 2e',prmoon:'Project Moon',dnd5e:'D&D 5e'};
 function participantLabel(n:number):string {
   const m100=n%100,m10=n%10;
   return m100>=11&&m100<=14?'участников':m10===1?'участник':m10>=2&&m10<=4?'участника':'участников';
@@ -30,6 +33,8 @@ const friendlyError=(error:unknown)=>{
     return 'Комнаты ещё не подключены к Supabase. Необходимо применить миграцию supabase/migrations/20261026_game_rooms.sql к базе At your service!.';
   if(/already in this room|already in a room|duplicate key/i.test(message))return 'Этот персонаж уже подключён к этой комнате.';
   if(/does not match room/i.test(message))return 'Система персонажа не совпадает с системой комнаты.';
+  if(/Unsupported character system|game_rooms_system_check/i.test(message))
+    return 'D&D-комнаты ещё не активированы на сервере. Требуется согласованная миграция Rooms V2.';
   if(/Room not found|closed/i.test(message))return 'Комната с таким кодом не найдена или закрыта.';
   return message;
 };
@@ -71,7 +76,8 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
   const viewState=roomViewState(userId,selected,room??null,members);
   const isOwner=viewState.canManage;
   const roomMembersOwn=members.filter(m=>m.user_id===userId);
-  const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon');
+  const eligible=characters.filter(c=>c.system==='pf2e'||c.system==='prmoon'||
+    (DND_ROOMS_V2_ENABLED&&c.system==='dnd5e'));
   const sortedRooms=useMemo(()=>[...rooms].sort((a,b)=>b.created_at.localeCompare(a.created_at)),[rooms]);
   const roomMembershipCounts=useMemo(()=>{
     const counts=new Map<string,number>();
@@ -257,13 +263,19 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             return <article className="ays-room-member" key={member.character_id}>
               <div className="ays-room-member-title">
                 <div className="ays-room-member-name"><span className="ays-room-member-avatar"><Users size={19}/></span>
-                  <span><strong>{snap.name||'Персонаж'}</strong><small>{room.system==='pf2e'&&snap.level?'Уровень '+snap.level:room.system==='prmoon'&&snap.rank?'Ранг '+snap.rank:''}</small></span>
+                  <span><strong>{snap.name||'Персонаж'}</strong><small>{(room.system==='pf2e'||room.system==='dnd5e')&&snap.level?'Уровень '+snap.level:room.system==='prmoon'&&snap.rank?'Ранг '+snap.rank:''}</small></span>
                 </div>
                 {member.user_id===userId&&local&&<button type="button" title="Открыть свой лист" onClick={()=>onOpenCharacter(local.id)}>Лист</button>}
               </div>
               {room.system==='pf2e'?<>
                 <Resource label="ПЗ" current={snap.hpCurrent} max={snap.hpMax}/>
                 <div className="ays-room-member-secondary"><span><Shield size={15}/> КД <b>{stat(snap.ac)}</b></span>{snap.hpTemp&&<span>Врем. ПЗ {snap.hpTemp}</span>}</div>
+              </>:room.system==='dnd5e'?<>
+                <Resource label="ХП" current={snap.hpCurrent} max={snap.hpMax}/>
+                <div className="ays-room-member-secondary"><span><Shield size={15}/> Базовая КЗ <b>{stat(snap.acBase)}</b></span>
+                  {snap.hpTemp&&<span>Врем. ХП {snap.hpTemp}</span>}
+                  {snap.rulesEdition&&<span>Правила {snap.rulesEdition}</span>}
+                </div>
               </>:<>
                 <Resource label="HP" current={snap.hpCurrent} max={snap.hpMax}/>
                 <Resource label="ST" current={snap.stCurrent} max={snap.stMax}/>
@@ -367,6 +379,7 @@ export default function RoomsHub({userId,characters,onOpenCharacter}:Props){
             <label>Игровая система
               <select value={createSystem} onChange={e=>setCreateSystem(e.target.value as RoomSystem)}>
                 <option value="pf2e">Pathfinder 2e</option><option value="prmoon">Project Moon</option>
+                {DND_ROOMS_V2_ENABLED&&<option value="dnd5e">D&D 5e (2014 / 2024)</option>}
               </select>
             </label>
             <div className="ays-room-dialog-actions">

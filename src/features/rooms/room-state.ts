@@ -1,5 +1,5 @@
 /** Rooms V2 view-state and capability model. Server RLS/RPC remain authoritative. */
-export type RoomSystem='pf2e'|'prmoon';
+export type RoomSystem='pf2e'|'prmoon'|'dnd5e';
 export type RoomRole='anonymous'|'owner'|'participant'|'outsider';
 export type RoomScreen='sign-in'|'overview'|'selected'|'unavailable';
 export type RoomViewState={screen:RoomScreen;role:RoomRole;canManage:boolean;canEditOwnRolls:boolean;canJoin:boolean};

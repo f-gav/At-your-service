@@ -14,7 +14,7 @@ export function roomDetailRequests(roomId:string){
  db.from('game_room_rolls').select('id,room_id,character_id,formula,label,total,calculation,created_at,dice').eq('room_id',roomId).order('created_at',{ascending:false}).limit(80),
  ]);
 }
-export function createRoomRow(ownerId:string,title:string,system:'pf2e'|'prmoon'){
+export function createRoomRow(ownerId:string,title:string,system:'pf2e'|'prmoon'|'dnd5e'){
  return supabase!.from('game_rooms').insert({owner_id:ownerId,title,system}).select('id').single();
 }
 export function joinRoomByCode(code:string,characterId:string){

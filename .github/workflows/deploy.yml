@@ -58,6 +58,8 @@ jobs:
         run: node tests/stage3-architecture-final.mjs
       - name: Rooms V2 role and lifecycle contract
         run: node --experimental-strip-types tests/stage4-rooms-v2-contract.mjs
+      - name: D&D Rooms V2 review-only gate and schema proposal contract
+        run: node --experimental-strip-types tests/dnd-rooms-v2-gate.mjs
       - name: Rooms V2 realtime stale responses and reconnect
         run: node tests/stage4-rooms-realtime.mjs
       - name: Rooms V2 master operations and conflict regression
@@ -98,8 +100,22 @@ jobs:
         run: node tests/dnd5e-classic2024-browser.mjs
       - name: D&D advanced grimoire and resource autosave in Chromium
         run: node tests/dnd5e-advanced-browser.mjs
+      - name: Ensure Poppler PDF raster inspection tools
+        run: |
+          if ! command -v pdfinfo >/dev/null 2>&1 || ! command -v pdftoppm >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y poppler-utils
+          fi
       - name: Download and validate 2014/2024 long-text A4 PDFs in Chromium
         run: node tests/dnd5e-final-pdf-browser.mjs
+      - name: Upload D&D 2014 and 2024 raster PDF visual audit images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dnd-2014-2024-pdf-visual-audit
+          path: test-artifacts/dnd-*-page-*.png
+          if-no-files-found: ignore
+          retention-days: 7
       - name: D&D two-device conflict, local draft and retry in Chromium
         run: node tests/dnd5e-final-conflict-browser.mjs
       - name: Verify downloadable PDFs in Chromium
@@ -184,6 +200,12 @@ jobs:
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/rooms-v2-rls-final.sql
       - name: Verify isolated two-account D&D RLS, CAS and jsonb limits
         run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd5e-final-local-rls.sql
+      - name: Prepare disposable D&D Rooms V2 migration baseline
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-baseline.sql
+      - name: Apply proposed D&D Rooms SQL ONLY to ephemeral CI PostgreSQL
+        run: psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/dnd-rooms-v2-approval-required.sql
+      - name: Verify two-account D&D Rooms RLS, safe snapshots, cross-system and quota
+        run: psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-rls.sql
 
   recovery-windows-smoke:
     name: Windows 11-compatible recovery safety smoke
@@ -199,6 +221,100 @@ jobs:
         run: node tests/local-recovery-safety.mjs
       - name: Verify recovery report is syntactically valid
         run: node --check scripts/recovery-acceptance-report.mjs
+
+  local-supabase-auth-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - name: Start a disconnected local Supabase stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ays-isolated-supabase
+          cd /tmp/ays-isolated-supabase
+          npx --yes supabase@2.122.0 init
+          npx --yes supabase@2.122.0 start -x studio,imgproxy,logflare,vector,edge-runtime,postgres-meta,supavisor
+          npx --yes supabase@2.122.0 status -o env > "$GITHUB_WORKSPACE/.local-supabase-status"
+      - name: Prepare temporary schema and approval-only proposal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path('tests/fixtures/room-rpc-local-schema.sql').read_text()
+          for needle in ('CREATE ROLE anon NOLOGIN;','CREATE ROLE authenticated NOLOGIN;','CREATE SCHEMA auth;'):
+              assert needle in src, needle
+              src=src.replace(needle,'')
+          begin=src.index('CREATE OR REPLACE FUNCTION auth.uid() RETURNS uuid')
+          end=src.index('CREATE SCHEMA ays_rooms_private;',begin)
+          src=src[:begin]+src[end:]
+          Path('/tmp/ays-auth-baseline.sql').write_text(src)
+          PY
+          export PGPASSWORD=postgres
+          export PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres
+          psql -X -v ON_ERROR_STOP=1 -f /tmp/ays-auth-baseline.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/room-rpc-quotas-staging.sql
+          psql -X -v ON_ERROR_STOP=1 -f tests/fixtures/dnd-rooms-v2-baseline.sql
+          psql -X -v ON_ERROR_STOP=1 -f supabase/proposals/dnd-rooms-v2-approval-required.sql
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          ALTER TABLE public.game_room_members REPLICA IDENTITY FULL;
+          ALTER PUBLICATION supabase_realtime ADD TABLE public.game_room_members;
+          INSERT INTO storage.buckets (id,name,public) VALUES ('ays-disposable-restore','ays-disposable-restore',false);
+          CREATE POLICY ays_test_storage_insert ON storage.objects
+            FOR INSERT TO authenticated WITH CHECK (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          CREATE POLICY ays_test_storage_select ON storage.objects
+            FOR SELECT TO authenticated USING (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          CREATE POLICY ays_test_storage_delete ON storage.objects
+            FOR DELETE TO authenticated USING (
+              bucket_id='ays-disposable-restore'
+              AND (storage.foldername(name))[1]=(select auth.uid())::text);
+          SQL
+          realtime_container="$(docker ps --format '{{.Names}}' | grep '^supabase_realtime_' | head -n1)"
+          test -n "$realtime_container"
+          docker restart "$realtime_container"
+          sleep 8
+      - name: Install Chromium for independent local Auth browser sessions
+        run: npx playwright install chromium
+      - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
+        shell: bash
+        run: |
+          set +e
+          node tests/dnd-rooms-v2-auth-e2e.mjs
+          auth_code=$?
+          node tests/dnd-rooms-v2-local-recovery.mjs
+          recovery_code=$?
+          node --experimental-strip-types tests/dnd5e-two-browser-local.mjs
+          browser_code=$?
+          echo "Auth/Realtime E2E exit: $auth_code; Recovery exit: $recovery_code; Two browsers exit: $browser_code"
+          test "$auth_code" -eq 0 && test "$recovery_code" -eq 0 && test "$browser_code" -eq 0
+      - name: Show local Realtime diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          realtime_container="$(docker ps --format '{{.Names}}' | grep '^supabase_realtime_' | head -n1 || true)"
+          if [[ -n "$realtime_container" ]]; then
+            docker logs --tail 120 "$realtime_container" 2>&1 |
+              grep -Ei '(error|warn|replication|subscription|publication|slot|rls)' |
+              sed -E 's/[A-Za-z0-9_-]{60,}/[redacted]/g' | tail -60 || true
+          fi
+      - name: Stop disposable stack and erase local credentials
+        if: always()
+        shell: bash
+        run: |
+          rm -f .local-supabase-status
+          if [[ -d /tmp/ays-isolated-supabase ]]; then
+            cd /tmp/ays-isolated-supabase
+            npx --yes supabase@2.122.0 stop --no-backup || true
+          fi
 
   deploy:
     if: github.event_name != 'pull_request'

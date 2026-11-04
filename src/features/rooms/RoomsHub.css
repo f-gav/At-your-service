@@ -487,3 +487,10 @@
 @media(max-width:489px){
   .ays-room-table .ays-room-member-grid{grid-template-columns:minmax(0,1fr)}
 }
+
+/* D&D room system label is staged; the creation/join options remain hidden
+   until the explicitly approved backend rollout flag is activated. */
+.ays-room-system-pill.ays-room-system-dnd5e,
+.ays-room-identity .ays-room-system-dnd5e{background:#574b9220;color:#6555a1}
+:root[data-ays-theme="dark"] .ays-room-system-pill.ays-room-system-dnd5e,
+:root[data-ays-theme="dark"] .ays-room-identity .ays-room-system-dnd5e{background:#473a6c;color:#e0d4fa}

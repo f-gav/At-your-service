@@ -1,0 +1,41 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {randomUUID,createHash} from 'node:crypto';
+import {createClient} from '@supabase/supabase-js';
+const vars=Object.fromEntries(readFileSync('.local-supabase-status','utf8').split(/\r?\n/)
+ .filter(x=>x.includes('=')).map(x=>{const i=x.indexOf('=');return [x.slice(0,i),x.slice(i+1).replace(/^["']|["']$/g,'')]}));
+assert.match(vars.API_URL||'',/^http:\/\/(localhost|127\.0\.0\.1):54321$/);
+const c=createClient(vars.API_URL,vars.ANON_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+const email='ays-restore-'+randomUUID()+'@example.test',password='Local-'+randomUUID();
+const signed=await c.auth.signUp({email,password});
+assert.ifError(signed.error);
+assert.ok(signed.data.session?.access_token);
+const id=signed.data.user.id,bucket='ays-disposable-restore',name=id+'/fixture.txt';
+const bytes=Buffer.from('disposable storage restore: '+randomUUID());
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const ok=(r,desc)=>{assert.ifError(r.error,desc);return r.data};
+ok(await c.storage.from(bucket).upload(name,bytes,{contentType:'text/plain'}),'upload');
+const backed=ok(await c.storage.from(bucket).download(name),'download');
+const archived=Buffer.from(await backed.arrayBuffer());
+assert.equal(hash(archived),hash(bytes));
+console.log('PASS: local private Storage upload + SHA256-verified backup');
+const pg={...process.env,PGHOST:'127.0.0.1',PGPORT:'54322',PGDATABASE:'postgres',PGUSER:'postgres',PGPASSWORD:'postgres'};
+const sql=q=>execFileSync('psql',['-X','-v','ON_ERROR_STOP=1','-At','-c',q],{env:pg,encoding:'utf8'}).trim();
+const before=Number(sql('SELECT count(*) FROM public.game_room_members'));
+assert.ok(before>0);
+const dump='/tmp/ays-disposable-rooms.dump';
+execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_dump','-h','127.0.0.1','-p','54322','-U','postgres','-Fc','--data-only','-f','/backup/ays-disposable-rooms.dump',
+ '-t','public.characters','-t','public.game_rooms','-t','public.game_room_members',
+ '-t','public.game_room_rolls','-d','postgres'],{env:pg});
+sql('TRUNCATE public.game_room_rolls,public.game_room_members,public.game_rooms,public.characters CASCADE');
+assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),0);
+execFileSync('docker',['run','--rm','--network','host','-v','/tmp:/backup','-e','PGPASSWORD=postgres','postgres:17','pg_restore','-h','127.0.0.1','-p','54322','-U','postgres','--data-only','--no-owner','--no-privileges','-d','postgres','/backup/ays-disposable-rooms.dump'],{env:pg});
+assert.equal(Number(sql('SELECT count(*) FROM public.game_room_members')),before);
+console.log('PASS: disposable Rooms table data backup and destructive local restore');
+ok(await c.storage.from(bucket).remove([name]),'remove object');
+ok(await c.storage.from(bucket).upload(name,archived,{contentType:'text/plain'}),'restore object');
+const read=ok(await c.storage.from(bucket).download(name),'download restored');
+assert.equal(hash(Buffer.from(await read.arrayBuffer())),hash(bytes));
+console.log('PASS: private Storage object deletion and byte-exact restoration');
+console.log('SCOPE: fixture-only table data + Storage object; NOT a full production DB+Storage recovery rehearsal');

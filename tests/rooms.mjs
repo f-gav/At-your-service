@@ -84,7 +84,7 @@ assert.match(multiRoomMigration,/m\.room_id=destination\.id and m\.character_id=
 assert.match(hub,/Например, Запалка/);
 assert.match(hub,/participantLabel/);
 assert.match(hub,/roomBadgeLabels/);
-assert.match(hub,/roomBadgeLabels:Record<RoomSystem,string>=\{pf2e:'Pathfinder 2e',prmoon:'Project Moon'\}/);
+assert.match(hub,/roomBadgeLabels:Record<RoomSystem,string>=\{pf2e:'Pathfinder 2e',prmoon:'Project Moon',dnd5e:'D&D 5e'\}/);
 assert.doesNotMatch(hub,/prmoon:'Pr\. Moon'/);
 assert.match(roomsStyle,/\.ays-room-system-pill\.ays-room-system-prmoon/);
 assert.match(roomsStyle,/\.ays-room-system-pill,[\s\S]*?\.ays-room-identity \.ays-room-system\s*\{[\s\S]*?font-family:Georgia,'Times New Roman',serif/);
