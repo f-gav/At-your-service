@@ -251,7 +251,8 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 <<'SQL'
           ALTER TABLE public.game_room_members REPLICA IDENTITY FULL;
           ALTER PUBLICATION supabase_realtime ADD TABLE public.game_room_members;
-          INSERT INTO storage.buckets (id,name,public) VALUES ('ays-disposable-restore','ays-disposable-restore',false);\n          CREATE POLICY ays_test_storage_insert ON storage.objects
+          INSERT INTO storage.buckets (id,name,public) VALUES ('ays-disposable-restore','ays-disposable-restore',false);
+          CREATE POLICY ays_test_storage_insert ON storage.objects
             FOR INSERT TO authenticated WITH CHECK (
               bucket_id='ays-disposable-restore'
               AND (storage.foldername(name))[1]=(select auth.uid())::text);
@@ -266,7 +267,9 @@ jobs:
           SQL
       - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
         shell: bash
-        run: |\n          node tests/dnd-rooms-v2-auth-e2e.mjs\n          node tests/dnd-rooms-v2-local-recovery.mjs
+        run: |
+          node tests/dnd-rooms-v2-auth-e2e.mjs
+          node tests/dnd-rooms-v2-local-recovery.mjs
       - name: Stop disposable stack and erase local credentials
         if: always()
         shell: bash
