@@ -17,10 +17,10 @@ CREATE POLICY dnd_final_delete ON public.characters FOR DELETE TO authenticated
 INSERT INTO public.characters(id,user_id,name,system,details,updated_at)
 VALUES
 ('aaaaaaaa-0000-4000-8000-000000000011','11111111-1111-4111-8111-111111111111','D&D A','dnd5e',
- '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2014","layoutEdition":"2014","content":{"blocks":{"note1":"A"}}}}}',
+ '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2014","layoutEdition":"2014","content":{"blocks":{"note1":"A"}}}}',
  '2026-01-01T00:00:00Z'),
 ('bbbbbbbb-0000-4000-8000-000000000022','22222222-2222-4222-8222-222222222222','D&D B','dnd5e',
- '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2024","layoutEdition":"2024","content":{"blocks":{"note1":"B"}}}}}',
+ '{"dnd5eSheet":{"schemaVersion":1,"rulesEdition":"2024","layoutEdition":"2024","content":{"blocks":{"note1":"B"}}}}',
  '2026-01-01T00:00:00Z');
 SET ROLE authenticated;
 SET request.jwt.claim.sub='11111111-1111-4111-8111-111111111111';
