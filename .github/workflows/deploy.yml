@@ -264,6 +264,9 @@ jobs:
               bucket_id='ays-disposable-restore'
               AND (storage.foldername(name))[1]=(select auth.uid())::text);
           SQL
+          realtime_container="$(docker ps --format '{{.Names}}' | grep '^supabase_realtime_' | head -n1)"
+          test -n "$realtime_container"
+          docker restart "$realtime_container"
       - name: Run two genuine local Auth JWT sessions, RLS/RPC, Realtime, races and fixture recovery
         shell: bash
         run: |
