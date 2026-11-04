@@ -41,6 +41,7 @@ assert.equal(rollDndLssFormula('10d10>=8',{},fixed(...Array(10).fill(.99))).tota
 assert.throws(()=>rollDndLssFormula('1001d6',{},fixed(0)),/слишком много костей|1000/);
 assert.throws(()=>rollDndLssFormula('1d6!',{},()=>.99),/100/);
 assert.throws(()=>rollDndLssFormula('1d20+[FAKE]',vars,fixed(0)),/неизвестная переменная/);
+assert.throws(()=>rollDndLssFormula('if(1d20>10,2,1)',vars,fixed(0)),/условии if/);
 assert.throws(()=>rollDndLssFormula('1d0',{},fixed(0)),/граней/);
 assert.throws(()=>rollDndLssFormula('1d6 + 1d6'.repeat(200),{},fixed(0)),/1000/);
 assert.equal(rollDndLssFormula('1d20 # Проверка ловкости',{},fixed(0)).label,'Проверка ловкости');
