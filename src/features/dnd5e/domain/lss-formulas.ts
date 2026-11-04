@@ -122,8 +122,8 @@ class Parser {
     let n=this.power(run);
     while(true){
       if(this.take('*'))n=this.bounded(n*this.power(run));
-      else if(this.take('/')){const d=this.power(run);if(d===0&&run)this.fail('деление на ноль');n=run?n/d:0;}
-      else if(this.take('%')){const d=this.power(run);if(d===0&&run)this.fail('остаток при делении на ноль');n=run?n%d:0;}
+      else if(this.take('/')){const d=this.power(run);if(d===0&&run)this.fail('деление на ноль');n=d===0?0:n/d;}
+      else if(this.take('%')){const d=this.power(run);if(d===0&&run)this.fail('остаток при делении на ноль');n=d===0?0:n%d;}
       else return this.bounded(n);
     }
   }
@@ -327,6 +327,6 @@ export function rollDndLssFormula(source:string,vars:DiceVariables={},random:RNG
 export function evaluateDndNumericFormula(source:string,vars:DiceVariables={}):number {
   if(/(?:\d|[)\]])\s*d\s*(?:\d|%|F|\()|\bd(?:\d|%|F|\()/i.test(normalizeDiceFormula(source)))
     throw Error('D&D: в числовом поле запрещены случайные кости');
-  const result=new Parser(source,vars,()=>{throw Error('D&D: запрещены кости');}).parse(false);
+  const result=new Parser(source,vars,()=>{throw Error('D&D: запрещены кости');}).parse(true);
   return result.value;
 }
