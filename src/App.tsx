@@ -48,6 +48,7 @@ import { downloadCharacter, parseCharacterJson } from './lib/character-json';
 import PathfinderSheet from './features/pathfinder/PathfinderSheet';
 import ProjectMoonSheet from './features/project-moon/ProjectMoonSheet';
 import Classic2014Sheet from './features/dnd5e/presentations/Classic2014Sheet';
+import {packDndSheet} from './features/dnd5e/infra/transfer';
 import { moonSubtitle, readMoonSheet } from './features/project-moon/model';
 import { initialSheetValues } from './features/pathfinder/sheet-values';
 import PortraitEditor from './features/portrait/PortraitEditor';
@@ -448,7 +449,9 @@ export default function App() {
       if (readError || !data) throw readError ?? new Error('Не удалось получить актуальную версию персонажа.');
       const freshest = confirmedCharacter(data as Character);
       const key = characterDraftKey(user.id,character.id);
-      const baseline = freshest.system === 'pf2e'
+      const baseline = freshest.system === 'dnd5e'
+        ? JSON.stringify({name:freshest.name,sheet:{...packDndSheet(freshest.details.dnd5eSheet,freshest.name),identity:{...packDndSheet(freshest.details.dnd5eSheet,freshest.name).identity,name:freshest.name}}})
+        : freshest.system === 'pf2e'
         ? JSON.stringify(initialSheetValues(freshest.details,freshest.name))
         : freshest.system === 'prmoon'
           ? JSON.stringify([freshest.name,readMoonSheet(freshest.details)])
