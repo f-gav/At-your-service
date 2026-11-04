@@ -195,7 +195,7 @@ export function rollDiceFormula(source:string,variables:DiceVariables={},random:
 }
 const DICE_VARIABLE_FIELDS:Record<string,string>={
     STR:'ability_str',DEX:'ability_dex',CON:'ability_con',INT:'ability_int',WIS:'ability_wis',CHA:'ability_cha',
-    LVL:'level',RANK:'rank',FORTITUDE:'fortitude',PRUDENCE:'prudence',
+    LVL:'level',PROF:'proficiency',HALF_PROF:'half_proficiency',RANK:'rank',FORTITUDE:'fortitude',PRUDENCE:'prudence',
     JUSTICE:'determination',DETERMINATION:'determination',
     CHARM:'charm',INSIGHT:'discernment',DISCERNMENT:'discernment',TEMPERANCE:'temperance',
 };
