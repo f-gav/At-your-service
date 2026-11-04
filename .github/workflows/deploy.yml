@@ -13,7 +13,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
+  # PR checks must never cancel an active main/Pages deployment.
+  group: github-pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
