@@ -58,6 +58,8 @@ jobs:
         run: node tests/stage3-architecture-final.mjs
       - name: Rooms V2 role and lifecycle contract
         run: node --experimental-strip-types tests/stage4-rooms-v2-contract.mjs
+      - name: D&D Rooms V2 review-only gate and schema proposal contract
+        run: node --experimental-strip-types tests/dnd-rooms-v2-gate.mjs
       - name: Rooms V2 realtime stale responses and reconnect
         run: node tests/stage4-rooms-realtime.mjs
       - name: Rooms V2 master operations and conflict regression
