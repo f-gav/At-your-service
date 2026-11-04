@@ -20,6 +20,8 @@ async function user(label){
  assert.ok(r.session?.access_token,'Local Auth confirmations must be disabled');
  assert.equal(r.session.access_token.split('.').length,3);
  assert.equal(JSON.parse(Buffer.from(r.session.access_token.split('.')[1],'base64url').toString()).sub,r.user.id);
+ // Node E2E explicitly authenticates the independent Realtime WebSocket.
+ c.realtime.setAuth(r.session.access_token);
  return {id:r.user.id,c};
 }
 const a=await user('owner'),b=await user('member'),outsider=await user('outsider'),racer=await user('racer');
