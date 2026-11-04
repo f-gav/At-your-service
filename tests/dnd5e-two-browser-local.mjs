@@ -7,6 +7,7 @@ import {execFileSync,spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
 import {chromium} from 'playwright';
 import {createClient} from '@supabase/supabase-js';
+import {newDndSheet} from '../src/features/dnd5e/domain/model.ts';
 
 const vars=Object.fromEntries(readFileSync('.local-supabase-status','utf8')
  .split(/\r?\n/).filter(x=>x.includes('=')).map(x=>{
@@ -49,20 +50,7 @@ try{
  browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  for(const edition of ['2014','2024']){
   const id=randomUUID();
-  const sheet={schemaVersion:1,rulesEdition:edition,layoutEdition:edition,
-   identity:{name:'Синхронный герой',level:1},abilities:{
-    str:{score:10},dex:{score:10},con:{score:10},int:{score:10},wis:{score:10},cha:{score:10}},
-   proficiencies:{saves:{},skills:{},equipment:{}},
-   combat:{hp:{current:12,maximumBase:14,temporary:0},
-    ac:{baseExpression:'10+[DEX]',shieldEquipped:false,shieldBonus:2},
-    speed:{walkBase:'30'},deathSaves:{successes:0,failures:0},
-    conditions:[],exhaustion:0,inspiration:false},
-   attacks:[],content:{blocks:{}},spellcasting:{defaultAbility:null,displayMode:'text',
-    slots:{normal:{},pact:{}},spells:[]},
-   inventory:{coins:{cp:0,sp:0,ep:0,gp:0,pp:0},items:[],attuned:[]},
-   classes:[],features:[],resources:[],effects:[],bonuses:[],
-   presentation:{hiddenBlocks:[],fontScale:1,printOptions:{}},
-   imports:{origin:'manual',unmapped:{},unresolvedSpells:[]}};
+  const sheet=newDndSheet('Синхронный герой',edition);
   const data=JSON.stringify({dnd5eSheet:sheet}).replaceAll("'","''");
   sql("INSERT INTO public.characters(id,user_id,name,system,details) VALUES ('"+id+
    "','"+owner+"','Синхронный герой','dnd5e','"+data+"'::jsonb)");
