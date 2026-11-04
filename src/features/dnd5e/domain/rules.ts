@@ -10,6 +10,32 @@ export const SKILL_ABILITIES={
 } as const satisfies Record<string,AbilityId>;
 export type SkillId=keyof typeof SKILL_ABILITIES;
 export type DndCheck={value:number;advantage:-1|0|1;sources:string[]};
+/** Active effects are additive sources, never destructive edits to saved base stats. */
+function allBonuses(sheet:Dnd5eSheet){
+  return [...sheet.bonuses,...(sheet.effects??[]).filter(e=>e.active)
+    .flatMap(e=>(e.bonuses??[]).map(b=>({...b,id:e.id+':'+b.id,
+      source:e.name+' / '+b.source,active:b.active!==false})))];
+}
+function allConditions(sheet:Dnd5eSheet){
+  return new Set([...sheet.combat.conditions,...(sheet.effects??[])
+    .filter(e=>e.active&&e.condition).map(e=>e.condition as string)]
+    .map(x=>x.toLowerCase().trim()));
+}
+function conditionDisadvantage(sheet:Dnd5eSheet,kind:'ability'|'save'|'attack'|'initiative'){
+  const c=allConditions(sheet);
+  if(kind==='attack')return c.has('blinded')||c.has('ослеплённый')||
+    c.has('poisoned')||c.has('отравленный')||c.has('frightened')||c.has('испуганный')||
+    c.has('restrained')||c.has('опутанный')||sheet.rulesEdition==='2024'&&(c.has('grappled')||c.has('схваченный'));
+  if(kind==='ability')return c.has('poisoned')||c.has('отравленный')||
+    c.has('frightened')||c.has('испуганный');
+  if(kind==='initiative')return sheet.rulesEdition==='2024'&&(c.has('incapacitated')||c.has('недееспособный'));
+  return false;
+}
+function hasZeroSpeed(sheet:Dnd5eSheet){
+  const c=allConditions(sheet);
+  return ['grappled','схваченный','paralyzed','парализованный','petrified','окаменевший',
+    'restrained-speed-zero'].some(k=>c.has(k));
+}
 export function abilityModifier(score:number):number{
   if(!Number.isInteger(score)||score<1||score>30)throw Error('D&D: характеристика должна быть от 1 до 30');
   return Math.floor((score-10)/2);
@@ -33,16 +59,16 @@ export function exhaustionEffects(sheet:Dnd5eSheet){
 }
 export function derivedAbility(sheet:Dnd5eSheet,ability:AbilityId):DndCheck{
   const item=sheet.abilities[ability];
-  const score=applyDndBonuses(item.score,'ability.'+ability,sheet.bonuses).value;
+  const score=applyDndBonuses(item.score,'ability.'+ability,allBonuses(sheet)).value;
   const calculated=abilityModifier(Math.min(30,Math.max(1,Math.trunc(score))));
   const mod=item.manualModifierOverride??calculated;
-  const result=applyDndBonuses(mod,'modifier.'+ability,sheet.bonuses);
+  const result=applyDndBonuses(mod,'modifier.'+ability,allBonuses(sheet));
   return {value:result.value,advantage:result.advantage,sources:result.trace.map(x=>x.source)};
 }
 function proficiencyCheck(sheet:Dnd5eSheet,ability:AbilityId,rank:Proficiency|undefined,target:string,kind:'ability'|'save'|'attack'):DndCheck {
   const base=derivedAbility(sheet,ability);
   const proficiency=proficiencyBonus(sheet.identity.level)*proficiencyFactor(rank);
-  const result=applyDndBonuses(base.value+proficiency,target,sheet.bonuses);
+  const result=applyDndBonuses(base.value+proficiency,target,allBonuses(sheet));
   const exhaustion=exhaustionEffects(sheet);
   const disadvantage=sheet.rulesEdition==='2014'&&(
     (kind==='ability'&&exhaustion.abilityDisadvantage)||
@@ -50,7 +76,7 @@ function proficiencyCheck(sheet:Dnd5eSheet,ability:AbilityId,rank:Proficiency|un
     (kind==='attack'&&exhaustion.attackDisadvantage));
   return {
     value:result.value+exhaustion.d20Penalty,
-    advantage:mergeAdvantage(base.advantage,result.advantage,disadvantage?-1:0),
+    advantage:mergeAdvantage(base.advantage,result.advantage,disadvantage||conditionDisadvantage(sheet,kind)?-1:0),
     sources:[...base.sources,...result.trace.map(x=>x.source),...(exhaustion.d20Penalty?['Истощение 2024']:[])],
   };
 }
@@ -65,10 +91,10 @@ export function attackCheck(sheet:Dnd5eSheet,ability:AbilityId,proficient:boolea
 }
 export function initiative(sheet:Dnd5eSheet):DndCheck{
   const base=derivedAbility(sheet,'dex');
-  const r=applyDndBonuses(base.value,'initiative',sheet.bonuses);
+  const r=applyDndBonuses(base.value,'initiative',allBonuses(sheet));
   const effects=exhaustionEffects(sheet);
   return {value:r.value+effects.d20Penalty,
-    advantage:mergeAdvantage(base.advantage,r.advantage,sheet.rulesEdition==='2014'&&effects.abilityDisadvantage?-1:0),
+    advantage:mergeAdvantage(base.advantage,r.advantage,(sheet.rulesEdition==='2014'&&effects.abilityDisadvantage)||conditionDisadvantage(sheet,'initiative')?-1:0),
     sources:[...base.sources,...r.trace.map(x=>x.source)]};
 }
 /** No eval: package 1 accepts only an integer base, optionally plus DEX. */
@@ -78,18 +104,18 @@ export function armorClass(sheet:Dnd5eSheet):number{
   if(!match)throw Error('D&D: базовая формула КЗ пока не поддерживается');
   const base=Number(match[1])+(formula.toUpperCase().includes('[DEX]')?derivedAbility(sheet,'dex').value:0);
   const shield=sheet.combat.ac.shieldEquipped?sheet.combat.ac.shieldBonus:0;
-  return applyDndBonuses(base+shield,'ac',sheet.bonuses).value;
+  return applyDndBonuses(base+shield,'ac',allBonuses(sheet)).value;
 }
 export function effectiveVitals(sheet:Dnd5eSheet){
   const effects=exhaustionEffects(sheet);
-  const maxBase=applyDndBonuses(sheet.combat.hp.maximumBase,'hp.max',sheet.bonuses).value;
+  const maxBase=applyDndBonuses(sheet.combat.hp.maximumBase,'hp.max',allBonuses(sheet)).value;
   const hpMax=Math.max(1,Math.floor(maxBase*effects.hpMultiplier));
   const walk=Number(sheet.combat.speed.walkBase);
   if(!Number.isFinite(walk)||walk<0||walk>1000)throw Error('D&D: неверная базовая скорость');
-  const baseSpeed=applyDndBonuses(walk,'speed.walk',sheet.bonuses).value;
+  const baseSpeed=applyDndBonuses(walk,'speed.walk',allBonuses(sheet)).value;
   return {hpMaximum:hpMax,hpCurrent:Math.min(sheet.combat.hp.current,hpMax),
     hpTemporary:sheet.combat.hp.temporary,
-    walkSpeed:Math.max(0,baseSpeed*effects.speedMultiplier-effects.speedPenalty),dead:effects.dead};
+    walkSpeed:hasZeroSpeed(sheet)?0:Math.max(0,baseSpeed*effects.speedMultiplier-effects.speedPenalty),dead:effects.dead};
 }
 export function derivedDndChecks(sheet:Dnd5eSheet){
   return {abilities:Object.fromEntries(ABILITIES.map(a=>[a,derivedAbility(sheet,a)])),
