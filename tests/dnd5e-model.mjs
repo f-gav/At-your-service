@@ -85,7 +85,8 @@ assert.throws(()=>validateDndSheet({...newer,rulesEdition:'2030'}),/редакц
 assert.throws(()=>validateDndSheet({...newer,abilities:{...newer.abilities,str:{score:99}}}),/характеристики/);
 assert.throws(()=>validateDndSheet({...newer,bonuses:[{id:'same'},{id:'same'}]}),/повторный/);
 const huge=validateDndSheet(newDndSheet('Огромный'));
-huge.content.blocks.story='Г'.repeat(18000);
+huge.content.blocks.story='Г'.repeat(14000);
+huge.content.blocks.appendix='Г'.repeat(12000);
 assert.throws(()=>prepareDndDetails({},huge),/предел/);
 assert.ok(DND_SAFE_DETAILS_BYTES<65536);
 console.log('PASS: D&D 2014/2024 mechanics, independent layouts, bonus precedence, JSON round-trip, byte budget');
