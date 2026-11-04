@@ -1,7 +1,20 @@
 import assert from 'node:assert/strict';
 import {newDndSheet} from '../src/features/dnd5e/domain/model.ts';
 import {validateDndSheet,changeDndLayout} from '../src/features/dnd5e/domain/validation.ts';
-import {parseCharacterJson,exportCharacter} from '../src/lib/character-json.ts';
+import {build} from 'esbuild';
+// Production JSON codec uses Vite extensionless imports; bundle the actual
+// source instead of rewriting it for Node tests. No real Supabase connection.
+const compiled=await build({
+  entryPoints:['src/lib/character-json.ts'],bundle:true,write:false,platform:'node',format:'esm',
+  plugins:[{name:'no-live-network',setup(builder){
+    builder.onResolve({filter:/\/lib\/supabase$/},()=>({path:'stub',namespace:'ci-stub'}));
+    builder.onLoad({filter:/.*/,namespace:'ci-stub'},()=>({
+      contents:'export const supabase=null;',loader:'js'
+    }));
+  }}],
+});
+const {parseCharacterJson,exportCharacter}=await import('data:text/javascript;base64,'+
+  Buffer.from(compiled.outputFiles[0].contents).toString('base64'));
 import {parseLssCharacter,exportOriginalLssJson} from '../src/features/dnd5e/infra/lss-import.ts';
 import {prepareDndDetails} from '../src/features/dnd5e/infra/transfer.ts';
 import {dndPdfEntries,dndPdfSupplementPlan,splitPdfText,printableRichText} from '../src/features/dnd5e/infra/pdf-plan.ts';
