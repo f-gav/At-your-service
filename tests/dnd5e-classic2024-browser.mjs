@@ -60,6 +60,9 @@ try{
       await page.getByLabel('Истощение').fill('2');
       await page.waitForFunction(()=>document.querySelector('#dnd24-page-1 [aria-label="Инициатива · скорость · состояния"]')?.textContent?.includes('20 фт'));
       assert.match(await dex.innerText(),/\+2/,'2024 exhaustion reduces a d20 test by 4');
+      await page.getByLabel('Новое состояние').fill('Отравлен');
+      await page.getByLabel('Новое состояние').press('Enter');
+      await page.getByRole('button',{name:'Убрать состояние Отравлен'}).waitFor();
       await page.getByLabel('2024 ячейки 1 всего').fill('3');
       await page.getByLabel('2024 ячейки 1 потрачено').fill('1');
       await page.getByLabel('Имя героя').fill('Аврора 2024');
@@ -87,6 +90,7 @@ try{
       assert.equal(stored.details.dnd5eSheet.rulesEdition,'2024');
       assert.equal(stored.details.dnd5eSheet.layoutEdition,'2024');
       assert.equal(stored.details.dnd5eSheet.abilities.dex.score,18);
+      assert.deepEqual(stored.details.dnd5eSheet.combat.conditions,['Отравлен']);
       assert.equal(stored.details.dnd5eSheet.spellcasting.slots.normal['1'].maximum,3);
       assert.equal(stored.details.dnd5eSheet.spellcasting.slots.normal['1'].used,1);
       assert.match(stored.details.dnd5eSheet.content.blocks.spellLevel1,/Волшебная стрела/);
