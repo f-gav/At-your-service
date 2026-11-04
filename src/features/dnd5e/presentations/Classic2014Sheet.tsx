@@ -195,6 +195,14 @@ export default function Classic2014Sheet({character,onSave,onClose,portraitUrl,p
     <DeviceDraftNotice draftKey={draftKey} cloudSnapshot={serverBaseline}/>
     {auto.localWarning&&<p className="form-error" role="alert">{auto.localWarning}</p>}
     {pdfError&&<p className="form-error" data-pdf-error="true" role="alert">{pdfError}</p>}
+    {draft.sheet.imports.origin==='lss-v2'&&<aside className="dnd-lss-import-notice" role="note">
+      <strong>Импорт LSS v2: проверенные поля перенесены, часть механик требует сверки.</strong>
+      <span>Исходный файл сохранён отдельно от текущих изменений. Для актуальных правок используйте «Скачать JSON».</span>
+      {Array.isArray(draft.sheet.imports.unmapped.lssWarnings)&&
+        <ul>{draft.sheet.imports.unmapped.lssWarnings
+          .filter((value):value is string=>typeof value==='string').slice(0,8)
+          .map(message=><li key={message}>{message}</li>)}</ul>}
+    </aside>}
     <div className="dnd14-heading">
       <h1>Лист персонажа: {draft.name||'Без имени'}</h1>
       <span>Классический лист D&D {edition} · правила {draft.sheet.rulesEdition} · 4 страницы A4</span>
