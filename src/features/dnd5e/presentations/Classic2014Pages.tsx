@@ -4,7 +4,7 @@ import PortraitImage from '../../portrait/PortraitImage';
 import type {CropFrame} from '../../portrait/crop';
 import type {AbilityId,Dnd5eSheet,Proficiency} from '../domain/model';
 import {ABILITIES} from '../domain/model';
-import {SKILL_ABILITIES,derivedAbility,proficiencyBonus,skillCheck,savingThrow,initiative,armorClass,effectiveVitals} from '../domain/rules';
+import {SKILL_ABILITIES,derivedAbility,proficiencyBonus,skillCheck,savingThrow,initiative,armorClass,effectiveVitals,attackCheck} from '../domain/rules';
 import type {SkillId} from '../domain/rules';
 
 export type EditDnd=(change:(draft:Dnd5eSheet)=>void)=>void;
@@ -122,6 +122,21 @@ function PageOne({sheet,name,onName,edit}:Pick<Classic2014Props,'sheet'|'name'|'
         <label>ИНИ <output>{signed(initiative(sheet).value)}</output></label>
         <label>СКОР <output>{hp.walkSpeed} фт</output></label>
       </div>
+      <div className="dnd14-base-settings">
+        <label>Основа КЗ
+          <select aria-label="Формула базового КЗ" value={sheet.combat.ac.baseExpression}
+            onChange={e=>edit(d=>{d.combat.ac.baseExpression=e.target.value;})}>
+            <option value="10+[DEX]">10 + ЛОВ</option>
+            {Array.from({length:11},(_,i)=>String(10+i)).map(value=><option key={value} value={value}>{value}</option>)}
+          </select>
+        </label>
+        <label>Скорость
+          <input aria-label="Базовая скорость" type="number" min={0} max={1000}
+            value={sheet.combat.speed.walkBase} onChange={e=>edit(d=>{
+              d.combat.speed.walkBase=String(Math.min(1000,Math.max(0,Number(e.target.value)||0)));
+            })}/>
+        </label>
+      </div>
       <label className="dnd14-inline-check"><input type="checkbox" checked={sheet.combat.ac.shieldEquipped}
         onChange={e=>edit(d=>{d.combat.ac.shieldEquipped=e.target.checked;})}/>Щит (+{sheet.combat.ac.shieldBonus})</label>
       <label className="dnd14-inline-check"><input type="checkbox" checked={sheet.combat.inspiration}
@@ -159,8 +174,15 @@ function PageOne({sheet,name,onName,edit}:Pick<Classic2014Props,'sheet'|'name'|'
             onChange={e=>edit(d=>{const row=d.attacks.find(x=>x.id===attack.id);if(row)row.ability=e.target.value as AbilityId;})}>
             {ABILITIES.map(key=><option value={key} key={key}>{abilityNames[key]}</option>)}
           </select>
+          <output className="dnd14-attack-bonus" aria-label={'Бонус атаки '+attack.id}>
+            {signed(attackCheck(sheet,attack.ability??'str',attack.proficient!==false).value)}
+          </output>
           <input aria-label={'Формула урона '+attack.id} placeholder="1d8+3" value={attack.damageFormula??''}
             onChange={e=>edit(d=>{const row=d.attacks.find(x=>x.id===attack.id);if(row)row.damageFormula=e.target.value;})}/>
+          <label className="dnd14-attack-trained" title="Владение оружием">
+            <input type="checkbox" aria-label={'Владение атакой '+attack.id} checked={attack.proficient!==false}
+              onChange={e=>edit(d=>{const row=d.attacks.find(x=>x.id===attack.id);if(row)row.proficient=e.target.checked;})}/>
+          </label>
           <button type="button" aria-label={'Удалить атаку '+attack.name}
             onClick={()=>edit(d=>{d.attacks=d.attacks.filter(x=>x.id!==attack.id);})}>×</button>
         </div>)}
