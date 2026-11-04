@@ -2,13 +2,14 @@ import {defaultDetails,normalizeDetails,normalizedName} from '../../lib/models.t
 import type {Character,CharacterDetails,GameSystem} from '../../lib/models';
 import {emptyMoonSheet} from '../project-moon/model.ts';
 import {newDndSheet} from '../dnd5e/domain/model.ts';
+import type {DndEdition} from '../dnd5e/domain/model.ts';
 
 /** Data preparation for character persistence; UI components only manage presentation. */
 export function nextCharacterOrder(characters:readonly Character[]):number {
   return characters.reduce((max,character)=>Math.max(max,character.sort_order),0)+1;
 }
-export function newCharacterDetails(system:GameSystem,pfVariant:'classic'|'alternative'='classic',name='Персонаж'):CharacterDetails {
-  if(system==='dnd5e')return {...defaultDetails(),dnd5eSheet:newDndSheet(name)};
+export function newCharacterDetails(system:GameSystem,pfVariant:'classic'|'alternative'='classic',name='Персонаж',dndEdition:DndEdition='2014'):CharacterDetails {
+  if(system==='dnd5e')return {...defaultDetails(),dnd5eSheet:newDndSheet(name,dndEdition)};
   if(system==='prmoon')return {...defaultDetails(),projectMoonSheet:emptyMoonSheet()};
   if(system==='pf2e')return {...defaultDetails(),pathfinderSheet:{pf2e_layout:pfVariant}};
   return defaultDetails();
