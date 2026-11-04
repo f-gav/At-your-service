@@ -157,6 +157,10 @@ export function parseLssCharacter(input:unknown):ParsedLssCharacter{
   if(isRecord(data.vitality))warnings.add('Часть показателей vitality требует сверки с реальным LSS-экспортом');
   if(data.bonuses!==undefined)warnings.add('Бонусы LSS сохранены в оригинале; формулы не активированы');
   if(data.resources!==undefined)warnings.add('Ресурсы LSS сохранены в оригинале; нужна сверка схемы');
+  if(isRecord(input.disabledBlocks)&&Object.values(input.disabledBlocks)
+    .some(value=>Array.isArray(value)&&value.length>0))
+    warnings.add('Настройки скрытых блоков LSS сохранены только в архивном оригинале');
+  sheet.imports.unmapped.lssWarnings=[...warnings];
   const details=prepareDndDetails({},sheet); // rejects oversized import, never trims.
   return {name,details,warnings:[...warnings],edition:input.edition,sheetEdition:input.sheetEdition};
 }
