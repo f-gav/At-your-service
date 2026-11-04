@@ -92,3 +92,7 @@
   .dnd14-paper{margin:0;box-shadow:none;border:0;break-after:page;page-break-after:always}
   .dnd14-paper:last-child{break-after:auto}
 }
+
+.dnd14-sheet-note{max-width:960px;margin:10px auto;padding:9px 12px;display:flex;gap:7px;align-items:center;color:#65777b;font:11px/1.4 'Segoe UI',sans-serif}
+.dnd14-toolbar .ays-autosave-status{max-width:100%}
+.dnd14-zone textarea{width:100%;min-width:0;resize:none}
