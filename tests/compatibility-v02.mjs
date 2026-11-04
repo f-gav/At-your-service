@@ -184,8 +184,15 @@ assert.equal(dndImported.details.dnd5eSheet.spellcasting.slots.normal['1'].used,
 assert.equal(dndImported.details.notes,'Общая история');
 const futureDnd=exportCharacter({...character,system:'dnd5e',name:'Бореал',
   details:{dnd5eSheet:newDndSheet('Бореал','2024')}});
-assert.throws(()=>parseCharacterJson(JSON.stringify(futureDnd)),/2024/,
-  'Do not open a 2024 paper layout in the 2014 editor');
+const reimported2024=parseCharacterJson(JSON.stringify(futureDnd));
+assert.equal(reimported2024.details.dnd5eSheet.rulesEdition,'2024');
+assert.equal(reimported2024.details.dnd5eSheet.layoutEdition,'2024');
+assert.equal(reimported2024.system,'dnd5e');
+const mixedLayout=exportCharacter({...character,system:'dnd5e',name:'Бореал',
+  details:{dnd5eSheet:{...dndSheet,rulesEdition:'2024',layoutEdition:'2014'}}});
+const mixedParsed=parseCharacterJson(JSON.stringify(mixedLayout));
+assert.equal(mixedParsed.details.dnd5eSheet.rulesEdition,'2024');
+assert.equal(mixedParsed.details.dnd5eSheet.layoutEdition,'2014');
 assert.throws(()=>parseCharacterJson(JSON.stringify({...dndPortable,
  character:{...dndPortable.character,sheet:{...dndPortable.character.sheet,rulesEdition:'2030'}}})),/D&D/);
 console.log('PASS: JSON v2 grouped roundtrip, D&D Classic 2014, dormant PF spell tables, Project Moon and portraits');
