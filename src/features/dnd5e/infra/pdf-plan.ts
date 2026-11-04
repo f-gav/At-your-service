@@ -19,7 +19,7 @@ function decodeEntities(source:string){
   return source.replace(/&(?:amp|lt|gt|quot|#39|nbsp|#(\d{1,6})|#x([0-9a-fA-F]{1,6}));/g,
     (all,decimal:string|undefined,hex:string|undefined)=>{
       if(decimal||hex){
-        const n=Number.parseInt(decimal||hex,decimal?10:16);
+        const n=Number.parseInt(decimal??hex??'0',decimal?10:16);
         return n>=32&&n<=0x10ffff?String.fromCodePoint(n):' ';
       }
       return ({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&#39;':"'",'&nbsp;':' '} as Record<string,string>)[all]??all;
